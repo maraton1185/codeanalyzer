@@ -19,7 +19,7 @@ public class StatusLabel {
 	    
 	    Label lblNewLabel = new Label(comp, SWT.BORDER);
 //	    lblNewLabel.setBounds(0, 0, 224, 298);
-	    lblNewLabel.setText("New Label");
+	    lblNewLabel.setText("home");
 
 	  }
 	} 

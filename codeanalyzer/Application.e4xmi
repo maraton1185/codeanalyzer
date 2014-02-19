@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_cMG-gJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ide.application" bindingContexts="_cMG-iZlHEeOhhK_cqm6rMQ">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" label="Анализатор кода 1С" width="800" height="600">
+    <children xsi:type="basic:Part" xmi:id="_IY_TIJlkEeOo9rJNc5wjoQ" elementId="codeanalyzer.part.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.MainView" label="Part"/>
+    <mainMenu xmi:id="_wpG8QJlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.menu.0">
+      <children xsi:type="menu:Menu" xmi:id="_R1HOIJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.menu.File" label="&amp;Файл">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_VRMTcJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handledmenuitem.0" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
+      </children>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_u1WO4JllEeOo9rJNc5wjoQ" elementId="codeanalyzer.handledmenuitem.Activate" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
+    </mainMenu>
+    <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimbar.0">
+      <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.toolbar.0">
+        <children xsi:type="menu:ToolControl" xmi:id="_7cCTUJlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.toolcontrol.0" visible="false" contributionURI="bundleclass://codeanalyzer/codeanalyzer.tools.StatusLabel"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="codeanalyzer.handledtoolitem.activate" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
+      </children>
+    </trimBars>
+  </children>
+  <handlers xmi:id="_q12uwJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handler.QuitHandler" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.QuitHandler" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
+  <handlers xmi:id="_1JWToJlREeOJH5GrNyMMVw" elementId="codeanalyzer.handler.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.Activate" command="_x0HdMJlREeOJH5GrNyMMVw"/>
+  <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
+    <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
+    <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
+  </rootContext>
+  <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="&amp;Выход"/>
+  <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="codeanalyzer.command.Activate" commandName="&amp;Активация"/>
+  <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
+  <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
+  <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
+  <addons xmi:id="_cMG-hZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
+  <addons xmi:id="_cMG-hplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
+  <addons xmi:id="_cMG-h5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
+  <addons xmi:id="_cMG-iJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+</application:Application>

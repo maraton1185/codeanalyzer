@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            name="codesnippetapp"
+            application="org.eclipse.e4.ui.workbench.swt.E4Application">
+         <property
+               name="applicationCSS"
+               value="platform:/plugin/codesnippetapp/css/default.css">
+         </property>
+         <property
+               name="appName"
+               value="codesnippetapp">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="codesnippetapp.delete.snippet.expression">
+         <with
+               variable="snippet_at_mouse_click">
+            <instanceof
+                  value="codesnippetapp.data.SnippetData">
+            </instanceof>
+         </with>
+      </definition>
+   </extension>
+
+</plugin>

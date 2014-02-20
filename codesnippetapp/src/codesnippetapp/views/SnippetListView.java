@@ -9,6 +9,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -19,6 +20,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 
 import codesnippetapp.CodeSnippetAppConstants;
@@ -42,12 +44,13 @@ public class SnippetListView {
 	IEventBroker broker;
 	
 	@Inject	@Optional
-	public void onAddNewSnippet(@UIEventTopic(CodeSnippetAppConstants.NEW_SNIPPET_EVENT)Object data, SnippetRepository repo)
+	public void onAddNewSnippet(@UIEventTopic(CodeSnippetAppConstants.NEW_SNIPPET_EVENT)Object data, SnippetRepository repo, Shell shell)
 	{
-		SnippetData newSnippet = new SnippetData("Untitled" + (newSnippetCounter++));
-		repo.snippets.add(newSnippet);
-		snippetsList.refresh();
-		snippetsList.setSelection(new StructuredSelection(newSnippet));	
+		MessageDialog.openInformation(shell, "open", "open");
+//		SnippetData newSnippet = new SnippetData("Untitled" + (newSnippetCounter++));
+//		repo.snippets.add(newSnippet);
+//		snippetsList.refresh();
+//		snippetsList.setSelection(new StructuredSelection(newSnippet));	
 //		broker.send(CodeSnippetAppConstants.SELECT_SNIPPET_EVENT, newSnippet);
 	}
 

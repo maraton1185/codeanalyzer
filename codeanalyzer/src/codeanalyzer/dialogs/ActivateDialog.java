@@ -1,4 +1,4 @@
-package dialogs;
+package codeanalyzer.dialogs;
 
 import javax.inject.Inject;
 

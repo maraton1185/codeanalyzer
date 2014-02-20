@@ -46,7 +46,7 @@ public class SnippetListView {
 	@Inject	@Optional
 	public void onAddNewSnippet(@UIEventTopic(CodeSnippetAppConstants.NEW_SNIPPET_EVENT)Object data, SnippetRepository repo, Shell shell)
 	{
-		MessageDialog.openInformation(shell, "open", "open");
+		MessageDialog.openInformation(shell, "open", "hotfix");
 //		SnippetData newSnippet = new SnippetData("Untitled" + (newSnippetCounter++));
 //		repo.snippets.add(newSnippet);
 //		snippetsList.refresh();

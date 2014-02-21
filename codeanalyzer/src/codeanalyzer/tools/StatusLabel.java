@@ -3,19 +3,34 @@ package codeanalyzer.tools;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.FillLayout;
 
 public class StatusLabel {
 	  @PostConstruct
 	  public void createControls(Composite parent) {
-	    final Composite comp = new Composite(parent, SWT.NONE);
-	    comp.setLayout(new RowLayout(SWT.HORIZONTAL));
 	    
-	    Label lblNewLabel = new Label(comp, SWT.BORDER);
-//	    lblNewLabel.setBounds(0, 0, 224, 298);
-	    lblNewLabel.setText("home");
+//	    Composite container = new Composite(parent, SWT.NONE);
+//	    container.setLayout(new GridLayout(1, false));
+//	    
+//	    Label lblNewLabel = new Label(container, SWT.RIGHT);
+//	    lblNewLabel.setText("New Label");
+//		parent.setLayout(new GridLayout());
+	    //	    	    
+//		GridData gridData = new GridData();
+////		gridData.horizontalAlignment = GridData.;
+////		gridData.horizontalSpan = 2;
+//		gridData.grabExcessHorizontalSpace = true;
+//		
+////		container.setLayoutData(gridData);
+//		
+//	    Label lblNewLabel = new Label(container, SWT.RIGHT);
+//	    lblNewLabel.setText("New Label");
+//	    lblNewLabel.setLayoutData(gridData);
 
 	  }
 	} 

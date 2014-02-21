@@ -198,7 +198,7 @@ public class ActivateDialog extends Dialog {
 
 	protected void initContents()
 	{
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode("codeanalyzer.prefs");
+		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
 		loginField.setText(preferences.get("P_LOGIN", Strings.get("P_LOGIN")));
 		passwordField.setText(preferences.get("P_PASSWORD", Strings.get("P_PASSWORD")));
 		ntpField.setText(preferences.get("P_NTPSERVER", Strings.get("P_NTPSERVER")));
@@ -209,7 +209,7 @@ public class ActivateDialog extends Dialog {
 	protected void setValues()
 	{
 		
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode("codeanalyzer.prefs");
+		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
 		preferences.put("P_LOGIN", loginField.getText());
 		preferences.put("P_PASSWORD", passwordField.getText());
 		preferences.put("P_SERIAL", serialField.getText());

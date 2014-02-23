@@ -8,7 +8,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MUILabel;
@@ -23,6 +25,8 @@ import codeanalyzer.utils.Strings;
 
 public class MainView {
 	
+	private static final String UPDATE ="update";
+	
 	TableViewer objectsTree;
 	
 	@Inject	IEventBroker br;
@@ -34,10 +38,10 @@ public class MainView {
 	public void postConstruct(Composite parent, EMenuService menuService) {
 	
 		
-		showStatus();
+//		showStatus();
 		
-//		MUILabel element = (MUILabel)modelService.find(Strings.get("model_id_activate"), application);
-//		element.setLabel(pico.get(IAuthorize.class).getInfo().ShortMessage());
+		MUILabel element = (MUILabel)modelService.find(Strings.get("model_id_activate"), application);
+		element.setLabel(pico.get(IAuthorize.class).getInfo().ShortMessage());
 		
 		objectsTree = new TableViewer(parent);
 		
@@ -48,32 +52,23 @@ public class MainView {
 
 	}
 
+	@Inject @Optional
+	public void  getEvent(@UIEventTopic(UPDATE) String status) {
+		MUILabel element = (MUILabel)modelService.find(Strings.get("model_id_activate"), application);
+		element.setLabel(status);
+	}
+	
 	private void showStatus() {
-		//
-		Job job = new Job("ShowStatusJob") {
+		new Thread(new Runnable() {
+			
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				// do something long running
-				// ...
+			public void run() {
+
+				String status = pico.get(IAuthorize.class).getInfo().ShortMessage();
 				
-				final String status = pico.get(IAuthorize.class).getInfo().ShortMessage();
-
-				// If you want to update the UI
-				sync.asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						// do something in the user interface
-						// e.g. set a text field
-						MUILabel element = (MUILabel)modelService.find(Strings.get("model_id_activate"), application);
-						element.setLabel(status);
-					}
-				});
-				return Status.OK_STATUS;
+				br.send(UPDATE, status);				
 			}
-		};
-
-		// Start the Job
-		job.schedule();
+		}).start(); 	
 
 	}
 	

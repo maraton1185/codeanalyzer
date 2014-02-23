@@ -50,9 +50,9 @@
         </children>
       </children>
     </trimBars>
-    <trimBars xmi:id="_f-i-IJrjEeOlcttaCxvpFw" elementId="codeanalyzer.trimbar.1">
+    <trimBars xmi:id="_f-i-IJrjEeOlcttaCxvpFw" elementId="codeanalyzer.toopbar.0">
       <tags>status</tags>
-      <children xsi:type="menu:ToolBar" xmi:id="_bTe9MJrjEeOlcttaCxvpFw" elementId="codeanalyzer.toolbar.0">
+      <children xsi:type="menu:ToolBar" xmi:id="_bTe9MJrjEeOlcttaCxvpFw" elementId="codeanalyzer.toopbar">
         <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="codeanalyzer.handledtoolitem.activate" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw">
           <tags>status</tags>
         </children>

@@ -2,13 +2,7 @@ package codeanalyzer.tools;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.FillLayout;
 
 public class StatusLabel {
 	  @PostConstruct

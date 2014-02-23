@@ -33,7 +33,7 @@ public class MainView {
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService) {
 	
-		
+		//
 //		showStatus();
 		
 		MUILabel element = (MUILabel)modelService.find(Strings.get("model_id_activate"), application);

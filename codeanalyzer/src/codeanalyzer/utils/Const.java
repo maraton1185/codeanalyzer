@@ -35,6 +35,7 @@ public class Const {
 	public static final int DEFAULT_FREE_FILES_COUNT = 50;
 	public static final String DB1 = "db1";
 	public static final String DB2 = "db2";
+	
 
 	/**
 	 * возвращает текущую версия строкой
@@ -167,7 +168,7 @@ public class Const {
 	
 	//Events *******************************************************
 	public static final String EVENT_UPDATE_STATUS = "update_status";		
-	
+	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";	
 	
 	
 

@@ -13,8 +13,8 @@
             <children xsi:type="menu:HandledMenuItem" xmi:id="_XzaN4JrREeOlcttaCxvpFw" elementId="codeanalyzer.handledmenuitem.3" label="Удалить" command="_l1fokJrREeOlcttaCxvpFw"/>
           </menus>
           <toolbar xmi:id="_biPFgJrQEeOlcttaCxvpFw" elementId="codeanalyzer.toolbar.1">
-            <children xsi:type="menu:HandledToolItem" xmi:id="_cfL18JrQEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.0" label="Добавить" command="_ib8S0JrREeOlcttaCxvpFw"/>
-            <children xsi:type="menu:HandledToolItem" xmi:id="_vRlvkJrREeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.1" label="Удалить" command="_l1fokJrREeOlcttaCxvpFw"/>
+            <children xsi:type="menu:HandledToolItem" xmi:id="_cfL18JrQEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.0" label="" iconURI="platform:/plugin/codeanalyzer/icons/add.png" tooltip="Добавить" command="_ib8S0JrREeOlcttaCxvpFw"/>
+            <children xsi:type="menu:HandledToolItem" xmi:id="_vRlvkJrREeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.1" label="" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" tooltip="Удалить" command="_l1fokJrREeOlcttaCxvpFw"/>
           </toolbar>
         </children>
       </children>
@@ -22,9 +22,9 @@
         <children xsi:type="basic:PartStack" xmi:id="__EbGcJriEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.1">
           <children xsi:type="basic:Part" xmi:id="_3m16kJriEeOlcttaCxvpFw" elementId="codeanalyzer.part.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.ConfigsView" label="Список конфигураций">
             <toolbar xmi:id="_ltRbgJrjEeOlcttaCxvpFw" elementId="codeanalyzer.toolbar.2">
-              <children xsi:type="menu:HandledToolItem" xmi:id="_m_9ycJrjEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.2" label="Добавить" command="_dMqP4JrkEeOlcttaCxvpFw"/>
-              <children xsi:type="menu:HandledToolItem" xmi:id="_yf91cJrkEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.4" label="Изменить" command="_u-hH8JrkEeOlcttaCxvpFw"/>
-              <children xsi:type="menu:HandledToolItem" xmi:id="_ocpy4JrjEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.3" label="Удалить" command="_hUHNcJrkEeOlcttaCxvpFw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_m_9ycJrjEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.2" label="" iconURI="platform:/plugin/codeanalyzer/icons/add.png" tooltip="Добавить" command="_dMqP4JrkEeOlcttaCxvpFw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_yf91cJrkEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.4" label="" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" tooltip="Изменить" command="_u-hH8JrkEeOlcttaCxvpFw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_ocpy4JrjEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.3" label="" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" tooltip="Удалить" command="_hUHNcJrkEeOlcttaCxvpFw"/>
             </toolbar>
           </children>
         </children>
@@ -62,6 +62,7 @@
   </children>
   <handlers xmi:id="_q12uwJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handler.QuitHandler" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.QuitHandler" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
   <handlers xmi:id="_1JWToJlREeOJH5GrNyMMVw" elementId="codeanalyzer.handler.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.Activate" command="_x0HdMJlREeOJH5GrNyMMVw"/>
+  <handlers xmi:id="_tsTcgJ0xEeOQH7R6sUDvqQ" elementId="codeanalyzer.handler.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.AddToConfigList" command="_dMqP4JrkEeOlcttaCxvpFw"/>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>

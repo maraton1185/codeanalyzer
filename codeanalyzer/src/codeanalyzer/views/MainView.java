@@ -28,6 +28,7 @@ public class MainView {
 	@Inject UISynchronize sync;
 	@Inject EModelService modelService;
 	@Inject MApplication application;
+//	Thread updateStatusThread;
 	
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService) {
@@ -39,6 +40,11 @@ public class MainView {
 
 	}
 
+//	@PreDestroy
+//	public void preDestroy() {
+//
+//	}
+	
 	@Inject @Optional
 	public void  showStatus(@UIEventTopic(Const.EVENT_UPDATE_STATUS) Object o) {
 		new Thread(new Runnable() {
@@ -54,7 +60,7 @@ public class MainView {
 					}
 				});		
 			}
-		}).start();		
+		}).start();
 	}
 		
 	

@@ -4,15 +4,18 @@ import javax.inject.Inject;
 
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -22,12 +25,11 @@ import org.eclipse.swt.widgets.Text;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
+import codeanalyzer.auth.ActivationInfo;
+import codeanalyzer.core.pico;
+import codeanalyzer.core.interfaces.IAuthorize;
+import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
-
-//import ru.codeanalyzer.core.model.ActivationInfo;
-//import ru.codeanalyzer.interfaces.IAuthorize;
-//import ru.codeanalyzer.interfaces.pico;
-//import ru.codeanalyzer.preferences.PreferenceConstants;
 
 @Creatable
 public class ActivateDialog extends Dialog {
@@ -39,6 +41,11 @@ public class ActivateDialog extends Dialog {
 	private Text statusField;
 	private Text ntpField;
 	
+	Shell shell;
+	
+//	@Inject UISynchronize sync;
+	@Inject	IEventBroker br;
+	
 	/**
 	 * Create the dialog.
 	 * @param parentShell
@@ -46,7 +53,7 @@ public class ActivateDialog extends Dialog {
 	@Inject
 	public ActivateDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);		
+		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);			
 	}
 
 	/**
@@ -55,6 +62,8 @@ public class ActivateDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		
+		shell = getShell();
 		
 		parent.setToolTipText("");
 		
@@ -177,23 +186,63 @@ public class ActivateDialog extends Dialog {
 
 	
 	protected void btnRegisterOnClick() {
-		// TODO Auto-generated method stub
+		
+		Program.launch(Const.URL_proLinkOpen);
+		
 		
 	}
 
 	protected void btnCheckOnClick() {
-		// TODO Auto-generated method stub
-		
+		setValues();
+		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
+			@Override
+			public void run() {
+
+				ActivationInfo info = pico.get(IAuthorize.class).getInfo();
+				statusField.setText(info.FullMessage());
+			}
+		});
+
 	}
 
-	protected void btnActivateOnClick() {
-		// TODO Auto-generated method stub
+	protected void btnActivateOnClick() {		
+
+		final String login = loginField.getText();
+		final String password = passwordField.getText();
+
+		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
+			@Override
+			public void run() {
+
+				try {
+					ActivationInfo info = pico.get(IAuthorize.class).Activate(
+							login, password);
+
+					statusField.setText(info.message);
+					if (!info.serial.isEmpty()) {
+						serialField.setText(info.serial);
+						setValues();
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					statusField.setText(e1.getMessage());
+				}
+			}
+		});		
 		
 	}
 
 	protected void btnCompUUIDOnClick() {
-		// TODO Auto-generated method stub
-		
+		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
+			@Override
+			public void run() {
+				try {
+					statusField.setText(ActivationInfo.getComputerSerial());
+				} catch (Exception e) {
+					statusField.setText(Const.MSG_GETID);
+				}
+			}
+		});
 	}
 
 	protected void initContents()
@@ -249,6 +298,7 @@ public class ActivateDialog extends Dialog {
 	@Override
 	public boolean close() {
 		setValues();
+		br.send(Const.EVENT_UPDATE_STATUS, null);
 		return super.close();
 	}
 

@@ -165,8 +165,8 @@ public class Const {
 	public static final String PATTERN_PROCEDURE_IN_STRING = "(\\.)*([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*\\(";
 	public static final String PATTERN_MODULE = "([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*";
 	
-
-		
+	//Events *******************************************************
+	public static final String EVENT_UPDATE_STATUS = "update_status";		
 	
 	
 	

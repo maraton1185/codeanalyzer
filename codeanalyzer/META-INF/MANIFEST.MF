@@ -26,4 +26,5 @@ Require-Bundle: javax.inject;bundle-version="1.0.0",
  org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: javax.annotation;version="1.0.0"
+Bundle-ActivationPolicy: lazy
 

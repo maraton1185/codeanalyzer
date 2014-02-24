@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -46,6 +47,8 @@ public class ConfigsView {
 	
 	private TableViewer viewer;
 
+	@Inject IEclipseContext ctx;
+	
 	@Inject
 	public ConfigsView() {
 		//TODO Your code here
@@ -62,7 +65,7 @@ public class ConfigsView {
 	}
 	
 	@PostConstruct
-	public void postConstruct(Composite parent, final IEclipseContext ctx) {
+	public void postConstruct(Composite parent) {
 		
 		Composite tableComposite = new Composite(parent, SWT.NONE);
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
@@ -88,11 +91,14 @@ public class ConfigsView {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				
-//				IStructuredSelection selection = (IStructuredSelection) viewer
-//						.getSelection();
-//				Object firstElement = selection.getFirstElement();
-				
-				// do something with it
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+				Object selected = selection.getFirstElement();
+				if (selected != null) {
+					IDb db = (IDb) selection.getFirstElement();
+					ctx.set(Const.CONTEXT_SELECTED_DB, db);
+				} else
+					ctx.set(Const.CONTEXT_SELECTED_DB, null);				
 			}
 		});
 	}
@@ -131,7 +137,7 @@ public class ConfigsView {
 			@Override
 			public String getText(Object element) {
 				// Person p =
-				return ((IDb) element).status();
+				return ((IDb) element).getName();// status();
 			}
 		});
 
@@ -162,7 +168,7 @@ public class ConfigsView {
 		});
 
 		tableColumnLayout.setColumnData(column.getColumn(), 
-		      new ColumnPixelData(30));
+		      new ColumnPixelData(20));
 //				new ColumnWeightData(20, 30, true));
 
 	}

@@ -63,6 +63,7 @@
   <handlers xmi:id="_q12uwJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handler.QuitHandler" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.QuitHandler" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
   <handlers xmi:id="_1JWToJlREeOJH5GrNyMMVw" elementId="codeanalyzer.handler.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.Activate" command="_x0HdMJlREeOJH5GrNyMMVw"/>
   <handlers xmi:id="_tsTcgJ0xEeOQH7R6sUDvqQ" elementId="codeanalyzer.handler.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.AddToConfigList" command="_dMqP4JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_PG8q4J2AEeOR26RRi-iIEw" elementId="codeanalyzer.handler.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.EditConfigList" command="_u-hH8JrkEeOlcttaCxvpFw"/>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>

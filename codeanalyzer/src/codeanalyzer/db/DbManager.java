@@ -28,10 +28,10 @@ public class DbManager implements IDbManager{
 	
 	public void init() {
 		
-		operationNames.put(operationType.fromDirectory, Strings.get("operationType_fromDirectory"));
-		operationNames.put(operationType.update, Strings.get("operationType_update"));
-		operationNames.put(operationType.fromDb, Strings.get("operationType_fromDb"));
-		operationNames.put(operationType.fromSQL, Strings.get("operationType_fromSQL"));
+		operationNames.put(operationType.fromDirectory, Strings.get("operationType.fromDirectory"));
+		operationNames.put(operationType.update, Strings.get("operationType.update"));
+		operationNames.put(operationType.fromDb, Strings.get("operationType.fromDb"));
+		operationNames.put(operationType.fromSQL, Strings.get("operationType.fromSQL"));
 //		operationNames.put(operationType.fillProcLinkTable, "—формировать таблицу взаимных вызовов");
 		
 		int index = 1;

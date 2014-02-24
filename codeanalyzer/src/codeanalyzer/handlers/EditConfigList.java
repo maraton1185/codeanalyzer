@@ -2,16 +2,15 @@
 package codeanalyzer.handlers;
 
 import org.eclipse.e4.core.di.annotations.Execute;
-import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.dialogs.EditDialog;
 
-public class AddToConfigList {
+public class EditConfigList {
 	
 	@Execute
-	public void execute(Shell shell) {
+	public void execute(EditDialog dlg) {
 		
-		new EditDialog(shell, null).open();
+		dlg.open();
 		
 	}
 		

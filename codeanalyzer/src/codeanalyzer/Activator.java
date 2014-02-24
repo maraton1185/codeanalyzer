@@ -15,7 +15,7 @@ public class Activator implements BundleActivator {
 //		IEclipseContext ctx = E4Workbench.getServiceContext();
 //		SnippetRepository repository = new SnippetRepository();
 //		repository.repositoryPath = "test";		
-//		ctx.set(SnippetRepository.class, repository);
+//		ctx.set(Const.CONTEXT_SELECTED_DB, repository);
 		pico.get(IDbManager.class).init();
 		
 	}

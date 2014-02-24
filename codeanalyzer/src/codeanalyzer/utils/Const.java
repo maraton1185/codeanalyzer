@@ -166,10 +166,10 @@ public class Const {
 	public static final String PATTERN_PROCEDURE_IN_STRING = "(\\.)*([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*\\(";
 	public static final String PATTERN_MODULE = "([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*";
 	
-	//Events *******************************************************
+	//Events and ctx *******************************************************
 	public static final String EVENT_UPDATE_STATUS = "update_status";		
 	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";	
-	
+	public static final String CONTEXT_SELECTED_DB = "context_selected_db";
 	
 
 }

@@ -1,8 +1,10 @@
 package codeanalyzer.dialogs;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -43,15 +45,12 @@ public class EditDialog extends Dialog {
 	private Text sql_userField;
 	private Text sql_passwordField;
 	
-//	IPreferenceStore store;
-	private IDb db;
+	private IDb db;	
 	
-	int index = 1;
-	
-	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>(); 
-	
-	
-	
+	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
+
+	@Inject private IEventBroker br; 
+			
 	protected void setValues()
 	{
 		db.setName(nameField.getText());
@@ -81,6 +80,7 @@ public class EditDialog extends Dialog {
 	@Override
 	public boolean close() {
 		setValues();
+		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 		return super.close();
 	}
 
@@ -103,17 +103,16 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, @Optional IDb db, IEventBroker br) {
+	public EditDialog(Shell parentShell, @Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db) {
 		super(parentShell);		
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
-//		store = CodeAnalyserActivator.getDefault().getPreferenceStore(); 
+ 
 		if(db==null)
 		{
 			db = pico.get(IDb.class);
-			db.load("conf" + index, index);
+			db.load(UUID.randomUUID().toString(), index);
 			index++;
 			dbManager.addDb(db);
-			br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 		}
 		this.db = db;
 	}

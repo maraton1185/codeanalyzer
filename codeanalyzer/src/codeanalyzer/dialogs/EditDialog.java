@@ -3,6 +3,7 @@ package codeanalyzer.dialogs;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -49,8 +50,27 @@ public class EditDialog extends Dialog {
 	
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
-	@Inject private IEventBroker br; 
-			
+	IEventBroker br; 
+	
+	/**
+	 * Create the dialog.
+	 * @param parentShell
+	 */
+	@Inject
+	public EditDialog(Shell parentShell, @Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db, IEventBroker br) {
+		super(parentShell);		
+		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
+ 
+		if(db==null)
+		{
+			db = pico.get(IDb.class);
+			db.load(UUID.randomUUID().toString());
+			dbManager.add(db);
+		}
+		this.db = db;
+		this.br = br;
+	}
+	
 	protected void setValues()
 	{
 		db.setName(nameField.getText());
@@ -99,25 +119,6 @@ public class EditDialog extends Dialog {
 	}
 	
 	/**
-	 * Create the dialog.
-	 * @param parentShell
-	 */
-	@Inject
-	public EditDialog(Shell parentShell, @Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db) {
-		super(parentShell);		
-		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
- 
-		if(db==null)
-		{
-			db = pico.get(IDb.class);
-			db.load(UUID.randomUUID().toString(), index);
-			index++;
-			dbManager.addDb(db);
-		}
-		this.db = db;
-	}
-
-	/**
 	 * Create contents of the button bar.
 	 * @param parent
 	 */
@@ -142,6 +143,7 @@ public class EditDialog extends Dialog {
 	 * @param parent
 	 */
 	@Override
+	@PostConstruct
 	protected Control createDialogArea(Composite parent) {
 		parent.setToolTipText("");
 		

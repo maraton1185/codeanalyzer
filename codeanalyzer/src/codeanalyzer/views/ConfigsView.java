@@ -2,22 +2,28 @@
 package codeanalyzer.views;
 
 import java.net.URL;
+import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -34,6 +40,7 @@ import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Strings;
 
 public class ConfigsView {
 	
@@ -65,15 +72,16 @@ public class ConfigsView {
 	}
 	
 	@PostConstruct
-	public void postConstruct(Composite parent) {
+	public void postConstruct(Composite parent, EMenuService menuService, final EHandlerService hService, final ECommandService comService) {
 		
 		Composite tableComposite = new Composite(parent, SWT.NONE);
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
 		tableComposite.setLayout(tableColumnLayout);
 		
-		viewer = new TableViewer(tableComposite, SWT.MULTI | SWT.H_SCROLL
+		viewer = new TableViewer(tableComposite, SWT.SINGLE | SWT.H_SCROLL
 		      | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 
+		
 		createColumns(tableColumnLayout);
 		
 		
@@ -81,7 +89,10 @@ public class ConfigsView {
 		final Table table = viewer.getTable();
 //		table.setHeaderVisible(true);
 		table.setLinesVisible(true); 
-
+		
+		
+		menuService.registerContextMenu(table, Strings.get("model.id.configList.popup"));
+		
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 		
 		viewer.setInput(dbMng.getList()); 
@@ -101,6 +112,14 @@ public class ConfigsView {
 					ctx.set(Const.CONTEXT_SELECTED_DB, null);				
 			}
 		});
+		
+		viewer.addDoubleClickListener(new IDoubleClickListener() {			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				hService.executeHandler(comService.createCommand(Strings.get("command.id.ConfigListSetActive"), Collections.EMPTY_MAP));
+			}
+		});
+		
 	}
 
 	private void createColumns(TableColumnLayout tableColumnLayout) {

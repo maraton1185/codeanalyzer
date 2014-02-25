@@ -80,6 +80,11 @@ public class Db implements IDb {
 	}
 
 	@Override
+	public String getId() {
+		return store_key;
+	}
+
+	@Override
 	public boolean isLoaded() {
 		return getState() != DbState.notLoaded;
 	}
@@ -87,29 +92,33 @@ public class Db implements IDb {
 	// СЕРИАЛИЗАЦИЯ ******************************************************
 	
 	@Override
-	public void load(String key, int index) {
+	public void load(String key) {
 		store_key = key;
-		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings.get("P_BASE_NODE"));
-		String s = pref.get(key, "");		
-		ObjectInputStream ois = null;
-		try {
-			BASE64Decoder decoder = new BASE64Decoder();
-			byte[] data = decoder.decodeBuffer(s);
-			ois = new ObjectInputStream(new ByteArrayInputStream(data));
-
-			this.data = (DbInfo) ois.readObject();
-
-			
-		} catch (Exception e) {
-
+		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings
+				.get("P_BASE_NODE"));
+		String s = pref.get(key, "");
+		if (s.isEmpty()) {
 			this.data = new DbInfo();
-			this.data.name = "Конфигурация " + index;
-		} finally{
+			this.data.name = "Новая конфигурация";
+		} else {
+			ObjectInputStream ois = null;
 			try {
-				if(ois!=null)
-					ois.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				BASE64Decoder decoder = new BASE64Decoder();
+				byte[] data = decoder.decodeBuffer(s);
+				ois = new ObjectInputStream(new ByteArrayInputStream(data));
+
+				this.data = (DbInfo) ois.readObject();
+
+			} catch (Exception e) {
+				this.data = new DbInfo();
+				this.data.name = "Новая конфигурация";
+			} finally {
+				try {
+					if (ois != null)
+						ois.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

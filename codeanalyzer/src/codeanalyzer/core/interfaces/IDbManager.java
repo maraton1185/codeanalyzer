@@ -23,6 +23,8 @@ public interface IDbManager {
 	
 	void execute(final IDb db);
 
-	public void addDb(IDb db);
+	public void add(IDb db);
+	
+	public void remove(IDb db);
 	
 }

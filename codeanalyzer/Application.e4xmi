@@ -21,10 +21,19 @@
       <children xsi:type="basic:PartSashContainer" xmi:id="_9mGHQJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.1" containerData="3">
         <children xsi:type="basic:PartStack" xmi:id="__EbGcJriEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.1">
           <children xsi:type="basic:Part" xmi:id="_3m16kJriEeOlcttaCxvpFw" elementId="codeanalyzer.part.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.ConfigsView" label="Список конфигураций">
+            <menus xsi:type="menu:PopupMenu" xmi:id="_4fwcUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.popupmenu.ConfigList">
+              <children xsi:type="menu:HandledMenuItem" xmi:id="_OyIcwJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledmenuitem.7" label="Установить активной" iconURI="platform:/plugin/codeanalyzer/icons/active.png" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
+              <children xsi:type="menu:HandledMenuItem" xmi:id="_6OF7gJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledmenuitem.8" label="Установить для сравнения" iconURI="platform:/plugin/codeanalyzer/icons/nonactive.png" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
+              <children xsi:type="menu:MenuSeparator" xmi:id="_23178J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.menuseparator.0"/>
+              <children xsi:type="menu:HandledMenuItem" xmi:id="_7P5BoJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledmenuitem.5" label="Выполнить" iconURI="platform:/plugin/codeanalyzer/icons/run.png" tooltip="Выполнить" command="_aINPEJ4TEeOx3LwFmv1Qcw"/>
+              <children xsi:type="menu:HandledMenuItem" xmi:id="_CUxkMJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledmenuitem.6" label="Изменить" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" command="_u-hH8JrkEeOlcttaCxvpFw"/>
+            </menus>
             <toolbar xmi:id="_ltRbgJrjEeOlcttaCxvpFw" elementId="codeanalyzer.toolbar.2">
               <children xsi:type="menu:HandledToolItem" xmi:id="_m_9ycJrjEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.2" label="" iconURI="platform:/plugin/codeanalyzer/icons/add.png" tooltip="Добавить" command="_dMqP4JrkEeOlcttaCxvpFw"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_yf91cJrkEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.4" label="" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" tooltip="Изменить" command="_u-hH8JrkEeOlcttaCxvpFw"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_ocpy4JrjEeOlcttaCxvpFw" elementId="codeanalyzer.handledtoolitem.3" label="" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" tooltip="Удалить" command="_hUHNcJrkEeOlcttaCxvpFw"/>
+              <children xsi:type="menu:ToolBarSeparator" xmi:id="_mCP_MJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.toolbarseparator.0"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_fUWj0J4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledtoolitem.5" iconURI="platform:/plugin/codeanalyzer/icons/run.png" tooltip="Выполнить" command="_aINPEJ4TEeOx3LwFmv1Qcw"/>
             </toolbar>
           </children>
         </children>
@@ -62,8 +71,12 @@
   </children>
   <handlers xmi:id="_q12uwJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handler.QuitHandler" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.QuitHandler" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
   <handlers xmi:id="_1JWToJlREeOJH5GrNyMMVw" elementId="codeanalyzer.handler.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.Activate" command="_x0HdMJlREeOJH5GrNyMMVw"/>
-  <handlers xmi:id="_tsTcgJ0xEeOQH7R6sUDvqQ" elementId="codeanalyzer.handler.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.AddToConfigList" command="_dMqP4JrkEeOlcttaCxvpFw"/>
-  <handlers xmi:id="_PG8q4J2AEeOR26RRi-iIEw" elementId="codeanalyzer.handler.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.EditConfigList" command="_u-hH8JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_tsTcgJ0xEeOQH7R6sUDvqQ" elementId="codeanalyzer.handler.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListAdd" command="_dMqP4JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_PG8q4J2AEeOR26RRi-iIEw" elementId="codeanalyzer.handler.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListEdit" command="_u-hH8JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_y67pMJ4QEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListDelete" command="_hUHNcJrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_oNbdUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListExecute" command="_aINPEJ4TEeOx3LwFmv1Qcw"/>
+  <handlers xmi:id="_QMnBQJ4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.5" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListSetActive" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
+  <handlers xmi:id="_oqkk8J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.6" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListSetNonActive" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
@@ -72,11 +85,14 @@
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="codeanalyzer.command.Activate" commandName="&amp;Активация" category="_dwR08JrREeOlcttaCxvpFw"/>
   <commands xmi:id="_ib8S0JrREeOlcttaCxvpFw" elementId="codeanalyzer.command.AddToObjectTree" commandName="Добавить" description="" category="_aAX0sJrREeOlcttaCxvpFw"/>
   <commands xmi:id="_l1fokJrREeOlcttaCxvpFw" elementId="codeanalyzer.command.DeleteFromObjectTree" commandName="Удалить" category="_aAX0sJrREeOlcttaCxvpFw"/>
-  <commands xmi:id="_dMqP4JrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.AddToConfigList" commandName="Добавить" category="_aAX0sJrREeOlcttaCxvpFw"/>
-  <commands xmi:id="_hUHNcJrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.DeleteFromConfigList" commandName="Удалить" category="_aAX0sJrREeOlcttaCxvpFw"/>
+  <commands xmi:id="_dMqP4JrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.ConfigListAdd" commandName="Добавить" category="_aAX0sJrREeOlcttaCxvpFw"/>
+  <commands xmi:id="_hUHNcJrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.ConfigListDelete" commandName="Удалить" category="_aAX0sJrREeOlcttaCxvpFw"/>
   <commands xmi:id="_lEd5oJrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.GoToBookmark" commandName="Перейти" category="_aAX0sJrREeOlcttaCxvpFw"/>
   <commands xmi:id="_nWgNsJrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.DeleteBookmark" commandName="Удалить" category="_aAX0sJrREeOlcttaCxvpFw"/>
-  <commands xmi:id="_u-hH8JrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.EditConfigEntry" commandName="Изменить"/>
+  <commands xmi:id="_u-hH8JrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.ConfigListEdit" commandName="Изменить"/>
+  <commands xmi:id="_aINPEJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListExecute" commandName="Выполнить" description="Выполнить"/>
+  <commands xmi:id="_SDff0J4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListSetActive" commandName="Установить активной"/>
+  <commands xmi:id="_1TFaEJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListSetNonActive" commandName="Установить для сравнения"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

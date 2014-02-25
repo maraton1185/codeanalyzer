@@ -20,13 +20,13 @@ public interface IDb {
 
 	//ÑÅĞÈÀËÈÇÀÖÈß ****************************************************** 
 	
-	public abstract void load(String key, int index);
+	public abstract void load(String key);
 
 	public abstract void save();
 
 	//ÓÑÒÀÍÎÂÊÀ/ÏÎËÓ×ÅÍÈÅ ÑÂÎÉÑÒÂ ******************************************************
 	
-//	public abstract String getId();
+	public abstract String getId();
 	
 	public abstract void setType(operationType type);
 

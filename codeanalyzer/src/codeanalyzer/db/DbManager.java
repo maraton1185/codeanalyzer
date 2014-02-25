@@ -34,20 +34,37 @@ public class DbManager implements IDbManager{
 		operationNames.put(operationType.fromSQL, Strings.get("operationType.fromSQL"));
 //		operationNames.put(operationType.fillProcLinkTable, "—формировать таблицу взаимных вызовов");
 		
-		int index = 1;
+		Preferences pref1 = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
+		String activeKey = pref1.get(Strings.get("P_BASE_ACTIVE"), "");
+		String compareKey = pref1.get(Strings.get("P_BASE_COMPARE"), "");
+		
 		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings.get("P_BASE_NODE"));
 		try {
 			for (String key : pref.keys()) {
-				
-//				String key = pref.get(prefString, "");
 				IDb db = pico.get(IDb.class);
-				db.load(key, index);
+				db.load(key);
 				dbs.add(db);
-				index++;
+				
+				if(activeKey.equalsIgnoreCase(key))				
+					setActive(db);
+
+				if(compareKey.equalsIgnoreCase(key))				
+					setNonActive(db);
+
 			}
+				
 		} catch (BackingStoreException e) {
 			e.printStackTrace();
 		} 
+		
+		if(dbs.size()!=0)
+		{
+			if(active==null)
+				setActive(dbs.get(0));
+			
+			if(nonActive==null)
+				setNonActive(dbs.get(0));
+		}
 //		IDb db1 = pico.get(IDb.class);
 //		db1.load(PreferenceConstants.DB1_STATE, 1, Const.DB1);
 //		if(db1.getType()==operationType.fromDb)
@@ -69,9 +86,13 @@ public class DbManager implements IDbManager{
 	}
 	
 	@Override
-	public void addDb(IDb db) {
+	public void add(IDb db) {
 		dbs.add(db);
 		
+	}
+	@Override
+	public void remove(IDb db) {
+		dbs.remove(db);		
 	}
 
 	@Override
@@ -93,11 +114,6 @@ public class DbManager implements IDbManager{
 	public void setNonActive(IDb db) {
 		nonActive = db;
 	}
-
-//	@Override
-//	public IDb get(String ID) {
-//		return bases.get(ID);
-//	}
 
 	@Override
 	public String getOperationName(operationType key) {

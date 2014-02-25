@@ -1,4 +1,6 @@
 package codeanalyzer;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -12,10 +14,10 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		
-//		IEclipseContext ctx = E4Workbench.getServiceContext();
+		IEclipseContext ctx = E4Workbench.getServiceContext();
 //		SnippetRepository repository = new SnippetRepository();
 //		repository.repositoryPath = "test";		
-//		ctx.set(Const.CONTEXT_SELECTED_DB, repository);
+		ctx.set(IDbManager.class, pico.get(IDbManager.class));
 		pico.get(IDbManager.class).init();
 		
 	}

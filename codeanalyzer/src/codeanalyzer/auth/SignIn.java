@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.osgi.service.prefs.Preferences;
 
 import codeanalyzer.core.exceptions.CryptException;
@@ -17,6 +16,7 @@ import codeanalyzer.core.exceptions.SiteCryptException;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.utils.AesCrypt;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 public class SignIn implements IAuthorize{
@@ -113,7 +113,7 @@ public class SignIn implements IAuthorize{
 	
 	public String checkUpdates() {
 	
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
+		Preferences preferences = PreferenceSupplier.getScoupNode();
 		
 		Request msg = new Request();
 		msg.name = preferences.get("P_LOGIN", Strings.get("P_LOGIN"));
@@ -137,9 +137,9 @@ public class SignIn implements IAuthorize{
 		
 		ActivationInfo info = new ActivationInfo();
 		
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
-				
+		Preferences preferences = PreferenceSupplier.getScoupNode();				
 		String activationString = preferences.get("P_SERIAL", Strings.get("P_SERIAL"));
+
 		if (activationString.isEmpty())
 			info.message = Const.MSG_EMPTY_SERIAL;
 

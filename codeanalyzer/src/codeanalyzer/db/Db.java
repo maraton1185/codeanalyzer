@@ -8,9 +8,6 @@ import java.io.ObjectOutputStream;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.osgi.service.prefs.BackingStoreException;
-import org.osgi.service.prefs.Preferences;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -19,7 +16,7 @@ import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderService.operationType;
 import codeanalyzer.db.DbInfo.SQLConnection;
-import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
 
 /**
@@ -94,9 +91,11 @@ public class Db implements IDb {
 	@Override
 	public void load(String key) {
 		store_key = key;
-		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings
-				.get("P_BASE_NODE"));
-		String s = pref.get(key, "");
+		String s = PreferenceSupplier.get(store_key);
+//		PreferenceSupplier.save();
+//		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings
+//				.get("P_BASE_NODE"));
+//		String s = pref.get(key, "");
 		if (s.isEmpty()) {
 			this.data = new DbInfo();
 			this.data.name = "Новая конфигурация";
@@ -135,13 +134,16 @@ public class Db implements IDb {
 		} catch (Exception e) {
 			value = "";
 		}
-		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings.get("P_BASE_NODE"));
-		pref.put(store_key, value);
-		try {
-			pref.flush();
-		} catch (BackingStoreException e) {
-			e.printStackTrace();
-		}
+		
+		PreferenceSupplier.set(store_key, value);
+		PreferenceSupplier.save();
+//		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings.get("P_BASE_NODE"));
+//		pref.put(store_key, value);
+//		try {
+//			pref.flush();
+//		} catch (BackingStoreException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 

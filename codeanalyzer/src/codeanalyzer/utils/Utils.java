@@ -1,15 +1,36 @@
 package codeanalyzer.utils;
 
+import java.net.URL;
+
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+
+import codeanalyzer.views.ConfigsView;
 
 public abstract class Utils {
 
+	// helper method to load the images
+	// ensure to dispose the images in your @PreDestroy method
+	public static Image getImage(String file) {
+
+	    // assume that the current class is called View.java
+	  Bundle bundle = FrameworkUtil.getBundle(ConfigsView.class);
+	  URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
+	  ImageDescriptor image = ImageDescriptor.createFromURL(url);
+	  return image.createImage();
+
+	} 
+	
 	public static IPath getAbsolute(IPath path) {
 		if (!path.isAbsolute())
 			path = ResourcesPlugin.getWorkspace().getRoot().getLocation()

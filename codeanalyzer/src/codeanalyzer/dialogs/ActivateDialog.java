@@ -2,7 +2,6 @@ package codeanalyzer.dialogs;
 
 import javax.inject.Inject;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.dialogs.Dialog;
@@ -29,6 +28,7 @@ import codeanalyzer.auth.ActivationInfo;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 @Creatable
@@ -247,22 +247,21 @@ public class ActivateDialog extends Dialog {
 
 	protected void initContents()
 	{
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
+		Preferences preferences = PreferenceSupplier.getScoupNode();
 		loginField.setText(preferences.get("P_LOGIN", Strings.get("P_LOGIN")));
 		passwordField.setText(preferences.get("P_PASSWORD", Strings.get("P_PASSWORD")));
-		ntpField.setText(preferences.get("P_NTPSERVER", Strings.get("P_NTPSERVER")));
 		serialField.setText(preferences.get("P_SERIAL", Strings.get("P_SERIAL")));
+		
+		ntpField.setText(PreferenceSupplier.get(PreferenceSupplier.NTPSERVER));				
 		
 	}
 	
 	protected void setValues()
 	{
-		
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
+		Preferences preferences = PreferenceSupplier.getScoupNode();
 		preferences.put("P_LOGIN", loginField.getText());
 		preferences.put("P_PASSWORD", passwordField.getText());
-		preferences.put("P_SERIAL", serialField.getText());
-		
+		preferences.put("P_SERIAL", serialField.getText());		
 		try {
 			  // forces the application to save the preferences
 			  preferences.flush();

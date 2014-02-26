@@ -8,9 +8,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.osgi.service.prefs.Preferences;
-
 
 /**
  * This class represents a NTP message, as specified in RFC 2030.  The message
@@ -70,8 +67,7 @@ public class NtpMessage
 
 	public final static Date getDate() throws IOException {
 
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
-		String ntpserver = preferences.get("P_NTPSERVER", Strings.get("P_NTPSERVER"));
+		String ntpserver = PreferenceSupplier.get(PreferenceSupplier.NTPSERVER);
 		
 		DatagramSocket socket = new DatagramSocket();
 		InetAddress address = InetAddress.getByName(ntpserver);

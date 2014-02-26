@@ -1,14 +1,11 @@
  
 package codeanalyzer.views;
 
-import java.net.URL;
 import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.IEclipseContext;
@@ -17,7 +14,6 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
@@ -33,24 +29,23 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.Utils;
 
 public class ConfigsView {
 	
 
 	IDbManager dbMng = pico.get(IDbManager.class);
 	
-	private final Image ACTIVE = getImage("active.png");
-	private final Image NONACTIVE = getImage("nonactive.png");
-	private final Image LOADED = getImage("loaded_with_table.png");
-	private final Image NOT_LOADED = getImage("not_loaded.png");
+	private final Image ACTIVE = Utils.getImage("active.png");
+	private final Image NONACTIVE = Utils.getImage("nonactive.png");
+	private final Image LOADED = Utils.getImage("loaded_with_table.png");
+	private final Image NOT_LOADED = Utils.getImage("not_loaded.png");
 	
 	private TableViewer viewer;
 
@@ -192,17 +187,7 @@ public class ConfigsView {
 
 	}
 	
-	// helper method to load the images
-	// ensure to dispose the images in your @PreDestroy method
-	private static Image getImage(String file) {
 
-	    // assume that the current class is called View.java
-	  Bundle bundle = FrameworkUtil.getBundle(ConfigsView.class);
-	  URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
-	  ImageDescriptor image = ImageDescriptor.createFromURL(url);
-	  return image.createImage();
-
-	} 
 	
 	
 	

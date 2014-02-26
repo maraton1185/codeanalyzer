@@ -10,16 +10,16 @@ import codeanalyzer.core.interfaces.IDbManager;
 
 public class Activator implements BundleActivator {
 	
+	private static Activator bundle;
 	
 	@Override
 	public void start(BundleContext context) throws Exception {
 		
 		IEclipseContext ctx = E4Workbench.getServiceContext();
-//		SnippetRepository repository = new SnippetRepository();
-//		repository.repositoryPath = "test";		
 		ctx.set(IDbManager.class, pico.get(IDbManager.class));
 		pico.get(IDbManager.class).init();
 		
+		bundle = this;
 	}
 
 	@Override
@@ -28,4 +28,7 @@ public class Activator implements BundleActivator {
 
 	}
 
+	public static Activator getDefault() {
+		return bundle;
+	}
 }

@@ -49,9 +49,10 @@
     </children>
     <mainMenu xmi:id="_wpG8QJlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.menu.0">
       <children xsi:type="menu:Menu" xmi:id="_R1HOIJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.menu.File" label="&amp;Файл">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_VRMTcJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handledmenuitem.0" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_VRMTcJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handledmenuitem.0" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
       </children>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="codeanalyzer.handledmenuitem.4" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="codeanalyzer.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handledmenuitem.9" label="&amp;Параметры" command="_irP60J6aEeORdqnZrqq27Q"/>
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.statusbar">
@@ -77,12 +78,13 @@
   <handlers xmi:id="_oNbdUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListExecute" command="_aINPEJ4TEeOx3LwFmv1Qcw"/>
   <handlers xmi:id="_QMnBQJ4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.5" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListSetActive" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
   <handlers xmi:id="_oqkk8J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.6" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.ConfigListSetNonActive" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
+  <handlers xmi:id="_rR19MJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handler.7" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.OptionsHandler" command="_irP60J6aEeORdqnZrqq27Q"/>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="&amp;Выход" category="_dwR08JrREeOlcttaCxvpFw"/>
-  <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="codeanalyzer.command.Activate" commandName="&amp;Активация" category="_dwR08JrREeOlcttaCxvpFw"/>
+  <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход" category="_dwR08JrREeOlcttaCxvpFw"/>
+  <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="codeanalyzer.command.Activate" commandName="Сервис -Активация" category="_dwR08JrREeOlcttaCxvpFw"/>
   <commands xmi:id="_ib8S0JrREeOlcttaCxvpFw" elementId="codeanalyzer.command.AddToObjectTree" commandName="Добавить" description="" category="_aAX0sJrREeOlcttaCxvpFw"/>
   <commands xmi:id="_l1fokJrREeOlcttaCxvpFw" elementId="codeanalyzer.command.DeleteFromObjectTree" commandName="Удалить" category="_aAX0sJrREeOlcttaCxvpFw"/>
   <commands xmi:id="_dMqP4JrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.ConfigListAdd" commandName="Добавить" category="_aAX0sJrREeOlcttaCxvpFw"/>
@@ -93,6 +95,7 @@
   <commands xmi:id="_aINPEJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListExecute" commandName="Выполнить" description="Выполнить"/>
   <commands xmi:id="_SDff0J4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListSetActive" commandName="Установить активной"/>
   <commands xmi:id="_1TFaEJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListSetNonActive" commandName="Установить для сравнения"/>
+  <commands xmi:id="_irP60J6aEeORdqnZrqq27Q" elementId="codeanalyzer.command.Options" commandName="Сервис - Параметры"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

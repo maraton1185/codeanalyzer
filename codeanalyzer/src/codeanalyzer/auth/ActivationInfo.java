@@ -5,13 +5,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.osgi.service.prefs.Preferences;
 
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.NtpMessage;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.jWMI;
 
@@ -96,7 +96,7 @@ public class ActivationInfo {
 	
 	public boolean check(){
 		
-		Preferences preferences = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
+		Preferences preferences = PreferenceSupplier.getScoupNode();
 		String name = preferences.get("P_LOGIN", Strings.get("P_LOGIN"));
 		String password = preferences.get("P_PASSWORD", Strings.get("P_PASSWORD"));
 		

@@ -64,7 +64,7 @@ public class EditDialog extends Dialog {
 		if(db==null)
 		{
 			db = pico.get(IDb.class);
-			db.load(UUID.randomUUID().toString());
+			db.load("db." + UUID.randomUUID().toString());
 			dbManager.add(db);
 		}
 		this.db = db;

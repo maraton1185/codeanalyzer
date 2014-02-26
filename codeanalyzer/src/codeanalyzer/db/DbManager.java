@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.osgi.service.prefs.BackingStoreException;
-import org.osgi.service.prefs.Preferences;
-
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderService.operationType;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 
@@ -34,28 +31,22 @@ public class DbManager implements IDbManager{
 		operationNames.put(operationType.fromSQL, Strings.get("operationType.fromSQL"));
 //		operationNames.put(operationType.fillProcLinkTable, "—формировать таблицу взаимных вызовов");
 		
-		Preferences pref1 = ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
-		String activeKey = pref1.get(Strings.get("P_BASE_ACTIVE"), "");
-		String compareKey = pref1.get(Strings.get("P_BASE_COMPARE"), "");
+		String activeKey = PreferenceSupplier.get(PreferenceSupplier.BASE_ACTIVE);
+		String compareKey = PreferenceSupplier.get(PreferenceSupplier.BASE_COMPARE);
 		
-		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings.get("P_BASE_NODE"));
-		try {
-			for (String key : pref.keys()) {
-				IDb db = pico.get(IDb.class);
-				db.load(key);
-				dbs.add(db);
-				
-				if(activeKey.equalsIgnoreCase(key))				
-					setActive(db);
+		List<String> keys = PreferenceSupplier.getBaseList();
+		
+		for (String key : keys) {
+			IDb db = pico.get(IDb.class);
+			db.load(key);
+			dbs.add(db);
+			
+			if(activeKey.equalsIgnoreCase(key))				
+				setActive(db);
 
-				if(compareKey.equalsIgnoreCase(key))				
-					setNonActive(db);
-
-			}
-				
-		} catch (BackingStoreException e) {
-			e.printStackTrace();
-		} 
+			if(compareKey.equalsIgnoreCase(key))				
+				setNonActive(db);
+		}
 		
 		if(dbs.size()!=0)
 		{

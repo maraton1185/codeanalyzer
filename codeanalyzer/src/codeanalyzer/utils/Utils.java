@@ -1,5 +1,6 @@
 package codeanalyzer.utils;
 
+import java.io.File;
 import java.net.URL;
 
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -19,6 +20,18 @@ import codeanalyzer.views.ConfigsView;
 
 public abstract class Utils {
 
+	
+	public static String getExtension(File pathname) {
+		String extension = "";
+		String fileName = pathname.getName();
+
+		int i = fileName.lastIndexOf('.');
+		if (i > 0)
+			extension = fileName.substring(i + 1);
+
+		return extension;
+	}
+	
 	// helper method to load the images
 	// ensure to dispose the images in your @PreDestroy method
 	public static Image getImage(String file) {

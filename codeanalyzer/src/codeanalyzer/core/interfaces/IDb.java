@@ -1,8 +1,11 @@
 package codeanalyzer.core.interfaces;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import org.eclipse.core.runtime.IPath;
 
-import codeanalyzer.core.interfaces.ILoaderService.operationType;
+import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.db.DbInfo.SQLConnection;
 
 
@@ -54,21 +57,21 @@ public interface IDb {
 	
 	public abstract SQLConnection getDefaultSQL();
 
-//	void initDbPath();
-
 	boolean isLoaded();
 
 	boolean getAutoName();
 
 	void setAutoName(boolean value);
 
+	void initDbPath();
+
 	//–¿¡Œ“¿ — ƒ¿ÕÕ€Ã»  ŒÕ‘»√”–¿÷»» ****************************************************** 
 	
 //	Connection getSQLConnection() throws InstantiationException,
 //			IllegalAccessException, ClassNotFoundException, SQLException;
 //	
-//	Connection getConnection(boolean exist) throws InstantiationException,
-//			IllegalAccessException, ClassNotFoundException, SQLException;
+	Connection getConnection(boolean exist) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException, SQLException;
 //
 
 //	List<BuildInfo> search(searchType type, String text, IProgressMonitor monitor);

@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
-import codeanalyzer.core.interfaces.ILoaderService.operationType;
+import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.db.DbInfo.SQLConnection;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Utils;

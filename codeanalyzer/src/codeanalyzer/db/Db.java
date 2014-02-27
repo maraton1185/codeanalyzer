@@ -5,6 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -14,8 +17,9 @@ import sun.misc.BASE64Encoder;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
-import codeanalyzer.core.interfaces.ILoaderService.operationType;
+import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.db.DbInfo.SQLConnection;
+import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
 
@@ -37,18 +41,14 @@ public class Db implements IDb {
 	private DbState status = DbState.notLoaded;
 
 	String store_key = "";
-//	String ID = "";
 
-//	IPreferenceStore store = CodeAnalyserActivator.getDefault()
-//			.getPreferenceStore();
-
-//	@Override
-//	public void initDbPath() {
-//		data.db_path = getPath().append(Const.DEFAULT_DB_NAME).toString()
-//				.concat(Const.DEFAULT_DB_EXTENSION);
-//		// setType(operationType.fromDb);
-//		save();
-//	}
+	@Override
+	public void initDbPath() {
+		data.db_path = getPath().append(Const.DEFAULT_DB_NAME).toString()
+				.concat(Const.DEFAULT_DB_EXTENSION);
+		// setType(operationType.fromDb);
+		save();
+	}
 
 	// —“¿“”— ******************************************************
 
@@ -133,13 +133,6 @@ public class Db implements IDb {
 		
 		PreferenceSupplier.set(store_key, value);
 		PreferenceSupplier.save();
-//		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings.get("P_BASE_NODE"));
-//		pref.put(store_key, value);
-//		try {
-//			pref.flush();
-//		} catch (BackingStoreException e) {
-//			e.printStackTrace();
-//		}
 
 	}
 
@@ -224,7 +217,7 @@ public class Db implements IDb {
 	public SQLConnection getDefaultSQL() {
 		return data.new SQLConnection("server\\base", "sa", ""); 				
 	}
-}
+
 	// –¿¡Œ“¿ — ƒ¿ÕÕ€Ã»  ŒÕ‘»√”–¿÷»»
 	// ******************************************************
 //
@@ -242,20 +235,21 @@ public class Db implements IDb {
 //		return con;
 //	}
 //	
-//	@Override
-//	public Connection getConnection(boolean exist)
-//			throws InstantiationException, IllegalAccessException,
-//			ClassNotFoundException, SQLException {
-//		Class.forName("org.h2.Driver").newInstance();
-//		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
-//
-//		IPath path = exist ? getDbPath().removeFileExtension()
-//				.removeFileExtension() : getPath()
-//				.append(Const.DEFAULT_DB_NAME);
-//
-//		return DriverManager.getConnection("jdbc:h2:" + path.toString()
-//				+ ifExist, "sa", "");
-//	}
+	@Override
+	public Connection getConnection(boolean exist)
+			throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException {
+		
+		Class.forName("org.h2.Driver").newInstance();
+		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
+
+		IPath path = exist ? 
+				getDbPath().removeFileExtension().removeFileExtension(): 
+				getPath().append(Const.DEFAULT_DB_NAME);
+
+		return DriverManager.getConnection("jdbc:h2:" + path.toString()
+				+ ifExist, "sa", "");
+	}
 //
 //	@Override
 //	public List<BuildInfo> search(searchType type, String text, IProgressMonitor monitor) {
@@ -599,6 +593,7 @@ public class Db implements IDb {
 //		
 //	}
 //
+}
 //
 //
 //

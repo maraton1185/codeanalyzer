@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -16,15 +15,15 @@ import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.IDbManager;
-import codeanalyzer.core.interfaces.ILoaderService.operationType;
+import codeanalyzer.core.interfaces.ILoaderManager;
+import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 
 public class DbManager implements IDbManager{
 
-//	ILoaderService loaderService = pico.get(ILoaderService.class);
-//	HashMap<String,IDb> bases = new HashMap<String,IDb>();
+	ILoaderManager loaderService = pico.get(ILoaderManager.class);
 	
 	List<IDb> dbs = new ArrayList<IDb>();
 	IDb active;
@@ -55,6 +54,8 @@ public class DbManager implements IDbManager{
 
 			if(compareKey.equalsIgnoreCase(key))				
 				setNonActive(db);
+			
+			executeInit(db);
 		}
 		
 		if(dbs.size()!=0)
@@ -65,19 +66,7 @@ public class DbManager implements IDbManager{
 			if(nonActive==null)
 				setNonActive(dbs.get(0));
 		}
-//		IDb db1 = pico.get(IDb.class);
-//		db1.load(PreferenceConstants.DB1_STATE, 1, Const.DB1);
-//		if(db1.getType()==operationType.fromDb)
-//			execute(db1);
-//		bases.put(Const.DB1, db1);
-//		
-//		IDb db2 = pico.get(IDb.class);
-//		db2.load(PreferenceConstants.DB2_STATE, 2, Const.DB2);
-//		if(db2.getType()==operationType.fromDb)
-//			execute(db2);
-//		bases.put(Const.DB2, db2);	
-		
-//		active = db1;
+
 	}
 	
 	@Override
@@ -128,45 +117,25 @@ public class DbManager implements IDbManager{
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
 					
-				
-//				// set total number of work units
-				monitor.beginTask("Doing something time consuming here", 100);
-				for (int i = 0; i < 3; i++) {
-					try {
-						// sleep a second
-						TimeUnit.SECONDS.sleep(1);
-
-						monitor.subTask("I'm doing something here " + i);
-
-						// report that 20 additional units are done
-						monitor.worked(20);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-//						return Status.CANCEL_STATUS;
-					}
+				switch (db.getType()) {
+				case fromDirectory:
+					loaderService.loadFromDirectory(db, monitor);
+					break;
+				case fromDb:
+//					loaderService.loadFromDb(db, monitor);
+					break;
+//				case fillProcLinkTable:
+//					loaderService.fillProcLinkTable(db, monitor);
+//					break;	
+				case update:
+//					loaderService.update(db, monitor);
+					break;
+				case fromSQL:
+//					loaderService.loadFromSQL(db, monitor);
+					break;
+				default:
+					throw new InterruptedException();
 				}
-				System.out.println("Called save");
-				
-//				switch (db.getType()) {
-//				case fromDirectory:
-////					loaderService.loadFromDirectory(db, monitor);
-//					break;
-//				case fromDb:
-////					loaderService.loadFromDb(db, monitor);
-//					break;
-////				case fillProcLinkTable:
-////					loaderService.fillProcLinkTable(db, monitor);
-////					break;	
-//				case update:
-////					loaderService.update(db, monitor);
-//					break;
-//				case fromSQL:
-////					loaderService.loadFromSQL(db, monitor);
-//					break;
-//				default:
-//					throw new InterruptedException();
-//				}
-				db.setState(DbState.Loaded);
 			}
 		};
 		
@@ -185,8 +154,11 @@ public class DbManager implements IDbManager{
 	}
 
 	@Override
-	public void execute(IDb db, IProgressMonitor widget) {
-		// TODO Auto-generated method stub
+	public void executeInit(IDb db) {
+		if(db.getType()==operationType.fromDb)
+		{
+//			loaderService.loadFromDb(db, monitor);
+		}
 		
 	}
 

@@ -7,6 +7,7 @@ import org.picocontainer.MutablePicoContainer;
 import codeanalyzer.auth.SignIn;
 import codeanalyzer.db.Db;
 import codeanalyzer.db.DbManager;
+import codeanalyzer.db.LoaderManager;
 
 
 public final class pico {
@@ -29,7 +30,7 @@ public final class pico {
 		instance.as(Characteristics.CACHE).addComponent(SignIn.class);
 		instance.as(Characteristics.CACHE).addComponent(DbManager.class);
 		instance.addComponent(Db.class);
-//		instance.as(Characteristics.CACHE).addComponent(LoaderService.class);
+		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
 //		instance.as(Characteristics.CACHE).addComponent(Events.class);
 //		instance.as(Characteristics.CACHE).addComponent(EditorFactory.class);
 //		instance.as(Characteristics.CACHE).addComponent(History.class);

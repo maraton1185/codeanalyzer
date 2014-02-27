@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-public interface ILoaderService {
+public interface ILoaderManager {
 
 	public enum operationType {
 		fromDb, fromDirectory, update, fromSQL

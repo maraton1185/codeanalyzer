@@ -18,7 +18,7 @@ public class ProgressControl implements IProgressMonitor {
 	@PostConstruct
 	public void createControls(Composite parent) {
 	    progressBar = new ProgressBar(parent, SWT.SMOOTH);
-	    progressBar.setBounds(100, 10, 200, 18);
+	    progressBar.setBounds(0, 0, 362, 20);
 	}
 
 	@Override

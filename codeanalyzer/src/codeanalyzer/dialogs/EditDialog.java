@@ -10,6 +10,8 @@ import javax.inject.Named;
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -46,13 +48,16 @@ public class EditDialog extends Dialog {
 	private Text sql_userField;
 	private Text sql_passwordField;
 	private Button btnCheckButton;
+	private Button btnUpdateName;
 	
 	private IDb db;	
 	
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
 	IEventBroker br; 
-	private Button button_1;
+	EModelService model;
+	MApplication application;
+	
 	
 	
 	/**
@@ -60,7 +65,7 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, @Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db, IEventBroker br) {
+	public EditDialog(Shell parentShell, @Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db, IEventBroker br, EModelService model, MApplication application) {
 		super(parentShell);		
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
  
@@ -72,6 +77,8 @@ public class EditDialog extends Dialog {
 		}
 		this.db = db;
 		this.br = br;
+		this.model = model;
+		this.application = application;
 	}
 	
 	protected void updateName()
@@ -205,15 +212,15 @@ public class EditDialog extends Dialog {
 		gridData.horizontalSpan = 2;
 		sql_pathField.setLayoutData(gridData);
 		
-		button_1 = new Button(container, SWT.FLAT);
-		button_1.addSelectionListener(new SelectionAdapter() {
+		btnUpdateName = new Button(container, SWT.FLAT);
+		btnUpdateName.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateName();
 			}
 		});
-		button_1.setToolTipText("Обновить имя");
-		button_1.setText("...");
+		btnUpdateName.setToolTipText("Обновить имя");
+		btnUpdateName.setText("...");
 		
 		label = new Label(container, SWT.LEFT);
 		label.setText("Логин, пароль к базе MS SQL:");
@@ -309,10 +316,11 @@ public class EditDialog extends Dialog {
 		updateDb();
 		db.save();
 
-		dbManager.execute(db);
+		dbManager.execute(db, getShell());
 
-		initContents();
-
+//		initContents();
+		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		
 		super.okPressed();
 	}
 

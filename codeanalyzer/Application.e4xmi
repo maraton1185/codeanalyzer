@@ -56,7 +56,7 @@
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.statusbar">
-        <children xsi:type="menu:ToolControl" xmi:id="_7cCTUJlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.toolcontrol.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.tools.ProgressControl">
+        <children xsi:type="menu:ToolControl" xmi:id="_7cCTUJlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.toolcontrol.statusbar" contributionURI="bundleclass://codeanalyzer/codeanalyzer.tools.ProgressControl">
           <tags>TrimBarLayout.SPACER</tags>
         </children>
       </children>

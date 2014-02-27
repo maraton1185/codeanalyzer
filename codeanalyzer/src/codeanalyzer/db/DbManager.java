@@ -1,11 +1,20 @@
 package codeanalyzer.db;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
+import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderService.operationType;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -112,48 +121,73 @@ public class DbManager implements IDbManager{
 		return name == null ? "DBManager.getOperationName" : name;
 	}
 	
-	public void execute(final IDb db) {
+	@Override
+	public void execute(final IDb db, Shell shell) {
 		
-//		IRunnableWithProgress runnable = new IRunnableWithProgress() {
-//			public void run(IProgressMonitor monitor)
-//					throws InvocationTargetException, InterruptedException {
-//								
+		IRunnableWithProgress runnable = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
+					
+				
+//				// set total number of work units
+				monitor.beginTask("Doing something time consuming here", 100);
+				for (int i = 0; i < 3; i++) {
+					try {
+						// sleep a second
+						TimeUnit.SECONDS.sleep(1);
+
+						monitor.subTask("I'm doing something here " + i);
+
+						// report that 20 additional units are done
+						monitor.worked(20);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+//						return Status.CANCEL_STATUS;
+					}
+				}
+				System.out.println("Called save");
+				
 //				switch (db.getType()) {
 //				case fromDirectory:
-//					loaderService.loadFromDirectory(db, monitor);
+////					loaderService.loadFromDirectory(db, monitor);
 //					break;
 //				case fromDb:
-//					loaderService.loadFromDb(db, monitor);
+////					loaderService.loadFromDb(db, monitor);
 //					break;
 ////				case fillProcLinkTable:
 ////					loaderService.fillProcLinkTable(db, monitor);
 ////					break;	
 //				case update:
-//					loaderService.update(db, monitor);
+////					loaderService.update(db, monitor);
 //					break;
 //				case fromSQL:
-//					loaderService.loadFromSQL(db, monitor);
+////					loaderService.loadFromSQL(db, monitor);
 //					break;
 //				default:
 //					throw new InterruptedException();
-//				}	
-//			}
-//		};
-//		
-//		try {
-//			
-//			PlatformUI.getWorkbench().getProgressService().run(true, true, runnable);
-//			
-//		} catch (InvocationTargetException e) {
-//			
-//			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Ошибка загрузки конфигурации", e.getMessage());
-//			
-//			db.setState(DbState.notLoaded);
-//			
-//		} catch (Exception e) {	
-//			
-//			db.setState(DbState.notLoaded);
-//		}
+//				}
+				db.setState(DbState.Loaded);
+			}
+		};
+		
+		try {
+			  new ProgressMonitorDialog(shell).run(true, true, runnable);
+		} catch (InvocationTargetException e) {
+			
+			MessageDialog.openError(shell, "Ошибка загрузки конфигурации", e.getMessage());
+			
+			db.setState(DbState.notLoaded);
+			
+		} catch (Exception e) {	
+			
+			db.setState(DbState.notLoaded);
+		}
+	}
+
+	@Override
+	public void execute(IDb db, IProgressMonitor widget) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

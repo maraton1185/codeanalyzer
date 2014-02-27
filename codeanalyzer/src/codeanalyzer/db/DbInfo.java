@@ -3,7 +3,10 @@ package codeanalyzer.db;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
+import org.eclipse.core.runtime.Path;
+
 import codeanalyzer.core.interfaces.ILoaderService.operationType;
+import codeanalyzer.utils.PreferenceSupplier;
 
 public class DbInfo implements Serializable{
 	
@@ -32,9 +35,49 @@ public class DbInfo implements Serializable{
 		public String path;
 	}
 	
+	public String getName()
+	{
+		
+		final class helper {		
+			public String getName(String path)
+			{
+				String result = "";
+				Path p = new Path(path);
+				if(p.segmentCount()<2)
+					result = p.toString();
+				for (int i = p.segmentCount()-2; i >= 0 && i<p.segmentCount(); i++) {
+					result = result.concat(p.segment(i)).concat("/");
+				}
+				return result;
+			}					
+		}
+		
+		if(!auto_name) return name;
+		
+		String result = "";
+		switch (type) {
+		case update:
+			
+			result = new helper().getName(db_path);
+			break;
+			
+		case fromDb:
+			
+			result = new helper().getName(db_path);
+			break;
+		case fromSQL:
+			result = sql==null ? "Новая конфигурация" : sql.path;
+			break;
+		default:
+			result = new helper().getName(path);
+			break;
+		}
+		return result;
+	}
+	
 	public DbInfo() {
 		super();
-		for (Field f : this.getClass().getDeclaredFields()) {				
+		for (Field f : this.getClass().getFields()) {				
 			try {
 				if (f.getType().isAssignableFrom(Boolean.class))
 					f.set(this, false);
@@ -45,6 +88,14 @@ public class DbInfo implements Serializable{
 			} catch (Exception e) {
 			}
 		}
+		
+		String defaultPath = PreferenceSupplier.get(PreferenceSupplier.DEFAULT_DIRECTORY);
+		
+		auto_name = true;
+		path = defaultPath;
+		db_path = defaultPath;
+		type = operationType.fromDirectory;
+		
 	}
 	private static final long serialVersionUID = -6530408724026513483L;
 
@@ -52,6 +103,7 @@ public class DbInfo implements Serializable{
 	public operationType type;
 	public String path;
 	public String db_path;
+	public Boolean auto_name;
 
 	public SQLConnection sql;
 

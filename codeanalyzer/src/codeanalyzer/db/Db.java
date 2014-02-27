@@ -92,10 +92,6 @@ public class Db implements IDb {
 	public void load(String key) {
 		store_key = key;
 		String s = PreferenceSupplier.get(store_key);
-//		PreferenceSupplier.save();
-//		Preferences pref = ConfigurationScope.INSTANCE.getNode(Strings
-//				.get("P_BASE_NODE"));
-//		String s = pref.get(key, "");
 		if (s.isEmpty()) {
 			this.data = new DbInfo();
 			this.data.name = "Новая конфигурация";
@@ -166,6 +162,16 @@ public class Db implements IDb {
 	}
 
 	@Override
+	public void setAutoName(boolean value) {
+		data.auto_name = value;
+	}
+	
+	@Override
+	public boolean getAutoName() {
+		return data.auto_name;
+	}
+	
+	@Override
 	public void setPath(String path) {
 		data.path = path;
 	}
@@ -181,7 +187,7 @@ public class Db implements IDb {
 
 	@Override
 	public String getName() {
-		return data.name;
+		return data.getName();
 	}
 
 	@Override

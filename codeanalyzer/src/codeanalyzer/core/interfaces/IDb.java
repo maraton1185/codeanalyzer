@@ -58,6 +58,10 @@ public interface IDb {
 
 	boolean isLoaded();
 
+	boolean getAutoName();
+
+	void setAutoName(boolean value);
+
 	//–¿¡Œ“¿ — ƒ¿ÕÕ€Ã»  ŒÕ‘»√”–¿÷»» ****************************************************** 
 	
 //	Connection getSQLConnection() throws InstantiationException,

@@ -45,12 +45,15 @@ public class EditDialog extends Dialog {
 	private Text sql_pathField;
 	private Text sql_userField;
 	private Text sql_passwordField;
+	private Button btnCheckButton;
 	
 	private IDb db;	
 	
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
 	IEventBroker br; 
+	private Button button_1;
+	
 	
 	/**
 	 * Create the dialog.
@@ -71,71 +74,37 @@ public class EditDialog extends Dialog {
 		this.br = br;
 	}
 	
-	protected void setValues()
+	protected void updateName()
+	{
+		updateDb();
+		nameField.setText(db.getName());
+		nameField.setEnabled(!db.getAutoName());
+	}
+	
+	protected void updateDb()
 	{
 		db.setName(nameField.getText());
 		db.setPath(pathField.getText());
 		db.setDbPath(db_pathField.getText());
 		db.setSQL(sql_pathField.getText(), sql_userField.getText(), sql_passwordField.getText());
-		db.save();	
+		db.setAutoName(btnCheckButton.getSelection());
 	}
 	
-	@Override
-	protected void okPressed() {
-
-		setValues();
-
-		dbManager.execute(db);
-
-		initContents();
-
-		super.okPressed();
-	}
-
-	protected void configureShell(Shell shell) {
-	      super.configureShell(shell);
-	      shell.setText(db.getName());
-	   }
-	
-	@Override
-	public boolean close() {
-		setValues();
-		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
-		return super.close();
-	}
-
 	protected void initContents()
 	{
 		nameField.setText(db.getName());
 		pathField.setText(db.getPath().toString());
 		db_pathField.setText(db.getDbPath().toString());
+		btnCheckButton.setSelection(db.getAutoName());
+		radioBtns.get(db.getType()).setSelection(true);
+		
 		SQLConnection sql = db.getSQL();
-		sql_pathField.setText(sql.path);
 		sql_userField.setText(sql.user);
 		sql_passwordField.setText(sql.password);
 		
-		radioBtns.get(db.getType()).setSelection(true);
+		sql_pathField.setText(sql.path);
 		
-	}
-	
-	/**
-	 * Create contents of the button bar.
-	 * @param parent
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID,
-				"Выполнить", true);
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				"Закрыть", true);
-	}
-
-	/**
-	 * Return the initial size of the dialog.
-	 */
-	@Override
-	protected Point getInitialSize() {
-		return new Point(487, 343);
+		nameField.setEnabled(!db.getAutoName());
 	}
 	
 	/**
@@ -165,10 +134,20 @@ public class EditDialog extends Dialog {
 		
 		nameField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData();
+		gridData.widthHint = 267;
 		gridData.horizontalAlignment = GridData.FILL;
-		gridData.horizontalSpan = 3;
+		gridData.horizontalSpan = 2;
 		gridData.grabExcessHorizontalSpace = true;
 		nameField.setLayoutData(gridData);
+		
+		btnCheckButton = new Button(container, SWT.FLAT | SWT.CHECK | SWT.CENTER);
+		btnCheckButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateName();
+			}
+		});
+		btnCheckButton.setToolTipText("Формировать имя автоматически");
 
 	    //************** КАТАЛОГ ДЛЯ ЗАГРУЗКИ ***********************
 		
@@ -187,6 +166,7 @@ public class EditDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				browseForPath();
+				updateName();
 			}
 		});
 		button.setText("...");
@@ -208,6 +188,7 @@ public class EditDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				browseForFile();
+				updateName();
 			}
 		});
 		button.setText("...");
@@ -221,8 +202,18 @@ public class EditDialog extends Dialog {
 		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalSpan = 3;
+		gridData.horizontalSpan = 2;
 		sql_pathField.setLayoutData(gridData);
+		
+		button_1 = new Button(container, SWT.FLAT);
+		button_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateName();
+			}
+		});
+		button_1.setToolTipText("Обновить имя");
+		button_1.setText("...");
 		
 		label = new Label(container, SWT.LEFT);
 		label.setText("Логин, пароль к базе MS SQL:");
@@ -264,6 +255,7 @@ public class EditDialog extends Dialog {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					db.setType(key);
+					updateName();
 				}
 			});
 			button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
@@ -274,6 +266,26 @@ public class EditDialog extends Dialog {
 		initContents();
 		
 		return area;
+	}
+
+	/**
+	 * Create contents of the button bar.
+	 * @param parent
+	 */
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, IDialogConstants.OK_ID,
+				"Выполнить", true);
+		createButton(parent, IDialogConstants.CANCEL_ID,
+				"Закрыть", true);
+	}
+
+	/**
+	 * Return the initial size of the dialog.
+	 */
+	@Override
+	protected Point getInitialSize() {
+		return new Point(487, 343);
 	}
 
 	protected void setDefaultSQL() {
@@ -289,5 +301,31 @@ public class EditDialog extends Dialog {
 
 	protected void browseForPath() {
 		Utils.browseForPath(pathField, getShell());				
+	}
+	
+	@Override
+	protected void okPressed() {
+
+		updateDb();
+		db.save();
+
+		dbManager.execute(db);
+
+		initContents();
+
+		super.okPressed();
+	}
+
+	protected void configureShell(Shell shell) {
+	      super.configureShell(shell);
+	      shell.setText(db.getName());
+	   }
+	
+	@Override
+	public boolean close() {
+		updateDb();
+		db.save();
+		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		return super.close();
 	}
 }

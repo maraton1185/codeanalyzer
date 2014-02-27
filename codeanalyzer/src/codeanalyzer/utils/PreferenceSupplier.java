@@ -11,13 +11,12 @@ import org.osgi.service.prefs.Preferences;
 public abstract class PreferenceSupplier {
 
 	private static PreferenceStore preferenceStore;
-	private static final String prefFileName = "codeanalyzer.prefs";
+	private static final String prefFileName = Strings.get("P_FILE_NAME");
 
 	static {
 		
 		preferenceStore = new PreferenceStore(prefFileName);
 		
-		preferenceStore.setDefault("P_LOGIN", "demo");
 		preferenceStore.setDefault("P_NTPSERVER", "ptbtime1.ptb.de");
 		
 		try {

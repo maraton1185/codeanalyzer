@@ -40,7 +40,7 @@ import codeanalyzer.utils.Utils;
 public class EditDialog extends Dialog {
 
 	IDbManager dbManager = pico.get(IDbManager.class);
-	
+
 	private Text nameField;
 	private Text pathField;
 	private Text db_pathField;
@@ -49,28 +49,29 @@ public class EditDialog extends Dialog {
 	private Text sql_passwordField;
 	private Button btnCheckButton;
 	private Button btnUpdateName;
-	
-	private IDb db;	
-	
+
+	private IDb db;
+
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
-	IEventBroker br; 
+	IEventBroker br;
 	EModelService model;
 	MApplication application;
-	
-	
-	
+	private Button btnDeleteSourceFiles;
+
 	/**
 	 * Create the dialog.
+	 * 
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, @Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db, IEventBroker br, EModelService model, MApplication application) {
-		super(parentShell);		
+	public EditDialog(Shell parentShell,
+			@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db,
+			IEventBroker br, EModelService model, MApplication application) {
+		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
- 
-		if(db==null)
-		{
+
+		if (db == null) {
 			db = pico.get(IDb.class);
 			db.load("db." + UUID.randomUUID().toString());
 			dbManager.add(db);
@@ -80,65 +81,67 @@ public class EditDialog extends Dialog {
 		this.model = model;
 		this.application = application;
 	}
-	
-	protected void updateName()
-	{
+
+	protected void updateName() {
 		updateDb();
 		nameField.setText(db.getName());
 		nameField.setEnabled(!db.getAutoName());
 	}
-	
-	protected void updateDb()
-	{
+
+	protected void updateDb() {
 		db.setName(nameField.getText());
 		db.setPath(pathField.getText());
 		db.setDbPath(db_pathField.getText());
-		db.setSQL(sql_pathField.getText(), sql_userField.getText(), sql_passwordField.getText());
+		db.setSQL(sql_pathField.getText(), sql_userField.getText(),
+				sql_passwordField.getText());
 		db.setAutoName(btnCheckButton.getSelection());
+		db.setDeleteSourceFiles(btnDeleteSourceFiles.getSelection());
 	}
-	
-	protected void initContents()
-	{
+
+	protected void initContents() {
 		nameField.setText(db.getName());
 		pathField.setText(db.getPath().toString());
 		db_pathField.setText(db.getDbPath().toString());
 		btnCheckButton.setSelection(db.getAutoName());
 		radioBtns.get(db.getType()).setSelection(true);
-		
+
 		SQLConnection sql = db.getSQL();
 		sql_userField.setText(sql.user);
 		sql_passwordField.setText(sql.password);
-		
+
 		sql_pathField.setText(sql.path);
-		
+
 		nameField.setEnabled(!db.getAutoName());
+
+		btnDeleteSourceFiles.setSelection(db.getDeleteSourceFiles());
 	}
-	
+
 	/**
 	 * Create contents of the dialog.
+	 * 
 	 * @param parent
 	 */
 	@Override
 	@PostConstruct
 	protected Control createDialogArea(Composite parent) {
 		parent.setToolTipText("");
-		
+
 		GridData gridData;
 		Label label;
 		Button button;
 		Group group;
-		
+
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
 		container.setLayout(new GridLayout(4, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		//************* Имя ************************
-		
+
+		// ************* Имя ************************
+
 		label = new Label(container, SWT.RIGHT);
 		label.setAlignment(SWT.RIGHT);
 		label.setText("Имя конфигурации:");
-		
+
 		nameField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData();
 		gridData.widthHint = 267;
@@ -146,8 +149,9 @@ public class EditDialog extends Dialog {
 		gridData.horizontalSpan = 2;
 		gridData.grabExcessHorizontalSpace = true;
 		nameField.setLayoutData(gridData);
-		
-		btnCheckButton = new Button(container, SWT.FLAT | SWT.CHECK | SWT.CENTER);
+
+		btnCheckButton = new Button(container, SWT.FLAT | SWT.CHECK
+				| SWT.CENTER);
 		btnCheckButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -156,18 +160,18 @@ public class EditDialog extends Dialog {
 		});
 		btnCheckButton.setToolTipText("Формировать имя автоматически");
 
-	    //************** КАТАЛОГ ДЛЯ ЗАГРУЗКИ ***********************
-		
+		// ************** КАТАЛОГ ДЛЯ ЗАГРУЗКИ ***********************
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Каталог для загрузки:");
-		
+
 		pathField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();		
+		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 2;
 		pathField.setLayoutData(gridData);
-		
+
 		button = new Button(container, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -178,13 +182,13 @@ public class EditDialog extends Dialog {
 		});
 		button.setText("...");
 
-		//************** ФАЙЛ БАЗЫ ДАННЫХ ***********************
-		
+		// ************** ФАЙЛ БАЗЫ ДАННЫХ ***********************
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Файл базы данных:");
-				
+
 		db_pathField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();		
+		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 2;
@@ -200,8 +204,8 @@ public class EditDialog extends Dialog {
 		});
 		button.setText("...");
 
-		//************** ПУТЬ К SQL ***********************
-		
+		// ************** ПУТЬ К SQL ***********************
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Строка SQL-соединения:");
 
@@ -211,7 +215,7 @@ public class EditDialog extends Dialog {
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 2;
 		sql_pathField.setLayoutData(gridData);
-		
+
 		btnUpdateName = new Button(container, SWT.FLAT);
 		btnUpdateName.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -221,25 +225,25 @@ public class EditDialog extends Dialog {
 		});
 		btnUpdateName.setToolTipText("Обновить имя");
 		btnUpdateName.setText("...");
-		
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Логин, пароль к базе MS SQL:");
-				
+
 		sql_userField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();		
+		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 1;
 		sql_userField.setLayoutData(gridData);
-		
+
 		sql_passwordField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();		
+		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 1;
 		sql_passwordField.setLayoutData(gridData);
 		sql_passwordField.setEchoChar('*');
-		
+
 		button = new Button(container, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -248,16 +252,22 @@ public class EditDialog extends Dialog {
 			}
 		});
 		button.setText("<");
-		
-		
-		//************** ОПЕРАЦИИ ДЛЯ ВЫПОЛНЕНИЯ ***********************
-		
+
+		// ************** ОПЕРАЦИИ ДЛЯ ВЫПОЛНЕНИЯ ***********************
+
 		group = new Group(container, SWT.NONE);
 		group.setLayout(new GridLayout(1, false));
-		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
-		
+		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4,
+				1));
+
+		btnDeleteSourceFiles = new Button(container, SWT.CHECK);
+		btnDeleteSourceFiles.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 4, 1));
+		btnDeleteSourceFiles
+				.setText("Удалять исходные файлы при загрузке/обновлении из каталога");
+
 		for (final operationType key : operationType.values()) {
-			button = new Button(group, SWT.RADIO);	
+			button = new Button(group, SWT.RADIO);
 			button.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -265,26 +275,26 @@ public class EditDialog extends Dialog {
 					updateName();
 				}
 			});
-			button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+			button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true,
+					false, 1, 1));
 			button.setText(pico.get(IDbManager.class).getOperationName(key));
 			radioBtns.put(key, button);
-		} 
-				 		
+		}
+
 		initContents();
-		
+
 		return area;
 	}
 
 	/**
 	 * Create contents of the button bar.
+	 * 
 	 * @param parent
 	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID,
-				"Выполнить", true);
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				"Закрыть", true);
+		createButton(parent, IDialogConstants.OK_ID, "Выполнить", true);
+		createButton(parent, IDialogConstants.CANCEL_ID, "Закрыть", true);
 	}
 
 	/**
@@ -292,14 +302,14 @@ public class EditDialog extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(487, 343);
+		return new Point(487, 380);
 	}
 
 	protected void setDefaultSQL() {
 		SQLConnection sql = db.getDefaultSQL();
 		sql_pathField.setText(sql.path);
 		sql_userField.setText(sql.user);
-		sql_passwordField.setText(sql.password);		
+		sql_passwordField.setText(sql.password);
 	}
 
 	protected void browseForFile() {
@@ -307,9 +317,9 @@ public class EditDialog extends Dialog {
 	}
 
 	protected void browseForPath() {
-		Utils.browseForPath(pathField, getShell());				
+		Utils.browseForPath(pathField, getShell());
 	}
-	
+
 	@Override
 	protected void okPressed() {
 
@@ -318,17 +328,18 @@ public class EditDialog extends Dialog {
 
 		dbManager.execute(db, getShell());
 
-//		initContents();
+		// initContents();
 		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
-		
+
 		super.okPressed();
 	}
 
+	@Override
 	protected void configureShell(Shell shell) {
-	      super.configureShell(shell);
-	      shell.setText(db.getName());
-	   }
-	
+		super.configureShell(shell);
+		shell.setText(db.getName());
+	}
+
 	@Override
 	public boolean close() {
 		updateDb();

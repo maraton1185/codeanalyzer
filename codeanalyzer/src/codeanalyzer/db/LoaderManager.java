@@ -23,7 +23,7 @@ public class LoaderManager implements ILoaderManager {
 	IAuthorize sign = pico.get(IAuthorize.class);
 	DbStructure dbStructure = new DbStructure();
 	LoaderService loaderService = new LoaderService();
-		
+
 	@Override
 	public void loadFromDirectory(IDb db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException {
@@ -44,27 +44,26 @@ public class LoaderManager implements ILoaderManager {
 				// || extension.equalsIgnoreCase("meta");
 			}
 		});
-		if(files.length == 0)
-		{
+		if (files.length == 0) {
 			files = folder.listFiles(new FileFilter() {
 				@Override
 				public boolean accept(File pathname) {
 					String extension = Utils.getExtension(pathname);
 					return extension.equalsIgnoreCase("xml");
 				}
-			});			
+			});
 		}
 		int length = files.length;
 		if (length == 0)
 			throw new InvocationTargetException(new LoadConfigException(),
 					Const.ERROR_CONFIG_EMPTY);
 
-//		if (!sign.check()) {
-//			if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
-//				throw new InvocationTargetException(new LoadConfigException(),
-//						Const.ERROR_PRO_ACCESS_LOAD);
-//			}
-//		}
+		// if (!sign.check()) {
+		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
+		// throw new InvocationTargetException(new LoadConfigException(),
+		// Const.ERROR_PRO_ACCESS_LOAD);
+		// }
+		// }
 
 		// ְֳַ׀׃ַÊְ ******************************************************
 
@@ -92,14 +91,16 @@ public class LoaderManager implements ILoaderManager {
 
 			db.setState(DbState.Loaded);
 
-			monitor.beginTask("׃האכוםטו פאיכמג...", length);
-			monitor.subTask("");
-			for (File f : files) {
-				f.delete();
-				if (monitor.isCanceled()) {
-					throw new InterruptedException();
+			if (db.getDeleteSourceFiles()) {
+				monitor.beginTask("׃האכוםטו פאיכמג...", length);
+				monitor.subTask("");
+				for (File f : files) {
+					f.delete();
+					if (monitor.isCanceled()) {
+						throw new InterruptedException();
+					}
+					monitor.worked(1);
 				}
-				monitor.worked(1);
 			}
 		} catch (InterruptedException e) {
 			throw new InvocationTargetException(new InterruptedException(),
@@ -115,7 +116,7 @@ public class LoaderManager implements ILoaderManager {
 			}
 			monitor.done();
 		}
-		
+
 	}
 
 	@Override
@@ -139,11 +140,11 @@ public class LoaderManager implements ILoaderManager {
 
 	}
 
-	//*********************************************************************
-	
-	private void loadFromDirectoryDoWork(Connection con, IProgressMonitor monitor, File[] files)
-			throws Exception {				
-		
+	// *********************************************************************
+
+	private void loadFromDirectoryDoWork(Connection con,
+			IProgressMonitor monitor, File[] files) throws Exception {
+
 		for (File f : files) {
 
 			monitor.subTask(f.getName());
@@ -152,9 +153,9 @@ public class LoaderManager implements ILoaderManager {
 				String extension = Utils.getExtension(f);
 
 				if (extension.equalsIgnoreCase("txt")) {
-					loaderService .loadTxtModuleFile(con, f);
+					loaderService.loadTxtModuleFile(con, f);
 				}
-				
+
 				if (extension.equalsIgnoreCase("xml")) {
 					loaderService.loadXmlModuleFile(con, f);
 				}
@@ -165,6 +166,5 @@ public class LoaderManager implements ILoaderManager {
 			monitor.worked(1);
 		}
 	}
-	
-	
+
 }

@@ -71,6 +71,8 @@ public class LoaderService {
 						proc.text.append(string);
 					}
 
+					// parser.findCalls(proc);
+
 					service.addProcedure(con, proc, object);
 
 					currentSection = proc.section;

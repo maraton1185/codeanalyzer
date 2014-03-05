@@ -158,7 +158,14 @@ public class DbManager implements IDbManager {
 		};
 
 		try {
-			new ProgressMonitorDialog(shell).run(true, true, runnable);
+			ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
+			pmd.open();
+			Shell pShell = pmd.getShell();
+			pShell.setText(Strings.get("ProgressMonitorTitle"));
+			pShell.update();
+			pmd.run(true, true, runnable);
+			pShell.dispose();
+
 		} catch (InvocationTargetException e) {
 
 			MessageDialog.openError(shell, "Ошибка загрузки конфигурации",

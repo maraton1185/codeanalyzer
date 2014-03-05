@@ -1,6 +1,5 @@
 package codeanalyzer.core.interfaces;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -12,13 +11,18 @@ import codeanalyzer.core.interfaces.ICf.EType;
 
 public interface ITextParser {
 
-	public class ProcStartReader {
-		public ProcStartReader(BufferedReader bufferedReader) {
-			this.bufferedReader = bufferedReader;
-		}
+	// public class ProcStartReader {
+	// public ProcStartReader(BufferedReader bufferedReader) {
+	// this.bufferedReader = bufferedReader;
+	// }
+	//
+	// public BufferedReader bufferedReader;
+	// public StringBuilder temp;
+	// }
 
-		public BufferedReader bufferedReader;
-		public StringBuilder temp;
+	public class ProcCall {
+		public String context = "";
+		public String name = "";
 	}
 
 	public class Entity {
@@ -36,6 +40,7 @@ public interface ITextParser {
 		public StringBuilder text;
 		public Boolean export;
 		public String[] params;
+		public List<ProcCall> calls;
 
 		public procEntity(Entity line) {
 
@@ -59,17 +64,17 @@ public interface ITextParser {
 		}
 	}
 
-	public class metaEntity extends Entity {
-		public String property;
-		public String value;
-	}
+	// public class metaEntity extends Entity {
+	// public String property;
+	// public String value;
+	// }
 
 	public abstract void parseTxtModuleName(File f, Entity line)
 			throws Exception;
 
 	public abstract boolean isCommentOrDirective(String file_line);
 
-	public abstract List<String> findProcsInString(String _line,
+	public abstract List<ProcCall> findProcsInString(String _line,
 			String exclude_name);
 
 	public abstract boolean findCallee(String line, String calleeName);
@@ -90,5 +95,9 @@ public interface ITextParser {
 	int getProcInfo(procEntity proc, ArrayList<String> buffer,
 			ArrayList<String> vars, String currentSection)
 			throws ProcNotFoundException;
+
+	boolean isSection(String file_line);
+
+	// public abstract void findCalls(procEntity proc);
 
 }

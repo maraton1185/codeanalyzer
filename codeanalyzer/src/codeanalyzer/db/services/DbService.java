@@ -10,11 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -23,6 +19,7 @@ import codeanalyzer.build.CompareResults;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.core.interfaces.ITextParser.Entity;
+import codeanalyzer.core.interfaces.ITextParser.ProcCall;
 import codeanalyzer.core.interfaces.ITextParser.procEntity;
 import codeanalyzer.utils.AesCrypt;
 import codeanalyzer.utils.Const;
@@ -89,7 +86,11 @@ public class DbService {
 		prep.setString(6, line.proc_title);
 		prep.setBoolean(7, line.export);
 		prep.setInt(8, line.context.getInt());
-		prep.setString(9, line.section);
+		if (line.section.length() != 0)
+			prep.setString(9, line.section.substring(0,
+					line.section.length() > 199 ? 199 : line.section.length()));
+		else
+			prep.setString(9, line.section);
 
 		int affectedRows = prep.executeUpdate();
 		if (affectedRows == 0)
@@ -126,20 +127,34 @@ public class DbService {
 		if (affectedRows == 0)
 			throw new SQLException();
 
-		if (line.params == null)
-			return;
+		if (line.params != null)
 
-		for (String parameter : line.params) {
-			SQL = "INSERT INTO PROCS_PARAMETERS (PROC, KEY) VALUES (?,?)";
-			prep = con.prepareStatement(SQL);
+			for (String parameter : line.params) {
+				SQL = "INSERT INTO PROCS_PARAMETERS (PROC, KEY) VALUES (?,?)";
+				prep = con.prepareStatement(SQL);
 
-			prep.setInt(1, index);
-			prep.setString(2, parameter.trim());
+				prep.setInt(1, index);
+				prep.setString(2, parameter.trim());
 
-			affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
-		}
+				affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+			}
+
+		if (line.calls != null)
+
+			for (ProcCall call : line.calls) {
+				SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
+				prep = con.prepareStatement(SQL);
+
+				prep.setInt(1, index);
+				prep.setString(2, call.context);
+				prep.setString(3, call.name);
+
+				affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+			}
 
 	}
 
@@ -162,50 +177,52 @@ public class DbService {
 		return t.replace(" ", "").toUpperCase();
 	}
 
-	private BuildInfo getProc(Connection con, int index) throws SQLException {
-
-		BuildInfo item = new BuildInfo();
-
-		String SQL = "Select T.OBJECT, T1.TITLE1, T1.TITLE2, T.MODULE, T2.NAME, T2.TITLE, T.ID, T.TITLE, T.NAME, T.EXPORT FROM "
-				+ "PROCS AS T "
-				+ "JOIN OBJECTS AS T1 ON T.OBJECT = T1.ID "
-				+ "JOIN MODULES AS T2 ON T.MODULE = T2.ID " + "WHERE T.ID = ?";
-		PreparedStatement prep = con.prepareStatement(SQL);
-		prep.setInt(1, index);
-		ResultSet rs = prep.executeQuery();
-
-		try {
-			if (rs.next()) {
-
-				item.object = rs.getInt(1);
-				item.group1 = rs.getString(2);
-				item.group2 = rs.getString(3);
-
-				String t1 = prepareString(item.group1);
-				String t2 = prepareString(item.group2);
-				if (t1.equalsIgnoreCase(t2))
-					item.object_title = rs.getString(2);
-				else
-					item.object_title = rs.getString(2) + "." + rs.getString(3);
-				item.module = rs.getInt(4);
-				item.module_name = rs.getString(5);
-				item.module_title = rs.getString(6);
-
-				item.id = rs.getInt(7);
-				item.title = rs.getString(8);
-				// if (rs.getBoolean(10))
-				// item.title = item.title.concat(" Ёкспорт");
-				item.name = rs.getString(9);
-				item.export = rs.getBoolean(10);
-
-			} else
-				throw new SQLException();
-		} finally {
-			rs.close();
-		}
-
-		return item;
-	}
+	// private BuildInfo getProc(Connection con, int index) throws SQLException
+	// {
+	//
+	// BuildInfo item = new BuildInfo();
+	//
+	// String SQL =
+	// "Select T.OBJECT, T1.TITLE1, T1.TITLE2, T.MODULE, T2.NAME, T2.TITLE, T.ID, T.TITLE, T.NAME, T.EXPORT FROM "
+	// + "PROCS AS T "
+	// + "JOIN OBJECTS AS T1 ON T.OBJECT = T1.ID "
+	// + "JOIN MODULES AS T2 ON T.MODULE = T2.ID " + "WHERE T.ID = ?";
+	// PreparedStatement prep = con.prepareStatement(SQL);
+	// prep.setInt(1, index);
+	// ResultSet rs = prep.executeQuery();
+	//
+	// try {
+	// if (rs.next()) {
+	//
+	// item.object = rs.getInt(1);
+	// item.group1 = rs.getString(2);
+	// item.group2 = rs.getString(3);
+	//
+	// String t1 = prepareString(item.group1);
+	// String t2 = prepareString(item.group2);
+	// if (t1.equalsIgnoreCase(t2))
+	// item.object_title = rs.getString(2);
+	// else
+	// item.object_title = rs.getString(2) + "." + rs.getString(3);
+	// item.module = rs.getInt(4);
+	// item.module_name = rs.getString(5);
+	// item.module_title = rs.getString(6);
+	//
+	// item.id = rs.getInt(7);
+	// item.title = rs.getString(8);
+	// // if (rs.getBoolean(10))
+	// // item.title = item.title.concat(" Ёкспорт");
+	// item.name = rs.getString(9);
+	// item.export = rs.getBoolean(10);
+	//
+	// } else
+	// throw new SQLException();
+	// } finally {
+	// rs.close();
+	// }
+	//
+	// return item;
+	// }
 
 	public int getProcCount(Connection con) throws SQLException {
 
@@ -225,115 +242,116 @@ public class DbService {
 
 	// FINDING *************************************************************
 
-	private void findProcs(List<BuildInfo> result, Connection con,
-			String func_name, BuildInfo context) throws SQLException {
+	// private void findProcs(List<BuildInfo> result, Connection con,
+	// String func_name, BuildInfo context) throws SQLException {
+	//
+	// // String version = getVersion(con);
+	// // if (version == null) return;
+	//
+	// func_name = func_name.trim();
+	//
+	// // выделим слово перед точкой
+	// ArrayList<Integer> objects = new ArrayList<Integer>();
+	// String _p;
+	// Pattern _r;
+	// Matcher _m;
+	//
+	// _p = ".*\\.";
+	// _r = Pattern.compile(_p);
+	// _m = _r.matcher(func_name);
+	// if (_m.find()) {
+	// objects = findObject(con, _m.group().replace(".", ""));
+	// if (objects.isEmpty())
+	// return;
+	// else
+	// func_name = func_name.replace(_m.group(), "");
+	// }
+	//
+	// BuildInfo item;
+	// String SQL;
+	// PreparedStatement prep;
+	// ResultSet rs;
+	//
+	// if (objects.isEmpty()) {
+	// SQL =
+	// "Select ID from PROCS WHERE (NAME = ? AND (MODULE = ? OR OBJECT = ?))";
+	// prep = con.prepareStatement(SQL);
+	// prep.setString(1, func_name);
+	// prep.setInt(2, context.module);
+	// prep.setInt(3, context.object);
+	// } else {
+	// SQL = "Select ID from PROCS WHERE (NAME = ? AND OBJECT IN(?))";
+	// prep = con.prepareStatement(SQL);
+	// prep.setString(1, func_name);
+	// prep.setObject(2, objects.toArray());
+	// }
+	// // prep.setString(3, func_name);
+	// // prep.setInt(4, context.module);
+	// rs = prep.executeQuery();
+	//
+	// try {
+	// boolean added = false;
+	// while (rs.next()) {
+	// item = getProc(con, rs.getInt(1));
+	// // item.version = version;
+	// result.add(item);
+	// added = true;
+	// }
+	// if (added)
+	// return;
+	//
+	// rs.close();
+	// SQL = "Select ID from PROCS WHERE (NAME = ? AND MODULE != ? AND EXPORT)";
+	// prep = con.prepareStatement(SQL);
+	// prep.setString(1, func_name);
+	// prep.setInt(2, context.module);
+	// rs = prep.executeQuery();
+	// while (rs.next()) {
+	// // DONE ошибка при переходе: Ќаборƒвижений. онтрольќстатков
+	// item = getProc(con, rs.getInt(1));
+	// // item.version = version;
+	// result.add(item);
+	// }
+	//
+	// return;
+	//
+	// } finally {
+	// rs.close();
+	// }
+	//
+	// }
 
-		// String version = getVersion(con);
-		// if (version == null) return;
-
-		func_name = func_name.trim();
-
-		// выделим слово перед точкой
-		ArrayList<Integer> objects = new ArrayList<Integer>();
-		String _p;
-		Pattern _r;
-		Matcher _m;
-
-		_p = ".*\\.";
-		_r = Pattern.compile(_p);
-		_m = _r.matcher(func_name);
-		if (_m.find()) {
-			objects = findObject(con, _m.group().replace(".", ""));
-			if (objects.isEmpty())
-				return;
-			else
-				func_name = func_name.replace(_m.group(), "");
-		}
-
-		BuildInfo item;
-		String SQL;
-		PreparedStatement prep;
-		ResultSet rs;
-
-		if (objects.isEmpty()) {
-			SQL = "Select ID from PROCS WHERE (NAME = ? AND (MODULE = ? OR OBJECT = ?))";
-			prep = con.prepareStatement(SQL);
-			prep.setString(1, func_name);
-			prep.setInt(2, context.module);
-			prep.setInt(3, context.object);
-		} else {
-			SQL = "Select ID from PROCS WHERE (NAME = ? AND OBJECT IN(?))";
-			prep = con.prepareStatement(SQL);
-			prep.setString(1, func_name);
-			prep.setObject(2, objects.toArray());
-		}
-		// prep.setString(3, func_name);
-		// prep.setInt(4, context.module);
-		rs = prep.executeQuery();
-
-		try {
-			boolean added = false;
-			while (rs.next()) {
-				item = getProc(con, rs.getInt(1));
-				// item.version = version;
-				result.add(item);
-				added = true;
-			}
-			if (added)
-				return;
-
-			rs.close();
-			SQL = "Select ID from PROCS WHERE (NAME = ? AND MODULE != ? AND EXPORT)";
-			prep = con.prepareStatement(SQL);
-			prep.setString(1, func_name);
-			prep.setInt(2, context.module);
-			rs = prep.executeQuery();
-			while (rs.next()) {
-				// DONE ошибка при переходе: Ќаборƒвижений. онтрольќстатков
-				item = getProc(con, rs.getInt(1));
-				// item.version = version;
-				result.add(item);
-			}
-
-			return;
-
-		} finally {
-			rs.close();
-		}
-
-	}
-
-	private ArrayList<Integer> findObject(Connection con, String name)
-			throws SQLException {
-
-		ArrayList<Integer> result = new ArrayList<Integer>();
-
-		name = name.trim();
-
-		String SQL;
-		PreparedStatement prep;
-		ResultSet rs;
-
-		SQL = "Select ID from OBJECTS WHERE (GROUP1 = ? OR GROUP2 = ?)";
-		prep = con.prepareStatement(SQL);
-		prep.setString(1, name);
-		prep.setString(2, name);
-
-		rs = prep.executeQuery();
-
-		try {
-			while (rs.next()) {
-				result.add(rs.getInt(1));
-
-			}
-
-			return result;
-
-		} finally {
-			rs.close();
-		}
-
-	}
+	// private ArrayList<Integer> findObject(Connection con, String name)
+	// throws SQLException {
+	//
+	// ArrayList<Integer> result = new ArrayList<Integer>();
+	//
+	// name = name.trim();
+	//
+	// String SQL;
+	// PreparedStatement prep;
+	// ResultSet rs;
+	//
+	// SQL = "Select ID from OBJECTS WHERE (GROUP1 = ? OR GROUP2 = ?)";
+	// prep = con.prepareStatement(SQL);
+	// prep.setString(1, name);
+	// prep.setString(2, name);
+	//
+	// rs = prep.executeQuery();
+	//
+	// try {
+	// while (rs.next()) {
+	// result.add(rs.getInt(1));
+	//
+	// }
+	//
+	// return result;
+	//
+	// } finally {
+	// rs.close();
+	// }
+	//
+	// }
 
 	private int findProc(Connection con, int module, String name)
 			throws SQLException {
@@ -1124,92 +1142,92 @@ public class DbService {
 
 	}
 
-	public void getCalled(List<BuildInfo> list, Connection con,
-			BuildInfo context) throws SQLException, IOException {
-
-		int module = findModule(con, context);
-		if (module == 0)
-			return;
-
-		Set<String> procs = new LinkedHashSet<String>();
-
-		StringBuilder result = new StringBuilder();
-
-		String SQL = "Select T0.TEXT FROM " + "PROCS_TEXT AS T0 "
-				+ "JOIN PROCS AS T ON T.ID = T0.PROC "
-				+ "JOIN MODULES AS T2 ON T.MODULE = T2.ID "
-				+ "WHERE T.MODULE=? " + "  AND T.NAME=?";
-		PreparedStatement prep = con.prepareStatement(SQL);
-		prep.setInt(1, module);
-		prep.setString(2, context.name);
-		ResultSet rs = prep.executeQuery();
-		BufferedReader bufferedReader = null;
-
-		try {
-			if (rs.next()) {
-
-				Reader in = rs.getCharacterStream(1);
-				bufferedReader = new BufferedReader(in);
-				String line;
-				while ((line = bufferedReader.readLine()) != null) {
-					result.append(line + "\n");
-					List<String> parse = parser.findProcsInString(line,
-							context.name);
-					procs.addAll(parse);
-				}
-			}
-		} finally {
-			rs.close();
-		}
-
-		List<BuildInfo> list1 = new ArrayList<BuildInfo>();
-
-		for (String proc : procs) {
-
-			list1.clear();
-			findProcs(list1, con, proc, context);
-			switch (list1.size()) {
-			case 0:
-				break;
-			case 1:
-				list.add(list1.get(0));
-				break;
-			default:
-				BuildInfo item = new BuildInfo();
-				item.module = -1;
-				item.id = -1;
-				item.name = proc;
-				item.title = proc + "(...)";
-				item.group1 = "не опознан";
-				item.group2 = "не опознан";
-				item.export = false;
-				item.object_title = "объект";
-				item.module_title = "модуль";
-				list.add(item);
-				break;
-			}
-
-		}
-		// Collections.sort(list,new Comparator<BuildInfo>() {
-		//
-		// @Override
-		// public int compare(BuildInfo o1, BuildInfo o2) {
-		// return o1.name.compareTo(o2.name);
-		// }
-		// });
-
-	}
-
-	public void getProcsInLine(List<BuildInfo> list, Connection con,
-			String line, BuildInfo context) throws SQLException {
-
-		List<String> procs = parser.findProcsInString(line, "");
-
-		for (String proc : procs) {
-
-			findProcs(list, con, proc, context);
-		}
-	}
+	// public void getCalled(List<BuildInfo> list, Connection con,
+	// BuildInfo context) throws SQLException, IOException {
+	//
+	// int module = findModule(con, context);
+	// if (module == 0)
+	// return;
+	//
+	// Set<String> procs = new LinkedHashSet<String>();
+	//
+	// StringBuilder result = new StringBuilder();
+	//
+	// String SQL = "Select T0.TEXT FROM " + "PROCS_TEXT AS T0 "
+	// + "JOIN PROCS AS T ON T.ID = T0.PROC "
+	// + "JOIN MODULES AS T2 ON T.MODULE = T2.ID "
+	// + "WHERE T.MODULE=? " + "  AND T.NAME=?";
+	// PreparedStatement prep = con.prepareStatement(SQL);
+	// prep.setInt(1, module);
+	// prep.setString(2, context.name);
+	// ResultSet rs = prep.executeQuery();
+	// BufferedReader bufferedReader = null;
+	//
+	// try {
+	// if (rs.next()) {
+	//
+	// Reader in = rs.getCharacterStream(1);
+	// bufferedReader = new BufferedReader(in);
+	// String line;
+	// while ((line = bufferedReader.readLine()) != null) {
+	// result.append(line + "\n");
+	// List<String> parse = parser.findProcsInString(line,
+	// context.name);
+	// procs.addAll(parse);
+	// }
+	// }
+	// } finally {
+	// rs.close();
+	// }
+	//
+	// List<BuildInfo> list1 = new ArrayList<BuildInfo>();
+	//
+	// for (String proc : procs) {
+	//
+	// list1.clear();
+	// findProcs(list1, con, proc, context);
+	// switch (list1.size()) {
+	// case 0:
+	// break;
+	// case 1:
+	// list.add(list1.get(0));
+	// break;
+	// default:
+	// BuildInfo item = new BuildInfo();
+	// item.module = -1;
+	// item.id = -1;
+	// item.name = proc;
+	// item.title = proc + "(...)";
+	// item.group1 = "не опознан";
+	// item.group2 = "не опознан";
+	// item.export = false;
+	// item.object_title = "объект";
+	// item.module_title = "модуль";
+	// list.add(item);
+	// break;
+	// }
+	//
+	// }
+	// // Collections.sort(list,new Comparator<BuildInfo>() {
+	// //
+	// // @Override
+	// // public int compare(BuildInfo o1, BuildInfo o2) {
+	// // return o1.name.compareTo(o2.name);
+	// // }
+	// // });
+	//
+	// }
+	//
+	// public void getProcsInLine(List<BuildInfo> list, Connection con,
+	// String line, BuildInfo context) throws SQLException {
+	//
+	// List<String> procs = parser.findProcsInString(line, "");
+	//
+	// for (String proc : procs) {
+	//
+	// findProcs(list, con, proc, context);
+	// }
+	// }
 
 	// COMPARE *************************************************************
 

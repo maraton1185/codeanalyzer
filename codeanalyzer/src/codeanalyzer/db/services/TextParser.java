@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import codeanalyzer.core.exceptions.ProcNotFoundException;
 import codeanalyzer.core.interfaces.ICf.EContext;
+import codeanalyzer.core.interfaces.ICf.EType;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
@@ -16,7 +17,7 @@ import codeanalyzer.utils.Strings;
 public class TextParser implements ITextParser {
 
 	@Override
-	public void parseObject(File f, Entity line) throws Exception {
+	public void parseTxtModuleName(File f, Entity line) throws Exception {
 		String name = f.getName();
 		String s[] = name.split("\\.");
 		if (s.length < 3)
@@ -72,7 +73,213 @@ public class TextParser implements ITextParser {
 			break;
 		}
 
+		line.type = EType.Module;
 	}
+
+	@Override
+	public boolean findProcEnd(String source_line) {
+
+		String upper_line = source_line.toUpperCase();
+
+		String pattern = "(КОНЕЦПРОЦЕДУРЫ|КОНЕЦФУНКЦИИ)";
+		Pattern endProcPattern = Pattern.compile(pattern);
+
+		String p;
+		Pattern r;
+		Matcher m;
+
+		Matcher endProcMatcher = endProcPattern.matcher(upper_line);
+		if (endProcMatcher.find()) {
+			String endProcResult = endProcMatcher.group();
+
+			// комментарий
+			p = "/{2,}.*".concat(endProcResult);
+			r = Pattern.compile(p);
+			m = r.matcher(upper_line);
+			if (m.find())
+				return false;
+
+			// строка
+			p = "\".*".concat(endProcResult);
+			r = Pattern.compile(p);
+			m = r.matcher(upper_line);
+			if (m.find())
+				return false;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int getProcInfo(procEntity proc, ArrayList<String> buffer,
+			ArrayList<String> vars, String currentSection)
+			throws ProcNotFoundException {
+
+		boolean founded = false;
+
+		vars.clear();
+		String pattern = Const.PATTERN_PROCEDURE;
+
+		Pattern procPattern = Pattern.compile(pattern);
+		String param_list = "";
+		String p;
+		Pattern r;
+		Matcher m;
+
+		for (int line = 0; line < buffer.size(); line++) {
+
+			String source_line = buffer.get(line);
+
+			String upper_line = source_line.toUpperCase();
+
+			Matcher procMatcher = procPattern.matcher(upper_line);
+			if (!procMatcher.find()) {
+
+				vars.add(source_line);
+
+			} else {
+
+				String procResult = procMatcher.group().replace("(", "");
+
+				// комментарий
+				p = "/{2,}.*".concat(procResult);
+				r = Pattern.compile(p);
+				m = r.matcher(upper_line);
+				if (m.find()) {
+					vars.add(source_line);
+					continue;
+				}
+
+				founded = true;
+
+				// имя
+				proc.proc_name = procResult.replace("ФУНКЦИЯ", "")
+						.replace("ПРОЦЕДУРА", "").trim();
+				// представление
+				int i = source_line.indexOf(" ");
+				i = i < 0 ? source_line.indexOf("\t") : i;
+				int j = source_line.indexOf("(");
+				try {
+					proc.proc_title = source_line.substring(i, j)
+							.concat("(...)").trim();
+				} catch (Exception e) {
+					proc.proc_title = source_line;
+				}
+
+				// если в текущей строке нет ')', то читаем до него
+				p = pattern.concat(".*\\)");
+				r = Pattern.compile(p);
+				m = r.matcher(upper_line);
+
+				// DONE обработка списка параметров
+
+				param_list = source_line;
+				if (!m.find()) {
+
+					for (int q = line + 1; q < buffer.size(); q++) {
+
+						source_line = buffer.get(q);
+
+						// комментарий
+						p = ",.*/{2,}";
+						r = Pattern.compile(p);
+						m = r.matcher(source_line);
+						if (m.find()) {
+							int k = source_line.indexOf(m.group());
+							source_line = source_line.substring(0, k).trim()
+									.concat(",");
+							// file_line = __m.group().replace("/", "").trim();
+						} else
+							source_line = source_line.trim();
+
+						param_list = param_list.concat(source_line);
+
+						upper_line = source_line.toUpperCase();
+						p = ".*\\)";
+						r = Pattern.compile(p);
+						m = r.matcher(upper_line);
+						if (m.find())
+							break;
+					}
+				}
+
+				proc.export = (upper_line.indexOf("ЭКСПОРТ") >= 0);
+
+				i = param_list.indexOf("(");
+				j = param_list.indexOf(")");
+				if (i >= 0 && j >= 0)
+					param_list = param_list.substring(i + 1, j);
+
+				proc.params = param_list.split(",");
+
+				break;
+
+			}
+		}
+
+		if (!founded)
+			throw new ProcNotFoundException();
+
+		for (int k = 0; k < vars.size(); k++) {
+			buffer.remove(0);
+		}
+
+		int lineOffset = vars.size();
+
+		StringBuilder section = new StringBuilder();
+		Boolean sectionStarts = false;
+
+		int _k = 0;
+		for (int k = vars.size() - 1; k >= 0; k--) {
+			String s = vars.get(k);
+
+			if (isCommentOrDirective(s) && !sectionStarts) {
+				buffer.add(0, s);
+			} else if (isCommentOrDirective(s) && sectionStarts) {
+				section.insert(0, s);
+				buffer.add(0, s);
+			} else if (s.trim().equalsIgnoreCase("") && !sectionStarts) {
+				sectionStarts = true;
+				buffer.add(0, s);
+			} else
+				break;
+
+			_k++;
+		}
+		for (int k = 0; k < _k; k++) {
+			vars.remove(vars.size() - 1);
+		}
+
+		String _section = section.toString();
+		_section = _section.replace("//", "").replace("*", "").replace("-", "")
+				.trim();
+
+		proc.section = section.length() == 0 ? currentSection : _section;
+
+		return lineOffset;
+	}
+
+	@Override
+	public boolean isCommentOrDirective(String file_line) {
+
+		if (file_line.isEmpty())
+			return true;
+		file_line = file_line.replace(Character.toChars(65279)[0], ' ');
+		String _line = file_line.toUpperCase();
+
+		String pattern = "^\\s*(/{2,}.*|#|&)";
+		Pattern r = Pattern.compile(pattern);
+
+		Matcher m = r.matcher(_line);
+		if (m.find()) {
+			return true;
+		}
+		return false;
+	}
+
+	// ************************************************************************************
 
 	public boolean findProcStart(String file_line, String proc_name,
 			procEntity line, ProcStartReader procStart) {
@@ -180,60 +387,6 @@ public class TextParser implements ITextParser {
 
 		return false;
 
-	}
-
-	@Override
-	public boolean findProcEnd(String file_line) {
-
-		String _line = file_line.toUpperCase();
-
-		String pattern = "(КОНЕЦПРОЦЕДУРЫ|КОНЕЦФУНКЦИИ)";
-		Pattern r = Pattern.compile(pattern);
-
-		String _p;
-		Pattern _r;
-		Matcher _m;
-
-		Matcher m = r.matcher(_line);
-		if (m.find()) {
-			String v = m.group();
-
-			// комментарий
-			_p = "/{2,}.*".concat(v);
-			_r = Pattern.compile(_p);
-			_m = _r.matcher(_line);
-			if (_m.find())
-				return false;
-
-			// строка
-			_p = "\".*".concat(v);
-			_r = Pattern.compile(_p);
-			_m = _r.matcher(_line);
-			if (_m.find())
-				return false;
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public boolean isCommentOrDirective(String file_line) {
-
-		if (file_line.isEmpty())
-			return true;
-		file_line = file_line.replace(Character.toChars(65279)[0], ' ');
-		String _line = file_line.toUpperCase();
-
-		String pattern = "^\\s*(/{2,}.*|#|&)";
-		Pattern r = Pattern.compile(pattern);
-
-		Matcher m = r.matcher(_line);
-		if (m.find()) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -353,135 +506,6 @@ public class TextParser implements ITextParser {
 		}
 
 		return false;
-	}
-
-	@Override
-	public int getProcInfo(procEntity proc, ArrayList<String> buffer,
-			ArrayList<String> vars) throws ProcNotFoundException {
-
-		boolean founded = false;
-
-		vars.clear();
-		String pattern = Const.PATTERN_PROCEDURE;
-
-		Pattern r = Pattern.compile(pattern);
-		String param_list = "";
-		String _p, __p;
-		Pattern _r, __r;
-		Matcher _m, __m;
-
-		for (int line = 0; line < buffer.size(); line++) {
-
-			String file_line = buffer.get(line);
-
-			String _line = file_line.toUpperCase();
-
-			Matcher m = r.matcher(_line);
-			if (!m.find()) {
-
-				vars.add(file_line);
-
-			} else {
-
-				founded = true;
-
-				String v = m.group().replace("(", "");
-
-				// комментарий
-				_p = "/{2,}.*".concat(v);
-				_r = Pattern.compile(_p);
-				_m = _r.matcher(_line);
-				if (_m.find())
-					continue;
-
-				// имя
-				proc.proc_name = v.replace("ФУНКЦИЯ", "")
-						.replace("ПРОЦЕДУРА", "").trim();
-				// представление
-				int i = file_line.indexOf(" ");
-				i = i < 0 ? file_line.indexOf("\t") : i;
-				int j = file_line.indexOf("(");
-				try {
-					proc.proc_title = file_line.substring(i, j).concat("(...)")
-							.trim();
-				} catch (Exception e) {
-					proc.proc_title = file_line;
-				}
-
-				// если в текущей строке нет ')', то читаем до него
-				_p = pattern.concat(".*\\)");
-				_r = Pattern.compile(_p);
-				_m = _r.matcher(_line);
-
-				// DONE обработка списка параметров
-
-				param_list = file_line;
-				if (!_m.find()) {
-
-					for (int _i = line + 1; _i < buffer.size(); _i++) {
-
-						file_line = buffer.get(_i);
-
-						// комментарий
-						__p = ",.*/{2,}";
-						__r = Pattern.compile(__p);
-						__m = __r.matcher(file_line);
-						if (__m.find()) {
-							int k = file_line.indexOf(__m.group());
-							file_line = file_line.substring(0, k).trim()
-									.concat(",");
-							// file_line = __m.group().replace("/", "").trim();
-						} else
-							file_line = file_line.trim();
-
-						param_list = param_list.concat(file_line);
-
-						_line = file_line.toUpperCase();
-						_p = ".*\\)";
-						_r = Pattern.compile(_p);
-						_m = _r.matcher(_line);
-						if (_m.find())
-							break;
-					}
-				}
-
-				proc.export = (_line.indexOf("ЭКСПОРТ") >= 0);
-
-				i = param_list.indexOf("(");
-				j = param_list.indexOf(")");
-				if (i >= 0 && j >= 0)
-					param_list = param_list.substring(i + 1, j);
-
-				proc.params = param_list.split(",");
-
-				break;
-
-			}
-		}
-
-		if (!founded)
-			throw new ProcNotFoundException();
-
-		for (int k = 0; k < vars.size(); k++) {
-			buffer.remove(0);
-		}
-
-		int lineOffset = vars.size();
-
-		int _k = 0;
-		for (int k = vars.size() - 1; k >= 0; k--) {
-			String s = vars.get(k);
-			if (isCommentOrDirective(vars.get(k))) {
-				buffer.add(0, s);
-				_k++;
-			} else
-				break;
-		}
-		for (int k = 0; k < _k; k++) {
-			vars.remove(vars.size() - 1);
-		}
-
-		return lineOffset;
 	}
 
 	@Override

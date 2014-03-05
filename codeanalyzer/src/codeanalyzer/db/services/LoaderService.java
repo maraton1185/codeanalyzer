@@ -29,7 +29,7 @@ public class LoaderService {
 		BufferedReader bufferedReader = null;
 		try {
 
-			parser.parseObject(f, line);
+			parser.parseTxtModuleName(f, line);
 
 			Integer object = service.addObject(con, line);
 
@@ -41,18 +41,19 @@ public class LoaderService {
 			ArrayList<String> buffer = new ArrayList<String>();
 			ArrayList<String> vars = new ArrayList<String>();
 
-			Boolean procWasFound = false;
-			String file_line = null;
+			Boolean firstProcWasFound = false;
+			String source_line = null;
+			String currentSection = "";
 
-			while ((file_line = bufferedReader.readLine()) != null) {
+			while ((source_line = bufferedReader.readLine()) != null) {
 
-				buffer.add(file_line + "\n");
+				buffer.add(source_line + "\n");
 
-				if (parser.findProcEnd(file_line)) {
+				if (parser.findProcEnd(source_line)) {
 
 					procEntity proc = new procEntity(line);
-					parser.getProcInfo(proc, buffer, vars);
-					if (!procWasFound && !vars.isEmpty()) {
+					parser.getProcInfo(proc, buffer, vars, currentSection);
+					if (!firstProcWasFound && !vars.isEmpty()) {
 						procEntity var = new procEntity(line);
 						var.proc_name = Const.STRING_VARS;
 						var.proc_title = Const.STRING_VARS_TITLE;
@@ -72,8 +73,10 @@ public class LoaderService {
 
 					service.addProcedure(con, proc, object);
 
+					currentSection = proc.section;
+
 					buffer.clear();
-					procWasFound = true;
+					firstProcWasFound = true;
 				}
 
 			}

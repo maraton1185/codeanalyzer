@@ -49,12 +49,13 @@ public class DbService {
 			rs.close();
 		}
 
-		SQL = "INSERT INTO OBJECTS (GROUP1, GROUP2, MODULE) VALUES (?,?,?)";
+		SQL = "INSERT INTO OBJECTS (GROUP1, GROUP2, MODULE, TYPE) VALUES (?,?,?,?)";
 		prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 		prep.setString(1, line.group1.toUpperCase());
 		prep.setString(2, line.group2.toUpperCase());
 		prep.setString(3, line.module.toUpperCase());
+		prep.setInt(4, line.type.getInt());
 
 		ResultSet generatedKeys = null;
 		try {
@@ -76,7 +77,7 @@ public class DbService {
 	public void addProcedure(Connection con, procEntity line, Integer object)
 			throws SQLException {
 
-		String SQL = "INSERT INTO PROCS (OBJECT, GROUP1, GROUP2, MODULE, NAME, TITLE, EXPORT, CONTEXT) VALUES (?,?,?,?,?,?,?,?)";
+		String SQL = "INSERT INTO PROCS (OBJECT, GROUP1, GROUP2, MODULE, NAME, TITLE, EXPORT, CONTEXT, SECTION) VALUES (?,?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = con.prepareStatement(SQL,
 				Statement.RETURN_GENERATED_KEYS);
 
@@ -88,6 +89,7 @@ public class DbService {
 		prep.setString(6, line.proc_title);
 		prep.setBoolean(7, line.export);
 		prep.setInt(8, line.context.getInt());
+		prep.setString(9, line.section);
 
 		int affectedRows = prep.executeUpdate();
 		if (affectedRows == 0)

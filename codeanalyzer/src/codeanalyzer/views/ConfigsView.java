@@ -10,7 +10,6 @@ import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -31,7 +30,6 @@ import org.eclipse.swt.widgets.Table;
 
 import codeanalyzer.core.E4Services;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
@@ -70,8 +68,6 @@ public class ConfigsView {
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService,
 			final EHandlerService hService, final ECommandService comService) {
-
-		initActions();
 
 		Composite tableComposite = new Composite(parent, SWT.NONE);
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
@@ -191,49 +187,4 @@ public class ConfigsView {
 
 	}
 
-	@Inject
-	@Optional
-	public void showStatus(@UIEventTopic(Const.EVENT_UPDATE_STATUS) Object o) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				final String status = pico.get(IAuthorize.class).getInfo()
-						.ShortMessage();
-				E4Services.sync.asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						MHandledToolItem element = (MHandledToolItem) E4Services.model
-								.find(Strings.get("model_id_activate"),
-										E4Services.app);
-						element.setLabel(status);
-						element.setVisible(true);
-					}
-				});
-			}
-		}).start();
-	}
-
-	private void initActions() {
-
-		// E4Services.br.send(Const.EVENT_UPDATE_STATUS, null);
-
-		// // setting the progress monitor
-		// IJobManager manager = Job.getJobManager();
-		//
-		// // ToolItem has the ID "statusbar" in the model
-		// MToolControl element = (MToolControl) E4Services.model.find(
-		// Strings.get("model.id.statustool"), E4Services.app);
-		//
-		// Object widget = element.getObject();
-		// final IProgressMonitor p = (IProgressMonitor) widget;
-		// ProgressProvider provider = new ProgressProvider() {
-		// @Override
-		// public IProgressMonitor createMonitor(Job job) {
-		// return p;
-		// }
-		// };
-		//
-		// manager.setProgressProvider(provider);
-
-	}
 }

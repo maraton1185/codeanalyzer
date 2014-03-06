@@ -13,7 +13,7 @@ import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.utils.Const;
 
-public class JobService extends Job {
+public class FillProcLinkTableJob extends Job {
 
 	ILoaderManager loaderManager = pico.get(ILoaderManager.class);
 
@@ -21,7 +21,7 @@ public class JobService extends Job {
 
 	private IDb db;
 
-	public JobService(IDb db) {
+	public FillProcLinkTableJob(IDb db) {
 		super(db.getName());
 		// this.family = family;
 		this.db = db;
@@ -32,14 +32,7 @@ public class JobService extends Job {
 
 		try {
 
-			switch (db.getType()) {
-			case fillProcLinkTable:
-				loaderManager.fillProcLinkTable(db, monitor);
-				break;
-			default:
-				break;
-			}
-
+			loaderManager.fillProcLinkTable(db, monitor);
 			E4Services.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 
 			return Status.OK_STATUS;

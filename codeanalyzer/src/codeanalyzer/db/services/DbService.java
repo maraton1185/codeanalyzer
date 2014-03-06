@@ -36,8 +36,8 @@ public class DbService {
 
 		String SQL = "Select ID from OBJECTS WHERE GROUP1=? AND GROUP2=?";
 		PreparedStatement prep = con.prepareStatement(SQL);
-		prep.setString(1, line.group1.toUpperCase());
-		prep.setString(2, line.group2.toUpperCase());
+		prep.setString(1, line.group1);
+		prep.setString(2, line.group2);
 		ResultSet rs = prep.executeQuery();
 		try {
 			if (rs.next())
@@ -49,9 +49,9 @@ public class DbService {
 		SQL = "INSERT INTO OBJECTS (GROUP1, GROUP2, MODULE, TYPE) VALUES (?,?,?,?)";
 		prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-		prep.setString(1, line.group1.toUpperCase());
-		prep.setString(2, line.group2.toUpperCase());
-		prep.setString(3, line.module.toUpperCase());
+		prep.setString(1, line.group1);
+		prep.setString(2, line.group2);
+		prep.setString(3, line.module);
 		prep.setInt(4, line.type.getInt());
 
 		ResultSet generatedKeys = null;
@@ -79,9 +79,9 @@ public class DbService {
 				Statement.RETURN_GENERATED_KEYS);
 
 		prep.setInt(1, object);
-		prep.setString(2, line.group1.toUpperCase());
-		prep.setString(3, line.group2.toUpperCase());
-		prep.setString(4, line.module.toUpperCase());
+		prep.setString(2, line.group1);
+		prep.setString(3, line.group2);
+		prep.setString(4, line.module);
 		prep.setString(5, line.proc_name.toUpperCase());
 		prep.setString(6, line.proc_title);
 		prep.setBoolean(7, line.export);
@@ -1647,7 +1647,7 @@ public class DbService {
 
 		List<procEntity> list = new ArrayList<procEntity>();
 
-		String SQL = "SELECT T.ID, T.NAME FROM PROCS AS T";
+		String SQL = "SELECT T.ID, T.NAME, T.GROUP1, T.GROUP2 FROM PROCS AS T";
 
 		PreparedStatement prep = con.prepareStatement(SQL);
 		ResultSet rs = prep.executeQuery();
@@ -1658,6 +1658,8 @@ public class DbService {
 				procEntity item = new procEntity(false);
 				item.id = rs.getInt(1);
 				item.proc_name = rs.getString(2);
+				item.group1 = rs.getString(3);
+				item.group2 = rs.getString(4);
 
 				list.add(item);
 			}

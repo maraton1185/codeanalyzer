@@ -21,34 +21,6 @@ public class ConfigListExecute {
 		dbManager.execute(db, shell);
 		E4Services.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 
-		// Job job = new Job("My Job") {
-		// @Override
-		// protected IStatus run(IProgressMonitor monitor) {
-		// // set total number of work units
-		// monitor.beginTask("Doing something time consuming here", 100);
-		//
-		// for (int i = 0; i < 5; i++) {
-		// try {
-		// // sleep a second
-		// TimeUnit.SECONDS.sleep(1);
-		//
-		// monitor.subTask("I'm doing something here " + i);
-		//
-		// // report that 20 additional units are done
-		// monitor.worked(20);
-		// } catch (InterruptedException e1) {
-		// e1.printStackTrace();
-		// return Status.CANCEL_STATUS;
-		// }
-		// }
-		// System.out.println("Called save");
-		// return Status.OK_STATUS;
-		// }
-		// };
-		//
-		// job.setUser(true);
-		// job.schedule();
-
 	}
 
 	@CanExecute

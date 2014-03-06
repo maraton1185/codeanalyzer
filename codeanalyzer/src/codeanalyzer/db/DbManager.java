@@ -24,7 +24,7 @@ import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.core.interfaces.ILoaderManager.operationType;
-import codeanalyzer.db.services.JobService;
+import codeanalyzer.db.services.FillProcLinkTableJob;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
@@ -143,35 +143,15 @@ public class DbManager implements IDbManager {
 
 				switch (db.getType()) {
 				case fromDirectory:
-					loaderManager.loadFromDirectory(db, monitor);
+					// loaderManager.loadFromDirectory(db, monitor);
+					sheduleFillProcLinkTableJob(db);
 					break;
 				case fromDb:
 					// loaderService.loadFromDb(db, monitor);
 					break;
 				case fillProcLinkTable:
 
-					// setting the progress monitor
-					IJobManager manager = Job.getJobManager();
-
-					// ToolItem has the ID "statusbar" in the model
-					MToolControl element = (MToolControl) E4Services.model
-							.find(Strings.get("model.id.statustool"),
-									E4Services.app);
-
-					Object widget = element.getObject();
-					final IProgressMonitor p = (IProgressMonitor) widget;
-					ProgressProvider provider = new ProgressProvider() {
-						@Override
-						public IProgressMonitor createMonitor(Job job) {
-							return p;
-						}
-					};
-
-					manager.setProgressProvider(provider);
-
-					JobService job = new JobService(db);
-					job.schedule();
-					// loaderManager.fillProcLinkTable(db, monitor);
+					loaderManager.fillProcLinkTable(db, monitor);
 					break;
 				case update:
 					// loaderService.update(db, monitor);
@@ -215,4 +195,27 @@ public class DbManager implements IDbManager {
 
 	}
 
+	private void sheduleFillProcLinkTableJob(IDb db) {
+
+		// setting the progress monitor
+		IJobManager manager = Job.getJobManager();
+
+		// ToolItem has the ID "statusbar" in the model
+		MToolControl element = (MToolControl) E4Services.model.find(
+				Strings.get("model.id.statustool"), E4Services.app);
+
+		Object widget = element.getObject();
+		final IProgressMonitor p = (IProgressMonitor) widget;
+		ProgressProvider provider = new ProgressProvider() {
+			@Override
+			public IProgressMonitor createMonitor(Job job) {
+				return p;
+			}
+		};
+
+		manager.setProgressProvider(provider);
+
+		FillProcLinkTableJob job = new FillProcLinkTableJob(db);
+		job.schedule();
+	}
 }

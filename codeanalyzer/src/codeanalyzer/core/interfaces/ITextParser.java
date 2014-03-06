@@ -34,6 +34,8 @@ public interface ITextParser {
 	}
 
 	public class procEntity extends Entity {
+
+		public int id;
 		public String proc_name;
 		public String proc_title;
 		public String section;
@@ -42,17 +44,24 @@ public interface ITextParser {
 		public String[] params;
 		public List<ProcCall> calls;
 
+		public procEntity(boolean init) {
+
+			if (init)
+				for (Field f : this.getClass().getFields()) {
+					try {
+						if (f.getType().isAssignableFrom(String.class))
+							f.set(this, "");
+						if (f.getType().isAssignableFrom(Boolean.class))
+							f.set(this, false);
+					} catch (Exception e) {
+					}
+				}
+
+		}
+
 		public procEntity(Entity line) {
 
-			for (Field f : this.getClass().getFields()) {
-				try {
-					if (f.getType().isAssignableFrom(String.class))
-						f.set(this, "");
-					if (f.getType().isAssignableFrom(Boolean.class))
-						f.set(this, false);
-				} catch (Exception e) {
-				}
-			}
+			this(true);
 
 			for (Field f : line.getClass().getFields()) {
 				try {

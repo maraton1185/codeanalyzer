@@ -112,6 +112,25 @@ public class DbService {
 
 	}
 
+	public void addProcCalls(Connection con, procEntity line, Integer index)
+			throws SQLException {
+
+		if (line.calls != null)
+
+			for (ProcCall call : line.calls) {
+				String SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
+				PreparedStatement prep = con.prepareStatement(SQL);
+
+				prep.setInt(1, index);
+				prep.setString(2, call.context);
+				prep.setString(3, call.name);
+
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+			}
+	}
+
 	private void addProcInfo(Connection con, procEntity line, Integer index)
 			throws SQLException {
 
@@ -135,21 +154,6 @@ public class DbService {
 
 				prep.setInt(1, index);
 				prep.setString(2, parameter.trim());
-
-				affectedRows = prep.executeUpdate();
-				if (affectedRows == 0)
-					throw new SQLException();
-			}
-
-		if (line.calls != null)
-
-			for (ProcCall call : line.calls) {
-				SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
-				prep = con.prepareStatement(SQL);
-
-				prep.setInt(1, index);
-				prep.setString(2, call.context);
-				prep.setString(3, call.name);
 
 				affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)
@@ -1637,6 +1641,30 @@ public class DbService {
 			rs.close();
 		}
 		return result.toString();
+	}
+
+	public List<procEntity> getProcs(Connection con) throws SQLException {
+
+		List<procEntity> list = new ArrayList<procEntity>();
+
+		String SQL = "SELECT T.ID, T.NAME FROM PROCS AS T";
+
+		PreparedStatement prep = con.prepareStatement(SQL);
+		ResultSet rs = prep.executeQuery();
+
+		try {
+			while (rs.next()) {
+
+				procEntity item = new procEntity(false);
+				item.id = rs.getInt(1);
+				item.proc_name = rs.getString(2);
+
+				list.add(item);
+			}
+		} finally {
+			rs.close();
+		}
+		return list;
 	}
 
 	// public String getVersion(Connection con) throws SQLException {

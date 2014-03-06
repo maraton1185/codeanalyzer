@@ -8,10 +8,15 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.core.runtime.IProgressMonitor;
 
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.core.interfaces.ITextParser.Entity;
+import codeanalyzer.core.interfaces.ITextParser.ProcCall;
 import codeanalyzer.core.interfaces.ITextParser.procEntity;
 import codeanalyzer.utils.Const;
 
@@ -115,4 +120,45 @@ public class LoaderService {
 
 	}
 
+	public void fillProcLinkTableDoWork(Connection con, IProgressMonitor monitor)
+			throws Exception {
+
+		monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE,
+				service.getProcCount(con));
+
+		List<procEntity> procs = service.getProcs(con);
+
+		ArrayList<String> buffer = new ArrayList<String>();
+
+		for (procEntity proc : procs) {
+
+			monitor.subTask(proc.group1 + "." + proc.group2);
+
+			String text = service.getProcText(con, proc.id);
+			buffer = new ArrayList<String>(Arrays.asList(text.split("\n")));
+
+			proc.calls = new ArrayList<ProcCall>();
+
+			for (int line = 0; line < buffer.size(); line++) {
+
+				String source_line = buffer.get(line);
+
+				List<ProcCall> calls = parser.findProcsInString(source_line,
+						proc.proc_name);
+
+				for (ProcCall call : calls) {
+					proc.calls.add(call);
+				}
+
+			}
+
+			service.addProcCalls(con, proc, proc.id);
+
+			if (monitor.isCanceled()) {
+				throw new InterruptedException();
+			}
+			monitor.worked(1);
+		}
+
+	}
 }

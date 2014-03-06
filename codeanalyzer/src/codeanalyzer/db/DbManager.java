@@ -8,23 +8,29 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.ProgressProvider;
+import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.core.E4Services;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.core.interfaces.ILoaderManager.operationType;
+import codeanalyzer.db.services.JobService;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 public class DbManager implements IDbManager {
 
-	ILoaderManager loaderService = pico.get(ILoaderManager.class);
+	ILoaderManager loaderManager = pico.get(ILoaderManager.class);
 
 	List<IDb> dbs = new ArrayList<IDb>();
 	IDb active;
@@ -43,8 +49,8 @@ public class DbManager implements IDbManager {
 				Strings.get("operationType.fromDb"));
 		operationNames.put(operationType.fromSQL,
 				Strings.get("operationType.fromSQL"));
-		// operationNames.put(operationType.fillProcLinkTable,
-		// "—формировать таблицу взаимных вызовов");
+		operationNames.put(operationType.fillProcLinkTable,
+				Strings.get("operationType.fillProcLinkTable"));
 
 		String activeKey = PreferenceSupplier
 				.get(PreferenceSupplier.BASE_ACTIVE);
@@ -137,14 +143,36 @@ public class DbManager implements IDbManager {
 
 				switch (db.getType()) {
 				case fromDirectory:
-					loaderService.loadFromDirectory(db, monitor);
+					loaderManager.loadFromDirectory(db, monitor);
 					break;
 				case fromDb:
 					// loaderService.loadFromDb(db, monitor);
 					break;
-				// case fillProcLinkTable:
-				// loaderService.fillProcLinkTable(db, monitor);
-				// break;
+				case fillProcLinkTable:
+
+					// setting the progress monitor
+					IJobManager manager = Job.getJobManager();
+
+					// ToolItem has the ID "statusbar" in the model
+					MToolControl element = (MToolControl) E4Services.model
+							.find(Strings.get("model.id.statustool"),
+									E4Services.app);
+
+					Object widget = element.getObject();
+					final IProgressMonitor p = (IProgressMonitor) widget;
+					ProgressProvider provider = new ProgressProvider() {
+						@Override
+						public IProgressMonitor createMonitor(Job job) {
+							return p;
+						}
+					};
+
+					manager.setProgressProvider(provider);
+
+					JobService job = new JobService(db);
+					job.schedule();
+					// loaderManager.fillProcLinkTable(db, monitor);
+					break;
 				case update:
 					// loaderService.update(db, monitor);
 					break;

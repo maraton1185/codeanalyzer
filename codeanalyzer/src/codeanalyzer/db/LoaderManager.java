@@ -140,6 +140,63 @@ public class LoaderManager implements ILoaderManager {
 
 	}
 
+	@Override
+	public void fillProcLinkTable(IDb db, IProgressMonitor monitor)
+			throws InvocationTargetException {
+
+		// ПРОВЕРКИ ******************************************************
+
+		// if (!sign.check()) {
+		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
+		// throw new InvocationTargetException(new LoadConfigException(),
+		// Const.ERROR_PRO_ACCESS_LOAD);
+		// }
+		// }
+
+		// ЗАГРУЗКА ******************************************************
+
+		Connection con = null;
+		try {
+
+			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
+
+			dbStructure.checkSructure(db);
+
+			con = db.getConnection(true);
+
+			// monitor.beginTask("Загрузка конфигурации...", dbService.);
+
+			loaderService.fillProcLinkTableDoWork(con, monitor);
+
+			// monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE,
+			// cfg.getProcCount(con));
+
+			// fillProcLinkTableDoWork(monitor, cfg, con);
+			if (!sign.check())
+				if (!dbStructure.checkLisence(db))
+					throw new InvocationTargetException(
+							new InterruptedException(),
+							Const.ERROR_PRO_ACCESS_LOAD);
+
+			db.setState(DbState.LoadedWithLinkTable);
+
+		} catch (InterruptedException e) {
+			throw new InvocationTargetException(new InterruptedException(),
+					Const.ERROR_CONFIG_INTERRUPT);
+		} catch (Exception e) {
+			throw new InvocationTargetException(e, e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (Exception e) {
+				throw new InvocationTargetException(e,
+						Const.ERROR_CONFIG_OPEN_DATABASE);
+			}
+			monitor.done();
+		}
+
+	}
+
 	// *********************************************************************
 
 	private void loadFromDirectoryDoWork(Connection con,

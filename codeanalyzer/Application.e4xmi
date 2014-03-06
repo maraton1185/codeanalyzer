@@ -103,6 +103,7 @@
   <addons xmi:id="_cMG-hplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_cMG-h5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
   <addons xmi:id="_cMG-iJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+  <addons xmi:id="_8s06UKUREeOSI7Izut2c3w" elementId="codeanalyzer.addon.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.core.E4Services"/>
   <categories xmi:id="_aAX0sJrREeOlcttaCxvpFw" elementId="codeanalyzer.category.0" name="Дерево объектов" description="Дерево объектов"/>
   <categories xmi:id="_dwR08JrREeOlcttaCxvpFw" elementId="codeanalyzer.category.1" name="Главное меню"/>
 </application:Application>

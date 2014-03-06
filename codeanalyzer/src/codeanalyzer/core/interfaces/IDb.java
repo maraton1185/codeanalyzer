@@ -11,8 +11,7 @@ import codeanalyzer.db.DbInfo.SQLConnection;
 public interface IDb {
 
 	public static enum DbState {
-		notLoaded, Loaded
-		// , LoadedWithLinkTable
+		notLoaded, Loaded, LoadedWithLinkTable
 	}
 
 	// —“¿“”— ******************************************************

@@ -216,6 +216,7 @@ public class DbManager implements IDbManager {
 		manager.setProgressProvider(provider);
 
 		FillProcLinkTableJob job = new FillProcLinkTableJob(db);
+		job.setRule(job.new rule());
 		job.schedule();
 	}
 }

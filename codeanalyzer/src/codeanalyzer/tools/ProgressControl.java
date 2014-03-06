@@ -41,6 +41,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Override
 	public void beginTask(final String name, final int totalWork) {
+
 		sync.syncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -56,7 +57,6 @@ public class ProgressControl implements IProgressMonitor {
 	@Override
 	public void done() {
 		System.out.println("Done");
-
 	}
 
 	@Override

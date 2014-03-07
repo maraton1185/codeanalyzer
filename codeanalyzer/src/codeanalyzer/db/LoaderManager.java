@@ -8,6 +8,8 @@ import java.sql.Connection;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import codeanalyzer.core.pico;
+import codeanalyzer.core.exceptions.DbStructureException;
+import codeanalyzer.core.exceptions.LinksExistsException;
 import codeanalyzer.core.exceptions.LoadConfigException;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.core.interfaces.IDb;
@@ -119,9 +121,56 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void loadFromDb(IDb db, IProgressMonitor monitor)
-			throws InvocationTargetException {
-		// TODO Auto-generated method stub
+	public void loadFromDb(IDb db) throws InvocationTargetException {
+
+		// ÏÐÎÂÅÐÊÈ ******************************************************
+
+		File folder = db.getDbPath().toFile();
+		if (!folder.exists())
+			throw new InvocationTargetException(new LoadConfigException(),
+					Const.ERROR_CONFIG_PATH);
+
+		// ÇÀÃÐÓÇÊÀ ******************************************************
+		Connection con = null;
+		try {
+
+			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
+
+			con = db.getConnection(true);
+
+			dbStructure.checkSructure(db);
+
+			if (loaderService.linkTableFilled(con)) {
+				db.setState(DbState.Loaded);
+				db.setLinkState(DbState.Loaded);
+			} else
+				db.setState(DbState.Loaded);
+
+			// if (!sign.check())
+			// if (!checkLisence(db))
+			// throw new LiscenseException();
+			//
+			// db.setState(DbState.Loaded);
+
+			// } catch (LiscenseException e) {
+			// throw new InvocationTargetException(e, e.message);
+			// } catch (InterruptedException e) {
+			// throw new InvocationTargetException(new InterruptedException(),
+			// Const.ERROR_CONFIG_INTERRUPT);
+		} catch (DbStructureException e) {
+			throw new InvocationTargetException(e, e.getMessage());
+		} catch (Exception e) {
+			throw new InvocationTargetException(e, e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (Exception e) {
+				throw new InvocationTargetException(e,
+						Const.ERROR_CONFIG_OPEN_DATABASE);
+			}
+			// monitor.done();
+
+		}
 
 	}
 
@@ -146,11 +195,13 @@ public class LoaderManager implements ILoaderManager {
 		// ÏÐÎÂÅÐÊÈ ******************************************************
 
 		if (db.getState() != DbState.Loaded)
-			throw new InvocationTargetException(new InterruptedException(),
+			throw new InvocationTargetException(new Exception(),
 					Const.ERROR_CONFIG_LOADED);
 
 		if (db.getLinkState() == DbState.Loaded)
-			return;
+			throw new InvocationTargetException(new LinksExistsException(),
+					Const.ERROR_LINK_LOADED);
+
 		// if (!sign.check()) {
 		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
 		// throw new InvocationTargetException(new LoadConfigException(),
@@ -184,8 +235,18 @@ public class LoaderManager implements ILoaderManager {
 			db.setLinkState(DbState.Loaded);
 
 		} catch (InterruptedException e) {
+
+			try {
+				loaderService.clearLinkTable(con);
+
+			} catch (Exception e1) {
+				throw new InvocationTargetException(e,
+						Const.ERROR_CONFIG_OPEN_DATABASE);
+			}
+
 			throw new InvocationTargetException(new InterruptedException(),
 					Const.ERROR_CONFIG_INTERRUPT);
+
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		} finally {

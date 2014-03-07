@@ -104,6 +104,7 @@ public class Const {
 	public static final String ERROR_CONFIG_PATH = "\n Каталог конфигурации не существует";
 	public static final String ERROR_CONFIG_EMPTY = "\n Каталог конфигурации пуст";
 	public static final String ERROR_CONFIG_LOADED = "\n Конфигурация не загружена";
+	public static final String ERROR_LINK_LOADED = "\n Таблица вызовов уже сформирована";
 	public static final String ERROR_CONFIG_INTERRUPT = "\n Отменено пользователем";
 	public static final String ERROR_CONFIG_READFILE = "\n Ошибка загрузки файла: \n";
 	public static final String ERROR_CONFIG_READOBJECT = "\n Ошибка загрузки объекта: \n";
@@ -174,5 +175,9 @@ public class Const {
 	public static final String EVENT_UPDATE_STATUS = "update_status";
 	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";
 	public static final String CONTEXT_SELECTED_DB = "context_selected_db";
+	public static final String EVENT_PROGRESS_WORKED = "EVENT_PROGRESS_WORKED";
+	public static final String EVENT_PROGRESS_BEGIN_TASK = "EVENT_PROGRESS_BEGIN_TASK";
+	public static final String EVENT_PROGRESS_DONE = "EVENT_PROGRESS_DONE";
+	public static final String EVENT_PROGRESS_ERROR = "EVENT_PROGRESS_ERROR";
 
 }

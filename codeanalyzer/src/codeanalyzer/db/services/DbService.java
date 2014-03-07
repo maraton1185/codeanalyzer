@@ -177,8 +177,46 @@ public class DbService {
 
 	// SERVICE *************************************************************
 
+	public boolean linkTableFilled(Connection con) throws SQLException {
+		String SQL = "Select COUNT(ID) from LINKS";
+		Statement stat = con.createStatement();
+		ResultSet rs = stat.executeQuery(SQL);
+
+		try {
+			if (rs.next())
+				return rs.getInt(1) != 0;
+			else
+				throw new SQLException();
+		} finally {
+			rs.close();
+		}
+	}
+
+	public void clearLinkTable(Connection con) throws SQLException {
+		String SQL = "DELETE FROM LINKS";
+		PreparedStatement prep = con.prepareStatement(SQL);
+		prep.executeUpdate();
+
+	}
+
 	private String prepareString(String t) {
 		return t.replace(" ", "").toUpperCase();
+	}
+
+	public int getProcCount(Connection con) throws SQLException {
+
+		String SQL = "Select COUNT(ID) from PROCS";
+		Statement stat = con.createStatement();
+		ResultSet rs = stat.executeQuery(SQL);
+
+		try {
+			if (rs.next())
+				return rs.getInt(1);
+			else
+				throw new SQLException();
+		} finally {
+			rs.close();
+		}
 	}
 
 	// private BuildInfo getProc(Connection con, int index) throws SQLException
@@ -227,22 +265,6 @@ public class DbService {
 	//
 	// return item;
 	// }
-
-	public int getProcCount(Connection con) throws SQLException {
-
-		String SQL = "Select COUNT(ID) from PROCS";
-		Statement stat = con.createStatement();
-		ResultSet rs = stat.executeQuery(SQL);
-
-		try {
-			if (rs.next())
-				return rs.getInt(1);
-			else
-				throw new SQLException();
-		} finally {
-			rs.close();
-		}
-	}
 
 	// FINDING *************************************************************
 

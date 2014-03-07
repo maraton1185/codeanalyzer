@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
+import codeanalyzer.core.exceptions.DbStructureException;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Utils;
@@ -98,7 +99,7 @@ public class DbStructure {
 	}
 
 	public void checkSructure(IDb db) throws FileNotFoundException,
-			SQLException {
+			DbStructureException, SQLException {
 
 		final class checker {
 			boolean checkColumns(DatabaseMetaData metadata, String table,
@@ -147,13 +148,13 @@ public class DbStructure {
 							"OBJECT, MODULE, KEY, TYPE");
 
 		} catch (Exception e) {
-			throw new SQLException();
+			throw new DbStructureException();
 		} finally {
 			con.close();
 		}
 
 		if (!haveStructure)
-			throw new SQLException();
+			throw new DbStructureException();
 
 	}
 

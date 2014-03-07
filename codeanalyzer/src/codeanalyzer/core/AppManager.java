@@ -30,6 +30,7 @@ public class AppManager {
 	public static UISynchronize sync;
 	public static EModelService model;
 	public static MApplication app;
+	public static boolean closing = false;
 
 	@PostContextCreate
 	public void postContextCreate() {
@@ -105,6 +106,7 @@ public class AppManager {
 		@Override
 		public boolean close(MWindow window) {
 
+			AppManager.closing = true;
 			IJobManager jobMan = Job.getJobManager();
 			jobMan.cancel(FillProcLinkTableJob.MY_FAMILY);
 			try {
@@ -114,17 +116,6 @@ public class AppManager {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
-			// Shell shell = (Shell) window.getWidget();
-			//
-			// if (MessageDialog.openConfirm(shell,
-			// Strings.get("QuitHandlerTitle"),
-			// Strings.get("QuitHandlerText"))) {
-			//
-			// // if (MessageDialog.openConfirm(shell, "Confirmation",
-			// // "Do you want to exit?")) {
-			// return true;
-			// }
 			return true;
 		}
 	}

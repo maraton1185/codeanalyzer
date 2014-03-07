@@ -132,6 +132,10 @@ public class LoaderService {
 
 		for (procEntity proc : procs) {
 
+			if (monitor.isCanceled()) {
+				throw new InterruptedException();
+			}
+
 			monitor.subTask(proc.group1 + "." + proc.group2);
 
 			String text = service.getProcText(con, proc.id);
@@ -154,11 +158,17 @@ public class LoaderService {
 
 			service.addProcCalls(con, proc, proc.id);
 
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
 			monitor.worked(1);
 		}
+
+	}
+
+	public boolean linkTableFilled(Connection con) throws Exception {
+		return service.linkTableFilled(con);
+	}
+
+	public void clearLinkTable(Connection con) throws Exception {
+		service.clearLinkTable(con);
 
 	}
 }

@@ -13,8 +13,7 @@ public interface ILoaderManager {
 	void loadFromDirectory(IDb db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException;
 
-	void loadFromDb(IDb db, IProgressMonitor monitor)
-			throws InvocationTargetException;
+	void loadFromDb(IDb db) throws InvocationTargetException;
 
 	void fillProcLinkTable(IDb db, IProgressMonitor monitor)
 			throws InvocationTargetException;

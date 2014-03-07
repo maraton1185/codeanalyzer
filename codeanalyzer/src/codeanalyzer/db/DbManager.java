@@ -15,6 +15,7 @@ import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.AppManager;
@@ -26,6 +27,7 @@ import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.db.services.FillProcLinkTableJob;
 import codeanalyzer.tools.ProgressControl;
+import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
@@ -139,7 +141,27 @@ public class DbManager implements IDbManager {
 
 		switch (db.getType()) {
 		case fillProcLinkTable:
-			sheduleFillProcLinkTableJob(db, shell);
+			sheduleFillProcLinkTableJob(db);
+			return;
+		case fromDb:
+			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
+				@Override
+				public void run() {
+					try {
+						loaderManager.loadFromDb(db);
+					} catch (InvocationTargetException e) {
+
+						db.setState(DbState.notLoaded);
+
+						MessageDialog.openError(shell,
+								"Ошибка выполнения операции", e.getMessage());
+
+					} catch (Exception e) {
+
+						db.setState(DbState.notLoaded);
+					}
+				}
+			});
 			return;
 		default:
 			break;
@@ -153,16 +175,14 @@ public class DbManager implements IDbManager {
 				switch (db.getType()) {
 				case fromDirectory:
 					loaderManager.loadFromDirectory(db, monitor);
-					sheduleFillProcLinkTableJob(db, shell);
+					sheduleFillProcLinkTableJob(db);
 					break;
-				case fromDb:
-					// loaderService.loadFromDb(db, monitor);
-					break;
-				case fillProcLinkTable:
-
-					sheduleFillProcLinkTableJob(db, shell);
-					// loaderManager.fillProcLinkTable(db, monitor);
-					break;
+				// case fromDb:
+				// loaderManager.loadFromDb(db, monitor);
+				// break;
+				// case fillProcLinkTable:
+				// sheduleFillProcLinkTableJob(db);
+				// break;
 				case update:
 					// loaderService.update(db, monitor);
 					break;
@@ -198,14 +218,28 @@ public class DbManager implements IDbManager {
 	}
 
 	@Override
-	public void executeInit(IDb db) {
+	public void executeInit(final IDb db) {
 		if (db.getType() == operationType.fromDb) {
-			// loaderService.loadFromDb(db, monitor);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+
+					try {
+						loaderManager.loadFromDb(db);
+						AppManager.br
+								.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}).start();
+
 		}
 
 	}
 
-	private void sheduleFillProcLinkTableJob(IDb db, Shell shell) {
+	private void sheduleFillProcLinkTableJob(IDb db) {
 
 		// setting the progress monitor
 		IJobManager manager = Job.getJobManager();
@@ -226,7 +260,7 @@ public class DbManager implements IDbManager {
 
 		manager.setProgressProvider(provider);
 
-		FillProcLinkTableJob job = new FillProcLinkTableJob(db, shell);
+		FillProcLinkTableJob job = new FillProcLinkTableJob(db);
 		job.setRule(new FillProcLinkTableJob.rule());
 		job.schedule();
 	}

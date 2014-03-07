@@ -7,11 +7,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
+import codeanalyzer.core.exceptions.LinksExistsException;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.ILoaderManager;
@@ -43,13 +42,13 @@ public class FillProcLinkTableJob extends Job {
 
 	private IDb db;
 
-	private Shell shell;
+	// private Shell shell;
 
-	public FillProcLinkTableJob(IDb db, Shell shell) {
+	public FillProcLinkTableJob(IDb db) {
 		super(db.getName());
 		// this.family = family;
 		this.db = db;
-		this.shell = shell;
+		// this.shell = shell;
 	}
 
 	@Override
@@ -64,15 +63,11 @@ public class FillProcLinkTableJob extends Job {
 
 		} catch (final InvocationTargetException e) {
 
-			db.setLinkState(DbState.notLoaded);
+			if (!(e.getTargetException() instanceof LinksExistsException))
+				db.setLinkState(DbState.notLoaded);
 
-			AppManager.sync.syncExec(new Runnable() {
-				@Override
-				public void run() {
-					MessageDialog.openError(shell,
-							"Ошибка выполнения операции", e.getMessage());
-				}
-			});
+			if (!(e.getTargetException() instanceof InterruptedException))
+				AppManager.br.post(Const.EVENT_PROGRESS_ERROR, e.getMessage());
 
 			return Status.CANCEL_STATUS;
 		}

@@ -4,7 +4,10 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.di.UISynchronize;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -14,10 +17,18 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IDb;
+import codeanalyzer.utils.Const;
 
 public class ProgressControl implements IProgressMonitor {
+
+	public static class BeginTaskData {
+		public String name;
+		public int total;
+	}
 
 	private ProgressBar progressBar;
 	private volatile boolean cancelled = false;
@@ -56,40 +67,24 @@ public class ProgressControl implements IProgressMonitor {
 	}
 
 	@Override
+	public void beginTask(String name, int totalWork) {
+
+		if (cancelled)
+			return;
+
+		BeginTaskData data = new BeginTaskData();
+		data.name = name;
+		data.total = totalWork;
+		AppManager.br.post(Const.EVENT_PROGRESS_BEGIN_TASK, data);
+
+	}
+
+	@Override
 	public void worked(final int work) {
 		if (cancelled)
 			return;
 
-		sync.syncExec(new Runnable() {
-			@Override
-			public void run() {
-				if (progressBar.isDisposed())
-					return;
-				progressBar.setSelection(progressBar.getSelection() + work);
-			}
-		});
-	}
-
-	@Override
-	public void beginTask(final String name, final int totalWork) {
-
-		if (cancelled)
-			return;
-
-		sync.syncExec(new Runnable() {
-			@Override
-			public void run() {
-				if (progressBar.isDisposed())
-					return;
-
-				progressBar.setSelection(0);
-				progressBar.setMaximum(totalWork);
-				progressBar.setToolTipText(name);
-				lable.setText(db.getName() + ": " + name);
-				btnCancel.setVisible(true);
-			}
-		});
-		// System.out.println("Starting");
+		AppManager.br.post(Const.EVENT_PROGRESS_WORKED, work);
 
 	}
 
@@ -97,24 +92,53 @@ public class ProgressControl implements IProgressMonitor {
 	public void done() {
 		if (cancelled)
 			return;
+		AppManager.br.post(Const.EVENT_PROGRESS_DONE, null);
+	}
 
-		sync.syncExec(new Runnable() {
-			@Override
-			public void run() {
-				if (progressBar.isDisposed())
-					return;
+	@Inject
+	@Optional
+	public void event_beginTask(
+			@UIEventTopic(Const.EVENT_PROGRESS_BEGIN_TASK) Object o) {
 
-				progressBar.setSelection(0);
-				lable.setText("");
-				btnCancel.setVisible(false);
+		if (progressBar.isDisposed())
+			return;
 
-			}
-		});
+		BeginTaskData data = (BeginTaskData) o;
+		progressBar.setSelection(0);
+		progressBar.setMaximum(data.total);
+		progressBar.setToolTipText(data.name);
+		lable.setText(db.getName() + ": " + data.name);
+		btnCancel.setVisible(true);
+	}
+
+	@Inject
+	@Optional
+	public void event_worked(@UIEventTopic(Const.EVENT_PROGRESS_WORKED) Object o) {
+		if (progressBar.isDisposed())
+			return;
+		progressBar.setSelection(progressBar.getSelection() + (int) o);
+	}
+
+	@Inject
+	@Optional
+	public void eventDone(@UIEventTopic(Const.EVENT_PROGRESS_DONE) Object o) {
+		if (progressBar.isDisposed())
+			return;
+		progressBar.setSelection(0);
+		lable.setText("");
+		btnCancel.setVisible(false);
+	}
+
+	@Inject
+	@Optional
+	public void event_error(@UIEventTopic(Const.EVENT_PROGRESS_ERROR) Object o,
+			Shell shell) {
+		MessageDialog
+				.openError(shell, "Ошибка выполнения операции", (String) o);
 	}
 
 	@Override
 	public void internalWorked(double work) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -135,13 +159,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Override
 	public void subTask(final String name) {
-		// sync.syncExec(new Runnable() {
-		// @Override
-		// public void run() {
-		// lblSubTask.setText(name);
-		// // comp.layout();
-		// }
-		// });
+
 	}
 
 	public void setDb(IDb db) {

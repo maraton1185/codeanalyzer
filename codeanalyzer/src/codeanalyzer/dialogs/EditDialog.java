@@ -10,6 +10,8 @@ import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -26,6 +28,7 @@ import org.eclipse.swt.widgets.Text;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
+import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.db.DbInfo.SQLConnection;
@@ -36,6 +39,8 @@ import codeanalyzer.utils.Utils;
 public class EditDialog extends Dialog {
 
 	IDbManager dbManager = pico.get(IDbManager.class);
+
+	private Boolean dbPathModified = false;
 
 	private Text nameField;
 	private Text pathField;
@@ -85,6 +90,8 @@ public class EditDialog extends Dialog {
 				sql_passwordField.getText());
 		db.setAutoName(btnCheckButton.getSelection());
 		db.setDeleteSourceFiles(btnDeleteSourceFiles.getSelection());
+		if (dbPathModified)
+			db.setState(DbState.notLoaded);
 	}
 
 	protected void initContents() {
@@ -103,6 +110,8 @@ public class EditDialog extends Dialog {
 		nameField.setEnabled(!db.getAutoName());
 
 		btnDeleteSourceFiles.setSelection(db.getDeleteSourceFiles());
+
+		dbPathModified = false;
 	}
 
 	/**
@@ -177,6 +186,12 @@ public class EditDialog extends Dialog {
 		label.setText("Файл базы данных:");
 
 		db_pathField = new Text(container, SWT.SINGLE | SWT.BORDER);
+		db_pathField.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				dbPathModified = true;
+			}
+		});
 		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -189,6 +204,7 @@ public class EditDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				browseForFile();
 				updateName();
+				dbPathModified = true;
 			}
 		});
 		button.setText("...");

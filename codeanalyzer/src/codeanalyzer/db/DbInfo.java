@@ -48,12 +48,19 @@ public class DbInfo implements Serializable {
 	public String getName() {
 
 		final class helper {
+
+			private int segments;
+
+			public helper(int segments) {
+				this.segments = segments;
+			}
+
 			public String getName(String path) {
 				String result = "";
 				Path p = new Path(path);
-				if (p.segmentCount() < 2)
+				if (p.segmentCount() < segments)
 					result = p.toString();
-				for (int i = p.segmentCount() - 2; i >= 0
+				for (int i = p.segmentCount() - segments; i >= 0
 						&& i < p.segmentCount(); i++) {
 					result = result.concat(p.segment(i)).concat("/");
 				}
@@ -68,18 +75,18 @@ public class DbInfo implements Serializable {
 		switch (type) {
 		case update:
 
-			result = new helper().getName(db_path);
+			result = new helper(3).getName(db_path);
 			break;
 
 		case fromDb:
 
-			result = new helper().getName(db_path);
+			result = new helper(3).getName(db_path);
 			break;
 		case fromSQL:
 			result = sql == null ? "Новая конфигурация" : sql.path;
 			break;
 		default:
-			result = new helper().getName(path);
+			result = new helper(2).getName(path);
 			break;
 		}
 		return result;

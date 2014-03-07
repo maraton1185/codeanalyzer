@@ -103,6 +103,7 @@ public class Const {
 
 	public static final String ERROR_CONFIG_PATH = "\n Каталог конфигурации не существует";
 	public static final String ERROR_CONFIG_EMPTY = "\n Каталог конфигурации пуст";
+	public static final String ERROR_CONFIG_LOADED = "\n Конфигурация не загружена";
 	public static final String ERROR_CONFIG_INTERRUPT = "\n Отменено пользователем";
 	public static final String ERROR_CONFIG_READFILE = "\n Ошибка загрузки файла: \n";
 	public static final String ERROR_CONFIG_READOBJECT = "\n Ошибка загрузки объекта: \n";

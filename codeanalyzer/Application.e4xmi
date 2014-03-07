@@ -4,7 +4,7 @@
     <children xsi:type="advanced:PerspectiveStack" xmi:id="__8s28KXSEeO-PfCALTbnPw" elementId="codeanalyzer.perspectivestack.0">
       <children xsi:type="advanced:Perspective" xmi:id="_AQqUwKXTEeO-PfCALTbnPw" elementId="codeanalyzer.perspective.0">
         <children xsi:type="basic:PartSashContainer" xmi:id="_7GppUJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.0" horizontal="true">
-          <children xsi:type="basic:PartStack" xmi:id="_-BN3oJrPEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.0" containerData="7">
+          <children xsi:type="basic:PartStack" xmi:id="_-BN3oJrPEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.0" containerData="7000">
             <children xsi:type="basic:Part" xmi:id="_IY_TIJlkEeOo9rJNc5wjoQ" elementId="codeanalyzer.part.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.MainView" label="Дерево объектов">
               <menus xmi:id="_Bl9JsJrQEeOlcttaCxvpFw" elementId="codeanalyzer.menu.2" label="test">
                 <tags>ViewMenu</tags>
@@ -20,7 +20,7 @@
               </toolbar>
             </children>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_9mGHQJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.1" containerData="3">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_9mGHQJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.1" containerData="3000">
             <children xsi:type="basic:PartStack" xmi:id="__EbGcJriEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.1">
               <children xsi:type="basic:Part" xmi:id="_3m16kJriEeOlcttaCxvpFw" elementId="codeanalyzer.part.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.ConfigsView" label="Список конфигураций">
                 <menus xsi:type="menu:PopupMenu" xmi:id="_4fwcUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.popupmenu.ConfigList">
@@ -107,7 +107,6 @@
   <addons xmi:id="_cMG-hplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_cMG-h5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
   <addons xmi:id="_cMG-iJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
-  <addons xmi:id="_8s06UKUREeOSI7Izut2c3w" elementId="codeanalyzer.addon.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.core.E4Services"/>
   <categories xmi:id="_aAX0sJrREeOlcttaCxvpFw" elementId="codeanalyzer.category.0" name="Дерево объектов" description="Дерево объектов"/>
   <categories xmi:id="_dwR08JrREeOlcttaCxvpFw" elementId="codeanalyzer.category.1" name="Главное меню"/>
 </application:Application>

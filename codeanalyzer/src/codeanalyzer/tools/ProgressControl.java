@@ -6,8 +6,11 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
@@ -25,6 +28,7 @@ public class ProgressControl implements IProgressMonitor {
 	private Label lable;
 
 	private IDb db;
+	private Button btnCancel;
 
 	@PostConstruct
 	public void createControls(Composite parent) {
@@ -32,8 +36,22 @@ public class ProgressControl implements IProgressMonitor {
 
 		progressBar = new ProgressBar(parent, SWT.SMOOTH);
 
+		btnCancel = new Button(parent, SWT.NONE);
+		btnCancel.setLayoutData(new RowData(SWT.DEFAULT, 17));
+		btnCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				cancelled = true;
+				progressBar.setSelection(0);
+				lable.setText("");
+				btnCancel.setVisible(false);
+			}
+		});
+		btnCancel.setText("Отмена");
+		btnCancel.setVisible(false);
+
 		lable = new Label(parent, SWT.NONE);
-		lable.setLayoutData(new RowData(300, SWT.DEFAULT));
+		lable.setLayoutData(new RowData(500, SWT.DEFAULT));
 
 	}
 
@@ -42,12 +60,11 @@ public class ProgressControl implements IProgressMonitor {
 		if (cancelled)
 			return;
 
-		sync.asyncExec(new Runnable() {
+		sync.syncExec(new Runnable() {
 			@Override
 			public void run() {
 				if (progressBar.isDisposed())
 					return;
-				// System.out.println("Worked");
 				progressBar.setSelection(progressBar.getSelection() + work);
 			}
 		});
@@ -69,7 +86,7 @@ public class ProgressControl implements IProgressMonitor {
 				progressBar.setMaximum(totalWork);
 				progressBar.setToolTipText(name);
 				lable.setText(db.getName() + ": " + name);
-				// comp.layout(true);
+				btnCancel.setVisible(true);
 			}
 		});
 		// System.out.println("Starting");
@@ -89,7 +106,8 @@ public class ProgressControl implements IProgressMonitor {
 
 				progressBar.setSelection(0);
 				lable.setText("");
-				// comp.layout();
+				btnCancel.setVisible(false);
+
 			}
 		});
 	}
@@ -112,13 +130,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Override
 	public void setTaskName(final String name) {
-		// sync.syncExec(new Runnable() {
-		// @Override
-		// public void run() {
-		// lable.setText(name);
-		// // comp.layout();
-		// }
-		// });
+
 	}
 
 	@Override
@@ -134,6 +146,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	public void setDb(IDb db) {
 		this.db = db;
+		cancelled = false;
 
 	}
 

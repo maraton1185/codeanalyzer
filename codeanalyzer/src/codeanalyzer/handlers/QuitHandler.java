@@ -12,15 +12,17 @@
 package codeanalyzer.handlers;
 
 import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.IWorkbench;
-import org.eclipse.swt.widgets.Shell;
+
+import codeanalyzer.core.AppManager;
+import codeanalyzer.core.AppManager.WindowCloseHandler;
 
 public class QuitHandler {
 	@Execute
-	public void execute(IWorkbench workbench, Shell shell) {
-		// if (MessageDialog.openConfirm(shell, Strings.get("QuitHandlerTitle"),
-		// Strings.get("QuitHandlerText"))) {
+	public void execute(MWindow window, IWorkbench workbench) {
+		WindowCloseHandler handler = new AppManager.WindowCloseHandler();
+		handler.close(window);
 		workbench.close();
-		// }
 	}
 }

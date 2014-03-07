@@ -28,7 +28,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-import codeanalyzer.core.E4Services;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
@@ -42,9 +42,11 @@ public class ConfigsView {
 
 	private final Image ACTIVE = Utils.getImage("active.png");
 	private final Image NONACTIVE = Utils.getImage("nonactive.png");
-	private final Image LOADED = Utils.getImage("loaded_with_table.png");
+
 	private final Image NOT_LOADED = Utils.getImage("not_loaded.png");
-	private final Image LOADED_WITH_LINKS = Utils.getImage("active.png");
+	private final Image LOADED = Utils.getImage("loaded.png");
+	private final Image LOADED_WITH_LINKS = Utils
+			.getImage("loaded_with_table.png");
 
 	private TableViewer viewer;
 
@@ -99,9 +101,9 @@ public class ConfigsView {
 				Object selected = selection.getFirstElement();
 				if (selected != null) {
 					IDb db = (IDb) selection.getFirstElement();
-					E4Services.ctx.set(Const.CONTEXT_SELECTED_DB, db);
+					AppManager.ctx.set(Const.CONTEXT_SELECTED_DB, db);
 				} else
-					E4Services.ctx.set(Const.CONTEXT_SELECTED_DB, null);
+					AppManager.ctx.set(Const.CONTEXT_SELECTED_DB, null);
 			}
 		});
 
@@ -170,11 +172,14 @@ public class ConfigsView {
 				IDb info = (IDb) element;
 				switch (info.getState()) {
 				case Loaded:
-					return LOADED;
+					switch (info.getLinkState()) {
+					case Loaded:
+						return LOADED_WITH_LINKS;
+					default:
+						return LOADED;
+					}
 				case notLoaded:
 					return NOT_LOADED;
-				case LoadedWithLinkTable:
-					return LOADED_WITH_LINKS;
 				default:
 					return NOT_LOADED;
 				}

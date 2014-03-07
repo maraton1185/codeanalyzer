@@ -11,7 +11,7 @@ import codeanalyzer.db.DbInfo.SQLConnection;
 public interface IDb {
 
 	public static enum DbState {
-		notLoaded, Loaded, LoadedWithLinkTable
+		notLoaded, Loaded
 	}
 
 	// —“¿“”— ******************************************************
@@ -47,7 +47,11 @@ public interface IDb {
 
 	public abstract void setState(DbState status);
 
+	public abstract void setLinkState(DbState status);
+
 	public abstract DbState getState();
+
+	public abstract DbState getLinkState();
 
 	public abstract void setSQL(String path, String user, String password);
 

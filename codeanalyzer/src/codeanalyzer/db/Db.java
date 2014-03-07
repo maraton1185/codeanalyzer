@@ -39,6 +39,7 @@ public class Db implements IDb {
 	private DbInfo data;
 
 	private DbState status = DbState.notLoaded;
+	private DbState link_status = DbState.notLoaded;
 
 	String store_key = "";
 
@@ -198,11 +199,22 @@ public class Db implements IDb {
 	@Override
 	public void setState(DbState status) {
 		this.status = status;
+		link_status = DbState.notLoaded;
+	}
+
+	@Override
+	public void setLinkState(DbState status) {
+		this.link_status = status;
 	}
 
 	@Override
 	public DbState getState() {
 		return status;
+	}
+
+	@Override
+	public DbState getLinkState() {
+		return link_status;
 	}
 
 	@Override

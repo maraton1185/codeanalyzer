@@ -5,13 +5,8 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
-import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -28,6 +23,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
@@ -54,9 +50,6 @@ public class EditDialog extends Dialog {
 
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
-	IEventBroker br;
-	EModelService model;
-	MApplication application;
 	private Button btnDeleteSourceFiles;
 
 	/**
@@ -65,9 +58,7 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell,
-			@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db,
-			IEventBroker br, EModelService model, MApplication application) {
+	public EditDialog(Shell parentShell, IDb db) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
 
@@ -77,9 +68,7 @@ public class EditDialog extends Dialog {
 			dbManager.add(db);
 		}
 		this.db = db;
-		this.br = br;
-		this.model = model;
-		this.application = application;
+
 	}
 
 	protected void updateName() {
@@ -302,7 +291,7 @@ public class EditDialog extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(487, 380);
+		return new Point(487, 396);
 	}
 
 	protected void setDefaultSQL() {
@@ -329,7 +318,7 @@ public class EditDialog extends Dialog {
 		dbManager.execute(db, getShell());
 
 		// initContents();
-		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 
 		super.okPressed();
 	}
@@ -344,7 +333,7 @@ public class EditDialog extends Dialog {
 	public boolean close() {
 		updateDb();
 		db.save();
-		br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 		return super.close();
 	}
 }

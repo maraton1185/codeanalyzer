@@ -79,10 +79,6 @@ public class LoaderManager implements ILoaderManager {
 
 			loadFromDirectoryDoWork(con, monitor, files);
 
-			// monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE,
-			// cfg.getProcCount(con));
-
-			// fillProcLinkTableDoWork(monitor, cfg, con);
 			if (!sign.check())
 				if (!dbStructure.checkLisence(db))
 					throw new InvocationTargetException(
@@ -95,10 +91,13 @@ public class LoaderManager implements ILoaderManager {
 				monitor.beginTask("Удаление файлов...", length);
 				monitor.subTask("");
 				for (File f : files) {
-					f.delete();
+
 					if (monitor.isCanceled()) {
 						throw new InterruptedException();
 					}
+
+					f.delete();
+
 					monitor.worked(1);
 				}
 			}
@@ -146,7 +145,11 @@ public class LoaderManager implements ILoaderManager {
 
 		// ПРОВЕРКИ ******************************************************
 
-		if (db.getState() == DbState.LoadedWithLinkTable)
+		if (db.getState() != DbState.Loaded)
+			throw new InvocationTargetException(new InterruptedException(),
+					Const.ERROR_CONFIG_LOADED);
+
+		if (db.getLinkState() == DbState.Loaded)
 			return;
 		// if (!sign.check()) {
 		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
@@ -160,27 +163,25 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
+			if (monitor.isCanceled()) {
+				throw new InterruptedException();
+			}
+
 			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 
 			dbStructure.checkSructure(db);
 
 			con = db.getConnection(true);
 
-			// monitor.beginTask("Загрузка конфигурации...", dbService.);
-
 			loaderService.fillProcLinkTableDoWork(con, monitor);
 
-			// monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE,
-			// cfg.getProcCount(con));
-
-			// fillProcLinkTableDoWork(monitor, cfg, con);
 			if (!sign.check())
 				if (!dbStructure.checkLisence(db))
 					throw new InvocationTargetException(
 							new InterruptedException(),
 							Const.ERROR_PRO_ACCESS_LOAD);
 
-			db.setState(DbState.LoadedWithLinkTable);
+			db.setLinkState(DbState.Loaded);
 
 		} catch (InterruptedException e) {
 			throw new InvocationTargetException(new InterruptedException(),
@@ -195,8 +196,6 @@ public class LoaderManager implements ILoaderManager {
 						Const.ERROR_CONFIG_OPEN_DATABASE);
 			}
 			monitor.done();
-			// if (monitor instanceof ProgressControl)
-			// if (!((ProgressControl) monitor).isDisposed())
 
 		}
 
@@ -208,6 +207,10 @@ public class LoaderManager implements ILoaderManager {
 			IProgressMonitor monitor, File[] files) throws Exception {
 
 		for (File f : files) {
+
+			if (monitor.isCanceled()) {
+				throw new InterruptedException();
+			}
 
 			monitor.subTask(f.getName());
 
@@ -222,9 +225,7 @@ public class LoaderManager implements ILoaderManager {
 					loaderService.loadXmlModuleFile(con, f);
 				}
 			}
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
+
 			monitor.worked(1);
 		}
 	}

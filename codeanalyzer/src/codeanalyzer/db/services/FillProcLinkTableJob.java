@@ -7,10 +7,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.E4Services;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
+import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.utils.Const;
 
@@ -18,7 +21,7 @@ public class FillProcLinkTableJob extends Job {
 
 	public static final String MY_FAMILY = "all";
 
-	public class rule implements ISchedulingRule {
+	public static class rule implements ISchedulingRule {
 		@Override
 		public boolean contains(ISchedulingRule rule) {
 			return rule == this;
@@ -40,10 +43,13 @@ public class FillProcLinkTableJob extends Job {
 
 	private IDb db;
 
-	public FillProcLinkTableJob(IDb db) {
+	private Shell shell;
+
+	public FillProcLinkTableJob(IDb db, Shell shell) {
 		super(db.getName());
 		// this.family = family;
 		this.db = db;
+		this.shell = shell;
 	}
 
 	@Override
@@ -52,13 +58,22 @@ public class FillProcLinkTableJob extends Job {
 		try {
 
 			loaderManager.fillProcLinkTable(db, monitor);
-			E4Services.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+			AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 
 			return Status.OK_STATUS;
 
-		} catch (InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
 
-			e.printStackTrace();
+			db.setLinkState(DbState.notLoaded);
+
+			AppManager.sync.syncExec(new Runnable() {
+				@Override
+				public void run() {
+					MessageDialog.openError(shell,
+							"Ошибка выполнения операции", e.getMessage());
+				}
+			});
+
 			return Status.CANCEL_STATUS;
 		}
 

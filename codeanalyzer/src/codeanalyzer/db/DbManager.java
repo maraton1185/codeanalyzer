@@ -17,7 +17,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.E4Services;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDb.DbState;
@@ -135,7 +135,15 @@ public class DbManager implements IDbManager {
 	}
 
 	@Override
-	public void execute(final IDb db, Shell shell) {
+	public void execute(final IDb db, final Shell shell) {
+
+		switch (db.getType()) {
+		case fillProcLinkTable:
+			sheduleFillProcLinkTableJob(db, shell);
+			return;
+		default:
+			break;
+		}
 
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
 			@Override
@@ -144,15 +152,15 @@ public class DbManager implements IDbManager {
 
 				switch (db.getType()) {
 				case fromDirectory:
-					// loaderManager.loadFromDirectory(db, monitor);
-					sheduleFillProcLinkTableJob(db);
+					loaderManager.loadFromDirectory(db, monitor);
+					sheduleFillProcLinkTableJob(db, shell);
 					break;
 				case fromDb:
 					// loaderService.loadFromDb(db, monitor);
 					break;
 				case fillProcLinkTable:
 
-					sheduleFillProcLinkTableJob(db);
+					sheduleFillProcLinkTableJob(db, shell);
 					// loaderManager.fillProcLinkTable(db, monitor);
 					break;
 				case update:
@@ -178,10 +186,10 @@ public class DbManager implements IDbManager {
 
 		} catch (InvocationTargetException e) {
 
-			MessageDialog.openError(shell, "Ошибка загрузки конфигурации",
-					e.getMessage());
-
 			db.setState(DbState.notLoaded);
+
+			MessageDialog.openError(shell, "Ошибка выполнения операции",
+					e.getMessage());
 
 		} catch (Exception e) {
 
@@ -197,14 +205,14 @@ public class DbManager implements IDbManager {
 
 	}
 
-	private void sheduleFillProcLinkTableJob(IDb db) {
+	private void sheduleFillProcLinkTableJob(IDb db, Shell shell) {
 
 		// setting the progress monitor
 		IJobManager manager = Job.getJobManager();
 
 		// ToolItem has the ID "statusbar" in the model
-		MToolControl element = (MToolControl) E4Services.model.find(
-				Strings.get("model.id.statustool"), E4Services.app);
+		MToolControl element = (MToolControl) AppManager.model.find(
+				Strings.get("model.id.statustool"), AppManager.app);
 
 		Object widget = element.getObject();
 		((ProgressControl) widget).setDb(db);
@@ -218,8 +226,8 @@ public class DbManager implements IDbManager {
 
 		manager.setProgressProvider(provider);
 
-		FillProcLinkTableJob job = new FillProcLinkTableJob(db);
-		job.setRule(job.new rule());
+		FillProcLinkTableJob job = new FillProcLinkTableJob(db, shell);
+		job.setRule(new FillProcLinkTableJob.rule());
 		job.schedule();
 	}
 }

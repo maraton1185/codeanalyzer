@@ -17,7 +17,7 @@
          </property>
          <property
                name="lifeCycleURI"
-               value="bundleclass://codeanalyzer/codeanalyzer.core.LifeCycleManager">
+               value="bundleclass://codeanalyzer/codeanalyzer.core.AppManager">
          </property>
       </product>
    </extension>

@@ -7,7 +7,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.E4Services;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
@@ -19,7 +19,7 @@ public class ConfigListExecute {
 			IDbManager dbManager, Shell shell) {
 
 		dbManager.execute(db, shell);
-		E4Services.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
 
 	}
 

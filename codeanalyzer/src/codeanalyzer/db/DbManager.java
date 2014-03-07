@@ -25,6 +25,7 @@ import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.core.interfaces.ILoaderManager.operationType;
 import codeanalyzer.db.services.FillProcLinkTableJob;
+import codeanalyzer.tools.ProgressControl;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
@@ -151,7 +152,8 @@ public class DbManager implements IDbManager {
 					break;
 				case fillProcLinkTable:
 
-					loaderManager.fillProcLinkTable(db, monitor);
+					sheduleFillProcLinkTableJob(db);
+					// loaderManager.fillProcLinkTable(db, monitor);
 					break;
 				case update:
 					// loaderService.update(db, monitor);
@@ -205,6 +207,7 @@ public class DbManager implements IDbManager {
 				Strings.get("model.id.statustool"), E4Services.app);
 
 		Object widget = element.getObject();
+		((ProgressControl) widget).setDb(db);
 		final IProgressMonitor p = (IProgressMonitor) widget;
 		ProgressProvider provider = new ProgressProvider() {
 			@Override

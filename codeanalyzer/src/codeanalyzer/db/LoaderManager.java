@@ -146,6 +146,8 @@ public class LoaderManager implements ILoaderManager {
 
 		// ÏÐÎÂÅÐÊÈ ******************************************************
 
+		if (db.getState() == DbState.LoadedWithLinkTable)
+			return;
 		// if (!sign.check()) {
 		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
 		// throw new InvocationTargetException(new LoadConfigException(),
@@ -193,6 +195,9 @@ public class LoaderManager implements ILoaderManager {
 						Const.ERROR_CONFIG_OPEN_DATABASE);
 			}
 			monitor.done();
+			// if (monitor instanceof ProgressControl)
+			// if (!((ProgressControl) monitor).isDisposed())
+
 		}
 
 	}

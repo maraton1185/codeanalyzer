@@ -15,6 +15,10 @@
                name="appName"
                value="codeanalyzer">
          </property>
+         <property
+               name="lifeCycleURI"
+               value="bundleclass://codeanalyzer/codeanalyzer.core.LifeCycleManager">
+         </property>
       </product>
    </extension>
 

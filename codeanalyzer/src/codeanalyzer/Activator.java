@@ -1,6 +1,5 @@
 package codeanalyzer;
 
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.osgi.framework.BundleActivator;
@@ -26,7 +25,10 @@ public class Activator implements BundleActivator {
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		Job.getJobManager().cancel("all");
+		// E4Services.disposed = true;
+		// IJobManager jobMan = Job.getJobManager();
+		// jobMan.cancel(FillProcLinkTableJob.MY_FAMILY);
+		// jobMan.join(FillProcLinkTableJob.MY_FAMILY, null);
 	}
 
 	public static Activator getDefault() {

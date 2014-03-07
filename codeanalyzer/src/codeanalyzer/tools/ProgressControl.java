@@ -6,34 +6,48 @@ import javax.inject.Inject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 
-import codeanalyzer.core.E4Services;
-import codeanalyzer.utils.Const;
+import codeanalyzer.core.interfaces.IDb;
 
 public class ProgressControl implements IProgressMonitor {
 
 	private ProgressBar progressBar;
+	private volatile boolean cancelled = false;
 
 	@Inject
 	UISynchronize sync;
 
+	private Label lable;
+
+	private IDb db;
+
 	@PostConstruct
 	public void createControls(Composite parent) {
-		progressBar = new ProgressBar(parent, SWT.SMOOTH);
-		progressBar.setBounds(0, 0, 362, 20);
+		parent.setLayout(new RowLayout(SWT.HORIZONTAL));
 
-		E4Services.br.send(Const.EVENT_UPDATE_STATUS, null);
+		progressBar = new ProgressBar(parent, SWT.SMOOTH);
+
+		lable = new Label(parent, SWT.NONE);
+		lable.setLayoutData(new RowData(300, SWT.DEFAULT));
 
 	}
 
 	@Override
 	public void worked(final int work) {
-		sync.syncExec(new Runnable() {
+		if (cancelled)
+			return;
+
+		sync.asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Worked");
+				if (progressBar.isDisposed())
+					return;
+				// System.out.println("Worked");
 				progressBar.setSelection(progressBar.getSelection() + work);
 			}
 		});
@@ -42,21 +56,42 @@ public class ProgressControl implements IProgressMonitor {
 	@Override
 	public void beginTask(final String name, final int totalWork) {
 
+		if (cancelled)
+			return;
+
 		sync.syncExec(new Runnable() {
 			@Override
 			public void run() {
+				if (progressBar.isDisposed())
+					return;
+
 				progressBar.setSelection(0);
 				progressBar.setMaximum(totalWork);
 				progressBar.setToolTipText(name);
+				lable.setText(db.getName() + ": " + name);
+				// comp.layout(true);
 			}
 		});
-		System.out.println("Starting");
+		// System.out.println("Starting");
 
 	}
 
 	@Override
 	public void done() {
-		System.out.println("Done");
+		if (cancelled)
+			return;
+
+		sync.syncExec(new Runnable() {
+			@Override
+			public void run() {
+				if (progressBar.isDisposed())
+					return;
+
+				progressBar.setSelection(0);
+				lable.setText("");
+				// comp.layout();
+			}
+		});
 	}
 
 	@Override
@@ -67,25 +102,38 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Override
 	public boolean isCanceled() {
-		// TODO Auto-generated method stub
-		return false;
+		return cancelled;
 	}
 
 	@Override
-	public void setCanceled(boolean value) {
-		// TODO Auto-generated method stub
-
+	public void setCanceled(boolean cancelled) {
+		this.cancelled = cancelled;
 	}
 
 	@Override
-	public void setTaskName(String name) {
-		// TODO Auto-generated method stub
-
+	public void setTaskName(final String name) {
+		// sync.syncExec(new Runnable() {
+		// @Override
+		// public void run() {
+		// lable.setText(name);
+		// // comp.layout();
+		// }
+		// });
 	}
 
 	@Override
-	public void subTask(String name) {
-		// TODO Auto-generated method stub
+	public void subTask(final String name) {
+		// sync.syncExec(new Runnable() {
+		// @Override
+		// public void run() {
+		// lblSubTask.setText(name);
+		// // comp.layout();
+		// }
+		// });
+	}
+
+	public void setDb(IDb db) {
+		this.db = db;
 
 	}
 

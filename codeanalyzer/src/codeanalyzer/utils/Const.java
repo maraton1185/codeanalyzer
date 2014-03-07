@@ -87,7 +87,7 @@ public class Const {
 	// CONFIG MESSAGES *******************************************************
 
 	public static final String MSG_CONFIG_CHECK = "Проверка структуры базы данных...";
-	public static final String MSG_CONFIG_FILL_LINK_TABLE = "Формирование таблицы взаимных вызовов процедур...";
+	public static final String MSG_CONFIG_FILL_LINK_TABLE = "Формирование таблицы вызовов...";
 	public static final String MSG_CONFIG_CLEAR_LINK_TABLE = "Очистка  таблицы взаимных вызовов процедур...";
 	public static final String MSG_CONFIG_NOT_LOADED = "Не загружена конфигурация";
 	public static final String MSG_CONFIG_TOPIC_NOT_FOUND = "Не найдены связанные темы";

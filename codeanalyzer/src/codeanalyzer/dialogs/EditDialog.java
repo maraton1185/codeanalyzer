@@ -31,7 +31,6 @@ import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.core.interfaces.IDb.DbState;
 import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.core.interfaces.ILoaderManager.operationType;
-import codeanalyzer.db.DbInfo.SQLConnection;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Utils;
 
@@ -45,11 +44,11 @@ public class EditDialog extends Dialog {
 	private Text nameField;
 	private Text pathField;
 	private Text db_pathField;
-	private Text sql_pathField;
-	private Text sql_userField;
-	private Text sql_passwordField;
+//	private Text sql_pathField;
+//	private Text sql_userField;
+//	private Text sql_passwordField;
 	private Button btnCheckButton;
-	private Button btnUpdateName;
+//	private Button btnUpdateName;
 
 	private IDb db;
 
@@ -86,8 +85,8 @@ public class EditDialog extends Dialog {
 		db.setName(nameField.getText());
 		db.setPath(pathField.getText());
 		db.setDbPath(db_pathField.getText());
-		db.setSQL(sql_pathField.getText(), sql_userField.getText(),
-				sql_passwordField.getText());
+//		db.setSQL(sql_pathField.getText(), sql_userField.getText(),
+//				sql_passwordField.getText());
 		db.setAutoName(btnCheckButton.getSelection());
 		db.setDeleteSourceFiles(btnDeleteSourceFiles.getSelection());
 		if (dbPathModified)
@@ -101,11 +100,11 @@ public class EditDialog extends Dialog {
 		btnCheckButton.setSelection(db.getAutoName());
 		radioBtns.get(db.getType()).setSelection(true);
 
-		SQLConnection sql = db.getSQL();
-		sql_userField.setText(sql.user);
-		sql_passwordField.setText(sql.password);
+//		SQLConnection sql = db.getSQL();
+//		sql_userField.setText(sql.user);
+//		sql_passwordField.setText(sql.password);
 
-		sql_pathField.setText(sql.path);
+//		sql_pathField.setText(sql.path);
 
 		nameField.setEnabled(!db.getAutoName());
 
@@ -211,52 +210,52 @@ public class EditDialog extends Dialog {
 
 		// ************** ПУТЬ К SQL ***********************
 
-		label = new Label(container, SWT.LEFT);
-		label.setText("Строка SQL-соединения:");
-
-		sql_pathField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalSpan = 2;
-		sql_pathField.setLayoutData(gridData);
-
-		btnUpdateName = new Button(container, SWT.FLAT);
-		btnUpdateName.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				updateName();
-			}
-		});
-		btnUpdateName.setToolTipText("Обновить имя");
-		btnUpdateName.setText("...");
-
-		label = new Label(container, SWT.LEFT);
-		label.setText("Логин, пароль к базе MS SQL:");
-
-		sql_userField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalSpan = 1;
-		sql_userField.setLayoutData(gridData);
-
-		sql_passwordField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalSpan = 1;
-		sql_passwordField.setLayoutData(gridData);
-		sql_passwordField.setEchoChar('*');
-
-		button = new Button(container, SWT.FLAT);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				setDefaultSQL();
-			}
-		});
-		button.setText("<");
+//		label = new Label(container, SWT.LEFT);
+//		label.setText("Строка SQL-соединения:");
+//
+//		sql_pathField = new Text(container, SWT.SINGLE | SWT.BORDER);
+//		gridData = new GridData();
+//		gridData.horizontalAlignment = GridData.FILL;
+//		gridData.grabExcessHorizontalSpace = true;
+//		gridData.horizontalSpan = 2;
+//		sql_pathField.setLayoutData(gridData);
+//
+//		btnUpdateName = new Button(container, SWT.FLAT);
+//		btnUpdateName.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				updateName();
+//			}
+//		});
+//		btnUpdateName.setToolTipText("Обновить имя");
+//		btnUpdateName.setText("...");
+//
+//		label = new Label(container, SWT.LEFT);
+//		label.setText("Логин, пароль к базе MS SQL:");
+//
+//		sql_userField = new Text(container, SWT.SINGLE | SWT.BORDER);
+//		gridData = new GridData();
+//		gridData.horizontalAlignment = GridData.FILL;
+//		gridData.grabExcessHorizontalSpace = true;
+//		gridData.horizontalSpan = 1;
+//		sql_userField.setLayoutData(gridData);
+//
+//		sql_passwordField = new Text(container, SWT.SINGLE | SWT.BORDER);
+//		gridData = new GridData();
+//		gridData.horizontalAlignment = GridData.FILL;
+//		gridData.grabExcessHorizontalSpace = true;
+//		gridData.horizontalSpan = 1;
+//		sql_passwordField.setLayoutData(gridData);
+//		sql_passwordField.setEchoChar('*');
+//
+//		button = new Button(container, SWT.FLAT);
+//		button.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				setDefaultSQL();
+//			}
+//		});
+//		button.setText("<");
 
 		// ************** ОПЕРАЦИИ ДЛЯ ВЫПОЛНЕНИЯ ***********************
 
@@ -272,6 +271,10 @@ public class EditDialog extends Dialog {
 				.setText("Удалять исходные файлы при загрузке/обновлении из каталога");
 
 		for (final operationType key : operationType.values()) {
+			if(key==operationType.fromSQL){
+				continue;
+			}
+			
 			button = new Button(group, SWT.RADIO);
 			button.addSelectionListener(new SelectionAdapter() {
 				@Override
@@ -311,10 +314,10 @@ public class EditDialog extends Dialog {
 	}
 
 	protected void setDefaultSQL() {
-		SQLConnection sql = db.getDefaultSQL();
-		sql_pathField.setText(sql.path);
-		sql_userField.setText(sql.user);
-		sql_passwordField.setText(sql.password);
+//		SQLConnection sql = db.getDefaultSQL();
+//		sql_pathField.setText(sql.path);
+//		sql_userField.setText(sql.user);
+//		sql_passwordField.setText(sql.password);
 	}
 
 	protected void browseForFile() {

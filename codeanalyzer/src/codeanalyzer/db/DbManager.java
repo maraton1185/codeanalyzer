@@ -177,18 +177,12 @@ public class DbManager implements IDbManager {
 					loaderManager.loadFromDirectory(db, monitor);
 					sheduleFillProcLinkTableJob(db);
 					break;
-				// case fromDb:
-				// loaderManager.loadFromDb(db, monitor);
-				// break;
-				// case fillProcLinkTable:
-				// sheduleFillProcLinkTableJob(db);
-				// break;
 				case update:
-					// loaderService.update(db, monitor);
+					loaderManager.update(db, monitor);
 					break;
-				case fromSQL:
-					// loaderService.loadFromSQL(db, monitor);
-					break;
+				// case fromSQL:
+				// // loaderService.loadFromSQL(db, monitor);
+				// break;
 				default:
 					throw new InterruptedException();
 				}

@@ -81,11 +81,11 @@ public class LoaderManager implements ILoaderManager {
 
 			loadFromDirectoryDoWork(con, monitor, files);
 
-			if (!sign.check())
-				if (!dbStructure.checkLisence(db))
-					throw new InvocationTargetException(
-							new InterruptedException(),
-							Const.ERROR_PRO_ACCESS_LOAD);
+			// if (!sign.check())
+			// if (!dbStructure.checkLisence(db))
+			// throw new InvocationTargetException(
+			// new InterruptedException(),
+			// Const.ERROR_PRO_ACCESS_LOAD);
 
 			db.setState(DbState.Loaded);
 
@@ -177,7 +177,93 @@ public class LoaderManager implements ILoaderManager {
 	@Override
 	public void update(IDb db, IProgressMonitor monitor)
 			throws InvocationTargetException {
-		// TODO Auto-generated method stub
+
+		// ПРОВЕРКИ ******************************************************
+
+		File folder = db.getPath().toFile();
+		if (!folder.exists())
+			throw new InvocationTargetException(new LoadConfigException(),
+					Const.ERROR_CONFIG_PATH);
+
+		File[] files;
+		files = folder.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				String extension = Utils.getExtension(pathname);
+				return extension.equalsIgnoreCase("txt");
+				// || extension.equalsIgnoreCase("meta");
+			}
+		});
+		if (files.length == 0) {
+			files = folder.listFiles(new FileFilter() {
+				@Override
+				public boolean accept(File pathname) {
+					String extension = Utils.getExtension(pathname);
+					return extension.equalsIgnoreCase("xml");
+				}
+			});
+		}
+		int length = files.length;
+		if (length == 0)
+			throw new InvocationTargetException(new LoadConfigException(),
+					Const.ERROR_CONFIG_EMPTY);
+
+		// ЗАГРУЗКА ******************************************************
+
+		Connection con = null;
+		try {
+
+			con = db.getConnection(true);
+
+			dbStructure.checkSructure(db);
+
+			// db.initDbPath();
+			//
+			// dbStructure.createStructure(db);
+			// con = db.getConnection(false);
+
+			monitor.beginTask("Обновление конфигурации...", length);
+
+			loadFromDirectoryDoWork(con, monitor, files);
+
+			// if (!sign.check())
+			// if (!dbStructure.checkLisence(db))
+			// throw new InvocationTargetException(
+			// new InterruptedException(),
+			// Const.ERROR_PRO_ACCESS_LOAD);
+
+			db.setState(DbState.Loaded);
+
+			if (db.getDeleteSourceFiles()) {
+				monitor.beginTask("Удаление файлов...", length);
+				monitor.subTask("");
+				for (File f : files) {
+
+					if (monitor.isCanceled()) {
+						throw new InterruptedException();
+					}
+
+					f.delete();
+
+					monitor.worked(1);
+				}
+			}
+		} catch (InterruptedException e) {
+			throw new InvocationTargetException(new InterruptedException(),
+					Const.ERROR_CONFIG_INTERRUPT);
+		} catch (Exception e) {
+			throw new InvocationTargetException(e, e.getMessage());
+		} finally {
+			try {
+				con.close();
+			} catch (Exception e) {
+				throw new InvocationTargetException(e,
+						Const.ERROR_CONFIG_CREATE_DATABASE);
+			}
+			monitor.done();
+		}
+
+		
 
 	}
 

@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import codeanalyzer.utils.Strings;
 
-public class MainView {
+public class StartView {
 
 	TableViewer objectsTree;
 

@@ -11,15 +11,6 @@ import codeanalyzer.core.interfaces.ICf.EType;
 
 public interface ITextParser {
 
-	// public class ProcStartReader {
-	// public ProcStartReader(BufferedReader bufferedReader) {
-	// this.bufferedReader = bufferedReader;
-	// }
-	//
-	// public BufferedReader bufferedReader;
-	// public StringBuilder temp;
-	// }
-
 	public class ProcCall {
 		public String context = "";
 		public String name = "";

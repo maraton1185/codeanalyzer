@@ -31,7 +31,7 @@ public class OptionsDialog {
 		mgr.addToRoot(p);
 		p = new PreferenceNode("", new FieldEditorPageTwo());
 		mgr.addToRoot(p);
-		
+
 		// Create the preferences dialog
 		PreferenceDialog dlg = new PreferenceDialog(null, mgr);
 
@@ -55,23 +55,46 @@ public class OptionsDialog {
 		/**
 		 * Creates the field editors
 		 */
+		@Override
 		protected void createFieldEditors() {
-			
-//			StringFieldEditor string1 = new StringFieldEditor(PreferenceSupplier.LOGIN,
-//					"Почта:", getFieldEditorParent());
-//			addField(string1);
-//
-//			StringFieldEditor string2 = new StringFieldEditor(PreferenceSupplier.PASSWORD,
-//					"Пароль:", getFieldEditorParent());
-//			addField(string2);
 
-			StringFieldEditor string3 = new StringFieldEditor(PreferenceSupplier.NTPSERVER,
-					"NTP-сервер:", getFieldEditorParent());
+			// StringFieldEditor string1 = new
+			// StringFieldEditor(PreferenceSupplier.LOGIN,
+			// "Почта:", getFieldEditorParent());
+			// addField(string1);
+			//
+			// StringFieldEditor string2 = new
+			// StringFieldEditor(PreferenceSupplier.PASSWORD,
+			// "Пароль:", getFieldEditorParent());
+			// addField(string2);
+
+			StringFieldEditor string3 = new StringFieldEditor(
+					PreferenceSupplier.NTPSERVER, "NTP-сервер:",
+					getFieldEditorParent());
 			addField(string3);
-			
-			DirectoryFieldEditor dfe = new DirectoryFieldEditor(PreferenceSupplier.DEFAULT_DIRECTORY,
-					"Каталог по умолчанию:", getFieldEditorParent());
+
+			DirectoryFieldEditor dfe = new DirectoryFieldEditor(
+					PreferenceSupplier.DEFAULT_DIRECTORY,
+					"Каталог конфигураций:", getFieldEditorParent());
+			dfe.setChangeButtonText("...");
 			addField(dfe);
+
+			DirectoryFieldEditor dbfe = new DirectoryFieldEditor(
+					PreferenceSupplier.DEFAULT_BOOK_DIRECTORY, "Каталог книг:",
+					getFieldEditorParent());
+			dbfe.setChangeButtonText("...");
+			addField(dbfe);
+
+			BooleanFieldEditor ie = new BooleanFieldEditor(
+					PreferenceSupplier.INIT_EXECUTION,
+					"Подключать конфигурации при запуске",
+					getFieldEditorParent());
+			addField(ie);
+
+			BooleanFieldEditor ssp = new BooleanFieldEditor(
+					PreferenceSupplier.SHOW_START_PAGE,
+					"Показывать страницу приветствия", getFieldEditorParent());
+			addField(ssp);
 		}
 	}
 
@@ -85,6 +108,7 @@ public class OptionsDialog {
 		/**
 		 * Creates the field editors
 		 */
+		@Override
 		protected void createFieldEditors() {
 			// Add a boolean field
 			BooleanFieldEditor bfe = new BooleanFieldEditor("myBoolean",
@@ -138,6 +162,7 @@ public class OptionsDialog {
 		/**
 		 * Creates the field editors
 		 */
+		@Override
 		protected void createFieldEditors() {
 			// Add an integer field
 			IntegerFieldEditor ife = new IntegerFieldEditor("myInt", "Int:",

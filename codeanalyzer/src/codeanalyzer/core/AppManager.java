@@ -1,5 +1,7 @@
 package codeanalyzer.core;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
@@ -7,6 +9,7 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
 import org.eclipse.e4.ui.workbench.UIEvents;
@@ -14,6 +17,7 @@ import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
@@ -21,6 +25,7 @@ import org.osgi.service.event.EventHandler;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.db.services.FillProcLinkTableJob;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 public class AppManager {
@@ -31,6 +36,10 @@ public class AppManager {
 	public static EModelService model;
 	public static MApplication app;
 	public static boolean closing = false;
+	public static EPartService ps;
+
+	// public static EHandlerService hs;
+	// public static ECommandService cs;
 
 	@PostContextCreate
 	public void postContextCreate() {
@@ -45,12 +54,14 @@ public class AppManager {
 	@ProcessAdditions
 	public void processAdditions(IEventBroker br, IEclipseContext ctx,
 			UISynchronize sync, EModelService modelService,
-			MApplication application) {
+			MApplication application, EPartService ps) {
 
 		AppManager.br = br;
 		AppManager.ctx = ctx;
 		AppManager.sync = sync;
 		AppManager.model = modelService;
+		// AppManager.hs = hs;
+		AppManager.ps = ps;
 		AppManager.app = application;
 
 		MWindow window = (MWindow) modelService.find(
@@ -70,6 +81,27 @@ public class AppManager {
 			WindowCloseHandler closeHandler = new WindowCloseHandler();
 			theWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 			AppManager.br.send(Const.EVENT_UPDATE_STATUS, null);
+
+			// hs.executeHandler(cs.createCommand(Strings.get("command.id.New"),
+			// Collections.EMPTY_MAP));
+
+			// MPart part = ps.createPart(Strings
+			// .get("codeanalyzer.partdescriptor.treeView"));
+			// // part.setLabel("test");
+			//
+			// List<MPartStack> stacks = model.findElements(AppManager.app,
+			// Strings.get("model.id.partstack.tree"), MPartStack.class,
+			// null);
+			// stacks.get(0).getChildren().add(part);
+			//
+			// ps.showPart(part, PartState.CREATE);
+
+			if (!PreferenceSupplier
+					.getBoolean(PreferenceSupplier.SHOW_START_PAGE)) {
+				List<MPart> parts = model.findElements(app,
+						Strings.get("model.id.part.start"), MPart.class, null);
+				parts.get(0).setVisible(false);
+			}
 		}
 
 		AppStartupCompleteEventHandler(MWindow window) {

@@ -21,6 +21,7 @@ public class Const {
 	public static final String URL_exportConf1CLinkOpen = host + "/download";
 	public static final String URL_registrationLinkOpen = host + "/profile";
 	public static final String URL_proLinkOpen = host + "/pro";
+	public static final String URL_docLinkOpen = host + "/documentation";
 	public static final String URL_using = host + "/using";
 	// public static final String URL_updateConfigDescription = "www.yandex.ru";
 	public static final String URL_download = host + "/download";

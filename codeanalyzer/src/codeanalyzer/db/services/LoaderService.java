@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import codeanalyzer.core.pico;
+import codeanalyzer.core.interfaces.IDbServices;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.core.interfaces.ITextParser.Entity;
 import codeanalyzer.core.interfaces.ITextParser.ProcCall;
@@ -24,7 +25,7 @@ public class LoaderService {
 
 	ITextParser parser = pico.get(ITextParser.class);
 
-	DbService service = new DbService();
+	IDbServices service = pico.get(IDbServices.class);
 
 	public void loadTxtModuleFile(Connection con, File f)
 			throws InvocationTargetException {
@@ -36,9 +37,9 @@ public class LoaderService {
 
 			parser.parseTxtModuleName(f, line);
 
-			Integer object = service.addObject(con, line);
+			Integer object = service.load().addObject(con, line);
 
-			service.deleteProcs(con, object);
+			service.load().deleteProcs(con, object);
 
 			Reader in = new InputStreamReader(new FileInputStream(f), "UTF-8");
 			bufferedReader = new BufferedReader(in);
@@ -67,7 +68,7 @@ public class LoaderService {
 							var.text.append(string);
 						}
 						var.export = false;
-						service.addProcedure(con, var, object);
+						service.load().addProcedure(con, var, object);
 
 					}
 
@@ -78,7 +79,7 @@ public class LoaderService {
 
 					// parser.findCalls(proc);
 
-					service.addProcedure(con, proc, object);
+					service.load().addProcedure(con, proc, object);
 
 					currentSection = proc.section;
 
@@ -97,7 +98,7 @@ public class LoaderService {
 					proc.text.append(string);
 				}
 				proc.export = false;
-				service.addProcedure(con, proc, object);
+				service.load().addProcedure(con, proc, object);
 			}
 
 		} catch (Exception e) {
@@ -123,10 +124,10 @@ public class LoaderService {
 	public void fillProcLinkTableDoWork(Connection con, IProgressMonitor monitor)
 			throws Exception {
 
-		monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE,
-				service.getProcCount(con));
+		monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE, service
+				.get().getProcCount(con));
 
-		List<procEntity> procs = service.getProcs(con);
+		List<procEntity> procs = service.get().getProcs(con);
 
 		ArrayList<String> buffer = new ArrayList<String>();
 
@@ -138,7 +139,7 @@ public class LoaderService {
 
 			monitor.subTask(proc.group1 + "." + proc.group2);
 
-			String text = service.getProcText(con, proc.id);
+			String text = service.get().getProcText(con, proc.id);
 			buffer = new ArrayList<String>(Arrays.asList(text.split("\n")));
 
 			proc.calls = new ArrayList<ProcCall>();
@@ -156,7 +157,7 @@ public class LoaderService {
 
 			}
 
-			service.addProcCalls(con, proc, proc.id);
+			service.load().addProcCalls(con, proc, proc.id);
 
 			monitor.worked(1);
 		}
@@ -164,11 +165,11 @@ public class LoaderService {
 	}
 
 	public boolean linkTableFilled(Connection con) throws Exception {
-		return service.linkTableFilled(con);
+		return service.load().linkTableFilled(con);
 	}
 
 	public void clearLinkTable(Connection con) throws Exception {
-		service.clearLinkTable(con);
+		service.load().clearLinkTable(con);
 
 	}
 }

@@ -179,6 +179,7 @@ public class DbManager implements IDbManager {
 					break;
 				case update:
 					loaderManager.update(db, monitor);
+					sheduleFillProcLinkTableJob(db);
 					break;
 				// case fromSQL:
 				// // loaderService.loadFromSQL(db, monitor);
@@ -213,6 +214,10 @@ public class DbManager implements IDbManager {
 
 	@Override
 	public void executeInit(final IDb db) {
+
+		if (!PreferenceSupplier.getBoolean(PreferenceSupplier.INIT_EXECUTION))
+			return;
+
 		if (db.getType() == operationType.fromDb) {
 			new Thread(new Runnable() {
 				@Override

@@ -217,6 +217,7 @@ public class LoaderManager implements ILoaderManager {
 
 			dbStructure.checkSructure(db);
 
+			loaderService.clearLinkTable(con);
 			// db.initDbPath();
 			//
 			// dbStructure.createStructure(db);
@@ -262,8 +263,6 @@ public class LoaderManager implements ILoaderManager {
 			}
 			monitor.done();
 		}
-
-		
 
 	}
 

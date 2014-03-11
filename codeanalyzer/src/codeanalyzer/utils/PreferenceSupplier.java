@@ -13,66 +13,81 @@ public abstract class PreferenceSupplier {
 	private static PreferenceStore preferenceStore;
 	private static final String prefFileName = Strings.get("P_FILE_NAME");
 
+	// ******************************************************************
+
+	public static final String NTPSERVER = "P_NTPSERVER";
+
+	public static final String DEFAULT_DIRECTORY = "P_DEFAULT_DIRECTORY";
+	public static final String INIT_EXECUTION = "P_INIT_EXECUTION";
+
+	public static final String BASE_ACTIVE = "P_BASE_ACTIVE";
+	public static final String BASE_COMPARE = "P_BASE_COMPARE";
+	public static final String SHOW_START_PAGE = "P_SHOW_START_PAGE";
+	public static final String DEFAULT_BOOK_DIRECTORY = "P_DEFAULT_BOOK_DIRECTORY";
+
+	// ******************************************************************
+
 	static {
-		
+
 		preferenceStore = new PreferenceStore(prefFileName);
-		
-		preferenceStore.setDefault("P_NTPSERVER", "ptbtime1.ptb.de");
-		
+
+		preferenceStore.setDefault(PreferenceSupplier.NTPSERVER,
+				"ptbtime1.ptb.de");
+		preferenceStore.setDefault(PreferenceSupplier.SHOW_START_PAGE, true);
+
 		try {
 			preferenceStore.load();
 		} catch (IOException e) {
 			// Ignore
 		}
 	}
-	
-	public static PreferenceStore getPreferenceStore() {		
-        return preferenceStore;
-    }
+
+	public static PreferenceStore getPreferenceStore() {
+		return preferenceStore;
+	}
+
 	public static void save() {
 		try {
 			preferenceStore.save();
 		} catch (IOException e) {
 			// Ignore
-		}		
+		}
 	}
-	
+
 	public static void remove(String id) {
-		preferenceStore.setToDefault(id);		
+		preferenceStore.setToDefault(id);
 	}
-	
+
 	public static String get(String key) {
-		return preferenceStore.getString(key);		
+		return preferenceStore.getString(key);
 	}
-	
+
+	public static Boolean getBoolean(String key) {
+		return preferenceStore.getBoolean(key);
+	}
+
 	public static void set(String key, String value) {
-		preferenceStore.setValue(key, value);		
+		preferenceStore.setValue(key, value);
 	}
-	
+
+	public static void set(String key, Boolean value) {
+		preferenceStore.setValue(key, value);
+	}
+
 	public static List<String> getBaseList() {
-		
+
 		List<String> result = new ArrayList<String>();
-		
+
 		for (String key : preferenceStore.preferenceNames()) {
-			if(key.contains("db."))
+			if (key.contains("db."))
 				result.add(key);
 		}
-		
+
 		return result;
 	}
-	
+
 	public static Preferences getScoupNode() {
 		return ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
 	}
-	
-	//******************************************************************
-	
-	public static final String NTPSERVER = "P_NTPSERVER";
-	
-	public static final String DEFAULT_DIRECTORY = "P_DEFAULT_DIRECTORY";
-	
-	public static final String BASE_ACTIVE = "P_BASE_ACTIVE";
-	public static final String BASE_COMPARE = "P_BASE_COMPARE";
-	
-		
+
 }

@@ -48,7 +48,7 @@ public class BookInfoView {
 	public void openBook(@UIEventTopic(Const.EVENT_OPEN_BOOK) Object o,
 			@Optional BookInfo book, IBookManager bm) {
 		if (book == null) {
-			form.setText("нет книги");
+			title.setText(Strings.get("bookInfoViewTitle"));
 			return;
 		}
 
@@ -90,7 +90,7 @@ public class BookInfoView {
 		title = toolkit.createImageHyperlink(form.getBody(), SWT.WRAP);
 		title.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
-		title.setText(Strings.get("appTitle"));
+		title.setText(Strings.get("bookInfoViewTitle"));
 		title.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {

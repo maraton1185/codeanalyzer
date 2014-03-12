@@ -28,7 +28,7 @@
               </children>
             </children>
             <children xsi:type="basic:PartStack" xmi:id="_sbni0JrjEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.2">
-              <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookInfoView" label="Информация"/>
+              <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookInfoView" label="Текущая книга"/>
               <children xsi:type="basic:Part" xmi:id="_Ak-6QJrjEeOlcttaCxvpFw" elementId="codeanalyzer.part.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookmarkView" label="Закладки"/>
             </children>
           </children>

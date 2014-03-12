@@ -20,11 +20,9 @@ public class ConfigListExecute {
 	public void execute(@Named(Const.CONTEXT_SELECTED_DB) IDb db,
 			IDbManager dbManager, Shell shell, IDbManager dbMng) {
 
-		if (!MessageDialog.openConfirm(
-				shell,
-				Strings.get("appTitle"),
-				db.getName() + ": выполнить "
-						+ dbMng.getOperationName(db.getType()) + "?")) {
+		if (!MessageDialog.openConfirm(shell, Strings.get("appTitle"),
+				db.getName() + ": \n" + dbMng.getOperationName(db.getType())
+						+ "?")) {
 
 			return;
 		}

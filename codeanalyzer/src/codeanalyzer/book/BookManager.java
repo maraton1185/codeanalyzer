@@ -100,6 +100,7 @@ public class BookManager implements IBookManager {
 				con = info.getConnection(true);
 				bookStructure.checkSructure(con, info);
 				bs.getData(con, info);
+				info.setOpened(true);
 
 			} finally {
 				con.close();

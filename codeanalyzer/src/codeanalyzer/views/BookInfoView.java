@@ -116,12 +116,6 @@ public class BookInfoView {
 
 		desc_text = toolkit.createText(form.getBody(), "", SWT.BORDER
 				| SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
-		// desc_text.addModifyListener(new ModifyListener() {
-		// @Override
-		// public void modifyText(ModifyEvent e) {
-		// dirty.setDirty(true);
-		// }
-		// });
 		desc_text.setLayoutData(new GridData(GridData.FILL_BOTH));
 		// desc_text.setEnabled(false);
 
@@ -139,17 +133,27 @@ public class BookInfoView {
 		DataBindingContext ctx = new DataBindingContext();
 
 		// define the IObservables
-		IObservableValue target = WidgetProperties.text(SWT.Modify).observe(
-				desc_text);
-		IObservableValue model = BeanProperties.value(BookInfo.class,
-				"description").observeDetail(bookValue);
+		IObservableValue target;
+		IObservableValue model;
 
+		target = WidgetProperties.enabled().observe(desc_text);
+		model = BeanProperties.value(BookInfo.class, "opened")
+				.observeDetail(bookValue);
+		ctx.bindValue(target, model);
+
+		target = WidgetProperties.text(SWT.Modify).observe(
+				desc_text);
+		model = BeanProperties.value(BookInfo.class,
+				"description").observeDetail(bookValue);
 		ctx.bindValue(target, model);
 
 		for (Object o : ctx.getBindings()) {
 			Binding b = (Binding) o;
 			b.getTarget().addChangeListener(listener);
 		}
+
+		bookValue.setValue(new BookInfo());
+
 		dirty.setDirty(false);
 
 	}

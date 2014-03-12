@@ -22,6 +22,16 @@ public class BookInfo extends ModelObject {
 	private String name;
 
 	private String description = "";
+	private boolean opened = false;
+	private IPath path;
+
+	public boolean isOpened() {
+		return opened;
+	}
+
+	public void setOpened(boolean opened) {
+		fireIndexedPropertyChange("opened", this.opened, this.opened = opened);
+	}
 
 	public String getDescription() {
 		return description;
@@ -31,10 +41,7 @@ public class BookInfo extends ModelObject {
 
 		fireIndexedPropertyChange("description", this.description,
 				this.description = description);
-		// this.description = description;
 	}
-
-	private IPath path;
 
 	public void setName(String name) {
 		this.name = name;

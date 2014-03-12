@@ -3,6 +3,7 @@ package codeanalyzer.book.services;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,13 +17,14 @@ import codeanalyzer.core.exceptions.DbStructureException;
 
 public class BookStructure {
 
-	public void createStructure(BookInfo db) throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException, SQLException {
+	public void createStructure(Connection con, BookInfo db)
+			throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException {
 		IPath path = db.getPath();
 		if (!path.isValidPath(path.toString()))
 			throw new IllegalAccessException();
 
-		Connection con = db.getConnection(false);
+		// Connection con = db.getConnection(false);
 
 		Statement stat = con.createStatement();
 
@@ -30,14 +32,23 @@ public class BookStructure {
 		try {
 
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
-					+ "DESCRIPTION VARCHAR(500), " + "PRIMARY KEY (ID));"
-					+ "INSERT INTO INFO (DESCRIPTION) VALUES ('hello')");
+					+ "DESCRIPTION VARCHAR(500), " + "PRIMARY KEY (ID));");
+
+			String SQL = "INSERT INTO INFO (DESCRIPTION) VALUES (?);";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, db.getName());
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
 
 		} catch (Exception e) {
 			throw new SQLException();
-		} finally {
-			con.close();
 		}
+		// } finally {
+		// con.close();
+		// }
 
 	}
 

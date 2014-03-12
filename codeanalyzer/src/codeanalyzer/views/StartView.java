@@ -52,7 +52,6 @@ public class StartView {
 	HyperlinkAdapter bookSectionHandler;
 	IBookManager bm;
 	private Shell shell;
-	private GridData gd_1;
 
 	@Inject
 	@Optional

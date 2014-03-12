@@ -20,7 +20,7 @@ public class BookInfo {
 
 	private String name;
 
-	private String description;
+	private String description = "";
 
 	public String getDescription() {
 		return description;

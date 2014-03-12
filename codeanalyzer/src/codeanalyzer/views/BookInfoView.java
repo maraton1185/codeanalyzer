@@ -21,7 +21,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
@@ -34,7 +37,8 @@ public class BookInfoView {
 	private ScrolledForm form;
 	Text desc_text;
 	Text path;
-	WritableValue value;
+	WritableValue bookValue;
+	ImageHyperlink title;
 
 	@Inject
 	MDirtyable dirty;
@@ -48,32 +52,54 @@ public class BookInfoView {
 			return;
 		}
 
-		form.setText(book.getName());
+		title.setText(book.getName());
+		title.setImage(book.getImage());
+		// form.setText(book.getName());
 		desc_text.setText(book.getDescription());
 		desc_text.setEnabled(true);
 
 		path.setText(book.getFullName());
 		path.setEnabled(true);
 
-		value.setValue(book);
+		form.reflow(true);
+
+		bookValue.setValue(book);
 
 		dirty.setDirty(false);
 	}
 
 	@Persist
-	public void save(BookInfo book, IBookManager bm, Shell shell) {
+	public void save(@Optional BookInfo book, IBookManager bm, Shell shell) {
+		if (book == null)
+			return;
+
 		if (bm.saveBook(shell))
 			dirty.setDirty(false);
 	}
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {
+
 		Label label;
 
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
-		form.setText(Strings.get("appTitle"));
+		// form.setText(Strings.get("appTitle"));
 		form.getBody().setLayout(new GridLayout(1, false));
+
+		title = toolkit.createImageHyperlink(form.getBody(), SWT.WRAP);
+		title.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
+				1));
+		title.setText(Strings.get("appTitle"));
+		title.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+
+				// NEXT выбрать картинку и скопировать её в каталог книги
+				super.linkActivated(e);
+			}
+
+		});
 
 		label = toolkit.createLabel(form.getBody(), "Описание:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
@@ -99,7 +125,7 @@ public class BookInfoView {
 		path.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		path.setEnabled(false);
 
-		value = new WritableValue();
+		bookValue = new WritableValue();
 		// create new Context
 		DataBindingContext ctx = new DataBindingContext();
 
@@ -107,9 +133,11 @@ public class BookInfoView {
 		IObservableValue target = WidgetProperties.text(SWT.Modify).observe(
 				desc_text);
 		IObservableValue model = PojoProperties.value(BookInfo.class,
-				"description").observeDetail(value);
+				"description").observeDetail(bookValue);
 
 		ctx.bindValue(target, model);
+
+		dirty.setDirty(false);
 
 	}
 }

@@ -16,7 +16,7 @@ public class OpenBookHangler {
 		IPath p = Utils.browseFile(
 				new Path(PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
-				shell, Strings.get("appTitle"), "");
+				shell, Strings.get("appTitle"), "*.db");
 		if (p != null)
 			bm.openBook(p, shell);
 	}

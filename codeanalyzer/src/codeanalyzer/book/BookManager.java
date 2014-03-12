@@ -33,15 +33,21 @@ public class BookManager implements IBookManager {
 		info.setName(value);
 
 		try {
-			bookStructure.createStructure(info);
-			AppManager.ctx.set(BookInfo.class, info);
-
+			Connection con = null;
+			try {
+				con = info.getConnection(false);
+				bookStructure.createStructure(con, info);
+				bs.getData(con, info);
+				AppManager.ctx.set(BookInfo.class, info);
+			} finally {
+				con.close();
+			}
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 		}
 
-		AppManager.br.post(Const.EVENT_OPEN_BOOK, null);
 		AppManager.br.post(Const.EVENT_ADD_BOOK, null);
+		AppManager.br.post(Const.EVENT_OPEN_BOOK, null);
 
 	}
 

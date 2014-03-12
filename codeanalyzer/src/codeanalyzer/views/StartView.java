@@ -55,7 +55,7 @@ public class StartView {
 
 	@Inject
 	@Optional
-	public void updateList(@UIEventTopic(Const.EVENT_ADD_BOOK) Object o,
+	public void updateList(@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) Object o,
 			@Optional BookInfo book) {
 		fillBooks();
 	}

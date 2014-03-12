@@ -46,8 +46,8 @@ public class BookManager implements IBookManager {
 			throw new InvocationTargetException(e);
 		}
 
-		AppManager.br.post(Const.EVENT_ADD_BOOK, null);
-		AppManager.br.post(Const.EVENT_OPEN_BOOK, null);
+		AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST, null);
+		AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
 
 	}
 
@@ -68,6 +68,10 @@ public class BookManager implements IBookManager {
 				return name.contains(".h2.db");
 			}
 		});
+
+		if (files == null)
+			return result;
+
 		for (File f : files) {
 			BookInfo book = new BookInfo();
 			book.setPath(new Path(f.getPath()));
@@ -107,7 +111,7 @@ public class BookManager implements IBookManager {
 			MessageDialog.openError(shell, Strings.get("appTitle"),
 					"Ошибка открытия книги.");
 		}
-		AppManager.br.post(Const.EVENT_OPEN_BOOK, null);
+		AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
 	}
 
 	@Override

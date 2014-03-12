@@ -13,10 +13,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 
+import codeanalyzer.core.models.ModelObject;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
 
-public class BookInfo {
+public class BookInfo extends ModelObject {
 
 	private String name;
 
@@ -27,7 +28,10 @@ public class BookInfo {
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+
+		fireIndexedPropertyChange("description", this.description,
+				this.description = description);
+		// this.description = description;
 	}
 
 	private IPath path;

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.osgi.service.prefs.Preferences;
@@ -36,13 +37,13 @@ public abstract class PreferenceSupplier {
 				"ptbtime1.ptb.de");
 		preferenceStore.setDefault(PreferenceSupplier.SHOW_START_PAGE, true);
 
-		// preferenceStore.setDefault(PreferenceSupplier.DEFAULT_DIRECTORY,
-		// ResourcesPlugin.getWorkspace().getRoot().getLocation()
-		// .toString());
-		//
-		// preferenceStore.setDefault(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY,
-		// ResourcesPlugin.getWorkspace().getRoot().getLocation()
-		// .toString());
+		preferenceStore.setDefault(PreferenceSupplier.DEFAULT_DIRECTORY,
+				ResourcesPlugin.getWorkspace().getRoot().getLocation()
+						.toString());
+
+		preferenceStore.setDefault(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY,
+				ResourcesPlugin.getWorkspace().getRoot().getLocation()
+						.toString());
 
 		try {
 			preferenceStore.load();

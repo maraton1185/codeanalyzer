@@ -40,6 +40,7 @@ public class AppManager {
 	public static boolean closing = false;
 	public static EPartService ps;
 
+	// private static EContextService cs;
 	// public static EHandlerService hs;
 	// public static ECommandService cs;
 
@@ -85,6 +86,8 @@ public class AppManager {
 			AppManager.br.send(Const.EVENT_UPDATE_STATUS, null);
 
 			perspectiveActions();
+
+
 		}
 
 		AppStartupCompleteEventHandler(MWindow window) {

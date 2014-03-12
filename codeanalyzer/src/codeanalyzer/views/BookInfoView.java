@@ -3,8 +3,11 @@ package codeanalyzer.views;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.PojoProperties;
+import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.observable.ChangeEvent;
+import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -13,8 +16,6 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -43,9 +44,17 @@ public class BookInfoView {
 	@Inject
 	MDirtyable dirty;
 
+	IChangeListener listener = new IChangeListener() {
+		@Override
+		public void handleChange(ChangeEvent event) {
+			if (dirty != null)
+				dirty.setDirty(true);
+		}
+	};
+
 	@Inject
 	@Optional
-	public void openBook(@UIEventTopic(Const.EVENT_OPEN_BOOK) Object o,
+	public void openBook(@UIEventTopic(Const.EVENT_UPDATE_BOOK_INFO) Object o,
 			@Optional BookInfo book, IBookManager bm) {
 		if (book == null) {
 			title.setText(Strings.get("bookInfoViewTitle"));
@@ -55,8 +64,8 @@ public class BookInfoView {
 		title.setText(book.getName());
 		title.setImage(book.getImage());
 		// form.setText(book.getName());
-		desc_text.setText(book.getDescription());
-		desc_text.setEnabled(true);
+		// desc_text.setText(book.getDescription());
+		// desc_text.setEnabled(true);
 
 		path.setText(book.getFullName());
 		path.setEnabled(true);
@@ -107,14 +116,14 @@ public class BookInfoView {
 
 		desc_text = toolkit.createText(form.getBody(), "", SWT.BORDER
 				| SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
-		desc_text.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				dirty.setDirty(true);
-			}
-		});
+		// desc_text.addModifyListener(new ModifyListener() {
+		// @Override
+		// public void modifyText(ModifyEvent e) {
+		// dirty.setDirty(true);
+		// }
+		// });
 		desc_text.setLayoutData(new GridData(GridData.FILL_BOTH));
-		desc_text.setEnabled(false);
+		// desc_text.setEnabled(false);
 
 		label = toolkit.createLabel(form.getBody(), "Путь:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
@@ -132,11 +141,15 @@ public class BookInfoView {
 		// define the IObservables
 		IObservableValue target = WidgetProperties.text(SWT.Modify).observe(
 				desc_text);
-		IObservableValue model = PojoProperties.value(BookInfo.class,
+		IObservableValue model = BeanProperties.value(BookInfo.class,
 				"description").observeDetail(bookValue);
 
 		ctx.bindValue(target, model);
 
+		for (Object o : ctx.getBindings()) {
+			Binding b = (Binding) o;
+			b.getTarget().addChangeListener(listener);
+		}
 		dirty.setDirty(false);
 
 	}

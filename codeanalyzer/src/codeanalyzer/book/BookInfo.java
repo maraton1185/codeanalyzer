@@ -60,6 +60,10 @@ public class BookInfo extends ModelObject {
 		return Utils.getAbsolute(path);
 	}
 
+	public String getFullName() {
+		return Utils.getAbsolute(path).append(name).toString();
+	}
+
 	public Image getImage() {
 		File folder = getPath().toFile();
 		File[] files = folder.listFiles(new FileFilter() {
@@ -84,14 +88,6 @@ public class BookInfo extends ModelObject {
 
 		// ImageDescriptor image = ImageDescriptor.createFromURL(path);
 		// this.image = image.createImage();
-	}
-
-	// public void setImage(Image image) {
-	// this.image = image;
-	// }
-
-	public String getFullName() {
-		return Utils.getAbsolute(path).append(name).toString();
 	}
 
 	public String getName() {

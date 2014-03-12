@@ -63,9 +63,6 @@ public class BookInfoView {
 
 		title.setText(book.getName());
 		title.setImage(book.getImage());
-		// form.setText(book.getName());
-		// desc_text.setText(book.getDescription());
-		// desc_text.setEnabled(true);
 
 		path.setText(book.getFullName());
 		path.setEnabled(true);
@@ -117,7 +114,6 @@ public class BookInfoView {
 		desc_text = toolkit.createText(form.getBody(), "", SWT.BORDER
 				| SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
 		desc_text.setLayoutData(new GridData(GridData.FILL_BOTH));
-		// desc_text.setEnabled(false);
 
 		label = toolkit.createLabel(form.getBody(), "Путь:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
@@ -135,7 +131,7 @@ public class BookInfoView {
 		// define the IObservables
 		IObservableValue target;
 		IObservableValue model;
-
+		
 		target = WidgetProperties.enabled().observe(desc_text);
 		model = BeanProperties.value(BookInfo.class, "opened")
 				.observeDetail(bookValue);

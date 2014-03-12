@@ -9,6 +9,7 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
@@ -18,6 +19,7 @@ import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
@@ -82,31 +84,13 @@ public class AppManager {
 			theWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 			AppManager.br.send(Const.EVENT_UPDATE_STATUS, null);
 
-			// hs.executeHandler(cs.createCommand(Strings.get("command.id.New"),
-			// Collections.EMPTY_MAP));
-
-			// MPart part = ps.createPart(Strings
-			// .get("codeanalyzer.partdescriptor.treeView"));
-			// // part.setLabel("test");
-			//
-			// List<MPartStack> stacks = model.findElements(AppManager.app,
-			// Strings.get("model.id.partstack.tree"), MPartStack.class,
-			// null);
-			// stacks.get(0).getChildren().add(part);
-			//
-			// ps.showPart(part, PartState.CREATE);
-
-			if (!PreferenceSupplier
-					.getBoolean(PreferenceSupplier.SHOW_START_PAGE)) {
-				List<MPart> parts = model.findElements(app,
-						Strings.get("model.id.part.start"), MPart.class, null);
-				parts.get(0).setVisible(false);
-			}
+			perspectiveActions();
 		}
 
 		AppStartupCompleteEventHandler(MWindow window) {
 			theWindow = window;
 		}
+
 	}
 
 	private static class showStatusHandler implements EventHandler {
@@ -149,6 +133,36 @@ public class AppManager {
 				e.printStackTrace();
 			}
 			return true;
+		}
+	}
+
+	public static void perspectiveActions() {
+		MPerspective persp;
+
+		if (PreferenceSupplier
+				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE)) {
+
+			persp = (MPerspective) model.find(
+					Strings.get("model.id.perspective.books"), app);
+			persp.setVisible(true);
+			ps.switchPerspective(persp);
+
+		} else {
+
+			persp = (MPerspective) model.find(
+					Strings.get("model.id.perspective.default"), app);
+			persp.setVisible(true);
+			ps.switchPerspective(persp);
+
+			List<MPart> parts = model.findElements(app,
+					Strings.get("model.id.part.start"), MPart.class, null);
+			MPart part = parts.get(0);
+			if (PreferenceSupplier
+					.getBoolean(PreferenceSupplier.SHOW_START_PAGE))
+				ps.showPart(part, PartState.ACTIVATE);
+			else
+				ps.hidePart(part);
+
 		}
 	}
 }

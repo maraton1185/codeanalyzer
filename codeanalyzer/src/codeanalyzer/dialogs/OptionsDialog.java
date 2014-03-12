@@ -48,7 +48,7 @@ public class OptionsDialog {
 	class FieldEditorPageCommon extends FieldEditorPreferencePage {
 		public FieldEditorPageCommon() {
 			// Use the "flat" layout
-			super(FLAT);
+			super(GRID);
 			setTitle("Общие настройки");
 		}
 
@@ -91,11 +91,27 @@ public class OptionsDialog {
 					getFieldEditorParent());
 			addField(ie);
 
+			BooleanFieldEditor sbp = new BooleanFieldEditor(
+					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
+					"При запуске открывать список книг", getFieldEditorParent());
+			addField(sbp);
+
 			BooleanFieldEditor ssp = new BooleanFieldEditor(
 					PreferenceSupplier.SHOW_START_PAGE,
 					"Показывать страницу приветствия", getFieldEditorParent());
 			addField(ssp);
+
+			// Button button;
+			// button = new Button(getFieldEditorParent(), SWT.FLAT);
+			// button.addSelectionListener(new SelectionAdapter() {
+			// @Override
+			// public void widgetSelected(SelectionEvent e) {
+			// AppStartupCompleteEventHandler.perspectiveActions();
+			// }
+			// });
+			// button.setText("Обновить перспективу");
 		}
+
 	}
 
 	class FieldEditorPageOne extends FieldEditorPreferencePage {

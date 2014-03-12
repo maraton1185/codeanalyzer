@@ -18,12 +18,13 @@ public abstract class PreferenceSupplier {
 	public static final String NTPSERVER = "P_NTPSERVER";
 
 	public static final String DEFAULT_DIRECTORY = "P_DEFAULT_DIRECTORY";
-	public static final String INIT_EXECUTION = "P_INIT_EXECUTION";
+	public static final String DEFAULT_BOOK_DIRECTORY = "P_DEFAULT_BOOK_DIRECTORY";
 
+	public static final String INIT_EXECUTION = "P_INIT_EXECUTION";
 	public static final String BASE_ACTIVE = "P_BASE_ACTIVE";
 	public static final String BASE_COMPARE = "P_BASE_COMPARE";
 	public static final String SHOW_START_PAGE = "P_SHOW_START_PAGE";
-	public static final String DEFAULT_BOOK_DIRECTORY = "P_DEFAULT_BOOK_DIRECTORY";
+	public static final String SHOW_BOOK_PERSPECTIVE = "P_SHOW_BOOK_PERSPECTIVE";
 
 	// ******************************************************************
 
@@ -34,6 +35,14 @@ public abstract class PreferenceSupplier {
 		preferenceStore.setDefault(PreferenceSupplier.NTPSERVER,
 				"ptbtime1.ptb.de");
 		preferenceStore.setDefault(PreferenceSupplier.SHOW_START_PAGE, true);
+
+		// preferenceStore.setDefault(PreferenceSupplier.DEFAULT_DIRECTORY,
+		// ResourcesPlugin.getWorkspace().getRoot().getLocation()
+		// .toString());
+		//
+		// preferenceStore.setDefault(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY,
+		// ResourcesPlugin.getWorkspace().getRoot().getLocation()
+		// .toString());
 
 		try {
 			preferenceStore.load();

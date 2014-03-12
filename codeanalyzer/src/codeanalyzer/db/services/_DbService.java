@@ -18,7 +18,7 @@ import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.utils.Const;
 
-public class DbService {
+public class _DbService {
 
 	ITextParser parser = pico.get(ITextParser.class);
 

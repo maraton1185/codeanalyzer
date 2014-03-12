@@ -1,11 +1,11 @@
-package codeanalyzer;
+package codeanalyzer.core;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import codeanalyzer.core.pico;
+import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.core.interfaces.IDbManager;
 
 public class Activator implements BundleActivator {
@@ -18,6 +18,8 @@ public class Activator implements BundleActivator {
 		IEclipseContext ctx = E4Workbench.getServiceContext();
 		ctx.set(IDbManager.class, pico.get(IDbManager.class));
 		pico.get(IDbManager.class).init();
+
+		ctx.set(IBookManager.class, pico.get(IBookManager.class));
 
 		bundle = this;
 

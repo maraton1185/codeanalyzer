@@ -4,9 +4,13 @@ import java.util.Collections;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -30,6 +34,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import codeanalyzer.book.BookInfo;
+import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
@@ -38,13 +44,30 @@ import codeanalyzer.utils.Utils;
 public class StartView {
 
 	FormToolkit toolkit;
+	ScrolledForm form;
 	private Text DEFAULT_BOOK_DIRECTORY;
 	private Text DEFAULT_DIRECTORY;
+	private Section bookSection;
+	Composite bookSectionClient;
+	HyperlinkAdapter bookSectionHandler;
+	IBookManager bm;
+	private Shell shell;
+	private GridData gd_1;
+
+	@Inject
+	@Optional
+	public void updateList(@UIEventTopic(Const.EVENT_ADD_BOOK) Object o,
+			@Optional BookInfo book) {
+		fillBooks();
+	}
 
 	@PostConstruct
 	public void postConstruct(final Composite parent, EMenuService menuService,
 			final ECommandService comService, final EHandlerService hService,
-			final Shell shell) {
+			final Shell shell, final IWorkbench wb, final IBookManager bm) {
+
+		this.bm = bm;
+		this.shell = shell;
 
 		ImageHyperlink link;
 		Hyperlink hlink;
@@ -52,12 +75,17 @@ public class StartView {
 		Label label;
 
 		toolkit = new FormToolkit(parent.getDisplay());
-		final ScrolledForm form = toolkit.createScrolledForm(parent);
+		form = toolkit.createScrolledForm(parent);
+		form.setSize(448, 377);
+		form.setLocation(0, 0);
 		ColumnLayout layout = new ColumnLayout();
 		layout.maxNumColumns = 2;
 		form.getBody().setLayout(layout);
 
 		form.setText(Strings.get("appTitle"));
+
+		// IMAGEHYPERLINKS
+		// *******************************************************
 
 		link = toolkit.createImageHyperlink(form.getBody(), SWT.WRAP);
 		link.setImage(Utils.getImage("add_book.png"));
@@ -126,31 +154,47 @@ public class StartView {
 
 		});
 
-		Section section = toolkit.createSection(form.getBody(), 0);
-		// Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE
-		// | Section.EXPANDED);
-		// Section.DESCRIPTION | Section.EXPANDED);
-		// twd_link = new TableWrapData(TableWrapData.LEFT, TableWrapData.TOP,
-		// 1,
-		// 1);
-		// twd_link.grabHorizontal = true;
-		// twd_link.valign = TableWrapData.BOTTOM;
-		// section.setLayoutData(twd_link);
+		// СПИСОК КНИГ
+		// **************************************************************
 
-		section.addExpansionListener(new ExpansionAdapter() {
+		bookSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR
+				| Section.TWISTIE | Section.EXPANDED);
+
+		bookSection.setText("Список книг");
+		bookSectionClient = toolkit.createComposite(bookSection);
+		bookSectionClient.setLayout(new GridLayout());
+		bookSectionHandler = new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				bm.openBook((BookInfo) e.getHref(), shell);
+				super.linkActivated(e);
+			}
+
+		};
+
+		bookSection.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
+				if (!bookSection.isExpanded())
+					for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
+							.getChildren()) {
+						ctrl.dispose();
+					}
+
+				else {
+					Utils.fillBooks(bm, bookSectionClient, toolkit, shell,
+							bookSectionHandler);
+					bookSection.setClient(bookSectionClient);
+				}
 				form.reflow(true);
 			}
 		});
-		section.setText("Список файлов");
-		// section.setDescription("This is the description that goes below the title");
-		Composite sectionClient = toolkit.createComposite(section);
-		sectionClient.setLayout(new GridLayout());
-		// Button btn = toolkit.createButton(sectionClient, "Radio 1",
-		// SWT.RADIO);
-		// btn = toolkit.createButton(sectionClient, "Radio 2", SWT.RADIO);
-		section.setClient(sectionClient);
+		Utils.fillBooks(bm, bookSectionClient, toolkit, shell,
+				bookSectionHandler);
+		bookSection.setClient(bookSectionClient);
+
+		// ПАРАМЕТРЫ
+		// ****************************************************************
 
 		Section prefSection = toolkit.createSection(form.getBody(),
 		// Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE
@@ -169,13 +213,13 @@ public class StartView {
 				.setDescription("Перед началом работы заполните настройки по умолчанию.");
 		Composite prefSectionClient = toolkit.createComposite(prefSection);
 		GridLayout sectionLayout = new GridLayout();
-		sectionLayout.numColumns = 2;
+		sectionLayout.numColumns = 3;
 		prefSectionClient.setLayout(sectionLayout);
 
 		GridData gd;
 
 		gd = new GridData();
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		label = toolkit.createLabel(prefSectionClient, "Каталог конфигураций:",
 				SWT.LEFT);
 		label.setLayoutData(gd);
@@ -186,7 +230,7 @@ public class StartView {
 		DEFAULT_DIRECTORY.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
 
-		button = new Button(prefSectionClient, SWT.FLAT);
+		button = toolkit.createButton(prefSectionClient, "...", SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -196,10 +240,18 @@ public class StartView {
 				PreferenceSupplier.save();
 			}
 		});
-		button.setText("...");
+
+		button = toolkit.createButton(prefSectionClient, "", SWT.FLAT);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Program.launch(DEFAULT_DIRECTORY.getText());
+			}
+		});
+		button.setImage(Utils.getImage("explore.png"));
 
 		gd = new GridData();
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		label = toolkit.createLabel(prefSectionClient, "Каталог книг:",
 				SWT.LEFT);
 		label.setLayoutData(gd);
@@ -211,7 +263,7 @@ public class StartView {
 		DEFAULT_BOOK_DIRECTORY.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
 
-		button = new Button(prefSectionClient, SWT.FLAT);
+		button = toolkit.createButton(prefSectionClient, "...", SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -222,7 +274,15 @@ public class StartView {
 				PreferenceSupplier.save();
 			}
 		});
-		button.setText("...");
+
+		button = toolkit.createButton(prefSectionClient, "", SWT.FLAT);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Program.launch(DEFAULT_BOOK_DIRECTORY.getText());
+			}
+		});
+		button.setImage(Utils.getImage("explore.png"));
 
 		hlink = toolkit.createHyperlink(prefSectionClient, "Другие...",
 				SWT.WRAP);
@@ -237,8 +297,23 @@ public class StartView {
 
 		});
 		gd = new GridData();
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		hlink.setLayoutData(gd);
+
+		final Button check1 = toolkit.createButton(prefSectionClient,
+				"При запуске открывать список книг", SWT.CHECK);
+		check1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				PreferenceSupplier.set(
+						PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
+						check1.getSelection());
+				PreferenceSupplier.save();
+			}
+		});
+		gd = new GridData();
+		gd.horizontalSpan = 3;
+		check1.setLayoutData(gd);
 
 		final Button check = toolkit.createButton(prefSectionClient,
 				"Не показывать при запуске", SWT.CHECK);
@@ -251,18 +326,25 @@ public class StartView {
 			}
 		});
 		gd = new GridData();
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 3;
 		check.setLayoutData(gd);
 
 		prefSection.setClient(prefSectionClient);
-		// button.addSelectionListener(new SelectionAdapter() {
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		// PreferenceSupplier.set(PreferenceSupplier.SHOW_START_PAGE,
-		// !button.getSelection());
-		// PreferenceSupplier.save();
-		// }
-		// });
+
+	}
+
+	protected void fillBooks() {
+
+		for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
+				.getChildren()) {
+			ctrl.dispose();
+		}
+
+		Utils.fillBooks(bm, bookSectionClient, toolkit, shell,
+				bookSectionHandler);
+		bookSection.setClient(bookSectionClient);
+
+		form.reflow(true);
 
 	}
 

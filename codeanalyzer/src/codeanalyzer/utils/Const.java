@@ -180,5 +180,7 @@ public class Const {
 	public static final String EVENT_PROGRESS_BEGIN_TASK = "EVENT_PROGRESS_BEGIN_TASK";
 	public static final String EVENT_PROGRESS_DONE = "EVENT_PROGRESS_DONE";
 	public static final String EVENT_PROGRESS_ERROR = "EVENT_PROGRESS_ERROR";
+	public static final String EVENT_OPEN_BOOK = "EVENT_UPDATE_BOOK_INFO";
+	public static final String EVENT_ADD_BOOK = "EVENT_ADD_BOOK";
 
 }

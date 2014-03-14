@@ -62,7 +62,7 @@ public class ConfigsView {
 
 	@Inject
 	@Optional
-	public void updateList(
+	public void EVENT_UPDATE_CONFIG_LIST(
 			@UIEventTopic(Const.EVENT_UPDATE_CONFIG_LIST) Object o) {
 		viewer.refresh();
 	}
@@ -101,9 +101,9 @@ public class ConfigsView {
 				Object selected = selection.getFirstElement();
 				if (selected != null) {
 					IDb db = (IDb) selection.getFirstElement();
-					AppManager.ctx.set(Const.CONTEXT_SELECTED_DB, db);
+					AppManager.ctx.set(IDb.class, db);
 				} else
-					AppManager.ctx.set(Const.CONTEXT_SELECTED_DB, null);
+					AppManager.ctx.set(IDb.class, null);
 			}
 		});
 

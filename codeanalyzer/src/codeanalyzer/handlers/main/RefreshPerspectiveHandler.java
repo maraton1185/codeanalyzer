@@ -1,4 +1,4 @@
-package codeanalyzer.handlers;
+package codeanalyzer.handlers.main;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 

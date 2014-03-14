@@ -43,30 +43,36 @@ import codeanalyzer.utils.Utils;
 
 public class StartView {
 
-	FormToolkit toolkit;
-	ScrolledForm form;
 	private Text DEFAULT_BOOK_DIRECTORY;
 	private Text DEFAULT_DIRECTORY;
-	private Section bookSection;
+
+	FormToolkit toolkit;
+	ScrolledForm form;
+	Section bookSection;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
-	IBookManager bm;
-	private Shell shell;
 
 	@Inject
 	@Optional
-	public void updateList(@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) Object o,
-			@Optional BookInfo book) {
-		fillBooks();
+	public void EVENT_UPDATE_BOOK_LIST(
+			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) Object o,
+			@Optional BookInfo book, Shell shell) {
+
+		for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
+				.getChildren()) {
+			ctrl.dispose();
+		}
+
+		Utils.fillBooks(bookSectionClient, toolkit, shell, bookSectionHandler);
+		bookSection.setClient(bookSectionClient);
+
+		form.reflow(true);
 	}
 
 	@PostConstruct
 	public void postConstruct(final Composite parent, EMenuService menuService,
 			final ECommandService comService, final EHandlerService hService,
 			final Shell shell, final IWorkbench wb, final IBookManager bm) {
-
-		this.bm = bm;
-		this.shell = shell;
 
 		ImageHyperlink link;
 		Hyperlink hlink;
@@ -181,15 +187,14 @@ public class StartView {
 					}
 
 				else {
-					Utils.fillBooks(bm, bookSectionClient, toolkit, shell,
+					Utils.fillBooks(bookSectionClient, toolkit, shell,
 							bookSectionHandler);
 					bookSection.setClient(bookSectionClient);
 				}
 				form.reflow(true);
 			}
 		});
-		Utils.fillBooks(bm, bookSectionClient, toolkit, shell,
-				bookSectionHandler);
+		Utils.fillBooks(bookSectionClient, toolkit, shell, bookSectionHandler);
 		bookSection.setClient(bookSectionClient);
 
 		// œ¿–¿Ã≈“–€
@@ -329,21 +334,6 @@ public class StartView {
 		check.setLayoutData(gd);
 
 		prefSection.setClient(prefSectionClient);
-
-	}
-
-	protected void fillBooks() {
-
-		for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
-				.getChildren()) {
-			ctrl.dispose();
-		}
-
-		Utils.fillBooks(bm, bookSectionClient, toolkit, shell,
-				bookSectionHandler);
-		bookSection.setClient(bookSectionClient);
-
-		form.reflow(true);
 
 	}
 

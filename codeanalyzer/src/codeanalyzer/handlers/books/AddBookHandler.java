@@ -1,8 +1,6 @@
-package codeanalyzer.handlers;
+package codeanalyzer.handlers.books;
 
 import java.lang.reflect.InvocationTargetException;
-
-import javax.inject.Named;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -13,13 +11,11 @@ import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 
 public class AddBookHandler {
 	@Execute
-	public void execute(@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db,
-			Shell shell, IBookManager bm) {
+	public void execute(@Optional IDb db, Shell shell, IBookManager bm) {
 
 		InputDialog dlg = new InputDialog(shell,
 				codeanalyzer.utils.Strings.get("appTitle"),

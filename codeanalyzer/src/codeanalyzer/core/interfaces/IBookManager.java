@@ -20,4 +20,6 @@ public interface IBookManager {
 
 	boolean saveBook(Shell shell);
 
+	// void showBook(BookInfo book);
+
 }

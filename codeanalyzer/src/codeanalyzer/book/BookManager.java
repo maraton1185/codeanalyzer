@@ -109,6 +109,8 @@ public class BookManager implements IBookManager {
 			AppManager.ctx.set(BookInfo.class, info);
 
 		} catch (Exception e) {
+
+			AppManager.ctx.set(BookInfo.class, null);
 			MessageDialog.openError(shell, Strings.get("appTitle"),
 					"Ошибка открытия книги.");
 		}
@@ -137,5 +139,13 @@ public class BookManager implements IBookManager {
 
 		return true;
 	}
+
+	// @Override
+	// public void showBook(BookInfo book) {
+	//
+	// if (book == null)
+	// return;
+	//
+	// }
 
 }

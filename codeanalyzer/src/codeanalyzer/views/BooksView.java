@@ -3,6 +3,8 @@ package codeanalyzer.views;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -16,17 +18,40 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.book.BookInfo;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IBookManager;
+import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
 public class BooksView {
 
 	FormToolkit toolkit;
+	ScrolledForm form;
+	Section bookSection;
+	Composite bookSectionClient;
+	HyperlinkAdapter bookSectionHandler;
 
 	@Inject
 	public BooksView() {
 		// TODO Your code here
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_BOOK_LIST(
+			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) Object o,
+			@Optional BookInfo book, Shell shell) {
+
+		for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
+				.getChildren()) {
+			ctrl.dispose();
+		}
+
+		Utils.fillBooks(bookSectionClient, toolkit, shell, bookSectionHandler);
+		bookSection.setClient(bookSectionClient);
+
+		form.reflow(true);
 	}
 
 	@PostConstruct
@@ -36,47 +61,50 @@ public class BooksView {
 		// ImageHyperlink link;
 
 		toolkit = new FormToolkit(parent.getDisplay());
-		final ScrolledForm form = toolkit.createScrolledForm(parent);
+		form = toolkit.createScrolledForm(parent);
 		ColumnLayout layout = new ColumnLayout();
 		layout.maxNumColumns = 2;
 		form.getBody().setLayout(layout);
 
 		form.setText(Strings.get("appTitle"));
 
-		final Section section = toolkit.createSection(form.getBody(),
+		bookSection = toolkit.createSection(form.getBody(),
 		// Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE |
 		// Section.EXPANDED
 				Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
 
-		section.setText("Список книг");
-		final Composite sectionClient = toolkit.createComposite(section);
-		sectionClient.setLayout(new GridLayout());
-		final HyperlinkAdapter handler = new HyperlinkAdapter() {
+		bookSection.setText("Список книг");
+		bookSectionClient = toolkit.createComposite(bookSection);
+		bookSectionClient.setLayout(new GridLayout());
+		bookSectionHandler = new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				bm.openBook((BookInfo) e.getHref(), shell);
+				AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
+
 				super.linkActivated(e);
 			}
 
 		};
-		section.addExpansionListener(new ExpansionAdapter() {
+		bookSection.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
 				if (!e.getState())
-					for (org.eclipse.swt.widgets.Control ctrl : sectionClient
+					for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
 							.getChildren()) {
 						ctrl.dispose();
 					}
 				else {
-					Utils.fillBooks(bm, sectionClient, toolkit, shell, handler);
+					Utils.fillBooks(bookSectionClient, toolkit, shell,
+							bookSectionHandler);
 
-					section.setClient(sectionClient);
+					bookSection.setClient(bookSectionClient);
 				}
 				form.reflow(true);
 			}
 		});
 
-		Utils.fillBooks(bm, sectionClient, toolkit, shell, handler);
-		section.setClient(sectionClient);
+		Utils.fillBooks(bookSectionClient, toolkit, shell, bookSectionHandler);
+		bookSection.setClient(bookSectionClient);
 	}
 }

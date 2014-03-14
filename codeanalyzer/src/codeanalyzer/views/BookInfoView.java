@@ -10,6 +10,8 @@ import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
@@ -29,6 +31,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
@@ -54,8 +57,10 @@ public class BookInfoView {
 
 	@Inject
 	@Optional
-	public void openBook(@UIEventTopic(Const.EVENT_UPDATE_BOOK_INFO) Object o,
-			@Optional BookInfo book, IBookManager bm) {
+	public void EVENT_UPDATE_BOOK_INFO(
+			@UIEventTopic(Const.EVENT_UPDATE_BOOK_INFO) Object o,
+			@Optional BookInfo book, IBookManager bm, final EHandlerService hs,
+			final ECommandService cs) {
 		if (book == null) {
 			title.setText(Strings.get("bookInfoViewTitle"));
 			return;
@@ -101,7 +106,8 @@ public class BookInfoView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 
-				// NEXT выбрать картинку и скопировать её в каталог книги
+				AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
+
 				super.linkActivated(e);
 			}
 
@@ -131,16 +137,15 @@ public class BookInfoView {
 		// define the IObservables
 		IObservableValue target;
 		IObservableValue model;
-		
+
 		target = WidgetProperties.enabled().observe(desc_text);
-		model = BeanProperties.value(BookInfo.class, "opened")
-				.observeDetail(bookValue);
+		model = BeanProperties.value(BookInfo.class, "opened").observeDetail(
+				bookValue);
 		ctx.bindValue(target, model);
 
-		target = WidgetProperties.text(SWT.Modify).observe(
-				desc_text);
-		model = BeanProperties.value(BookInfo.class,
-				"description").observeDetail(bookValue);
+		target = WidgetProperties.text(SWT.Modify).observe(desc_text);
+		model = BeanProperties.value(BookInfo.class, "description")
+				.observeDetail(bookValue);
 		ctx.bindValue(target, model);
 
 		for (Object o : ctx.getBindings()) {

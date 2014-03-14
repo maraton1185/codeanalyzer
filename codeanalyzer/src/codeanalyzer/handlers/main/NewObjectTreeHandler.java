@@ -1,8 +1,6 @@
-package codeanalyzer.handlers;
+package codeanalyzer.handlers.main;
 
 import java.util.List;
-
-import javax.inject.Named;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -14,13 +12,12 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 
 public class NewObjectTreeHandler {
 	@Execute
-	public void execute(@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db,
-			EPartService partService, EModelService model) {
+	public void execute(@Optional IDb db, EPartService partService,
+			EModelService model) {
 		MPart part = partService.createPart(Strings
 				.get("codeanalyzer.partdescriptor.treeView"));
 
@@ -36,9 +33,4 @@ public class NewObjectTreeHandler {
 		partService.showPart(part, PartState.ACTIVATE);
 	}
 
-	// @CanExecute
-	// public boolean canExecute(@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb
-	// db) {
-	// return db != null;
-	// }
 }

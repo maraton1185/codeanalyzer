@@ -2,12 +2,15 @@ package codeanalyzer.utils;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -23,10 +26,17 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import codeanalyzer.book.BookInfo;
+import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.views.ConfigsView;
 
 public abstract class Utils {
+
+	public static void executeHandler(EHandlerService hService,
+			ECommandService comService, String id) {
+		hService.executeHandler(comService.createCommand(id,
+				Collections.EMPTY_MAP));
+	}
 
 	public static String getExtension(File pathname) {
 		String extension = "";
@@ -124,10 +134,9 @@ public abstract class Utils {
 
 	// *********************************************************************
 
-	public static void fillBooks(final IBookManager bm,
-			Composite sectionClient, FormToolkit toolkit, final Shell shell,
-			HyperlinkAdapter handler) {
-		List<BookInfo> bl = bm.getBooks();
+	public static void fillBooks(Composite sectionClient, FormToolkit toolkit,
+			final Shell shell, HyperlinkAdapter handler) {
+		List<BookInfo> bl = pico.get(IBookManager.class).getBooks();
 		for (BookInfo book : bl) {
 			ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
 					SWT.WRAP);

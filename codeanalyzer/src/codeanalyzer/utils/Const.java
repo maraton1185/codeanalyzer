@@ -172,15 +172,18 @@ public class Const {
 	public static final String PATTERN_PROCEDURE_IN_STRING = "(\\.)*([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*\\(";
 	public static final String PATTERN_MODULE = "([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*";
 
-	// Events and ctx *******************************************************
+	// Events *******************************************************
 	public static final String EVENT_UPDATE_STATUS = "update_status";
-	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";
-	public static final String CONTEXT_SELECTED_DB = "context_selected_db";
+
 	public static final String EVENT_PROGRESS_WORKED = "EVENT_PROGRESS_WORKED";
 	public static final String EVENT_PROGRESS_BEGIN_TASK = "EVENT_PROGRESS_BEGIN_TASK";
 	public static final String EVENT_PROGRESS_DONE = "EVENT_PROGRESS_DONE";
 	public static final String EVENT_PROGRESS_ERROR = "EVENT_PROGRESS_ERROR";
+
+	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";
+
 	public static final String EVENT_UPDATE_BOOK_INFO = "EVENT_UPDATE_BOOK_INFO";
 	public static final String EVENT_UPDATE_BOOK_LIST = "EVENT_UPDATE_BOOK_LIST";
+	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
 
 }

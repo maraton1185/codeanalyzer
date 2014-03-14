@@ -37,7 +37,6 @@ public class AppManager {
 	public static UISynchronize sync;
 	public static EModelService model;
 	public static MApplication app;
-	public static boolean closing = false;
 	public static EPartService ps;
 
 	// private static EContextService cs;
@@ -63,7 +62,6 @@ public class AppManager {
 		AppManager.ctx = ctx;
 		AppManager.sync = sync;
 		AppManager.model = modelService;
-		// AppManager.hs = hs;
 		AppManager.ps = ps;
 		AppManager.app = application;
 
@@ -73,7 +71,7 @@ public class AppManager {
 		br.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 				new AppStartupCompleteEventHandler(window));
 
-		br.subscribe(Const.EVENT_UPDATE_STATUS, new showStatusHandler());
+		br.subscribe(Const.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 	}
 
 	private static class AppStartupCompleteEventHandler implements EventHandler {
@@ -87,7 +85,6 @@ public class AppManager {
 
 			perspectiveActions();
 
-
 		}
 
 		AppStartupCompleteEventHandler(MWindow window) {
@@ -96,7 +93,7 @@ public class AppManager {
 
 	}
 
-	private static class showStatusHandler implements EventHandler {
+	private static class EVENT_UPDATE_STATUS implements EventHandler {
 
 		@Override
 		public void handleEvent(Event event) {
@@ -125,7 +122,6 @@ public class AppManager {
 		@Override
 		public boolean close(MWindow window) {
 
-			AppManager.closing = true;
 			IJobManager jobMan = Job.getJobManager();
 			jobMan.cancel(FillProcLinkTableJob.MY_FAMILY);
 			try {

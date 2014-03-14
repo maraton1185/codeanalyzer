@@ -97,7 +97,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Inject
 	@Optional
-	public void event_beginTask(
+	public void EVENT_PROGRESS_BEGIN_TASK(
 			@UIEventTopic(Const.EVENT_PROGRESS_BEGIN_TASK) Object o) {
 
 		if (progressBar.isDisposed())
@@ -113,7 +113,8 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Inject
 	@Optional
-	public void event_worked(@UIEventTopic(Const.EVENT_PROGRESS_WORKED) Object o) {
+	public void EVENT_PROGRESS_WORKED(
+			@UIEventTopic(Const.EVENT_PROGRESS_WORKED) Object o) {
 		if (progressBar.isDisposed())
 			return;
 		progressBar.setSelection(progressBar.getSelection() + (int) o);
@@ -121,7 +122,8 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Inject
 	@Optional
-	public void eventDone(@UIEventTopic(Const.EVENT_PROGRESS_DONE) Object o) {
+	public void EVENT_PROGRESS_DONE(
+			@UIEventTopic(Const.EVENT_PROGRESS_DONE) Object o) {
 		if (progressBar.isDisposed())
 			return;
 		progressBar.setSelection(0);
@@ -131,8 +133,8 @@ public class ProgressControl implements IProgressMonitor {
 
 	@Inject
 	@Optional
-	public void event_error(@UIEventTopic(Const.EVENT_PROGRESS_ERROR) Object o,
-			Shell shell) {
+	public void EVENT_PROGRESS_ERROR(
+			@UIEventTopic(Const.EVENT_PROGRESS_ERROR) Object o, Shell shell) {
 		MessageDialog
 				.openError(shell, "Ошибка выполнения операции", (String) o);
 	}

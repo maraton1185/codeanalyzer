@@ -1,6 +1,4 @@
-package codeanalyzer.handlers;
-
-import javax.inject.Named;
+package codeanalyzer.handlers.config;
 
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
@@ -17,8 +15,8 @@ import codeanalyzer.utils.Strings;
 public class ConfigListExecute {
 
 	@Execute
-	public void execute(@Named(Const.CONTEXT_SELECTED_DB) IDb db,
-			IDbManager dbManager, Shell shell, IDbManager dbMng) {
+	public void execute(IDb db, IDbManager dbManager, Shell shell,
+			IDbManager dbMng) {
 
 		if (!MessageDialog.openConfirm(shell, Strings.get("appTitle"),
 				db.getName() + ": \n" + dbMng.getOperationName(db.getType())
@@ -33,7 +31,7 @@ public class ConfigListExecute {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb db) {
+	public boolean canExecute(@Optional IDb db) {
 		return db != null;
 	}
 

@@ -112,6 +112,19 @@
     </menus>
     <toolbar xmi:id="_ZtkZsKhUEeOKceOp7VW7lQ" elementId="codeanalyzer.toolbar.0"/>
   </descriptors>
+  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="codeanalyzer.window.book">
+    <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="codeanalyzer.partsashcontainer.2" horizontal="true">
+      <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.3" containerData="70000">
+        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.5" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.PageView" label="Страница"/>
+      </children>
+      <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.0" containerData="30000">
+        <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.ContentView" label="Содержание"/>
+      </children>
+    </children>
+    <mainMenu xmi:id="_4G-cUKtuEeOc79QMS88vBA" elementId="codeanalyzer.menu.4">
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_riaO4Kt2EeOc79QMS88vBA" elementId="codeanalyzer.handledmenuitem.0" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
+    </mainMenu>
+  </snippets>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="codeanalyzer.command.Activate" commandName="Сервис -Активация"/>
   <commands xmi:id="_dMqP4JrkEeOlcttaCxvpFw" elementId="codeanalyzer.command.ConfigListAdd" commandName="Добавить"/>

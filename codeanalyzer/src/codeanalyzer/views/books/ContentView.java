@@ -4,8 +4,12 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.Active;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -24,6 +28,7 @@ import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IBookManager;
+import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Utils;
 
 public class ContentView {
@@ -38,6 +43,14 @@ public class ContentView {
 	@Inject
 	@Active
 	BookInfo book;
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_CONTENT_VIEW(
+			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) Object o,
+			@Optional @Named(IServiceConstants.ACTIVE_SELECTION) BookSection section) {
+		viewer.refresh(section);
+	}
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {

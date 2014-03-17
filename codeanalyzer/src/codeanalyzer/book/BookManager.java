@@ -217,4 +217,24 @@ public class BookManager implements IBookManager {
 		return false;
 	}
 
+	// ************************************************************************
+
+	@Override
+	public void addBookSection(BookInfo book, BookSection section) {
+		try {
+			Connection con = null;
+			try {
+				con = book.getConnection(true);
+				bs.addSection(con, section == null ? 0 : section.id);
+
+			} finally {
+				con.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW, null);
+	}
 }

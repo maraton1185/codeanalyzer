@@ -172,4 +172,20 @@ public class BookService {
 		}
 
 	}
+
+	public void addSection(Connection con, int id) throws SQLException {
+
+		String SQL = "INSERT INTO SECTIONS (TITLE, PARENT) VALUES (?,?);";
+		PreparedStatement prep = con.prepareStatement(SQL);
+		prep.setString(1, "Новый раздел");
+		if (id == 0)
+			prep.setNull(2, java.sql.Types.INTEGER);
+		else
+			prep.setInt(2, id);
+
+		int affectedRows = prep.executeUpdate();
+		if (affectedRows == 0)
+			throw new SQLException();
+
+	}
 }

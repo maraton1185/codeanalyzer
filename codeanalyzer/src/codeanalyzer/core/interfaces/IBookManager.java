@@ -31,6 +31,8 @@ public interface IBookManager {
 
 	boolean hasChildren(BookInfo book, BookSection section);
 
+	void addBookSection(BookInfo book, BookSection section);
+
 	// void showBook(BookInfo book);
 
 }

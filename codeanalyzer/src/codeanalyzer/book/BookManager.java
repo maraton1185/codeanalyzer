@@ -38,6 +38,7 @@ public class BookManager implements IBookManager {
 				con = info.getConnection(false);
 				bookStructure.createStructure(con, info);
 				bs.getData(con, info);
+				info.setOpened(true);
 				AppManager.ctx.set(BookInfo.class, info);
 			} finally {
 				con.close();
@@ -115,6 +116,7 @@ public class BookManager implements IBookManager {
 					"Ошибка открытия книги.");
 		}
 		AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
+		// AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
 	}
 
 	@Override
@@ -140,12 +142,79 @@ public class BookManager implements IBookManager {
 		return true;
 	}
 
-	// @Override
-	// public void showBook(BookInfo book) {
-	//
-	// if (book == null)
-	// return;
-	//
-	// }
+	// ************************************************************************
+
+	@Override
+	public List<BookSection> getSections(BookInfo book) {
+
+		try {
+			Connection con = null;
+			try {
+				con = book.getConnection(true);
+				return bs.getSections(con);
+
+			} finally {
+				con.close();
+			}
+
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	@Override
+	public List<BookSection> getChildren(BookInfo book, BookSection section) {
+		try {
+			Connection con = null;
+			try {
+				con = book.getConnection(true);
+				return bs.getChildren(con, section.id);
+
+			} finally {
+				con.close();
+			}
+
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	@Override
+	public BookSection getParent(BookInfo book, BookSection section) {
+		try {
+			Connection con = null;
+			try {
+				con = book.getConnection(true);
+				return bs.getParent(con, section.id);
+
+			} finally {
+				con.close();
+			}
+
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+
+	@Override
+	public boolean hasChildren(BookInfo book, BookSection section) {
+		try {
+			Connection con = null;
+			try {
+				con = book.getConnection(true);
+				return bs.hasChildren(con, section.id);
+
+			} finally {
+				con.close();
+			}
+
+		} catch (Exception e) {
+
+		}
+		return false;
+	}
 
 }

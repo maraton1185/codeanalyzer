@@ -32,7 +32,15 @@ public class BookStructure {
 		try {
 
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
-					+ "DESCRIPTION VARCHAR(500), " + "PRIMARY KEY (ID));");
+					+ "DESCRIPTION VARCHAR(500), PRIMARY KEY (ID));");
+
+			stat.execute("CREATE TABLE SECTIONS (ID INTEGER AUTO_INCREMENT, "
+					+ "PARENT INTEGER, SORT INTEGER, "
+					+ "TITLE VARCHAR(500), "
+					+ "FOREIGN KEY(PARENT) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			// *****************************
 
 			String SQL = "INSERT INTO INFO (DESCRIPTION) VALUES (?);";
 			PreparedStatement prep = con.prepareStatement(SQL,
@@ -89,7 +97,7 @@ public class BookStructure {
 
 		checker ch = new checker();
 		haveStructure = ch.checkColumns(metadata, "INFO", "DESCRIPTION")
-		// && ch.checkColumns(metadata, "PROCS",
+				&& ch.checkColumns(metadata, "SECTIONS", "PARENT, SORT, TITLE")
 		// "OBJECT, GROUP1, GROUP2, MODULE, NAME, TITLE, EXPORT, CONTEXT, SECTION")
 		;
 

@@ -5,10 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
 
 import codeanalyzer.book.BookInfo;
+import codeanalyzer.book.BookSection;
 
 public class BookService {
 
@@ -82,5 +85,91 @@ public class BookService {
 		// } finally {
 		// generatedKeys.close();
 		// }
+	}
+
+	public List<BookSection> getSections(Connection con) throws SQLException {
+
+		List<BookSection> result = new ArrayList<BookSection>();
+
+		String SQL = "Select T.TITLE FROM SECTIONS AS T ORDER BY T.SORT";
+		Statement stat = con.createStatement();
+		ResultSet rs = stat.executeQuery(SQL);
+		try {
+			while (rs.next()) {
+
+				BookSection sec = new BookSection();
+				sec.title = rs.getString(1);
+				result.add(sec);
+			}
+		} finally {
+			rs.close();
+		}
+
+		return result;
+	}
+
+	public List<BookSection> getChildren(Connection con, int parent)
+			throws SQLException {
+		List<BookSection> result = new ArrayList<BookSection>();
+
+		String SQL = "Select T.TITLE FROM SECTIONS AS T ORDER BY T.SORT WHERE T.PARENT=?";
+
+		PreparedStatement prep = con.prepareStatement(SQL);
+		prep.setInt(1, parent);
+		ResultSet rs = prep.executeQuery();
+
+		try {
+			while (rs.next()) {
+
+				BookSection sec = new BookSection();
+				sec.title = rs.getString(1);
+				result.add(sec);
+			}
+		} finally {
+			rs.close();
+		}
+
+		return result;
+	}
+
+	public BookSection getParent(Connection con, int id) throws SQLException {
+
+		String SQL = "Select T1.TITLE FROM SECTIONS AS T ORDER BY T.SORT WHERE T.ID=?"
+				+ "LEFT JOIN SECTIONS AS T1 ON T.PARENT = T1.ID";
+
+		PreparedStatement prep = con.prepareStatement(SQL);
+		prep.setInt(1, id);
+		ResultSet rs = prep.executeQuery();
+
+		try {
+			if (rs.next()) {
+
+				BookSection sec = new BookSection();
+				sec.title = rs.getString(1);
+				return sec;
+			}
+		} finally {
+			rs.close();
+		}
+
+		return null;
+	}
+
+	public boolean hasChildren(Connection con, int id) throws SQLException {
+
+		String SQL = "Select COUNT(ID) from SECTIONS WHERE PARENT=?";
+		PreparedStatement prep = con.prepareStatement(SQL);
+		prep.setInt(1, id);
+		ResultSet rs = prep.executeQuery();
+
+		try {
+			if (rs.next())
+				return true;
+			else
+				return false;
+		} finally {
+			rs.close();
+		}
+
 	}
 }

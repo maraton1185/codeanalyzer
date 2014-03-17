@@ -20,6 +20,7 @@ import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
@@ -38,6 +39,7 @@ public class AppManager {
 	public static EModelService model;
 	public static MApplication app;
 	public static EPartService ps;
+	public static ESelectionService ss;
 
 	// private static EContextService cs;
 	// public static EHandlerService hs;
@@ -56,8 +58,9 @@ public class AppManager {
 	@ProcessAdditions
 	public void processAdditions(IEventBroker br, IEclipseContext ctx,
 			UISynchronize sync, EModelService modelService,
-			MApplication application, EPartService ps) {
+			MApplication application, EPartService ps, ESelectionService ss) {
 
+		AppManager.ss = ss;
 		AppManager.br = br;
 		AppManager.ctx = ctx;
 		AppManager.sync = sync;

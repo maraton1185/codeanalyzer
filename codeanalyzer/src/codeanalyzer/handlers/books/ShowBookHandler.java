@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.Active;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -39,7 +41,7 @@ public class ShowBookHandler {
 
 	@Execute
 	public void execute(EPartService partService, EModelService model,
-			final BookInfo book) {
+			final @Active BookInfo book, IEclipseContext ctx) {
 
 		MWindow mainWindow = AppManager.app.getChildren().get(0);
 
@@ -53,7 +55,7 @@ public class ShowBookHandler {
 
 		if (windows.isEmpty())
 
-			createBookWindow(mainWindow, book, model);
+			createBookWindow(mainWindow, book, model, ctx);
 
 		else {
 			MWindow w = windows.get(0);
@@ -63,7 +65,7 @@ public class ShowBookHandler {
 	}
 
 	private void createBookWindow(MWindow mainWindow, BookInfo book,
-			EModelService model) {
+			EModelService model, IEclipseContext ctx) {
 
 		MTrimmedWindow bookWindow = (MTrimmedWindow) model.cloneSnippet(
 				AppManager.app, Strings.get("model.id.book.window"), null);
@@ -78,9 +80,13 @@ public class ShowBookHandler {
 		bookWindow.setHeight(mainWindow.getHeight());
 		bookWindow.getTags().add(book.getFullName());
 
+		// bookWindow.getTransientData().put(Const.WINDOW_CONTEXT, book);
+		// IEclipseContext ctx1 = ctx.createChild();
+		// ctx1.set(BookInfo.class, book);
+		// bookWindow.setContext(ctx1);
+		// bookWindow.getContext().set(BookInfo.class, book);
 		AppManager.app.getChildren().add(bookWindow);
-
-		// NEXT окно книги
+		bookWindow.getContext().set(BookInfo.class, book);
 
 		// // bookWindow.getTags().add("");
 		// List<MPart> part = model.findElements(AppManager.app,

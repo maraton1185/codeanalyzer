@@ -58,16 +58,6 @@ public class OptionsDialog {
 		@Override
 		protected void createFieldEditors() {
 
-			// StringFieldEditor string1 = new
-			// StringFieldEditor(PreferenceSupplier.LOGIN,
-			// "Почта:", getFieldEditorParent());
-			// addField(string1);
-			//
-			// StringFieldEditor string2 = new
-			// StringFieldEditor(PreferenceSupplier.PASSWORD,
-			// "Пароль:", getFieldEditorParent());
-			// addField(string2);
-
 			StringFieldEditor string3 = new StringFieldEditor(
 					PreferenceSupplier.NTPSERVER, "NTP-сервер:",
 					getFieldEditorParent());
@@ -101,15 +91,16 @@ public class OptionsDialog {
 					"Показывать страницу приветствия", getFieldEditorParent());
 			addField(ssp);
 
-			// Button button;
-			// button = new Button(getFieldEditorParent(), SWT.FLAT);
-			// button.addSelectionListener(new SelectionAdapter() {
-			// @Override
-			// public void widgetSelected(SelectionEvent e) {
-			// AppStartupCompleteEventHandler.perspectiveActions();
-			// }
-			// });
-			// button.setText("Обновить перспективу");
+			BooleanFieldEditor obs = new BooleanFieldEditor(
+					PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
+					"Открывать книгу при запуске", getFieldEditorParent());
+			addField(obs);
+
+			FileFieldEditor obsf = new FileFieldEditor(
+					PreferenceSupplier.BOOK_ON_STARTUP, "Книга:",
+					getFieldEditorParent());
+			obsf.setChangeButtonText("...");
+			addField(obsf);
 		}
 
 	}

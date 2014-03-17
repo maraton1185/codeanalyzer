@@ -26,6 +26,8 @@ public abstract class PreferenceSupplier {
 	public static final String BASE_COMPARE = "P_BASE_COMPARE";
 	public static final String SHOW_START_PAGE = "P_SHOW_START_PAGE";
 	public static final String SHOW_BOOK_PERSPECTIVE = "P_SHOW_BOOK_PERSPECTIVE";
+	public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
+	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
 
 	// ******************************************************************
 

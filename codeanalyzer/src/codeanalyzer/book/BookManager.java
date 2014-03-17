@@ -112,7 +112,8 @@ public class BookManager implements IBookManager {
 		} catch (Exception e) {
 
 			AppManager.ctx.set(BookInfo.class, null);
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			if (shell != null)
+				MessageDialog.openError(shell, Strings.get("appTitle"),
 					"Ошибка открытия книги.");
 		}
 		AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);

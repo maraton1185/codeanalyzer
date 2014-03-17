@@ -2,7 +2,9 @@ package codeanalyzer.core;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.contexts.IEclipseContext;
@@ -22,10 +24,12 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 import codeanalyzer.core.interfaces.IAuthorize;
+import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.db.services.FillProcLinkTableJob;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -88,6 +92,26 @@ public class AppManager {
 
 			perspectiveActions();
 
+			openBookOnStartup();
+
+		}
+
+		private void openBookOnStartup() {
+			
+			if(!PreferenceSupplier.getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
+				return;
+			
+			IPath p = new Path(
+					PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
+			if (p.isEmpty())
+				return;
+
+			IBookManager bm = pico.get(IBookManager.class);
+
+			bm.openBook(p, (Shell) theWindow.getWidget());
+
+			AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
+			
 		}
 
 		AppStartupCompleteEventHandler(MWindow window) {

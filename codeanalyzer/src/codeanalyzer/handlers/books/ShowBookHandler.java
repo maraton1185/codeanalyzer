@@ -17,9 +17,11 @@ import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.core.AppManager;
+import codeanalyzer.core.AppManager.BookWindowCloseHandler;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -88,6 +90,8 @@ public class ShowBookHandler {
 		AppManager.app.getChildren().add(bookWindow);
 		bookWindow.getContext().set(BookInfo.class, book);
 
+		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
+		bookWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 		// // bookWindow.getTags().add("");
 		// List<MPart> part = model.findElements(AppManager.app,
 		// Strings.get("codeanalyzer.part.3"), MPart.class, null);

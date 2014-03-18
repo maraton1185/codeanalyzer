@@ -1,5 +1,6 @@
 package codeanalyzer.views.books;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -23,12 +24,15 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
 public class ContentView {
@@ -49,7 +53,12 @@ public class ContentView {
 	public void EVENT_UPDATE_CONTENT_VIEW(
 			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) Object o,
 			@Optional @Named(IServiceConstants.ACTIVE_SELECTION) BookSection section) {
+		// if (section == null)
+		// viewer.setInput(bm.getSections(book));
+		// else
 		viewer.refresh(section);
+
+		viewer.setExpandedState(section, true);
 	}
 
 	@PostConstruct
@@ -57,6 +66,18 @@ public class ContentView {
 		// this.book = book;
 		// this.bm = bm;
 		// book = (BookInfo) w.getTransientData().get(Const.WINDOW_CONTEXT);
+
+		try {
+			bm.sections().setBook(book);
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+			FormToolkit toolkit = new FormToolkit(parent.getDisplay());
+			ScrolledForm form = toolkit.createScrolledForm(parent);
+			form.setText(Strings.get("error.openBook"));
+			return;
+		}
 
 		Composite treeComposite = new Composite(parent, SWT.NONE);
 		TreeColumnLayout treeColumnLayout = new TreeColumnLayout();
@@ -66,7 +87,7 @@ public class ContentView {
 				| SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setInput(bm.getSections(book));
+		viewer.setInput(bm.sections().get());
 
 		// viewer is a JFace Viewer
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -97,19 +118,19 @@ public class ContentView {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			return bm.getChildren(book, (BookSection) parentElement).toArray();
+			return bm.sections().getChildren((BookSection) parentElement)
+					.toArray();
 		}
 
 		@Override
 		public Object getParent(Object element) {
-			return bm.getParent(book, (BookSection) element);
+			return bm.sections().getParent((BookSection) element);
 		}
 
 		@Override
 		public boolean hasChildren(Object element) {
-			return bm.hasChildren(book, (BookSection) element);
+			return bm.sections().hasChildren((BookSection) element);
 		}
-
 	}
 
 	class ViewLabelProvider extends StyledCellLabelProvider {

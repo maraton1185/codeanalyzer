@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IPath;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.core.exceptions.DbStructureException;
+import codeanalyzer.utils.Strings;
 
 public class BookStructure {
 
@@ -32,7 +33,8 @@ public class BookStructure {
 		try {
 
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
-					+ "DESCRIPTION VARCHAR(500), PRIMARY KEY (ID));");
+					+ "DESCRIPTION VARCHAR(500), SELECTED_SECTION INTEGER, "
+					+ "PRIMARY KEY (ID));");
 
 			stat.execute("CREATE TABLE SECTIONS (ID INTEGER AUTO_INCREMENT, "
 					+ "PARENT INTEGER, SORT INTEGER, "
@@ -41,13 +43,24 @@ public class BookStructure {
 					+ "PRIMARY KEY (ID));");
 
 			// *****************************
+			String SQL;
+			PreparedStatement prep;
+			int affectedRows;
 
-			String SQL = "INSERT INTO INFO (DESCRIPTION) VALUES (?);";
-			PreparedStatement prep = con.prepareStatement(SQL,
-					Statement.CLOSE_CURRENT_RESULT);
+			SQL = "INSERT INTO INFO (DESCRIPTION, SELECTED_SECTION) VALUES (?, ?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, db.getName());
-			int affectedRows = prep.executeUpdate();
+			prep.setInt(2, 1);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			SQL = "INSERT INTO SECTIONS (TITLE) VALUES (?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initBookSectionTitle"));
+			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
 
@@ -96,16 +109,11 @@ public class BookStructure {
 		DatabaseMetaData metadata = con.getMetaData();
 
 		checker ch = new checker();
-		haveStructure = ch.checkColumns(metadata, "INFO", "DESCRIPTION")
+		haveStructure = ch.checkColumns(metadata, "INFO",
+				"DESCRIPTION, SELECTED_SECTION")
 				&& ch.checkColumns(metadata, "SECTIONS", "PARENT, SORT, TITLE")
-		// "OBJECT, GROUP1, GROUP2, MODULE, NAME, TITLE, EXPORT, CONTEXT, SECTION")
-		;
 
-		// } catch (Exception e) {
-		// throw new DbStructureException();
-		// } finally {
-		// con.close();
-		// }
+		;
 
 		if (!haveStructure)
 			throw new DbStructureException();

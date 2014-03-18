@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.book.services.BookSectionsService;
 import codeanalyzer.book.services.BookService;
 import codeanalyzer.book.services.BookStructure;
 import codeanalyzer.core.AppManager;
@@ -24,22 +25,34 @@ public class BookManager implements IBookManager {
 
 	BookStructure bookStructure = new BookStructure();
 	BookService bs = new BookService();
+	BookSectionsService bookSections;
 
-	BookInfo info = new BookInfo();
+	BookService books;
+
+	@Override
+	public BookSectionsService sections() {
+
+		bookSections = bookSections == null ? new BookSectionsService()
+				: bookSections;
+
+		return bookSections;
+	}
 
 	@Override
 	public void addBook(String value) throws InvocationTargetException {
 
-		info.setName(value);
+		BookInfo book = new BookInfo();
+
+		book.setName(value);
 
 		try {
 			Connection con = null;
 			try {
-				con = info.getConnection(false);
-				bookStructure.createStructure(con, info);
-				bs.getData(con, info);
-				info.setOpened(true);
-				AppManager.ctx.set(BookInfo.class, info);
+				con = book.makeConnection(false);
+				bookStructure.createStructure(con, book);
+				bs.getData(con, book);
+				book.setOpened(true);
+				AppManager.ctx.set(BookInfo.class, book);
 			} finally {
 				con.close();
 			}
@@ -62,6 +75,7 @@ public class BookManager implements IBookManager {
 						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY))
 				.toFile();
 		File[] files = folder.listFiles(new FileFilter() {
+
 			@Override
 			public boolean accept(File file) {
 
@@ -85,50 +99,52 @@ public class BookManager implements IBookManager {
 	@Override
 	public void openBook(IPath path, Shell shell) {
 
-		info.setPath(path);
+		BookInfo book = new BookInfo();
 
-		openBook(info, shell);
+		book.setPath(path);
+
+		openBook(book, shell);
 
 	}
 
 	@Override
 	public void openBook(BookInfo book, Shell shell) {
-		info = book;
+
 		try {
 
 			Connection con = null;
 			try {
-				con = info.getConnection(true);
-				bookStructure.checkSructure(con, info);
-				bs.getData(con, info);
-				info.setOpened(true);
+				con = book.makeConnection(true);
+				bookStructure.checkSructure(con, book);
+				bs.getData(con, book);
+				book.setOpened(true);
 
 			} finally {
 				con.close();
 			}
 
-			AppManager.ctx.set(BookInfo.class, info);
+			AppManager.ctx.set(BookInfo.class, book);
 
 		} catch (Exception e) {
 
 			AppManager.ctx.set(BookInfo.class, null);
 			if (shell != null)
 				MessageDialog.openError(shell, Strings.get("appTitle"),
-					"Ошибка открытия книги.");
+						"Ошибка открытия книги.");
 		}
 		AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
 		// AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
 	}
 
 	@Override
-	public boolean saveBook(Shell shell) {
+	public boolean saveBook(BookInfo book, Shell shell) {
 
 		try {
 			Connection con = null;
 			try {
-				con = info.getConnection(true);
-				bookStructure.checkSructure(con, info);
-				bs.setData(con, info);
+				con = book.makeConnection(true);
+				bookStructure.checkSructure(con, book);
+				bs.setData(con, book);
 
 			} finally {
 				con.close();
@@ -143,99 +159,4 @@ public class BookManager implements IBookManager {
 		return true;
 	}
 
-	// ************************************************************************
-
-	@Override
-	public List<BookSection> getSections(BookInfo book) {
-
-		try {
-			Connection con = null;
-			try {
-				con = book.getConnection(true);
-				return bs.getSections(con);
-
-			} finally {
-				con.close();
-			}
-
-		} catch (Exception e) {
-
-		}
-		return null;
-	}
-
-	@Override
-	public List<BookSection> getChildren(BookInfo book, BookSection section) {
-		try {
-			Connection con = null;
-			try {
-				con = book.getConnection(true);
-				return bs.getChildren(con, section.id);
-
-			} finally {
-				con.close();
-			}
-
-		} catch (Exception e) {
-
-		}
-		return null;
-	}
-
-	@Override
-	public BookSection getParent(BookInfo book, BookSection section) {
-		try {
-			Connection con = null;
-			try {
-				con = book.getConnection(true);
-				return bs.getParent(con, section.id);
-
-			} finally {
-				con.close();
-			}
-
-		} catch (Exception e) {
-
-		}
-		return null;
-	}
-
-	@Override
-	public boolean hasChildren(BookInfo book, BookSection section) {
-		try {
-			Connection con = null;
-			try {
-				con = book.getConnection(true);
-				return bs.hasChildren(con, section.id);
-
-			} finally {
-				con.close();
-			}
-
-		} catch (Exception e) {
-
-		}
-		return false;
-	}
-
-	// ************************************************************************
-
-	@Override
-	public void addBookSection(BookInfo book, BookSection section) {
-		try {
-			Connection con = null;
-			try {
-				con = book.getConnection(true);
-				bs.addSection(con, section == null ? 0 : section.id);
-
-			} finally {
-				con.close();
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW, null);
-	}
 }

@@ -84,7 +84,7 @@ public class BookInfoView {
 		if (book == null)
 			return;
 
-		if (bm.saveBook(shell))
+		if (bm.saveBook(book, shell))
 			dirty.setDirty(false);
 	}
 

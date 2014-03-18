@@ -94,7 +94,11 @@ public class BookInfo extends ModelObject {
 		return name;
 	}
 
-	public Connection getConnection(boolean exist)
+	// CONNECTION
+	// *****************************************************************
+	private Connection con;
+
+	public Connection makeConnection(boolean exist)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException, SQLException {
 
@@ -105,6 +109,48 @@ public class BookInfo extends ModelObject {
 
 		return DriverManager.getConnection("jdbc:h2:" + path.toString()
 				+ ifExist, "sa", "");
+
 	}
 
+	public Connection getConnection() throws IllegalAccessException {
+
+		if (con == null)
+			throw new IllegalAccessException();
+		else
+			return con;
+
+	}
+
+	public void openConnection() throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException, SQLException {
+		if (con != null)
+			return;
+
+		Class.forName("org.h2.Driver").newInstance();
+		boolean exist = true;
+		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
+
+		IPath path = getPath().append(name);
+
+		con = DriverManager.getConnection("jdbc:h2:" + path.toString()
+				+ ifExist, "sa", "");
+	}
+
+	public void closeConnection() {
+		if (con == null)
+			return;
+		try {
+
+			con.close();
+			con = null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void finalize() {
+		closeConnection();
+	};
 }

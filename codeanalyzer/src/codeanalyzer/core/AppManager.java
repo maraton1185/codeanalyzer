@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
+import codeanalyzer.book.BookInfo;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.db.services.FillProcLinkTableJob;
@@ -97,10 +98,11 @@ public class AppManager {
 		}
 
 		private void openBookOnStartup() {
-			
-			if(!PreferenceSupplier.getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
+
+			if (!PreferenceSupplier
+					.getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
 				return;
-			
+
 			IPath p = new Path(
 					PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
 			if (p.isEmpty())
@@ -111,7 +113,7 @@ public class AppManager {
 			bm.openBook(p, (Shell) theWindow.getWidget());
 
 			AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
-			
+
 		}
 
 		AppStartupCompleteEventHandler(MWindow window) {
@@ -158,6 +160,17 @@ public class AppManager {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			return true;
+		}
+	}
+
+	public static class BookWindowCloseHandler implements IWindowCloseHandler {
+
+		@Override
+		public boolean close(MWindow window) {
+
+			BookInfo book = window.getContext().get(BookInfo.class);
+			book.closeConnection();
 			return true;
 		}
 	}

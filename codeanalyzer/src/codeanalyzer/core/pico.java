@@ -29,12 +29,16 @@ public final class pico {
 
 	private static void init() {
 		instance.as(Characteristics.CACHE).addComponent(SignIn.class);
-		instance.as(Characteristics.CACHE).addComponent(DbManager.class);
+
 		instance.addComponent(Db.class);
-		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
-		instance.as(Characteristics.CACHE).addComponent(TextParser.class);
+		instance.as(Characteristics.CACHE).addComponent(DbManager.class);
 		instance.as(Characteristics.CACHE).addComponent(DbServices.class);
+
+		instance.as(Characteristics.CACHE).addComponent(TextParser.class);
+		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
+
 		instance.as(Characteristics.CACHE).addComponent(BookManager.class);
+		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
 		// instance.as(Characteristics.CACHE).addComponent(BookService.class);
 		// instance.as(Characteristics.CACHE).addComponent(Events.class);
 		// instance.as(Characteristics.CACHE).addComponent(EditorFactory.class);

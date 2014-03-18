@@ -7,7 +7,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.book.BookInfo;
-import codeanalyzer.book.BookSection;
+import codeanalyzer.book.services.BookSectionsService;
 
 public interface IBookManager {
 
@@ -19,20 +19,8 @@ public interface IBookManager {
 
 	void openBook(BookInfo book, Shell shell);
 
-	boolean saveBook(Shell shell);
+	boolean saveBook(BookInfo book, Shell shell);
 
-	// *********************************************
-
-	List<BookSection> getSections(BookInfo book);
-
-	List<BookSection> getChildren(BookInfo book, BookSection section);
-
-	BookSection getParent(BookInfo book, BookSection section);
-
-	boolean hasChildren(BookInfo book, BookSection section);
-
-	void addBookSection(BookInfo book, BookSection section);
-
-	// void showBook(BookInfo book);
+	BookSectionsService sections();
 
 }

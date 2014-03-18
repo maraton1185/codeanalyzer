@@ -2,7 +2,6 @@ package codeanalyzer.handlers.books;
 
 import javax.inject.Named;
 
-import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -20,19 +19,22 @@ public class BookAddSection {
 			BookInfo book,
 			@Optional @Named(IServiceConstants.ACTIVE_SELECTION) BookSection section,
 			IBookManager bm) {
-		// NEXT add section
-		// MessageDialog.openInformation(shell, "",
-		// "add section to book " + book.getName());
 
-		bm.addBookSection(book, section);
+		bm.sections().add(section);
 
 	}
 
+	// @CanExecute
+	// public boolean canExecute(@Optional @Active BookInfo book) {
+	// // BookInfo book = (BookInfo) w.getTransientData().get(
+	// // Const.WINDOW_CONTEXT);
+	// return book != null;
+	// }
+
 	@CanExecute
-	public boolean canExecute(@Optional @Active BookInfo book) {
-		// BookInfo book = (BookInfo) w.getTransientData().get(
-		// Const.WINDOW_CONTEXT);
-		return book != null;
+	public boolean canExecute(
+			@Optional @Named(IServiceConstants.ACTIVE_SELECTION) BookSection section) {
+		return section != null;
 	}
 
 }

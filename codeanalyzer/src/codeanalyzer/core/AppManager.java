@@ -28,7 +28,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import codeanalyzer.book.BookInfo;
 import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.db.services.FillProcLinkTableJob;
@@ -169,8 +168,8 @@ public class AppManager {
 		@Override
 		public boolean close(MWindow window) {
 
-			BookInfo book = window.getContext().get(BookInfo.class);
-			book.closeConnection();
+			// BookInfo book = window.getContext().get(BookInfo.class);
+			// book.closeConnection();
 			// AppManager.ss.setSelection(null);
 			return true;
 		}

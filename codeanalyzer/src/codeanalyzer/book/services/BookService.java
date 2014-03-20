@@ -65,24 +65,6 @@ public class BookService {
 		} finally {
 			rs.close();
 		}
-
-		// int affectedRows = prep.executeUpdate();
-		// if (affectedRows == 0)
-		// throw new SQLException();
-		//
-		// String
-
-		// Integer index = 0;
-		// ResultSet generatedKeys = null;
-		// try {
-		// generatedKeys = prep.getGeneratedKeys();
-		// if (generatedKeys.next())
-		// index = generatedKeys.getInt(1);
-		// else
-		// throw new SQLException();
-		// } finally {
-		// generatedKeys.close();
-		// }
 	}
 
 }

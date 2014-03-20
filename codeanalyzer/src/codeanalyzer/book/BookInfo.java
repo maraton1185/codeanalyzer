@@ -163,5 +163,6 @@ public class BookInfo extends ModelObject {
 	@Override
 	protected void finalize() {
 		closeConnection();
-	};
+	}
+
 }

@@ -31,6 +31,24 @@ public class BookSectionsService {
 		this.book = book;
 		try {
 			book.openConnection();
+			Connection con = book.getConnection();
+
+			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
+			Statement stat = con.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+			try {
+				if (rs.next()) {
+					BookSection sec = new BookSection();
+					sec.title = rs.getString(1);
+					sec.id = rs.getInt(2);
+
+					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+							new EVENT_UPDATE_CONTENT_VIEW_DATA(null, sec));
+				}
+			} finally {
+				rs.close();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalAccessException();
@@ -89,8 +107,6 @@ public class BookSectionsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW, book);
 
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_CONTENT_VIEW_DATA(section, sec));
@@ -269,6 +285,42 @@ public class BookSectionsService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public void saveSelection(BookSection section) {
+		try {
+			Connection con = book.getConnection();
+			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
+			Statement stat = con.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+			try {
+
+				if (rs.next()) {
+					SQL = "UPDATE INFO SET SELECTED_SECTION=? WHERE ID=?;";
+					PreparedStatement prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+
+					prep.setInt(1, section.id);
+					prep.setInt(2, rs.getInt(1));
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+				} else {
+					SQL = "INSERT INTO INFO (SELECTED_SECTION) VALUES (?);";
+					PreparedStatement prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+
+					prep.setInt(1, section.id);
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

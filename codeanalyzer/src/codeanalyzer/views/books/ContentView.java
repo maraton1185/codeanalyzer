@@ -3,6 +3,7 @@ package codeanalyzer.views.books;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
@@ -40,36 +41,26 @@ public class ContentView {
 
 	private final Image CELL = Utils.getImage("active.png");
 
-	// @Inject
-	// IBookManager bm;
-
 	@Inject
 	@Active
 	BookInfo book;
-
-	// @Inject
-	// @Optional
-	// public void EVENT_UPDATE_CONTENT_VIEW(
-	// @UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) Object o,
-	// @Optional @Active BookSection section) {
-	// if (book != (BookInfo) o)
-	// return;
-	// // viewer.setInput(bm.getSections(book));
-	// // else
-	// viewer.refresh(section);
-	//
-	// viewer.setExpandedState(section, true);
-	// }
 
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
 			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data) {
 
-		viewer.refresh(data.parent);
+		if (data.parent != null)
+			viewer.refresh(data.parent);
 
 		viewer.setSelection(new StructuredSelection(data.selected));
 		// viewer.setExpandedState(section, true);
+	}
+
+	@PreDestroy
+	public void preDestroy(@Active BookSection section) {
+		book.sections().saveSelection(section);
+		book.closeConnection();
 	}
 
 	@PostConstruct

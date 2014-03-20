@@ -171,7 +171,7 @@ public class AppManager {
 
 			BookInfo book = window.getContext().get(BookInfo.class);
 			book.closeConnection();
-			AppManager.ss.setSelection(null);
+			// AppManager.ss.setSelection(null);
 			return true;
 		}
 	}

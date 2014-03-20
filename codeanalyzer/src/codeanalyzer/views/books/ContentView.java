@@ -1,21 +1,21 @@
 package codeanalyzer.views.books;
 
-import java.sql.SQLException;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.Active;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -29,9 +29,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
@@ -41,36 +40,49 @@ public class ContentView {
 
 	private final Image CELL = Utils.getImage("active.png");
 
-	@Inject
-	IBookManager bm;
+	// @Inject
+	// IBookManager bm;
 
 	@Inject
 	@Active
 	BookInfo book;
 
+	// @Inject
+	// @Optional
+	// public void EVENT_UPDATE_CONTENT_VIEW(
+	// @UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) Object o,
+	// @Optional @Active BookSection section) {
+	// if (book != (BookInfo) o)
+	// return;
+	// // viewer.setInput(bm.getSections(book));
+	// // else
+	// viewer.refresh(section);
+	//
+	// viewer.setExpandedState(section, true);
+	// }
+
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
-			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) Object o,
-			@Optional @Named(IServiceConstants.ACTIVE_SELECTION) BookSection section) {
-		// if (section == null)
-		// viewer.setInput(bm.getSections(book));
-		// else
-		viewer.refresh(section);
+			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data) {
 
-		viewer.setExpandedState(section, true);
+		viewer.refresh(data.parent);
+
+		viewer.setSelection(new StructuredSelection(data.selected));
+		// viewer.setExpandedState(section, true);
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent) {
+	public void postConstruct(Composite parent,
+			@Active final IEclipseContext ctx, EMenuService menuService) {
 		// this.book = book;
 		// this.bm = bm;
 		// book = (BookInfo) w.getTransientData().get(Const.WINDOW_CONTEXT);
 
 		try {
-			bm.sections().setBook(book);
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException | SQLException e) {
+			book.sections().setBook(book);
+
+		} catch (IllegalAccessException e) {
 
 			e.printStackTrace();
 			FormToolkit toolkit = new FormToolkit(parent.getDisplay());
@@ -87,7 +99,7 @@ public class ContentView {
 				| SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setInput(bm.sections().get());
+		viewer.setInput(book.sections().get());
 
 		// viewer is a JFace Viewer
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -95,9 +107,15 @@ public class ContentView {
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				AppManager.ss.setSelection(selection.getFirstElement());
+				// ss.setSelection(selection.getFirstElement());
+				ctx.set(BookSection.class,
+						(BookSection) selection.getFirstElement());
 			}
 		});
+
+		// Tree tree = viewer.getTree();
+		menuService.registerContextMenu(viewer.getControl(),
+				Strings.get("model.id.contentview.popup"));
 	}
 
 	class ViewContentProvider implements ITreeContentProvider {
@@ -118,18 +136,18 @@ public class ContentView {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			return bm.sections().getChildren((BookSection) parentElement)
+			return book.sections().getChildren((BookSection) parentElement)
 					.toArray();
 		}
 
 		@Override
 		public Object getParent(Object element) {
-			return bm.sections().getParent((BookSection) element);
+			return book.sections().getParent((BookSection) element);
 		}
 
 		@Override
 		public boolean hasChildren(Object element) {
-			return bm.sections().hasChildren((BookSection) element);
+			return book.sections().hasChildren((BookSection) element);
 		}
 	}
 
@@ -139,8 +157,9 @@ public class ContentView {
 			Object element = cell.getElement();
 			StyledString text = new StyledString();
 			BookSection section = (BookSection) element;
-			text.append(section.title);
-			cell.setImage(CELL);
+			if (section.title != null)
+				text.append(section.title);
+			// cell.setImage(CELL);
 			// if (file.isDirectory()) {
 			// text.append(getFileName(file));
 			// cell.setImage(image);

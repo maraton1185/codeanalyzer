@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import codeanalyzer.book.BookSection;
+
 public class Const {
 
 	// VERSION *******************************************************
@@ -186,5 +188,19 @@ public class Const {
 	public static final String EVENT_UPDATE_BOOK_LIST = "EVENT_UPDATE_BOOK_LIST";
 	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
 	public static final String EVENT_UPDATE_CONTENT_VIEW = "EVENT_UPDATE_CONTENT_VIEW";
+
+	public static class EVENT_UPDATE_CONTENT_VIEW_DATA {
+
+		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookSection parent,
+				BookSection selected) {
+			super();
+			this.parent = parent;
+			this.selected = selected;
+		}
+
+		public BookSection parent;
+		public BookSection selected;
+
+	}
 
 }

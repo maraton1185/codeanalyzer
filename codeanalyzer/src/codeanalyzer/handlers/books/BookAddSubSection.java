@@ -9,11 +9,11 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 
-public class BookAddSection {
+public class BookAddSubSection {
 	@Execute
 	public void execute(Shell shell, BookInfo book, @Active BookSection section) {
 
-		book.sections().add(section);
+		book.sections().add_sub(section);
 
 	}
 

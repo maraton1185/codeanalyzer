@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.book.services.BookSectionsService;
 import codeanalyzer.book.services.BookService;
 import codeanalyzer.book.services.BookStructure;
 import codeanalyzer.core.AppManager;
@@ -25,18 +24,7 @@ public class BookManager implements IBookManager {
 
 	BookStructure bookStructure = new BookStructure();
 	BookService bs = new BookService();
-	BookSectionsService bookSections;
-
 	BookService books;
-
-	@Override
-	public BookSectionsService sections() {
-
-		bookSections = bookSections == null ? new BookSectionsService()
-				: bookSections;
-
-		return bookSections;
-	}
 
 	@Override
 	public void addBook(String value) throws InvocationTargetException {

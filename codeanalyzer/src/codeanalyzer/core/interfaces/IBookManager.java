@@ -7,7 +7,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.book.BookInfo;
-import codeanalyzer.book.services.BookSectionsService;
 
 public interface IBookManager {
 
@@ -21,6 +20,6 @@ public interface IBookManager {
 
 	boolean saveBook(BookInfo book, Shell shell);
 
-	BookSectionsService sections();
+	// BookSectionsService sections();
 
 }

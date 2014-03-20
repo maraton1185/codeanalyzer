@@ -90,6 +90,7 @@
   <handlers xmi:id="_OYJMkK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.13" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookAddSection" command="_sPoPIK3EEeOHwvV36BHkVA"/>
   <handlers xmi:id="_RKW1gK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.14" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookDeleteSection" command="_8pkSAK3EEeOHwvV36BHkVA"/>
   <handlers xmi:id="_zax_ULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookAddSubSection" command="_sXbRULAWEeOa8OKjTLKQvw"/>
+  <handlers xmi:id="_3DPm4LAuEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.EditBookSectionTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="codeanalyzer.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_tNGXkKngEeOFWZN9IXa3MA" elementId="codeanalyzer.keybinding.0" keySequence="M1+O" command="_SMVncKhVEeOKceOp7VW7lQ">
       <tags>type:user</tags>
@@ -109,6 +110,9 @@
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_cjynMLAbEeOa8OKjTLKQvw" elementId="codeanalyzer.keybinding.5" keySequence="DELETE" command="_8pkSAK3EEeOHwvV36BHkVA">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_EjsesLAwEeOa8OKjTLKQvw" elementId="codeanalyzer.keybinding.6" keySequence="F2" command="_cimZwLAuEeOa8OKjTLKQvw">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -135,11 +139,13 @@
           <menus xsi:type="menu:PopupMenu" xmi:id="_aCBVYLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.popupmenu.contentView">
             <children xsi:type="menu:HandledMenuItem" xmi:id="_cGMzoLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_dCGbMLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.handledmenuitem.2" label="Добавить подраздел" iconURI="platform:/plugin/codeanalyzer/icons/add_sub_section.png" tooltip="Добавить подраздел" command="_sXbRULAWEeOa8OKjTLKQvw"/>
+            <children xsi:type="menu:HandledMenuItem" xmi:id="_2cO0wLAvEeOa8OKjTLKQvw" elementId="codeanalyzer.handledmenuitem.14" label="Изменить заголовок" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" tooltip="Изменить заголовок" command="_cimZwLAuEeOa8OKjTLKQvw"/>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_dSC7sLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.handledmenuitem.3" label="Удалить раздел" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" tooltip="Удалить раздел" command="_8pkSAK3EEeOHwvV36BHkVA"/>
           </menus>
           <toolbar xmi:id="_j6d7AK3EEeOHwvV36BHkVA" elementId="codeanalyzer.toolbar.1">
             <children xsi:type="menu:HandledToolItem" xmi:id="_lwx8YK3EEeOHwvV36BHkVA" elementId="codeanalyzer.handledtoolitem.1" label="Добавить раздел" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_u4guALAWEeOa8OKjTLKQvw" elementId="codeanalyzer.handledtoolitem.7" label="Добавить подраздел" iconURI="platform:/plugin/codeanalyzer/icons/add_sub_section.png" tooltip="Добавить подраздел" command="_sXbRULAWEeOa8OKjTLKQvw"/>
+            <children xsi:type="menu:HandledToolItem" xmi:id="_r7mHkLAvEeOa8OKjTLKQvw" elementId="codeanalyzer.handledtoolitem.8" label="Изменить заголовок" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" tooltip="Изменить заголовок" command="_cimZwLAuEeOa8OKjTLKQvw"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_DhS-0K3FEeOHwvV36BHkVA" elementId="codeanalyzer.handledtoolitem.6" label="" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" tooltip="Удалить раздел" command="_8pkSAK3EEeOHwvV36BHkVA"/>
           </toolbar>
         </children>
@@ -167,6 +173,7 @@
   <commands xmi:id="_sPoPIK3EEeOHwvV36BHkVA" elementId="codeanalyzer.command.BookAddSection" commandName="Книга - Добавить секцию"/>
   <commands xmi:id="_8pkSAK3EEeOHwvV36BHkVA" elementId="codeanalyzer.command.BookDeleteSection" commandName="Книга - Удалить секцию"/>
   <commands xmi:id="_sXbRULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.command.BookAddSubSection" commandName="Книга - Добавить подсекцию"/>
+  <commands xmi:id="_cimZwLAuEeOa8OKjTLKQvw" elementId="codeanalyzer.command.EditBookSectionTitle" commandName="Книга - Изменить заголовок секции"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

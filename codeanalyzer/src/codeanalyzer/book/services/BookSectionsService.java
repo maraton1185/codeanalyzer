@@ -280,7 +280,7 @@ public class BookSectionsService {
 		return false;
 	}
 
-	public void saveSelection(BookSection section) {
+	public void saveSelectedSelection(BookSection section) {
 		try {
 			Connection con = book.getConnection();
 			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
@@ -314,6 +314,25 @@ public class BookSectionsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void saveSection(BookSection section) {
+		try {
+			Connection con = book.getConnection();
+			String SQL = "UPDATE SECTIONS SET TITLE=? WHERE ID=?;";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, section.title);
+			prep.setInt(2, section.id);
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

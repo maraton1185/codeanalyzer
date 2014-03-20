@@ -23,14 +23,17 @@ public class BookService {
 	}
 
 	public void getData(Connection con, BookInfo info) throws SQLException {
-		String SQL = "Select TOP 1 T.DESCRIPTION FROM INFO AS T";
+		String SQL = "Select TOP 1 T.DESCRIPTION, T.EDIT_MODE FROM INFO AS T";
 		Statement stat = con.createStatement();
 		ResultSet rs = stat.executeQuery(SQL);
 		try {
-			if (rs.next())
+			if (rs.next()) {
 				info.setDescription(rs.getString(1));
-			else
+				info.setEditMode(rs.getBoolean(2));
+			} else {
 				info.setDescription("Новая книга");
+				info.setEditMode(true);
+			}
 		} finally {
 			rs.close();
 		}
@@ -43,21 +46,23 @@ public class BookService {
 		ResultSet rs = stat.executeQuery(SQL);
 		try {
 			if (rs.next()) {
-				SQL = "UPDATE INFO SET DESCRIPTION=? WHERE ID=?;";
+				SQL = "UPDATE INFO SET DESCRIPTION=?, EDIT_MODE=? WHERE ID=?;";
 				PreparedStatement prep = con.prepareStatement(SQL,
 						Statement.CLOSE_CURRENT_RESULT);
 
 				prep.setString(1, info.getDescription());
-				prep.setInt(2, rs.getInt(1));
+				prep.setBoolean(2, info.isEditMode());
+				prep.setInt(3, rs.getInt(1));
 				int affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)
 					throw new SQLException();
 			} else {
-				SQL = "INSERT INTO INFO (DESCRIPTION) VALUES (?);";
+				SQL = "INSERT INTO INFO (DESCRIPTION, EDIT_MODE) VALUES (?,?);";
 				PreparedStatement prep = con.prepareStatement(SQL,
 						Statement.CLOSE_CURRENT_RESULT);
 
 				prep.setString(1, info.getDescription());
+				prep.setBoolean(2, info.isEditMode());
 				int affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)
 					throw new SQLException();

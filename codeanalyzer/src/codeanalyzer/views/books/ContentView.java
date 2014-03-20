@@ -23,7 +23,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -33,13 +32,12 @@ import codeanalyzer.book.BookSection;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
 import codeanalyzer.utils.Strings;
-import codeanalyzer.utils.Utils;
 
 public class ContentView {
 
 	private TreeViewer viewer;
 
-	private final Image CELL = Utils.getImage("active.png");
+	// private final Image CELL = Utils.getImage("active.png");
 
 	@Inject
 	@Active
@@ -49,6 +47,9 @@ public class ContentView {
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
 			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data) {
+
+		if (book != data.book)
+			return;
 
 		if (data.parent != null)
 			viewer.refresh(data.parent);

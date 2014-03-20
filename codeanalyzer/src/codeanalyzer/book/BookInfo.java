@@ -34,6 +34,27 @@ public class BookInfo extends ModelObject {
 
 	private String description = "";
 	private boolean opened = false;
+	private boolean editMode = false;
+	private boolean viewMode = false;
+
+	public boolean isViewMode() {
+		return viewMode;
+	}
+
+	public void setViewMode(boolean viewMode) {
+		this.viewMode = viewMode;
+		editMode = !viewMode;
+	}
+
+	public boolean isEditMode() {
+		return editMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
+		viewMode = !editMode;
+	}
+
 	private IPath path;
 
 	public boolean isOpened() {
@@ -141,10 +162,12 @@ public class BookInfo extends ModelObject {
 		boolean exist = true;
 		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
 
+		String mode = !editMode ? ";FILE_LOCK=SERIALIZED" : "";
+
 		IPath path = getPath().append(name);
 
 		con = DriverManager.getConnection("jdbc:h2:" + path.toString()
-				+ ifExist, "sa", "");
+				+ ifExist + mode, "sa", "");
 	}
 
 	public void closeConnection() {

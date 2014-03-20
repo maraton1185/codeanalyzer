@@ -18,15 +18,6 @@ public class BookSectionsService {
 
 	private BookInfo book = new BookInfo();
 
-	// public BookSectionsService(BookInfo book) {
-	// this.book = book;
-	// try {
-	// book.openConnection();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-
 	public void setBook(BookInfo book) throws IllegalAccessException {
 		this.book = book;
 		try {
@@ -42,8 +33,10 @@ public class BookSectionsService {
 					sec.title = rs.getString(1);
 					sec.id = rs.getInt(2);
 
-					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-							new EVENT_UPDATE_CONTENT_VIEW_DATA(null, sec));
+					AppManager.br
+							.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+									new EVENT_UPDATE_CONTENT_VIEW_DATA(book,
+											null, sec));
 				}
 			} finally {
 				rs.close();
@@ -109,7 +102,7 @@ public class BookSectionsService {
 		}
 
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(section, sec));
+				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, sec));
 	}
 
 	public void delete(BookSection section) {
@@ -145,7 +138,7 @@ public class BookSectionsService {
 
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW, book);
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(parent, selected));
+				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, selected));
 	}
 
 	public List<BookSection> get() {

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 
 public class Const {
@@ -191,13 +192,15 @@ public class Const {
 
 	public static class EVENT_UPDATE_CONTENT_VIEW_DATA {
 
-		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookSection parent,
-				BookSection selected) {
+		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
+				BookSection parent, BookSection selected) {
 			super();
+			this.book = book;
 			this.parent = parent;
 			this.selected = selected;
 		}
 
+		public BookInfo book;
 		public BookSection parent;
 		public BookSection selected;
 

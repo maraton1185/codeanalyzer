@@ -33,7 +33,7 @@ public class BookStructure {
 		try {
 
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
-					+ "DESCRIPTION VARCHAR(500), SELECTED_SECTION INTEGER, "
+					+ "DESCRIPTION VARCHAR(500), SELECTED_SECTION INTEGER, EDIT_MODE BOOLEAN, "
 					+ "PRIMARY KEY (ID));");
 
 			stat.execute("CREATE TABLE SECTIONS (ID INTEGER AUTO_INCREMENT, "
@@ -47,11 +47,12 @@ public class BookStructure {
 			PreparedStatement prep;
 			int affectedRows;
 
-			SQL = "INSERT INTO INFO (DESCRIPTION, SELECTED_SECTION) VALUES (?, ?);";
+			SQL = "INSERT INTO INFO (DESCRIPTION, SELECTED_SECTION, EDIT_MODE) VALUES (?, ?, ?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, db.getName());
 			prep.setInt(2, 1);
+			prep.setBoolean(3, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -110,7 +111,7 @@ public class BookStructure {
 
 		checker ch = new checker();
 		haveStructure = ch.checkColumns(metadata, "INFO",
-				"DESCRIPTION, SELECTED_SECTION")
+				"DESCRIPTION, SELECTED_SECTION, EDIT_MODE")
 				&& ch.checkColumns(metadata, "SECTIONS", "PARENT, SORT, TITLE")
 
 		;

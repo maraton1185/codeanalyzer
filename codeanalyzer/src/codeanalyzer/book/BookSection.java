@@ -1,6 +1,5 @@
 package codeanalyzer.book;
 
-
 public class BookSection {
 
 	@Override
@@ -34,5 +33,7 @@ public class BookSection {
 	public Integer id;
 
 	public Integer order;
+
+	// public boolean root;
 
 }

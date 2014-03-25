@@ -126,6 +126,10 @@ public class BookInfo extends ModelObject {
 		return name;
 	}
 
+	public String getWindowTitle() {
+		return name + (editMode ? " (Редактор)" : "");
+	}
+
 	// CONNECTION
 	// *****************************************************************
 	private Connection con;

@@ -1,6 +1,7 @@
 package codeanalyzer.views.books;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,6 +13,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TreeColumnLayout;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -29,7 +31,14 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -50,6 +59,8 @@ public class ContentView {
 	@Inject
 	@Active
 	BookInfo book;
+
+	private BookSection root;
 
 	@Inject
 	@Optional
@@ -83,7 +94,8 @@ public class ContentView {
 
 	@PreDestroy
 	public void preDestroy(@Active BookSection section) {
-		book.sections().saveSelectedSelection(section);
+		if (section != null)
+			book.sections().saveSelectedSelection(section);
 		book.closeConnection();
 	}
 
@@ -114,7 +126,9 @@ public class ContentView {
 				| SWT.V_SCROLL | SWT.FULL_SELECTION);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setInput(book.sections().get());
+		List<BookSection> input = book.sections().getRoot();
+		root = input.get(0);
+		viewer.setInput(input);
 
 		// viewer is a JFace Viewer
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -133,6 +147,111 @@ public class ContentView {
 				Strings.get("model.id.contentview.popup"));
 
 		editingSupport();
+
+		dragAndDropSupport();
+	}
+
+	private void dragAndDropSupport() {
+
+		Transfer[] types = new Transfer[] { LocalSelectionTransfer
+				.getTransfer() };
+		// Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
+		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+
+		viewer.addDragSupport(operations, types, new DragSourceListener() {
+
+			@Override
+			public void dragStart(DragSourceEvent event) {
+
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+
+				BookSection section = (BookSection) selection.getFirstElement();
+
+				event.doit = section != root;
+			}
+
+			@Override
+			public void dragSetData(DragSourceEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+
+				if (LocalSelectionTransfer.getTransfer().isSupportedType(
+						event.dataType)) {
+					LocalSelectionTransfer.getTransfer()
+							.setSelection(selection);
+				}
+
+				// if
+				// (TextTransfer.getInstance().isSupportedType(event.dataType))
+				// {
+				// event.data = firstElement.id.toString();
+				// }
+
+			}
+
+			@Override
+			public void dragFinished(DragSourceEvent event) {
+				// System.out.println("Finshed Drag");
+
+			}
+		});
+
+		viewer.addDropSupport(operations, types, new ViewerDropAdapter(viewer) {
+
+			BookSection section;
+			BookSection target;
+			int location = 0;
+
+			@Override
+			public boolean validateDrop(Object target, int operation,
+					TransferData transferType) {
+				return true;// target != null;
+			}
+
+			@Override
+			public void drop(DropTargetEvent event) {
+
+				if (LocalSelectionTransfer.getTransfer().isSupportedType(
+						event.currentDataType)) {
+					IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
+							.getTransfer().getSelection();
+
+					section = (BookSection) selection.getFirstElement();
+					// System.out.println(firstElement.title);
+				}
+				location = this.determineLocation(event);
+				target = (BookSection) determineTarget(event);
+				target = target == null ? root : target;
+				super.drop(event);
+			}
+
+			@Override
+			public boolean performDrop(Object data) {
+
+				if (section == null || (target == null))
+					return false;
+
+				switch (location) {
+				case 1:
+					// "Dropped before the target ";
+					break;
+				case 2:
+					// "Dropped after the target ";
+					break;
+				case 3:
+					// "Dropped on the target ";
+					break;
+				case 4:
+					// "Dropped into nothing ";
+					break;
+				}
+
+				System.out.println(section.title + " to " + target.title);
+
+				return false;
+			}
+		});
 
 	}
 
@@ -246,37 +365,5 @@ public class ContentView {
 
 		}
 	}
-
-	// class FirstNameEditingSupport extends EditingSupport {
-	// private final TreeViewer viewer;
-	// private final CellEditor editor;
-	//
-	// public FirstNameEditingSupport(TreeViewer viewer) {
-	// super(viewer);
-	// this.viewer = viewer;
-	// this.editor = new TextCellEditor(viewer.getTree());
-	// }
-	//
-	// @Override
-	// protected CellEditor getCellEditor(Object element) {
-	// return editor;
-	// }
-	//
-	// @Override
-	// protected boolean canEdit(Object element) {
-	// return true;
-	// }
-	//
-	// @Override
-	// protected Object getValue(Object element) {
-	// return ((Person) element).getFirstName();
-	// }
-	//
-	// @Override
-	// protected void setValue(Object element, Object userInputValue) {
-	// ((Person) element).setFirstName(String.valueOf(value));
-	// viewer.update(element, null);
-	// }
-	// }
 
 }

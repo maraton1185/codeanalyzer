@@ -75,7 +75,7 @@ public class ShowBookHandler {
 		// MTrimmedWindow bookWindow = MBasicFactory.INSTANCE
 		// .createTrimmedWindow();
 
-		bookWindow.setLabel(book.getName());
+		bookWindow.setLabel(book.getWindowTitle());
 		bookWindow.setX(mainWindow.getX() + 20);
 		bookWindow.setY(mainWindow.getY() + 20);
 		bookWindow.setWidth(mainWindow.getWidth());

@@ -141,8 +141,9 @@ public class BookSectionsService {
 				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, selected));
 	}
 
-	public List<BookSection> get() {
+	public List<BookSection> getRoot() {
 		List<BookSection> result = new ArrayList<BookSection>();
+		// BookSection result;
 		try {
 			Connection con = book.getConnection();
 			String SQL = "Select T.TITLE, T.ID FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
@@ -150,11 +151,12 @@ public class BookSectionsService {
 			// prep.setNull(1, java.sql.Types.INTEGER);
 			ResultSet rs = prep.executeQuery();
 			try {
-				while (rs.next()) {
+				if (rs.next()) {
 
 					BookSection sec = new BookSection();
 					sec.title = rs.getString(1);
 					sec.id = rs.getInt(2);
+					// sec.root = true;
 					result.add(sec);
 				}
 			} finally {

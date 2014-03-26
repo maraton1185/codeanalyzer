@@ -13,7 +13,6 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TreeColumnLayout;
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -27,6 +26,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
@@ -37,9 +38,13 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -61,6 +66,11 @@ public class ContentView {
 	BookInfo book;
 
 	private BookSection root;
+
+	private BookSection dragSection;
+	protected TreeItem selectedItem;
+
+	// protected TreeItem selectedItem;
 
 	@Inject
 	@Optional
@@ -127,7 +137,7 @@ public class ContentView {
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		List<BookSection> input = book.sections().getRoot();
-		root = input.get(0);
+		root = input.size() == 0 ? null : input.get(0);
 		viewer.setInput(input);
 
 		// viewer is a JFace Viewer
@@ -142,7 +152,14 @@ public class ContentView {
 			}
 		});
 
-		// Tree tree = viewer.getTree();
+		Tree tree = (Tree) viewer.getControl();
+		tree.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				selectedItem = (TreeItem) e.item;
+			}
+		});
+
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.contentview.popup"));
 
@@ -153,10 +170,10 @@ public class ContentView {
 
 	private void dragAndDropSupport() {
 
-		Transfer[] types = new Transfer[] { LocalSelectionTransfer
-				.getTransfer() };
-		// Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
-		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+		// Transfer[] types = new Transfer[] { LocalSelectionTransfer
+		// .getTransfer() };
+		Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
+		int operations = DND.DROP_MOVE;
 
 		viewer.addDragSupport(operations, types, new DragSourceListener() {
 
@@ -166,28 +183,29 @@ public class ContentView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				BookSection section = (BookSection) selection.getFirstElement();
+				dragSection = (BookSection) selection.getFirstElement();
 
-				event.doit = section != root;
+				event.doit = dragSection != root;
+
+				// TreeSelection
+
 			}
 
 			@Override
 			public void dragSetData(DragSourceEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) viewer
-						.getSelection();
-
-				if (LocalSelectionTransfer.getTransfer().isSupportedType(
-						event.dataType)) {
-					LocalSelectionTransfer.getTransfer()
-							.setSelection(selection);
-				}
-
-				// if
-				// (TextTransfer.getInstance().isSupportedType(event.dataType))
-				// {
-				// event.data = firstElement.id.toString();
+				// IStructuredSelection selection = (IStructuredSelection)
+				// viewer
+				// .getSelection();
+				//
+				// if (LocalSelectionTransfer.getTransfer().isSupportedType(
+				// event.dataType)) {
+				// LocalSelectionTransfer.getTransfer()
+				// .setSelection(selection);
 				// }
 
+				if (TextTransfer.getInstance().isSupportedType(event.dataType)) {
+					event.data = dragSection.id.toString();
+				}
 			}
 
 			@Override
@@ -199,57 +217,115 @@ public class ContentView {
 
 		viewer.addDropSupport(operations, types, new ViewerDropAdapter(viewer) {
 
-			BookSection section;
 			BookSection target;
 			int location = 0;
 
 			@Override
 			public boolean validateDrop(Object target, int operation,
 					TransferData transferType) {
+				if (target == null)
+					return true;
+
+				if (dragSection == target)
+					return false;
+
+				// setSelection(new TreeSelection((TreePath) target));
+				// TreeItem[] items = tree.getSelection();
+
+				System.out.println(((BookSection) target).title);
 				return true;// target != null;
 			}
+
+			// @Override
+			// public void dragOver(DropTargetEvent event) {
+			// // event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL;
+			// }
 
 			@Override
 			public void drop(DropTargetEvent event) {
 
-				if (LocalSelectionTransfer.getTransfer().isSupportedType(
-						event.currentDataType)) {
-					IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
-							.getTransfer().getSelection();
+				// if (LocalSelectionTransfer.getTransfer().isSupportedType(
+				// event.currentDataType)) {
+				// IStructuredSelection selection = (IStructuredSelection)
+				// LocalSelectionTransfer
+				// .getTransfer().getSelection();
+				//
+				// section = (BookSection) selection.getFirstElement();
+				// // System.out.println(firstElement.title);
+				// }
 
-					section = (BookSection) selection.getFirstElement();
-					// System.out.println(firstElement.title);
-				}
 				location = this.determineLocation(event);
 				target = (BookSection) determineTarget(event);
 				target = target == null ? root : target;
+
+				// TreeItem targetItem = (TreeItem) event.item;
+
+				// TreeSelection
+				// TreePath
+				// viewer.reveal(elementOrTreePath);
+				// viewer.getTree(). getSelection()[0].dispose();
+				//
+				// TreeItem parent =
+				//
+				// new TreeItem((TreeItem) event.item, SWT.NONE, )
+				// setSelection(new TreeSelection((TreePath) element));
 				super.drop(event);
 			}
 
 			@Override
 			public boolean performDrop(Object data) {
 
-				if (section == null || (target == null))
+				if (dragSection == null || (target == null))
 					return false;
 
-				switch (location) {
-				case 1:
-					// "Dropped before the target ";
-					break;
-				case 2:
-					// "Dropped after the target ";
-					break;
-				case 3:
-					// "Dropped on the target ";
-					break;
-				case 4:
-					// "Dropped into nothing ";
-					break;
+				if (target == dragSection) {
+					return false;
 				}
 
-				System.out.println(section.title + " to " + target.title);
+				if (target == root)
+					location = 0;
 
+				TreePath[] inti_path = ((TreeSelection) viewer.getSelection())
+						.getPathsFor(dragSection);
+
+				viewer.setSelection(new StructuredSelection(target));
+
+				TreePath[] paths = ((TreeSelection) viewer.getSelection())
+						.getPathsFor(target);
+
+				// paths[0].startsWith(inti_path[0], comparer)
 				return false;
+
+				// selectedItem.dispose();
+				// // new TreeItem((TreeItem) event.item, SWT.NONE)
+				// // new TreeSelection((TreePath) section );
+				// // viewer.getTree().setSelection();
+				//
+				// switch (location) {
+				// case 1:
+				// // "Dropped before the target ";
+				// book.sections().setBefore(dragSection, target);
+				// break;
+				// case 2:
+				// // "Dropped after the target ";
+				// book.sections().setAfter(dragSection, target);
+				// break;
+				// // case 3:
+				// // // "Dropped on the target ";
+				// // book.sections().setParent(section, target);
+				// //
+				// // break;
+				// // case 4:
+				// // Dropped into nothing
+				// default:
+				// book.sections().setParent(dragSection, target);
+				// break;
+				// }
+
+				// System.out.println(dragSection.title + " to " +
+				// target.title);
+				//
+				// return false;
 			}
 		});
 

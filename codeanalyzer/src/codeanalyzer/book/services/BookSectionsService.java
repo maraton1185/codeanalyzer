@@ -18,21 +18,28 @@ public class BookSectionsService {
 
 	private BookInfo book = new BookInfo();
 
+	private BookSection getSection(ResultSet rs) throws SQLException {
+
+		BookSection sec = new BookSection();
+		sec.title = rs.getString(1);
+		sec.id = rs.getInt(2);
+		sec.parent = rs.getInt(3);
+
+		return sec;
+	}
+
 	public void setBook(BookInfo book) throws IllegalAccessException {
 		this.book = book;
 		try {
 			book.openConnection();
 			Connection con = book.getConnection();
 
-			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
+			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
 			Statement stat = con.createStatement();
 			ResultSet rs = stat.executeQuery(SQL);
 			try {
 				if (rs.next()) {
-					BookSection sec = new BookSection();
-					sec.title = rs.getString(1);
-					sec.id = rs.getInt(2);
-
+					BookSection sec = getSection(rs);
 					AppManager.br
 							.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 									new EVENT_UPDATE_CONTENT_VIEW_DATA(book,
@@ -87,6 +94,7 @@ public class BookSectionsService {
 					sec = new BookSection();
 					sec.title = title;
 					sec.id = generatedKeys.getInt(1);
+					sec.parent = section.id;
 				} else
 					throw new SQLException();
 			} finally {
@@ -146,16 +154,17 @@ public class BookSectionsService {
 		// BookSection result;
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T.TITLE, T.ID FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.TITLE, T.ID, T.PARENT FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
 			// prep.setNull(1, java.sql.Types.INTEGER);
 			ResultSet rs = prep.executeQuery();
 			try {
 				if (rs.next()) {
 
-					BookSection sec = new BookSection();
-					sec.title = rs.getString(1);
-					sec.id = rs.getInt(2);
+					BookSection sec = getSection(rs);
+					// BookSection sec = new BookSection();
+					// sec.title = rs.getString(1);
+					// sec.id = rs.getInt(2);
 					// sec.root = true;
 					result.add(sec);
 				}
@@ -173,7 +182,7 @@ public class BookSectionsService {
 		List<BookSection> result = new ArrayList<BookSection>();
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T.TITLE, T.ID FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.TITLE, T.ID, T.PARENT FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, parent.id);
@@ -182,9 +191,10 @@ public class BookSectionsService {
 			try {
 				while (rs.next()) {
 
-					BookSection sec = new BookSection();
-					sec.title = rs.getString(1);
-					sec.id = rs.getInt(2);
+					BookSection sec = getSection(rs);
+					// BookSection sec = new BookSection();
+					// sec.title = rs.getString(1);
+					// sec.id = rs.getInt(2);
 					result.add(sec);
 				}
 			} finally {
@@ -199,7 +209,7 @@ public class BookSectionsService {
 	public BookSection getParent(BookSection section) {
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T1.TITLE, T1.ID FROM SECTIONS AS T "
+			String SQL = "Select T1.TITLE, T1.ID, T1.PARENT FROM SECTIONS AS T "
 					+ "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
 					+ "WHERE T.ID=?";
 
@@ -210,9 +220,10 @@ public class BookSectionsService {
 			try {
 				if (rs.next()) {
 
-					BookSection sec = new BookSection();
-					sec.title = rs.getString(1);
-					sec.id = rs.getInt(2);
+					BookSection sec = getSection(rs);
+					// BookSection sec = new BookSection();
+					// sec.title = rs.getString(1);
+					// sec.id = rs.getInt(2);
 					return sec;
 				}
 			} finally {
@@ -230,7 +241,7 @@ public class BookSectionsService {
 	private BookSection getLast(BookSection parent) {
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select TOP 1 T.TITLE, T.ID FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID DESC";
+			String SQL = "Select TOP 1 T.TITLE, T.ID, T.PARENT FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID DESC";
 			// String SQL = "Select T1.TITLE, T1.ID FROM SECTIONS AS T "
 			// + "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
 			// + "WHERE T.ID=?";
@@ -242,9 +253,10 @@ public class BookSectionsService {
 			try {
 				if (rs.next()) {
 
-					BookSection sec = new BookSection();
-					sec.title = rs.getString(1);
-					sec.id = rs.getInt(2);
+					BookSection sec = getSection(rs);
+					// BookSection sec = new BookSection();
+					// sec.title = rs.getString(1);
+					// sec.id = rs.getInt(2);
 					return sec;
 				}
 			} finally {
@@ -335,6 +347,89 @@ public class BookSectionsService {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void setBefore(BookSection section, BookSection target) {
+
+		BookSection parent = getParent(target);
+		List<BookSection> items = getChildren(parent);
+
+		// int i = items.indexOf(section);
+		items.remove(section);
+		int i = items.indexOf(target);
+		items.add(i, section);
+		// set(t, section);
+
+		updateOrder(items);
+
+		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+	}
+
+	public void setAfter(BookSection section, BookSection target) {
+		BookSection parent = getParent(target);
+		List<BookSection> items = getChildren(parent);
+
+		items.remove(section);
+		int i = items.indexOf(target);
+		items.add(i + 1, section);
+
+		updateOrder(items);
+
+		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+	}
+
+	public void setParent(BookSection section, BookSection target) {
+		try {
+			Connection con = book.getConnection();
+
+			String SQL = "UPDATE SECTIONS SET PARENT=? WHERE ID=?;";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setInt(1, target.id);
+			prep.setInt(2, section.id);
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			List<BookSection> items = getChildren(target);
+			items.remove(section);
+			items.add(section);
+
+			updateOrder(items);
+
+			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, target, section));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void updateOrder(List<BookSection> items) {
+		try {
+			Connection con = book.getConnection();
+			int order = 0;
+			for (BookSection item : items) {
+
+				String SQL = "UPDATE SECTIONS SET SORT=? WHERE ID=?;";
+				PreparedStatement prep = con.prepareStatement(SQL,
+						Statement.CLOSE_CURRENT_RESULT);
+
+				prep.setInt(1, order);
+				prep.setInt(2, item.id);
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

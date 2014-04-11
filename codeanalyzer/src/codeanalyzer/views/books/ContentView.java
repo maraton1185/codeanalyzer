@@ -232,7 +232,7 @@ public class ContentView {
 				// setSelection(new TreeSelection((TreePath) target));
 				// TreeItem[] items = tree.getSelection();
 
-				System.out.println(((BookSection) target).title);
+				// System.out.println(((BookSection) target).title);
 				return true;// target != null;
 			}
 
@@ -293,39 +293,38 @@ public class ContentView {
 				TreePath[] paths = ((TreeSelection) viewer.getSelection())
 						.getPathsFor(target);
 
-				// paths[0].startsWith(inti_path[0], comparer)
-				return false;
+				if (paths[0].startsWith(inti_path[0], null))
+					return false;
 
 				// selectedItem.dispose();
-				// // new TreeItem((TreeItem) event.item, SWT.NONE)
-				// // new TreeSelection((TreePath) section );
-				// // viewer.getTree().setSelection();
-				//
-				// switch (location) {
-				// case 1:
-				// // "Dropped before the target ";
-				// book.sections().setBefore(dragSection, target);
-				// break;
-				// case 2:
-				// // "Dropped after the target ";
-				// book.sections().setAfter(dragSection, target);
-				// break;
-				// // case 3:
-				// // // "Dropped on the target ";
-				// // book.sections().setParent(section, target);
-				// //
-				// // break;
-				// // case 4:
-				// // Dropped into nothing
-				// default:
-				// book.sections().setParent(dragSection, target);
-				// break;
-				// }
+				// new TreeItem((TreeItem) event.item, SWT.NONE)
+				// new TreeSelection((TreePath) section );
+				// viewer.getTree().setSelection();
 
-				// System.out.println(dragSection.title + " to " +
-				// target.title);
+				switch (location) {
+				case 1:
+					// "Dropped before the target ";
+					book.sections().setBefore(dragSection, target);
+					break;
+				case 2:
+					// "Dropped after the target ";
+					book.sections().setAfter(dragSection, target);
+					break;
+				// case 3:
+				// // "Dropped on the target ";
+				// book.sections().setParent(section, target);
 				//
-				// return false;
+				// break;
+				// case 4:
+				// Dropped into nothing
+				default:
+					book.sections().setParent(dragSection, target);
+					break;
+				}
+
+				System.out.println(dragSection.title + " to " + target.title);
+
+				return false;
 			}
 		});
 

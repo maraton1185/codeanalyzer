@@ -58,49 +58,54 @@ public class OptionsDialog {
 		@Override
 		protected void createFieldEditors() {
 
-			StringFieldEditor string3 = new StringFieldEditor(
+			StringFieldEditor f1 = new StringFieldEditor(
 					PreferenceSupplier.NTPSERVER, "NTP-сервер:",
 					getFieldEditorParent());
-			addField(string3);
+			addField(f1);
 
-			DirectoryFieldEditor dfe = new DirectoryFieldEditor(
+			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
 					PreferenceSupplier.DEFAULT_DIRECTORY,
 					"Каталог конфигураций:", getFieldEditorParent());
-			dfe.setChangeButtonText("...");
-			addField(dfe);
+			f2.setChangeButtonText("...");
+			addField(f2);
 
-			DirectoryFieldEditor dbfe = new DirectoryFieldEditor(
+			DirectoryFieldEditor f3 = new DirectoryFieldEditor(
 					PreferenceSupplier.DEFAULT_BOOK_DIRECTORY, "Каталог книг:",
 					getFieldEditorParent());
-			dbfe.setChangeButtonText("...");
-			addField(dbfe);
+			f3.setChangeButtonText("...");
+			addField(f3);
 
-			BooleanFieldEditor ie = new BooleanFieldEditor(
+			BooleanFieldEditor f4 = new BooleanFieldEditor(
 					PreferenceSupplier.INIT_EXECUTION,
 					"Подключать конфигурации при запуске",
 					getFieldEditorParent());
-			addField(ie);
+			addField(f4);
 
-			BooleanFieldEditor sbp = new BooleanFieldEditor(
+			BooleanFieldEditor f5 = new BooleanFieldEditor(
 					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
 					"При запуске открывать список книг", getFieldEditorParent());
-			addField(sbp);
+			addField(f5);
 
-			BooleanFieldEditor ssp = new BooleanFieldEditor(
+			BooleanFieldEditor f6 = new BooleanFieldEditor(
 					PreferenceSupplier.SHOW_START_PAGE,
 					"Показывать страницу приветствия", getFieldEditorParent());
-			addField(ssp);
+			addField(f6);
 
-			BooleanFieldEditor obs = new BooleanFieldEditor(
+			BooleanFieldEditor f7 = new BooleanFieldEditor(
 					PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
 					"Открывать книгу при запуске", getFieldEditorParent());
-			addField(obs);
+			addField(f7);
 
-			FileFieldEditor obsf = new FileFieldEditor(
+			FileFieldEditor f8 = new FileFieldEditor(
 					PreferenceSupplier.BOOK_ON_STARTUP, "Книга:",
 					getFieldEditorParent());
-			obsf.setChangeButtonText("...");
-			addField(obsf);
+			f8.setChangeButtonText("...");
+			addField(f8);
+
+			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
+					"Шрифт:", getFieldEditorParent());
+			f9.setChangeButtonText("...");
+			addField(f9);
 		}
 
 	}

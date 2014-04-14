@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferenceStore;
+import org.eclipse.swt.graphics.FontData;
 import org.osgi.service.prefs.Preferences;
 
 public abstract class PreferenceSupplier {
@@ -28,6 +30,7 @@ public abstract class PreferenceSupplier {
 	public static final String SHOW_BOOK_PERSPECTIVE = "P_SHOW_BOOK_PERSPECTIVE";
 	public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
 	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
+	public static final String FONT = "FONT";
 
 	// ******************************************************************
 
@@ -72,6 +75,10 @@ public abstract class PreferenceSupplier {
 
 	public static String get(String key) {
 		return preferenceStore.getString(key);
+	}
+
+	public static FontData[] getFontData(String key) {
+		return PreferenceConverter.getFontDataArray(preferenceStore, key);
 	}
 
 	public static Boolean getBoolean(String key) {

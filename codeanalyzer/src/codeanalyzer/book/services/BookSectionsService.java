@@ -349,14 +349,22 @@ public class BookSectionsService {
 
 	}
 
-	public void setBefore(BookSection section, BookSection target) {
+	public Boolean setBefore(BookSection section, BookSection target) {
 
 		BookSection parent = getParent(target);
+
+		if (parent == null)
+			return false;
+
+		if (section.parent != parent.id)
+			setParent(section, parent);
+
 		List<BookSection> items = getChildren(parent);
 
-		// int i = items.indexOf(section);
 		items.remove(section);
 		int i = items.indexOf(target);
+		if (i < 0)
+			return false;
 		items.add(i, section);
 		// set(t, section);
 
@@ -364,10 +372,19 @@ public class BookSectionsService {
 
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+
+		return true;
 	}
 
-	public void setAfter(BookSection section, BookSection target) {
+	public Boolean setAfter(BookSection section, BookSection target) {
 		BookSection parent = getParent(target);
+
+		if (parent == null)
+			return false;
+
+		if (section.parent != parent.id)
+			setParent(section, parent);
+
 		List<BookSection> items = getChildren(parent);
 
 		items.remove(section);
@@ -378,9 +395,11 @@ public class BookSectionsService {
 
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+
+		return true;
 	}
 
-	public void setParent(BookSection section, BookSection target) {
+	public Boolean setParent(BookSection section, BookSection target) {
 		try {
 			Connection con = book.getConnection();
 
@@ -405,7 +424,9 @@ public class BookSectionsService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 
 	}
 
@@ -425,6 +446,7 @@ public class BookSectionsService {
 				if (affectedRows == 0)
 					throw new SQLException();
 
+				order++;
 			}
 
 		} catch (Exception e) {

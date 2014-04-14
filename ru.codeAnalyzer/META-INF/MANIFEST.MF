@@ -28,3 +28,4 @@ Bundle-ClassPath: .,
  lib/sqljdbc4.jar
 Import-Package: org.eclipse.ui.views.contentoutline
 Bundle-Vendor: www.codeAnalyzer.ru
+Export-Package: org.eclipse.wb.swt

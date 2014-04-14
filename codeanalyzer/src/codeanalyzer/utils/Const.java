@@ -189,6 +189,7 @@ public class Const {
 	public static final String EVENT_UPDATE_BOOK_LIST = "EVENT_UPDATE_BOOK_LIST";
 	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
 	public static final String EVENT_UPDATE_CONTENT_VIEW = "EVENT_UPDATE_CONTENT_VIEW";
+
 	public static final String EVENT_EDIT_TITLE_CONTENT_VIEW = "EVENT_EDIT_TITLE_CONTENT_VIEW";
 
 	public static class EVENT_UPDATE_CONTENT_VIEW_DATA {
@@ -206,5 +207,19 @@ public class Const {
 		public BookSection selected;
 
 	}
+
+	// public static final String EVENT_SET_FONT_CONTENT_VIEW =
+	// "EVENT_SET_FONT_CONTENT_VIEW";
+	// public static class EVENT_SET_FONT_CONTENT_VIEW_DATA {
+	//
+	// public EVENT_SET_FONT_CONTENT_VIEW_DATA(FontData newFont, RGB rgb) {
+	// this.newFont = newFont;
+	// this.rgb = rgb;
+	// }
+	//
+	// public FontData newFont;
+	// public RGB rgb;
+	//
+	// }
 
 }

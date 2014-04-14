@@ -40,10 +40,10 @@ public class BookSectionsService {
 			try {
 				if (rs.next()) {
 					BookSection sec = getSection(rs);
-					AppManager.br
-							.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-									new EVENT_UPDATE_CONTENT_VIEW_DATA(book,
-											null, sec));
+					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+							new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null, sec,
+									true));
+
 				}
 			} finally {
 				rs.close();

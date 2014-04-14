@@ -7,17 +7,21 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
-import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -59,6 +63,7 @@ import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.Utils;
 
 public class ContentView {
 
@@ -108,7 +113,8 @@ public class ContentView {
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
-			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data) {
+			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data,
+			final EHandlerService hs, final ECommandService cs) {
 
 		if (book != data.book)
 			return;
@@ -117,6 +123,9 @@ public class ContentView {
 			viewer.refresh(data.parent);
 
 		viewer.setSelection(new StructuredSelection(data.selected));
+		if (data.setBook == true) {
+			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+		}
 		// viewer.setExpandedState(section, true);
 	}
 
@@ -128,11 +137,9 @@ public class ContentView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent,
-			@Active final IEclipseContext ctx, EMenuService menuService) {
-		// this.book = book;
-		// this.bm = bm;
-		// book = (BookInfo) w.getTransientData().get(Const.WINDOW_CONTEXT);
+	public void postConstruct(Composite parent, @Active final MWindow window,
+			EMenuService menuService, final EHandlerService hs,
+			final ECommandService cs) {
 
 		try {
 			book.sections().setBook(book);
@@ -163,15 +170,25 @@ public class ContentView {
 		root = input.size() == 0 ? null : input.get(0);
 		viewer.setInput(input);
 
-		// viewer is a JFace Viewer
+		// для preDestroy, контекст текущего окна, что бы работала DI в
+		// PageView, открывающегося из ShowSectionHandler
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
+
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				// ss.setSelection(selection.getFirstElement());
-				ctx.set(BookSection.class,
+				window.getContext().set(BookSection.class,
 						(BookSection) selection.getFirstElement());
+			}
+		});
+
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+
+				Utils.executeHandler(hs, cs,
+						Strings.get("command.id.ShowSection"));
 			}
 		});
 

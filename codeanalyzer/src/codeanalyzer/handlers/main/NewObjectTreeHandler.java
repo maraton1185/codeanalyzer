@@ -18,6 +18,7 @@ public class NewObjectTreeHandler {
 	@Execute
 	public void execute(@Optional IDb db, EPartService partService,
 			EModelService model) {
+
 		MPart part = partService.createPart(Strings
 				.get("codeanalyzer.partdescriptor.treeView"));
 

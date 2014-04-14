@@ -4,7 +4,7 @@ import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
 
-public class SetFontHandler {
+public class _SetFontHandler {
 	@Execute
 	public void execute(@Active Shell shell) {
 		// FontDialog fd = new FontDialog(shell, SWT.NONE);

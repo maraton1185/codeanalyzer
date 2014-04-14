@@ -202,9 +202,16 @@ public class Const {
 			this.selected = selected;
 		}
 
+		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
+				BookSection parent, BookSection selected, boolean setBook) {
+			this(book, parent, selected);
+			this.setBook = setBook;
+		}
+
 		public BookInfo book;
 		public BookSection parent;
 		public BookSection selected;
+		public boolean setBook;
 
 	}
 

@@ -14,28 +14,27 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
-import codeanalyzer.book.BookSection;
 
-public class PageView {
+public class PageStartView {
 
 	FormToolkit toolkit;
 	ScrolledForm form;
+
+	// Section bookSection;
+	// Composite bookSectionClient;
+	// HyperlinkAdapter bookSectionHandler;
 
 	@Inject
 	@Active
 	BookInfo book;
 
-	BookSection section;
-
 	@Inject
-	public PageView() {
+	public PageStartView() {
 		// TODO Your code here
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, BookSection section) {
-
-		this.section = section;
+	public void postConstruct(Composite parent) {
 
 		ImageHyperlink link;
 		Hyperlink hlink;
@@ -51,8 +50,7 @@ public class PageView {
 		form.getBody().setLayout(layout);
 
 		// form.setText(Strings.get("appTitle"));
-		form.setText(section.title);
-
+		form.setText(book.getFullName());
 	}
 
 }

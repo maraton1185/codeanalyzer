@@ -72,9 +72,6 @@ public class ShowBookHandler {
 		MTrimmedWindow bookWindow = (MTrimmedWindow) model.cloneSnippet(
 				AppManager.app, Strings.get("model.id.book.window"), null);
 
-		// MTrimmedWindow bookWindow = MBasicFactory.INSTANCE
-		// .createTrimmedWindow();
-
 		bookWindow.setLabel(book.getWindowTitle());
 		bookWindow.setX(mainWindow.getX() + 20);
 		bookWindow.setY(mainWindow.getY() + 20);
@@ -82,23 +79,11 @@ public class ShowBookHandler {
 		bookWindow.setHeight(mainWindow.getHeight());
 		bookWindow.getTags().add(book.getFullName());
 
-		// bookWindow.getTransientData().put(Const.WINDOW_CONTEXT, book);
-		// IEclipseContext ctx1 = ctx.createChild();
-		// ctx1.set(BookInfo.class, book);
-		// bookWindow.setContext(ctx1);
-		// bookWindow.getContext().set(BookInfo.class, book);
 		AppManager.app.getChildren().add(bookWindow);
 		bookWindow.getContext().set(BookInfo.class, book);
 
 		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
 		bookWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
-		// // bookWindow.getTags().add("");
-		// List<MPart> part = model.findElements(AppManager.app,
-		// Strings.get("codeanalyzer.part.3"), MPart.class, null);
-		//
-		// bookWindow.getChildren().add(part.get(0));
-		// // stacks.get(0).getChildren().add(part);
-		//
-		// application.getChildren().add(bookWindow);
+
 	}
 }

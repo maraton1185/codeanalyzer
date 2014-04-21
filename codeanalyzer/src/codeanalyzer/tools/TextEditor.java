@@ -50,7 +50,7 @@ public class TextEditor extends Composite {
 		try {
 			Bundle bundle = FrameworkUtil.getBundle(TextEditor.class);
 			URL url_bundle = FileLocator.find(bundle, new Path(
-					"editor/tinymce/index.html"), null);
+					"web_editor/tinymce/index.html"), null);
 			URL url_file = FileLocator.toFileURL(url_bundle);
 
 			browser.setUrl(url_file.toString());

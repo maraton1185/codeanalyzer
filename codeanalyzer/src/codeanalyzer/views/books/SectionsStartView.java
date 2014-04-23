@@ -15,7 +15,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
 
-public class PageStartView {
+public class SectionsStartView {
 
 	FormToolkit toolkit;
 	ScrolledForm form;
@@ -29,7 +29,7 @@ public class PageStartView {
 	BookInfo book;
 
 	@Inject
-	public PageStartView() {
+	public SectionsStartView() {
 		// TODO Your code here
 	}
 

@@ -9,11 +9,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.browser.StatusTextEvent;
+import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
+
+import codeanalyzer.book.BookSection;
+import codeanalyzer.core.AppManager;
+import codeanalyzer.utils.Const;
 
 public class TextEditor extends Composite {
 
@@ -21,8 +27,13 @@ public class TextEditor extends Composite {
 	protected String editor_content;
 	protected boolean loadCompleted = false;
 
-	public TextEditor(Composite parent, int style) {
+	BookSection section;
+
+	public TextEditor(Composite parent, int style, BookSection section) {
 		super(parent, style);
+
+		this.section = section;
+
 		setLayout(new GridLayout(2, false));
 
 		browser = new Browser(this, SWT.NONE);
@@ -41,22 +52,22 @@ public class TextEditor extends Composite {
 			@Override
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
-				setText(editor_content);
 			}
 		});
 
-		// Listen to control resized
-		// browser.addControlListener(new ControlAdapter() {
-		// @Override
-		// public void controlResized(ControlEvent e) {
-		// if (loadCompleted) {
-		// browser.execute("tinyMCE.activeEditor.getContentAreaContainer().height="
-		// + (browser.getClientArea().height - 70));
-		//
-		// super.controlResized(e);
-		// }
-		// }
-		// });
+		browser.addStatusTextListener(new StatusTextListener() {
+			@Override
+			public void changed(StatusTextEvent event) {
+				String text = event.text;
+				if (text.equals("tinymce:onInit()"))
+					setText(editor_content);
+				else if (text.equals("tinymce:onChange()"))
+					setDirty();
+				else
+					browser.setData(text);
+
+			}
+		});
 
 		// Set url pointed to editor
 		try {
@@ -67,75 +78,31 @@ public class TextEditor extends Composite {
 
 			browser.setUrl(url_file.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// Listen to status change event
-		// browser.addStatusTextListener(new StatusTextListener() {
-		// @Override
-		// public void changed(StatusTextEvent event) {
-		// browser.setData("leet-content", event.text);
-		// }
-		// });
-
-		// browser.addMouseListener(new MouseListener() {
-		//
-		// @Override
-		// public void mouseUp(MouseEvent e) {
-		// // setFocus();
-		// }
-		//
-		// @Override
-		// public void mouseDown(MouseEvent e) {
-		// setFocus();
-		// }
-		//
-		// @Override
-		// public void mouseDoubleClick(MouseEvent e) {
-		// setFocus();
-		// }
-		// });
 	}
 
-	// @Override
-	// public boolean setFocus() {
-	// browser.forceFocus();
-	// browser.execute("setFocus()");
-	// return browser.setFocus();
-	// }
+	protected void setDirty() {
+		AppManager.br.post(Const.EVENT_SET_SECTIONVIEW_DIRTY, section);
+	}
 
-	/**
-	 * Set the content of the HTML editor.
-	 * 
-	 * @param String
-	 *            text
-	 */
 	public void setText(String text) {
 		editor_content = text == null ? "" : text.replace("\n", "").replace(
 				"'", "\\'");
 
-		if (loadCompleted) {
-			/**
-			 * [TimPietrusky] 20120416 - tinyMCE might not yet been "completely"
-			 * initialized
-			 */
+		if (loadCompleted)
 			browser.execute("setContent('" + editor_content + "');");
-		}
+
 	}
 
-	/**
-	 * Returns the content of the HTML editor.
-	 * 
-	 * @return String
-	 */
 	public String getText() {
 		String content = "";
 
 		boolean executed = browser.execute("window.status=getContent();");
 
 		if (executed) {
-			content = (String) browser.getData("leet-content");
+			content = (String) browser.getData();
 		}
 
 		return content;

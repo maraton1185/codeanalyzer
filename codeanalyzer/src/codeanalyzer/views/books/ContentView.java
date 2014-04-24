@@ -49,8 +49,10 @@ import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -421,8 +423,25 @@ public class ContentView {
 			Object element = cell.getElement();
 			StyledString text = new StyledString();
 			BookSection section = (BookSection) element;
-			if (section.title != null)
-				if (section.parent == 0) {
+			if (section.title != null) {
+				if (section.block) {
+
+					FontData fontDatas[] = treeComposite.getFont()
+							.getFontData();
+					FontData data = fontDatas[0];
+					int height = data.getHeight();
+					height = (int) (height - 0.2 * height);
+					final Font font = new Font(Display.getCurrent(),
+							data.getName(), height, SWT.BOLD);
+
+					text.append(section.title, new Styler() {
+						@Override
+						public void applyStyles(TextStyle textStyle) {
+							textStyle.font = font;
+						}
+					});
+
+				} else if (section.parent == 0) {
 					text.append(section.title, new Styler() {
 						@Override
 						public void applyStyles(TextStyle textStyle) {
@@ -434,6 +453,8 @@ public class ContentView {
 				} else {
 					text.append(section.title);
 				}
+
+			}
 			// cell.setImage(CELL);
 			// if (file.isDirectory()) {
 			// text.append(getFileName(file));

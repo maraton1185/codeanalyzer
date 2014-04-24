@@ -35,6 +35,7 @@ public class BookSection {
 	public Integer order;
 
 	public Integer parent;
-	// public boolean root;
+
+	public boolean block;
 
 }

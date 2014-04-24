@@ -11,7 +11,7 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
 
-public class EditBookSectionTitle {
+public class SectionEditTitle {
 	@Execute
 	public void execute(BookInfo book, @Active BookSection section) {
 

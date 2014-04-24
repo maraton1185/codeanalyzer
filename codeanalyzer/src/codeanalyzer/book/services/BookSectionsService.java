@@ -13,6 +13,7 @@ import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Strings;
 
 public class BookSectionsService {
 
@@ -24,7 +25,7 @@ public class BookSectionsService {
 		sec.title = rs.getString(1);
 		sec.id = rs.getInt(2);
 		sec.parent = rs.getInt(3);
-
+		sec.block = rs.getBoolean(4);
 		return sec;
 	}
 
@@ -34,7 +35,7 @@ public class BookSectionsService {
 			book.openConnection();
 			Connection con = book.getConnection();
 
-			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
+			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT, T1.BLOCK FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
 			Statement stat = con.createStatement();
 			ResultSet rs = stat.executeQuery(SQL);
 			try {
@@ -65,23 +66,47 @@ public class BookSectionsService {
 
 	}
 
-	public void add_sub(BookSection section) {
-
+	public void add_sub(BookSection section, boolean block) {
+		if (section.block) {
+			BookSection parent = getParent(section);
+			if (parent != null) {
+				section = parent;
+			}
+		}
 		BookSection sec = null;
 		try {
 			Connection con = book.getConnection();
-
-			String SQL = "INSERT INTO SECTIONS (TITLE, PARENT) VALUES (?,?);";
+			String SQL;
 			PreparedStatement prep;
 
+			SQL = "Select Top 1 T.SORT FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC";
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, section.id);
+			ResultSet rs = prep.executeQuery();
+
+			int sort = 0;
+			try {
+				if (rs.next())
+					sort = rs.getInt(1);
+				sort++;
+			} finally {
+				rs.close();
+			}
+
+			SQL = "INSERT INTO SECTIONS (TITLE, PARENT, BLOCK, SORT) VALUES (?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-			String title = "Новый раздел";
+			String title = block ? Strings.get("s.newblock.title") : Strings
+					.get("s.newsection.title");
+			title = title + " " + sort;
 			prep.setString(1, title);
 			if (section.id == 0)
 				prep.setNull(2, java.sql.Types.INTEGER);
 			else
 				prep.setInt(2, section.id);
+			prep.setBoolean(3, block);
+			prep.setInt(4, sort);
 
 			ResultSet generatedKeys = null;
 			try {
@@ -111,6 +136,12 @@ public class BookSectionsService {
 
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, sec));
+	}
+
+	public void add_sub(BookSection section) {
+
+		add_sub(section, false);
+
 	}
 
 	public void delete(BookSection section) {
@@ -147,6 +178,8 @@ public class BookSectionsService {
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW, book);
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, selected));
+		// AppManager.br.post(Const.EVENT_DELETE_SECTION,
+		// new EVENT_DELETE_SECTION_DATA(book, section));
 	}
 
 	public List<BookSection> getRoot() {
@@ -154,7 +187,7 @@ public class BookSectionsService {
 		// BookSection result;
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T.TITLE, T.ID, T.PARENT FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.BLOCK FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
 			// prep.setNull(1, java.sql.Types.INTEGER);
 			ResultSet rs = prep.executeQuery();
@@ -182,7 +215,7 @@ public class BookSectionsService {
 		List<BookSection> result = new ArrayList<BookSection>();
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T.TITLE, T.ID, T.PARENT FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.BLOCK FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, parent.id);
@@ -209,7 +242,7 @@ public class BookSectionsService {
 	public BookSection getParent(BookSection section) {
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T1.TITLE, T1.ID, T1.PARENT FROM SECTIONS AS T "
+			String SQL = "Select T1.TITLE, T1.ID, T1.PARENT, T1.BLOCK FROM SECTIONS AS T "
 					+ "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
 					+ "WHERE T.ID=?";
 
@@ -241,7 +274,7 @@ public class BookSectionsService {
 	private BookSection getLast(BookSection parent) {
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select TOP 1 T.TITLE, T.ID, T.PARENT FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID DESC";
+			String SQL = "Select TOP 1 T.TITLE, T.ID, T.PARENT, T.BLOCK FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC, T.ID DESC";
 			// String SQL = "Select T1.TITLE, T1.ID FROM SECTIONS AS T "
 			// + "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
 			// + "WHERE T.ID=?";

@@ -4,17 +4,15 @@ import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 
-public class BookAddSection {
+public class SectionAddBlock {
 	@Execute
-	public void execute(Shell shell, BookInfo book, @Active BookSection section) {
+	public void execute(BookInfo book, @Active BookSection section) {
 
-		book.sections().add(section);
-
+		book.sections().add_sub(section, true);
 	}
 
 	@CanExecute

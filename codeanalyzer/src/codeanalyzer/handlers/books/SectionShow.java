@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.utils.Strings;
 
-public class ShowSectionHandler {
+public class SectionShow {
 	@Execute
 	public void execute(@Active final BookSection section, Shell shell,
 			EPartService partService, EModelService model,
@@ -28,9 +28,12 @@ public class ShowSectionHandler {
 				Strings.get("model.id.partstack.sections"), MPartStack.class,
 				null);
 
+		String partID = section.block ? Strings
+				.get("codeanalyzer.partdescriptor.sectionsBlockView") : Strings
+				.get("codeanalyzer.partdescriptor.sectionView");
+
 		@SuppressWarnings("serial")
-		List<MPart> parts = model.findElements(stacks.get(0),
-				Strings.get("codeanalyzer.partdescriptor.pageView"),
+		List<MPart> parts = model.findElements(stacks.get(0), partID,
 				MPart.class, new ArrayList<String>() {
 					{
 						add(section.id.toString());
@@ -40,8 +43,7 @@ public class ShowSectionHandler {
 		MPart part;
 
 		if (parts.isEmpty()) {
-			part = partService.createPart(Strings
-					.get("codeanalyzer.partdescriptor.pageView"));
+			part = partService.createPart(partID);
 
 			part.setLabel(section.title);
 			part.getTags().add(section.id.toString());
@@ -51,7 +53,6 @@ public class ShowSectionHandler {
 		}
 
 		partService.showPart(part, PartState.ACTIVATE);
-
 	}
 
 	@CanExecute

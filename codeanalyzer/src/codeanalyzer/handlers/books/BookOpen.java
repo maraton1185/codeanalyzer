@@ -12,7 +12,7 @@ import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
-public class OpenBookHangler {
+public class BookOpen {
 	@Execute
 	public void execute(Shell shell, IBookManager bm) {
 		IPath p = Utils.browseFile(

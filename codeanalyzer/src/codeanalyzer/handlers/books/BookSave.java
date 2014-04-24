@@ -7,7 +7,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
 import codeanalyzer.book.BookInfo;
 
-public class SaveBookHandler {
+public class BookSave {
 	@Execute
 	public void execute(EPartService partService) {
 		partService.saveAll(false);

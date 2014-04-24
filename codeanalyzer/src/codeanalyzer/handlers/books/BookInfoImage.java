@@ -16,7 +16,7 @@ import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
-public class BookInfoImageHandler {
+public class BookInfoImage {
 	@Execute
 	public void execute(BookInfo book, Shell shell) {
 		IPath p = Utils.browseFile(book.getPath(), shell,

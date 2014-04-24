@@ -13,7 +13,7 @@ import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.utils.Strings;
 
-public class AddBookHandler {
+public class BookAdd {
 	@Execute
 	public void execute(@Optional IDb db, Shell shell, IBookManager bm) {
 

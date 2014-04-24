@@ -193,6 +193,8 @@ public class Const {
 	public static final String EVENT_EDIT_TITLE_CONTENT_VIEW = "EVENT_EDIT_TITLE_CONTENT_VIEW";
 	public static final String EVENT_SET_SECTIONVIEW_DIRTY = "EVENT_SET_SECTIONVIEW_DIRTY";
 
+	// public static final String EVENT_DELETE_SECTION = "EVENT_DELETE_SECTION";
+
 	public static class EVENT_UPDATE_CONTENT_VIEW_DATA {
 
 		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
@@ -216,6 +218,18 @@ public class Const {
 
 	}
 
+	// public static class EVENT_DELETE_SECTION_DATA {
+	//
+	// public EVENT_DELETE_SECTION_DATA(BookInfo book, BookSection parent) {
+	// super();
+	// this.book = book;
+	// this.parent = parent;
+	// }
+	//
+	// public BookInfo book;
+	// public BookSection parent;
+	//
+	// }
 	// public static final String EVENT_SET_FONT_CONTENT_VIEW =
 	// "EVENT_SET_FONT_CONTENT_VIEW";
 	// public static class EVENT_SET_FONT_CONTENT_VIEW_DATA {

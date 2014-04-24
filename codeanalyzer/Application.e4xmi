@@ -31,7 +31,7 @@
               <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookInfoView" label="Текущая книга">
                 <menus xmi:id="_nCgbQKtZEeOoWahGiuWvNw" elementId="codeanalyzer.menu.2">
                   <tags>ViewMenu</tags>
-                  <children xsi:type="menu:DirectMenuItem" xmi:id="_n0IFcKtZEeOoWahGiuWvNw" elementId="codeanalyzer.directmenuitem.2" label="Установить картинку" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookInfoImageHandler"/>
+                  <children xsi:type="menu:DirectMenuItem" xmi:id="_n0IFcKtZEeOoWahGiuWvNw" elementId="codeanalyzer.directmenuitem.2" label="Установить картинку" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookInfoImage"/>
                 </menus>
               </children>
               <children xsi:type="basic:Part" xmi:id="_Ak-6QJrjEeOlcttaCxvpFw" elementId="codeanalyzer.part.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookmarkView" label="Закладки"/>
@@ -82,16 +82,17 @@
   <handlers xmi:id="_QMnBQJ4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.5" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListSetActive" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
   <handlers xmi:id="_oqkk8J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.6" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListSetNonActive" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
   <handlers xmi:id="_rR19MJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handler.7" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.OptionsHandler" command="_irP60J6aEeORdqnZrqq27Q"/>
-  <handlers xmi:id="_mi3mQKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.handler.8" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.AddBookHandler" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
+  <handlers xmi:id="_mi3mQKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.handler.8" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookAdd" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_Fgr-sKkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.9" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.NewObjectTreeHandler" command="_XybQsKkaEeOctbxZaJIj4Q"/>
-  <handlers xmi:id="_jTSr0KkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.10" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.OpenBookHangler" command="_SMVncKhVEeOKceOp7VW7lQ"/>
-  <handlers xmi:id="_9KZXMKnfEeOFWZN9IXa3MA" elementId="codeanalyzer.handler.11" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SaveBookHandler" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
-  <handlers xmi:id="_MWi8sKteEeOoWahGiuWvNw" elementId="codeanalyzer.handler.12" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.ShowBookHandler" command="_KIPSEKteEeOoWahGiuWvNw"/>
-  <handlers xmi:id="_OYJMkK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.13" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookAddSection" command="_sPoPIK3EEeOHwvV36BHkVA"/>
-  <handlers xmi:id="_RKW1gK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.14" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookDeleteSection" command="_8pkSAK3EEeOHwvV36BHkVA"/>
-  <handlers xmi:id="_zax_ULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookAddSubSection" command="_sXbRULAWEeOa8OKjTLKQvw"/>
-  <handlers xmi:id="_3DPm4LAuEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.EditBookSectionTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
-  <handlers xmi:id="_y9U1MMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.handler.17" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.ShowSectionHandler" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
+  <handlers xmi:id="_jTSr0KkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.10" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookOpen" command="_SMVncKhVEeOKceOp7VW7lQ"/>
+  <handlers xmi:id="_9KZXMKnfEeOFWZN9IXa3MA" elementId="codeanalyzer.handler.11" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookSave" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
+  <handlers xmi:id="_MWi8sKteEeOoWahGiuWvNw" elementId="codeanalyzer.handler.12" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookShow" command="_KIPSEKteEeOoWahGiuWvNw"/>
+  <handlers xmi:id="_OYJMkK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.13" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAdd" command="_sPoPIK3EEeOHwvV36BHkVA"/>
+  <handlers xmi:id="_RKW1gK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.14" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionDelete" command="_8pkSAK3EEeOHwvV36BHkVA"/>
+  <handlers xmi:id="_zax_ULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAddSub" command="_sXbRULAWEeOa8OKjTLKQvw"/>
+  <handlers xmi:id="_3DPm4LAuEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionEditTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
+  <handlers xmi:id="_y9U1MMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.handler.17" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionShow" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
+  <handlers xmi:id="_7i0QcMuAEeOTW91tESaq8A" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAddBlock" command="_B6xfwMt7EeOTW91tESaq8A"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="codeanalyzer.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_tNGXkKngEeOFWZN9IXa3MA" elementId="codeanalyzer.keybinding.0" keySequence="M1+O" command="_SMVncKhVEeOKceOp7VW7lQ">
       <tags>type:user</tags>
@@ -130,13 +131,16 @@
     </menus>
     <toolbar xmi:id="_ZtkZsKhUEeOKceOp7VW7lQ" elementId="codeanalyzer.toolbar.0"/>
   </descriptors>
-  <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.pageView" label="Секция книги" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionView">
+  <descriptors xmi:id="_9H_DAMt2EeOTW91tESaq8A" elementId="codeanalyzer.partdescriptor.sectionView" label="секция книги" allowMultiple="true" closeable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionView">
+    <toolbar xmi:id="_9l8KUMt2EeOTW91tESaq8A" elementId="codeanalyzer.toolbar.4"/>
+  </descriptors>
+  <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsBlockView">
     <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.toolbar.3"/>
   </descriptors>
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="codeanalyzer.window.book" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="codeanalyzer.partsashcontainer.2" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.sectionsView" containerData="70000">
-        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.5" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsStartView" label="О книге"/>
+        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.5" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsStartView" label="Как работать с книгой"/>
       </children>
       <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.0" containerData="30000">
         <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.ContentView" label="Содержание">
@@ -179,6 +183,7 @@
   <commands xmi:id="_sXbRULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.command.BookAddSubSection" commandName="Книга - Добавить подсекцию"/>
   <commands xmi:id="_cimZwLAuEeOa8OKjTLKQvw" elementId="codeanalyzer.command.EditBookSectionTitle" commandName="Книга - Изменить заголовок секции"/>
   <commands xmi:id="_uu33wMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.command.ShowSection" commandName="Книга - Показать секцию"/>
+  <commands xmi:id="_B6xfwMt7EeOTW91tESaq8A" elementId="codeanalyzer.command.AddSectionsBlock" commandName="Книга - Добавить блок секции"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

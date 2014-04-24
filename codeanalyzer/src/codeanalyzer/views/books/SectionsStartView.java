@@ -49,8 +49,8 @@ public class SectionsStartView {
 		layout.maxNumColumns = 2;
 		form.getBody().setLayout(layout);
 
-		// form.setText(Strings.get("appTitle"));
-		form.setText(book.getFullName());
+		form.setText("Очень просто)");
+		// form.setText(book.getFullName());
 	}
 
 }

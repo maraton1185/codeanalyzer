@@ -26,7 +26,7 @@ import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
-public class ShowBookHandler {
+public class BookShow {
 
 	@Inject
 	@Optional

@@ -37,7 +37,7 @@ public class BookStructure {
 					+ "PRIMARY KEY (ID));");
 
 			stat.execute("CREATE TABLE SECTIONS (ID INTEGER AUTO_INCREMENT, "
-					+ "PARENT INTEGER, SORT INTEGER, "
+					+ "PARENT INTEGER, SORT INTEGER, BLOCK BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "FOREIGN KEY(PARENT) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -112,7 +112,8 @@ public class BookStructure {
 		checker ch = new checker();
 		haveStructure = ch.checkColumns(metadata, "INFO",
 				"DESCRIPTION, SELECTED_SECTION, EDIT_MODE")
-				&& ch.checkColumns(metadata, "SECTIONS", "PARENT, SORT, TITLE")
+				&& ch.checkColumns(metadata, "SECTIONS",
+						"PARENT, SORT, TITLE, BLOCK")
 
 		;
 

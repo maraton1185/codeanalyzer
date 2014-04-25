@@ -12,28 +12,23 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
+import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
@@ -55,6 +50,9 @@ public class SectionView {
 	private ECommandService cs;
 	private EHandlerService hs;
 	private MWindow window;
+
+	ISectionBlockComposite sectionComposite;
+	private final int numColumns = 2;
 
 	@Inject
 	@Optional
@@ -79,16 +77,7 @@ public class SectionView {
 	private void fillBody() {
 
 		Hyperlink hlink;
-		// Button button;
-		// Label label;
-		FormText ft;
 		GridData gd;
-		// Section bookSection;
-		// Composite bookSectionClient;
-		// HyperlinkAdapter bookSectionHandler;
-		CTabFolder tabFolder;
-		Color selectedColor = toolkit.getColors().getColor(
-				IFormColors.SEPARATOR);
 
 		for (Control ctrl : body.getChildren()) {
 			ctrl.dispose();
@@ -100,6 +89,7 @@ public class SectionView {
 		for (BookSection sec : sectionsList) {
 
 			hlink = toolkit.createHyperlink(body, sec.title, SWT.WRAP);
+			// hlink.setFont(body.getFont());
 			hlink.setHref(sec);
 			hlink.addHyperlinkListener(new HyperlinkAdapter() {
 				@Override
@@ -117,129 +107,15 @@ public class SectionView {
 
 			});
 			gd = new GridData();
-			gd.horizontalSpan = 2;
+			gd.horizontalSpan = numColumns;
 			hlink.setLayoutData(gd);
 
-			if (sec.block) {
-
-				String buf = "<form><p><strong>Hellow</strong>, world!</p></form>";
-
-				buf = buf.replaceAll("strong>", "b>");
-				ft = toolkit.createFormText(body, false);
-				try {
-					ft.setText(buf, true, true);
-				} catch (Exception e) {
-					ft.setText(buf, false, false);
-					toolkit.createLabel(body, e.getMessage());
-					e.printStackTrace();
-				}
-
-				gd = new GridData(GridData.FILL_BOTH);
-				gd.grabExcessHorizontalSpace = true;
-				gd.grabExcessVerticalSpace = false;
-				gd.verticalSpan = 2;
-				ft.setLayoutData(gd);
-
-				tabFolder = new CTabFolder(body, SWT.FLAT | SWT.TOP);
-				toolkit.adapt(tabFolder, true, true);
-
-				gd = new GridData(GridData.FILL_BOTH);
-				gd.grabExcessHorizontalSpace = true;
-				gd.grabExcessVerticalSpace = false;
-				// gd.verticalSpan = 2;
-				tabFolder.setLayoutData(gd);
-
-				tabFolder
-						.setSelectionBackground(new Color[] { selectedColor,
-								toolkit.getColors().getBackground() },
-								new int[] { 50 });
-
-				toolkit.paintBordersFor(tabFolder);
-
-				createTabs(tabFolder);
-				createText(tabFolder);
-				tabFolder.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						updateSelection((CTabFolder) e.getSource());
-					}
-				});
-				tabFolder.setSelection(0);
-				updateSelection(tabFolder);
-
-			}
+			if (sec.block)
+				sectionComposite.render();
 		}
 
 		// *************************************************************
 		form.reflow(true);
-	}
-
-	private void createTabs(CTabFolder tabFolder) {
-		createTab(
-				tabFolder,
-				Strings.get("image"),
-				Strings.get("PageWithSubPages.copyright.text ***********************************************456666666666666666666666"));
-		createTab(tabFolder, Strings.get("code"),
-				Strings.get("PageWithSubPages.license.text"));
-		createTab(tabFolder, Strings.get("bookmarks"),
-				Strings.get("PageWithSubPages.desc.text"));
-	}
-
-	private void createTab(CTabFolder tabFolder, String title, String content) {
-		CTabItem item = new CTabItem(tabFolder, SWT.NULL);
-
-		// GridData gd = new GridData(GridData.FILL_BOTH);
-		// gd.grabExcessHorizontalSpace = true;
-		// gd.grabExcessVerticalSpace = false;
-		// // gd.verticalSpan = 2;
-		// item.setLayoutData(gd);
-
-		TextSection section = new TextSection(content);
-		item.setText(title);
-		item.setData(section);
-	}
-
-	private void updateSelection(CTabFolder tabFolder) {
-		CTabItem item = tabFolder.getSelection();
-		TextSection section = (TextSection) item.getData();
-		((Label) tabFolder.getData()).setText(section.text);
-	}
-
-	private void createText(CTabFolder tabFolder) {
-		// Composite tabContent = toolkit.createComposite(parent);
-		// GridLayout layout = new GridLayout();
-		// tabContent.setLayout(layout);
-		// layout.numColumns = 2;
-		// layout.marginWidth = 0;
-		// GridData gd;
-		// Text text = toolkit.createText(body, "", SWT.MULTI | SWT.WRAP);
-		Label lbl = toolkit.createLabel(body, "");
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.grabExcessHorizontalSpace = true;
-		gd.grabExcessVerticalSpace = true;
-		// gd.verticalSpan = 2;
-		lbl.setLayoutData(gd);
-		// gd = new GridData(GridData.FILL_BOTH);
-		// gd.verticalSpan = 2;
-		// text.setLayoutData(gd);
-		// Button apply = toolkit.createButton(tabContent,
-		//				Strings.get("PageWithSubPages.apply"), SWT.PUSH); //$NON-NLS-1$
-		// apply.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
-		// | GridData.VERTICAL_ALIGN_BEGINNING));
-		// Button reset = toolkit.createButton(tabContent,
-		//				Strings.get("PageWithSubPages.reset"), SWT.PUSH); //$NON-NLS-1$
-		// reset.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
-		// | GridData.VERTICAL_ALIGN_BEGINNING));
-
-		tabFolder.setData(lbl);
-	}
-
-	class TextSection {
-		String text;
-
-		public TextSection(String text) {
-			this.text = text;
-		}
 	}
 
 	@PostConstruct
@@ -258,16 +134,17 @@ public class SectionView {
 		form = toolkit.createScrolledForm(parent);
 		body = form.getBody();
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		// layout.
-		// layout.type = SWT.VERTICAL;
-		// layout.maxNumColumns = 2;
+		layout.numColumns = numColumns;
 		body.setLayout(layout);
 
-		form.setText(section.title);
+		// form.setFont(new Font(parent.getDisplay(), PreferenceSupplier
+		// .getFontData(PreferenceSupplier.FONT)));
+		// form.setText(section.title);
 
-		// body = toolkit.createComposite(form.getBody());
-		// body.setLayout(layout);
+		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
+				.getFontData(PreferenceSupplier.FONT)));
+		sectionComposite = pico.get(ISectionBlockComposite.class);
+		sectionComposite.init(toolkit, body, form, numColumns);
 
 		fillBody();
 

@@ -11,6 +11,7 @@ import codeanalyzer.db.DbManager;
 import codeanalyzer.db.LoaderManager;
 import codeanalyzer.db.services.DbServices;
 import codeanalyzer.db.services.TextParser;
+import codeanalyzer.views.books.SectionBlockComposite;
 
 public final class pico {
 
@@ -49,6 +50,7 @@ public final class pico {
 		// instance.as(Characteristics.CACHE).addComponent(ColorManager.class);
 		// instance.addComponent(CData.class);
 		// instance.addComponent(ColorManager.class);
+		instance.addComponent(SectionBlockComposite.class);
 
 	}
 

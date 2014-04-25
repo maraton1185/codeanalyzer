@@ -455,7 +455,7 @@ public class ContentView {
 					});
 				} else {
 					text.append(section.title);
-					text.append(" " + section.id);
+					// text.append(" " + section.id);
 				}
 
 			}

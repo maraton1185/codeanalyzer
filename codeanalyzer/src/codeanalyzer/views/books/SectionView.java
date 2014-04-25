@@ -8,18 +8,20 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -27,10 +29,11 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
+import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
@@ -39,7 +42,6 @@ public class SectionView {
 	FormToolkit toolkit;
 	ScrolledForm form;
 	Composite body;
-	Text text;
 	// Section bookSection;
 	// Composite bookSectionClient;
 	// HyperlinkAdapter bookSectionHandler;
@@ -54,21 +56,20 @@ public class SectionView {
 	private EHandlerService hs;
 	private MWindow window;
 
-	// @Inject
-	// @Optional
-	// public void EVENT_UPDATE_CONTENT_VIEW(
-	// @UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW)
-	// EVENT_UPDATE_CONTENT_VIEW_DATA data,
-	// final EHandlerService hs, final ECommandService cs) {
-	//
-	// if (book != data.book)
-	// return;
-	//
-	// if (!data.parent.equals(section))
-	// return;
-	//
-	// fillBody();
-	// }
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_CONTENT_VIEW(
+			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data,
+			final EHandlerService hs, final ECommandService cs) {
+
+		if (book != data.book)
+			return;
+
+		if (!data.parent.equals(section))
+			return;
+
+		fillBody();
+	}
 
 	@Inject
 	public SectionView() {
@@ -79,12 +80,12 @@ public class SectionView {
 
 		Hyperlink hlink;
 		// Button button;
-		Label label;
+		// Label label;
 		FormText ft;
 		GridData gd;
-		Section bookSection;
-		Composite bookSectionClient;
-		HyperlinkAdapter bookSectionHandler;
+		// Section bookSection;
+		// Composite bookSectionClient;
+		// HyperlinkAdapter bookSectionHandler;
 		CTabFolder tabFolder;
 		Color selectedColor = toolkit.getColors().getColor(
 				IFormColors.SEPARATOR);
@@ -98,20 +99,20 @@ public class SectionView {
 
 		for (BookSection sec : sectionsList) {
 
-			// Composite comp = toolkit.createComposite(body);
-			// GridLayout gl = new GridLayout(2, false);
-			// comp.setLayout(gl);
-			// comp.setLayoutData(new RowdaGridData(GridData.FILL_BOTH));
-
 			hlink = toolkit.createHyperlink(body, sec.title, SWT.WRAP);
 			hlink.setHref(sec);
 			hlink.addHyperlinkListener(new HyperlinkAdapter() {
 				@Override
 				public void linkActivated(HyperlinkEvent e) {
+
+					BookSection current_section = window.getContext().get(
+							BookSection.class);
 					window.getContext().set(BookSection.class,
 							(BookSection) e.getHref());
 					Utils.executeHandler(hs, cs,
 							Strings.get("command.id.ShowSection"));
+					window.getContext().set(BookSection.class, current_section);
+
 				}
 
 			});
@@ -121,90 +122,63 @@ public class SectionView {
 
 			if (sec.block) {
 
-				// String buf =
-				// "<form><p><strong>Hellow</strong>, world!</p></form>";
-				//
-				// buf = buf.replaceAll("strong>", "b>");
-				// ft = toolkit.createFormText(comp, false);
-				// try {
-				// ft.setText(buf, true, true);
-				// } catch (Exception e) {
-				// ft.setText(buf, false, false);
-				// label = toolkit.createLabel(comp, e.getMessage());
-				// e.printStackTrace();
-				// }
-				// Browser browser = new Browser(comp, SWT.NONE);
-				// browser.setJavascriptEnabled(false);
-				//
-				// toolkit.adapt(browser, true, true);
-				// browser.setBackground(selectedColor);
-				// browser.setText(buf);
-				// gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-				// // gd.grabExcessHorizontalSpace = true;
-				// // gd.grabExcessHorizontalSpace = false;
-				// gd.horizontalSpan = 2;
-				// gd.verticalSpan = 2;
-				// ft.setLayoutData(gd);
+				String buf = "<form><p><strong>Hellow</strong>, world!</p></form>";
 
-				// Composite tcomp = toolkit.createComposite(comp);
-				// gd = new GridData();
-				// tcomp.setLayoutData(gd);
-				//
-				// RowLayout layout = new RowLayout();
-				// layout.type = SWT.VERTICAL;
-				// tcomp.setLayout(layout);
+				buf = buf.replaceAll("strong>", "b>");
+				ft = toolkit.createFormText(body, false);
+				try {
+					ft.setText(buf, true, true);
+				} catch (Exception e) {
+					ft.setText(buf, false, false);
+					toolkit.createLabel(body, e.getMessage());
+					e.printStackTrace();
+				}
 
-				// label = toolkit.createLabel(comp, "text1");
-				// gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-				// // gd.grabExcessHorizontalSpace = true;
-				// // gd.grabExcessHorizontalSpace = false;
-				// gd.horizontalSpan = 2;
+				gd = new GridData(GridData.FILL_BOTH);
+				gd.grabExcessHorizontalSpace = true;
+				gd.grabExcessVerticalSpace = false;
+				gd.verticalSpan = 2;
+				ft.setLayoutData(gd);
+
+				tabFolder = new CTabFolder(body, SWT.FLAT | SWT.TOP);
+				toolkit.adapt(tabFolder, true, true);
+
+				gd = new GridData(GridData.FILL_BOTH);
+				gd.grabExcessHorizontalSpace = true;
+				gd.grabExcessVerticalSpace = false;
 				// gd.verticalSpan = 2;
-				// label.setLayoutData(gd);
-				// label = toolkit.createLabel(comp, "text2");
-				// gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-				// // gd.grabExcessHorizontalSpace = true;
-				// // gd.grabExcessHorizontalSpace = false;
-				// gd.horizontalSpan = 2;
-				// gd.verticalSpan = 2;
-				// label.setLayoutData(gd);
-				// tabFolder = new CTabFolder(tcomp, SWT.FLAT | SWT.TOP);
-				// toolkit.adapt(tabFolder, true, true);
-				//
-				// // gd = new GridData(GridData.FILL_HORIZONTAL);
-				// // gd.heightHint = 0;
-				// // tabFolder.setLayoutData(gd);
-				//
-				// tabFolder
-				// .setSelectionBackground(new Color[] { selectedColor,
-				// toolkit.getColors().getBackground() },
-				// new int[] { 50 });
-				//
-				// toolkit.paintBordersFor(tabFolder);
-				//
-				// createTabs(tabFolder);
-				// // createText(tcomp);
-				// tabFolder.addSelectionListener(new SelectionAdapter() {
-				// @Override
-				// public void widgetSelected(SelectionEvent e) {
-				// updateSelection((CTabFolder) e.getSource());
-				// }
-				// });
-				// tabFolder.setSelection(0);
-				// updateSelection(tabFolder);
-				// comp.layout(true);
+				tabFolder.setLayoutData(gd);
+
+				tabFolder
+						.setSelectionBackground(new Color[] { selectedColor,
+								toolkit.getColors().getBackground() },
+								new int[] { 50 });
+
+				toolkit.paintBordersFor(tabFolder);
+
+				createTabs(tabFolder);
+				createText(tabFolder);
+				tabFolder.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						updateSelection((CTabFolder) e.getSource());
+					}
+				});
+				tabFolder.setSelection(0);
+				updateSelection(tabFolder);
+
 			}
 		}
 
 		// *************************************************************
-		// body.layout(true);
-		// form.getBody().layout(true);
 		form.reflow(true);
 	}
 
 	private void createTabs(CTabFolder tabFolder) {
-		createTab(tabFolder, Strings.get("image"),
-				Strings.get("PageWithSubPages.copyright.text"));
+		createTab(
+				tabFolder,
+				Strings.get("image"),
+				Strings.get("PageWithSubPages.copyright.text ***********************************************456666666666666666666666"));
 		createTab(tabFolder, Strings.get("code"),
 				Strings.get("PageWithSubPages.license.text"));
 		createTab(tabFolder, Strings.get("bookmarks"),
@@ -213,6 +187,13 @@ public class SectionView {
 
 	private void createTab(CTabFolder tabFolder, String title, String content) {
 		CTabItem item = new CTabItem(tabFolder, SWT.NULL);
+
+		// GridData gd = new GridData(GridData.FILL_BOTH);
+		// gd.grabExcessHorizontalSpace = true;
+		// gd.grabExcessVerticalSpace = false;
+		// // gd.verticalSpan = 2;
+		// item.setLayoutData(gd);
+
 		TextSection section = new TextSection(content);
 		item.setText(title);
 		item.setData(section);
@@ -221,29 +202,36 @@ public class SectionView {
 	private void updateSelection(CTabFolder tabFolder) {
 		CTabItem item = tabFolder.getSelection();
 		TextSection section = (TextSection) item.getData();
-		text.setText(section.text);
+		((Label) tabFolder.getData()).setText(section.text);
 	}
 
-	private void createText(Composite parent) {
-		Composite tabContent = toolkit.createComposite(parent);
-		// tabContent.setLayoutData(new GridData(GridData.FILL_BOTH));
-		GridLayout layout = new GridLayout();
-		tabContent.setLayout(layout);
-		layout.numColumns = 2;
-		layout.marginWidth = 0;
-		GridData gd;
-		text = toolkit.createText(tabContent, "", SWT.MULTI | SWT.WRAP); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.verticalSpan = 2;
-		text.setLayoutData(gd);
-		Button apply = toolkit.createButton(tabContent,
-				Strings.get("PageWithSubPages.apply"), SWT.PUSH); //$NON-NLS-1$
-		apply.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.VERTICAL_ALIGN_BEGINNING));
-		Button reset = toolkit.createButton(tabContent,
-				Strings.get("PageWithSubPages.reset"), SWT.PUSH); //$NON-NLS-1$
-		reset.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.VERTICAL_ALIGN_BEGINNING));
+	private void createText(CTabFolder tabFolder) {
+		// Composite tabContent = toolkit.createComposite(parent);
+		// GridLayout layout = new GridLayout();
+		// tabContent.setLayout(layout);
+		// layout.numColumns = 2;
+		// layout.marginWidth = 0;
+		// GridData gd;
+		// Text text = toolkit.createText(body, "", SWT.MULTI | SWT.WRAP);
+		Label lbl = toolkit.createLabel(body, "");
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = true;
+		// gd.verticalSpan = 2;
+		lbl.setLayoutData(gd);
+		// gd = new GridData(GridData.FILL_BOTH);
+		// gd.verticalSpan = 2;
+		// text.setLayoutData(gd);
+		// Button apply = toolkit.createButton(tabContent,
+		//				Strings.get("PageWithSubPages.apply"), SWT.PUSH); //$NON-NLS-1$
+		// apply.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+		// | GridData.VERTICAL_ALIGN_BEGINNING));
+		// Button reset = toolkit.createButton(tabContent,
+		//				Strings.get("PageWithSubPages.reset"), SWT.PUSH); //$NON-NLS-1$
+		// reset.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+		// | GridData.VERTICAL_ALIGN_BEGINNING));
+
+		tabFolder.setData(lbl);
 	}
 
 	class TextSection {
@@ -271,6 +259,7 @@ public class SectionView {
 		body = form.getBody();
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
+		// layout.
 		// layout.type = SWT.VERTICAL;
 		// layout.maxNumColumns = 2;
 		body.setLayout(layout);

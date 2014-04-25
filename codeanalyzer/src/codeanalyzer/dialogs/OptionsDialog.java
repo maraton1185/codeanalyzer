@@ -103,11 +103,17 @@ public class OptionsDialog {
 			addField(f8);
 
 			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
-					"Шрифт:", getFieldEditorParent());
+					"Шрифт разделов книги:", getFieldEditorParent());
 			f9.setChangeButtonText("...");
 			addField(f9);
-		}
 
+			BooleanFieldEditor f10 = new BooleanFieldEditor(
+					PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
+					"Не открывать страницу книги \"Как работать с книгой\"",
+					getFieldEditorParent());
+			// f9.setChangeButtonText("...");
+			addField(f10);
+		}
 	}
 
 	class FieldEditorPageOne extends FieldEditorPreferencePage {

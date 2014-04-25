@@ -32,6 +32,8 @@ public class SectionShow {
 				.get("codeanalyzer.partdescriptor.sectionsBlockView") : Strings
 				.get("codeanalyzer.partdescriptor.sectionView");
 
+		stacks.get(0).setVisible(true);
+
 		@SuppressWarnings("serial")
 		List<MPart> parts = model.findElements(stacks.get(0), partID,
 				MPart.class, new ArrayList<String>() {

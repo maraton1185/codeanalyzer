@@ -31,6 +31,7 @@ public abstract class PreferenceSupplier {
 	public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
 	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
 	public static final String FONT = "FONT";
+	public static final String NOT_OPEN_SECTION_START_VIEW = "NOT_OPEN_SECTION_START_VIEW";
 
 	// ******************************************************************
 

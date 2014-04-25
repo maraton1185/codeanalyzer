@@ -35,21 +35,22 @@ public class BookSectionsService {
 			book.openConnection();
 			Connection con = book.getConnection();
 
+			BookSection sec = new BookSection();
+			sec.id = 1;
+
 			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT, T1.BLOCK FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
 			Statement stat = con.createStatement();
 			ResultSet rs = stat.executeQuery(SQL);
 			try {
 				if (rs.next()) {
-					BookSection sec = getSection(rs);
-					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-							new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null, sec,
-									true));
-
+					sec = getSection(rs);
 				}
 			} finally {
 				rs.close();
 			}
 
+			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null, sec, true));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalAccessException();

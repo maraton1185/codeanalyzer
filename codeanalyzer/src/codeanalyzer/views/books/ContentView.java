@@ -13,6 +13,7 @@ import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
@@ -116,7 +117,8 @@ public class ContentView {
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
 			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data,
-			final EHandlerService hs, final ECommandService cs) {
+			final EHandlerService hs, final ECommandService cs,
+			EModelService model, @Active MWindow bookWindow) {
 
 		if (book != data.book)
 			return;
@@ -124,11 +126,12 @@ public class ContentView {
 		if (data.parent != null)
 			viewer.refresh(data.parent);
 
-		viewer.setSelection(new StructuredSelection(data.selected));
+		viewer.setSelection(new StructuredSelection(data.selected), true);
 		if (data.setBook == true) {
 			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
 		}
 		// viewer.setExpandedState(section, true);
+
 	}
 
 	@PreDestroy
@@ -452,6 +455,7 @@ public class ContentView {
 					});
 				} else {
 					text.append(section.title);
+					text.append(" " + section.id);
 				}
 
 			}

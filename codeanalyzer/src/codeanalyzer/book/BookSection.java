@@ -5,7 +5,7 @@ public class BookSection {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof BookSection)
-			return ((BookSection) obj).id == id;
+			return ((BookSection) obj).id.equals(id);
 		else
 			return super.equals(obj);
 	}

@@ -13,6 +13,7 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
@@ -23,6 +24,7 @@ import codeanalyzer.book.BookInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.AppManager.BookWindowCloseHandler;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
@@ -57,7 +59,7 @@ public class BookShow {
 
 		if (windows.isEmpty())
 
-			createBookWindow(mainWindow, book, model, ctx);
+			createBookWindow(mainWindow, book, model, ctx, partService);
 
 		else {
 			MWindow w = windows.get(0);
@@ -67,7 +69,7 @@ public class BookShow {
 	}
 
 	private void createBookWindow(MWindow mainWindow, BookInfo book,
-			EModelService model, IEclipseContext ctx) {
+			EModelService model, IEclipseContext ctx, EPartService partService) {
 
 		MTrimmedWindow bookWindow = (MTrimmedWindow) model.cloneSnippet(
 				AppManager.app, Strings.get("model.id.book.window"), null);
@@ -85,5 +87,14 @@ public class BookShow {
 		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
 		bookWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 
+		List<MPart> parts = model.findElements(bookWindow,
+				Strings.get("model.id.part.SectionsStartView"), MPart.class,
+				null);
+		if (!parts.isEmpty()) {
+			MPart part = parts.get(0);
+			if (PreferenceSupplier
+					.getBoolean(PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW))
+				part.setVisible(false);
+		}
 	}
 }

@@ -132,7 +132,9 @@
     <toolbar xmi:id="_ZtkZsKhUEeOKceOp7VW7lQ" elementId="codeanalyzer.toolbar.0"/>
   </descriptors>
   <descriptors xmi:id="_9H_DAMt2EeOTW91tESaq8A" elementId="codeanalyzer.partdescriptor.sectionView" label="секция книги" allowMultiple="true" closeable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionView">
-    <toolbar xmi:id="_9l8KUMt2EeOTW91tESaq8A" elementId="codeanalyzer.toolbar.4"/>
+    <toolbar xmi:id="_9l8KUMt2EeOTW91tESaq8A" elementId="codeanalyzer.toolbar.4">
+      <children xsi:type="menu:HandledToolItem" xmi:id="_mfKo4MxvEeOlmZeD0alUsw" elementId="codeanalyzer.handledtoolitem.9" label="Добавить блок текста" command="_B6xfwMt7EeOTW91tESaq8A"/>
+    </toolbar>
   </descriptors>
   <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsBlockView">
     <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.toolbar.3"/>
@@ -140,7 +142,7 @@
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="codeanalyzer.window.book" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="codeanalyzer.partsashcontainer.2" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.sectionsView" containerData="70000">
-        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.5" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsStartView" label="Как работать с книгой"/>
+        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.SectionsStartView" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsStartView" label="Как работать с книгой"/>
       </children>
       <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.0" containerData="30000">
         <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.ContentView" label="Содержание">

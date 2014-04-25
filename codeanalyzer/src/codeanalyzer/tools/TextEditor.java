@@ -77,6 +77,7 @@ public class TextEditor extends Composite {
 			URL url_file = FileLocator.toFileURL(url_bundle);
 
 			browser.setUrl(url_file.toString());
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

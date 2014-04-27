@@ -120,6 +120,9 @@ public class ContentView {
 			final EHandlerService hs, final ECommandService cs,
 			EModelService model, @Active MWindow bookWindow) {
 
+		if (data.onlySectionView)
+			return;
+
 		if (book != data.book)
 			return;
 

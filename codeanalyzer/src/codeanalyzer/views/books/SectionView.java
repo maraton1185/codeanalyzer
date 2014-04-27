@@ -13,18 +13,22 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
+import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
@@ -46,13 +50,20 @@ public class SectionView {
 	BookInfo book;
 
 	BookSection section;
+
+	public BookSection getSection() {
+		return section;
+	}
+
 	private List<BookSection> sectionsList;
 	private ECommandService cs;
 	private EHandlerService hs;
 	private MWindow window;
 
 	ISectionBlockComposite sectionComposite;
-	private final int numColumns = 2;
+
+	private IHyperlinkListener onEdit;
+	private IHyperlinkListener onDelete;
 
 	@Inject
 	@Optional
@@ -63,8 +74,13 @@ public class SectionView {
 		if (book != data.book)
 			return;
 
+		if (data.parent == null)
+			return;
+
 		if (!data.parent.equals(section))
 			return;
+
+		// part.setLabel(data.parent.title);
 
 		fillBody();
 	}
@@ -76,9 +92,6 @@ public class SectionView {
 
 	private void fillBody() {
 
-		Hyperlink hlink;
-		GridData gd;
-
 		for (Control ctrl : body.getChildren()) {
 			ctrl.dispose();
 		}
@@ -88,27 +101,7 @@ public class SectionView {
 
 		for (BookSection sec : sectionsList) {
 
-			hlink = toolkit.createHyperlink(body, sec.title, SWT.WRAP);
-			// hlink.setFont(body.getFont());
-			hlink.setHref(sec);
-			hlink.addHyperlinkListener(new HyperlinkAdapter() {
-				@Override
-				public void linkActivated(HyperlinkEvent e) {
-
-					BookSection current_section = window.getContext().get(
-							BookSection.class);
-					window.getContext().set(BookSection.class,
-							(BookSection) e.getHref());
-					Utils.executeHandler(hs, cs,
-							Strings.get("command.id.ShowSection"));
-					window.getContext().set(BookSection.class, current_section);
-
-				}
-
-			});
-			gd = new GridData();
-			gd.horizontalSpan = numColumns;
-			hlink.setLayoutData(gd);
+			createTopLinks(sec);
 
 			if (sec.block)
 				sectionComposite.render();
@@ -116,6 +109,71 @@ public class SectionView {
 
 		// *************************************************************
 		form.reflow(true);
+	}
+
+	private void createTopLinks(BookSection sec) {
+		Hyperlink link;
+		ImageHyperlink hlink;
+		TableWrapData gd;
+
+		Composite comp = toolkit.createComposite(body);
+		gd = new TableWrapData();
+		gd.colspan = ISectionBlockComposite.numColumns;
+		comp.setLayoutData(gd);
+		comp.setLayout(new RowLayout(SWT.HORIZONTAL));
+
+		link = toolkit.createHyperlink(comp, sec.title, SWT.WRAP);
+		// hlink.setFont(body.getFont());
+		link.setHref(sec);
+		link.addHyperlinkListener(onEdit);
+
+		hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
+		hlink.setImage(Utils.getImage("edit.png"));
+		// hlink.setText("редактировать");
+		hlink.setHref(sec);
+		hlink.addHyperlinkListener(onEdit);
+
+		hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
+		hlink.setImage(Utils.getImage("delete.png"));
+		// hlink.setText("удалить");
+		hlink.setHref(sec);
+		hlink.addHyperlinkListener(onDelete);
+
+	}
+
+	private void makeEvents() {
+		onEdit = new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+
+				BookSection selected = (BookSection) e.getHref();
+				window.getContext().set(BookSection.class, selected);
+				Utils.executeHandler(hs, cs,
+						Strings.get("command.id.ShowSection"));
+				// window.getContext().set(BookSection.class, current_section);
+				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+								new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null,
+										selected));
+			}
+
+		};
+
+		onDelete = new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+
+				// BookSection current_section = window.getContext().get(
+				// BookSection.class);
+				window.getContext().set(BookSection.class,
+						(BookSection) e.getHref());
+				Utils.executeHandler(hs, cs,
+						Strings.get("command.id.DeleteSection"));
+				// window.getContext().set(BookSection.class, current_section);
+
+			}
+
+		};
+
 	}
 
 	@PostConstruct
@@ -128,41 +186,22 @@ public class SectionView {
 		this.hs = hs;
 		this.window = window;
 
-		// ImageHyperlink link;
+		makeEvents();
 
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		body = form.getBody();
-		GridLayout layout = new GridLayout();
-		layout.numColumns = numColumns;
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = ISectionBlockComposite.numColumns;
 		body.setLayout(layout);
-
-		// form.setFont(new Font(parent.getDisplay(), PreferenceSupplier
-		// .getFontData(PreferenceSupplier.FONT)));
-		// form.setText(section.title);
-
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 		sectionComposite = pico.get(ISectionBlockComposite.class);
-		sectionComposite.init(toolkit, body, form, numColumns);
+		sectionComposite.init(toolkit, body, form, book, section);
 
 		fillBody();
 
-		// IMAGEHYPERLINKS
-		// *******************************************************
-
-		// link = toolkit.createImageHyperlink(form.getBody(), SWT.WRAP);
-		// // link.setImage(Utils.getImage("add_book.png"));
-		// link.setText("ƒобавить блок текста");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// Utils.executeHandler(hs, cs,
-		// Strings.get("command.id.AddSectionsBlock"));
-		// super.linkActivated(e);
-		// }
-		//
-		// });
 
 	}
+
 }

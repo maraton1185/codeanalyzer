@@ -203,6 +203,7 @@ public class Const {
 			this.book = book;
 			this.parent = parent;
 			this.selected = selected;
+			onlySectionView = false;
 		}
 
 		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
@@ -211,10 +212,18 @@ public class Const {
 			this.setBook = setBook;
 		}
 
+		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
+				BookSection parent, boolean onlySectionView) {
+			this.book = book;
+			this.parent = parent;
+			this.onlySectionView = onlySectionView;
+		}
+
 		public BookInfo book;
 		public BookSection parent;
 		public BookSection selected;
 		public boolean setBook;
+		public boolean onlySectionView;
 
 	}
 

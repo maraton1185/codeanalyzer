@@ -42,6 +42,16 @@ public class BookStructure {
 					+ "FOREIGN KEY(PARENT) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
+			stat.execute("CREATE TABLE S_TEXT (ID INTEGER AUTO_INCREMENT, "
+					+ "SECTION INTEGER, TEXT CLOB, HASH VARCHAR(500), "
+					+ "PRIMARY KEY (ID), "
+					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+			stat.execute("CREATE TABLE S_IMAGES (ID INTEGER AUTO_INCREMENT, "
+					+ "SECTION INTEGER, TITLE VARCHAR(500), "
+					+ "PRIMARY KEY (ID), "
+					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
 			// *****************************
 			String SQL;
 			PreparedStatement prep;
@@ -114,6 +124,8 @@ public class BookStructure {
 				"DESCRIPTION, SELECTED_SECTION, EDIT_MODE")
 				&& ch.checkColumns(metadata, "SECTIONS",
 						"PARENT, SORT, TITLE, BLOCK")
+				&& ch.checkColumns(metadata, "S_TEXT", "TEXT")
+				&& ch.checkColumns(metadata, "S_IMAGES", "TITLE")
 
 		;
 

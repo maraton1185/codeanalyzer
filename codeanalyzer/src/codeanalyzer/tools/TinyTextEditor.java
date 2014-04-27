@@ -21,7 +21,7 @@ import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 
-public class TextEditor extends Composite {
+public class TinyTextEditor extends Composite {
 
 	protected Browser browser;
 	protected String editor_content;
@@ -29,7 +29,7 @@ public class TextEditor extends Composite {
 
 	BookSection section;
 
-	public TextEditor(Composite parent, int style, BookSection section) {
+	public TinyTextEditor(Composite parent, int style, BookSection section) {
 		super(parent, style);
 
 		this.section = section;
@@ -71,7 +71,7 @@ public class TextEditor extends Composite {
 
 		// Set url pointed to editor
 		try {
-			Bundle bundle = FrameworkUtil.getBundle(TextEditor.class);
+			Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
 			URL url_bundle = FileLocator.find(bundle, new Path(
 					"web_editor/index.html"), null);
 			URL url_file = FileLocator.toFileURL(url_bundle);

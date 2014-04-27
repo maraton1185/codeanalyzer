@@ -16,7 +16,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.utils.Strings;
 
-public class _SectionBlockComposite implements ISectionBlockComposite {
+public class _SectionBlockComposite {
+	// implements ISectionBlockComposite {
 
 	FormText ft;
 	GridData gd;
@@ -24,13 +25,10 @@ public class _SectionBlockComposite implements ISectionBlockComposite {
 	Color selectedColor;
 	FormToolkit toolkit;
 	Composite body;
-	private int numColumns;
+
+	// private int numColumns;
 
 
-	/* (non-Javadoc)
-	 * @see codeanalyzer.views.books.ISectionBlockComposite#render()
-	 */
-	@Override
 	public void render() {
 
 		// Section bookSection;
@@ -53,7 +51,7 @@ public class _SectionBlockComposite implements ISectionBlockComposite {
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = false;
 		gd.verticalSpan = 2;
-		gd.horizontalSpan = numColumns - 1;
+		// gd.horizontalSpan = numColumns - 1;
 		ft.setLayoutData(gd);
 
 		// Composite comp = toolkit.createComposite(body);
@@ -137,14 +135,12 @@ public class _SectionBlockComposite implements ISectionBlockComposite {
 		}
 	}
 
-	@Override
-	public void init(FormToolkit toolkit, Composite body, ScrolledForm form,
-			int numColumns) {
+	public void init(FormToolkit toolkit, Composite body, ScrolledForm form) {
 
 		selectedColor = toolkit.getColors().getColor(IFormColors.SEPARATOR);
 		this.toolkit = toolkit;
 		this.body = body;
-		this.numColumns = numColumns;
+		// this.numColumns = numColumns;
 
 	}
 

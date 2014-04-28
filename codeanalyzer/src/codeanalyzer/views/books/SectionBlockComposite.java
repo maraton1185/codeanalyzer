@@ -31,48 +31,39 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 	}
 
 	private ScrolledForm form;
-	private BookSection section;
+	// private BookSection section;
 	private BookInfo book;
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see codeanalyzer.views.books.ISectionBlockComposite#render()
 	 */
 	@Override
-	public void render() {
-
-		String buf = book.sections().getText(section);
+	public void render(BookSection section) {
 
 		if (blockView)
-			addTinyText(buf);
+			addTinyText(section);
 		else
-			addFormText(buf);
+			addFormText(section);
 
 	}
 
-	private void addTinyText(String buf) {
-		tinymce = new TinyTextEditor(body, SWT.NONE, section);
+	private void addTinyText(BookSection section) {
+
+		String buf = book.sections().getText(section);
+
+		// Browser browser = new Browser(body, SWT.Resize);
+		tinymce = new TinyTextEditor(body, section);
 		toolkit.adapt(tinymce, true, true);
 		tinymce.setText(buf);
 
-		GridData gd = new GridData();
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = true;
-		gd.verticalAlignment = SWT.FILL;
-		gd.horizontalAlignment = SWT.FILL;
-		// gd.rowspan = 1;
-		// gd.minimumWidth = 300;
+		gd.widthHint = 50;
 		gd.horizontalSpan = numColumns - 1;
-
-		// gd = new TableWrapData(TableWrapData.FILL_GRAB);
-		// gd.grabHorizontal = true;
-		// gd.grabVertical = true;
-		// gd.valign = SWT.FILL;
-		// gd.align = SWT.FILL;
-		// gd.vhalign = SWT.FILL;
-		// gd.rowspan = 1;
-		// gd.minimumWidth = 300;
-		// gd.colspan = numColumns - 1;
+		tinymce.setLayoutData(gd);
 
 		Composite comp = toolkit.createComposite(body);
 		GridLayout layout = new GridLayout();
@@ -83,27 +74,25 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		gd.grabExcessHorizontalSpace = false;
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.TOP;
-		// gd = new TableWrapData();
-		// gd.grabHorizontal = false;
-		// gd.grabVertical = true;
-		// gd.valign = SWT.TOP;
 		comp.setLayoutData(gd);
 
 		addSections(comp);
 	}
 
-	private void addFormText(String buf) {
+	private void addFormText(BookSection section) {
+
+		String buf = book.sections().getFormText(section);
+
 		TableWrapData gd;
 
-		buf = buf.replaceAll("strong>", "b>");
 		ft = toolkit.createFormText(body, false);
 		try {
 			ft.setText(buf, true, true);
 		} catch (Exception e) {
-			buf = buf + "\n" + e.getMessage();
+			buf = e.getMessage() + ": " + buf;
 			ft.setText(buf, false, false);
 			// toolkit.createLabel(body, e.getMessage());
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		ft.setFont(body.getFont());
 		gd = new TableWrapData(TableWrapData.FILL);
@@ -183,15 +172,13 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 
 	@Override
 	public void init(FormToolkit toolkit, Composite body, ScrolledForm form,
-			BookInfo book,
-			BookSection section) {
+			BookInfo book) {
 
 		// selectedColor = toolkit.getColors().getColor(IFormColors.SEPARATOR);
 		this.toolkit = toolkit;
 		this.body = body;
 		this.form = form;
 		this.book = book;
-		this.section = section;
 
 		blockView = false;
 

@@ -11,8 +11,7 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
@@ -29,19 +28,15 @@ public class TinyTextEditor extends Composite {
 
 	BookSection section;
 
-	public TinyTextEditor(Composite parent, int style, BookSection section) {
-		super(parent, style);
+	public TinyTextEditor(Composite parent, BookSection section) {
+		super(parent, SWT.None);
 
 		this.section = section;
 
-		setLayout(new GridLayout(2, false));
+		setLayout(new FillLayout());
 
-		browser = new Browser(this, SWT.NONE);
+		browser = new Browser(this, SWT.Resize);
 		browser.setJavascriptEnabled(true);
-
-		GridData gd;
-		gd = new GridData(GridData.FILL_BOTH);
-		browser.setLayoutData(gd);
 
 		// Set content of editor after load completed
 		browser.addProgressListener(new ProgressListener() {

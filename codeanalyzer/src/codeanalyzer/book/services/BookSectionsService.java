@@ -444,8 +444,6 @@ public class BookSectionsService {
 
 	public Boolean setParent(BookSection section, BookSection target) {
 
-		BookSection parent = getParent(section);
-
 		try {
 			Connection con = book.getConnection();
 
@@ -467,6 +465,8 @@ public class BookSectionsService {
 
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, target, section));
+
+			BookSection parent = getParent(section);
 			if (parent != null)
 				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 						new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, true));
@@ -505,34 +505,45 @@ public class BookSectionsService {
 
 	public void setText(BookSection section, String text) {
 		try {
+
 			Connection con = book.getConnection();
-			String SQL = "SELECT TOP 1 T.ID FROM S_TEXT AS T;";
-			Statement stat = con.createStatement();
-			ResultSet rs = stat.executeQuery(SQL);
+			String SQL = "SELECT TOP 1 ID FROM S_TEXT WHERE SECTION=?;";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+			prep.setInt(1, section.id);
+
+			ResultSet rs = prep.executeQuery();
 			try {
 
 				if (rs.next()) {
 					SQL = "UPDATE S_TEXT SET TEXT=? WHERE ID=?;";
-					PreparedStatement prep = con.prepareStatement(SQL,
+					PreparedStatement prep1 = con.prepareStatement(SQL,
 							Statement.CLOSE_CURRENT_RESULT);
 
-					prep.setCharacterStream(1, new BufferedReader(
+					prep1.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
-					prep.setInt(1, rs.getInt(1));
-					int affectedRows = prep.executeUpdate();
+					prep1.setInt(2, rs.getInt(1));
+					int affectedRows = prep1.executeUpdate();
 					if (affectedRows == 0)
 						throw new SQLException();
 				} else {
-					SQL = "INSERT INTO S_TEXT (TEXT) VALUES (?);";
-					PreparedStatement prep = con.prepareStatement(SQL,
+					SQL = "INSERT INTO S_TEXT (TEXT, SECTION) VALUES (?,?);";
+					PreparedStatement prep2 = con.prepareStatement(SQL,
 							Statement.CLOSE_CURRENT_RESULT);
 
-					prep.setCharacterStream(1, new BufferedReader(
+					prep2.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
-					int affectedRows = prep.executeUpdate();
+					prep2.setInt(2, section.id);
+					int affectedRows = prep2.executeUpdate();
 					if (affectedRows == 0)
 						throw new SQLException();
 				}
+
+				BookSection parent = getParent(section);
+				if (parent != null)
+					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+							new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent,
+									true));
 			} finally {
 				rs.close();
 			}
@@ -571,6 +582,19 @@ public class BookSectionsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return result.toString();
+	}
+
+	public String getFormText(BookSection section) {
+		StringBuilder result = new StringBuilder();
+		result.append("<form>");
+		String buf = getText(section);
+
+		buf = buf.replaceAll("strong>", "b>");
+
+		result.append(buf);
+		result.append("</form>");
 		return result.toString();
 	}
 

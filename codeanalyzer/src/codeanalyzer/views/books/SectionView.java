@@ -104,7 +104,7 @@ public class SectionView {
 			createTopLinks(sec);
 
 			if (sec.block)
-				sectionComposite.render();
+				sectionComposite.render(sec);
 		}
 
 		// *************************************************************
@@ -151,7 +151,8 @@ public class SectionView {
 				Utils.executeHandler(hs, cs,
 						Strings.get("command.id.ShowSection"));
 				// window.getContext().set(BookSection.class, current_section);
-				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+				AppManager.br
+						.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 								new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null,
 										selected));
 			}
@@ -197,10 +198,9 @@ public class SectionView {
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 		sectionComposite = pico.get(ISectionBlockComposite.class);
-		sectionComposite.init(toolkit, body, form, book, section);
+		sectionComposite.init(toolkit, body, form, book);
 
 		fillBody();
-
 
 	}
 

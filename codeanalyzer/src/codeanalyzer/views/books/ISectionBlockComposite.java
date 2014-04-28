@@ -11,9 +11,11 @@ import codeanalyzer.tools.TinyTextEditor;
 public interface ISectionBlockComposite {
 
 	int numColumns = 2;
+
 	public abstract void init(FormToolkit toolkit, Composite body,
-			ScrolledForm form, BookInfo book, BookSection section);
-	public abstract void render();
+			ScrolledForm form, BookInfo book);
+
+	public abstract void render(BookSection sec);
 
 	void setBlockView(Boolean blockView);
 

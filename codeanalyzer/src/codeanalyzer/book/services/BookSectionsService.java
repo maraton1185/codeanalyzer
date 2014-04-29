@@ -586,16 +586,4 @@ public class BookSectionsService {
 		return result.toString();
 	}
 
-	public String getFormText(BookSection section) {
-		StringBuilder result = new StringBuilder();
-		result.append("<form>");
-		String buf = getText(section);
-
-		buf = buf.replaceAll("strong>", "b>");
-
-		result.append(buf);
-		result.append("</form>");
-		return result.toString();
-	}
-
 }

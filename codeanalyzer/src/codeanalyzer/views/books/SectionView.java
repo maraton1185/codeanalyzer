@@ -13,6 +13,8 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -23,8 +25,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
@@ -114,11 +114,14 @@ public class SectionView {
 	private void createTopLinks(BookSection sec) {
 		Hyperlink link;
 		ImageHyperlink hlink;
-		TableWrapData gd;
+		GridData gd;
 
 		Composite comp = toolkit.createComposite(body);
-		gd = new TableWrapData();
-		gd.colspan = ISectionBlockComposite.numColumns;
+		// gd = new TableWrapData();
+		// gd.colspan = ISectionBlockComposite.numColumns;
+		// comp.setLayoutData(gd);
+		gd = new GridData();
+		gd.horizontalSpan = ISectionBlockComposite.numColumns;
 		comp.setLayoutData(gd);
 		comp.setLayout(new RowLayout(SWT.HORIZONTAL));
 
@@ -192,7 +195,8 @@ public class SectionView {
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		body = form.getBody();
-		TableWrapLayout layout = new TableWrapLayout();
+		// TableWrapLayout layout = new TableWrapLayout();
+		GridLayout layout = new GridLayout();
 		layout.numColumns = ISectionBlockComposite.numColumns;
 		body.setLayout(layout);
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier

@@ -7,7 +7,10 @@
 <script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>
 <!-- <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script> -->
 <script type="text/javascript">
-
+	
+	function getHeight() {
+        return document.getElementById('content').offsetHeight;
+    };
 
 </script>
 <script>
@@ -22,10 +25,11 @@ tinymce.init({
 		"textcolor"
     ],
     toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor",
-	 menubar: false,
+	 //menubar: false,
 	setup: function(editor) {
         editor.on('init', function(e) {
             changeStatusLine('tinymce:onInit()');
+			tinymce.activeEditor.execCommand('mceFullScreen');
         });
 		/*editor.on('ExecCommand', function(e) {
             console.log('ExecCommand event', e);

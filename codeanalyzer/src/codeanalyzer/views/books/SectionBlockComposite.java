@@ -15,6 +15,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
+import codeanalyzer.tools.BrowserComposite;
 import codeanalyzer.tools.TinyTextEditor;
 
 public class SectionBlockComposite implements ISectionBlockComposite {
@@ -45,7 +46,8 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		if (blockView)
 			addTinyText(section);
 		else
-			addFormText(section);
+			addBrowserText(section);
+		// addFormText(section);
 
 	}
 
@@ -79,9 +81,52 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		addSections(comp);
 	}
 
+	private void addBrowserText(BookSection section) {
+
+		String buf = book.sections().getText(section);
+
+		// TableWrapData gd;
+
+		// Browser browser = new Browser(body, SWT.Resize);
+		BrowserComposite browserComposite = new BrowserComposite(body, buf,
+				form);
+		toolkit.adapt(browserComposite, true, true);
+		// browserComposite.setText(buf);
+
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = false;
+		gd.widthHint = 50;
+		// gd.heightHint = browserComposite.getHeight();
+		gd.horizontalSpan = numColumns - 1;
+		browserComposite.setLayoutData(gd);
+		// browserComposite.getHeight();
+
+		// gd = new TableWrapData(TableWrapData.FILL);
+		// gd.grabHorizontal = true;
+		// gd.grabVertical = false;
+		// // gd.rowspan = 1;
+		// gd.colspan = numColumns - 1;
+		// gd.widthHint = 50;
+		// browserComposite.setLayoutData(gd);
+
+		Composite comp = toolkit.createComposite(body);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		comp.setLayout(layout);
+
+		gd = new GridData();
+		gd.grabExcessHorizontalSpace = false;
+		gd.grabExcessVerticalSpace = false;
+		gd.verticalAlignment = SWT.TOP;
+		comp.setLayoutData(gd);
+
+		addSections(comp);
+	}
+
 	private void addFormText(BookSection section) {
 
-		String buf = book.sections().getFormText(section);
+		String buf = book.sections().getText(section);
 
 		TableWrapData gd;
 

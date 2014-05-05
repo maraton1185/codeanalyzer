@@ -128,6 +128,7 @@ public class ActivationInfo {
 		try {
 			Date ExpirationDate = formatter.parse(this.ExpirationDate);
 			Date currentDate = new java.util.Date();
+
 			// Date currentDate = NtpMessage.getDate();
 			if (!ExpirationDate.after(currentDate)) {
 				check_message = Const.MSG_EXPIRED;

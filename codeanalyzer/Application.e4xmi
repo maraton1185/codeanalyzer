@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_cMG-gJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ide.application" bindingContexts="_cMG-iZlHEeOhhK_cqm6rMQ">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimmedwindow.main" label="Анализатор кода 1С" width="800" height="600">
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmlns:ui="http://www.eclipse.org/ui/2010/UIModel/application/ui" xmi:id="_cMG-gJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ide.application" bindingContexts="_cMG-iZlHEeOhhK_cqm6rMQ">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimmedwindow.main" label="Анализатор кода 1С" iconURI="platform:/plugin/codeanalyzer/icons/favicon.png" width="800" height="600">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="__8s28KXSEeO-PfCALTbnPw" elementId="codeanalyzer.perspectivestack.0">
       <children xsi:type="advanced:Perspective" xmi:id="_AQqUwKXTEeO-PfCALTbnPw" elementId="codeanalyzer.perspective.default" visible="false">
         <children xsi:type="basic:PartSashContainer" xmi:id="_7GppUJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.0" horizontal="true">
@@ -48,14 +48,14 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_ZQuQMKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.handledmenuitem.10" label="&amp;Создать книгу" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_cayYcKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.handledmenuitem.11" label="&amp;Открыть книгу" command="_SMVncKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_RIfvYKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.menuseparator.1"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_qCxREKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.handledmenuitem.12" label="&amp;Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_qCxREKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.handledmenuitem.12" label="&amp;Сохранить" iconURI="platform:/plugin/codeanalyzer/icons/save.png" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_spYuAKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.handledmenuitem.13" label="Сохранить как" command="_mvAaQKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_USHywKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.menuseparator.2"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_VRMTcJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handledmenuitem.0" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
       </children>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="codeanalyzer.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handledmenuitem.9" label="&amp;Параметры" command="_irP60J6aEeORdqnZrqq27Q"/>
-      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="codeanalyzer.directmenuitem.1" label="Обновить вид" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.RefreshPerspectiveHandler"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handledmenuitem.9" label="&amp;Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="codeanalyzer.directmenuitem.1" label="Обновить" iconURI="platform:/plugin/codeanalyzer/icons/update.png" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.RefreshPerspectiveHandler"/>
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.statusbar">
@@ -93,6 +93,7 @@
   <handlers xmi:id="_3DPm4LAuEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionEditTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
   <handlers xmi:id="_y9U1MMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.handler.17" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionShow" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
   <handlers xmi:id="_7i0QcMuAEeOTW91tESaq8A" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAddBlock" command="_B6xfwMt7EeOTW91tESaq8A"/>
+  <handlers xmi:id="_hPXhkNQiEeOFfdAek_eJEQ" elementId="codeanalyzer.handler.19" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionGoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="codeanalyzer.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_tNGXkKngEeOFWZN9IXa3MA" elementId="codeanalyzer.keybinding.0" keySequence="M1+O" command="_SMVncKhVEeOKceOp7VW7lQ">
       <tags>type:user</tags>
@@ -133,11 +134,18 @@
   </descriptors>
   <descriptors xmi:id="_9H_DAMt2EeOTW91tESaq8A" elementId="codeanalyzer.partdescriptor.sectionView" label="секция книги" allowMultiple="true" closeable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionView">
     <toolbar xmi:id="_9l8KUMt2EeOTW91tESaq8A" elementId="codeanalyzer.toolbar.4">
-      <children xsi:type="menu:HandledToolItem" xmi:id="_mfKo4MxvEeOlmZeD0alUsw" elementId="codeanalyzer.handledtoolitem.9" label="Добавить блок текста" command="_B6xfwMt7EeOTW91tESaq8A"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_MY2wQNQjEeOFfdAek_eJEQ" elementId="codeanalyzer.handledtoolitem.12" label="" iconURI="platform:/plugin/codeanalyzer/icons/level_up.png" tooltip="Перейти к родителю" command="_dea_gNQiEeOFfdAek_eJEQ">
+        <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_qYbJENQoEeOFfdAek_eJEQ" coreExpressionId="codeanalyzer.expressions.onContentSelected"/>
+      </children>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_mfKo4MxvEeOlmZeD0alUsw" elementId="codeanalyzer.handledtoolitem.9" label="" iconURI="platform:/plugin/codeanalyzer/icons/add_text.png" tooltip="Добавить блок текста" command="_B6xfwMt7EeOTW91tESaq8A"/>
     </toolbar>
   </descriptors>
   <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsBlockView">
-    <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.toolbar.3"/>
+    <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.toolbar.3">
+      <children xsi:type="menu:HandledToolItem" xmi:id="_PIipoNQjEeOFfdAek_eJEQ" elementId="codeanalyzer.handledtoolitem.13" label="" iconURI="platform:/plugin/codeanalyzer/icons/level_up.png" tooltip="Перейти к родителю" command="_dea_gNQiEeOFfdAek_eJEQ">
+        <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_O7sjoNQnEeOFfdAek_eJEQ" coreExpressionId="codeanalyzer.expressions.onContentSelected"/>
+      </children>
+    </toolbar>
   </descriptors>
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="codeanalyzer.window.book" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="codeanalyzer.partsashcontainer.2" horizontal="true">
@@ -166,8 +174,8 @@
     </mainMenu>
     <trimBars xmi:id="_3orywM7ZEeOAhpxdCTdZUg" elementId="codeanalyzer.trimbar.1">
       <children xsi:type="menu:ToolBar" xmi:id="_53vEQM7ZEeOAhpxdCTdZUg" elementId="codeanalyzer.toolbar.5">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_7vZJcM7ZEeOAhpxdCTdZUg" elementId="codeanalyzer.handledtoolitem.10" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_NRJwAM7aEeOAhpxdCTdZUg" elementId="codeanalyzer.handledtoolitem.11" label="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_7vZJcM7ZEeOAhpxdCTdZUg" elementId="codeanalyzer.handledtoolitem.10" label="&amp;Выход" tooltip="Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_NRJwAM7aEeOAhpxdCTdZUg" elementId="codeanalyzer.handledtoolitem.11" label="Сохранить" iconURI="platform:/plugin/codeanalyzer/icons/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
       </children>
     </trimBars>
   </snippets>
@@ -192,6 +200,7 @@
   <commands xmi:id="_cimZwLAuEeOa8OKjTLKQvw" elementId="codeanalyzer.command.EditBookSectionTitle" commandName="Книга - Изменить заголовок секции"/>
   <commands xmi:id="_uu33wMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.command.ShowSection" commandName="Книга - Показать секцию"/>
   <commands xmi:id="_B6xfwMt7EeOTW91tESaq8A" elementId="codeanalyzer.command.AddSectionsBlock" commandName="Книга - Добавить блок секции"/>
+  <commands xmi:id="_dea_gNQiEeOFfdAek_eJEQ" elementId="codeanalyzer.command.0" commandName="Книга - Перейти к родителю"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

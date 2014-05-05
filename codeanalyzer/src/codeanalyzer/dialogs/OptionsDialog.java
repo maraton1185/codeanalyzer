@@ -111,8 +111,16 @@ public class OptionsDialog {
 					PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
 					"Не открывать страницу книги \"Как работать с книгой\"",
 					getFieldEditorParent());
-			// f9.setChangeButtonText("...");
 			addField(f10);
+
+			BooleanFieldEditor f11 = new BooleanFieldEditor(
+					PreferenceSupplier.MINIMIZE_TO_TRAY, "Сворачивать в трей",
+					getFieldEditorParent());
+			addField(f11);
+			BooleanFieldEditor f12 = new BooleanFieldEditor(
+					PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP,
+					"Минимизировать при запуске", getFieldEditorParent());
+			addField(f12);
 		}
 	}
 

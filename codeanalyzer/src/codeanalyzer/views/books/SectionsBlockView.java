@@ -5,9 +5,11 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -38,6 +40,7 @@ public class SectionsBlockView {
 	// TextEditor tinymce;
 
 	ISectionBlockComposite sectionComposite;
+	private MWindow window;
 
 	@Inject
 	public SectionsBlockView() {
@@ -77,10 +80,11 @@ public class SectionsBlockView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, BookSection section) {
+	public void postConstruct(Composite parent, BookSection section,
+			@Active MWindow window) {
 
 		this.section = section;
-
+		this.window = window;
 		// String buf = book.sections().getText(section);
 
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -95,6 +99,15 @@ public class SectionsBlockView {
 		sectionComposite.init(toolkit, body, form, book);
 		sectionComposite.setBlockView(true);
 		sectionComposite.render(section);
+
+	}
+
+	@Focus
+	public void OnFocus() {
+		window.getContext().set(Const.CONTEXT_ACTIVE_VIEW_SECTION, section);
+		// ctx.set(Const.CONTENT_SECTION_SELECTED, section.parent == 0);
+		// window.getContext().set(Const.CONTENT_SECTION_SELECTED, false);
+		// ctx.declareModifiable(Const.CONTENT_SECTION_SELECTED);
 
 	}
 

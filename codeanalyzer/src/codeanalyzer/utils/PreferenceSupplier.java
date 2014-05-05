@@ -32,6 +32,8 @@ public abstract class PreferenceSupplier {
 	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
 	public static final String FONT = "FONT";
 	public static final String NOT_OPEN_SECTION_START_VIEW = "NOT_OPEN_SECTION_START_VIEW";
+	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
+	public static final String MINIMIZE_TO_TRAY_ON_STARTUP = "MINIMIZE_TO_TRAY_ON_STARTUP";
 
 	// ******************************************************************
 

@@ -21,5 +21,17 @@
          </property>
       </product>
    </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="codeanalyzer.expressions.onContentSelected">
+         <with
+               variable="CONTENT_SECTION_SELECTED">
+            <equals
+                  value="true">
+            </equals>
+         </with>
+      </definition>
+   </extension>
 
 </plugin>

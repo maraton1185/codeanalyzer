@@ -13,6 +13,7 @@ import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
 import org.eclipse.e4.ui.workbench.UIEvents;
@@ -24,7 +25,14 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tray;
+import org.eclipse.swt.widgets.TrayItem;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
@@ -34,6 +42,7 @@ import codeanalyzer.db.services.FillProcLinkTableJob;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.Utils;
 
 public class AppManager {
 
@@ -72,27 +81,73 @@ public class AppManager {
 		AppManager.ps = ps;
 		AppManager.app = application;
 
-		MWindow window = (MWindow) modelService.find(
+		MTrimmedWindow window = (MTrimmedWindow) modelService.find(
 				"codeanalyzer.trimmedwindow.main", app);
 
 		br.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 				new AppStartupCompleteEventHandler(window));
 
 		br.subscribe(Const.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
+
 	}
 
 	private static class AppStartupCompleteEventHandler implements EventHandler {
-		private MWindow theWindow;
+		private MTrimmedWindow window;
 
 		@Override
 		public void handleEvent(Event event) {
 			WindowCloseHandler closeHandler = new WindowCloseHandler();
-			theWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
+			window.getContext().set(IWindowCloseHandler.class, closeHandler);
 			AppManager.br.send(Const.EVENT_UPDATE_STATUS, null);
 
 			perspectiveActions();
 
 			openBookOnStartup();
+
+			trayOptions();
+		}
+
+		private void trayOptions() {
+			final Image image = Utils.getImage("favicon.png");
+			final Shell shell = ((Shell) window.getWidget());
+
+			shell.addShellListener(new ShellAdapter() {
+				@Override
+				public void shellIconified(ShellEvent e) {
+
+					if (!PreferenceSupplier
+							.getBoolean(PreferenceSupplier.MINIMIZE_TO_TRAY))
+						return;
+
+					window.setVisible(false);
+
+					final Tray tray = e.display.getSystemTray();
+					if (tray == null)
+						return;
+					if (tray.getItemCount() != 0)
+						return;
+					final TrayItem item = new TrayItem(tray, SWT.NONE);
+					item.setToolTipText("SWT TrayItem");
+					item.setImage(image);
+					item.addListener(SWT.DefaultSelection, new Listener() {
+
+						@Override
+						public void handleEvent(
+								org.eclipse.swt.widgets.Event event) {
+
+							window.setVisible(true);
+
+							shell.setMinimized(false);
+						}
+
+					});
+
+				}
+			});
+
+			if (PreferenceSupplier
+					.getBoolean(PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP))
+				shell.setMinimized(true);
 
 		}
 
@@ -109,14 +164,14 @@ public class AppManager {
 
 			IBookManager bm = pico.get(IBookManager.class);
 
-			bm.openBook(p, (Shell) theWindow.getWidget());
+			bm.openBook(p, (Shell) window.getWidget());
 
 			AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
 
 		}
 
-		AppStartupCompleteEventHandler(MWindow window) {
-			theWindow = window;
+		AppStartupCompleteEventHandler(MTrimmedWindow window) {
+			this.window = window;
 		}
 
 	}
@@ -204,4 +259,5 @@ public class AppManager {
 
 		}
 	}
+
 }

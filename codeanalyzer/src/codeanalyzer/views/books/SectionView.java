@@ -9,6 +9,7 @@ import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
@@ -126,7 +127,7 @@ public class SectionView {
 		comp.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 		link = toolkit.createHyperlink(comp, sec.title, SWT.WRAP);
-		// hlink.setFont(body.getFont());
+		link.setFont(body.getFont());
 		link.setHref(sec);
 		link.addHyperlinkListener(onEdit);
 
@@ -134,11 +135,13 @@ public class SectionView {
 		hlink.setImage(Utils.getImage("edit.png"));
 		// hlink.setText("редактировать");
 		hlink.setHref(sec);
+		hlink.setToolTipText("Изменить");
 		hlink.addHyperlinkListener(onEdit);
 
 		hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
 		hlink.setImage(Utils.getImage("delete.png"));
 		// hlink.setText("удалить");
+		hlink.setToolTipText("Удалить");
 		hlink.setHref(sec);
 		hlink.addHyperlinkListener(onDelete);
 
@@ -208,4 +211,13 @@ public class SectionView {
 
 	}
 
+	@Focus
+	public void OnFocus() {
+		window.getContext().set(Const.CONTEXT_ACTIVE_VIEW_SECTION, section);
+		// window.getContext().set(Const.CONTENT_SECTION_SELECTED, false);
+		// ctx.declareModifiable(Const.CONTENT_SECTION_SELECTED);
+		// section.parent == 0
+		// window.getContext().de
+
+	}
 }

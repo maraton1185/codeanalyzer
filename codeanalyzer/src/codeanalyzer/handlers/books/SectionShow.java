@@ -52,6 +52,7 @@ public class SectionShow {
 			stacks.get(0).getChildren().add(part);
 		} else {
 			part = parts.get(0);
+			part.setLabel(section.title);
 		}
 
 		partService.showPart(part, PartState.ACTIVATE);

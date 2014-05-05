@@ -369,7 +369,7 @@ public class BookSectionsService {
 
 	public void saveSection(BookSection section) {
 		try {
-			// BookSection parent = getParent(section);
+			BookSection parent = getParent(section);
 
 			Connection con = book.getConnection();
 			String SQL = "UPDATE SECTIONS SET TITLE=? WHERE ID=?;";
@@ -382,9 +382,12 @@ public class BookSectionsService {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			// if (parent != null)
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, true));
+
+			if (parent != null)
+				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+						new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, true));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -399,8 +402,11 @@ public class BookSectionsService {
 		if (parent == null)
 			return false;
 
-		if (section.parent != parent.id)
+		boolean notify = true;
+		if (section.parent != parent.id) {
 			setParent(section, parent);
+			notify = false;
+		}
 
 		List<BookSection> items = getChildren(parent);
 
@@ -413,8 +419,9 @@ public class BookSectionsService {
 
 		updateOrder(items);
 
-		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+		if (notify)
+			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
 
 		return true;
 	}
@@ -425,8 +432,11 @@ public class BookSectionsService {
 		if (parent == null)
 			return false;
 
-		if (section.parent != parent.id)
+		boolean notify = true;
+		if (section.parent != parent.id) {
 			setParent(section, parent);
+			notify = false;
+		}
 
 		List<BookSection> items = getChildren(parent);
 
@@ -436,8 +446,9 @@ public class BookSectionsService {
 
 		updateOrder(items);
 
-		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+		if (notify)
+			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
 
 		return true;
 	}
@@ -445,6 +456,9 @@ public class BookSectionsService {
 	public Boolean setParent(BookSection section, BookSection target) {
 
 		try {
+
+			BookSection parent = getParent(section);
+
 			Connection con = book.getConnection();
 
 			String SQL = "UPDATE SECTIONS SET PARENT=? WHERE ID=?;";
@@ -466,7 +480,6 @@ public class BookSectionsService {
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, target, section));
 
-			BookSection parent = getParent(section);
 			if (parent != null)
 				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 						new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, true));
@@ -505,6 +518,7 @@ public class BookSectionsService {
 
 	public void setText(BookSection section, String text) {
 		try {
+			BookSection parent = getParent(section);
 
 			Connection con = book.getConnection();
 			String SQL = "SELECT TOP 1 ID FROM S_TEXT WHERE SECTION=?;";
@@ -539,7 +553,6 @@ public class BookSectionsService {
 						throw new SQLException();
 				}
 
-				BookSection parent = getParent(section);
 				if (parent != null)
 					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 							new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent,

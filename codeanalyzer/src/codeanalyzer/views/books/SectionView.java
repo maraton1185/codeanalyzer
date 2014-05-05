@@ -11,6 +11,7 @@ import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -51,6 +52,7 @@ public class SectionView {
 	BookInfo book;
 
 	BookSection section;
+	MPart part;
 
 	public BookSection getSection() {
 		return section;
@@ -75,6 +77,9 @@ public class SectionView {
 		if (book != data.book)
 			return;
 
+		// if (!data.onlySectionView)
+		// return;
+
 		if (data.parent == null)
 			return;
 
@@ -82,6 +87,7 @@ public class SectionView {
 			return;
 
 		// part.setLabel(data.parent.title);
+		part.setLabel(section.title);
 
 		fillBody();
 	}
@@ -186,17 +192,26 @@ public class SectionView {
 	@PostConstruct
 	public void postConstruct(Composite parent, BookSection section,
 			final ECommandService cs, final EHandlerService hs,
-			@Active final MWindow window) {
+			@Active final MWindow window, @Active MPart part) {
 
 		this.section = section;
 		this.cs = cs;
 		this.hs = hs;
 		this.window = window;
+		this.part = part;
 
 		makeEvents();
 
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
+		// form.addListener(SWT.SCROLL_PAGE, new Listener() {
+		// @Override
+		// public void handleEvent(Event e) {
+		// // form.getVerticalBar().setFocus();
+		// form.getVerticalBar().setIncrement(
+		// form.getVerticalBar().getIncrement() * 3);
+		// }
+		// });
 		body = form.getBody();
 		// TableWrapLayout layout = new TableWrapLayout();
 		GridLayout layout = new GridLayout();

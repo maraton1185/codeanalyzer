@@ -127,7 +127,6 @@ public class ActivationInfo {
 
 		try {
 			Date ExpirationDate = formatter.parse(this.ExpirationDate);
-			// date from bios
 			Date currentDate = new java.util.Date();
 
 			// Date currentDate = NtpMessage.getDate();

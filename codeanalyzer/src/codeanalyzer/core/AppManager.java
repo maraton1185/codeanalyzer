@@ -16,6 +16,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
+import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
@@ -98,7 +99,7 @@ public class AppManager {
 		public void handleEvent(Event event) {
 			WindowCloseHandler closeHandler = new WindowCloseHandler();
 			window.getContext().set(IWindowCloseHandler.class, closeHandler);
-			AppManager.br.send(Const.EVENT_UPDATE_STATUS, null);
+			AppManager.br.post(Const.EVENT_UPDATE_STATUS, null);
 
 			perspectiveActions();
 
@@ -127,7 +128,7 @@ public class AppManager {
 					if (tray.getItemCount() != 0)
 						return;
 					final TrayItem item = new TrayItem(tray, SWT.NONE);
-					item.setToolTipText("SWT TrayItem");
+					item.setToolTipText(Strings.get("appTitle"));
 					item.setImage(image);
 					item.addListener(SWT.DefaultSelection, new Listener() {
 
@@ -138,6 +139,8 @@ public class AppManager {
 							window.setVisible(true);
 
 							shell.setMinimized(false);
+
+							shell.forceActive();
 						}
 
 					});
@@ -206,14 +209,17 @@ public class AppManager {
 		public boolean close(MWindow window) {
 
 			IJobManager jobMan = Job.getJobManager();
-			jobMan.cancel(FillProcLinkTableJob.MY_FAMILY);
+			jobMan.cancel(FillProcLinkTableJob.FillProcLinkTableJob_FAMILY);
 			try {
-				jobMan.join(FillProcLinkTableJob.MY_FAMILY, null);
+				jobMan.join(FillProcLinkTableJob.FillProcLinkTableJob_FAMILY,
+						null);
 			} catch (OperationCanceledException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			IWorkbench workbench = window.getContext().get(IWorkbench.class);
+			workbench.close();
 			return true;
 		}
 	}

@@ -18,7 +18,7 @@ import codeanalyzer.utils.Const;
 
 public class FillProcLinkTableJob extends Job {
 
-	public static final String MY_FAMILY = "all";
+	public static final String FillProcLinkTableJob_FAMILY = "all";
 
 	public static class rule implements ISchedulingRule {
 		@Override
@@ -76,7 +76,7 @@ public class FillProcLinkTableJob extends Job {
 
 	@Override
 	public boolean belongsTo(Object family) {
-		return family == MY_FAMILY;
+		return family == FillProcLinkTableJob_FAMILY;
 	}
 
 	// @Override

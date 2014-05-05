@@ -58,10 +58,10 @@ public class OptionsDialog {
 		@Override
 		protected void createFieldEditors() {
 
-			StringFieldEditor f1 = new StringFieldEditor(
-					PreferenceSupplier.NTPSERVER, "NTP-сервер:",
-					getFieldEditorParent());
-			addField(f1);
+			// StringFieldEditor f1 = new StringFieldEditor(
+			// PreferenceSupplier.NTPSERVER, "NTP-сервер:",
+			// getFieldEditorParent());
+			// addField(f1);
 
 			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
 					PreferenceSupplier.DEFAULT_DIRECTORY,

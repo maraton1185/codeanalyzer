@@ -39,48 +39,51 @@ public class ActivateDialog extends Dialog {
 
 	private Text serialField;
 	private Text statusField;
-	private Text ntpField;
-	
+	// private Text ntpField;
+
 	Shell shell;
-	
-//	@Inject UISynchronize sync;
-	@Inject	IEventBroker br;
-	
+
+	// @Inject UISynchronize sync;
+	@Inject
+	IEventBroker br;
+
 	/**
 	 * Create the dialog.
+	 * 
 	 * @param parentShell
 	 */
 	@Inject
 	public ActivateDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);			
+		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
 	}
 
 	/**
 	 * Create contents of the dialog.
+	 * 
 	 * @param parent
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		
+
 		shell = getShell();
-		
+
 		parent.setToolTipText("");
-		
+
 		GridData gridData;
 		Label label;
 		Button button;
-		
+
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		//************* ПОЧТА ************************
-		
+
+		// ************* ПОЧТА ************************
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Почта:");
-		
+
 		loginField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -88,54 +91,56 @@ public class ActivateDialog extends Dialog {
 		gridData.grabExcessHorizontalSpace = true;
 		loginField.setLayoutData(gridData);
 
-	    //************** ПАРОЛЬ ***********************
-		
+		// ************** ПАРОЛЬ ***********************
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Пароль:");
-		
+
 		passwordField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		passwordField.setEchoChar('*');
-		gridData = new GridData();		
+		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 2;
 		passwordField.setLayoutData(gridData);
 
-	    //************* NTP-server ************************
-		
-		label = new Label(container, SWT.LEFT);
-		label.setText("NTP-сервер:");
-		
-		ntpField = new Text(container, SWT.SINGLE | SWT.BORDER);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.horizontalSpan = 2;
-		gridData.grabExcessHorizontalSpace = true;
-		ntpField.setLayoutData(gridData);
-		ntpField.setEditable(false);
+		// ************* NTP-server ************************
 
-	    //************** СЕРИЙНИК ***********************
-		
+		// label = new Label(container, SWT.LEFT);
+		// label.setText("NTP-сервер:");
+		//
+		// ntpField = new Text(container, SWT.SINGLE | SWT.BORDER);
+		// gridData = new GridData();
+		// gridData.horizontalAlignment = GridData.FILL;
+		// gridData.horizontalSpan = 2;
+		// gridData.grabExcessHorizontalSpace = true;
+		// ntpField.setLayoutData(gridData);
+		// ntpField.setEditable(false);
+
+		// ************** СЕРИЙНИК ***********************
+
 		label = new Label(container, SWT.LEFT);
 		label.setText("Серийный номер:");
 		gridData = new GridData();
-	    gridData.horizontalSpan = 3;
-	    label.setLayoutData(gridData);
-	    
-	    serialField = new Text(container, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-	    GridData gridData_1 = new GridData();
+		gridData.horizontalSpan = 3;
+		label.setLayoutData(gridData);
+
+		serialField = new Text(container, SWT.MULTI | SWT.BORDER | SWT.WRAP
+				| SWT.V_SCROLL);
+		GridData gridData_1 = new GridData();
 		gridData_1.heightHint = 100;
 		gridData_1.horizontalAlignment = GridData.FILL;
 		gridData_1.grabExcessHorizontalSpace = true;
 		gridData_1.horizontalSpan = 2;
 		serialField.setLayoutData(gridData_1);
-		
-	    //**************** СТАТУС *********************
-		
+
+		// **************** СТАТУС *********************
+
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false,
+				1, 1));
+
 		button = new Button(composite, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -144,7 +149,7 @@ public class ActivateDialog extends Dialog {
 			}
 		});
 		button.setText("UUID");
-		
+
 		button = new Button(composite, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -152,18 +157,18 @@ public class ActivateDialog extends Dialog {
 				btnActivateOnClick();
 			}
 		});
-		//button.setFont(SWTResourceManager.getFont("Tahoma", 8, SWT.BOLD));
+		// button.setFont(SWTResourceManager.getFont("Tahoma", 8, SWT.BOLD));
 		button.setText("Активировать");
-		
+
 		button = new Button(composite, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				btnCheckOnClick();	
+				btnCheckOnClick();
 			}
 		});
 		button.setText("Проверить");
-		
+
 		button = new Button(composite, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -172,24 +177,25 @@ public class ActivateDialog extends Dialog {
 			}
 		});
 		button.setText("Продлить");
-		
-		statusField = new Text(container, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-//		statusField.setFont(SWTResourceManager.getFont("Tahoma", 10, SWT.BOLD));
-//		statusField.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND));
-		statusField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+
+		statusField = new Text(container, SWT.MULTI | SWT.BORDER | SWT.WRAP
+				| SWT.V_SCROLL);
+		// statusField.setFont(SWTResourceManager.getFont("Tahoma", 10,
+		// SWT.BOLD));
+		// statusField.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND));
+		statusField.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true,
+				3, 1));
 		statusField.setEditable(false);
-		
+
 		initContents();
-		
+
 		return area;
 	}
 
-	
 	protected void btnRegisterOnClick() {
-		
+
 		Program.launch(Const.URL_proLinkOpen);
-		
-		
+
 	}
 
 	protected void btnCheckOnClick() {
@@ -205,7 +211,7 @@ public class ActivateDialog extends Dialog {
 
 	}
 
-	protected void btnActivateOnClick() {		
+	protected void btnActivateOnClick() {
 
 		final String login = loginField.getText();
 		final String password = passwordField.getText();
@@ -228,8 +234,8 @@ public class ActivateDialog extends Dialog {
 					statusField.setText(e1.getMessage());
 				}
 			}
-		});		
-		
+		});
+
 	}
 
 	protected void btnCompUUIDOnClick() {
@@ -245,39 +251,40 @@ public class ActivateDialog extends Dialog {
 		});
 	}
 
-	protected void initContents()
-	{
+	protected void initContents() {
 		Preferences preferences = PreferenceSupplier.getScoupNode();
 		loginField.setText(preferences.get("P_LOGIN", Strings.get("P_LOGIN")));
-		passwordField.setText(preferences.get("P_PASSWORD", Strings.get("P_PASSWORD")));
-		serialField.setText(preferences.get("P_SERIAL", Strings.get("P_SERIAL")));
-		
-		ntpField.setText(PreferenceSupplier.get(PreferenceSupplier.NTPSERVER));				
-		
+		passwordField.setText(preferences.get("P_PASSWORD",
+				Strings.get("P_PASSWORD")));
+		serialField
+				.setText(preferences.get("P_SERIAL", Strings.get("P_SERIAL")));
+
+		// ntpField.setText(PreferenceSupplier.get(PreferenceSupplier.NTPSERVER));
+
 	}
-	
-	protected void setValues()
-	{
+
+	protected void setValues() {
 		Preferences preferences = PreferenceSupplier.getScoupNode();
 		preferences.put("P_LOGIN", loginField.getText());
 		preferences.put("P_PASSWORD", passwordField.getText());
-		preferences.put("P_SERIAL", serialField.getText());		
+		preferences.put("P_SERIAL", serialField.getText());
 		try {
-			  // forces the application to save the preferences
-			  preferences.flush();
-		  } catch (BackingStoreException e) {
-			    e.printStackTrace();
-			  }; 
+			// forces the application to save the preferences
+			preferences.flush();
+		} catch (BackingStoreException e) {
+			e.printStackTrace();
+		}
+		;
 	}
-	
+
 	/**
 	 * Create contents of the button bar.
+	 * 
 	 * @param parent
 	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				"Закрыть", true);
+		createButton(parent, IDialogConstants.CANCEL_ID, "Закрыть", true);
 	}
 
 	@Override
@@ -293,11 +300,11 @@ public class ActivateDialog extends Dialog {
 	protected Point getInitialSize() {
 		return new Point(673, 464);
 	}
-	
+
 	@Override
 	public boolean close() {
 		setValues();
-		br.send(Const.EVENT_UPDATE_STATUS, null);
+		br.post(Const.EVENT_UPDATE_STATUS, null);
 		return super.close();
 	}
 

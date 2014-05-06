@@ -1,22 +1,37 @@
 package codeanalyzer.views.books;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
+import codeanalyzer.book.BookSectionImage;
 import codeanalyzer.tools.BrowserComposite;
 import codeanalyzer.tools.TinyTextEditor;
+import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.Utils;
 
 public class SectionBlockComposite implements ISectionBlockComposite {
 
@@ -25,6 +40,8 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 	Composite body;
 	Boolean blockView;
 	TinyTextEditor tinymce;
+	List<BookSectionImage> imageList;
+	Composite comp;
 
 	@Override
 	public TinyTextEditor getTinymce() {
@@ -32,30 +49,24 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 	}
 
 	private ScrolledForm form;
-	// private BookSection section;
 	private BookInfo book;
+	private BookSection section;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see codeanalyzer.views.books.ISectionBlockComposite#render()
-	 */
 	@Override
 	public void render(BookSection section) {
 
-		if (blockView)
-			addTinyText(section);
-		else
-			addBrowserText(section);
-		// addFormText(section);
+		this.section = section;
 
+		if (blockView)
+			addTinyText();
+		else
+			addBrowserText();
 	}
 
-	private void addTinyText(BookSection section) {
+	private void addTinyText() {
 
 		String buf = book.sections().getText(section);
 
-		// Browser browser = new Browser(body, SWT.Resize);
 		tinymce = new TinyTextEditor(body, section);
 		toolkit.adapt(tinymce, true, true);
 		tinymce.setText(buf);
@@ -67,159 +78,205 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		gd.horizontalSpan = numColumns - 1;
 		tinymce.setLayoutData(gd);
 
-		Composite comp = toolkit.createComposite(body);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		comp.setLayout(layout);
+		comp = toolkit.createComposite(body);
 
 		gd = new GridData();
 		gd.grabExcessHorizontalSpace = false;
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.TOP;
+		gd.widthHint = 200;
 		comp.setLayoutData(gd);
 
-		addSections(comp);
+		renderGroups(section);
 	}
 
-	private void addBrowserText(BookSection section) {
+	private void addBrowserText() {
 
 		String buf = book.sections().getText(section);
 
-		// TableWrapData gd;
-
-		// Browser browser = new Browser(body, SWT.Resize);
 		BrowserComposite browserComposite = new BrowserComposite(body, buf,
 				form);
 		toolkit.adapt(browserComposite, true, true);
-		// browserComposite.setText(buf);
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = false;
 		gd.widthHint = 50;
-		// gd.heightHint = browserComposite.getHeight();
 		gd.horizontalSpan = numColumns - 1;
 		browserComposite.setLayoutData(gd);
-		// browserComposite.getHeight();
 
-		// gd = new TableWrapData(TableWrapData.FILL);
-		// gd.grabHorizontal = true;
-		// gd.grabVertical = false;
-		// // gd.rowspan = 1;
-		// gd.colspan = numColumns - 1;
-		// gd.widthHint = 50;
-		// browserComposite.setLayoutData(gd);
-
-		Composite comp = toolkit.createComposite(body);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		comp.setLayout(layout);
+		comp = toolkit.createComposite(body);
 
 		gd = new GridData();
 		gd.grabExcessHorizontalSpace = false;
 		gd.grabExcessVerticalSpace = false;
 		gd.verticalAlignment = SWT.TOP;
+		gd.widthHint = 200;
 		comp.setLayoutData(gd);
 
-		addSections(comp);
+		renderGroups(section);
 	}
 
-	private void addFormText(BookSection section) {
+	@Override
+	public void renderGroups(BookSection section) {
 
-		String buf = book.sections().getText(section);
+		this.section = section;
 
-		TableWrapData gd;
-
-		ft = toolkit.createFormText(body, false);
-		try {
-			ft.setText(buf, true, true);
-		} catch (Exception e) {
-			buf = e.getMessage() + ": " + buf;
-			ft.setText(buf, false, false);
-			// toolkit.createLabel(body, e.getMessage());
-			// e.printStackTrace();
+		for (Control ctrl : comp.getChildren()) {
+			ctrl.dispose();
 		}
-		ft.setFont(body.getFont());
-		gd = new TableWrapData(TableWrapData.FILL);
-		gd.grabHorizontal = true;
-		gd.grabVertical = false;
-		// gd.rowspan = 1;
-		gd.colspan = numColumns - 1;
-		ft.setLayoutData(gd);
 
-		Composite comp = toolkit.createComposite(body);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 1;
 		comp.setLayout(layout);
 
-		gd = new TableWrapData();
-		gd.grabHorizontal = false;
-		// gd.grabExcessVerticalSpace = blockView;
-		gd.valign = SWT.CENTER;
-		gd.grabVertical = false;
-		comp.setLayoutData(gd);
+		addImageSections(comp);
 
-		addSections(comp);
+		// ****************************************************************
+
+		ISectionBlockOptions defaultTune = new ISectionBlockOptions() {
+			@Override
+			public void tune(FormToolkit toolkit, Section section,
+					Composite sectionClient) {
+				toolkit.createLabel(sectionClient, "test");
+			}
+		};
+		addSection(comp, Strings.get("s.sectionBlockComposite.code"),
+				defaultTune);
+
+		// ****************************************************************
+
+		ISectionBlockOptions bookmarkTune = new ISectionBlockOptions() {
+
+			@Override
+			public void tune(FormToolkit toolkit, Section section,
+					Composite sectionClient) {
+
+				toolkit.createLabel(sectionClient, "bookmark");
+
+			}
+		};
+
+		addSection(comp, Strings.get("s.sectionBlockComposite.bookmark"),
+				bookmarkTune);
+
 	}
 
-	private void addSections(Composite comp) {
-		addSection(comp, "picture 1");
-		addSection(comp, "picture 2");
-		addSection(comp, "picture 3");
-		addSection(comp, "picture 4");
-		addSection(comp, "code 1");
-		addSection(comp, "bookmarks");
+	private void addImageSections(Composite comp) {
+		imageList = book.sections().getImages(comp.getDisplay(), section);
 
+		for (final BookSectionImage sectionImage : imageList) {
+
+			ISectionBlockOptions pictureTune = new ISectionBlockOptions() {
+				@Override
+				public void tune(FormToolkit toolkit, Section group,
+						Composite sectionClient) {
+
+					group.setText(sectionImage.title);
+					group.setExpanded(sectionImage.expanded);
+
+					ImageHyperlink hlink = toolkit.createImageHyperlink(
+							sectionClient, SWT.WRAP);
+					hlink.setImage(sectionImage.image);
+					hlink.setHref(sectionImage);
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+
+							try {
+								File temp = File.createTempFile("temp", ".png");
+								Image image = sectionImage.image;
+
+								ImageLoader saver = new ImageLoader();
+								saver.data = new ImageData[] { image
+										.getImageData() };
+								saver.save(temp.getAbsolutePath(),
+										SWT.IMAGE_PNG);
+
+								Desktop.getDesktop().open(temp);
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
+					});
+
+					if (section.block) {
+						GridData gd = new GridData();
+						gd.grabExcessVerticalSpace = true;
+						gd.grabExcessHorizontalSpace = true;
+						gd.horizontalAlignment = SWT.CENTER;
+						hlink.setLayoutData(gd);
+
+						Composite panel = toolkit
+								.createComposite(sectionClient);
+						panel.setLayout(new RowLayout());
+						gd = new GridData();
+						gd.horizontalAlignment = SWT.RIGHT;
+						gd.grabExcessHorizontalSpace = true;
+						panel.setLayoutData(gd);
+
+						hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+						hlink.setImage(Utils.getImage("edit.png"));
+						hlink.setToolTipText("Изменить");
+
+						hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+						hlink.setImage(Utils.getImage("delete.png"));
+						hlink.setToolTipText("Удалить");
+
+						hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+						hlink.setImage(Utils.getImage("up.png"));
+						hlink.setToolTipText("Переместить вверх");
+
+						hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+						hlink.setImage(Utils.getImage("down.png"));
+						hlink.setToolTipText("Переместить вниз");
+					}
+				}
+			};
+			addSection(comp, Strings.get("s.sectionBlockComposite.picture"),
+					pictureTune);
+		}
 	}
 
-	private void addSection(Composite comp, String title) {
+	private void addSection(Composite comp, String title,
+			ISectionBlockOptions opt) {
 		Section section = toolkit.createSection(comp, Section.SHORT_TITLE_BAR
 				| Section.TWISTIE);
 
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.grabExcessHorizontalSpace = true;
+		section.setLayoutData(gd);
+
+		section.setLayout(new FillLayout());
+
 		section.setText(title);
 		Composite sectionClient = toolkit.createComposite(section);
-		sectionClient.setLayout(new FillLayout());
+		sectionClient.setLayout(new GridLayout(1, false));
+
+		// gd = new GridData(GridData.FILL_BOTH);
+		// // gd.horizontalAlignment = SWT.RIGHT;
+		// gd.grabExcessHorizontalSpace = true;
+		// sectionClient.setLayoutData(gd);
+
 		section.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(ExpansionEvent e) {
-				form.reflow(true);
+				form.reflow(false);
 			}
 		});
-		toolkit.createLabel(sectionClient, "test");
+
+		// GridData gd = new GridData(GridData.FILL_BOTH);
+		// gd.horizontalSpan = 2;
+		// section.setLayoutData(gd);
+
+		opt.tune(toolkit, section, sectionClient);
 		section.setClient(sectionClient);
 	}
-
-	// private void updateSelection(CTabFolder tabFolder) {
-	// CTabItem item = tabFolder.getSelection();
-	// TextSection section = (TextSection) item.getData();
-	// ((Label) tabFolder.getData()).setText(section.text);
-	// }
-	//
-	// private void createText(CTabFolder tabFolder) {
-	//
-	// Label lbl = toolkit.createLabel(body, "");
-	// GridData gd = new GridData(GridData.FILL_BOTH);
-	// gd.grabExcessHorizontalSpace = true;
-	// gd.grabExcessVerticalSpace = true;
-	// gd.verticalAlignment = SWT.TOP;
-	// lbl.setLayoutData(gd);
-	//
-	// tabFolder.setData(lbl);
-	// }
-	//
-	// class TextSection {
-	// String text;
-	//
-	// public TextSection(String text) {
-	// this.text = text;
-	// }
-	// }
 
 	@Override
 	public void init(FormToolkit toolkit, Composite body, ScrolledForm form,
 			BookInfo book) {
 
-		// selectedColor = toolkit.getColors().getColor(IFormColors.SEPARATOR);
 		this.toolkit = toolkit;
 		this.body = body;
 		this.form = form;

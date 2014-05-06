@@ -9,14 +9,14 @@ import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 
 public class SectionEditTitle {
 	@Execute
 	public void execute(BookInfo book, @Active BookSection section) {
 
 		AppManager.br.post(Const.EVENT_EDIT_TITLE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, null));
+				new EVENT_UPDATE_VIEW_DATA(book, section, null));
 
 	}
 

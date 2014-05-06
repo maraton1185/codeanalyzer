@@ -63,7 +63,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -101,7 +101,7 @@ public class ContentView {
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_CONTENT_VIEW(
-			@UIEventTopic(Const.EVENT_EDIT_TITLE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data) {
+			@UIEventTopic(Const.EVENT_EDIT_TITLE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (book != data.book)
 			return;
@@ -116,7 +116,7 @@ public class ContentView {
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
-			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data,
+			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data,
 			final EHandlerService hs, final ECommandService cs,
 			EModelService model, @Active MWindow bookWindow) {
 

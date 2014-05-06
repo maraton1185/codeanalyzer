@@ -193,15 +193,16 @@ public class Const {
 	public static final String EVENT_EDIT_TITLE_CONTENT_VIEW = "EVENT_EDIT_TITLE_CONTENT_VIEW";
 	public static final String EVENT_SET_SECTIONVIEW_DIRTY = "EVENT_SET_SECTIONVIEW_DIRTY";
 	public static final String CONTEXT_ACTIVE_VIEW_SECTION = "CONTEXT_ACTIVE_VIEW_SECTION";
+	public static final String EVENT_UPDATE_SECTION_BLOCK_VIEW = "EVENT_UPDATE_SECTION_BLOCK_VIEW";
 
 	// public static final String CONTENT_SECTION_SELECTED =
 	// "CONTENT_SECTION_SELECTED";
 
 	// public static final String EVENT_DELETE_SECTION = "EVENT_DELETE_SECTION";
 
-	public static class EVENT_UPDATE_CONTENT_VIEW_DATA {
+	public static class EVENT_UPDATE_VIEW_DATA {
 
-		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
+		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
 				BookSection parent, BookSection selected) {
 			super();
 			this.book = book;
@@ -210,13 +211,13 @@ public class Const {
 			onlySectionView = false;
 		}
 
-		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
+		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
 				BookSection parent, BookSection selected, boolean setBook) {
 			this(book, parent, selected);
 			this.setBook = setBook;
 		}
 
-		public EVENT_UPDATE_CONTENT_VIEW_DATA(BookInfo book,
+		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
 				BookSection parent, boolean onlySectionView) {
 			this.book = book;
 			this.parent = parent;

@@ -14,7 +14,7 @@ import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
@@ -35,7 +35,7 @@ public class SectionGoToParent {
 		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
 		// window.getContext().set(BookSection.class, current_section);
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null, selected));
+				new EVENT_UPDATE_VIEW_DATA(book, null, selected));
 	}
 
 	@CanExecute

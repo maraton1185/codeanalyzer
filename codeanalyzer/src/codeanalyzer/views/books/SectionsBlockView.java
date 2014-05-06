@@ -3,6 +3,8 @@ package codeanalyzer.views.books;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
@@ -20,6 +22,7 @@ import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 
 public class SectionsBlockView {
@@ -47,22 +50,6 @@ public class SectionsBlockView {
 		// TODO Your code here
 	}
 
-	// @Inject
-	// @Optional
-	// public void EVENT_UPDATE_CONTENT_VIEW(
-	// @UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW)
-	// EVENT_UPDATE_CONTENT_VIEW_DATA data,
-	// final EHandlerService hs, final ECommandService cs) {
-	//
-	// if (book != data.book)
-	// return;
-	//
-	// if (!data.parent.equals(section))
-	// return;
-	//
-	// part.setLabel(data.parent.title);
-	// }
-
 	@Inject
 	@Optional
 	public void EVENT_SET_SECTIONVIEW_DIRTY(
@@ -77,6 +64,30 @@ public class SectionsBlockView {
 				sectionComposite.getTinymce().getText());
 		// System.out.println(tinymce.getText());
 		dirty.setDirty(false);
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_SECTION_BLOCK_VIEW(
+			@UIEventTopic(Const.EVENT_UPDATE_SECTION_BLOCK_VIEW) EVENT_UPDATE_VIEW_DATA data,
+			final EHandlerService hs, final ECommandService cs) {
+
+		if (book != data.book)
+			return;
+
+		// if (!data.onlySectionView)
+		// return;
+
+		if (data.parent == null)
+			return;
+
+		if (!data.parent.equals(section))
+			return;
+
+		// part.setLabel(data.parent.title);
+		// part.setLabel(section.title);
+
+		sectionComposite.renderGroups(section);
 	}
 
 	@PostConstruct
@@ -105,10 +116,6 @@ public class SectionsBlockView {
 	@Focus
 	public void OnFocus() {
 		window.getContext().set(Const.CONTEXT_ACTIVE_VIEW_SECTION, section);
-		// ctx.set(Const.CONTENT_SECTION_SELECTED, section.parent == 0);
-		// window.getContext().set(Const.CONTENT_SECTION_SELECTED, false);
-		// ctx.declareModifiable(Const.CONTENT_SECTION_SELECTED);
-
 	}
 
 }

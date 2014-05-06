@@ -33,7 +33,7 @@ import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -71,7 +71,7 @@ public class SectionView {
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
-			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_CONTENT_VIEW_DATA data,
+			@UIEventTopic(Const.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data,
 			final EHandlerService hs, final ECommandService cs) {
 
 		if (book != data.book)
@@ -163,10 +163,8 @@ public class SectionView {
 				Utils.executeHandler(hs, cs,
 						Strings.get("command.id.ShowSection"));
 				// window.getContext().set(BookSection.class, current_section);
-				AppManager.br
-						.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-								new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null,
-										selected));
+				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+						new EVENT_UPDATE_VIEW_DATA(book, null, selected));
 			}
 
 		};

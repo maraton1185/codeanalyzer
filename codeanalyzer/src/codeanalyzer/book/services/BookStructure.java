@@ -48,7 +48,8 @@ public class BookStructure {
 					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
 			stat.execute("CREATE TABLE S_IMAGES (ID INTEGER AUTO_INCREMENT, "
-					+ "SECTION INTEGER, TITLE VARCHAR(500), "
+					+ "SECTION INTEGER, DATA BINARY, "
+					+ "TITLE VARCHAR(500), SORT INTEGER, EXPANDED BOOLEAN, "
 					+ "PRIMARY KEY (ID), "
 					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
@@ -125,7 +126,8 @@ public class BookStructure {
 				&& ch.checkColumns(metadata, "SECTIONS",
 						"PARENT, SORT, TITLE, BLOCK")
 				&& ch.checkColumns(metadata, "S_TEXT", "TEXT")
-				&& ch.checkColumns(metadata, "S_IMAGES", "TITLE")
+				&& ch.checkColumns(metadata, "S_IMAGES",
+						"DATA, TITLE, SORT, EXPANDED")
 
 		;
 

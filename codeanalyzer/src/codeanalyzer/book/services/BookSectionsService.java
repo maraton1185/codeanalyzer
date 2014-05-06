@@ -1,6 +1,10 @@
 package codeanalyzer.book.services;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.sql.Connection;
@@ -11,11 +15,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+
 import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
+import codeanalyzer.book.BookSectionImage;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 
 public class BookSectionsService {
@@ -53,7 +63,7 @@ public class BookSectionsService {
 			}
 
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, null, sec, true));
+					new EVENT_UPDATE_VIEW_DATA(book, null, sec, true));
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new IllegalAccessException();
@@ -139,7 +149,7 @@ public class BookSectionsService {
 		}
 
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, sec));
+				new EVENT_UPDATE_VIEW_DATA(book, section, sec));
 	}
 
 	public void add_sub(BookSection section) {
@@ -181,7 +191,7 @@ public class BookSectionsService {
 
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW, book);
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, selected));
+				new EVENT_UPDATE_VIEW_DATA(book, parent, selected));
 		// AppManager.br.post(Const.EVENT_DELETE_SECTION,
 		// new EVENT_DELETE_SECTION_DATA(book, section));
 	}
@@ -383,11 +393,11 @@ public class BookSectionsService {
 				throw new SQLException();
 
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, true));
+					new EVENT_UPDATE_VIEW_DATA(book, section, true));
 
 			if (parent != null)
 				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-						new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, true));
+						new EVENT_UPDATE_VIEW_DATA(book, parent, true));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -421,7 +431,7 @@ public class BookSectionsService {
 
 		if (notify)
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+					new EVENT_UPDATE_VIEW_DATA(book, parent, section));
 
 		return true;
 	}
@@ -448,7 +458,7 @@ public class BookSectionsService {
 
 		if (notify)
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, section));
+					new EVENT_UPDATE_VIEW_DATA(book, parent, section));
 
 		return true;
 	}
@@ -478,11 +488,11 @@ public class BookSectionsService {
 			updateOrder(items);
 
 			AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-					new EVENT_UPDATE_CONTENT_VIEW_DATA(book, target, section));
+					new EVENT_UPDATE_VIEW_DATA(book, target, section));
 
 			if (parent != null)
 				AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-						new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent, true));
+						new EVENT_UPDATE_VIEW_DATA(book, parent, true));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -555,8 +565,7 @@ public class BookSectionsService {
 
 				if (parent != null)
 					AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-							new EVENT_UPDATE_CONTENT_VIEW_DATA(book, parent,
-									true));
+							new EVENT_UPDATE_VIEW_DATA(book, parent, true));
 			} finally {
 				rs.close();
 			}
@@ -597,6 +606,120 @@ public class BookSectionsService {
 		}
 
 		return result.toString();
+	}
+
+	public List<BookSectionImage> getImages(Device display, BookSection section) {
+
+		// List<BookSectionImage> result = new ArrayList<BookSectionImage>();
+		//
+		// result.add(new BookSectionImage(Utils.getImage("_start.png"),
+		// "картинка 1", true));
+		// result.add(new BookSectionImage(Utils.getImage("add.png"),
+		// "картинка 2", false));
+		//
+		// return result;
+
+		List<BookSectionImage> result = new ArrayList<BookSectionImage>();
+		try {
+			Connection con = book.getConnection();
+			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.EXPANDED, T.ID FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT, T.ID";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, section.id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					BookSectionImage sec = new BookSectionImage();
+					// BookSection sec = new BookSection();
+					InputStream is = rs.getBinaryStream(1);
+					sec.title = rs.getString(2);
+					sec.sort = rs.getInt(3);
+					sec.expanded = rs.getBoolean(4);
+					sec.id = rs.getInt(5);
+
+					BufferedInputStream inputStreamReader = new BufferedInputStream(
+							is);
+					// new ByteArrayInputStream(imageByte));
+					ImageData imageData = new ImageData(inputStreamReader);
+					sec.image = new Image(display, imageData);
+
+					result.add(sec);
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public void add_image(BookSection section, IPath p) {
+
+		// BookSection sec = null;
+		try {
+			Connection con = book.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "Select Top 1 T.SORT FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT DESC";
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, section.id);
+			ResultSet rs = prep.executeQuery();
+
+			int sort = 0;
+			try {
+				if (rs.next())
+					sort = rs.getInt(1);
+				sort++;
+			} finally {
+				rs.close();
+			}
+
+			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, EXPANDED) VALUES (?,?,?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			String title = Strings.get("s.new_image.title");
+			title = title + " " + sort;
+			prep.setString(1, title);
+			prep.setInt(3, sort);
+			prep.setBoolean(4, true);
+
+			File f = p.toFile();
+			FileInputStream fis = new FileInputStream(f);
+			prep.setBinaryStream(2, fis, (int) f.length());
+
+			// ResultSet generatedKeys = null;
+			// try {
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			// generatedKeys = prep.getGeneratedKeys();
+			// if (generatedKeys.next()) {
+			// sec = new BookSection();
+			// sec.title = title;
+			// sec.id = generatedKeys.getInt(1);
+			// sec.parent = section.id;
+			// } else
+			// throw new SQLException();
+			// } finally {
+			// generatedKeys.close();
+			// }
+
+			// int affectedRows = prep.executeUpdate();
+			// if (affectedRows == 0)
+			// throw new SQLException();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		AppManager.br.post(Const.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+				new EVENT_UPDATE_VIEW_DATA(book, section, null));
 	}
 
 }

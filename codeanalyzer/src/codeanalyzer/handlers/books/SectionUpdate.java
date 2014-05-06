@@ -11,7 +11,7 @@ import codeanalyzer.book.BookInfo;
 import codeanalyzer.book.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_CONTENT_VIEW_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 
 public class SectionUpdate {
 	@Execute
@@ -19,7 +19,7 @@ public class SectionUpdate {
 			BookInfo book,
 			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_CONTENT_VIEW_DATA(book, section, true));
+				new EVENT_UPDATE_VIEW_DATA(book, section, true));
 	}
 
 	@CanExecute

@@ -1,10 +1,11 @@
-package codeanalyzer.core;
+package codeanalyzer;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.core.interfaces.IDbManager;
 

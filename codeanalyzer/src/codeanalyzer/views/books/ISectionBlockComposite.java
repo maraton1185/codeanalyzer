@@ -11,6 +11,7 @@ import codeanalyzer.tools.TinyTextEditor;
 public interface ISectionBlockComposite {
 
 	int numColumns = 2;
+	int groupWidth = 300;
 
 	public abstract void init(FormToolkit toolkit, Composite body,
 			ScrolledForm form, BookInfo book);

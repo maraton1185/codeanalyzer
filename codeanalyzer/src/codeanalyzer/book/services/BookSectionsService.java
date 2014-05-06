@@ -643,6 +643,7 @@ public class BookSectionsService {
 							is);
 					// new ByteArrayInputStream(imageByte));
 					ImageData imageData = new ImageData(inputStreamReader);
+
 					sec.image = new Image(display, imageData);
 
 					result.add(sec);
@@ -679,7 +680,7 @@ public class BookSectionsService {
 				rs.close();
 			}
 
-			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, EXPANDED) VALUES (?,?,?,?);";
+			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, EXPANDED, SECTION) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			String title = Strings.get("s.new_image.title");
@@ -687,6 +688,7 @@ public class BookSectionsService {
 			prep.setString(1, title);
 			prep.setInt(3, sort);
 			prep.setBoolean(4, true);
+			prep.setInt(5, section.id);
 
 			File f = p.toFile();
 			FileInputStream fis = new FileInputStream(f);

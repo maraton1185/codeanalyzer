@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
@@ -19,6 +20,7 @@ import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -84,7 +86,7 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		gd.grabExcessHorizontalSpace = false;
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.TOP;
-		gd.widthHint = 200;
+		gd.widthHint = ISectionBlockComposite.groupWidth;
 		comp.setLayoutData(gd);
 
 		renderGroups(section);
@@ -111,7 +113,7 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		gd.grabExcessHorizontalSpace = false;
 		gd.grabExcessVerticalSpace = false;
 		gd.verticalAlignment = SWT.TOP;
-		gd.widthHint = 200;
+		gd.widthHint = ISectionBlockComposite.groupWidth;
 		comp.setLayoutData(gd);
 
 		renderGroups(section);
@@ -126,8 +128,12 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 			ctrl.dispose();
 		}
 
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 1;
+		ColumnLayout layout = new ColumnLayout();
+		if (blockView)
+			layout.maxNumColumns = 1;
+		else
+			layout.maxNumColumns = 2;
+		// layout.numColumns = 1;
 		comp.setLayout(layout);
 
 		addImageSections(comp);
@@ -160,10 +166,13 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		addSection(comp, Strings.get("s.sectionBlockComposite.bookmark"),
 				bookmarkTune);
 
+		form.reflow(true);
 	}
 
 	private void addImageSections(Composite comp) {
-		imageList = book.sections().getImages(comp.getDisplay(), section);
+		final Device display = comp.getDisplay();
+
+		imageList = book.sections().getImages(display, section);
 
 		for (final BookSectionImage sectionImage : imageList) {
 
@@ -177,7 +186,8 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 
 					ImageHyperlink hlink = toolkit.createImageHyperlink(
 							sectionClient, SWT.WRAP);
-					hlink.setImage(sectionImage.image);
+
+					hlink.setImage(sectionImage.getScaled(display));
 					hlink.setHref(sectionImage);
 					hlink.addHyperlinkListener(new HyperlinkAdapter() {
 						@Override
@@ -200,20 +210,21 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 						}
 					});
 
-					if (section.block) {
-						GridData gd = new GridData();
-						gd.grabExcessVerticalSpace = true;
-						gd.grabExcessHorizontalSpace = true;
-						gd.horizontalAlignment = SWT.CENTER;
-						hlink.setLayoutData(gd);
+					// GridData gd = new GridData();
+					// gd.grabExcessVerticalSpace = true;
+					// gd.grabExcessHorizontalSpace = true;
+					// gd.horizontalAlignment = SWT.CENTER;
+					// hlink.setLayoutData(gd);
+
+					if (blockView) {
 
 						Composite panel = toolkit
 								.createComposite(sectionClient);
 						panel.setLayout(new RowLayout());
-						gd = new GridData();
-						gd.horizontalAlignment = SWT.RIGHT;
-						gd.grabExcessHorizontalSpace = true;
-						panel.setLayoutData(gd);
+						// GridData gd = new GridData();
+						// gd.horizontalAlignment = SWT.RIGHT;
+						// gd.grabExcessHorizontalSpace = true;
+						// panel.setLayoutData(gd);
 
 						hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 						hlink.setImage(Utils.getImage("edit.png"));
@@ -243,9 +254,9 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		Section section = toolkit.createSection(comp, Section.SHORT_TITLE_BAR
 				| Section.TWISTIE);
 
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.grabExcessHorizontalSpace = true;
-		section.setLayoutData(gd);
+		// GridData gd = new GridData(GridData.FILL_BOTH);
+		// gd.grabExcessHorizontalSpace = true;
+		// section.setLayoutData(gd);
 
 		section.setLayout(new FillLayout());
 
@@ -291,4 +302,7 @@ public class SectionBlockComposite implements ISectionBlockComposite {
 		this.blockView = blockView;
 	}
 
+	private void makeEvents() {
+
+	}
 }

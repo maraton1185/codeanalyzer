@@ -1,6 +1,9 @@
 package codeanalyzer.book;
 
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+
+import codeanalyzer.views.books.ISectionBlockComposite;
 
 public class BookSectionImage {
 
@@ -18,6 +21,19 @@ public class BookSectionImage {
 	}
 
 	public BookSectionImage() {
+	}
+
+	public Image getScaled(Device display) {
+
+		Image scaled = image;
+		int mWidth = ISectionBlockComposite.groupWidth - 30;
+		int width = image.getBounds().width;
+		int height = image.getBounds().height;
+		if (width > mWidth)
+			scaled = new Image(display, image.getImageData().scaledTo((mWidth),
+					(int) ((float) height / width * mWidth)));
+
+		return scaled;
 	}
 
 	@Override

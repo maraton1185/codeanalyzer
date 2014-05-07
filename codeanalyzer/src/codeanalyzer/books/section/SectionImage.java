@@ -3,9 +3,7 @@ package codeanalyzer.books.section;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
-import codeanalyzer.views.books.interfaces.IBlockComposite;
-
-public class BookSectionImage {
+public class SectionImage {
 
 	public Integer id;
 	public Image image;
@@ -13,20 +11,20 @@ public class BookSectionImage {
 	public boolean expanded;
 	public int sort;
 
-	public BookSectionImage(Image image, String title, boolean opened) {
+	public SectionImage(Image image, String title, boolean opened) {
 		super();
 		this.image = image;
 		this.title = title;
 		this.expanded = opened;
 	}
 
-	public BookSectionImage() {
+	public SectionImage() {
 	}
 
-	public Image getScaled(Device display) {
+	public Image getScaled(Device display, SectionOptions options) {
 
 		Image scaled = image;
-		int mWidth = IBlockComposite.groupWidth - 30;
+		int mWidth = options.scaledImageWidth;
 		int width = image.getBounds().width;
 		int height = image.getBounds().height;
 		if (width > mWidth)
@@ -38,8 +36,8 @@ public class BookSectionImage {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof BookSectionImage)
-			return ((BookSectionImage) obj).id.equals(id);
+		if (obj instanceof SectionImage)
+			return ((SectionImage) obj).id.equals(id);
 		else
 			return super.equals(obj);
 	}

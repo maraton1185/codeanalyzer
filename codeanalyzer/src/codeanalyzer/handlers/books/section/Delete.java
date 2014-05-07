@@ -15,13 +15,13 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Strings;
 
 public class Delete {
 	@Execute
 	public void execute(Shell shell, BookInfo book,
-			@Active final BookSection section, EPartService partService,
+			@Active final SectionInfo section, EPartService partService,
 			EModelService model, @Active MWindow window) {
 		// if (MessageDialog.openConfirm(shell, Strings.get("appTitle"),
 		// "Удалить раздел?"))
@@ -50,7 +50,7 @@ public class Delete {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active BookSection section) {
+	public boolean canExecute(@Optional @Active SectionInfo section) {
 		return section != null;
 	}
 

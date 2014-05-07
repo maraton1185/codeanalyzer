@@ -15,12 +15,12 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Strings;
 
 public class Show {
 	@Execute
-	public void execute(@Active final BookSection section, Shell shell,
+	public void execute(@Active final SectionInfo section, Shell shell,
 			EPartService partService, EModelService model,
 			@Active MWindow window) {
 
@@ -59,7 +59,7 @@ public class Show {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional BookSection section) {
+	public boolean canExecute(@Optional SectionInfo section) {
 
 		return section != null;
 	}

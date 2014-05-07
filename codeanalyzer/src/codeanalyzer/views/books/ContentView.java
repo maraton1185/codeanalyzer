@@ -61,7 +61,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -80,9 +80,9 @@ public class ContentView {
 	@Active
 	BookInfo book;
 
-	private BookSection root;
+	private SectionInfo root;
 
-	private BookSection dragSection;
+	private SectionInfo dragSection;
 	protected TreeItem selectedItem;
 
 	// protected TreeItem selectedItem;
@@ -138,7 +138,7 @@ public class ContentView {
 	}
 
 	@PreDestroy
-	public void preDestroy(@Active BookSection section) {
+	public void preDestroy(@Active SectionInfo section) {
 		if (section != null)
 			book.sections().saveSelectedSelection(section);
 		book.closeConnection();
@@ -174,7 +174,7 @@ public class ContentView {
 				| SWT.V_SCROLL | SWT.FULL_SELECTION);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-		List<BookSection> input = book.sections().getRoot();
+		List<SectionInfo> input = book.sections().getRoot();
 		root = input.size() == 0 ? null : input.get(0);
 		viewer.setInput(input);
 
@@ -186,8 +186,8 @@ public class ContentView {
 
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				window.getContext().set(BookSection.class,
-						(BookSection) selection.getFirstElement());
+				window.getContext().set(SectionInfo.class,
+						(SectionInfo) selection.getFirstElement());
 			}
 		});
 
@@ -227,7 +227,7 @@ public class ContentView {
 
 		viewer.addDropSupport(operations, types, new ViewerDropAdapter(viewer) {
 
-			BookSection target;
+			SectionInfo target;
 			int location = 0;
 
 			@Override
@@ -300,7 +300,7 @@ public class ContentView {
 			public void drop(DropTargetEvent event) {
 
 				location = this.determineLocation(event);
-				target = (BookSection) determineTarget(event);
+				target = (SectionInfo) determineTarget(event);
 				target = target == null ? root : target;
 
 				super.drop(event);
@@ -315,7 +315,7 @@ public class ContentView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				dragSection = (BookSection) selection.getFirstElement();
+				dragSection = (SectionInfo) selection.getFirstElement();
 
 				event.doit = dragSection != root;
 
@@ -349,13 +349,13 @@ public class ContentView {
 
 			@Override
 			public Object getValue(Object element, String property) {
-				return ((BookSection) element).title + "";
+				return ((SectionInfo) element).title + "";
 			}
 
 			@Override
 			public void modify(Object element, String property, Object value) {
 				TreeItem item = (TreeItem) element;
-				BookSection section = (BookSection) item.getData();
+				SectionInfo section = (SectionInfo) item.getData();
 				section.title = value.toString();
 				book.sections().saveSection(section);
 				viewer.update(item.getData(), null);
@@ -402,24 +402,24 @@ public class ContentView {
 		@SuppressWarnings("unchecked")
 		@Override
 		public Object[] getElements(Object inputElement) {
-			return ((Collection<BookSection>) inputElement).toArray();
+			return ((Collection<SectionInfo>) inputElement).toArray();
 			// return (BookSection[]) inputElement;
 		}
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			return book.sections().getChildren((BookSection) parentElement)
+			return book.sections().getChildren((SectionInfo) parentElement)
 					.toArray();
 		}
 
 		@Override
 		public Object getParent(Object element) {
-			return book.sections().getParent((BookSection) element);
+			return book.sections().getParent((SectionInfo) element);
 		}
 
 		@Override
 		public boolean hasChildren(Object element) {
-			return book.sections().hasChildren((BookSection) element);
+			return book.sections().hasChildren((SectionInfo) element);
 		}
 	}
 
@@ -428,7 +428,7 @@ public class ContentView {
 		public void update(ViewerCell cell) {
 			Object element = cell.getElement();
 			StyledString text = new StyledString();
-			BookSection section = (BookSection) element;
+			SectionInfo section = (SectionInfo) element;
 			if (section.title != null) {
 				if (section.block) {
 

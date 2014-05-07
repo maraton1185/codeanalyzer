@@ -13,18 +13,18 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 
-import codeanalyzer.books.section.BookSectionsService;
+import codeanalyzer.books.section.SectionsService;
 import codeanalyzer.core.models.ModelObject;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
 
 public class BookInfo extends ModelObject {
 
-	BookSectionsService bookSections;
+	SectionsService bookSections;
 
-	public BookSectionsService sections() {
+	public SectionsService sections() {
 
-		bookSections = bookSections == null ? new BookSectionsService()
+		bookSections = bookSections == null ? new SectionsService()
 				: bookSections;
 
 		return bookSections;

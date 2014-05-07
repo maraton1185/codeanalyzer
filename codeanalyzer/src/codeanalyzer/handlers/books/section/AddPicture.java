@@ -10,7 +10,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -20,7 +20,7 @@ public class AddPicture {
 	public void execute(
 			Shell shell,
 			BookInfo book,
-			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		IPath p = Utils.browseFile(book.getPath(), shell,
 				Strings.get("appTitle"), "*.bmp; *.png");
@@ -32,7 +32,7 @@ public class AddPicture {
 
 	@CanExecute
 	public boolean canExecute(
-			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		return section != null && section.block;
 	}

@@ -11,7 +11,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
@@ -23,15 +23,15 @@ public class GoToParent {
 	public void execute(
 			BookInfo book,
 			@Active MWindow window,
-			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section,
+			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section,
 			ECommandService cs, EHandlerService hs) {
 
-		BookSection selected = book.sections().getParent(section);
+		SectionInfo selected = book.sections().getParent(section);
 
 		if (selected == null)
 			return;
 
-		window.getContext().set(BookSection.class, selected);
+		window.getContext().set(SectionInfo.class, selected);
 		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
 		// window.getContext().set(BookSection.class, current_section);
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
@@ -40,7 +40,7 @@ public class GoToParent {
 
 	@CanExecute
 	public boolean canExecute(
-			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 		return section != null && section.parent != 0;
 	}
 

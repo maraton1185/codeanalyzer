@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 
 public class Const {
 
@@ -203,7 +203,7 @@ public class Const {
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				BookSection parent, BookSection selected) {
+				SectionInfo parent, SectionInfo selected) {
 			super();
 			this.book = book;
 			this.parent = parent;
@@ -212,21 +212,21 @@ public class Const {
 		}
 
 		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				BookSection parent, BookSection selected, boolean setBook) {
+				SectionInfo parent, SectionInfo selected, boolean setBook) {
 			this(book, parent, selected);
 			this.setBook = setBook;
 		}
 
 		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				BookSection parent, boolean onlySectionView) {
+				SectionInfo parent, boolean onlySectionView) {
 			this.book = book;
 			this.parent = parent;
 			this.onlySectionView = onlySectionView;
 		}
 
 		public BookInfo book;
-		public BookSection parent;
-		public BookSection selected;
+		public SectionInfo parent;
+		public SectionInfo selected;
 		public boolean setBook;
 		public boolean onlySectionView;
 

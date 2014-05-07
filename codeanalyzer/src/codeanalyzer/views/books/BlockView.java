@@ -13,18 +13,19 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
+import codeanalyzer.books.section.SectionSaveData;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
-import codeanalyzer.views.books.interfaces.IBlockComposite;
+import codeanalyzer.views.books.interfaces.ISectionComposite;
 
 public class BlockView {
 
@@ -36,14 +37,13 @@ public class BlockView {
 	@Active
 	BookInfo book;
 
-	BookSection section;
+	SectionInfo section;
 
 	@Inject
 	MDirtyable dirty;
 
-	// TextEditor tinymce;
+	ISectionComposite sectionComposite;
 
-	IBlockComposite sectionComposite;
 	private MWindow window;
 
 	@Inject
@@ -61,9 +61,11 @@ public class BlockView {
 
 	@Persist
 	public void save() {
-		book.sections().setText(section,
-				sectionComposite.getTinymce().getText());
-		// System.out.println(tinymce.getText());
+
+		SectionSaveData data = new SectionSaveData();
+		data.text = sectionComposite.getText();
+		data.options = sectionComposite.getSectionOptions();
+		book.sections().saveBlock(section, data);
 		dirty.setDirty(false);
 	}
 
@@ -88,11 +90,11 @@ public class BlockView {
 		// part.setLabel(data.parent.title);
 		// part.setLabel(section.title);
 
-		sectionComposite.renderGroups(section);
+		sectionComposite.renderGroups();
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, BookSection section,
+	public void postConstruct(Composite parent, SectionInfo section,
 			@Active MWindow window) {
 
 		this.section = section;
@@ -102,15 +104,12 @@ public class BlockView {
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		body = form.getBody();
-		GridLayout layout = new GridLayout();
-		layout.numColumns = IBlockComposite.numColumns;
-		body.setLayout(layout);
+		body.setLayout(new FillLayout());
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
-		sectionComposite = pico.get(IBlockComposite.class);
-		sectionComposite.init(toolkit, body, form, book);
-		sectionComposite.setBlockView(true);
-		sectionComposite.render(section);
+		sectionComposite = pico.get(ISectionComposite.class);
+		sectionComposite.initBlockView(toolkit, form, book, section, dirty);
+		sectionComposite.render();
 
 	}
 

@@ -26,17 +26,18 @@ import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 
-public class BookSectionsService {
+public class SectionsService {
 
 	private BookInfo book = new BookInfo();
 
-	private BookSection getSection(ResultSet rs) throws SQLException {
+	private SectionInfo getSection(ResultSet rs) throws SQLException {
 
-		BookSection sec = new BookSection();
+		SectionInfo sec = new SectionInfo();
 		sec.title = rs.getString(1);
 		sec.id = rs.getInt(2);
 		sec.parent = rs.getInt(3);
 		sec.block = rs.getBoolean(4);
+		sec.options = SectionOptions.load(rs.getString(5));
 		return sec;
 	}
 
@@ -46,10 +47,10 @@ public class BookSectionsService {
 			book.openConnection();
 			Connection con = book.getConnection();
 
-			BookSection sec = new BookSection();
+			SectionInfo sec = new SectionInfo();
 			sec.id = 1;
 
-			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT, T1.BLOCK FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
+			String SQL = "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT, T1.BLOCK, T1.OPTIONS FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
 			Statement stat = con.createStatement();
 			ResultSet rs = stat.executeQuery(SQL);
 			try {
@@ -68,8 +69,8 @@ public class BookSectionsService {
 		}
 	}
 
-	public void add(BookSection section) {
-		BookSection parent = getParent(section);
+	public void add(SectionInfo section) {
+		SectionInfo parent = getParent(section);
 		if (parent == null) {
 			add_sub(section);
 			return;
@@ -78,14 +79,14 @@ public class BookSectionsService {
 
 	}
 
-	public void add_sub(BookSection section, boolean block) {
+	public void add_sub(SectionInfo section, boolean block) {
 		if (section.block) {
-			BookSection parent = getParent(section);
+			SectionInfo parent = getParent(section);
 			if (parent != null) {
 				section = parent;
 			}
 		}
-		BookSection sec = null;
+		SectionInfo sec = null;
 		try {
 			Connection con = book.getConnection();
 			String SQL;
@@ -128,7 +129,7 @@ public class BookSectionsService {
 
 				generatedKeys = prep.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					sec = new BookSection();
+					sec = new SectionInfo();
 					sec.title = title;
 					sec.id = generatedKeys.getInt(1);
 					sec.parent = section.id;
@@ -150,14 +151,14 @@ public class BookSectionsService {
 				new EVENT_UPDATE_VIEW_DATA(book, section, sec));
 	}
 
-	public void add_sub(BookSection section) {
+	public void add_sub(SectionInfo section) {
 
 		add_sub(section, false);
 
 	}
 
-	public void delete(BookSection section) {
-		BookSection parent = getParent(section);
+	public void delete(SectionInfo section) {
+		SectionInfo parent = getParent(section);
 		if (parent == null)
 			return;
 
@@ -183,7 +184,7 @@ public class BookSectionsService {
 			e.printStackTrace();
 		}
 
-		BookSection selected = getLast(parent);
+		SectionInfo selected = getLast(parent);
 		if (selected == null)
 			selected = parent;
 
@@ -194,19 +195,19 @@ public class BookSectionsService {
 		// new EVENT_DELETE_SECTION_DATA(book, section));
 	}
 
-	public List<BookSection> getRoot() {
-		List<BookSection> result = new ArrayList<BookSection>();
+	public List<SectionInfo> getRoot() {
+		List<SectionInfo> result = new ArrayList<SectionInfo>();
 		// BookSection result;
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.BLOCK FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.BLOCK, T.OPTIONS FROM SECTIONS AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
 			// prep.setNull(1, java.sql.Types.INTEGER);
 			ResultSet rs = prep.executeQuery();
 			try {
 				if (rs.next()) {
 
-					BookSection sec = getSection(rs);
+					SectionInfo sec = getSection(rs);
 					// BookSection sec = new BookSection();
 					// sec.title = rs.getString(1);
 					// sec.id = rs.getInt(2);
@@ -222,12 +223,12 @@ public class BookSectionsService {
 		return result;
 	}
 
-	public List<BookSection> getChildren(BookSection parent) {
+	public List<SectionInfo> getChildren(SectionInfo parent) {
 
-		List<BookSection> result = new ArrayList<BookSection>();
+		List<SectionInfo> result = new ArrayList<SectionInfo>();
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.BLOCK FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.BLOCK, T.OPTIONS FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, parent.id);
@@ -236,7 +237,7 @@ public class BookSectionsService {
 			try {
 				while (rs.next()) {
 
-					BookSection sec = getSection(rs);
+					SectionInfo sec = getSection(rs);
 					// BookSection sec = new BookSection();
 					// sec.title = rs.getString(1);
 					// sec.id = rs.getInt(2);
@@ -251,10 +252,10 @@ public class BookSectionsService {
 		return result;
 	}
 
-	public BookSection getParent(BookSection section) {
+	public SectionInfo getParent(SectionInfo section) {
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select T1.TITLE, T1.ID, T1.PARENT, T1.BLOCK FROM SECTIONS AS T "
+			String SQL = "Select T1.TITLE, T1.ID, T1.PARENT, T1.BLOCK, T1.OPTIONS FROM SECTIONS AS T "
 					+ "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
 					+ "WHERE T.ID=?";
 
@@ -265,7 +266,7 @@ public class BookSectionsService {
 			try {
 				if (rs.next()) {
 
-					BookSection sec = getSection(rs);
+					SectionInfo sec = getSection(rs);
 					// BookSection sec = new BookSection();
 					// sec.title = rs.getString(1);
 					// sec.id = rs.getInt(2);
@@ -283,10 +284,10 @@ public class BookSectionsService {
 		return null;
 	}
 
-	private BookSection getLast(BookSection parent) {
+	private SectionInfo getLast(SectionInfo parent) {
 		try {
 			Connection con = book.getConnection();
-			String SQL = "Select TOP 1 T.TITLE, T.ID, T.PARENT, T.BLOCK FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC, T.ID DESC";
+			String SQL = "Select TOP 1 T.TITLE, T.ID, T.PARENT, T.BLOCK, T.OPTIONS FROM SECTIONS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC, T.ID DESC";
 			// String SQL = "Select T1.TITLE, T1.ID FROM SECTIONS AS T "
 			// + "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
 			// + "WHERE T.ID=?";
@@ -298,7 +299,7 @@ public class BookSectionsService {
 			try {
 				if (rs.next()) {
 
-					BookSection sec = getSection(rs);
+					SectionInfo sec = getSection(rs);
 					// BookSection sec = new BookSection();
 					// sec.title = rs.getString(1);
 					// sec.id = rs.getInt(2);
@@ -316,7 +317,7 @@ public class BookSectionsService {
 		return null;
 	}
 
-	public boolean hasChildren(BookSection section) {
+	public boolean hasChildren(SectionInfo section) {
 		try {
 			Connection con = book.getConnection();
 			String SQL = "Select COUNT(ID) from SECTIONS WHERE PARENT=?";
@@ -339,7 +340,7 @@ public class BookSectionsService {
 		return false;
 	}
 
-	public void saveSelectedSelection(BookSection section) {
+	public void saveSelectedSelection(SectionInfo section) {
 		try {
 			Connection con = book.getConnection();
 			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
@@ -375,9 +376,9 @@ public class BookSectionsService {
 		}
 	}
 
-	public void saveSection(BookSection section) {
+	public void saveSection(SectionInfo section) {
 		try {
-			BookSection parent = getParent(section);
+			SectionInfo parent = getParent(section);
 
 			Connection con = book.getConnection();
 			String SQL = "UPDATE SECTIONS SET TITLE=? WHERE ID=?;";
@@ -403,9 +404,9 @@ public class BookSectionsService {
 
 	}
 
-	public Boolean setBefore(BookSection section, BookSection target) {
+	public Boolean setBefore(SectionInfo section, SectionInfo target) {
 
-		BookSection parent = getParent(target);
+		SectionInfo parent = getParent(target);
 
 		if (parent == null)
 			return false;
@@ -416,7 +417,7 @@ public class BookSectionsService {
 			notify = false;
 		}
 
-		List<BookSection> items = getChildren(parent);
+		List<SectionInfo> items = getChildren(parent);
 
 		items.remove(section);
 		int i = items.indexOf(target);
@@ -434,8 +435,8 @@ public class BookSectionsService {
 		return true;
 	}
 
-	public Boolean setAfter(BookSection section, BookSection target) {
-		BookSection parent = getParent(target);
+	public Boolean setAfter(SectionInfo section, SectionInfo target) {
+		SectionInfo parent = getParent(target);
 
 		if (parent == null)
 			return false;
@@ -446,7 +447,7 @@ public class BookSectionsService {
 			notify = false;
 		}
 
-		List<BookSection> items = getChildren(parent);
+		List<SectionInfo> items = getChildren(parent);
 
 		items.remove(section);
 		int i = items.indexOf(target);
@@ -461,11 +462,11 @@ public class BookSectionsService {
 		return true;
 	}
 
-	public Boolean setParent(BookSection section, BookSection target) {
+	public Boolean setParent(SectionInfo section, SectionInfo target) {
 
 		try {
 
-			BookSection parent = getParent(section);
+			SectionInfo parent = getParent(section);
 
 			Connection con = book.getConnection();
 
@@ -479,7 +480,7 @@ public class BookSectionsService {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			List<BookSection> items = getChildren(target);
+			List<SectionInfo> items = getChildren(target);
 			items.remove(section);
 			items.add(section);
 
@@ -500,11 +501,11 @@ public class BookSectionsService {
 
 	}
 
-	private void updateOrder(List<BookSection> items) {
+	private void updateOrder(List<SectionInfo> items) {
 		try {
 			Connection con = book.getConnection();
 			int order = 0;
-			for (BookSection item : items) {
+			for (SectionInfo item : items) {
 
 				String SQL = "UPDATE SECTIONS SET SORT=? WHERE ID=?;";
 				PreparedStatement prep = con.prepareStatement(SQL,
@@ -524,9 +525,37 @@ public class BookSectionsService {
 		}
 	}
 
-	public void setText(BookSection section, String text) {
+	public void saveBlock(SectionInfo section, SectionSaveData data) {
+		saveText(section, data.text);
+		saveOptions(section, data.options);
+	}
+
+	private void saveOptions(SectionInfo section, SectionOptions options) {
 		try {
-			BookSection parent = getParent(section);
+			Connection con = book.getConnection();
+			String SQL = "UPDATE SECTIONS SET OPTIONS=? WHERE ID=?;";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, SectionOptions.save(options));
+			prep.setInt(2, section.id);
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			section.options = options;
+
+			AppManager.br.post(Const.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+					new EVENT_UPDATE_VIEW_DATA(book, section, null));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void saveText(SectionInfo section, String text) {
+		try {
+			SectionInfo parent = getParent(section);
 
 			Connection con = book.getConnection();
 			String SQL = "SELECT TOP 1 ID FROM S_TEXT WHERE SECTION=?;";
@@ -572,7 +601,7 @@ public class BookSectionsService {
 		}
 	}
 
-	public String getText(BookSection section) {
+	public String getText(SectionInfo section) {
 
 		StringBuilder result = new StringBuilder();
 
@@ -606,7 +635,7 @@ public class BookSectionsService {
 		return result.toString();
 	}
 
-	public List<BookSectionImage> getImages(Device display, BookSection section) {
+	public List<SectionImage> getImages(Device display, SectionInfo section) {
 
 		// List<BookSectionImage> result = new ArrayList<BookSectionImage>();
 		//
@@ -617,7 +646,7 @@ public class BookSectionsService {
 		//
 		// return result;
 
-		List<BookSectionImage> result = new ArrayList<BookSectionImage>();
+		List<SectionImage> result = new ArrayList<SectionImage>();
 		try {
 			Connection con = book.getConnection();
 			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.EXPANDED, T.ID FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT, T.ID";
@@ -629,7 +658,7 @@ public class BookSectionsService {
 			try {
 				while (rs.next()) {
 
-					BookSectionImage sec = new BookSectionImage();
+					SectionImage sec = new SectionImage();
 					// BookSection sec = new BookSection();
 					InputStream is = rs.getBinaryStream(1);
 					sec.title = rs.getString(2);
@@ -655,7 +684,7 @@ public class BookSectionsService {
 		return result;
 	}
 
-	public void add_image(BookSection section, IPath p) {
+	public void add_image(SectionInfo section, IPath p) {
 
 		// BookSection sec = null;
 		try {
@@ -714,12 +743,13 @@ public class BookSectionsService {
 			// if (affectedRows == 0)
 			// throw new SQLException();
 
+			AppManager.br.post(Const.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+					new EVENT_UPDATE_VIEW_DATA(book, section, null));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		AppManager.br.post(Const.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-				new EVENT_UPDATE_VIEW_DATA(book, section, null));
 	}
 
 }

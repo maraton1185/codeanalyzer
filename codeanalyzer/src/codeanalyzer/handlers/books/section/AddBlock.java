@@ -9,7 +9,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Const;
 
 public class AddBlock {
@@ -17,7 +17,7 @@ public class AddBlock {
 	public void execute(
 			BookInfo book,
 			@Active MPart part,
-			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		// Object o = part.getObject();
 		// if (o instanceof SectionView)
@@ -28,7 +28,7 @@ public class AddBlock {
 
 	@CanExecute
 	public boolean canExecute(
-			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 		return section != null;
 	}
 

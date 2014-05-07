@@ -1,16 +1,16 @@
 package codeanalyzer.books.section;
 
-public class BookSection {
+public class SectionInfo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof BookSection)
-			return ((BookSection) obj).id.equals(id);
+		if (obj instanceof SectionInfo)
+			return ((SectionInfo) obj).id.equals(id);
 		else
 			return super.equals(obj);
 	}
 
-	public BookSection() {
+	public SectionInfo() {
 
 		// for (Field f : this.getClass().getFields()) {
 		// try {
@@ -23,7 +23,7 @@ public class BookSection {
 		// }
 	}
 
-	public BookSection(Integer id) {
+	public SectionInfo(Integer id) {
 		this();
 		this.id = id;
 	}
@@ -37,5 +37,7 @@ public class BookSection {
 	public Integer parent;
 
 	public boolean block;
+
+	public SectionOptions options;
 
 }

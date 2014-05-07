@@ -6,6 +6,8 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -20,13 +22,17 @@ public class BrowserComposite extends Composite {
 
 	private ScrolledForm form;
 
+	private Composite blockComposite;
+
 	// private String buf;
 
 	// BookSection section;
 
-	public BrowserComposite(Composite parent, String buf, ScrolledForm form) {
-		super(parent, SWT.None);
+	public BrowserComposite(Composite blockComposite, String buf,
+			ScrolledForm form) {
+		super(blockComposite, SWT.BORDER);
 
+		this.blockComposite = blockComposite;
 		this.form = form;
 
 		setLayout(new FillLayout());
@@ -43,7 +49,7 @@ public class BrowserComposite extends Composite {
 			@Override
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
-				getHeight();
+				getHeight(true);
 			}
 		});
 
@@ -59,6 +65,14 @@ public class BrowserComposite extends Composite {
 			}
 		});
 
+		browser.addControlListener(new ControlAdapter() {
+			@Override
+			public void controlResized(ControlEvent e) {
+				super.controlResized(e);
+				getHeight(false);
+			}
+
+		});
 		// Set url pointed to editor
 		try {
 
@@ -98,7 +112,7 @@ public class BrowserComposite extends Composite {
 		return result.toString();
 	}
 
-	public void getHeight() {
+	public void getHeight(boolean reflow) {
 		String content = "";
 
 		boolean executed = browser.execute("window.status=getHeight();");
@@ -111,15 +125,19 @@ public class BrowserComposite extends Composite {
 			gd.grabExcessHorizontalSpace = true;
 			gd.grabExcessVerticalSpace = false;
 			gd.widthHint = 50;
-			gd.heightHint = Integer.parseInt(content) + 30;
+
+			// GridData gd = new GridData(GridData.FILL_BOTH);
+			gd.heightHint = Integer.parseInt(content) + 50;
 			// gd.heightHint = browserComposite.getHeight();
 			// gd.horizontalSpan = numColumns - 1;
 			// browserComposite.setLayoutData(gd);
-			// browser.setLayoutData(gd);
-
 			this.setLayoutData(gd);
 
-			form.reflow(true);
+			// blockComposite.setLayoutData(gd);
+			this.layout();
+			blockComposite.layout(true);
+			// if (reflow)
+			// form.reflow(true);
 
 			// browser.execute("window.status='done'");
 		}

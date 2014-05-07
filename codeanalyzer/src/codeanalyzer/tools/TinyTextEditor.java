@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 
@@ -26,9 +26,9 @@ public class TinyTextEditor extends Composite {
 	protected String editor_content;
 	protected boolean loadCompleted = false;
 
-	BookSection section;
+	SectionInfo section;
 
-	public TinyTextEditor(Composite parent, BookSection section) {
+	public TinyTextEditor(Composite parent, SectionInfo section) {
 		super(parent, SWT.None);
 
 		this.section = section;

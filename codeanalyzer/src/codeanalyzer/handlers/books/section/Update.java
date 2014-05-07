@@ -8,7 +8,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
@@ -17,14 +17,14 @@ public class Update {
 	@Execute
 	public void execute(
 			BookInfo book,
-			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 		AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_VIEW_DATA(book, section, true));
 	}
 
 	@CanExecute
 	public boolean canExecute(
-			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) BookSection section) {
+			@Optional @Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 		return section != null;
 	}
 

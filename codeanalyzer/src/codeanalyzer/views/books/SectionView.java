@@ -14,6 +14,8 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,7 +31,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.BookSection;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
@@ -37,7 +39,7 @@ import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.views.books.interfaces.IBlockComposite;
+import codeanalyzer.views.books.interfaces.ISectionComposite;
 
 public class SectionView {
 
@@ -52,19 +54,19 @@ public class SectionView {
 	@Active
 	BookInfo book;
 
-	BookSection section;
+	SectionInfo section;
 	MPart part;
 
-	public BookSection getSection() {
+	public SectionInfo getSection() {
 		return section;
 	}
 
-	private List<BookSection> sectionsList;
+	private List<SectionInfo> sectionsList;
 	private ECommandService cs;
 	private EHandlerService hs;
 	private MWindow window;
 
-	IBlockComposite sectionComposite;
+	// ISectionComposite sectionComposite;
 
 	private IHyperlinkListener onEdit;
 	private IHyperlinkListener onDelete;
@@ -107,31 +109,32 @@ public class SectionView {
 
 		sectionsList = book.sections().getChildren(section);
 
-		for (BookSection sec : sectionsList) {
+		for (SectionInfo sec : sectionsList) {
 
 			createTopLinks(sec);
 
-			if (sec.block)
-				sectionComposite.render(sec);
+			if (sec.block) {
+				ISectionComposite sectionComposite = pico
+						.get(ISectionComposite.class);
+				sectionComposite.initSectionView(toolkit, form, book, sec);
+				sectionComposite.render();
+			}
 		}
 
 		// *************************************************************
 		form.reflow(true);
 	}
 
-	private void createTopLinks(BookSection sec) {
+	private void createTopLinks(SectionInfo sec) {
 		Hyperlink link;
 		ImageHyperlink hlink;
-		GridData gd;
 
 		Composite comp = toolkit.createComposite(body);
-		// gd = new TableWrapData();
-		// gd.colspan = ISectionBlockComposite.numColumns;
-		// comp.setLayoutData(gd);
-		gd = new GridData();
-		gd.horizontalSpan = IBlockComposite.numColumns;
-		comp.setLayoutData(gd);
 		comp.setLayout(new RowLayout(SWT.HORIZONTAL));
+
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		comp.setLayoutData(gd);
 
 		link = toolkit.createHyperlink(comp, sec.title, SWT.WRAP);
 		link.setFont(body.getFont());
@@ -159,8 +162,8 @@ public class SectionView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 
-				BookSection selected = (BookSection) e.getHref();
-				window.getContext().set(BookSection.class, selected);
+				SectionInfo selected = (SectionInfo) e.getHref();
+				window.getContext().set(SectionInfo.class, selected);
 				Utils.executeHandler(hs, cs,
 						Strings.get("command.id.ShowSection"));
 				// window.getContext().set(BookSection.class, current_section);
@@ -176,8 +179,8 @@ public class SectionView {
 
 				// BookSection current_section = window.getContext().get(
 				// BookSection.class);
-				window.getContext().set(BookSection.class,
-						(BookSection) e.getHref());
+				window.getContext().set(SectionInfo.class,
+						(SectionInfo) e.getHref());
 				Utils.executeHandler(hs, cs,
 						Strings.get("command.id.DeleteSection"));
 				// window.getContext().set(BookSection.class, current_section);
@@ -189,7 +192,7 @@ public class SectionView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, BookSection section,
+	public void postConstruct(Composite parent, SectionInfo section,
 			final ECommandService cs, final EHandlerService hs,
 			@Active final MWindow window, @Active MPart part) {
 
@@ -212,17 +215,23 @@ public class SectionView {
 		// }
 		// });
 		body = form.getBody();
-		// TableWrapLayout layout = new TableWrapLayout();
-		GridLayout layout = new GridLayout();
-		layout.numColumns = IBlockComposite.numColumns;
-		body.setLayout(layout);
+		// body.setLayout(new RowLayout(SWT.VERTICAL));
+		body.setLayout(new GridLayout(1, false));
+
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
-		sectionComposite = pico.get(IBlockComposite.class);
-		sectionComposite.init(toolkit, body, form, book);
 
 		fillBody();
 
+		parent.addControlListener(new ControlAdapter() {
+
+			@Override
+			public void controlResized(ControlEvent e) {
+				super.controlResized(e);
+				form.layout(true);
+			}
+
+		});
 	}
 
 	@Focus

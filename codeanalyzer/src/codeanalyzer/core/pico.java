@@ -5,13 +5,13 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import codeanalyzer.auth.SignIn;
-import codeanalyzer.book.BookManager;
+import codeanalyzer.books.book.BookManager;
 import codeanalyzer.db.Db;
 import codeanalyzer.db.DbManager;
 import codeanalyzer.db.LoaderManager;
 import codeanalyzer.db.services.DbServices;
 import codeanalyzer.db.services.TextParser;
-import codeanalyzer.views.books.SectionBlockComposite;
+import codeanalyzer.views.books.BlockComposite;
 
 public final class pico {
 
@@ -50,7 +50,7 @@ public final class pico {
 		// instance.as(Characteristics.CACHE).addComponent(ColorManager.class);
 		// instance.addComponent(CData.class);
 		// instance.addComponent(ColorManager.class);
-		instance.addComponent(SectionBlockComposite.class);
+		instance.addComponent(BlockComposite.class);
 
 	}
 

@@ -60,8 +60,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import codeanalyzer.book.BookInfo;
-import codeanalyzer.book.BookSection;
+import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.section.BookSection;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;

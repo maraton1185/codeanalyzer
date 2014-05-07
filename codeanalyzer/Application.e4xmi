@@ -5,11 +5,11 @@
       <children xsi:type="advanced:Perspective" xmi:id="_AQqUwKXTEeO-PfCALTbnPw" elementId="codeanalyzer.perspective.default" visible="false">
         <children xsi:type="basic:PartSashContainer" xmi:id="_7GppUJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.0" horizontal="true">
           <children xsi:type="basic:PartStack" xmi:id="_-BN3oJrPEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.treeView" containerData="7000">
-            <children xsi:type="basic:Part" xmi:id="_IY_TIJlkEeOo9rJNc5wjoQ" elementId="codeanalyzer.part.start" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.StartView" label="Добро пожаловать!" closeable="true"/>
+            <children xsi:type="basic:Part" xmi:id="_IY_TIJlkEeOo9rJNc5wjoQ" elementId="codeanalyzer.part.start" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.main.StartView" label="Добро пожаловать!" closeable="true"/>
           </children>
           <children xsi:type="basic:PartSashContainer" xmi:id="_9mGHQJriEeOlcttaCxvpFw" elementId="codeanalyzer.partsashcontainer.1" containerData="3000">
             <children xsi:type="basic:PartStack" xmi:id="__EbGcJriEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.1">
-              <children xsi:type="basic:Part" xmi:id="_3m16kJriEeOlcttaCxvpFw" elementId="codeanalyzer.part.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.ConfigsView" label="Список конфигураций">
+              <children xsi:type="basic:Part" xmi:id="_3m16kJriEeOlcttaCxvpFw" elementId="codeanalyzer.part.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.main.ConfigsView" label="Список конфигураций">
                 <menus xsi:type="menu:PopupMenu" xmi:id="_4fwcUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.popupmenu.ConfigList">
                   <children xsi:type="menu:HandledMenuItem" xmi:id="_OyIcwJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledmenuitem.7" label="Установить активной" iconURI="platform:/plugin/codeanalyzer/icons/active.png" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
                   <children xsi:type="menu:HandledMenuItem" xmi:id="_6OF7gJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.handledmenuitem.8" label="Установить для сравнения" iconURI="platform:/plugin/codeanalyzer/icons/nonactive.png" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
@@ -28,22 +28,22 @@
               </children>
             </children>
             <children xsi:type="basic:PartStack" xmi:id="_sbni0JrjEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.2">
-              <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookInfoView" label="Текущая книга">
+              <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.main.BookInfoView" label="Текущая книга">
                 <menus xmi:id="_nCgbQKtZEeOoWahGiuWvNw" elementId="codeanalyzer.menu.2">
                   <tags>ViewMenu</tags>
-                  <children xsi:type="menu:DirectMenuItem" xmi:id="_n0IFcKtZEeOoWahGiuWvNw" elementId="codeanalyzer.directmenuitem.2" label="Установить картинку" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookInfoImage"/>
+                  <children xsi:type="menu:DirectMenuItem" xmi:id="_n0IFcKtZEeOoWahGiuWvNw" elementId="codeanalyzer.directmenuitem.2" label="Установить картинку" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.InfoImage"/>
                 </menus>
                 <toolbar xmi:id="_FY1_MNTpEeOV85RCT5V8vQ" elementId="codeanalyzer.toolbar.6">
                   <children xsi:type="menu:HandledToolItem" xmi:id="_H0tksNTpEeOV85RCT5V8vQ" elementId="codeanalyzer.handledtoolitem.15" iconURI="platform:/plugin/codeanalyzer/icons/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
                 </toolbar>
               </children>
-              <children xsi:type="basic:Part" xmi:id="_Ak-6QJrjEeOlcttaCxvpFw" elementId="codeanalyzer.part.2" visible="false" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BookmarkView" label="Закладки"/>
+              <children xsi:type="basic:Part" xmi:id="_Ak-6QJrjEeOlcttaCxvpFw" elementId="codeanalyzer.part.2" visible="false" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.main.BookmarkView" label="Закладки"/>
             </children>
           </children>
         </children>
       </children>
       <children xsi:type="advanced:Perspective" xmi:id="_pV0B8KmpEeOFWZN9IXa3MA" elementId="codeanalyzer.perspective.books" visible="false">
-        <children xsi:type="basic:Part" xmi:id="_s4T4UKmpEeOFWZN9IXa3MA" elementId="codeanalyzer.part.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.BooksView"/>
+        <children xsi:type="basic:Part" xmi:id="_s4T4UKmpEeOFWZN9IXa3MA" elementId="codeanalyzer.part.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.main.BooksPerspectiveView"/>
       </children>
     </children>
     <mainMenu xmi:id="_wpG8QJlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.menu.0">
@@ -58,7 +58,7 @@
       </children>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="codeanalyzer.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handledmenuitem.9" label="&amp;Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
-      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="codeanalyzer.directmenuitem.1" label="Обновить" iconURI="platform:/plugin/codeanalyzer/icons/update.png" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.RefreshPerspectiveHandler"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="codeanalyzer.directmenuitem.1" label="Обновить" iconURI="platform:/plugin/codeanalyzer/icons/update.png" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.Refresh"/>
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="codeanalyzer.statusbar">
@@ -76,23 +76,23 @@
       </children>
     </trimBars>
   </children>
-  <handlers xmi:id="_q12uwJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handler.QuitHandler" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.QuitHandler" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
+  <handlers xmi:id="_q12uwJlKEeOhhK_cqm6rMQ" elementId="codeanalyzer.handler.QuitHandler" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.Quit" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
   <handlers xmi:id="_1JWToJlREeOJH5GrNyMMVw" elementId="codeanalyzer.handler.0" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.Activate" command="_x0HdMJlREeOJH5GrNyMMVw"/>
-  <handlers xmi:id="_tsTcgJ0xEeOQH7R6sUDvqQ" elementId="codeanalyzer.handler.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListAdd" command="_dMqP4JrkEeOlcttaCxvpFw"/>
-  <handlers xmi:id="_PG8q4J2AEeOR26RRi-iIEw" elementId="codeanalyzer.handler.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListEdit" command="_u-hH8JrkEeOlcttaCxvpFw"/>
-  <handlers xmi:id="_y67pMJ4QEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListDelete" command="_hUHNcJrkEeOlcttaCxvpFw"/>
-  <handlers xmi:id="_oNbdUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListExecute" command="_aINPEJ4TEeOx3LwFmv1Qcw"/>
-  <handlers xmi:id="_QMnBQJ4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.5" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListSetActive" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
-  <handlers xmi:id="_oqkk8J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.6" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.ConfigListSetNonActive" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
-  <handlers xmi:id="_rR19MJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handler.7" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.OptionsHandler" command="_irP60J6aEeORdqnZrqq27Q"/>
-  <handlers xmi:id="_mi3mQKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.handler.8" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookAdd" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
+  <handlers xmi:id="_tsTcgJ0xEeOQH7R6sUDvqQ" elementId="codeanalyzer.handler.1" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.Add" command="_dMqP4JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_PG8q4J2AEeOR26RRi-iIEw" elementId="codeanalyzer.handler.2" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.Edit" command="_u-hH8JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_y67pMJ4QEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.Delete" command="_hUHNcJrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_oNbdUJ4TEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.DbExecute" command="_aINPEJ4TEeOx3LwFmv1Qcw"/>
+  <handlers xmi:id="_QMnBQJ4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.5" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.SetActive" command="_SDff0J4VEeOx3LwFmv1Qcw"/>
+  <handlers xmi:id="_oqkk8J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.6" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.SetNonActive" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
+  <handlers xmi:id="_rR19MJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handler.7" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.Options" command="_irP60J6aEeORdqnZrqq27Q"/>
+  <handlers xmi:id="_mi3mQKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.handler.8" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.Add" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_Fgr-sKkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.9" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.NewObjectTreeHandler" command="_XybQsKkaEeOctbxZaJIj4Q"/>
   <handlers xmi:id="_jTSr0KkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.10" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookOpen" command="_SMVncKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_9KZXMKnfEeOFWZN9IXa3MA" elementId="codeanalyzer.handler.11" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookSave" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
-  <handlers xmi:id="_MWi8sKteEeOoWahGiuWvNw" elementId="codeanalyzer.handler.12" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.BookShow" command="_KIPSEKteEeOoWahGiuWvNw"/>
+  <handlers xmi:id="_MWi8sKteEeOoWahGiuWvNw" elementId="codeanalyzer.handler.12" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.Show" command="_KIPSEKteEeOoWahGiuWvNw"/>
   <handlers xmi:id="_OYJMkK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.13" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAdd" command="_sPoPIK3EEeOHwvV36BHkVA"/>
   <handlers xmi:id="_RKW1gK3FEeOHwvV36BHkVA" elementId="codeanalyzer.handler.14" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionDelete" command="_8pkSAK3EEeOHwvV36BHkVA"/>
-  <handlers xmi:id="_zax_ULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAddSub" command="_sXbRULAWEeOa8OKjTLKQvw"/>
+  <handlers xmi:id="_zax_ULAWEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.section.AddSub" command="_sXbRULAWEeOa8OKjTLKQvw"/>
   <handlers xmi:id="_3DPm4LAuEeOa8OKjTLKQvw" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionEditTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
   <handlers xmi:id="_y9U1MMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.handler.17" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionShow" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
   <handlers xmi:id="_7i0QcMuAEeOTW91tESaq8A" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.SectionAddBlock" command="_B6xfwMt7EeOTW91tESaq8A"/>
@@ -130,10 +130,10 @@
     </children>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <descriptors xmi:id="_Vrtt0KhUEeOKceOp7VW7lQ" elementId="codeanalyzer.partdescriptor.treeView" label="Дерево объектов" allowMultiple="true" closeable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.TreeView">
+  <descriptors xmi:id="_Vrtt0KhUEeOKceOp7VW7lQ" elementId="codeanalyzer.partdescriptor.treeView" label="Дерево объектов" allowMultiple="true" closeable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.main.TreeView">
     <menus xmi:id="_4Us0oKkQEeOctbxZaJIj4Q" elementId="codeanalyzer.menu.1">
       <tags>ViewMenu</tags>
-      <children xsi:type="menu:DirectMenuItem" xmi:id="_5Kf0MKkQEeOctbxZaJIj4Q" elementId="codeanalyzer.directmenuitem.0" label="Изменить заголовок" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.SetTreeViewTitleHandler"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_5Kf0MKkQEeOctbxZaJIj4Q" elementId="codeanalyzer.directmenuitem.0" label="Изменить заголовок" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.SetTitle"/>
     </menus>
     <toolbar xmi:id="_ZtkZsKhUEeOKceOp7VW7lQ" elementId="codeanalyzer.toolbar.0"/>
   </descriptors>
@@ -146,7 +146,7 @@
       <children xsi:type="menu:HandledToolItem" xmi:id="_IcTJYNRKEeOFfdAek_eJEQ" elementId="codeanalyzer.handledtoolitem.14" iconURI="platform:/plugin/codeanalyzer/icons/update.png" tooltip="Обновить" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsBlockView">
+  <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.BlockView">
     <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.toolbar.3">
       <children xsi:type="menu:HandledToolItem" xmi:id="_PIipoNQjEeOFfdAek_eJEQ" elementId="codeanalyzer.handledtoolitem.13" label="" iconURI="platform:/plugin/codeanalyzer/icons/level_up.png" tooltip="Перейти к родителю" command="_dea_gNQiEeOFfdAek_eJEQ">
         <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_O7sjoNQnEeOFfdAek_eJEQ" coreExpressionId="codeanalyzer.expressions.onContentSelected"/>
@@ -162,7 +162,7 @@
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="codeanalyzer.window.book" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="codeanalyzer.partsashcontainer.2" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.sectionsView" containerData="70000">
-        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.SectionsStartView" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.SectionsStartView" label="Как работать с книгой"/>
+        <children xsi:type="basic:Part" xmi:id="_wq8rcKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.SectionsStartView" containerData="" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.StartView" label="Как работать с книгой"/>
       </children>
       <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.BookContent" containerData="30000">
         <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.BookContent" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.ContentView" label="Содержание">

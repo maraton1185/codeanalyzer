@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.book.BookSection;
+import codeanalyzer.books.section.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 

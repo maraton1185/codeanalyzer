@@ -6,7 +6,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.book.BookInfo;
+import codeanalyzer.books.book.BookInfo;
 
 public interface IBookManager {
 

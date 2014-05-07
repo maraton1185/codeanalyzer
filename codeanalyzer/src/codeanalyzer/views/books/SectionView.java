@@ -28,8 +28,8 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.book.BookInfo;
-import codeanalyzer.book.BookSection;
+import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.section.BookSection;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
@@ -37,6 +37,7 @@ import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.views.books.interfaces.IBlockComposite;
 
 public class SectionView {
 
@@ -63,7 +64,7 @@ public class SectionView {
 	private EHandlerService hs;
 	private MWindow window;
 
-	ISectionBlockComposite sectionComposite;
+	IBlockComposite sectionComposite;
 
 	private IHyperlinkListener onEdit;
 	private IHyperlinkListener onDelete;
@@ -128,7 +129,7 @@ public class SectionView {
 		// gd.colspan = ISectionBlockComposite.numColumns;
 		// comp.setLayoutData(gd);
 		gd = new GridData();
-		gd.horizontalSpan = ISectionBlockComposite.numColumns;
+		gd.horizontalSpan = IBlockComposite.numColumns;
 		comp.setLayoutData(gd);
 		comp.setLayout(new RowLayout(SWT.HORIZONTAL));
 
@@ -213,11 +214,11 @@ public class SectionView {
 		body = form.getBody();
 		// TableWrapLayout layout = new TableWrapLayout();
 		GridLayout layout = new GridLayout();
-		layout.numColumns = ISectionBlockComposite.numColumns;
+		layout.numColumns = IBlockComposite.numColumns;
 		body.setLayout(layout);
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
-		sectionComposite = pico.get(ISectionBlockComposite.class);
+		sectionComposite = pico.get(IBlockComposite.class);
 		sectionComposite.init(toolkit, body, form, book);
 
 		fillBody();

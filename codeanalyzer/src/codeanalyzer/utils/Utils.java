@@ -25,10 +25,10 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.book.BookInfo;
+import codeanalyzer.books.book.BookInfo;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.interfaces.IBookManager;
-import codeanalyzer.views.ConfigsView;
+import codeanalyzer.views.main.ConfigsView;
 
 public abstract class Utils {
 

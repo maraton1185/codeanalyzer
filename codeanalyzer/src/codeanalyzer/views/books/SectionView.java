@@ -204,6 +204,7 @@ public class SectionView {
 
 		makeEvents();
 
+		// SWING
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		// form.addListener(SWT.SCROLL_PAGE, new Listener() {

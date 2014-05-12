@@ -35,12 +35,11 @@ import codeanalyzer.books.book.BookInfo;
 import codeanalyzer.books.section.SectionImage;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.books.section.SectionOptions;
-import codeanalyzer.tools.BrowserComposite;
-import codeanalyzer.tools.TinyTextEditor;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 import codeanalyzer.views.books.interfaces.IBlockTune;
 import codeanalyzer.views.books.interfaces.ISectionComposite;
+import codeanalyzer.views.books.tools.TinyTextEditor;
 
 public class SectionComposite implements ISectionComposite {
 
@@ -141,28 +140,29 @@ public class SectionComposite implements ISectionComposite {
 
 	private void addBrowserText() {
 
-		String buf = book.sections().getText(section);
-
-		BrowserComposite browserComposite = new BrowserComposite(
-				blockComposite, buf, form);
-		toolkit.adapt(browserComposite, true, true);
-
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.grabExcessHorizontalSpace = true;
-		gd.grabExcessVerticalSpace = false;
-		gd.widthHint = 50;
-		// gd.horizontalSpan = numColumns - 1;
-		browserComposite.setLayoutData(gd);
-
-		groupsComposite = toolkit.createComposite(blockComposite, SWT.BORDER);
-
-		gd = new GridData();
-		gd.grabExcessHorizontalSpace = false;
-		gd.grabExcessVerticalSpace = false;
-		gd.verticalAlignment = SWT.TOP;
-		// gd.widthHint = section.options.getCompositeWidthHint();
-		// gd.widthHint = IBlockComposite.groupWidth;
-		groupsComposite.setLayoutData(gd);
+		// String buf = book.sections().getText(section);
+		//
+		// BrowserComposite browserComposite = new BrowserComposite(
+		// blockComposite, buf, form);
+		// toolkit.adapt(browserComposite, true, true);
+		//
+		// GridData gd = new GridData(GridData.FILL_BOTH);
+		// gd.grabExcessHorizontalSpace = true;
+		// gd.grabExcessVerticalSpace = false;
+		// gd.widthHint = 50;
+		// // gd.horizontalSpan = numColumns - 1;
+		// browserComposite.setLayoutData(gd);
+		//
+		// groupsComposite = toolkit.createComposite(blockComposite,
+		// SWT.BORDER);
+		//
+		// gd = new GridData();
+		// gd.grabExcessHorizontalSpace = false;
+		// gd.grabExcessVerticalSpace = false;
+		// gd.verticalAlignment = SWT.TOP;
+		// // gd.widthHint = section.options.getCompositeWidthHint();
+		// // gd.widthHint = IBlockComposite.groupWidth;
+		// groupsComposite.setLayoutData(gd);
 
 	}
 

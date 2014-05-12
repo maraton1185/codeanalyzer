@@ -1,4 +1,4 @@
-package codeanalyzer.tools;
+package codeanalyzer.views.books.tools;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -9,9 +9,7 @@ import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 public class BrowserComposite extends Composite {
 
@@ -20,20 +18,19 @@ public class BrowserComposite extends Composite {
 	// protected String editor_content;
 	protected boolean loadCompleted = false;
 
-	private ScrolledForm form;
-
-	private Composite blockComposite;
+	// private ScrolledForm form;
+	//
+	// private Composite blockComposite;
 
 	// private String buf;
 
 	// BookSection section;
 
-	public BrowserComposite(Composite blockComposite, String buf,
-			ScrolledForm form) {
+	public BrowserComposite(Composite blockComposite) {
 		super(blockComposite, SWT.BORDER);
 
-		this.blockComposite = blockComposite;
-		this.form = form;
+		// this.blockComposite = blockComposite;
+		// this.form = form;
 
 		setLayout(new FillLayout());
 
@@ -49,7 +46,7 @@ public class BrowserComposite extends Composite {
 			@Override
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
-				getHeight(true);
+				// getHeight(true);
 			}
 		});
 
@@ -69,19 +66,29 @@ public class BrowserComposite extends Composite {
 			@Override
 			public void controlResized(ControlEvent e) {
 				super.controlResized(e);
-				getHeight(false);
+				// getHeight(false);
 			}
 
 		});
 		// Set url pointed to editor
+		// try {
+		//
+		// browser.setText(transform(buf));
+		//
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+
+	}
+
+	public void setText(String text) {
 		try {
 
-			browser.setText(transform(buf));
+			browser.setText(text);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private String transform(String buf) {
@@ -112,38 +119,38 @@ public class BrowserComposite extends Composite {
 		return result.toString();
 	}
 
-	public void getHeight(boolean reflow) {
-		String content = "";
-
-		boolean executed = browser.execute("window.status=getHeight();");
-
-		if (executed) {
-			content = (String) browser.getData();
-			// System.out.println(content);
-
-			GridData gd = new GridData(GridData.FILL_BOTH);
-			gd.grabExcessHorizontalSpace = true;
-			gd.grabExcessVerticalSpace = false;
-			gd.widthHint = 50;
-
-			// GridData gd = new GridData(GridData.FILL_BOTH);
-			gd.heightHint = Integer.parseInt(content) + 50;
-			// gd.heightHint = browserComposite.getHeight();
-			// gd.horizontalSpan = numColumns - 1;
-			// browserComposite.setLayoutData(gd);
-			this.setLayoutData(gd);
-
-			// blockComposite.setLayoutData(gd);
-			this.layout();
-			blockComposite.layout(true);
-			// if (reflow)
-			// form.reflow(true);
-
-			// browser.execute("window.status='done'");
-		}
-
-		// return content;
-
-	}
+	// public void getHeight(boolean reflow) {
+	// String content = "";
+	//
+	// boolean executed = browser.execute("window.status=getHeight();");
+	//
+	// if (executed) {
+	// content = (String) browser.getData();
+	// // System.out.println(content);
+	//
+	// GridData gd = new GridData(GridData.FILL_BOTH);
+	// gd.grabExcessHorizontalSpace = true;
+	// gd.grabExcessVerticalSpace = false;
+	// gd.widthHint = 50;
+	//
+	// // GridData gd = new GridData(GridData.FILL_BOTH);
+	// gd.heightHint = Integer.parseInt(content) + 50;
+	// // gd.heightHint = browserComposite.getHeight();
+	// // gd.horizontalSpan = numColumns - 1;
+	// // browserComposite.setLayoutData(gd);
+	// this.setLayoutData(gd);
+	//
+	// // blockComposite.setLayoutData(gd);
+	// this.layout();
+	// blockComposite.layout(true);
+	// // if (reflow)
+	// // form.reflow(true);
+	//
+	// // browser.execute("window.status='done'");
+	// }
+	//
+	// // return content;
+	//
+	// }
 
 }

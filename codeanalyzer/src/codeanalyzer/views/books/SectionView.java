@@ -13,38 +13,27 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.books.book.BookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.views.books.interfaces.ISectionComposite;
+import codeanalyzer.views.books.tools.BrowserComposite;
 
 public class SectionView {
 
-	FormToolkit toolkit;
-	ScrolledForm form;
+	// FormToolkit toolkit;
+	// ScrolledForm form;
 	Composite body;
 	// Section bookSection;
 	// Composite bookSectionClient;
@@ -71,6 +60,10 @@ public class SectionView {
 	private IHyperlinkListener onEdit;
 	private IHyperlinkListener onDelete;
 
+	// Composite blockComposite;
+	BrowserComposite browserComposite;
+	StringBuffer text = new StringBuffer();
+
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
@@ -95,65 +88,126 @@ public class SectionView {
 		fillBody();
 	}
 
-	@Inject
-	public SectionView() {
-		// TODO Your code here
+	@Focus
+	public void OnFocus() {
+		window.getContext().set(Const.CONTEXT_ACTIVE_VIEW_SECTION, section);
+		// window.getContext().set(Const.CONTENT_SECTION_SELECTED, false);
+		// ctx.declareModifiable(Const.CONTENT_SECTION_SELECTED);
+		// section.parent == 0
+		// window.getContext().de
+
+	}
+
+	@PostConstruct
+	public void postConstruct(Composite parent, SectionInfo section,
+			final ECommandService cs, final EHandlerService hs,
+			@Active final MWindow window, @Active MPart part) {
+
+		this.section = section;
+		this.cs = cs;
+		this.hs = hs;
+		this.window = window;
+		this.part = part;
+
+		makeEvents();
+
+		// SWING
+		// toolkit = new FormToolkit(parent.getDisplay());
+		// form = toolkit.createScrolledForm(parent);
+		// form.addListener(SWT.SCROLL_PAGE, new Listener() {
+		// @Override
+		// public void handleEvent(Event e) {
+		// // form.getVerticalBar().setFocus();
+		// form.getVerticalBar().setIncrement(
+		// form.getVerticalBar().getIncrement() * 3);
+		// }
+		// });
+		body = parent;
+		// body.setLayout(new RowLayout(SWT.VERTICAL));
+		body.setLayout(new FillLayout());
+
+		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
+				.getFontData(PreferenceSupplier.FONT)));
+
+		// blockComposite = toolkit.createComposite(form.getBody(), SWT.BORDER);
+		// GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		// blockComposite.setLayoutData(gd);
+		// GridLayout layout = new GridLayout();
+		// layout.numColumns = 2;
+		// blockComposite.setLayout(layout);
+
+		browserComposite = new BrowserComposite(body);
+		// toolkit.adapt(browserComposite, true, true);
+
+		fillBody();
+
+		browserComposite.setText(text.toString());
+		// parent.addControlListener(new ControlAdapter() {
+		//
+		// @Override
+		// public void controlResized(ControlEvent e) {
+		// super.controlResized(e);
+		// form.layout(true);
+		// }
+		//
+		// });
 	}
 
 	private void fillBody() {
 
-		for (Control ctrl : body.getChildren()) {
-			ctrl.dispose();
-		}
+		// for (Control ctrl : body.getChildren()) {
+		// ctrl.dispose();
+		// }
 		// *************************************************************
 
 		sectionsList = book.sections().getChildren(section);
 
 		for (SectionInfo sec : sectionsList) {
 
-			createTopLinks(sec);
+			text.append("<div>" + sec.title + "</div>");
+			// createTopLinks(sec);
 
-			if (sec.block) {
-				ISectionComposite sectionComposite = pico
-						.get(ISectionComposite.class);
-				sectionComposite.initSectionView(toolkit, form, book, sec);
-				sectionComposite.render();
-			}
+			// if (sec.block) {
+			// ISectionComposite sectionComposite = pico
+			// .get(ISectionComposite.class);
+			// sectionComposite.initSectionView(toolkit, form, book, sec);
+			// sectionComposite.render();
+			// }
 		}
 
 		// *************************************************************
-		form.reflow(true);
+		// form.reflow(true);
 	}
 
 	private void createTopLinks(SectionInfo sec) {
-		Hyperlink link;
-		ImageHyperlink hlink;
-
-		Composite comp = toolkit.createComposite(body);
-		comp.setLayout(new RowLayout(SWT.HORIZONTAL));
-
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		comp.setLayoutData(gd);
-
-		link = toolkit.createHyperlink(comp, sec.title, SWT.WRAP);
-		link.setFont(body.getFont());
-		link.setHref(sec);
-		link.addHyperlinkListener(onEdit);
-
-		hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		hlink.setImage(Utils.getImage("edit.png"));
-		// hlink.setText("редактировать");
-		hlink.setHref(sec);
-		hlink.setToolTipText("Изменить");
-		hlink.addHyperlinkListener(onEdit);
-
-		hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		hlink.setImage(Utils.getImage("delete.png"));
-		// hlink.setText("удалить");
-		hlink.setToolTipText("Удалить");
-		hlink.setHref(sec);
-		hlink.addHyperlinkListener(onDelete);
+		// Hyperlink link;
+		// ImageHyperlink hlink;
+		//
+		// Composite comp = toolkit.createComposite(body);
+		// comp.setLayout(new RowLayout(SWT.HORIZONTAL));
+		//
+		// GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		// gd.horizontalSpan = 2;
+		// comp.setLayoutData(gd);
+		//
+		// link = toolkit.createHyperlink(comp, sec.title, SWT.WRAP);
+		// link.setFont(body.getFont());
+		// link.setHref(sec);
+		// link.addHyperlinkListener(onEdit);
+		//
+		// hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
+		// hlink.setImage(Utils.getImage("edit.png"));
+		// // hlink.setText("редактировать");
+		// hlink.setHref(sec);
+		// hlink.setToolTipText("Изменить");
+		// hlink.addHyperlinkListener(onEdit);
+		//
+		// hlink = toolkit.createImageHyperlink(comp, SWT.WRAP);
+		// hlink.setImage(Utils.getImage("delete.png"));
+		// // hlink.setText("удалить");
+		// hlink.setToolTipText("Удалить");
+		// hlink.setHref(sec);
+		// hlink.addHyperlinkListener(onDelete);
 
 	}
 
@@ -188,60 +242,6 @@ public class SectionView {
 			}
 
 		};
-
-	}
-
-	@PostConstruct
-	public void postConstruct(Composite parent, SectionInfo section,
-			final ECommandService cs, final EHandlerService hs,
-			@Active final MWindow window, @Active MPart part) {
-
-		this.section = section;
-		this.cs = cs;
-		this.hs = hs;
-		this.window = window;
-		this.part = part;
-
-		makeEvents();
-
-		// SWING
-		toolkit = new FormToolkit(parent.getDisplay());
-		form = toolkit.createScrolledForm(parent);
-		// form.addListener(SWT.SCROLL_PAGE, new Listener() {
-		// @Override
-		// public void handleEvent(Event e) {
-		// // form.getVerticalBar().setFocus();
-		// form.getVerticalBar().setIncrement(
-		// form.getVerticalBar().getIncrement() * 3);
-		// }
-		// });
-		body = form.getBody();
-		// body.setLayout(new RowLayout(SWT.VERTICAL));
-		body.setLayout(new GridLayout(1, false));
-
-		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
-				.getFontData(PreferenceSupplier.FONT)));
-
-		fillBody();
-
-		parent.addControlListener(new ControlAdapter() {
-
-			@Override
-			public void controlResized(ControlEvent e) {
-				super.controlResized(e);
-				form.layout(true);
-			}
-
-		});
-	}
-
-	@Focus
-	public void OnFocus() {
-		window.getContext().set(Const.CONTEXT_ACTIVE_VIEW_SECTION, section);
-		// window.getContext().set(Const.CONTENT_SECTION_SELECTED, false);
-		// ctx.declareModifiable(Const.CONTENT_SECTION_SELECTED);
-		// section.parent == 0
-		// window.getContext().de
 
 	}
 }

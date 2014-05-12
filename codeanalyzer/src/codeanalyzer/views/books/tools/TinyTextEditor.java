@@ -1,4 +1,4 @@
-package codeanalyzer.tools;
+package codeanalyzer.views.books.tools;
 
 import java.io.IOException;
 import java.net.URL;

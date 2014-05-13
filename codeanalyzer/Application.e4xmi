@@ -145,6 +145,7 @@
       </children>
       <children xsi:type="menu:HandledToolItem" xmi:id="_mfKo4MxvEeOlmZeD0alUsw" elementId="codeanalyzer.handledtoolitem.9" label="" iconURI="platform:/plugin/codeanalyzer/icons/add_text.png" tooltip="Добавить блок текста" command="_B6xfwMt7EeOTW91tESaq8A"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_IcTJYNRKEeOFfdAek_eJEQ" elementId="codeanalyzer.handledtoolitem.14" iconURI="platform:/plugin/codeanalyzer/icons/update.png" tooltip="Обновить" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
+      <children xsi:type="menu:DirectToolItem" xmi:id="_lpmd0NqcEeOlv6JXkijCJw" elementId="codeanalyzer.directtoolitem.0" label="test" contributionURI="bundleclass://codeanalyzer/codeanalyzer.books.web.Test"/>
     </toolbar>
   </descriptors>
   <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="codeanalyzer.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.views.books.BlockView">

@@ -4,10 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
-import org.eclipse.swt.browser.StatusTextEvent;
-import org.eclipse.swt.browser.StatusTextListener;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -50,26 +46,27 @@ public class BrowserComposite extends Composite {
 			}
 		});
 
-		browser.addStatusTextListener(new StatusTextListener() {
-			@Override
-			public void changed(StatusTextEvent event) {
-				String text = event.text;
-				// if (text.equals("loaded"))
-				// getHeight();
-				// else
-				browser.setData(text);
-
-			}
-		});
-
-		browser.addControlListener(new ControlAdapter() {
-			@Override
-			public void controlResized(ControlEvent e) {
-				super.controlResized(e);
-				// getHeight(false);
-			}
-
-		});
+		browser.setUrl("http://localhost:8081/test?book=1&section=2");
+		// browser.addStatusTextListener(new StatusTextListener() {
+		// @Override
+		// public void changed(StatusTextEvent event) {
+		// String text = event.text;
+		// // if (text.equals("loaded"))
+		// // getHeight();
+		// // else
+		// browser.setData(text);
+		//
+		// }
+		// });
+		//
+		// browser.addControlListener(new ControlAdapter() {
+		// @Override
+		// public void controlResized(ControlEvent e) {
+		// super.controlResized(e);
+		// // getHeight(false);
+		// }
+		//
+		// });
 		// Set url pointed to editor
 		// try {
 		//

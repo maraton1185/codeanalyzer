@@ -139,9 +139,9 @@ public class SectionView {
 		browserComposite = new BrowserComposite(body);
 		// toolkit.adapt(browserComposite, true, true);
 
-		fillBody();
+		// fillBody();
 
-		browserComposite.setText(text.toString());
+		// browserComposite.setText(text.toString());
 		// parent.addControlListener(new ControlAdapter() {
 		//
 		// @Override

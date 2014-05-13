@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,7 @@ public class TestServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -43823400533628363L;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	protected void doGet1(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// NEXT Auto-generated method stub
 		// super.doGet(req, resp);
@@ -61,5 +61,21 @@ public class TestServlet extends HttpServlet {
 			}
 		}
 		out.close();
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		RequestDispatcher error_view = request
+				.getRequestDispatcher("error.jsp");
+
+		String c = request.getParameter("book");
+		if (c == null)
+			error_view.forward(request, response);
+
+		request.setAttribute("data", c);
+		RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+		view.forward(request, response);
 	}
 }

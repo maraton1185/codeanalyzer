@@ -2,21 +2,22 @@
   
   <%@ page contentType="text/html; charset=windows-1251" %>
   <%@ page import="java.util.*, java.text.*" %>
- <%
-  String id = (String) request.getAttribute("data");
-
-%> 
+  
   <html>
-      <head> 
-          <title>Простейшая страница JSP</title>
+     <head> 
+          <title>Ошибка</title>
           <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
      </head>
 	 
      <body>
-     
-     <h1>Код книги: <%=id%></h1>
-
+          <h1>О-о-п-с! Ошибка) <%= getFormattedDate()%></h1>
      </body>
   </html>
- 
- 
+  
+  <%! 
+     String getFormattedDate () 
+     { 
+          SimpleDateFormat sdf = new SimpleDateFormat ("dd.MM.yyyy hh:mm:ss"); 
+          return sdf.format (new Date ()); 
+     } 
+  %>

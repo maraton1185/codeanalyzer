@@ -33,5 +33,30 @@
          </with>
       </definition>
    </extension>
-
+<extension point="org.eclipse.equinox.http.registry.resources">
+    <resource
+      alias="/"
+      base-name="/web"/>
+  </extension>
+  <extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+      alias="/test"
+      class="codeanalyzer.books.TestServlet"/>
+    <servlet
+		alias="/*.jsp"
+		class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		httpcontextId="jsp">
+	</servlet>
+  </extension>
+  
+   <extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">
+		<httpcontext
+			id="jsp">
+			<resource-mapping
+				path="/web">
+			</resource-mapping>
+		</httpcontext>
+	</extension>
 </plugin>
+

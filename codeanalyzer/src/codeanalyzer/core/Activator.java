@@ -1,7 +1,11 @@
 package codeanalyzer.core;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.internal.workbench.E4Workbench;
+import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -10,6 +14,7 @@ import codeanalyzer.core.interfaces.IDbManager;
 
 public class Activator implements BundleActivator {
 
+	private static final String PLUGIN_ID = "ru.codeanalyzer";
 	private static Activator bundle;
 
 	@Override
@@ -23,6 +28,22 @@ public class Activator implements BundleActivator {
 
 		bundle = this;
 
+		// Server server = new Server(8080);
+
+		Dictionary settings = new Hashtable();
+		settings.put("http.enabled", Boolean.TRUE);
+		settings.put("http.port", 8081);
+		settings.put("http.host", "0.0.0.0");
+		settings.put("https.enabled", Boolean.FALSE);
+		settings.put("context.path", "/");
+		settings.put("context.sessioninactiveinterval", 1800);
+
+		try {
+			// JettyConfigurator.stopServer(PLUGIN_ID + ".jetty");
+			JettyConfigurator.startServer(PLUGIN_ID + ".jetty", settings);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

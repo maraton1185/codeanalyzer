@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.core.db.model.BookInfo;
+import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.utils.Strings;
 
 public class Add {

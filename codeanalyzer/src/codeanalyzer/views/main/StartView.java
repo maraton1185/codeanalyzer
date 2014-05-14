@@ -13,6 +13,11 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditor;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
+import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
+import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -21,7 +26,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.StyledString.Styler;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
@@ -40,6 +47,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
@@ -52,11 +60,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.books.interfaces.IBookManager;
+import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.db.DbManager;
-import codeanalyzer.core.db.interfaces.IDbManager;
-import codeanalyzer.core.db.model.BookInfo;
+import codeanalyzer.core.model.BookInfo;
+import codeanalyzer.db.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -73,26 +81,31 @@ public class StartView {
 	Section bookSection;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
-	private IDbManager dbManager = pico.get(DbManager.class);
+	private IDbManager dbManager = pico.get(IDbManager.class);
 	private TreeViewer viewer;
+
+	@Inject
+	@Optional
+	public void EVENT_EDIT_TITLE_BOOK_LIST(
+			@UIEventTopic(Const.EVENT_EDIT_TITLE_BOOK_LIST) EVENT_UPDATE_BOOK_LIST_DATA data) {
+
+		if (data.selected == null)
+			return;
+
+		viewer.editElement(data.selected, 0);
+
+	}
 
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_BOOK_LIST(
 			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) EVENT_UPDATE_BOOK_LIST_DATA data) {
 
-		// for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
-		// .getChildren()) {
-		// ctrl.dispose();
-		// }
-		//
-		// Utils.fillBooks(bookSectionClient, toolkit, shell,
-		// bookSectionHandler);
-		// bookSection.setClient(bookSectionClient);
-		//
-		if (data.parent != null)
-			viewer.refresh(data.parent);
-		else
+		if (data.parent != 0) {
+			BookInfo item = new BookInfo();
+			item.id = data.parent;
+			viewer.refresh(item);
+		} else
 			viewer.refresh();
 
 		viewer.setSelection(new StructuredSelection(data.selected), true);
@@ -117,7 +130,7 @@ public class StartView {
 
 		mainLinks(hService, comService);
 
-		bookslist();
+		bookslist(hService, comService);
 
 		parameters(shell, hService, comService);
 
@@ -140,9 +153,8 @@ public class StartView {
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.AddBook"),
-						Collections.EMPTY_MAP));
+				Utils.executeHandler(hService, comService,
+						Strings.get("command.id.AddBook"));
 				super.linkActivated(e);
 			}
 
@@ -154,9 +166,9 @@ public class StartView {
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.OpenBook"),
-						Collections.EMPTY_MAP));
+				Utils.executeHandler(hService, comService,
+						Strings.get("command.id.OpenBook"));
+
 				super.linkActivated(e);
 			}
 
@@ -353,7 +365,7 @@ public class StartView {
 	// toolkit.dispose();
 	// }
 
-	private void bookslist() {
+	private void bookslist(EHandlerService hService, ECommandService comService) {
 		bookSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR
 				| Section.TWISTIE | Section.EXPANDED);
 
@@ -368,7 +380,7 @@ public class StartView {
 		// }
 		//
 		// };
-		booksListCommands();
+		booksListCommands(hService, comService);
 
 		bookSectionClient.setFont(new Font(Display.getCurrent(),
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
@@ -390,16 +402,21 @@ public class StartView {
 
 		toolkit.adapt(viewer.getTree());
 
-		List<BookInfo> input = dbManager.getBooks();
+		List<BookInfo> input = dbManager.getBooks(0);
 		// root = input.size() == 0 ? null : input.get(0);
 		viewer.setInput(input);
+
+		editingSupport();
+
+		dragAndDropSupport();
 		// Utils.fillBooks(bookSectionClient, toolkit, shell,
 		// bookSectionHandler);
 		bookSection.setClient(bookSectionClient);
 
 	}
 
-	private void booksListCommands() {
+	private void booksListCommands(final EHandlerService hService,
+			final ECommandService comService) {
 
 		ImageHyperlink link;
 		GridData gd;
@@ -416,7 +433,9 @@ public class StartView {
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				// dbManager.addBookGroup();
+				Utils.executeHandler(hService, comService,
+						Strings.get("command.id.AddBook"));
+				super.linkActivated(e);
 			}
 
 		});
@@ -481,21 +500,18 @@ public class StartView {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			// return book.sections().getChildren((SectionInfo) parentElement)
-			// .toArray();
-			return null;
+			return dbManager.getBooks(((BookInfo) parentElement).id).toArray();
 		}
 
 		@Override
 		public Object getParent(Object element) {
-			// return book.sections().getParent((SectionInfo) element);
+			// return dbManager.getParent((BookInfo) element);
 			return null;
 		}
 
 		@Override
 		public boolean hasChildren(Object element) {
-			// return book.sections().hasChildren((SectionInfo) element);
-			return false;
+			return dbManager.hasChildren(((BookInfo) element).id);
 		}
 	}
 
@@ -544,4 +560,176 @@ public class StartView {
 
 		}
 	}
+
+	private void editingSupport() {
+		viewer.setCellModifier(new ICellModifier() {
+
+			@Override
+			public boolean canModify(Object element, String property) {
+				return true;
+			}
+
+			@Override
+			public Object getValue(Object element, String property) {
+				return ((SectionInfo) element).title + "";
+			}
+
+			@Override
+			public void modify(Object element, String property, Object value) {
+				TreeItem item = (TreeItem) element;
+				BookInfo object = (BookInfo) item.getData();
+				object.title = value.toString();
+				dbManager.saveTitle(object);
+				viewer.update(item.getData(), null);
+			}
+
+		});
+		viewer.setColumnProperties(new String[] { "column1" });
+		viewer.setCellEditors(new CellEditor[] { new TextCellEditor(viewer
+				.getTree()) });
+
+		// TreeViewerFocusCellManager focusCellManager = new
+		// TreeViewerFocusCellManager(
+		// viewer, new FocusCellOwnerDrawHighlighter(viewer));
+		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(
+				viewer) {
+			@Override
+			protected boolean isEditorActivationEvent(
+					ColumnViewerEditorActivationEvent event) {
+				return event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
+						// || event.eventType ==
+						// ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
+						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR)
+						|| event.eventType == ColumnViewerEditorActivationEvent.PROGRAMMATIC;
+			}
+		};
+
+		TreeViewerEditor.create(viewer, actSupport,
+				ColumnViewerEditor.TABBING_HORIZONTAL
+						| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
+						| ColumnViewerEditor.TABBING_VERTICAL
+						| ColumnViewerEditor.KEYBOARD_ACTIVATION);
+
+	}
+
+	private void dragAndDropSupport() {
+
+		// Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
+		// int operations = DND.DROP_MOVE;
+		//
+		// viewer.addDropSupport(operations, types, new
+		// ViewerDropAdapter(viewer) {
+		//
+		// SectionInfo target;
+		// int location = 0;
+		//
+		// @Override
+		// public boolean performDrop(Object data) {
+		//
+		// if (dragSection == null || (target == null))
+		// return false;
+		//
+		// if (target == dragSection) {
+		// return false;
+		// }
+		//
+		// if (target == root)
+		// location = 0;
+		//
+		// TreePath[] init_path = ((TreeSelection) viewer.getSelection())
+		// .getPathsFor(dragSection);
+		//
+		// viewer.setSelection(new StructuredSelection(target));
+		//
+		// TreePath[] paths = ((TreeSelection) viewer.getSelection())
+		// .getPathsFor(target);
+		//
+		// if (paths.length != 0 && init_path.length != 0
+		// && paths[0].startsWith(init_path[0], null))
+		// return false;
+		//
+		// Boolean result = false;
+		//
+		// switch (location) {
+		// case 1:
+		// // "Dropped before the target ";
+		// result = book.sections().setBefore(dragSection, target);
+		// break;
+		// case 2:
+		// // "Dropped after the target ";
+		// result = book.sections().setAfter(dragSection, target);
+		// break;
+		// // case 3:
+		// // // "Dropped on the target ";
+		// // book.sections().setParent(section, target);
+		// //
+		// // break;
+		// // case 4:
+		// // Dropped into nothing
+		// default:
+		// result = book.sections().setParent(dragSection, target);
+		// break;
+		// }
+		//
+		// if (result)
+		// selectedItem.dispose();
+		//
+		// return false;
+		// }
+		//
+		// @Override
+		// public boolean validateDrop(Object target, int operation,
+		// TransferData transferType) {
+		// if (target == null)
+		// return true;
+		//
+		// if (dragSection == target)
+		// return false;
+		//
+		// return true;// target != null;
+		// }
+		//
+		// @Override
+		// public void drop(DropTargetEvent event) {
+		//
+		// location = this.determineLocation(event);
+		// target = (SectionInfo) determineTarget(event);
+		// target = target == null ? root : target;
+		//
+		// super.drop(event);
+		// }
+		// });
+		//
+		// viewer.addDragSupport(operations, types, new DragSourceListener() {
+		//
+		// @Override
+		// public void dragStart(DragSourceEvent event) {
+		//
+		// IStructuredSelection selection = (IStructuredSelection) viewer
+		// .getSelection();
+		//
+		// dragSection = (SectionInfo) selection.getFirstElement();
+		//
+		// event.doit = dragSection != root;
+		//
+		// // TreeSelection
+		//
+		// }
+		//
+		// @Override
+		// public void dragSetData(DragSourceEvent event) {
+		//
+		// if (TextTransfer.getInstance().isSupportedType(event.dataType)) {
+		// event.data = dragSection.id.toString();
+		// }
+		// }
+		//
+		// @Override
+		// public void dragFinished(DragSourceEvent event) {
+		// // System.out.println("Finshed Drag");
+		//
+		// }
+		// });
+	}
+
 }

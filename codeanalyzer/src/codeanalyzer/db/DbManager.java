@@ -1,4 +1,4 @@
-package codeanalyzer.core.db;
+package codeanalyzer.db;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -14,8 +14,8 @@ import java.util.List;
 
 import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.db.interfaces.IDbManager;
-import codeanalyzer.core.db.model.BookInfo;
+import codeanalyzer.core.model.BookInfo;
+import codeanalyzer.db.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
 
@@ -77,30 +77,72 @@ public class DbManager implements IDbManager {
 	}
 
 	@Override
-	public List<BookInfo> getBooks() {
+	public List<BookInfo> getBooks(int parent) {
 
 		List<BookInfo> result = new ArrayList<BookInfo>();
-		BookInfo e = new BookInfo();
-		e.id = 1;
-		e.parent = 0;
-		e.title = "test";
-		e.isGroup = false;
-		e.path = "d://temp//book.h2.db";
-		result.add(e);
+		try {
+			Connection con = getConnection();
+			String SQL = "Select T.TITLE, T.ID, T.PARENT, T.GROUP, T.PATH FROM BOOKS AS T WHERE T.PARENT=? ORDER BY T.SORT, T.ID";
 
-		e = new BookInfo();
-		e.id = 2;
-		e.parent = 0;
-		e.title = "test2";
-		e.isGroup = true;
-		e.path = "";
-		result.add(e);
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, parent);
+			ResultSet rs = prep.executeQuery();
 
+			try {
+				while (rs.next()) {
+
+					BookInfo info = new BookInfo();
+					info.title = rs.getString(1);
+					info.id = rs.getInt(2);
+					info.parent = rs.getInt(3);
+					info.isGroup = rs.getBoolean(4);
+					info.path = rs.getString(5);
+
+					result.add(info);
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 
 	@Override
+	public void addBooksGroup(String title, BookInfo current, boolean sub) {
+
+		BookInfo data = new BookInfo();
+		data.title = title;
+		if (current == null)
+			data.parent = 0;
+		else if (current.isGroup)
+			data.parent = sub ? current.id : current.parent;
+		else
+			data.parent = current.parent;
+		data.isGroup = true;
+		data.path = "";
+		addBook(data);
+
+	}
+
+	@Override
 	public void addBook(CurrentBookInfo book, BookInfo current) {
+
+		BookInfo data = new BookInfo();
+		data.title = book.getName();
+		if (current == null)
+			data.parent = 0;
+		else if (current.isGroup)
+			data.parent = current.id;
+		else
+			data.parent = current.parent;
+		data.isGroup = false;
+		data.path = book.getFullName();
+		addBook(data);
+	}
+
+	private void addBook(BookInfo data) {
 
 		BookInfo added = null;
 		try {
@@ -126,17 +168,11 @@ public class DbManager implements IDbManager {
 			SQL = "INSERT INTO BOOKS (TITLE, PARENT, ISGROUP, SORT, PATH) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-			prep.setString(1, book.getName());
-			if (current == null)
-				prep.setInt(2, 0);
-			else if (current.isGroup)
-				prep.setInt(2, current.id);
-			else
-				prep.setInt(2, current.parent);
-
-			prep.setBoolean(3, false);
+			prep.setString(1, data.title);
+			prep.setInt(2, data.parent);
+			prep.setBoolean(3, data.isGroup);
 			prep.setInt(4, sort);
-			prep.setString(5, book.getFullName());
+			prep.setString(5, data.path);
 
 			ResultSet generatedKeys = null;
 			try {
@@ -147,37 +183,56 @@ public class DbManager implements IDbManager {
 				generatedKeys = prep.getGeneratedKeys();
 				if (generatedKeys.next()) {
 					added = new BookInfo();
-					// sec.title = book.getName();
 					added.id = generatedKeys.getInt(1);
-					// sec.parent = parent == null ? 0 : parent.id;
-					// sec.path
 				} else
 					throw new SQLException();
 			} finally {
 				generatedKeys.close();
 			}
 
-			// int affectedRows = prep.executeUpdate();
-			// if (affectedRows == 0)
-			// throw new SQLException();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
-				new EVENT_UPDATE_BOOK_LIST_DATA(book, current, added));
+				new EVENT_UPDATE_BOOK_LIST_DATA(data.parent, added));
 	}
 
-	private BookInfo getParent(BookInfo current) {
+	@Override
+	public void delete(BookInfo book) {
+
 		try {
 			Connection con = getConnection();
-			String SQL = "Select T1.TITLE, T1.ID, T1.PARENT, T1.BLOCK, T1.OPTIONS FROM SECTIONS AS T "
-					+ "INNER JOIN SECTIONS AS T1 ON T.PARENT = T1.ID "
-					+ "WHERE T.ID=?";
+
+			String SQL = "DELETE FROM BOOKS WHERE ID=?;";
+			PreparedStatement prep;
+
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, book.id);
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		BookInfo selected = getLast(book.parent);
+
+		AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
+				new EVENT_UPDATE_BOOK_LIST_DATA(book.parent, selected));
+
+	}
+
+	private BookInfo getLast(int parent) {
+		try {
+			Connection con = getConnection();
+			String SQL = "Select TOP 1 T.ID FROM BOOKS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC, T.ID DESC";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, current.id);
+			prep.setInt(1, parent);
 			ResultSet rs = prep.executeQuery();
 
 			try {
@@ -198,4 +253,57 @@ public class DbManager implements IDbManager {
 		}
 		return null;
 	}
+
+	@Override
+	public void saveTitle(BookInfo book) {
+		try {
+			// SectionInfo parent = getParent(section);
+
+			Connection con = getConnection();
+			String SQL = "UPDATE BOOKS SET TITLE=? WHERE ID=?;";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, book.title);
+			prep.setInt(2, book.id);
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			// AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
+			// new EVENT_UPDATE_BOOK_LIST_DATA(book.parent, book));
+
+			// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
+			// new EVENT_UPDATE_VIEW_DATA(book, section, true));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public boolean hasChildren(int parent) {
+		try {
+			Connection con = getConnection();
+			String SQL = "Select COUNT(ID) from BOOKS WHERE PARENT=?";
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, parent);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next())
+					return rs.getInt(1) != 0;
+				else
+					return false;
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

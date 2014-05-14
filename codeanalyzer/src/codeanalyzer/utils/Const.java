@@ -6,7 +6,7 @@ import java.util.Date;
 
 import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
-import codeanalyzer.core.db.model.BookInfo;
+import codeanalyzer.core.model.BookInfo;
 
 public class Const {
 
@@ -196,6 +196,7 @@ public class Const {
 	public static final String EVENT_SET_SECTIONVIEW_DIRTY = "EVENT_SET_SECTIONVIEW_DIRTY";
 	public static final String CONTEXT_ACTIVE_VIEW_SECTION = "CONTEXT_ACTIVE_VIEW_SECTION";
 	public static final String EVENT_UPDATE_SECTION_BLOCK_VIEW = "EVENT_UPDATE_SECTION_BLOCK_VIEW";
+	public static final String EVENT_EDIT_TITLE_BOOK_LIST = "EVENT_EDIT_TITLE_BOOK_LIST";
 
 	// public static final String CONTENT_SECTION_SELECTED =
 	// "CONTENT_SECTION_SELECTED";
@@ -236,16 +237,15 @@ public class Const {
 
 	public static class EVENT_UPDATE_BOOK_LIST_DATA {
 
-		public EVENT_UPDATE_BOOK_LIST_DATA(CurrentBookInfo book,
-				BookInfo parent, BookInfo selected) {
+		public EVENT_UPDATE_BOOK_LIST_DATA(Integer parent, BookInfo selected) {
 			super();
-			this.book = book;
+			// this.book = book;
 			this.parent = parent;
 			this.selected = selected;
 		}
 
-		public CurrentBookInfo book;
-		public BookInfo parent;
+		// public CurrentBookInfo book;
+		public Integer parent;
 		public BookInfo selected;
 
 	}

@@ -41,7 +41,7 @@ import org.osgi.service.event.EventHandler;
 import codeanalyzer.auth.interfaces.IAuthorize;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.services.FillProcLinkTableJob;
-import codeanalyzer.core.db.interfaces.IDbManager;
+import codeanalyzer.db.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;

@@ -1,4 +1,4 @@
-package codeanalyzer.core.db.model;
+package codeanalyzer.core.model;
 
 public class BookInfo {
 

@@ -11,7 +11,7 @@ import codeanalyzer.cf.CfManager;
 import codeanalyzer.cf.LoaderManager;
 import codeanalyzer.cf.services.CfServices;
 import codeanalyzer.cf.services.TextParser;
-import codeanalyzer.core.db.DbManager;
+import codeanalyzer.db.DbManager;
 import codeanalyzer.views.books.SectionComposite;
 
 public final class pico {

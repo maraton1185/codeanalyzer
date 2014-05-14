@@ -86,6 +86,7 @@
   <handlers xmi:id="_oqkk8J4WEeOx3LwFmv1Qcw" elementId="codeanalyzer.handler.6" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.config.SetNonActive" command="_1TFaEJ4VEeOx3LwFmv1Qcw"/>
   <handlers xmi:id="_rR19MJ6aEeORdqnZrqq27Q" elementId="codeanalyzer.handler.7" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.Options" command="_irP60J6aEeORdqnZrqq27Q"/>
   <handlers xmi:id="_mi3mQKhWEeOKceOp7VW7lQ" elementId="codeanalyzer.handler.8" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.Add" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
+  <handlers xmi:id="_n2q4oNtoEeO08YnUrs_6Pw" elementId="codeanalyzer.handler.23" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.AddGroup" command="_fOlogNtoEeO08YnUrs_6Pw"/>
   <handlers xmi:id="_Fgr-sKkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.9" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.main.NewObjectTreeHandler" command="_XybQsKkaEeOctbxZaJIj4Q"/>
   <handlers xmi:id="_jTSr0KkaEeOctbxZaJIj4Q" elementId="codeanalyzer.handler.10" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.Open" command="_SMVncKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_9KZXMKnfEeOFWZN9IXa3MA" elementId="codeanalyzer.handler.11" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.Save" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
@@ -100,6 +101,9 @@
   <handlers xmi:id="__Qv_0NRJEeOFfdAek_eJEQ" elementId="codeanalyzer.handler.20" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.section.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
   <handlers xmi:id="_O_EgUNTuEeOV85RCT5V8vQ" elementId="codeanalyzer.handler.21" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.section.AddPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
   <handlers xmi:id="_b-FiUNXcEeOaVPXyFpV1rg" elementId="codeanalyzer.handler.22" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.section.Save" command="_Zz8mANXcEeOaVPXyFpV1rg"/>
+  <handlers xmi:id="_C-H8MNtrEeO08YnUrs_6Pw" elementId="codeanalyzer.handler.24" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.AddSubGroup" command="_-33RcNtqEeO08YnUrs_6Pw"/>
+  <handlers xmi:id="_hodikNtrEeO08YnUrs_6Pw" elementId="codeanalyzer.handler.25" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.Delete" command="_as2bUNtrEeO08YnUrs_6Pw"/>
+  <handlers xmi:id="_kRvR8NtrEeO08YnUrs_6Pw" elementId="codeanalyzer.handler.26" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.books.book.EditTitle" command="_W2YgENtrEeO08YnUrs_6Pw"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="codeanalyzer.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_tNGXkKngEeOFWZN9IXa3MA" elementId="codeanalyzer.keybinding.0" keySequence="M1+O" command="_SMVncKhVEeOKceOp7VW7lQ">
       <tags>type:user</tags>
@@ -204,7 +208,11 @@
   <commands xmi:id="_1TFaEJ4VEeOx3LwFmv1Qcw" elementId="codeanalyzer.command.ConfigListSetNonActive" commandName="Конфигурация - Установить для сравнения"/>
   <commands xmi:id="_irP60J6aEeORdqnZrqq27Q" elementId="codeanalyzer.command.Options" commandName="Сервис - Параметры"/>
   <commands xmi:id="_NJAQcKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.command.AddBook" commandName="Файл - Создать книгу"/>
+  <commands xmi:id="_fOlogNtoEeO08YnUrs_6Pw" elementId="codeanalyzer.command.AddBooksGroup" commandName="Файл - Создать группу книг"/>
+  <commands xmi:id="_-33RcNtqEeO08YnUrs_6Pw" elementId="codeanalyzer.command.AddBooksSubGroup" commandName="Файл - Создать подгруппу книг"/>
+  <commands xmi:id="_W2YgENtrEeO08YnUrs_6Pw" elementId="codeanalyzer.command.EditBookTitle" commandName="Файл - Редактировать название книги"/>
   <commands xmi:id="_SMVncKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.command.OpenBook" commandName="Файл - Открыть книгу"/>
+  <commands xmi:id="_as2bUNtrEeO08YnUrs_6Pw" elementId="codeanalyzer.command.5" commandName="Файл - Удалить книгу"/>
   <commands xmi:id="_jdrzcKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.command.Save" commandName="Файл - Сохранить" description="Файл - Сохранить"/>
   <commands xmi:id="_mvAaQKhVEeOKceOp7VW7lQ" elementId="codeanalyzer.command.SaveAs" commandName="Файл - Сохранить как"/>
   <commands xmi:id="_XybQsKkaEeOctbxZaJIj4Q" elementId="codeanalyzer.command.NewObjectTree" commandName="Открыть дерево объектов"/>

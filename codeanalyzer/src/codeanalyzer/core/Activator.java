@@ -11,6 +11,7 @@ import org.osgi.framework.BundleContext;
 
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICfManager;
+import codeanalyzer.db.interfaces.IDbManager;
 
 public class Activator implements BundleActivator {
 
@@ -25,6 +26,7 @@ public class Activator implements BundleActivator {
 		pico.get(ICfManager.class).init();
 
 		ctx.set(IBookManager.class, pico.get(IBookManager.class));
+		ctx.set(IDbManager.class, pico.get(IDbManager.class));
 
 		bundle = this;
 

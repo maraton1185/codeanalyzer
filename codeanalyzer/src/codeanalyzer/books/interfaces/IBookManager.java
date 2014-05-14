@@ -7,7 +7,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.books.book.CurrentBookInfo;
-import codeanalyzer.core.db.model.BookInfo;
+import codeanalyzer.core.model.BookInfo;
 
 public interface IBookManager {
 
@@ -21,7 +21,5 @@ public interface IBookManager {
 	void openBook(CurrentBookInfo book, Shell shell);
 
 	boolean saveBook(CurrentBookInfo book, Shell shell);
-
-	// BookSectionsService sections();
 
 }

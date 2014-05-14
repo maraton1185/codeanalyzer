@@ -1,4 +1,4 @@
-package codeanalyzer.core.db;
+package codeanalyzer.db;
 
 import java.io.FileNotFoundException;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package codeanalyzer.db.services;
+package codeanalyzer.cf.services;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,8 +13,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import codeanalyzer.cf.interfaces.ICfServices;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IDbServices;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.core.interfaces.ITextParser.Entity;
 import codeanalyzer.core.interfaces.ITextParser.ProcCall;
@@ -25,7 +25,7 @@ public class LoaderService {
 
 	ITextParser parser = pico.get(ITextParser.class);
 
-	IDbServices service = pico.get(IDbServices.class);
+	ICfServices service = pico.get(ICfServices.class);
 
 	public void loadTxtModuleFile(Connection con, File f)
 			throws InvocationTargetException {

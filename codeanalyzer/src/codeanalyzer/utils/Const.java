@@ -4,8 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
+import codeanalyzer.core.db.model.BookInfo;
 
 public class Const {
 
@@ -39,6 +40,7 @@ public class Const {
 	public static final int DEFAULT_FREE_FILES_COUNT = 50;
 	public static final String DB1 = "db1";
 	public static final String DB2 = "db2";
+	public static final String SYSTEM_DB_NAME = "db";
 
 	/**
 	 * возвращает текущую версия строкой
@@ -202,8 +204,8 @@ public class Const {
 
 	public static class EVENT_UPDATE_VIEW_DATA {
 
-		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				SectionInfo parent, SectionInfo selected) {
+		public EVENT_UPDATE_VIEW_DATA(CurrentBookInfo book, SectionInfo parent,
+				SectionInfo selected) {
 			super();
 			this.book = book;
 			this.parent = parent;
@@ -211,20 +213,20 @@ public class Const {
 			onlySectionView = false;
 		}
 
-		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				SectionInfo parent, SectionInfo selected, boolean setBook) {
+		public EVENT_UPDATE_VIEW_DATA(CurrentBookInfo book, SectionInfo parent,
+				SectionInfo selected, boolean setBook) {
 			this(book, parent, selected);
 			this.setBook = setBook;
 		}
 
-		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				SectionInfo parent, boolean onlySectionView) {
+		public EVENT_UPDATE_VIEW_DATA(CurrentBookInfo book, SectionInfo parent,
+				boolean onlySectionView) {
 			this.book = book;
 			this.parent = parent;
 			this.onlySectionView = onlySectionView;
 		}
 
-		public BookInfo book;
+		public CurrentBookInfo book;
 		public SectionInfo parent;
 		public SectionInfo selected;
 		public boolean setBook;
@@ -232,30 +234,20 @@ public class Const {
 
 	}
 
-	// public static class EVENT_DELETE_SECTION_DATA {
-	//
-	// public EVENT_DELETE_SECTION_DATA(BookInfo book, BookSection parent) {
-	// super();
-	// this.book = book;
-	// this.parent = parent;
-	// }
-	//
-	// public BookInfo book;
-	// public BookSection parent;
-	//
-	// }
-	// public static final String EVENT_SET_FONT_CONTENT_VIEW =
-	// "EVENT_SET_FONT_CONTENT_VIEW";
-	// public static class EVENT_SET_FONT_CONTENT_VIEW_DATA {
-	//
-	// public EVENT_SET_FONT_CONTENT_VIEW_DATA(FontData newFont, RGB rgb) {
-	// this.newFont = newFont;
-	// this.rgb = rgb;
-	// }
-	//
-	// public FontData newFont;
-	// public RGB rgb;
-	//
-	// }
+	public static class EVENT_UPDATE_BOOK_LIST_DATA {
+
+		public EVENT_UPDATE_BOOK_LIST_DATA(CurrentBookInfo book,
+				BookInfo parent, BookInfo selected) {
+			super();
+			this.book = book;
+			this.parent = parent;
+			this.selected = selected;
+		}
+
+		public CurrentBookInfo book;
+		public BookInfo parent;
+		public BookInfo selected;
+
+	}
 
 }

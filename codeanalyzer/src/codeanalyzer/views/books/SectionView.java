@@ -20,7 +20,7 @@ import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
@@ -41,7 +41,7 @@ public class SectionView {
 
 	@Inject
 	@Active
-	BookInfo book;
+	CurrentBookInfo book;
 
 	SectionInfo section;
 	MPart part;

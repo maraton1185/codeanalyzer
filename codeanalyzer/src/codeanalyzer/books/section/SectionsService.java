@@ -20,7 +20,7 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
@@ -28,7 +28,7 @@ import codeanalyzer.utils.Strings;
 
 public class SectionsService {
 
-	private BookInfo book = new BookInfo();
+	private CurrentBookInfo book = new CurrentBookInfo();
 
 	private SectionInfo getSection(ResultSet rs) throws SQLException {
 
@@ -41,7 +41,7 @@ public class SectionsService {
 		return sec;
 	}
 
-	public void setBook(BookInfo book) throws IllegalAccessException {
+	public void setBook(CurrentBookInfo book) throws IllegalAccessException {
 		this.book = book;
 		try {
 			book.openConnection();

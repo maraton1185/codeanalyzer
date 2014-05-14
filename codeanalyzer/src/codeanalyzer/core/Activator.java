@@ -9,8 +9,8 @@ import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import codeanalyzer.core.interfaces.IBookManager;
-import codeanalyzer.core.interfaces.IDbManager;
+import codeanalyzer.books.interfaces.IBookManager;
+import codeanalyzer.cf.interfaces.ICfManager;
 
 public class Activator implements BundleActivator {
 
@@ -21,8 +21,8 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 
 		IEclipseContext ctx = E4Workbench.getServiceContext();
-		ctx.set(IDbManager.class, pico.get(IDbManager.class));
-		pico.get(IDbManager.class).init();
+		ctx.set(ICfManager.class, pico.get(ICfManager.class));
+		pico.get(ICfManager.class).init();
 
 		ctx.set(IBookManager.class, pico.get(IBookManager.class));
 

@@ -1,4 +1,4 @@
-package codeanalyzer.db.services;
+package codeanalyzer.cf.services;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -8,12 +8,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ILoaderManager;
+import codeanalyzer.cf.interfaces.ICf.DbState;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.exceptions.LinksExistsException;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDb.DbState;
-import codeanalyzer.core.interfaces.ILoaderManager;
 import codeanalyzer.utils.Const;
 
 public class FillProcLinkTableJob extends Job {
@@ -40,11 +40,11 @@ public class FillProcLinkTableJob extends Job {
 
 	// private String family;
 
-	private IDb db;
+	private ICf db;
 
 	// private Shell shell;
 
-	public FillProcLinkTableJob(IDb db) {
+	public FillProcLinkTableJob(ICf db) {
 		super(db.getName());
 		// this.family = family;
 		this.db = db;

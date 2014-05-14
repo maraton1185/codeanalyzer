@@ -25,9 +25,9 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
+import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.views.main.ConfigsView;
 
 public abstract class Utils {
@@ -136,8 +136,8 @@ public abstract class Utils {
 
 	public static void fillBooks(Composite sectionClient, FormToolkit toolkit,
 			final Shell shell, HyperlinkAdapter handler) {
-		List<BookInfo> bl = pico.get(IBookManager.class).getBooks();
-		for (BookInfo book : bl) {
+		List<CurrentBookInfo> bl = pico.get(IBookManager.class).getBooks();
+		for (CurrentBookInfo book : bl) {
 			ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
 					SWT.WRAP);
 			link.setUnderlined(false);

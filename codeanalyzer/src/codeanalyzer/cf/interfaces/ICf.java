@@ -1,14 +1,14 @@
-package codeanalyzer.core.interfaces;
+package codeanalyzer.cf.interfaces;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.eclipse.core.runtime.IPath;
 
-import codeanalyzer.core.interfaces.ILoaderManager.operationType;
-import codeanalyzer.db.DbInfo.SQLConnection;
+import codeanalyzer.cf.CfInfo.SQLConnection;
+import codeanalyzer.cf.interfaces.ILoaderManager.operationType;
 
-public interface IDb {
+public interface ICf {
 
 	public static enum DbState {
 		notLoaded, Loaded

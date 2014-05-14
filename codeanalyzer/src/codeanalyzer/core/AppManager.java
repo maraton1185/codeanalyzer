@@ -26,6 +26,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
@@ -37,9 +38,10 @@ import org.eclipse.swt.widgets.TrayItem;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import codeanalyzer.core.interfaces.IAuthorize;
-import codeanalyzer.core.interfaces.IBookManager;
-import codeanalyzer.db.services.FillProcLinkTableJob;
+import codeanalyzer.auth.interfaces.IAuthorize;
+import codeanalyzer.books.interfaces.IBookManager;
+import codeanalyzer.cf.services.FillProcLinkTableJob;
+import codeanalyzer.core.db.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
@@ -90,6 +92,16 @@ public class AppManager {
 
 		br.subscribe(Const.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
+		try {
+			pico.get(IDbManager.class).init();
+		} catch (Exception e) {
+			Shell shell = (Shell) window.getWidget();
+			MessageDialog.openError(shell, Strings.get("appTitle"),
+					Strings.get("error.initDb"));
+			// IWorkbench workbench = window.getContext().get(IWorkbench.class);
+			// workbench.close();
+			e.printStackTrace();
+		}
 	}
 
 	private static class AppStartupCompleteEventHandler implements EventHandler {

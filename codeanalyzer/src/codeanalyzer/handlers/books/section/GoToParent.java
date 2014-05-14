@@ -10,7 +10,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
@@ -21,7 +21,7 @@ import codeanalyzer.utils.Utils;
 public class GoToParent {
 	@Execute
 	public void execute(
-			BookInfo book,
+			CurrentBookInfo book,
 			@Active MWindow window,
 			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section,
 			ECommandService cs, EHandlerService hs) {

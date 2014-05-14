@@ -7,8 +7,8 @@ import java.util.Date;
 
 import org.osgi.service.prefs.Preferences;
 
+import codeanalyzer.auth.interfaces.IAuthorize;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;

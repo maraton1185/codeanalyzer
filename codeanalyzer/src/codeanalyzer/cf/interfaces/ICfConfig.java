@@ -1,6 +1,6 @@
-package codeanalyzer.core.interfaces;
+package codeanalyzer.cf.interfaces;
 
-public interface ICf {
+public interface ICfConfig {
 
 	public enum EType {
 

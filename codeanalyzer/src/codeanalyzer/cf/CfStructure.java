@@ -1,4 +1,4 @@
-package codeanalyzer.db.services;
+package codeanalyzer.cf;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,19 +8,19 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
+import codeanalyzer.cf.interfaces.ICf;
 import codeanalyzer.core.exceptions.DbStructureException;
-import codeanalyzer.core.interfaces.IDb;
+import codeanalyzer.core.interfaces.IDbStructure;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Utils;
 
-public class DbStructure {
+public class CfStructure implements IDbStructure {
 
-	public void createStructure(IDb db) throws InstantiationException,
+	public void createStructure(ICf db) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException {
 		IPath path = db.getDbPath();
 		if (!path.isValidPath(path.toString()))
@@ -98,28 +98,28 @@ public class DbStructure {
 
 	}
 
-	public void checkSructure(IDb db) throws FileNotFoundException,
+	public void checkSructure(ICf db) throws FileNotFoundException,
 			DbStructureException, SQLException {
 
-		final class checker {
-			boolean checkColumns(DatabaseMetaData metadata, String table,
-					String str_columns) throws SQLException {
-				String[] clmns = str_columns.split(",");
-
-				List<String> columns = new ArrayList<String>();
-				ResultSet rs = metadata.getColumns(null, null, table, "%");
-				while (rs.next())
-					columns.add(rs.getString("COLUMN_NAME"));
-				rs.close();
-
-				boolean haveColumns = clmns.length != 0;
-				for (String clmn : clmns) {
-					haveColumns = haveColumns && columns.contains(clmn.trim());
-				}
-
-				return haveColumns;
-			}
-		}
+		// final class checker {
+		// boolean checkColumns(DatabaseMetaData metadata, String table,
+		// String str_columns) throws SQLException {
+		// String[] clmns = str_columns.split(",");
+		//
+		// List<String> columns = new ArrayList<String>();
+		// ResultSet rs = metadata.getColumns(null, null, table, "%");
+		// while (rs.next())
+		// columns.add(rs.getString("COLUMN_NAME"));
+		// rs.close();
+		//
+		// boolean haveColumns = clmns.length != 0;
+		// for (String clmn : clmns) {
+		// haveColumns = haveColumns && columns.contains(clmn.trim());
+		// }
+		//
+		// return haveColumns;
+		// }
+		// }
 
 		IPath path = db.getDbPath();
 
@@ -133,7 +133,7 @@ public class DbStructure {
 
 			DatabaseMetaData metadata = con.getMetaData();
 
-			checker ch = new checker();
+			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "OBJECTS",
 					"GROUP1, GROUP2, MODULE, TYPE, TAG")
 					&& ch.checkColumns(metadata, "PROCS",
@@ -158,7 +158,7 @@ public class DbStructure {
 
 	}
 
-	public boolean checkLisence(IDb db) throws FileNotFoundException,
+	public boolean checkLisence(ICf db) throws FileNotFoundException,
 			SQLException {
 		IPath path = db.getDbPath();
 		if (!path.isValidPath(path.toString()))

@@ -1,4 +1,4 @@
-package codeanalyzer.db.services;
+package codeanalyzer.cf.services;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import codeanalyzer.cf.interfaces.ICfConfig.EContext;
+import codeanalyzer.cf.interfaces.ICfConfig.EType;
 import codeanalyzer.core.exceptions.ProcNotFoundException;
-import codeanalyzer.core.interfaces.ICf.EContext;
-import codeanalyzer.core.interfaces.ICf.EType;
 import codeanalyzer.core.interfaces.ITextParser;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;

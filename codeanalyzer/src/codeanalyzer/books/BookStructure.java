@@ -4,21 +4,20 @@ import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.core.exceptions.DbStructureException;
+import codeanalyzer.core.interfaces.IDbStructure;
+import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Strings;
 
-public class BookStructure {
+public class BookStructure implements IDbStructure {
 
-	public void createStructure(Connection con, BookInfo db)
+	public void createStructure(Connection con, CurrentBookInfo db)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException, SQLException {
 		IPath path = db.getPath();
@@ -85,28 +84,8 @@ public class BookStructure {
 
 	}
 
-	public void checkSructure(Connection con, BookInfo db)
+	public void checkSructure(Connection con, CurrentBookInfo db)
 			throws DbStructureException, SQLException, FileNotFoundException {
-
-		final class checker {
-			boolean checkColumns(DatabaseMetaData metadata, String table,
-					String str_columns) throws SQLException {
-				String[] clmns = str_columns.split(",");
-
-				List<String> columns = new ArrayList<String>();
-				ResultSet rs = metadata.getColumns(null, null, table, "%");
-				while (rs.next())
-					columns.add(rs.getString("COLUMN_NAME"));
-				rs.close();
-
-				boolean haveColumns = clmns.length != 0;
-				for (String clmn : clmns) {
-					haveColumns = haveColumns && columns.contains(clmn.trim());
-				}
-
-				return haveColumns;
-			}
-		}
 
 		IPath path = db.getPath();
 
@@ -120,7 +99,7 @@ public class BookStructure {
 
 		DatabaseMetaData metadata = con.getMetaData();
 
-		checker ch = new checker();
+		DbStructureChecker ch = new DbStructureChecker();
 		haveStructure = ch.checkColumns(metadata, "INFO",
 				"DESCRIPTION, SELECTED_SECTION, EDIT_MODE")
 				&& ch.checkColumns(metadata, "SECTIONS",

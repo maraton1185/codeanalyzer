@@ -28,17 +28,17 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ICfManager;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
 public class ConfigsView {
 
-	IDbManager dbMng = pico.get(IDbManager.class);
+	ICfManager dbMng = pico.get(ICfManager.class);
 
 	private final Image ACTIVE = Utils.getImage("active.png");
 	private final Image NONACTIVE = Utils.getImage("nonactive.png");
@@ -100,10 +100,10 @@ public class ConfigsView {
 						.getSelection();
 				Object selected = selection.getFirstElement();
 				if (selected != null) {
-					IDb db = (IDb) selection.getFirstElement();
-					AppManager.ctx.set(IDb.class, db);
+					ICf db = (ICf) selection.getFirstElement();
+					AppManager.ctx.set(ICf.class, db);
 				} else
-					AppManager.ctx.set(IDb.class, null);
+					AppManager.ctx.set(ICf.class, null);
 			}
 		});
 
@@ -133,10 +133,10 @@ public class ConfigsView {
 
 			@Override
 			public Image getImage(Object element) {
-				if (dbMng.getActive() == (IDb) element) {
+				if (dbMng.getActive() == (ICf) element) {
 					return ACTIVE;
 				}
-				if (dbMng.getNonActive() == (IDb) element) {
+				if (dbMng.getNonActive() == (ICf) element) {
 					return NONACTIVE;
 				}
 				return null;
@@ -152,7 +152,7 @@ public class ConfigsView {
 			@Override
 			public String getText(Object element) {
 				// Person p =
-				return ((IDb) element).getName();// status();
+				return ((ICf) element).getName();// status();
 			}
 		});
 
@@ -169,7 +169,7 @@ public class ConfigsView {
 
 			@Override
 			public Image getImage(Object element) {
-				IDb info = (IDb) element;
+				ICf info = (ICf) element;
 				switch (info.getState()) {
 				case Loaded:
 					switch (info.getLinkState()) {

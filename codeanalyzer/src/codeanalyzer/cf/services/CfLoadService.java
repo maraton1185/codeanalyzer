@@ -1,4 +1,4 @@
-package codeanalyzer.db.services;
+package codeanalyzer.cf.services;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -15,7 +15,7 @@ import codeanalyzer.core.interfaces.ITextParser.ProcCall;
 import codeanalyzer.core.interfaces.ITextParser.procEntity;
 import codeanalyzer.utils.AesCrypt;
 
-public class DbLoadService {
+public class CfLoadService {
 
 	ITextParser parser = pico.get(ITextParser.class);
 

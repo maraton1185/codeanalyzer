@@ -8,14 +8,14 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Const;
 
 public class AddBlock {
 	@Execute
 	public void execute(
-			BookInfo book,
+			CurrentBookInfo book,
 			@Active MPart part,
 			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 

@@ -1,14 +1,14 @@
-package codeanalyzer.db;
+package codeanalyzer.cf;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import org.eclipse.core.runtime.Path;
 
-import codeanalyzer.core.interfaces.ILoaderManager.operationType;
+import codeanalyzer.cf.interfaces.ILoaderManager.operationType;
 import codeanalyzer.utils.PreferenceSupplier;
 
-public class DbInfo implements Serializable {
+public class CfInfo implements Serializable {
 
 	public String name;
 	public operationType type;
@@ -92,7 +92,7 @@ public class DbInfo implements Serializable {
 		return result;
 	}
 
-	public DbInfo() {
+	public CfInfo() {
 		super();
 		for (Field f : this.getClass().getFields()) {
 			try {

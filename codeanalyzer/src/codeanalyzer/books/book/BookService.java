@@ -20,7 +20,7 @@ public class BookService {
 		return null;
 	}
 
-	public void getData(Connection con, BookInfo info) throws SQLException {
+	public void getData(Connection con, CurrentBookInfo info) throws SQLException {
 		String SQL = "Select TOP 1 T.DESCRIPTION, T.EDIT_MODE FROM INFO AS T";
 		Statement stat = con.createStatement();
 		ResultSet rs = stat.executeQuery(SQL);
@@ -37,7 +37,7 @@ public class BookService {
 		}
 	}
 
-	public void setData(Connection con, BookInfo info) throws SQLException {
+	public void setData(Connection con, CurrentBookInfo info) throws SQLException {
 
 		String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
 		Statement stat = con.createStatement();

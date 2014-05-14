@@ -18,7 +18,7 @@ import codeanalyzer.core.models.ModelObject;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
 
-public class BookInfo extends ModelObject {
+public class CurrentBookInfo extends ModelObject {
 
 	SectionsService bookSections;
 
@@ -30,9 +30,12 @@ public class BookInfo extends ModelObject {
 		return bookSections;
 	}
 
+	public boolean isGroup;
+
 	private String name;
 
 	private String description = "";
+
 	private boolean opened = false;
 	private boolean editMode = false;
 	private boolean viewMode = false;

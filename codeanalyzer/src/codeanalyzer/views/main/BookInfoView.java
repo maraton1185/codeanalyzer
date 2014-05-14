@@ -31,9 +31,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
+import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 
@@ -60,7 +60,7 @@ public class BookInfoView {
 	@Optional
 	public void EVENT_UPDATE_BOOK_INFO(
 			@UIEventTopic(Const.EVENT_UPDATE_BOOK_INFO) Object o,
-			@Optional BookInfo book, IBookManager bm, final EHandlerService hs,
+			@Optional CurrentBookInfo book, IBookManager bm, final EHandlerService hs,
 			final ECommandService cs) {
 		if (book == null) {
 			title.setText(Strings.get("bookInfoViewTitle"));
@@ -81,7 +81,7 @@ public class BookInfoView {
 	}
 
 	@Persist
-	public void save(@Optional BookInfo book, IBookManager bm, Shell shell) {
+	public void save(@Optional CurrentBookInfo book, IBookManager bm, Shell shell) {
 		if (book == null)
 			return;
 
@@ -155,24 +155,24 @@ public class BookInfoView {
 		target = WidgetProperties.enabled().observe(desc_text);
 		target1 = WidgetProperties.enabled().observe(radio1);
 		target2 = WidgetProperties.enabled().observe(radio2);
-		model = BeanProperties.value(BookInfo.class, "opened").observeDetail(
+		model = BeanProperties.value(CurrentBookInfo.class, "opened").observeDetail(
 				bookValue);
 		ctx.bindValue(target, model);
 		ctx.bindValue(target1, model);
 		ctx.bindValue(target2, model);
 
 		target = WidgetProperties.selection().observe(radio1);
-		model = BeanProperties.value(BookInfo.class, "viewMode").observeDetail(
+		model = BeanProperties.value(CurrentBookInfo.class, "viewMode").observeDetail(
 				bookValue);
 		ctx.bindValue(target, model);
 
 		target = WidgetProperties.selection().observe(radio2);
-		model = BeanProperties.value(BookInfo.class, "editMode").observeDetail(
+		model = BeanProperties.value(CurrentBookInfo.class, "editMode").observeDetail(
 				bookValue);
 		ctx.bindValue(target, model);
 
 		target = WidgetProperties.text(SWT.Modify).observe(desc_text);
-		model = BeanProperties.value(BookInfo.class, "description")
+		model = BeanProperties.value(CurrentBookInfo.class, "description")
 				.observeDetail(bookValue);
 		ctx.bindValue(target, model);
 
@@ -181,7 +181,7 @@ public class BookInfoView {
 			b.getTarget().addChangeListener(listener);
 		}
 
-		bookValue.setValue(new BookInfo());
+		bookValue.setValue(new CurrentBookInfo());
 
 		dirty.setDirty(false);
 

@@ -9,7 +9,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
@@ -19,7 +19,7 @@ public class AddPicture {
 	@Execute
 	public void execute(
 			Shell shell,
-			BookInfo book,
+			CurrentBookInfo book,
 			@Active @Named(Const.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		IPath p = Utils.browseFile(book.getPath(), shell,

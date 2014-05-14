@@ -1,4 +1,4 @@
-package codeanalyzer.db;
+package codeanalyzer.cf;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -18,26 +18,26 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ICfManager;
+import codeanalyzer.cf.interfaces.ILoaderManager;
+import codeanalyzer.cf.interfaces.ICf.DbState;
+import codeanalyzer.cf.interfaces.ILoaderManager.operationType;
+import codeanalyzer.cf.services.FillProcLinkTableJob;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDb.DbState;
-import codeanalyzer.core.interfaces.IDbManager;
-import codeanalyzer.core.interfaces.ILoaderManager;
-import codeanalyzer.core.interfaces.ILoaderManager.operationType;
-import codeanalyzer.db.services.FillProcLinkTableJob;
 import codeanalyzer.tools.ProgressControl;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
-public class DbManager implements IDbManager {
+public class CfManager implements ICfManager {
 
 	ILoaderManager loaderManager = pico.get(ILoaderManager.class);
 
-	List<IDb> dbs = new ArrayList<IDb>();
-	IDb active;
-	IDb nonActive;
+	List<ICf> dbs = new ArrayList<ICf>();
+	ICf active;
+	ICf nonActive;
 
 	HashMap<operationType, String> operationNames = new HashMap<operationType, String>();
 
@@ -63,7 +63,7 @@ public class DbManager implements IDbManager {
 		List<String> keys = PreferenceSupplier.getBaseList();
 
 		for (String key : keys) {
-			IDb db = pico.get(IDb.class);
+			ICf db = pico.get(ICf.class);
 			db.load(key);
 			dbs.add(db);
 
@@ -76,9 +76,9 @@ public class DbManager implements IDbManager {
 			executeInit(db);
 		}
 
-		Collections.sort(dbs, new Comparator<IDb>() {
+		Collections.sort(dbs, new Comparator<ICf>() {
 			@Override
-			public int compare(IDb db1, IDb db2) {
+			public int compare(ICf db1, ICf db2) {
 
 				return db1.getName().compareTo(db2.getName());
 			}
@@ -95,38 +95,38 @@ public class DbManager implements IDbManager {
 	}
 
 	@Override
-	public List<IDb> getList() {
+	public List<ICf> getList() {
 		return dbs;
 	}
 
 	@Override
-	public void add(IDb db) {
+	public void add(ICf db) {
 		dbs.add(db);
 
 	}
 
 	@Override
-	public void remove(IDb db) {
+	public void remove(ICf db) {
 		dbs.remove(db);
 	}
 
 	@Override
-	public IDb getActive() {
+	public ICf getActive() {
 		return active;
 	}
 
 	@Override
-	public IDb getNonActive() {
+	public ICf getNonActive() {
 		return nonActive;
 	}
 
 	@Override
-	public void setActive(IDb db) {
+	public void setActive(ICf db) {
 		active = db;
 	}
 
 	@Override
-	public void setNonActive(IDb db) {
+	public void setNonActive(ICf db) {
 		nonActive = db;
 	}
 
@@ -137,7 +137,7 @@ public class DbManager implements IDbManager {
 	}
 
 	@Override
-	public void execute(final IDb db, final Shell shell) {
+	public void execute(final ICf db, final Shell shell) {
 
 		switch (db.getType()) {
 		case fillProcLinkTable:
@@ -213,7 +213,7 @@ public class DbManager implements IDbManager {
 	}
 
 	@Override
-	public void executeInit(final IDb db) {
+	public void executeInit(final ICf db) {
 
 		if (!PreferenceSupplier.getBoolean(PreferenceSupplier.INIT_EXECUTION))
 			return;
@@ -238,7 +238,7 @@ public class DbManager implements IDbManager {
 
 	}
 
-	private void sheduleFillProcLinkTableJob(IDb db) {
+	private void sheduleFillProcLinkTableJob(ICf db) {
 
 		// setting the progress monitor
 		IJobManager manager = Job.getJobManager();

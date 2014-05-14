@@ -1,4 +1,4 @@
-package codeanalyzer.core.interfaces;
+package codeanalyzer.cf.interfaces;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -10,18 +10,18 @@ public interface ILoaderManager {
 		fromDb, fromDirectory, update, fromSQL, fillProcLinkTable
 	}
 
-	void loadFromDirectory(IDb db, IProgressMonitor monitor)
+	void loadFromDirectory(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException;
 
-	void loadFromDb(IDb db) throws InvocationTargetException;
+	void loadFromDb(ICf db) throws InvocationTargetException;
 
-	void fillProcLinkTable(IDb db, IProgressMonitor monitor)
+	void fillProcLinkTable(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException;
 
-	void update(IDb db, IProgressMonitor monitor)
+	void update(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException;
 
-	void loadFromSQL(IDb db, IProgressMonitor monitor)
+	void loadFromSQL(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException;
 
 }

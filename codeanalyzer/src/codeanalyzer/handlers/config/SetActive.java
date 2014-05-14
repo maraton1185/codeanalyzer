@@ -5,14 +5,14 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDbManager;
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ICfManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 
 public class SetActive {
 	@Execute
-	public void execute(IDb db, IEventBroker br, IDbManager dbm) {
+	public void execute(ICf db, IEventBroker br, ICfManager dbm) {
 		dbm.setActive(db);
 
 		PreferenceSupplier.set(PreferenceSupplier.BASE_ACTIVE, db.getId());
@@ -31,7 +31,7 @@ public class SetActive {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional IDb db) {
+	public boolean canExecute(@Optional ICf db) {
 		return db != null;
 	}
 

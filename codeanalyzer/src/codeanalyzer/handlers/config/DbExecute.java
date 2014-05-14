@@ -6,17 +6,17 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ICfManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDbManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 
 public class DbExecute {
 
 	@Execute
-	public void execute(IDb db, IDbManager dbManager, Shell shell,
-			IDbManager dbMng) {
+	public void execute(ICf db, ICfManager dbManager, Shell shell,
+			ICfManager dbMng) {
 
 		if (!MessageDialog.openConfirm(shell, Strings.get("appTitle"),
 				db.getName() + ": \n" + dbMng.getOperationName(db.getType())
@@ -31,7 +31,7 @@ public class DbExecute {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional IDb db) {
+	public boolean canExecute(@Optional ICf db) {
 		return db != null;
 	}
 

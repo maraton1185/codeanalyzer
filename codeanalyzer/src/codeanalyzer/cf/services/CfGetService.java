@@ -1,4 +1,4 @@
-package codeanalyzer.db.services;
+package codeanalyzer.cf.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import codeanalyzer.core.interfaces.ITextParser.procEntity;
 
-public class DbGetService {
+public class CfGetService {
 
 	public int getProcCount(Connection con) throws SQLException {
 

@@ -31,7 +31,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionImage;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.books.section.SectionOptions;
@@ -55,7 +55,7 @@ public class SectionComposite implements ISectionComposite {
 
 	FormToolkit toolkit;
 	ScrolledForm form;
-	BookInfo book;
+	CurrentBookInfo book;
 	SectionInfo section;
 	MDirtyable dirty;
 	boolean blockView;
@@ -65,7 +65,7 @@ public class SectionComposite implements ISectionComposite {
 
 	@Override
 	public void initSectionView(FormToolkit toolkit, ScrolledForm form,
-			BookInfo book, SectionInfo section) {
+			CurrentBookInfo book, SectionInfo section) {
 
 		this.toolkit = toolkit;
 		// this.body = body;
@@ -86,7 +86,7 @@ public class SectionComposite implements ISectionComposite {
 
 	@Override
 	public void initBlockView(FormToolkit toolkit, ScrolledForm form,
-			BookInfo book, SectionInfo section, MDirtyable dirty) {
+			CurrentBookInfo book, SectionInfo section, MDirtyable dirty) {
 
 		this.toolkit = toolkit;
 		this.form = form;

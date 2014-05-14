@@ -9,13 +9,15 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.interfaces.IBookManager;
-import codeanalyzer.core.interfaces.IDb;
+import codeanalyzer.books.interfaces.IBookManager;
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.core.db.model.BookInfo;
 import codeanalyzer.utils.Strings;
 
 public class Add {
 	@Execute
-	public void execute(@Optional IDb db, Shell shell, IBookManager bm) {
+	public void execute(@Optional ICf db, Shell shell, IBookManager bm,
+			@Optional BookInfo book) {
 
 		InputDialog dlg = new InputDialog(shell,
 				codeanalyzer.utils.Strings.get("appTitle"),
@@ -23,7 +25,7 @@ public class Add {
 						.replaceAll("[//\\:\\.]", "_"), null);
 		if (dlg.open() == Window.OK) {
 			try {
-				bm.addBook(dlg.getValue());
+				bm.addBook(dlg.getValue(), book);
 			} catch (InvocationTargetException e) {
 				MessageDialog
 						.openError(shell, Strings.get("appTitle"),

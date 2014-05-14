@@ -4,16 +4,16 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.books.section.SectionOptions;
 
 public interface ISectionComposite {
 
-	void initSectionView(FormToolkit toolkit, ScrolledForm form, BookInfo book,
+	void initSectionView(FormToolkit toolkit, ScrolledForm form, CurrentBookInfo book,
 			SectionInfo sec);
 
-	void initBlockView(FormToolkit toolkit, ScrolledForm form, BookInfo book,
+	void initBlockView(FormToolkit toolkit, ScrolledForm form, CurrentBookInfo book,
 			SectionInfo section, MDirtyable dirty);
 
 	void render();

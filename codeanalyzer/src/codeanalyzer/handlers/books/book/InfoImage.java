@@ -10,7 +10,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
@@ -18,7 +18,7 @@ import codeanalyzer.utils.Utils;
 
 public class InfoImage {
 	@Execute
-	public void execute(BookInfo book, Shell shell) {
+	public void execute(CurrentBookInfo book, Shell shell) {
 		IPath p = Utils.browseFile(book.getPath(), shell,
 				Strings.get("appTitle"), "*.bmp; *.png");
 		if (p == null)
@@ -39,7 +39,7 @@ public class InfoImage {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional BookInfo book) {
+	public boolean canExecute(@Optional CurrentBookInfo book) {
 		return book != null;
 	}
 

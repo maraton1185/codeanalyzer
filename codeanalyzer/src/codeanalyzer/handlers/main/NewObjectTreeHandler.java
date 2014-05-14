@@ -10,13 +10,13 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
+import codeanalyzer.cf.interfaces.ICf;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.utils.Strings;
 
 public class NewObjectTreeHandler {
 	@Execute
-	public void execute(@Optional IDb db, EPartService partService,
+	public void execute(@Optional ICf db, EPartService partService,
 			EModelService model) {
 
 		MPart part = partService.createPart(Strings

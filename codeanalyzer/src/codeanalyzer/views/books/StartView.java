@@ -13,7 +13,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 
 public class StartView {
 
@@ -26,7 +26,7 @@ public class StartView {
 
 	@Inject
 	@Active
-	BookInfo book;
+	CurrentBookInfo book;
 
 	@Inject
 	public StartView() {

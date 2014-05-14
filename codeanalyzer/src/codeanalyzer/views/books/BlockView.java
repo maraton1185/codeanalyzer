@@ -44,7 +44,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionImage;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.books.section.SectionOptions;
@@ -65,7 +65,7 @@ public class BlockView {
 
 	@Inject
 	@Active
-	BookInfo book;
+	CurrentBookInfo book;
 
 	SectionInfo section;
 

@@ -5,7 +5,7 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.utils.Const;
@@ -13,7 +13,7 @@ import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 
 public class EditTitle {
 	@Execute
-	public void execute(BookInfo book, @Active SectionInfo section) {
+	public void execute(CurrentBookInfo book, @Active SectionInfo section) {
 
 		AppManager.br.post(Const.EVENT_EDIT_TITLE_CONTENT_VIEW,
 				new EVENT_UPDATE_VIEW_DATA(book, section, null));

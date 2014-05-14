@@ -1,4 +1,4 @@
-package codeanalyzer.db;
+package codeanalyzer.cf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,11 +14,11 @@ import org.eclipse.core.runtime.Path;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import codeanalyzer.cf.CfInfo.SQLConnection;
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ICfManager;
+import codeanalyzer.cf.interfaces.ILoaderManager.operationType;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDbManager;
-import codeanalyzer.core.interfaces.ILoaderManager.operationType;
-import codeanalyzer.db.DbInfo.SQLConnection;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
@@ -30,13 +30,13 @@ import codeanalyzer.utils.Utils;
  * 
  */
 @SuppressWarnings("restriction")
-public class Db implements IDb {
+public class Cf implements ICf {
 
 	// ИНИЦИАЛИЗАЦИЯ ******************************************************
 
 	// DbService service = new DbService();
 
-	private DbInfo data;
+	private CfInfo data;
 
 	private DbState status = DbState.notLoaded;
 	private DbState link_status = DbState.notLoaded;
@@ -71,7 +71,7 @@ public class Db implements IDb {
 			op = data.sql == null ? "-" : "Загрузить из " + data.sql.path;
 			break;
 		default:
-			op = pico.get(IDbManager.class).getOperationName(data.type);
+			op = pico.get(ICfManager.class).getOperationName(data.type);
 			break;
 		}
 		return data.name + " : " + op;
@@ -94,7 +94,7 @@ public class Db implements IDb {
 		store_key = key;
 		String s = PreferenceSupplier.get(store_key);
 		if (s.isEmpty()) {
-			this.data = new DbInfo();
+			this.data = new CfInfo();
 			this.data.name = "Новая конфигурация";
 		} else {
 			ObjectInputStream ois = null;
@@ -103,10 +103,10 @@ public class Db implements IDb {
 				byte[] data = decoder.decodeBuffer(s);
 				ois = new ObjectInputStream(new ByteArrayInputStream(data));
 
-				this.data = (DbInfo) ois.readObject();
+				this.data = (CfInfo) ois.readObject();
 
 			} catch (Exception e) {
-				this.data = new DbInfo();
+				this.data = new CfInfo();
 				this.data.name = "Новая конфигурация";
 			} finally {
 				try {

@@ -5,9 +5,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import codeanalyzer.cf.interfaces.ICfConfig;
+import codeanalyzer.cf.interfaces.ICfConfig.EContext;
+import codeanalyzer.cf.interfaces.ICfConfig.EType;
 import codeanalyzer.core.exceptions.ProcNotFoundException;
-import codeanalyzer.core.interfaces.ICf.EContext;
-import codeanalyzer.core.interfaces.ICf.EType;
 
 public interface ITextParser {
 

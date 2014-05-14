@@ -17,9 +17,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
+import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.interfaces.IBookManager;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -41,17 +41,18 @@ public class BooksPerspectiveView {
 	@Optional
 	public void EVENT_UPDATE_BOOK_LIST(
 			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) Object o,
-			@Optional BookInfo book, Shell shell) {
+			@Optional CurrentBookInfo book, Shell shell) {
 
-		for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
-				.getChildren()) {
-			ctrl.dispose();
-		}
-
-		Utils.fillBooks(bookSectionClient, toolkit, shell, bookSectionHandler);
-		bookSection.setClient(bookSectionClient);
-
-		form.reflow(true);
+		// for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
+		// .getChildren()) {
+		// ctrl.dispose();
+		// }
+		//
+		// Utils.fillBooks(bookSectionClient, toolkit, shell,
+		// bookSectionHandler);
+		// bookSection.setClient(bookSectionClient);
+		//
+		// form.reflow(true);
 	}
 
 	@PostConstruct
@@ -79,7 +80,7 @@ public class BooksPerspectiveView {
 		bookSectionHandler = new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				bm.openBook((BookInfo) e.getHref(), shell);
+				bm.openBook((CurrentBookInfo) e.getHref(), shell);
 				AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
 
 				super.linkActivated(e);

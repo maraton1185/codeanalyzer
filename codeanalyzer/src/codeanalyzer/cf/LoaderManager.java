@@ -1,4 +1,4 @@
-package codeanalyzer.db;
+package codeanalyzer.cf;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -7,27 +7,26 @@ import java.sql.Connection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import codeanalyzer.auth.interfaces.IAuthorize;
+import codeanalyzer.cf.interfaces.ICf;
+import codeanalyzer.cf.interfaces.ILoaderManager;
+import codeanalyzer.cf.interfaces.ICf.DbState;
+import codeanalyzer.cf.services.LoaderService;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.exceptions.DbStructureException;
 import codeanalyzer.core.exceptions.LinksExistsException;
 import codeanalyzer.core.exceptions.LoadConfigException;
-import codeanalyzer.core.interfaces.IAuthorize;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDb.DbState;
-import codeanalyzer.core.interfaces.ILoaderManager;
-import codeanalyzer.db.services.DbStructure;
-import codeanalyzer.db.services.LoaderService;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Utils;
 
 public class LoaderManager implements ILoaderManager {
 
 	IAuthorize sign = pico.get(IAuthorize.class);
-	DbStructure dbStructure = new DbStructure();
+	CfStructure cfStructure = new CfStructure();
 	LoaderService loaderService = new LoaderService();
 
 	@Override
-	public void loadFromDirectory(IDb db, IProgressMonitor monitor)
+	public void loadFromDirectory(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException {
 
 		// œ–Œ¬≈– » ******************************************************
@@ -74,7 +73,7 @@ public class LoaderManager implements ILoaderManager {
 
 			db.initDbPath();
 
-			dbStructure.createStructure(db);
+			cfStructure.createStructure(db);
 			con = db.getConnection(false);
 
 			monitor.beginTask("«‡„ÛÁÍ‡ ÍÓÌÙË„Û‡ˆËË...", length);
@@ -121,7 +120,7 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void loadFromDb(IDb db) throws InvocationTargetException {
+	public void loadFromDb(ICf db) throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
 
@@ -138,7 +137,7 @@ public class LoaderManager implements ILoaderManager {
 
 			con = db.getConnection(true);
 
-			dbStructure.checkSructure(db);
+			cfStructure.checkSructure(db);
 
 			if (loaderService.linkTableFilled(con)) {
 				db.setState(DbState.Loaded);
@@ -175,7 +174,7 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void update(IDb db, IProgressMonitor monitor)
+	public void update(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
@@ -215,7 +214,7 @@ public class LoaderManager implements ILoaderManager {
 
 			con = db.getConnection(true);
 
-			dbStructure.checkSructure(db);
+			cfStructure.checkSructure(db);
 
 			loaderService.clearLinkTable(con);
 			// db.initDbPath();
@@ -267,14 +266,14 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void loadFromSQL(IDb db, IProgressMonitor monitor)
+	public void loadFromSQL(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void fillProcLinkTable(IDb db, IProgressMonitor monitor)
+	public void fillProcLinkTable(ICf db, IProgressMonitor monitor)
 			throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
@@ -305,14 +304,14 @@ public class LoaderManager implements ILoaderManager {
 
 			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 
-			dbStructure.checkSructure(db);
+			cfStructure.checkSructure(db);
 
 			con = db.getConnection(true);
 
 			loaderService.fillProcLinkTableDoWork(con, monitor);
 
 			if (!sign.check())
-				if (!dbStructure.checkLisence(db))
+				if (!cfStructure.checkLisence(db))
 					throw new InvocationTargetException(
 							new InterruptedException(),
 							Const.ERROR_PRO_ACCESS_LOAD);

@@ -5,7 +5,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 
 public class Save {
 	@Execute
@@ -14,7 +14,7 @@ public class Save {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional BookInfo book) {
+	public boolean canExecute(@Optional CurrentBookInfo book) {
 		return book != null;
 	}
 

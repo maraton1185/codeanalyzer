@@ -1,4 +1,4 @@
-package codeanalyzer.core.interfaces;
+package codeanalyzer.auth.interfaces;
 
 import codeanalyzer.auth.ActivationInfo;
 

@@ -6,12 +6,12 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
 
 public class Add {
 	@Execute
-	public void execute(Shell shell, BookInfo book, @Active SectionInfo section) {
+	public void execute(Shell shell, CurrentBookInfo book, @Active SectionInfo section) {
 
 		book.sections().add(section);
 

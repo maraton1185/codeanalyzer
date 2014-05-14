@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.cf.interfaces.ICf;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.interfaces.IDb;
 import codeanalyzer.utils.Const;
 
 public class ProgressControl implements IProgressMonitor {
@@ -38,7 +38,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	private Label lable;
 
-	private IDb db;
+	private ICf db;
 	private Button btnCancel;
 
 	@PostConstruct
@@ -164,7 +164,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	}
 
-	public void setDb(IDb db) {
+	public void setDb(ICf db) {
 		this.db = db;
 		cancelled = false;
 

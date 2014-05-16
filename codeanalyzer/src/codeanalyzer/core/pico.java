@@ -11,7 +11,7 @@ import codeanalyzer.cf.CfManager;
 import codeanalyzer.cf.LoaderManager;
 import codeanalyzer.cf.services.CfServices;
 import codeanalyzer.cf.services.TextParser;
-import codeanalyzer.db.DbManager;
+import codeanalyzer.db.DbService;
 import codeanalyzer.views.books.SectionComposite;
 
 public final class pico {
@@ -32,7 +32,7 @@ public final class pico {
 	private static void init() {
 		instance.as(Characteristics.CACHE).addComponent(SignIn.class);
 
-		instance.as(Characteristics.CACHE).addComponent(DbManager.class);
+		instance.as(Characteristics.CACHE).addComponent(DbService.class);
 
 		instance.addComponent(Cf.class);
 		instance.as(Characteristics.CACHE).addComponent(CfManager.class);

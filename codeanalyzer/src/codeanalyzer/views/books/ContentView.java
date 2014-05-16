@@ -81,7 +81,6 @@ public class ContentView {
 	CurrentBookInfo book;
 
 	private SectionInfo root;
-
 	private SectionInfo dragSection;
 	protected TreeItem selectedItem;
 

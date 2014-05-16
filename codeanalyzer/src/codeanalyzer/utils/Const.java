@@ -6,7 +6,7 @@ import java.util.Date;
 
 import codeanalyzer.books.book.CurrentBookInfo;
 import codeanalyzer.books.section.SectionInfo;
-import codeanalyzer.core.model.BookInfo;
+import codeanalyzer.core.components.ITreeItemInfo;
 
 public class Const {
 
@@ -237,7 +237,8 @@ public class Const {
 
 	public static class EVENT_UPDATE_BOOK_LIST_DATA {
 
-		public EVENT_UPDATE_BOOK_LIST_DATA(Integer parent, BookInfo selected) {
+		public EVENT_UPDATE_BOOK_LIST_DATA(ITreeItemInfo parent,
+				ITreeItemInfo selected) {
 			super();
 			// this.book = book;
 			this.parent = parent;
@@ -245,8 +246,8 @@ public class Const {
 		}
 
 		// public CurrentBookInfo book;
-		public Integer parent;
-		public BookInfo selected;
+		public ITreeItemInfo parent;
+		public ITreeItemInfo selected;
 
 	}
 

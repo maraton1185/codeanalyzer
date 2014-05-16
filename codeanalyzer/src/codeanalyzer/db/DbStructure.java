@@ -3,12 +3,14 @@ package codeanalyzer.db;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import codeanalyzer.core.exceptions.DbStructureException;
 import codeanalyzer.core.interfaces.IDbStructure;
 import codeanalyzer.utils.DbStructureChecker;
+import codeanalyzer.utils.Strings;
 
 public class DbStructure implements IDbStructure {
 
@@ -27,6 +29,20 @@ public class DbStructure implements IDbStructure {
 					+ "TITLE VARCHAR(500), PATH VARCHAR(500), "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
+
+			// *****************************
+			String SQL;
+			PreparedStatement prep;
+			int affectedRows;
+
+			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initBookTitle"));
+			prep.setBoolean(2, true);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
 
 		} catch (Exception e) {
 			throw new SQLException();
@@ -48,7 +64,7 @@ public class DbStructure implements IDbStructure {
 
 			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
-					"PARENT, SORT, TITLE, GROUP, PATH, OPTIONS")
+					"PARENT, SORT, TITLE, ISGROUP, PATH, OPTIONS")
 
 			;
 

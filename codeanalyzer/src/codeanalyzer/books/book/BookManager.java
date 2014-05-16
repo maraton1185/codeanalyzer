@@ -16,15 +16,16 @@ import codeanalyzer.books.BookStructure;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
+import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.model.BookInfo;
-import codeanalyzer.db.interfaces.IDbManager;
+import codeanalyzer.db.interfaces.IDbService;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 public class BookManager implements IBookManager {
 
-	IDbManager dbManager = pico.get(IDbManager.class);
+	IDbService dbManager = pico.get(IDbService.class);
 	BookStructure bookStructure = new BookStructure();
 	BookService bs = new BookService();
 	BookService books;
@@ -44,7 +45,19 @@ public class BookManager implements IBookManager {
 				bookStructure.createStructure(con, book);
 				bs.getData(con, book);
 				book.setOpened(true);
-				dbManager.addBook(book, parent);
+
+				BookInfo data = new BookInfo();
+				data.title = book.getName();
+				if (parent == null)
+					data.parent = ITreeService.rootId;
+				else if (parent.isGroup)
+					data.parent = parent.id;
+				else
+					data.parent = parent.parent;
+				data.isGroup = false;
+				data.path = book.getFullName();
+				((ITreeService) dbManager).add(data);
+
 				AppManager.ctx.set(CurrentBookInfo.class, book);
 				AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
 			} finally {

@@ -15,7 +15,7 @@ public class EditTitle {
 	public void execute(BookInfo book) {
 
 		AppManager.br.post(Const.EVENT_EDIT_TITLE_BOOK_LIST,
-				new EVENT_UPDATE_BOOK_LIST_DATA(0, book));
+				new EVENT_UPDATE_BOOK_LIST_DATA(null, book));
 
 	}
 

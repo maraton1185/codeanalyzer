@@ -1,6 +1,8 @@
 package codeanalyzer.core.model;
 
-public class BookInfo {
+import codeanalyzer.core.components.ITreeItemInfo;
+
+public class BookInfo implements ITreeItemInfo {
 
 	@Override
 	public boolean equals(Object obj) {
@@ -15,5 +17,36 @@ public class BookInfo {
 	public String path;
 	public Integer id;
 	public int parent;
+
+	@Override
+	public Integer getId() {
+		return id;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		this.title = title;
+
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public boolean isGroup() {
+		return isGroup;
+	}
+
+	@Override
+	public String getSuffix() {
+		return path;
+	}
+
+	@Override
+	public Integer getParent() {
+		return parent;
+	}
 
 }

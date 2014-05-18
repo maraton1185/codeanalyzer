@@ -27,16 +27,10 @@ public class AddSubGroup {
 
 				BookInfo data = new BookInfo();
 				data.title = dlg.getValue();
-				if (book == null)
-					data.parent = ITreeService.rootId;
-				else if (book.isGroup)
-					data.parent = book.parent;
-				else
-					data.parent = book.id;
 				data.isGroup = true;
 				data.path = "";
 
-				((ITreeService) bm).add(data);
+				((ITreeService) bm).add(data, book, true);
 
 				// bm.addBooksGroup(dlg.getValue(), book, true);
 			} catch (InvocationTargetException e) {

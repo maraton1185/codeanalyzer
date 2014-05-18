@@ -17,7 +17,8 @@ public interface ITreeService {
 
 	ITreeItemInfo getLast(int parent);
 
-	void add(ITreeItemInfo item) throws InvocationTargetException;
+	void add(ITreeItemInfo item, ITreeItemInfo parent, boolean sub)
+			throws InvocationTargetException;
 
 	void delete(ITreeItemInfo item);
 

@@ -27,14 +27,10 @@ public class AddGroup {
 
 				BookInfo data = new BookInfo();
 				data.title = dlg.getValue();
-				if (book == null)
-					data.parent = ITreeService.rootId;
-				else
-					data.parent = book.parent;
 				data.isGroup = true;
 				data.path = "";
 
-				((ITreeService) bm).add(data);
+				((ITreeService) bm).add(data, book, false);
 				// bm.add((ITreeItemInfo) data);
 
 			} catch (InvocationTargetException e) {

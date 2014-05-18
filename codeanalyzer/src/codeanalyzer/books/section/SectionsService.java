@@ -26,7 +26,7 @@ import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 
-public class SectionsService {
+public class SectionsService { // implements ITreeService{
 
 	private CurrentBookInfo book = new CurrentBookInfo();
 

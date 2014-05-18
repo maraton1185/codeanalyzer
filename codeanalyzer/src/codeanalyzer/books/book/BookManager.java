@@ -1,31 +1,23 @@
 package codeanalyzer.books.book;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.books.BookStructure;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.pico;
 import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.model.BookInfo;
-import codeanalyzer.db.interfaces.IDbService;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
 public class BookManager implements IBookManager {
 
-	IDbService dbManager = pico.get(IDbService.class);
+	// IDbService dbManager = pico.get(IDbService.class);
 	BookStructure bookStructure = new BookStructure();
 	BookService bs = new BookService();
 	BookService books;
@@ -48,15 +40,9 @@ public class BookManager implements IBookManager {
 
 				BookInfo data = new BookInfo();
 				data.title = book.getName();
-				if (parent == null)
-					data.parent = ITreeService.rootId;
-				else if (parent.isGroup)
-					data.parent = parent.id;
-				else
-					data.parent = parent.parent;
 				data.isGroup = false;
 				data.path = book.getFullName();
-				((ITreeService) dbManager).add(data);
+				((ITreeService) bs).add(data, parent, true);
 
 				AppManager.ctx.set(CurrentBookInfo.class, book);
 				AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
@@ -69,36 +55,36 @@ public class BookManager implements IBookManager {
 
 	}
 
-	@Override
-	public List<CurrentBookInfo> getBooks() {
-
-		List<CurrentBookInfo> result = new ArrayList<CurrentBookInfo>();
-
-		File folder = new Path(
-				PreferenceSupplier
-						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY))
-				.toFile();
-		File[] files = folder.listFiles(new FileFilter() {
-
-			@Override
-			public boolean accept(File file) {
-
-				String name = file.getName();
-				return name.contains(".h2.db");
-			}
-		});
-
-		if (files == null)
-			return result;
-
-		for (File f : files) {
-			CurrentBookInfo book = new CurrentBookInfo();
-			book.setPath(new Path(f.getPath()));
-			result.add(book);
-		}
-
-		return result;
-	}
+	// @Override
+	// public List<CurrentBookInfo> getBooks() {
+	//
+	// List<CurrentBookInfo> result = new ArrayList<CurrentBookInfo>();
+	//
+	// File folder = new Path(
+	// PreferenceSupplier
+	// .get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY))
+	// .toFile();
+	// File[] files = folder.listFiles(new FileFilter() {
+	//
+	// @Override
+	// public boolean accept(File file) {
+	//
+	// String name = file.getName();
+	// return name.contains(".h2.db");
+	// }
+	// });
+	//
+	// if (files == null)
+	// return result;
+	//
+	// for (File f : files) {
+	// CurrentBookInfo book = new CurrentBookInfo();
+	// book.setPath(new Path(f.getPath()));
+	// result.add(book);
+	// }
+	//
+	// return result;
+	// }
 
 	@Override
 	public void openBook(IPath path, Shell shell) {

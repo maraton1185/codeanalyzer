@@ -3,7 +3,6 @@ package codeanalyzer.utils;
 import java.io.File;
 import java.net.URL;
 import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
@@ -12,22 +11,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.books.book.CurrentBookInfo;
-import codeanalyzer.books.interfaces.IBookManager;
-import codeanalyzer.core.pico;
 import codeanalyzer.views.main.ConfigsView;
 
 public abstract class Utils {
@@ -134,19 +125,20 @@ public abstract class Utils {
 
 	// *********************************************************************
 
-	public static void fillBooks(Composite sectionClient, FormToolkit toolkit,
-			final Shell shell, HyperlinkAdapter handler) {
-		List<CurrentBookInfo> bl = pico.get(IBookManager.class).getBooks();
-		for (CurrentBookInfo book : bl) {
-			ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
-					SWT.WRAP);
-			link.setUnderlined(false);
-			link.setImage(book.getImage());
-			link.setText(book.getName());
-			link.setHref(book);
-			link.addHyperlinkListener(handler);
-
-		}
-
-	}
+	// public static void fillBooks(Composite sectionClient, FormToolkit
+	// toolkit,
+	// final Shell shell, HyperlinkAdapter handler) {
+	// List<CurrentBookInfo> bl = pico.get(IBookManager.class).getBooks();
+	// for (CurrentBookInfo book : bl) {
+	// ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
+	// SWT.WRAP);
+	// link.setUnderlined(false);
+	// link.setImage(book.getImage());
+	// link.setText(book.getName());
+	// link.setHref(book);
+	// link.addHyperlinkListener(handler);
+	//
+	// }
+	//
+	// }
 }

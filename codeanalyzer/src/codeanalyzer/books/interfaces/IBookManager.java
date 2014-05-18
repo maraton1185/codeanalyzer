@@ -1,7 +1,6 @@
 package codeanalyzer.books.interfaces;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
@@ -14,7 +13,7 @@ public interface IBookManager {
 	void addBook(String value, BookInfo parent)
 			throws InvocationTargetException;
 
-	List<CurrentBookInfo> getBooks();
+	// List<CurrentBookInfo> getBooks();
 
 	void openBook(IPath path, Shell shell);
 

@@ -40,11 +40,9 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import codeanalyzer.books.book.BookService;
 import codeanalyzer.books.interfaces.IBookManager;
-import codeanalyzer.core.pico;
-import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.components.TreeViewComponent;
-import codeanalyzer.db.interfaces.IDbService;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -372,7 +370,7 @@ public class StartView {
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent booksList = new TreeViewComponent(bookSectionClient,
-				(ITreeService) pico.get(IDbService.class));
+				new BookService());
 		viewer = booksList.getViewer();
 		toolkit.adapt(viewer.getTree());
 		viewer.getTree().addControlListener(new ControlAdapter() {

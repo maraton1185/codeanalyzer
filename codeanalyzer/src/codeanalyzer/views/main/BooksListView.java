@@ -15,13 +15,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.book.BookService;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.pico;
-import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.components.TreeViewComponent;
 import codeanalyzer.core.model.BookInfo;
-import codeanalyzer.db.interfaces.IDbService;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -76,7 +74,7 @@ public class BooksListView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent booksList = new TreeViewComponent(parent,
-				(ITreeService) pico.get(IDbService.class));
+				new BookService());
 
 		viewer = booksList.getViewer();
 

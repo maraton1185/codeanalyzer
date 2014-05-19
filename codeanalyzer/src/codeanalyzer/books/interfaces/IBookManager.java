@@ -21,4 +21,9 @@ public interface IBookManager {
 
 	boolean saveBook(CurrentBookInfo book, Shell shell);
 
+	void addGroup(BookInfo data, BookInfo book, boolean sub)
+			throws InvocationTargetException;
+
+	void delete(BookInfo book);
+
 }

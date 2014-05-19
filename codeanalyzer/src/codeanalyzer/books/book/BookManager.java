@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.books.BookStructure;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
@@ -21,6 +20,14 @@ public class BookManager implements IBookManager {
 	BookStructure bookStructure = new BookStructure();
 	BookService bs = new BookService();
 	BookService books;
+
+	@Override
+	public void addGroup(BookInfo data, BookInfo book, boolean sub)
+			throws InvocationTargetException {
+
+		bs.add(data, book, sub);
+
+	}
 
 	@Override
 	public void addBook(String value, BookInfo parent)
@@ -42,7 +49,7 @@ public class BookManager implements IBookManager {
 				data.title = book.getName();
 				data.isGroup = false;
 				data.path = book.getFullName();
-				((ITreeService) bs).add(data, parent, true);
+				bs.add(data, parent, true);
 
 				AppManager.ctx.set(CurrentBookInfo.class, book);
 				AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
@@ -55,36 +62,6 @@ public class BookManager implements IBookManager {
 
 	}
 
-	// @Override
-	// public List<CurrentBookInfo> getBooks() {
-	//
-	// List<CurrentBookInfo> result = new ArrayList<CurrentBookInfo>();
-	//
-	// File folder = new Path(
-	// PreferenceSupplier
-	// .get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY))
-	// .toFile();
-	// File[] files = folder.listFiles(new FileFilter() {
-	//
-	// @Override
-	// public boolean accept(File file) {
-	//
-	// String name = file.getName();
-	// return name.contains(".h2.db");
-	// }
-	// });
-	//
-	// if (files == null)
-	// return result;
-	//
-	// for (File f : files) {
-	// CurrentBookInfo book = new CurrentBookInfo();
-	// book.setPath(new Path(f.getPath()));
-	// result.add(book);
-	// }
-	//
-	// return result;
-	// }
 
 	@Override
 	public void openBook(IPath path, Shell shell) {
@@ -148,5 +125,11 @@ public class BookManager implements IBookManager {
 
 		return true;
 	}
+
+	@Override
+	public void delete(BookInfo book) {
+		bs.delete(book);
+	}
+
 
 }

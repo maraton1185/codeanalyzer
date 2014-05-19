@@ -6,17 +6,16 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.model.BookInfo;
-import codeanalyzer.db.interfaces.IDbService;
 
 public class Delete {
 	@Execute
-	public void execute(@Optional ICf db, Shell shell, IDbService bm,
+	public void execute(@Optional ICf db, Shell shell, IBookManager bm,
 			BookInfo book) {
 
-		((ITreeService) bm).delete(book);
+		bm.delete(book);
 	}
 
 	@CanExecute

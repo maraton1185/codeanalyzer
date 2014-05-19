@@ -9,15 +9,14 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.core.components.ITreeService;
 import codeanalyzer.core.model.BookInfo;
-import codeanalyzer.db.interfaces.IDbService;
 import codeanalyzer.utils.Strings;
 
 public class AddGroup {
 	@Execute
-	public void execute(@Optional ICf db, Shell shell, IDbService bm,
+	public void execute(@Optional ICf db, Shell shell, IBookManager bm,
 			@Optional BookInfo book) {
 		InputDialog dlg = new InputDialog(shell,
 				codeanalyzer.utils.Strings.get("appTitle"),
@@ -29,8 +28,8 @@ public class AddGroup {
 				data.title = dlg.getValue();
 				data.isGroup = true;
 				data.path = "";
+				bm.addGroup(data, book, false);
 
-				((ITreeService) bm).add(data, book, false);
 				// bm.add((ITreeItemInfo) data);
 
 			} catch (InvocationTargetException e) {

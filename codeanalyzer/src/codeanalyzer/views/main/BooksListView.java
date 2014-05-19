@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -23,6 +24,7 @@ import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
+import codeanalyzer.utils.Strings;
 
 public class BooksListView {
 
@@ -68,7 +70,7 @@ public class BooksListView {
 
 	@PostConstruct
 	public void postConstruct(Composite parent, final IBookManager bm,
-			final Shell shell) {
+			final Shell shell, EMenuService menuService) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
@@ -89,54 +91,8 @@ public class BooksListView {
 			}
 		});
 
-		// ImageHyperlink link;
+		menuService.registerContextMenu(viewer.getControl(),
+				Strings.get("model.id.booklistview.popup"));
 
-		// toolkit = new FormToolkit(parent.getDisplay());
-		// form = toolkit.createScrolledForm(parent);
-		// ColumnLayout layout = new ColumnLayout();
-		// layout.maxNumColumns = 2;
-		// form.getBody().setLayout(layout);
-		//
-		// form.setText(Strings.get("appTitle"));
-		//
-		// bookSection = toolkit.createSection(form.getBody(),
-		// // Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE |
-		// // Section.EXPANDED
-		// Section.TITLE_BAR | Section.EXPANDED | Section.TWISTIE);
-		//
-		// bookSection.setText("Список книг");
-		// bookSectionClient = toolkit.createComposite(bookSection);
-		// bookSectionClient.setLayout(new GridLayout());
-		// bookSectionHandler = new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// bm.openBook((CurrentBookInfo) e.getHref(), shell);
-		// AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
-		//
-		// super.linkActivated(e);
-		// }
-		//
-		// };
-		// bookSection.addExpansionListener(new ExpansionAdapter() {
-		// @Override
-		// public void expansionStateChanged(ExpansionEvent e) {
-		// if (!e.getState())
-		// for (org.eclipse.swt.widgets.Control ctrl : bookSectionClient
-		// .getChildren()) {
-		// ctrl.dispose();
-		// }
-		// else {
-		// Utils.fillBooks(bookSectionClient, toolkit, shell,
-		// bookSectionHandler);
-		//
-		// bookSection.setClient(bookSectionClient);
-		// }
-		// form.reflow(true);
-		// }
-		// });
-		//
-		// Utils.fillBooks(bookSectionClient, toolkit, shell,
-		// bookSectionHandler);
-		// bookSection.setClient(bookSectionClient);
 	}
 }

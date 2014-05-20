@@ -41,10 +41,10 @@
   <extension point="org.eclipse.equinox.http.registry.servlets">
     <servlet
       alias="/test"
-      class="codeanalyzer.books.web.TestServlet"/>
+      class="codeanalyzer.module.books.web.TestServlet"/>
       <servlet
       alias="/test1"
-      class="codeanalyzer.books.web.BasicService"/>
+      class="codeanalyzer.module.books.web.BasicService"/>
     <servlet
 		alias="/*.jsp"
 		class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"

@@ -5,9 +5,9 @@ import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import codeanalyzer.books.interfaces.IBookManager;
-import codeanalyzer.cf.interfaces.ICfManager;
-import codeanalyzer.db.interfaces.IDbService;
+import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.module.cf.interfaces.ICfManager;
+import codeanalyzer.module.db.interfaces.IDbService;
 
 public class Activator implements BundleActivator {
 

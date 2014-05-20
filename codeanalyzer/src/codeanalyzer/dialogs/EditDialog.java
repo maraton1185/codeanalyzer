@@ -23,13 +23,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.cf.interfaces.ICfManager;
-import codeanalyzer.cf.interfaces.ICf.DbState;
-import codeanalyzer.cf.interfaces.ILoaderManager.operationType;
 import codeanalyzer.core.AppManager;
+import codeanalyzer.core.Events;
 import codeanalyzer.core.pico;
-import codeanalyzer.utils.Const;
+import codeanalyzer.module.cf.interfaces.ICf;
+import codeanalyzer.module.cf.interfaces.ICf.DbState;
+import codeanalyzer.module.cf.interfaces.ICfManager;
+import codeanalyzer.module.cf.interfaces.ILoaderManager.operationType;
 import codeanalyzer.utils.Utils;
 
 @Creatable
@@ -330,7 +330,7 @@ public class EditDialog extends Dialog {
 		dbManager.execute(db, getShell());
 
 		// initContents();
-		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		AppManager.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 
 		super.okPressed();
 	}
@@ -345,7 +345,7 @@ public class EditDialog extends Dialog {
 	public boolean close() {
 		updateDb();
 		db.save();
-		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		AppManager.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 		return super.close();
 	}
 }

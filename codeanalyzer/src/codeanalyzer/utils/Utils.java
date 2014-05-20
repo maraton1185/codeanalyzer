@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Text;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.views.main.ConfigsView;
+import codeanalyzer.module.cf.views.ConfigsView;
 
 public abstract class Utils {
 

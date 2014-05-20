@@ -5,14 +5,14 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import codeanalyzer.auth.SignIn;
-import codeanalyzer.books.book.BookManager;
-import codeanalyzer.cf.Cf;
-import codeanalyzer.cf.CfManager;
-import codeanalyzer.cf.LoaderManager;
-import codeanalyzer.cf.services.CfServices;
-import codeanalyzer.cf.services.TextParser;
-import codeanalyzer.db.DbService;
-import codeanalyzer.views.books.SectionComposite;
+import codeanalyzer.module.books.list.BookManager;
+import codeanalyzer.module.books.views.section.tools.SectionComposite;
+import codeanalyzer.module.cf.Cf;
+import codeanalyzer.module.cf.CfManager;
+import codeanalyzer.module.cf.LoaderManager;
+import codeanalyzer.module.cf.services.CfServices;
+import codeanalyzer.module.cf.services.TextParser;
+import codeanalyzer.module.db.DbService;
 
 public final class pico {
 

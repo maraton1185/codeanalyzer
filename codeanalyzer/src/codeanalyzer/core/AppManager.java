@@ -39,10 +39,9 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 import codeanalyzer.auth.interfaces.IAuthorize;
-import codeanalyzer.books.interfaces.IBookManager;
-import codeanalyzer.cf.services.FillProcLinkTableJob;
-import codeanalyzer.db.interfaces.IDbService;
-import codeanalyzer.utils.Const;
+import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.module.cf.services.FillProcLinkTableJob;
+import codeanalyzer.module.db.interfaces.IDbService;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -90,7 +89,7 @@ public class AppManager {
 		br.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 				new AppStartupCompleteEventHandler(window));
 
-		br.subscribe(Const.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
+		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
 		try {
 			pico.get(IDbService.class).init(false);
@@ -118,7 +117,7 @@ public class AppManager {
 		public void handleEvent(Event event) {
 			WindowCloseHandler closeHandler = new WindowCloseHandler();
 			window.getContext().set(IWindowCloseHandler.class, closeHandler);
-			AppManager.br.post(Const.EVENT_UPDATE_STATUS, null);
+			AppManager.br.post(Events.EVENT_UPDATE_STATUS, null);
 
 			perspectiveActions();
 
@@ -188,7 +187,7 @@ public class AppManager {
 
 			bm.openBook(p, (Shell) window.getWidget());
 
-			AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
+			AppManager.br.post(Events.EVENT_SHOW_BOOK, null);
 
 		}
 

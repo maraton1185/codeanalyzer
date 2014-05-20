@@ -9,9 +9,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.book.BookInfo;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.utils.Strings;
 
 public class AddGroup {

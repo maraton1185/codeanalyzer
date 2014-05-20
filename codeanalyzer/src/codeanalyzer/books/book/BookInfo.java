@@ -1,4 +1,7 @@
-package codeanalyzer.core.model;
+package codeanalyzer.books.book;
+
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import codeanalyzer.core.components.ITreeItemInfo;
 
@@ -49,4 +52,8 @@ public class BookInfo implements ITreeItemInfo {
 		return parent;
 	}
 
+	public IPath getPath() {
+
+		return path.isEmpty() ? null : new Path(path);
+	}
 }

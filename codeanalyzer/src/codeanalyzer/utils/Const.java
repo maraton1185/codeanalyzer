@@ -197,6 +197,8 @@ public class Const {
 	public static final String CONTEXT_ACTIVE_VIEW_SECTION = "CONTEXT_ACTIVE_VIEW_SECTION";
 	public static final String EVENT_UPDATE_SECTION_BLOCK_VIEW = "EVENT_UPDATE_SECTION_BLOCK_VIEW";
 	public static final String EVENT_EDIT_TITLE_BOOK_LIST = "EVENT_EDIT_TITLE_BOOK_LIST";
+	public static final String EVENT_EDIT_TITLE_USERS_LIST = "EVENT_EDIT_TITLE_USERS_LIST";
+	public static final String EVENT_UPDATE_USERS = "EVENT_UPDATE_USERS";
 
 	// public static final String CONTENT_SECTION_SELECTED =
 	// "CONTENT_SECTION_SELECTED";
@@ -235,9 +237,9 @@ public class Const {
 
 	}
 
-	public static class EVENT_UPDATE_BOOK_LIST_DATA {
+	public static class EVENT_UPDATE_TREE_DATA {
 
-		public EVENT_UPDATE_BOOK_LIST_DATA(ITreeItemInfo parent,
+		public EVENT_UPDATE_TREE_DATA(ITreeItemInfo parent,
 				ITreeItemInfo selected) {
 			super();
 			// this.book = book;

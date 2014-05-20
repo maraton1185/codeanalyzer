@@ -5,8 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.book.BookInfo;
+import codeanalyzer.books.book.BookInfoSelection;
 import codeanalyzer.books.book.CurrentBookInfo;
-import codeanalyzer.core.model.BookInfo;
 
 public interface IBookManager {
 
@@ -24,6 +25,8 @@ public interface IBookManager {
 	void addGroup(BookInfo data, BookInfo book, boolean sub)
 			throws InvocationTargetException;
 
-	void delete(BookInfo book);
+	void delete(BookInfoSelection selection);
+
+	void addBookToList(IPath p, BookInfo book) throws InvocationTargetException;
 
 }

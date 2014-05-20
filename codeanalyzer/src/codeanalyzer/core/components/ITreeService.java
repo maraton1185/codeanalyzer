@@ -13,7 +13,9 @@ public interface ITreeService {
 
 	boolean hasChildren(int parent);
 
-	ITreeItemInfo getParent(int item);
+	ITreeItemInfo get(int item);
+
+	// ITreeItemInfo getParent(int item);
 
 	ITreeItemInfo getLast(int parent);
 

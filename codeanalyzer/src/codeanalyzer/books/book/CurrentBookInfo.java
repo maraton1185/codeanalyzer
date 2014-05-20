@@ -86,6 +86,8 @@ public class CurrentBookInfo extends ModelObject {
 	}
 
 	public void setPath(IPath path) {
+		if (path == null)
+			return;
 		this.path = path.removeLastSegments(1);
 		this.name = path.removeFileExtension().removeFileExtension()
 				.lastSegment();

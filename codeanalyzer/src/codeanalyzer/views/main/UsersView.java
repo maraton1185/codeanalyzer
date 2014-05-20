@@ -31,19 +31,19 @@ import codeanalyzer.utils.Const.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
-public class BooksListView {
+public class UsersView {
 
 	private TreeViewer viewer;
 
 	@Inject
-	public BooksListView() {
+	public UsersView() {
 		// TODO Your code here
 	}
 
 	@Inject
 	@Optional
-	public void EVENT_EDIT_TITLE_BOOK_LIST(
-			@UIEventTopic(Const.EVENT_EDIT_TITLE_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
+	public void EVENT_EDIT_TITLE_USERS_LIST(
+			@UIEventTopic(Const.EVENT_EDIT_TITLE_USERS_LIST) EVENT_UPDATE_TREE_DATA data) {
 
 		if (data.selected == null)
 			return;
@@ -54,8 +54,8 @@ public class BooksListView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_BOOK_LIST(
-			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
+	public void EVENT_UPDATE_USERS(
+			@UIEventTopic(Const.EVENT_UPDATE_USERS) EVENT_UPDATE_TREE_DATA data) {
 
 		if (data.parent == null)
 			return;
@@ -76,10 +76,10 @@ public class BooksListView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent booksList = new TreeViewComponent(parent,
+		TreeViewComponent treeComponent = new TreeViewComponent(parent,
 				new BookService(), 3);
 
-		viewer = booksList.getViewer();
+		viewer = treeComponent.getViewer();
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
@@ -116,4 +116,5 @@ public class BooksListView {
 				Strings.get("model.id.booklistview.popup"));
 
 	}
+
 }

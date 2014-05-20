@@ -11,6 +11,11 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -40,11 +45,14 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import codeanalyzer.books.book.BookInfo;
 import codeanalyzer.books.book.BookService;
 import codeanalyzer.books.interfaces.IBookManager;
+import codeanalyzer.core.AppManager;
+import codeanalyzer.core.pico;
 import codeanalyzer.core.components.TreeViewComponent;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -59,36 +67,31 @@ public class StartView {
 	// Section bookSection;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
-	// private IDbService dbManager = pico.get(IDbService.class);
+	IBookManager bm = pico.get(IBookManager.class);
 	private TreeViewer viewer;
 
-	@Inject
-	@Optional
-	public void EVENT_EDIT_TITLE_BOOK_LIST(
-			@UIEventTopic(Const.EVENT_EDIT_TITLE_BOOK_LIST) EVENT_UPDATE_BOOK_LIST_DATA data) {
-
-		if (data.selected == null)
-			return;
-
-		viewer.editElement(data.selected, 0);
-
-	}
+	// @Inject
+	// @Optional
+	// public void EVENT_EDIT_TITLE_BOOK_LIST(
+	// @UIEventTopic(Const.EVENT_EDIT_TITLE_BOOK_LIST)
+	// EVENT_UPDATE_BOOK_LIST_DATA data) {
+	//
+	// if (data.selected == null)
+	// return;
+	//
+	// viewer.editElement(data.selected, 0);
+	//
+	// }
 
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_BOOK_LIST(
-			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) EVENT_UPDATE_BOOK_LIST_DATA data) {
+			@UIEventTopic(Const.EVENT_UPDATE_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
 
-		if (data.parent != null)
-			viewer.refresh(data.parent);
+		if (data.parent == null)
+			return;
 
-		// if (data.parent != null) {
-		// // BookInfo item = new BookInfo();
-		// // item.id = data.parent;
-		// viewer.refresh(dbManager.get(data.parent));
-		// } else
-		// // viewer.setInput(dbManager.getRoot());
-		// viewer.refresh();
+		viewer.refresh(data.parent, true);
 
 		if (data.selected != null)
 			viewer.setSelection(new StructuredSelection(data.selected), true);
@@ -115,7 +118,7 @@ public class StartView {
 
 		mainLinks(hService, comService);
 
-		bookslist(hService, comService);
+		bookslist(shell, hService, comService);
 
 		parameters(shell, hService, comService);
 
@@ -150,7 +153,7 @@ public class StartView {
 		});
 
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
-		link.setImage(Utils.getImage("open.png"));
+		link.setImage(Utils.getImage("open_book.png"));
 		link.setText("Открыть книгу");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
@@ -163,19 +166,19 @@ public class StartView {
 
 		});
 
-		link = toolkit.createImageHyperlink(linksSectionClient, SWT.NULL);
-		link.setImage(Utils.getImage("start.png"));
-		link.setText("Открыть дерево объектов");
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.NewObjectTree"),
-						Collections.EMPTY_MAP));
-				super.linkActivated(e);
-			}
-
-		});
+		// link = toolkit.createImageHyperlink(linksSectionClient, SWT.NULL);
+		// link.setImage(Utils.getImage("start.png"));
+		// link.setText("Открыть дерево объектов");
+		// link.addHyperlinkListener(new HyperlinkAdapter() {
+		// @Override
+		// public void linkActivated(HyperlinkEvent e) {
+		// hService.executeHandler(comService.createCommand(
+		// Strings.get("command.id.NewObjectTree"),
+		// Collections.EMPTY_MAP));
+		// super.linkActivated(e);
+		// }
+		//
+		// });
 
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("cf_add.png"));
@@ -191,7 +194,7 @@ public class StartView {
 		});
 
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
-		link.setImage(Utils.getImage("doc.png"));
+		link.setImage(Utils.getImage("help.png"));
 		link.setText("Документация");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
@@ -354,7 +357,8 @@ public class StartView {
 	// toolkit.dispose();
 	// }
 
-	private void bookslist(EHandlerService hService, ECommandService comService) {
+	private void bookslist(final Shell shell, EHandlerService hService,
+			ECommandService comService) {
 		Section bookSection = toolkit.createSection(form.getBody(),
 				Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED
 						| SWT.BORDER);
@@ -370,7 +374,7 @@ public class StartView {
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent booksList = new TreeViewComponent(bookSectionClient,
-				new BookService());
+				new BookService(), 2);
 		viewer = booksList.getViewer();
 		toolkit.adapt(viewer.getTree());
 		viewer.getTree().addControlListener(new ControlAdapter() {
@@ -382,16 +386,38 @@ public class StartView {
 
 		});
 
-		// viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-		// @Override
-		// public void selectionChanged(SelectionChangedEvent event) {
-		//
-		// IStructuredSelection selection = (IStructuredSelection) viewer
-		// .getSelection();
-		// AppManager.ctx.set(BookInfo.class,
-		// (BookInfo) selection.getFirstElement());
-		// }
-		// });
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+				BookInfo selected = (BookInfo) selection.getFirstElement();
+
+				bm.openBook(selected.getPath(), shell);
+			}
+		});
+
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+
+				// BookInfoSelection sel = new BookInfoSelection();
+				// @SuppressWarnings("unchecked")
+				// Iterator<BookInfo> iterator = selection.iterator();
+				// while (iterator.hasNext())
+				// sel.add(iterator.next());
+				//
+				// AppManager.ctx.set(BookInfoSelection.class, sel);
+
+				AppManager.ctx.set(BookInfo.class,
+						(BookInfo) selection.getFirstElement());
+			}
+		});
+
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		// gd.horizontalAlignment = SWT.RIGHT;
 		viewer.getTree().setLayoutData(gd);

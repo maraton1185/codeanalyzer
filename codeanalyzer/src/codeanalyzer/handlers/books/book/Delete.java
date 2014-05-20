@@ -6,20 +6,20 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.book.BookInfoSelection;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.core.model.BookInfo;
 
 public class Delete {
 	@Execute
 	public void execute(@Optional ICf db, Shell shell, IBookManager bm,
-			BookInfo book) {
+			BookInfoSelection selection) {
 
-		bm.delete(book);
+		bm.delete(selection);
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active BookInfo book) {
-		return book != null;
+	public boolean canExecute(@Optional @Active BookInfoSelection selection) {
+		return selection != null;
 	}
 }

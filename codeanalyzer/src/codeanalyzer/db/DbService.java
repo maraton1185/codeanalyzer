@@ -50,8 +50,9 @@ public class DbService implements IDbService {
 			IllegalAccessException, ClassNotFoundException, SQLException,
 			URISyntaxException {
 
+		// IPath root = ResourcesPlugin.getWorkspace().getRoot().getLocation();
 		String root = System.getProperty("user.dir");
-		File f = new File(root + "\\" + Const.SYSTEM_DB_NAME
+		File f = new File(root.toString() + "\\" + Const.SYSTEM_DB_NAME
 				+ Const.DEFAULT_DB_EXTENSION);
 		exist = f.exists();
 
@@ -67,6 +68,7 @@ public class DbService implements IDbService {
 				+ ifExist + mode, "sa", "");
 	}
 
+	@Override
 	public Connection getConnection() throws IllegalAccessException {
 
 		if (con == null)
@@ -93,6 +95,5 @@ public class DbService implements IDbService {
 	protected void finalize() {
 		closeConnection();
 	}
-
 
 }

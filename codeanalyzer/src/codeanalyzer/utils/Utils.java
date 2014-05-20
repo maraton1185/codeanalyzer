@@ -2,7 +2,9 @@ package codeanalyzer.utils;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
@@ -11,6 +13,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
@@ -113,6 +116,7 @@ public abstract class Utils {
 		String[] filter = new String[1];
 		filter[0] = filter_name;
 		dialog.setFilterExtensions(filter);
+		// dialog.
 
 		if (path != null) {
 			dialog.setFilterPath(path.toString());
@@ -123,6 +127,32 @@ public abstract class Utils {
 		return new Path(result);
 	}
 
+	public static List<IPath> browseFileMulti(IPath path, Shell shell,
+			String title, String filter_name) {
+		FileDialog dialog = new FileDialog(shell, SWT.MULTI);
+		dialog.setText(title);
+		String[] filter = new String[1];
+		filter[0] = filter_name;
+		dialog.setFilterExtensions(filter);
+		// dialog.
+
+		if (path != null) {
+			dialog.setFilterPath(path.toString());
+		}
+		String result = dialog.open();
+		if (result == null)
+			return null;
+
+		IPath p = new Path(result).removeLastSegments(1);
+		List<IPath> value = new ArrayList<IPath>();
+
+		for (String f : dialog.getFileNames()) {
+			value.add(p.append(f));
+		}
+		// p.removeLastSegments(1).append(path)
+
+		return value;
+	}
 	// *********************************************************************
 
 	// public static void fillBooks(Composite sectionClient, FormToolkit

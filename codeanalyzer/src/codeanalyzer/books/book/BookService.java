@@ -15,10 +15,9 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.components.ITreeItemInfo;
 import codeanalyzer.core.components.ITreeService;
-import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.db.interfaces.IDbService;
 import codeanalyzer.utils.Const;
-import codeanalyzer.utils.Const.EVENT_UPDATE_BOOK_LIST_DATA;
+import codeanalyzer.utils.Const.EVENT_UPDATE_TREE_DATA;
 
 public class BookService implements ITreeService {
 
@@ -34,7 +33,8 @@ public class BookService implements ITreeService {
 		return null;
 	}
 
-	public void getData(Connection con, CurrentBookInfo info) throws SQLException {
+	public void getData(Connection con, CurrentBookInfo info)
+			throws SQLException {
 		String SQL = "Select TOP 1 T.DESCRIPTION, T.EDIT_MODE FROM INFO AS T";
 		Statement stat = con.createStatement();
 		ResultSet rs = stat.executeQuery(SQL);
@@ -51,7 +51,8 @@ public class BookService implements ITreeService {
 		}
 	}
 
-	public void setData(Connection con, CurrentBookInfo info) throws SQLException {
+	public void setData(Connection con, CurrentBookInfo info)
+			throws SQLException {
 
 		String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
 		Statement stat = con.createStatement();
@@ -185,11 +186,10 @@ public class BookService implements ITreeService {
 	}
 
 	@Override
-	public ITreeItemInfo getParent(int item) {
+	public ITreeItemInfo get(int item) {
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT " + getItemString("T1") + "FROM BOOKS AS T "
-					+ "INNER JOIN BOOKS AS T1 ON T.PARENT = T1.ID "
+			String SQL = "SELECT " + getItemString("T") + "FROM BOOKS AS T "
 					+ "WHERE T.ID=?";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
@@ -217,7 +217,9 @@ public class BookService implements ITreeService {
 	public ITreeItemInfo getLast(int parent) {
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT TOP 1 T.ID FROM BOOKS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC, T.ID DESC";
+			String SQL = "SELECT TOP 1 "
+					+ getItemString("T")
+					+ "FROM BOOKS AS T WHERE T.PARENT=? ORDER BY T.SORT DESC, T.ID DESC";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, parent);
@@ -226,9 +228,9 @@ public class BookService implements ITreeService {
 			try {
 				if (rs.next()) {
 
-					BookInfo sec = new BookInfo();
-					sec.id = rs.getInt(1);
-					return sec;
+					// BookInfo sec = new BookInfo();
+					// sec.id = rs.getInt(1);
+					return getItem(rs);
 				}
 			} finally {
 				rs.close();
@@ -252,12 +254,14 @@ public class BookService implements ITreeService {
 
 		if (parent == null)
 			data.parent = ITreeService.rootId;
+		else if (parent.id == ITreeService.rootId)
+			data.parent = ITreeService.rootId;
 		else if (parent.isGroup)
 			data.parent = sub ? parent.id : parent.parent;
 		else
 			data.parent = parent.parent;
 
-		BookInfo added = null;
+		// BookInfo added = null;
 		// Connection con = null;
 		try {
 			Connection con = db.getConnection();
@@ -299,8 +303,9 @@ public class BookService implements ITreeService {
 
 				generatedKeys = prep.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					added = new BookInfo();
-					added.id = generatedKeys.getInt(1);
+					// added = new BookInfo();
+					data.id = generatedKeys.getInt(1);
+					// added.parent = data
 				} else
 					throw new SQLException();
 			} catch (Exception e) {
@@ -310,8 +315,7 @@ public class BookService implements ITreeService {
 			}
 
 			AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
-					new EVENT_UPDATE_BOOK_LIST_DATA(getParent(data.parent),
-							added));
+					new EVENT_UPDATE_TREE_DATA(get(data.parent), data));
 
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
@@ -323,7 +327,7 @@ public class BookService implements ITreeService {
 	@Override
 	public void delete(ITreeItemInfo item) {
 
-		ITreeItemInfo parent = getParent(item.getId());
+		ITreeItemInfo parent = get(item.getParent());
 		if (parent == null)
 			return;
 
@@ -345,13 +349,24 @@ public class BookService implements ITreeService {
 			e.printStackTrace();
 		}
 
+		// ITreeItemInfo selected = getLast(parent.getId());
+		// if (selected == null)
+		// selected = parent;
+		//
+		// AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
+		// new EVENT_UPDATE_BOOK_LIST_DATA(parent, selected));
+
+	}
+
+	public void selectLast(int index) {
+		ITreeItemInfo parent = get(index);
+
 		ITreeItemInfo selected = getLast(parent.getId());
 		if (selected == null)
 			selected = parent;
 
 		AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
-				new EVENT_UPDATE_BOOK_LIST_DATA(parent, selected));
-
+				new EVENT_UPDATE_TREE_DATA(parent, selected));
 	}
 
 	@Override
@@ -379,7 +394,7 @@ public class BookService implements ITreeService {
 			updateOrder(items);
 
 			AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
-					new EVENT_UPDATE_BOOK_LIST_DATA(target, item));
+					new EVENT_UPDATE_TREE_DATA(target, item));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -391,7 +406,7 @@ public class BookService implements ITreeService {
 	@Override
 	public Boolean setAfter(ITreeItemInfo item, ITreeItemInfo target) {
 
-		ITreeItemInfo parent = getParent(target.getId());
+		ITreeItemInfo parent = get(target.getParent());
 
 		if (parent == null)
 			return false;
@@ -412,7 +427,7 @@ public class BookService implements ITreeService {
 
 		if (notify)
 			AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
-					new EVENT_UPDATE_BOOK_LIST_DATA(parent, item));
+					new EVENT_UPDATE_TREE_DATA(parent, item));
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 		// new EVENT_UPDATE_VIEW_DATA(book, parent, section));
 
@@ -421,7 +436,7 @@ public class BookService implements ITreeService {
 
 	@Override
 	public Boolean setBefore(ITreeItemInfo item, ITreeItemInfo target) {
-		ITreeItemInfo parent = getParent(target.getId());
+		ITreeItemInfo parent = get(target.getParent());
 
 		if (parent == null)
 			return false;
@@ -445,7 +460,7 @@ public class BookService implements ITreeService {
 
 		if (notify)
 			AppManager.br.post(Const.EVENT_UPDATE_BOOK_LIST,
-					new EVENT_UPDATE_BOOK_LIST_DATA(parent, item));
+					new EVENT_UPDATE_TREE_DATA(parent, item));
 
 		return true;
 	}

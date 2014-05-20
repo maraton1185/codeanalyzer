@@ -30,18 +30,22 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import codeanalyzer.core.model.BookInfo;
+import codeanalyzer.books.book.BookInfo;
 
 public class TreeViewComponent {
 
 	private TreeViewer viewer;
+	private Tree viewerTree;
 	// private IDbService dbManager = pico.get(IDbService.class);
 	private Composite parent;
 	ITreeService service;
@@ -49,7 +53,8 @@ public class TreeViewComponent {
 	private ITreeItemInfo dragSection;
 	protected TreeItem selectedItem;
 
-	public TreeViewComponent(Composite parent, ITreeService service) {
+	public TreeViewComponent(Composite parent, ITreeService service,
+			int expandLevel) {
 
 		this.service = service;
 		this.parent = parent;
@@ -68,13 +73,23 @@ public class TreeViewComponent {
 		//
 		// IStructuredSelection selection = (IStructuredSelection) viewer
 		// .getSelection();
+		// selection.
 		// AppManager.ctx.set(BookInfo.class,
 		// (BookInfo) selection.getFirstElement());
 		// }
 		// });
 
+		viewerTree = (Tree) viewer.getControl();
+		viewerTree.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				selectedItem = (TreeItem) e.item;
+			}
+		});
+
 		List<ITreeItemInfo> input = service.getRoot();
 		root = input.size() == 0 ? null : input.get(0);
+		viewer.setAutoExpandLevel(expandLevel);
 		viewer.setInput(input);
 
 		editingSupport();
@@ -113,7 +128,7 @@ public class TreeViewComponent {
 
 		@Override
 		public Object getParent(Object element) {
-			return service.getParent(((ITreeItemInfo) element).getId());
+			return service.get(((ITreeItemInfo) element).getParent());
 		}
 
 		@Override

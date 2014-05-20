@@ -2,6 +2,7 @@ package codeanalyzer.books.book;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.util.Iterator;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -10,7 +11,6 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.books.BookStructure;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.core.AppManager;
-import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Strings;
 
@@ -62,9 +62,44 @@ public class BookManager implements IBookManager {
 
 	}
 
+	@Override
+	public void addBookToList(IPath path, BookInfo selected)
+			throws InvocationTargetException {
+
+		CurrentBookInfo book = new CurrentBookInfo();
+
+		book.setPath(path);
+
+		try {
+			Connection con = null;
+			try {
+				con = book.makeConnection(true);
+				bookStructure.checkSructure(con, book);
+				bs.getData(con, book);
+				book.setOpened(true);
+
+				BookInfo data = new BookInfo();
+				data.title = book.getName();
+				data.isGroup = false;
+				data.path = book.getFullName();
+				bs.add(data, selected, true);
+
+				AppManager.ctx.set(CurrentBookInfo.class, book);
+				AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
+			} finally {
+				con.close();
+			}
+		} catch (Exception e) {
+
+			throw new InvocationTargetException(e);
+		}
+	}
 
 	@Override
 	public void openBook(IPath path, Shell shell) {
+
+		if (path == null)
+			return;
 
 		CurrentBookInfo book = new CurrentBookInfo();
 
@@ -76,6 +111,9 @@ public class BookManager implements IBookManager {
 
 	@Override
 	public void openBook(CurrentBookInfo book, Shell shell) {
+
+		if (book.isGroup)
+			return;
 
 		try {
 
@@ -91,6 +129,7 @@ public class BookManager implements IBookManager {
 			}
 
 			AppManager.ctx.set(CurrentBookInfo.class, book);
+			AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
 
 		} catch (Exception e) {
 
@@ -99,8 +138,24 @@ public class BookManager implements IBookManager {
 				MessageDialog.openError(shell, Strings.get("appTitle"),
 						"Ошибка открытия книги.");
 		}
-		AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
+		// AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
 		// AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
+	}
+
+	@Override
+	public void delete(BookInfoSelection selection) {
+
+		int parent = selection.getParent();
+
+		Iterator<BookInfo> iterator = selection.iterator();
+		while (iterator.hasNext())
+			bs.delete(iterator.next());
+
+		// for (BookInfo book : selection.list) {
+		// bs.delete(book);
+		// }
+		if (parent != 0)
+			bs.selectLast(parent);
 	}
 
 	@Override
@@ -125,11 +180,5 @@ public class BookManager implements IBookManager {
 
 		return true;
 	}
-
-	@Override
-	public void delete(BookInfo book) {
-		bs.delete(book);
-	}
-
 
 }

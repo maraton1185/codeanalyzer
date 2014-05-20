@@ -1,4 +1,4 @@
-package codeanalyzer.core.model;
+package codeanalyzer.db;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

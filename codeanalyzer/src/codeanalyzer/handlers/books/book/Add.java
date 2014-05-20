@@ -9,9 +9,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.books.book.BookInfo;
 import codeanalyzer.books.interfaces.IBookManager;
 import codeanalyzer.cf.interfaces.ICf;
-import codeanalyzer.core.model.BookInfo;
 import codeanalyzer.utils.Strings;
 
 public class Add {
@@ -21,7 +21,7 @@ public class Add {
 
 		InputDialog dlg = new InputDialog(shell,
 				codeanalyzer.utils.Strings.get("appTitle"),
-				"¬ведите название книги:", db == null ? "" : db.getName()
+				"¬ведите им€ файла книги:", db == null ? "" : db.getName()
 						.replaceAll("[//\\:\\.]", "_"), null);
 		if (dlg.open() == Window.OK) {
 			try {
@@ -33,12 +33,6 @@ public class Add {
 			}
 		}
 
-		// MessageDialog.openInformation(shell, "", "создать книгу");
-
 	}
-	// @CanExecute
-	// public boolean canExecute(@Optional @Named(Const.CONTEXT_SELECTED_DB) IDb
-	// db) {
-	// return db != null;
-	// }
+
 }

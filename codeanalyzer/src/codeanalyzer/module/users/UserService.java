@@ -11,7 +11,7 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.books.list.BookInfo;
+import codeanalyzer.module.db.DbOptions;
 import codeanalyzer.module.db.interfaces.IDbService;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
@@ -28,22 +28,16 @@ public class UserService extends TreeService {
 		super(tableName, updateEvent);
 	}
 
-	@Override
-	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP ";
-		s = s.replaceAll("\\$Table", "T");
-		return s;
-	}
 
 	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
-		BookInfo info = new BookInfo();
+		UserInfo info = new UserInfo();
 		info.title = rs.getString(1);
 		info.id = rs.getInt(2);
 		info.parent = rs.getInt(3);
 		info.isGroup = rs.getBoolean(4);
-		// info.path = rs.getString(5);
+		info.options = DbOptions.load(UserInfoOptions.class, rs.getString(5));
 		return info;
 	}
 
@@ -51,8 +45,8 @@ public class UserService extends TreeService {
 	public void add(ITreeItemInfo item, ITreeItemInfo parent_item, boolean sub)
 			throws InvocationTargetException {
 
-		BookInfo parent = (BookInfo) parent_item;
-		BookInfo data = (BookInfo) item;
+		UserInfo parent = (UserInfo) parent_item;
+		UserInfo data = (UserInfo) item;
 
 		if (parent == null)
 			data.parent = ITreeService.rootId;
@@ -69,13 +63,29 @@ public class UserService extends TreeService {
 			Connection con = db.getConnection();
 			String SQL;
 			PreparedStatement prep;
+			ResultSet rs;
+
+			SQL = "SELECT Top 1 T.ID FROM " + tableName
+					+ " AS T WHERE T.TITLE=?";
+			prep = con.prepareStatement(SQL);
+
+			prep.setString(1, data.title);
+			rs = prep.executeQuery();
+
+			try {
+				if (rs.next())
+					throw new SQLException();
+
+			} finally {
+				rs.close();
+			}
 
 			SQL = "SELECT Top 1 T.SORT FROM " + tableName
 					+ " AS T WHERE T.PARENT=? ORDER BY T.SORT DESC";
 			prep = con.prepareStatement(SQL);
 
 			prep.setInt(1, data.parent);
-			ResultSet rs = prep.executeQuery();
+			rs = prep.executeQuery();
 
 			int sort = 0;
 			try {
@@ -87,7 +97,7 @@ public class UserService extends TreeService {
 			}
 
 			SQL = "INSERT INTO " + tableName
-					+ " (TITLE, PARENT, ISGROUP, SORT) VALUES (?,?,?,?,?);";
+					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			prep.setString(1, data.title);
@@ -97,7 +107,7 @@ public class UserService extends TreeService {
 				prep.setInt(2, data.parent);
 			prep.setBoolean(3, data.isGroup);
 			prep.setInt(4, sort);
-			// prep.setString(5, data.path);
+			prep.setString(5, DbOptions.save(data.options));
 
 			ResultSet generatedKeys = null;
 			try {
@@ -107,9 +117,8 @@ public class UserService extends TreeService {
 
 				generatedKeys = prep.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					// added = new BookInfo();
 					data.id = generatedKeys.getInt(1);
-					// added.parent = data
+
 				} else
 					throw new SQLException();
 			} catch (Exception e) {

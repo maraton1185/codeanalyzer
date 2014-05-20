@@ -9,12 +9,7 @@ import codeanalyzer.module.tree.ITreeItemSelection;
 
 public class BookInfoSelection implements ITreeItemSelection {
 
-	private List<ITreeItemInfo> list;
-
-	public BookInfoSelection() {
-		super();
-		list = new ArrayList<ITreeItemInfo>();
-	}
+	private List<ITreeItemInfo> list = new ArrayList<ITreeItemInfo>();
 
 	@Override
 	public Iterator<ITreeItemInfo> iterator() {

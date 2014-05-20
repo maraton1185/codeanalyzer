@@ -3,57 +3,19 @@ package codeanalyzer.module.books.list;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
-import codeanalyzer.module.tree.ITreeItemInfo;
+import codeanalyzer.module.tree.TreeItemInfo;
 
-public class BookInfo implements ITreeItemInfo {
+public class BookInfo extends TreeItemInfo {
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof BookInfo)
-			return ((BookInfo) obj).id.equals(id);
-		else
-			return super.equals(obj);
-	}
-
-	public String title;
-	public boolean isGroup;
-	public String path;
-	public Integer id;
-	public int parent;
-
-	@Override
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public void setTitle(String title) {
-		this.title = title;
-
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public boolean isGroup() {
-		return isGroup;
-	}
+	public BookInfoOptions options;
 
 	@Override
 	public String getSuffix() {
-		return path;
-	}
-
-	@Override
-	public Integer getParent() {
-		return parent;
+		return options.path;
 	}
 
 	public IPath getPath() {
 
-		return path.isEmpty() ? null : new Path(path);
+		return options.path.isEmpty() ? null : new Path(options.path);
 	}
 }

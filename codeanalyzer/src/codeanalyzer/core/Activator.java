@@ -8,6 +8,7 @@ import org.osgi.framework.BundleContext;
 import codeanalyzer.module.books.interfaces.IBookManager;
 import codeanalyzer.module.cf.interfaces.ICfManager;
 import codeanalyzer.module.db.interfaces.IDbService;
+import codeanalyzer.module.users.interfaces.IUserManager;
 
 public class Activator implements BundleActivator {
 
@@ -22,6 +23,7 @@ public class Activator implements BundleActivator {
 		pico.get(ICfManager.class).init();
 
 		ctx.set(IBookManager.class, pico.get(IBookManager.class));
+		ctx.set(IUserManager.class, pico.get(IUserManager.class));
 		ctx.set(IDbService.class, pico.get(IDbService.class));
 
 		bundle = this;

@@ -27,7 +27,7 @@ public class AddGroup {
 				BookInfo data = new BookInfo();
 				data.title = dlg.getValue();
 				data.isGroup = true;
-				data.path = "";
+				// data.path = "";
 				bm.addGroup(data, book, false);
 
 				// bm.add((ITreeItemInfo) data);

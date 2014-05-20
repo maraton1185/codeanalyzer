@@ -18,27 +18,51 @@ public class DbStructure implements IDbStructure {
 			IllegalAccessException, ClassNotFoundException, SQLException {
 
 		Statement stat = con.createStatement();
+		String SQL;
+		PreparedStatement prep;
+		int affectedRows;
 
 		// create table
 		try {
 
+
 			stat.execute("DROP TABLE IF EXISTS BOOKS;");
 
 			stat.execute("CREATE TABLE BOOKS (ID INTEGER AUTO_INCREMENT, "
-					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, OPTIONS VARCHAR(500), "
-					+ "TITLE VARCHAR(500), PATH VARCHAR(500), "
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(500), "
+					// + "PATH VARCHAR(500), "
+
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
-
-			// *****************************
-			String SQL;
-			PreparedStatement prep;
-			int affectedRows;
 
 			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP) VALUES (?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.get("initBookTitle"));
+			prep.setBoolean(2, true);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			// *****************************
+
+			stat.execute("DROP TABLE IF EXISTS USERS;");
+
+			stat.execute("CREATE TABLE USERS (ID INTEGER AUTO_INCREMENT, "
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(500), "
+					// + "PASSWORD VARCHAR(500), "
+
+					+ "FOREIGN KEY(PARENT) REFERENCES USERS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			SQL = "INSERT INTO USERS (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initUserTitle"));
 			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -64,8 +88,9 @@ public class DbStructure implements IDbStructure {
 
 			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
-					"PARENT, SORT, TITLE, ISGROUP, PATH, OPTIONS")
-
+					"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+					&& ch.checkColumns(metadata, "USERS",
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 			;
 
 		} catch (Exception e) {

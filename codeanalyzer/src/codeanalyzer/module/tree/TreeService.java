@@ -12,7 +12,6 @@ import java.util.List;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.books.list.BookInfo;
 import codeanalyzer.module.db.interfaces.IDbService;
 
 public abstract class TreeService implements ITreeService {
@@ -26,9 +25,15 @@ public abstract class TreeService implements ITreeService {
 		this.EVENT_UPDATE_TREE_NAME = EVENT_UPDATE_TREE_NAME;
 	}
 
-	protected abstract String getItemString(String table);
+
+	protected String getItemString(String table) {
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS ";
+		s = s.replaceAll("\\$Table", "T");
+		return s;
+	}
 
 	protected abstract ITreeItemInfo getItem(ResultSet rs) throws SQLException;
+
 
 	@Override
 	public abstract void add(ITreeItemInfo item, ITreeItemInfo parent,
@@ -356,8 +361,8 @@ public abstract class TreeService implements ITreeService {
 
 	@Override
 	public ITreeItemInfo get(Integer id) {
-		BookInfo result = new BookInfo();
-		result.id = id;
+		ITreeItemInfo result = null;
+		// result.id = id;
 		// Connection con = null;
 		try {
 			Connection con = db.getConnection();

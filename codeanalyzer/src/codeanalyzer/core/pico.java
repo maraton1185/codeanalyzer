@@ -13,6 +13,7 @@ import codeanalyzer.module.cf.LoaderManager;
 import codeanalyzer.module.cf.services.CfServices;
 import codeanalyzer.module.cf.services.TextParser;
 import codeanalyzer.module.db.DbService;
+import codeanalyzer.module.users.UserManager;
 
 public final class pico {
 
@@ -42,6 +43,8 @@ public final class pico {
 		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
 
 		instance.as(Characteristics.CACHE).addComponent(BookManager.class);
+		instance.as(Characteristics.CACHE).addComponent(UserManager.class);
+
 		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
 		// instance.as(Characteristics.CACHE).addComponent(BookService.class);
 		// instance.as(Characteristics.CACHE).addComponent(Events.class);

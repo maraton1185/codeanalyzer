@@ -27,7 +27,7 @@ public class AddSubGroup {
 				BookInfo data = new BookInfo();
 				data.title = dlg.getValue();
 				data.isGroup = true;
-				data.path = "";
+				// data.path = "";
 				bm.addGroup(data, book, true);
 				// ((ITreeService) bm).add(data, book, true);
 

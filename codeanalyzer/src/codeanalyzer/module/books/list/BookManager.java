@@ -17,10 +17,8 @@ import codeanalyzer.utils.Strings;
 
 public class BookManager implements IBookManager {
 
-	// IDbService dbManager = pico.get(IDbService.class);
 	BookStructure bookStructure = new BookStructure();
 	BookService bs = new BookService();
-	BookService books;
 
 	@Override
 	public void addGroup(BookInfo data, BookInfo book, boolean sub)
@@ -49,7 +47,9 @@ public class BookManager implements IBookManager {
 				BookInfo data = new BookInfo();
 				data.title = book.getName();
 				data.isGroup = false;
-				data.path = book.getFullName();
+				BookInfoOptions opt = new BookInfoOptions();
+				opt.path = book.getFullName();
+				data.options = opt;
 				bs.add(data, parent, true);
 
 				AppManager.ctx.set(CurrentBookInfo.class, book);
@@ -82,7 +82,9 @@ public class BookManager implements IBookManager {
 				BookInfo data = new BookInfo();
 				data.title = book.getName();
 				data.isGroup = false;
-				data.path = book.getFullName();
+				BookInfoOptions opt = new BookInfoOptions();
+				opt.path = book.getFullName();
+				data.options = opt;
 				bs.add(data, selected, true);
 
 				AppManager.ctx.set(CurrentBookInfo.class, book);
@@ -152,9 +154,6 @@ public class BookManager implements IBookManager {
 		while (iterator.hasNext())
 			bs.delete(iterator.next());
 
-		// for (BookInfo book : selection.list) {
-		// bs.delete(book);
-		// }
 		if (parent != 0)
 			bs.selectLast(parent);
 	}

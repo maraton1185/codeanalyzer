@@ -11,15 +11,11 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 @SuppressWarnings("restriction")
-public class DbOptions implements Serializable {
+public abstract class DbOptions implements Serializable {
 
 	private static final long serialVersionUID = -8134048308726133820L;
 
-	// public String path;
-
-	// public int columnCount = 1;
-
-	public static String save(DbOptions data) {
+	public static String save(Serializable data) {
 
 		String value = "";
 		try {
@@ -35,22 +31,28 @@ public class DbOptions implements Serializable {
 		return value;
 	}
 
-	public static DbOptions load(String s) {
+	@SuppressWarnings("unchecked")
+	public static <T> T load(Class<T> c, String s) {
 
-		if (s == null || s.isEmpty())
-			return new DbOptions();
-
-		DbOptions obj;
+		T obj;
 		ObjectInputStream ois = null;
 		try {
+
+			if (s == null || s.isEmpty())
+				return c.newInstance();
+
 			BASE64Decoder decoder = new BASE64Decoder();
 			byte[] data = decoder.decodeBuffer(s);
 			ois = new ObjectInputStream(new ByteArrayInputStream(data));
 
-			obj = (DbOptions) ois.readObject();
+			obj = (T) ois.readObject();
 
 		} catch (Exception e) {
-			return new DbOptions();
+			try {
+				return c.newInstance();
+			} catch (Exception e1) {
+				return null;
+			}
 		} finally {
 			try {
 				if (ois != null)

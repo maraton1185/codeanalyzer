@@ -13,6 +13,7 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
+import codeanalyzer.module.db.DbOptions;
 import codeanalyzer.module.db.interfaces.IDbService;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
@@ -95,13 +96,6 @@ public class BookService extends TreeService {
 	// *****************************************************************
 
 	@Override
-	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.PATH ";
-		s = s.replaceAll("\\$Table", "T");
-		return s;
-	}
-
-	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
 		BookInfo info = new BookInfo();
@@ -109,7 +103,8 @@ public class BookService extends TreeService {
 		info.id = rs.getInt(2);
 		info.parent = rs.getInt(3);
 		info.isGroup = rs.getBoolean(4);
-		info.path = rs.getString(5);
+		info.options = DbOptions.load(BookInfoOptions.class, rs.getString(5));
+		// info.path = rs.getString(5);
 		return info;
 	}
 
@@ -154,7 +149,7 @@ public class BookService extends TreeService {
 
 			SQL = "INSERT INTO "
 					+ tableName
-					+ " (TITLE, PARENT, ISGROUP, SORT, PATH) VALUES (?,?,?,?,?);";
+					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			prep.setString(1, data.title);
@@ -164,7 +159,7 @@ public class BookService extends TreeService {
 				prep.setInt(2, data.parent);
 			prep.setBoolean(3, data.isGroup);
 			prep.setInt(4, sort);
-			prep.setString(5, data.path);
+			prep.setString(5, DbOptions.save(data.options));
 
 			ResultSet generatedKeys = null;
 			try {

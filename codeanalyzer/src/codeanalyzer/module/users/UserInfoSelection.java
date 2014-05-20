@@ -1,5 +1,6 @@
 package codeanalyzer.module.users;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import codeanalyzer.module.tree.ITreeItemSelection;
 
 public class UserInfoSelection implements ITreeItemSelection {
 
-	private List<ITreeItemInfo> list;
+	private List<ITreeItemInfo> list = new ArrayList<ITreeItemInfo>();
 
 	@Override
 	public int getParent() {

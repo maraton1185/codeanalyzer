@@ -8,7 +8,8 @@ public class UserInfo extends TreeItemInfo {
 
 	@Override
 	public String getSuffix() {
-		return options.description == null ? "" : options.description;
+		return options.description == null ? "" : options.description
+				.substring(0, 10).concat("...");
 	}
 
 }

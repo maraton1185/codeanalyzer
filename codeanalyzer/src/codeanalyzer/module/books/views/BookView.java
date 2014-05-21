@@ -37,7 +37,7 @@ import codeanalyzer.module.books.interfaces.IBookManager;
 import codeanalyzer.module.books.list.CurrentBookInfo;
 import codeanalyzer.utils.Strings;
 
-public class BookInfoView {
+public class BookView {
 
 	private ScrolledForm form;
 	Text desc_text;

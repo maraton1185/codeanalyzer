@@ -33,7 +33,7 @@
               </children>
             </children>
             <children xsi:type="basic:PartStack" xmi:id="_sbni0JrjEeOlcttaCxvpFw" elementId="codeanalyzer.partstack.2" visible="false">
-              <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.views.BookInfoView" label="Текущая книга">
+              <children xsi:type="basic:Part" xmi:id="_JkH0MKj0EeOctbxZaJIj4Q" elementId="codeanalyzer.part.3" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.views.BookView" label="Текущая книга">
                 <menus xmi:id="_nCgbQKtZEeOoWahGiuWvNw" elementId="codeanalyzer.menu.2">
                   <tags>ViewMenu</tags>
                   <children xsi:type="menu:DirectMenuItem" xmi:id="_n0IFcKtZEeOoWahGiuWvNw" elementId="codeanalyzer.directmenuitem.2" label="Установить картинку" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.list.InfoImage"/>

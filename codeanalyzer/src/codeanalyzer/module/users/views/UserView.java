@@ -112,12 +112,13 @@ public class UserView {
 		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
 		// 1,
 		// 1));
-		label = toolkit.createLabel(form.getBody(), "", SWT.LEFT);
+		label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
+		// gd.grabExcessVerticalSpace = true;
 		label.setLayoutData(gd);
 
-		label = toolkit.createLabel(form.getBody(), "", SWT.LEFT);
+		label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		label.setLayoutData(gd);

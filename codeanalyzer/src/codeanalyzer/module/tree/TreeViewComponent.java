@@ -40,8 +40,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import codeanalyzer.module.books.list.BookInfo;
-
 public class TreeViewComponent {
 
 	private TreeViewer viewer;
@@ -192,7 +190,7 @@ public class TreeViewComponent {
 
 			@Override
 			public Object getValue(Object element, String property) {
-				return ((BookInfo) element).title + "";
+				return ((ITreeItemInfo) element).getTitle() + "";
 			}
 
 			@Override

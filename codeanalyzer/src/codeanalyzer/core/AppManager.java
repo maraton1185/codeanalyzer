@@ -92,6 +92,7 @@ public class AppManager {
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
 		try {
+			// throw new SQLException();
 			pico.get(IDbService.class).init(false);
 		} catch (Exception e) {
 			Shell shell = (Shell) window.getWidget();

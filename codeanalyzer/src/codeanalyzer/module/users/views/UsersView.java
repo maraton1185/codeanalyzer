@@ -1,12 +1,21 @@
 package codeanalyzer.module.users.views;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
+import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -104,4 +113,20 @@ public class UsersView {
 
 	}
 
+	@Focus
+	public void OnFocus(@Active MWindow window, EPartService partService,
+			EModelService model) {
+		List<MPartStack> stacks = model.findElements(window,
+				Strings.get("codeanalyzer.partstack.editItem"),
+				MPartStack.class, null);
+
+		String partID = Strings.get("codeanalyzer.part.user");
+
+		for (MStackElement item : stacks.get(0).getChildren()) {
+			if (!(item instanceof MPart))
+				continue;
+			MPart part = (MPart) item;
+			part.setVisible(part.getElementId().equals(partID));
+		}
+	}
 }

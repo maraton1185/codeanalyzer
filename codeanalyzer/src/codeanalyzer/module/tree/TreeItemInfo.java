@@ -1,6 +1,5 @@
 package codeanalyzer.module.tree;
 
-
 public class TreeItemInfo implements ITreeItemInfo {
 	@Override
 	public boolean equals(Object obj) {

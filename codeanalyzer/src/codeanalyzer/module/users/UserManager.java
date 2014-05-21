@@ -3,17 +3,34 @@ package codeanalyzer.module.users;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
+
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.utils.Strings;
 
 public class UserManager implements IUserManager {
 
 	UserService us = new UserService();
 
 	@Override
-	public void add(UserInfo data, UserInfo user, boolean sub)
-			throws InvocationTargetException {
-		us.add(data, user, sub);
+	public void add(UserInfo data, UserInfo user, boolean sub, Shell shell) {
+		try {
+			us.add(data, user, sub);
+		} catch (InvocationTargetException e) {
+
+			if (data.isGroup)
+				MessageDialog
+						.openError(shell, Strings.get("appTitle"),
+								"Ошибка создании группы. \nВозможно, группа с таким именем уже существует.");
+			else
+				MessageDialog
+						.openError(
+								shell,
+								Strings.get("appTitle"),
+								"Ошибка создании пользователя. \nВозможно, пользователь с таким именем уже существует.");
+		}
 
 	}
 
@@ -28,6 +45,23 @@ public class UserManager implements IUserManager {
 		if (parent != 0)
 			us.selectLast(parent);
 
+	}
+
+	@Override
+	public boolean save(UserInfo data, Shell shell) {
+		try {
+			us.save(data);
+		} catch (InvocationTargetException e) {
+			MessageDialog
+					.openError(
+							shell,
+							Strings.get("appTitle"),
+							"Ошибка сохранения пользователя. \nВозможно, пользователь с таким именем уже существует.");
+
+			return false;
+		}
+
+		return true;
 	}
 
 }

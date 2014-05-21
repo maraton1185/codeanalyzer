@@ -12,6 +12,11 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
+import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -25,6 +30,25 @@ import org.osgi.framework.FrameworkUtil;
 import codeanalyzer.module.cf.views.ConfigsView;
 
 public abstract class Utils {
+
+	public static void togglePart(MWindow window, EModelService model,
+			String partId, String stackId) {
+		List<MPart> parts = model.findElements(window, Strings.get(partId),
+				MPart.class, null);
+		parts.get(0).setVisible(true);
+
+		List<MPartStack> stacks = model.findElements(window,
+				Strings.get(stackId), MPartStack.class, null);
+
+		// String partID = Strings.get("codeanalyzer.part.book");
+
+		for (MStackElement item : stacks.get(0).getChildren()) {
+			if (!(item instanceof MPart))
+				continue;
+			MPart part = (MPart) item;
+			part.setVisible(part.getElementId().equals(partId));
+		}
+	}
 
 	public static void executeHandler(EHandlerService hService,
 			ECommandService comService, String id) {

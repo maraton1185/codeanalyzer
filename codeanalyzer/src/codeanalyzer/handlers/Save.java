@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.handlers.section;
+package codeanalyzer.handlers;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;

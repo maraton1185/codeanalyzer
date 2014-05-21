@@ -28,7 +28,6 @@ public class UserService extends TreeService {
 		super(tableName, updateEvent);
 	}
 
-
 	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
@@ -39,6 +38,14 @@ public class UserService extends TreeService {
 		info.isGroup = rs.getBoolean(4);
 		info.options = DbOptions.load(UserInfoOptions.class, rs.getString(5));
 		return info;
+	}
+
+	@Override
+	public void saveTitle(ITreeItemInfo item) {
+
+		super.saveTitle(item);
+
+		AppManager.br.post(Events.EVENT_UPDATE_USER_INFO, null);
 	}
 
 	@Override
@@ -96,7 +103,8 @@ public class UserService extends TreeService {
 				rs.close();
 			}
 
-			SQL = "INSERT INTO " + tableName
+			SQL = "INSERT INTO "
+					+ tableName
 					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
@@ -126,6 +134,34 @@ public class UserService extends TreeService {
 			} finally {
 				generatedKeys.close();
 			}
+
+			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
+					get(data.parent), data));
+
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
+
+		}
+
+	}
+
+	public void save(UserInfo data) throws InvocationTargetException {
+
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+			// ResultSet rs;
+
+			SQL = "UPDATE " + tableName + " SET OPTIONS=?  WHERE ID=?;";
+
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, DbOptions.save(data.options));
+			prep.setInt(2, data.id);
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
 
 			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
 					get(data.parent), data));

@@ -29,6 +29,8 @@ public abstract class Events {
 	public static final String EVENT_EDIT_TITLE_USERS_LIST = "EVENT_EDIT_TITLE_USERS_LIST";
 	public static final String EVENT_UPDATE_USERS = "EVENT_UPDATE_USERS";
 
+	public static final String EVENT_UPDATE_USER_INFO = "EVENT_UPDATE_USER_INFO";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(CurrentBookInfo book, SectionInfo parent,

@@ -1,7 +1,6 @@
 package codeanalyzer.module.books.views;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -10,9 +9,6 @@ import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
-import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
@@ -39,6 +35,7 @@ import codeanalyzer.module.books.list.BookService;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.Utils;
 
 public class BooksListView {
 
@@ -129,17 +126,9 @@ public class BooksListView {
 	@Focus
 	public void OnFocus(@Active MWindow window, EPartService partService,
 			EModelService model) {
-		List<MPartStack> stacks = model.findElements(window,
-				Strings.get("codeanalyzer.partstack.editItem"),
-				MPartStack.class, null);
 
-		String partID = Strings.get("codeanalyzer.part.book");
+		Utils.togglePart(window, model, "codeanalyzer.part.book",
+				"codeanalyzer.partstack.editItem");
 
-		for (MStackElement item : stacks.get(0).getChildren()) {
-			if (!(item instanceof MPart))
-				continue;
-			MPart part = (MPart) item;
-			part.setVisible(part.getElementId().equals(partID));
-		}
 	}
 }

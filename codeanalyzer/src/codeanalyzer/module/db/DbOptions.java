@@ -47,6 +47,9 @@ public abstract class DbOptions implements Serializable {
 
 			obj = (T) ois.readObject();
 
+			if (obj == null)
+				return c.newInstance();
+
 		} catch (Exception e) {
 			try {
 				return c.newInstance();

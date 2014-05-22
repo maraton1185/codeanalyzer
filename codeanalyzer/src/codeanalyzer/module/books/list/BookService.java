@@ -13,6 +13,7 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.db.DbOptions;
 import codeanalyzer.module.db.interfaces.IDbService;
 import codeanalyzer.module.tree.ITreeItemInfo;
@@ -40,7 +41,7 @@ public class BookService extends TreeService {
 		return null;
 	}
 
-	public void getData(Connection con, CurrentBookInfo info)
+	public void getData(Connection con, WindowBookInfo info)
 			throws SQLException {
 		String SQL = "Select TOP 1 T.DESCRIPTION, T.EDIT_MODE FROM INFO AS T";
 		Statement stat = con.createStatement();
@@ -58,7 +59,7 @@ public class BookService extends TreeService {
 		}
 	}
 
-	public void setData(Connection con, CurrentBookInfo info)
+	public void setData(Connection con, WindowBookInfo info)
 			throws SQLException {
 
 		String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";

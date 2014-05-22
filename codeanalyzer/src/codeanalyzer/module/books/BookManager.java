@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.list;
+package codeanalyzer.module.books;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -10,8 +10,11 @@ import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
-import codeanalyzer.module.books.BookStructure;
 import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.module.books.list.BookInfo;
+import codeanalyzer.module.books.list.BookInfoOptions;
+import codeanalyzer.module.books.list.BookInfoSelection;
+import codeanalyzer.module.books.list.BookService;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.utils.Strings;
 
@@ -32,7 +35,7 @@ public class BookManager implements IBookManager {
 	public void addBook(String value, BookInfo parent)
 			throws InvocationTargetException {
 
-		CurrentBookInfo book = new CurrentBookInfo();
+		WindowBookInfo book = new WindowBookInfo();
 
 		book.setName(value);
 
@@ -52,8 +55,8 @@ public class BookManager implements IBookManager {
 				data.options = opt;
 				bs.add(data, parent, true);
 
-				AppManager.ctx.set(CurrentBookInfo.class, book);
-				AppManager.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
+				// AppManager.ctx.set(WindowBookInfo.class, book);
+				// AppManager.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
 			} finally {
 				con.close();
 			}
@@ -67,7 +70,7 @@ public class BookManager implements IBookManager {
 	public void addBookToList(IPath path, BookInfo selected)
 			throws InvocationTargetException {
 
-		CurrentBookInfo book = new CurrentBookInfo();
+		WindowBookInfo book = new WindowBookInfo();
 
 		book.setPath(path);
 
@@ -87,8 +90,8 @@ public class BookManager implements IBookManager {
 				data.options = opt;
 				bs.add(data, selected, true);
 
-				AppManager.ctx.set(CurrentBookInfo.class, book);
-				AppManager.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
+				// AppManager.ctx.set(WindowBookInfo.class, book);
+				// AppManager.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
 			} finally {
 				con.close();
 			}
@@ -104,19 +107,14 @@ public class BookManager implements IBookManager {
 		if (path == null)
 			return;
 
-		CurrentBookInfo book = new CurrentBookInfo();
+		WindowBookInfo book = new WindowBookInfo(path);
 
-		book.setPath(path);
+		// book.setPath(path);
 
-		openBook(book, shell);
+		// openBook(book, shell);
 
-	}
-
-	@Override
-	public void openBook(CurrentBookInfo book, Shell shell) {
-
-		if (book.isGroup)
-			return;
+		// if (book.isGroup)
+		// return;
 
 		try {
 
@@ -125,24 +123,22 @@ public class BookManager implements IBookManager {
 				con = book.makeConnection(true);
 				bookStructure.checkSructure(con, book);
 				bs.getData(con, book);
-				book.setOpened(true);
+				// book.setOpened(true);
 
 			} finally {
 				con.close();
 			}
 
-			AppManager.ctx.set(CurrentBookInfo.class, book);
+			AppManager.ctx.set(WindowBookInfo.class, book);
 			AppManager.br.post(Events.EVENT_SHOW_BOOK, null);
 
 		} catch (Exception e) {
 
-			AppManager.ctx.set(CurrentBookInfo.class, null);
+			AppManager.ctx.set(WindowBookInfo.class, null);
 			if (shell != null)
 				MessageDialog.openError(shell, Strings.get("appTitle"),
 						"Ошибка открытия книги.");
 		}
-		// AppManager.br.post(Const.EVENT_UPDATE_BOOK_INFO, null);
-		// AppManager.br.post(Const.EVENT_SHOW_BOOK, null);
 	}
 
 	@Override
@@ -159,25 +155,25 @@ public class BookManager implements IBookManager {
 	}
 
 	@Override
-	public boolean saveBook(CurrentBookInfo book, Shell shell) {
+	public boolean save(BookInfo book, Shell shell) {
 
-		try {
-			Connection con = null;
-			try {
-				con = book.makeConnection(true);
-				bookStructure.checkSructure(con, book);
-				bs.setData(con, book);
-
-			} finally {
-				con.close();
-			}
-
-		} catch (Exception e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
-					"Ошибка сохранения книги.");
-			return false;
-		}
-
+		// try {
+		// Connection con = null;
+		// try {
+		// con = book.makeConnection(true);
+		// bookStructure.checkSructure(con, book);
+		// bs.setData(con, book);
+		//
+		// } finally {
+		// con.close();
+		// }
+		//
+		// } catch (Exception e) {
+		// MessageDialog.openError(shell, Strings.get("appTitle"),
+		// "Ошибка сохранения книги.");
+		// return false;
+		// }
+		//
 		return true;
 	}
 

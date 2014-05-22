@@ -14,13 +14,13 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.utils.Strings;
 
 public class Delete {
 	@Execute
-	public void execute(Shell shell, CurrentBookInfo book,
+	public void execute(Shell shell, WindowBookInfo book,
 			@Active final SectionInfo section, EPartService partService,
 			EModelService model, @Active MWindow window) {
 		// if (MessageDialog.openConfirm(shell, Strings.get("appTitle"),

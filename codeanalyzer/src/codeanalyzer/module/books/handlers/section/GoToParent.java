@@ -13,7 +13,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -21,7 +21,7 @@ import codeanalyzer.utils.Utils;
 public class GoToParent {
 	@Execute
 	public void execute(
-			CurrentBookInfo book,
+			WindowBookInfo book,
 			@Active MWindow window,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section,
 			ECommandService cs, EHandlerService hs) {

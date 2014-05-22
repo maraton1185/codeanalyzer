@@ -23,12 +23,12 @@ import org.eclipse.swt.graphics.ImageData;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.utils.Strings;
 
 public class SectionsService { // implements ITreeService{
 
-	private CurrentBookInfo book = new CurrentBookInfo();
+	private WindowBookInfo book = new WindowBookInfo();
 
 	private SectionInfo getSection(ResultSet rs) throws SQLException {
 
@@ -41,7 +41,7 @@ public class SectionsService { // implements ITreeService{
 		return sec;
 	}
 
-	public void setBook(CurrentBookInfo book) throws IllegalAccessException {
+	public void setBook(WindowBookInfo book) throws IllegalAccessException {
 		this.book = book;
 		try {
 			book.openConnection();

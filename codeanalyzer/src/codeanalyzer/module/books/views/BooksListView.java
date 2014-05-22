@@ -104,6 +104,8 @@ public class BooksListView {
 
 				AppManager.ctx.set(BookInfo.class,
 						(BookInfo) selection.getFirstElement());
+
+				AppManager.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
 			}
 		});
 

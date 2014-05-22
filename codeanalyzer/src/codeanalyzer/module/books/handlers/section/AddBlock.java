@@ -9,13 +9,13 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 
 import codeanalyzer.core.Events;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.books.section.SectionInfo;
 
 public class AddBlock {
 	@Execute
 	public void execute(
-			CurrentBookInfo book,
+			WindowBookInfo book,
 			@Active MPart part,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 

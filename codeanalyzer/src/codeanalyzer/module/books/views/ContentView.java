@@ -62,7 +62,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
@@ -78,7 +78,7 @@ public class ContentView {
 
 	@Inject
 	@Active
-	CurrentBookInfo book;
+	WindowBookInfo book;
 
 	private SectionInfo root;
 	private SectionInfo dragSection;

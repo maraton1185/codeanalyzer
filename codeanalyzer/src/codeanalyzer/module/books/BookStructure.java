@@ -10,14 +10,13 @@ import java.sql.Statement;
 import org.eclipse.core.runtime.IPath;
 
 import codeanalyzer.core.exceptions.DbStructureException;
-import codeanalyzer.module.books.list.CurrentBookInfo;
 import codeanalyzer.module.db.interfaces.IDbStructure;
 import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Strings;
 
 public class BookStructure implements IDbStructure {
 
-	public void createStructure(Connection con, CurrentBookInfo db)
+	public void createStructure(Connection con, WindowBookInfo db)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException, SQLException {
 		IPath path = db.getPath();
@@ -84,7 +83,7 @@ public class BookStructure implements IDbStructure {
 
 	}
 
-	public void checkSructure(Connection con, CurrentBookInfo db)
+	public void checkSructure(Connection con, WindowBookInfo db)
 			throws DbStructureException, SQLException, FileNotFoundException {
 
 		IPath path = db.getPath();

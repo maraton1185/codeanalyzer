@@ -12,4 +12,8 @@ public class BookViewModel extends ModelObject {
 		this.data = data;
 	}
 
+	public BookInfo getData() {
+		return data;
+	}
+
 }

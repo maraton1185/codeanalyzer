@@ -31,14 +31,6 @@ public class DbService implements IDbService {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		}
-		// finally {
-		// try {
-		// con.close();
-		// } catch (Exception e) {
-		// throw new InvocationTargetException(e,
-		// Const.ERROR_CONFIG_OPEN_DATABASE);
-		// }
-		// }
 
 	}
 

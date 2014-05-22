@@ -23,7 +23,7 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.views.section.tools.BrowserComposite;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -41,7 +41,7 @@ public class SectionView {
 
 	@Inject
 	@Active
-	CurrentBookInfo book;
+	WindowBookInfo book;
 
 	SectionInfo section;
 	MPart part;

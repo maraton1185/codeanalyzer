@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.module.books.list.BookInfo;
 import codeanalyzer.module.books.list.BookInfoSelection;
-import codeanalyzer.module.books.list.CurrentBookInfo;
 
 public interface IBookManager {
 
@@ -18,9 +17,9 @@ public interface IBookManager {
 
 	void openBook(IPath path, Shell shell);
 
-	void openBook(CurrentBookInfo book, Shell shell);
+	// void openBook(WindowBookInfo book, Shell shell);
 
-	boolean saveBook(CurrentBookInfo book, Shell shell);
+	// boolean saveBook(BookInfo book, Shell shell);
 
 	void addGroup(BookInfo data, BookInfo book, boolean sub)
 			throws InvocationTargetException;
@@ -28,5 +27,7 @@ public interface IBookManager {
 	void delete(BookInfoSelection selection);
 
 	void addBookToList(IPath p, BookInfo book) throws InvocationTargetException;
+
+	boolean save(BookInfo data, Shell shell);
 
 }

@@ -23,7 +23,7 @@ import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.AppManager.BookWindowCloseHandler;
 import codeanalyzer.core.Events;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -39,13 +39,13 @@ public class Show {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional CurrentBookInfo book) {
+	public boolean canExecute(@Optional WindowBookInfo book) {
 		return book != null;
 	}
 
 	@Execute
 	public void execute(EPartService partService, EModelService model,
-			final @Active CurrentBookInfo book, IEclipseContext ctx) {
+			final @Active WindowBookInfo book, IEclipseContext ctx) {
 
 		MWindow mainWindow = AppManager.app.getChildren().get(0);
 
@@ -68,7 +68,7 @@ public class Show {
 		}
 	}
 
-	private void createBookWindow(MWindow mainWindow, CurrentBookInfo book,
+	private void createBookWindow(MWindow mainWindow, WindowBookInfo book,
 			EModelService model, IEclipseContext ctx, EPartService partService) {
 
 		MTrimmedWindow bookWindow = (MTrimmedWindow) model.cloneSnippet(
@@ -82,7 +82,7 @@ public class Show {
 		bookWindow.getTags().add(book.getFullName());
 
 		AppManager.app.getChildren().add(bookWindow);
-		bookWindow.getContext().set(CurrentBookInfo.class, book);
+		bookWindow.getContext().set(WindowBookInfo.class, book);
 
 		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
 		bookWindow.getContext().set(IWindowCloseHandler.class, closeHandler);

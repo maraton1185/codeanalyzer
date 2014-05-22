@@ -5,7 +5,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import codeanalyzer.auth.SignIn;
-import codeanalyzer.module.books.list.BookManager;
+import codeanalyzer.module.books.BookManager;
 import codeanalyzer.module.books.views.section.tools.SectionComposite;
 import codeanalyzer.module.cf.Cf;
 import codeanalyzer.module.cf.CfManager;

@@ -46,7 +46,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.list.CurrentBookInfo;
+import codeanalyzer.module.books.WindowBookInfo;
 import codeanalyzer.module.books.section.SectionImage;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.section.SectionOptions;
@@ -65,7 +65,7 @@ public class BlockView {
 
 	@Inject
 	@Active
-	CurrentBookInfo book;
+	WindowBookInfo book;
 
 	SectionInfo section;
 

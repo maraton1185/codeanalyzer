@@ -9,6 +9,8 @@ import java.io.Reader;
 
 import codeanalyzer.core.models.ModelObject;
 import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.tree.ITreeService;
+import codeanalyzer.module.users.UserInfo;
 
 public class BookViewModel extends ModelObject {
 
@@ -92,12 +94,17 @@ public class BookViewModel extends ModelObject {
 		return description;
 	}
 
-	public String getRole() {
+	public UserInfo getRole() {
 		return data.role;
 	}
 
-	public void setRole(String value) {
+	public void setRole(UserInfo value) {
 
 		fireIndexedPropertyChange("role", data.role, data.role = value);
 	}
+
+	public boolean isShowRole() {
+		return data.parent == ITreeService.rootId;
+	}
+
 }

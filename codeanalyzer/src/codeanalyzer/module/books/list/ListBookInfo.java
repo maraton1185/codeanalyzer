@@ -5,16 +5,20 @@ import org.eclipse.core.runtime.Path;
 
 import codeanalyzer.core.models.DbOptions;
 import codeanalyzer.module.tree.TreeItemInfo;
+import codeanalyzer.module.users.UserInfo;
 
 public class ListBookInfo extends TreeItemInfo {
 
 	public ListBookInfoOptions options;
 
-	public String role;
+	public UserInfo role;
 
 	@Override
 	public String getSuffix() {
-		return options.path;
+		if (isGroup() && role != null)
+			return role.title;
+		else
+			return options.path;
 	}
 
 	public IPath getPath() {

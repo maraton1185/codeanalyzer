@@ -1,5 +1,8 @@
 package codeanalyzer.module.books.views;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -10,6 +13,7 @@ import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -17,12 +21,11 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
+import org.eclipse.jface.databinding.viewers.ViewerProperties;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.IOpenListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.OpenEvent;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Font;
@@ -35,13 +38,17 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.core.Events;
 import codeanalyzer.module.books.BookListService;
 import codeanalyzer.module.books.interfaces.IBookListManager;
 import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.users.UserInfo;
 
 public class BookView {
 
@@ -54,6 +61,7 @@ public class BookView {
 	StackLayout stackLayout;
 	Composite groupComp;
 	Composite itemComp;
+	ComboViewer combo;
 
 	@Inject
 	MDirtyable dirty;
@@ -65,6 +73,13 @@ public class BookView {
 				dirty.setDirty(true);
 		}
 	};
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_USER_ROLES(
+			@UIEventTopic(Events.EVENT_UPDATE_USER_ROLES) Object o) {
+		combo.setInput(bs.getBookRoles());
+	}
 
 	@Inject
 	@Optional
@@ -105,14 +120,6 @@ public class BookView {
 	@PostConstruct
 	public void postConstruct(Composite parent) {
 
-		Label label;
-		Text text;
-		GridData gd;
-		Composite comp;
-
-		IObservableValue target;
-		IObservableValue field_model;
-
 		dataValue = new WritableValue();
 		DataBindingContext ctx = new DataBindingContext();
 
@@ -126,20 +133,18 @@ public class BookView {
 		// »Ãﬂ *******************************************
 		nameField(toolkit, ctx, parent);
 
-		// œ”“‹ *******************************************
-		pathField(toolkit, ctx, parent);
 
-		// Œœ»—¿Õ»≈ *******************************************
+		// —“≈  *******************************************
 
 		stack = toolkit.createComposite(form.getBody());
 		stackLayout = new StackLayout();
 		stack.setLayout(stackLayout);
 		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 
-		// Œœ»—¿Õ»≈ ƒÀﬂ √–”œœ *******************************************
+		// œŒÀﬂ √–”œœ *******************************************
 		groupFields(toolkit, ctx);
 
-		// Œœ»—¿Õ»≈ ƒÀﬂ ›À≈Ã≈Õ“Œ¬ *******************************************
+		// œŒÀﬂ ›À≈Ã≈Õ“Œ¬ *******************************************
 		itemFields(toolkit, ctx);
 
 		// *******************************************
@@ -166,9 +171,33 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		label = toolkit.createLabel(itemComp, "ŒÔËÒ‡ÌËÂ ÍÌË„Ë:", SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
-				1));
+		pathField(toolkit, ctx, itemComp);
+
+		Hyperlink link = toolkit.createHyperlink(itemComp, "ŒÔËÒ‡ÌËÂ ÍÌË„Ë",
+				SWT.RIGHT);
+		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				try {
+					IPath p = model.data.getPath();
+					if (p == null)
+						return;
+					File temp = new File(p
+							.addFileExtension("txt").toString());
+					if (!temp.exists())
+						temp.createNewFile();
+					java.awt.Desktop.getDesktop().open(temp);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		// label = toolkit.createLabel(itemComp, "ŒÔËÒ‡ÌËÂ ÍÌË„Ë:", SWT.LEFT);
+		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
+		// 2,
+		// 1));
 
 		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
 				| SWT.READ_ONLY);
@@ -199,9 +228,10 @@ public class BookView {
 
 		addComboRoles(toolkit, ctx);
 
-		label = toolkit.createLabel(groupComp, "ŒÔËÒ‡ÌËÂ „ÛÔÔ˚:", SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
+		label = toolkit.createLabel(groupComp, "ŒÔËÒ‡ÌËÂ „ÛÔÔ˚", SWT.LEFT);
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
 				1));
+
 
 		text = toolkit.createText(groupComp, "", SWT.BORDER | SWT.WRAP
 				| SWT.MULTI);
@@ -227,7 +257,7 @@ public class BookView {
 		IObservableValue target;
 		IObservableValue field_model;
 
-		comp = toolkit.createComposite(form.getBody());
+		comp = toolkit.createComposite(parent);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
 				1));
@@ -246,10 +276,10 @@ public class BookView {
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 
-		target = WidgetProperties.visible().observe(comp);
-		field_model = BeanProperties.value(model.getClass(), "item")
-				.observeDetail(dataValue);
-		ctx.bindValue(target, field_model);
+		// target = WidgetProperties.visible().observe(comp);
+		// field_model = BeanProperties.value(model.getClass(), "item")
+		// .observeDetail(dataValue);
+		// ctx.bindValue(target, field_model);
 
 	}
 
@@ -296,52 +326,31 @@ public class BookView {
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 
-		final ComboViewer combo = new ComboViewer(groupComp, SWT.READ_ONLY);
-		combo.setContentProvider(new IStructuredContentProvider() {
-
-			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-				// NEXT Auto-generated method stub
-
-			}
-
-			@Override
-			public void dispose() {
-				// NEXT Auto-generated method stub
-
-			}
-
-			@Override
-			public Object[] getElements(Object inputElement) {
-				// NEXT Auto-generated method stub
-				return new String[] { "Marat", "Vogel", "Tim", "Taler" };
-			}
-		});
+		combo = new ComboViewer(groupComp, SWT.READ_ONLY);
+		combo.setContentProvider(ArrayContentProvider.getInstance());
 		combo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((String) element);
+				return ((UserInfo) element).getTitle();
 			}
 		});
 
-		combo.addOpenListener(new IOpenListener() {
-			@Override
-			public void open(OpenEvent event) {
-				// return ;
-				combo.setInput(new String[] { "Lars", "Vogel", "Tim", "Taler" });
-			}
-		});
-
-		combo.setInput("");
+		combo.setInput(bs.getBookRoles());
 
 		toolkit.adapt(combo.getControl(), true, true);
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		combo.getControl().setLayoutData(gd);
 
-		target = WidgetProperties.selection().observe(combo.getControl());
-		field_model = BeanProperties.value(model.getClass(), "role")
+		IViewerObservableValue selected = ViewerProperties.singleSelection()
+				.observe(combo);
+
+		field_model = BeanProperties.value(model.getClass(), "role",
+				UserInfo.class).observeDetail(dataValue);
+		ctx.bindValue(selected, field_model);
+
+		target = WidgetProperties.enabled().observe(combo.getCombo());
+		field_model = BeanProperties.value(model.getClass(), "showRole")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 

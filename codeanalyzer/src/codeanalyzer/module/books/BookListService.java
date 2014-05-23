@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
 
@@ -20,11 +21,16 @@ import codeanalyzer.module.books.list.ListBookInfoOptions;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
+import codeanalyzer.module.users.UserInfo;
+import codeanalyzer.module.users.UserService;
+import codeanalyzer.utils.PreferenceSupplier;
 
 public class BookListService extends TreeService {
 
 	final static String tableName = "BOOKS";
 	final static String updateEvent = Events.EVENT_UPDATE_BOOK_LIST;
+
+	UserService us = new UserService();
 
 	public BookListService() {
 		super(tableName, updateEvent, pico.get(IDbService.class));
@@ -42,6 +48,12 @@ public class BookListService extends TreeService {
 
 	// SERVICE
 	// *****************************************************************
+	@Override
+	protected String getItemString(String table) {
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROLE ";
+		s = s.replaceAll("\\$Table", "T");
+		return s;
+	}
 
 	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
@@ -54,8 +66,42 @@ public class BookListService extends TreeService {
 		info.options = DbOptions.load(ListBookInfoOptions.class,
 				rs.getString(5));
 		// info.path = rs.getString(5);
-		info.role = "Lars";
+		info.role = (UserInfo) us.get(rs.getInt(6));
 		return info;
+	}
+
+	@Override
+	public void saveOptions(ITreeItemInfo _data)
+			throws InvocationTargetException {
+		ListBookInfo data = (ListBookInfo) _data;
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE " + tableName + " SET OPTIONS=?, ROLE=?  WHERE ID=?;";
+
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, DbOptions.save(data.getOptions()));
+			if (data.role == null)
+				prep.setNull(2, java.sql.Types.INTEGER);
+			// prep.setInt(2, 0);
+			else
+				prep.setInt(2, data.role.getId());
+			prep.setInt(3, data.getId());
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			AppManager.br.post(updateEvent,
+					new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
+
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
+
+		}
+
 	}
 
 	@Override
@@ -138,5 +184,17 @@ public class BookListService extends TreeService {
 
 		}
 
+	}
+
+	public List<UserInfo> getBookRoles() {
+
+		return us.getBookRoles();
+	}
+
+	@Override
+	public ITreeItemInfo getSelected() {
+		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_BOOK);
+
+		return get(id);
 	}
 }

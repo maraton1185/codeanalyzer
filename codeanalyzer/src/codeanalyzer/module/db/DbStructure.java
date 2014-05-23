@@ -25,28 +25,6 @@ public class DbStructure implements IDbStructure {
 		// create table
 		try {
 
-			stat.execute("DROP TABLE IF EXISTS BOOKS;");
-
-			stat.execute("CREATE TABLE BOOKS (ID INTEGER AUTO_INCREMENT, "
-					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
-					+ "TITLE VARCHAR(500), "
-					+ "OPTIONS VARCHAR(500), "
-					// + "PATH VARCHAR(500), "
-
-					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
-					+ "PRIMARY KEY (ID));");
-
-			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP) VALUES (?,?);";
-			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
-
-			prep.setString(1, Strings.get("initBookTitle"));
-			prep.setBoolean(2, true);
-			affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
-
-			// *****************************
-
 			stat.execute("DROP TABLE IF EXISTS USERS;");
 
 			stat.execute("CREATE TABLE USERS (ID INTEGER AUTO_INCREMENT, "
@@ -62,6 +40,29 @@ public class DbStructure implements IDbStructure {
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.get("initUserTitle"));
+			prep.setBoolean(2, true);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			// *****************************
+
+			stat.execute("DROP TABLE IF EXISTS BOOKS;");
+
+			stat.execute("CREATE TABLE BOOKS (ID INTEGER AUTO_INCREMENT, "
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(500), "
+					// + "PATH VARCHAR(500), "
+					+ "ROLE INTEGER, "
+					+ "FOREIGN KEY(ROLE) REFERENCES USERS(ID), "
+					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initBookTitle"));
 			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -88,7 +89,7 @@ public class DbStructure implements IDbStructure {
 
 			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
-					"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ROLE")
 					&& ch.checkColumns(metadata, "USERS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
 

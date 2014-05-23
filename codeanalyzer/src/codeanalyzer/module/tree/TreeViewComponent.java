@@ -93,6 +93,7 @@ public class TreeViewComponent {
 		editingSupport();
 
 		dragAndDropSupport();
+
 	}
 
 	public void setLabelProvider(StyledCellLabelProvider prov) {
@@ -159,17 +160,23 @@ public class TreeViewComponent {
 						}
 					});
 
-				} else {
-					text.append(item.getTitle() + " : ");
-					text.append(item.getSuffix(), new Styler() {
+				} else
+					text.append(item.getTitle());
+				;
+
+				// else {
+				if (!item.getSuffix().isEmpty()) {
+
+					text.append(" : " + item.getSuffix(), new Styler() {
 						@Override
 						public void applyStyles(TextStyle textStyle) {
 							textStyle.foreground = Display.getCurrent()
 									.getSystemColor(SWT.COLOR_DARK_GRAY);
 						}
 					});
-					// text.append(" " + section.id);
 				}
+					// text.append(" " + section.id);
+				// }
 
 			}
 
@@ -353,5 +360,12 @@ public class TreeViewComponent {
 	public TreeViewer getViewer() {
 
 		return viewer;
+	}
+
+	public void setSelection() {
+		ITreeItemInfo selected = service.getSelected();
+		if (selected != null)
+			viewer.setSelection(new StructuredSelection(selected), true);
+
 	}
 }

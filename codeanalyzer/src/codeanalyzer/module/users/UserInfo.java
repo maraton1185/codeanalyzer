@@ -9,8 +9,15 @@ public class UserInfo extends TreeItemInfo {
 
 	@Override
 	public String getSuffix() {
-		return options.description == null ? "" : options.description
-				.substring(0, 10).concat("...");
+
+		if (options.description == null)
+			return "";
+
+		return options.description.isEmpty() ? ""
+				: options.description
+				.substring(0, Math.min(options.description.length(), 20))
+				.concat(
+						"...");
 	}
 
 	@Override

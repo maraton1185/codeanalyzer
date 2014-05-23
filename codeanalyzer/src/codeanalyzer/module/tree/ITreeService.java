@@ -35,4 +35,6 @@ public interface ITreeService {
 	void saveTitle(ITreeItemInfo object);
 
 	ITreeItemInfo get(Integer id);
+
+	ITreeItemInfo getSelected();
 }

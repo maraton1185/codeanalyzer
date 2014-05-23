@@ -63,6 +63,10 @@
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_8U7zcN8UEeO4waw7J7j0xQ" elementId="codeanalyzer.handledmenuitem.20" label="Изменить" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" command="_W2YgENtrEeO08YnUrs_6Pw"/>
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_AMJ8oN8VEeO4waw7J7j0xQ" elementId="codeanalyzer.handledmenuitem.21" label="Удалить" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" command="_as2bUNtrEeO08YnUrs_6Pw"/>
               </menus>
+              <menus xmi:id="_PBKVoOLREeOuwO28iF6Snw" elementId="codeanalyzer.menu.5">
+                <tags>ViewMenu</tags>
+                <children xsi:type="menu:DirectMenuItem" xmi:id="_PwQQQOLREeOuwO28iF6Snw" elementId="codeanalyzer.directmenuitem.3" label="Открыть каталог книг" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.list.OpenBookFolder"/>
+              </menus>
               <toolbar xmi:id="_J0_W8NzXEeO2K4Dwib9TKw" elementId="codeanalyzer.toolbar.7">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_tDyMcN_3EeOuHKOpYE-s4Q" elementId="codeanalyzer.handledtoolitem.23" label="" iconURI="platform:/plugin/codeanalyzer/icons/open.png" tooltip="Добавить существующую" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_MJjakNzXEeO2K4Dwib9TKw" elementId="codeanalyzer.handledtoolitem.18" label="" iconURI="platform:/plugin/codeanalyzer/icons/add.png" tooltip="Создать книгу" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
@@ -75,17 +79,20 @@
             <children xsi:type="basic:Part" xmi:id="_9jlR0OAaEeOuHKOpYE-s4Q" elementId="codeanalyzer.part.4" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.users.views.UsersView" label="Пользователи" bindingContexts="_ehF7EOAjEeOuHKOpYE-s4Q">
               <handlers xmi:id="_UWYlIOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.35" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.users.handlers.Add" command="_-4nRcOAiEeOuHKOpYE-s4Q"/>
               <handlers xmi:id="_Y9ujsOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.36" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.users.handlers.AddGroup" command="_BYzWQOAjEeOuHKOpYE-s4Q"/>
+              <handlers xmi:id="_JHxhYOLGEeOuwO28iF6Snw" elementId="codeanalyzer.handler.32" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.users.handlers.AddSubGroup" command="_-RWxcOLFEeOuwO28iF6Snw"/>
               <handlers xmi:id="_bKZPkOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.33" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.users.handlers.Edit" command="_Gz2psOAjEeOuHKOpYE-s4Q"/>
               <handlers xmi:id="_bq4GcOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.34" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.users.handlers.Delete" command="_IJr0MOAjEeOuHKOpYE-s4Q"/>
               <menus xsi:type="menu:PopupMenu" xmi:id="_VmDIIOAiEeOuHKOpYE-s4Q" elementId="codeanalyzer.popupmenu.UsersList">
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_9cQywOAjEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledmenuitem.22" label="Создать пользователя" iconURI="platform:/plugin/codeanalyzer/icons/add.png" command="_-4nRcOAiEeOuHKOpYE-s4Q"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_GT_ocOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledmenuitem.24" label="Создать группу пользователей" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" command="_BYzWQOAjEeOuHKOpYE-s4Q"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_GT_ocOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledmenuitem.24" label="Создать группу" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" command="_BYzWQOAjEeOuHKOpYE-s4Q"/>
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_BoCPoOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledmenuitem.23" label="Изменить" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" command="_Gz2psOAjEeOuHKOpYE-s4Q"/>
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_K4WkcOAkEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledmenuitem.25" label="Удалить" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" command="_IJr0MOAjEeOuHKOpYE-s4Q"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_yRq24OLGEeOuwO28iF6Snw" elementId="codeanalyzer.handledmenuitem.26" label="Создать подгруппу" iconURI="platform:/plugin/codeanalyzer/icons/add_sub_section.png" tooltip="" command="_-RWxcOLFEeOuwO28iF6Snw"/>
               </menus>
               <toolbar xmi:id="_ApLJwOAbEeOuHKOpYE-s4Q" elementId="codeanalyzer.toolbar.8">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_qOeIMOAjEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledtoolitem.24" iconURI="platform:/plugin/codeanalyzer/icons/add.png" tooltip="Создать пользователя" command="_-4nRcOAiEeOuHKOpYE-s4Q"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_xE3YQOAjEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledtoolitem.25" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" tooltip="Создать группу пользователей" command="_BYzWQOAjEeOuHKOpYE-s4Q"/>
+                <children xsi:type="menu:HandledToolItem" xmi:id="_dP7icOLGEeOuwO28iF6Snw" elementId="codeanalyzer.handledtoolitem.30" iconURI="platform:/plugin/codeanalyzer/icons/add_sub_section.png" tooltip="Создать подгруппу пользователей" command="_-RWxcOLFEeOuwO28iF6Snw"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_1rm54OAjEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledtoolitem.26" iconURI="platform:/plugin/codeanalyzer/icons/edit.png" tooltip="Изменить" command="_Gz2psOAjEeOuHKOpYE-s4Q"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_4J3FAOAjEeOuHKOpYE-s4Q" elementId="codeanalyzer.handledtoolitem.27" iconURI="platform:/plugin/codeanalyzer/icons/delete.png" tooltip="Удалить" command="_IJr0MOAjEeOuHKOpYE-s4Q"/>
               </toolbar>
@@ -304,6 +311,7 @@
   <commands xmi:id="_uu33wMPIEeOmSK0x6jLnPQ" elementId="codeanalyzer.command.ShowSection" commandName="Книга - Показать секцию"/>
   <commands xmi:id="_B6xfwMt7EeOTW91tESaq8A" elementId="codeanalyzer.command.AddSectionsBlock" commandName="Книга - Добавить блок секции"/>
   <commands xmi:id="_dea_gNQiEeOFfdAek_eJEQ" elementId="codeanalyzer.command.0" commandName="Книга - Перейти к родителю"/>
+  <commands xmi:id="_-RWxcOLFEeOuwO28iF6Snw" elementId="codeanalyzer.command.10" commandName="Пользователь - Создать подгруппу"/>
   <commands xmi:id="_6_m6wNRJEeOFfdAek_eJEQ" elementId="codeanalyzer.command.1" commandName="Книга - Обновить секцию"/>
   <commands xmi:id="_vO8BcNTrEeOV85RCT5V8vQ" elementId="codeanalyzer.command.2" commandName="Секция книги - Добавить картинку"/>
   <commands xmi:id="_zDeDANTrEeOV85RCT5V8vQ" elementId="codeanalyzer.command.3" commandName="Секция книги - Добавить код"/>

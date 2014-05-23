@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
@@ -16,6 +18,7 @@ import codeanalyzer.core.models.DbOptions;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
+import codeanalyzer.utils.PreferenceSupplier;
 
 public class UserService extends TreeService {
 
@@ -138,6 +141,8 @@ public class UserService extends TreeService {
 			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
 					get(data.parent), data));
 
+			AppManager.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
+
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 
@@ -145,4 +150,36 @@ public class UserService extends TreeService {
 
 	}
 
+	public List<UserInfo> getBookRoles() {
+		List<UserInfo> result = new ArrayList<UserInfo>();
+
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
+					+ " AS T WHERE T.PARENT=? AND T.ISGROUP  ORDER BY T.SORT, T.ID";
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, ITreeService.rootId);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					result.add((UserInfo) getItem(rs));
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	@Override
+	public ITreeItemInfo getSelected() {
+		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_USER);
+
+		return get(id);
+	}
 }

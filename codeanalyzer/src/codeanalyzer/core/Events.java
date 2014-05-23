@@ -31,6 +31,8 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_USER_INFO = "EVENT_UPDATE_USER_INFO";
 
+	public static final String EVENT_UPDATE_USER_ROLES = "EVENT_UPDATE_USER_ROLES";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,

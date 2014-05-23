@@ -35,11 +35,17 @@ public abstract class PreferenceSupplier {
 	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
 	public static final String MINIMIZE_TO_TRAY_ON_STARTUP = "MINIMIZE_TO_TRAY_ON_STARTUP";
 
+	public static final String SELECTED_BOOK = "SELECTED_BOOK";
+	public static final String SELECTED_USER = "SELECTED_USER";
+	
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.SELECTED_BOOK, 1);
+		preferenceStore.setDefault(PreferenceSupplier.SELECTED_USER, 1);
 
 		preferenceStore.setDefault(PreferenceSupplier.NTPSERVER,
 				"ptbtime1.ptb.de");
@@ -88,11 +94,19 @@ public abstract class PreferenceSupplier {
 		return preferenceStore.getBoolean(key);
 	}
 
+	public static int getInt(String key) {
+		return preferenceStore.getInt(key);
+	}
+
 	public static void set(String key, String value) {
 		preferenceStore.setValue(key, value);
 	}
 
 	public static void set(String key, Boolean value) {
+		preferenceStore.setValue(key, value);
+	}
+
+	public static void set(String key, int value) {
 		preferenceStore.setValue(key, value);
 	}
 

@@ -3,6 +3,7 @@ package codeanalyzer.module.users.views;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
@@ -73,6 +74,15 @@ public class UsersView {
 		// form.reflow(true);
 	}
 
+	@PreDestroy
+	public void preDestroy(@Optional UserInfo data) {
+		if (data != null)
+ {
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK, data.id);
+			PreferenceSupplier.save();
+		}
+	}
+
 	@PostConstruct
 	public void postConstruct(Composite parent, final IBookListManager bm,
 			final Shell shell, EMenuService menuService) {
@@ -106,6 +116,8 @@ public class UsersView {
 				AppManager.br.post(Events.EVENT_UPDATE_USER_INFO, null);
 			}
 		});
+
+		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.userlistview.popup"));

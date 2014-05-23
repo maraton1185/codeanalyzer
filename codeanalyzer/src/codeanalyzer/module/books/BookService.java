@@ -546,4 +546,10 @@ public class BookService extends TreeService {
 
 	}
 
+	@Override
+	public ITreeItemInfo getSelected() {
+//		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_USER);
+
+		return null;
+	}
 }

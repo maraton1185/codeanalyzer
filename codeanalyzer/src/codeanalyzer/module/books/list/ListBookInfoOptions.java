@@ -12,4 +12,5 @@ public class ListBookInfoOptions extends DbOptions {
 	public String path = "";
 
 	public String description = "";
+
 }

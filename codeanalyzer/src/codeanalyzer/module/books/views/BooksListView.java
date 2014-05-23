@@ -3,6 +3,7 @@ package codeanalyzer.module.books.views;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
@@ -46,6 +47,7 @@ public class BooksListView {
 		// TODO Your code here
 	}
 
+
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_BOOK_LIST(
@@ -73,6 +75,14 @@ public class BooksListView {
 			viewer.setSelection(new StructuredSelection(data.selected), true);
 
 		// form.reflow(true);
+	}
+
+	@PreDestroy
+	public void preDestroy(@Optional ListBookInfo data) {
+		if (data != null) {
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK, data.id);
+			PreferenceSupplier.save();
+		}
 	}
 
 	@PostConstruct
@@ -121,8 +131,11 @@ public class BooksListView {
 			}
 		});
 
+		booksList.setSelection();
+
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.booklistview.popup"));
+		
 
 	}
 

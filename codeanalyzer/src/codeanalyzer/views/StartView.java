@@ -3,6 +3,7 @@ package codeanalyzer.views;
 import java.util.Collections;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
@@ -71,18 +72,6 @@ public class StartView {
 	IBookListManager bm = pico.get(IBookListManager.class);
 	private TreeViewer viewer;
 
-	// @Inject
-	// @Optional
-	// public void EVENT_EDIT_TITLE_BOOK_LIST(
-	// @UIEventTopic(Const.EVENT_EDIT_TITLE_BOOK_LIST)
-	// EVENT_UPDATE_BOOK_LIST_DATA data) {
-	//
-	// if (data.selected == null)
-	// return;
-	//
-	// viewer.editElement(data.selected, 0);
-	//
-	// }
 
 	@Inject
 	@Optional
@@ -98,6 +87,14 @@ public class StartView {
 			viewer.setSelection(new StructuredSelection(data.selected), true);
 
 		form.reflow(true);
+	}
+
+	@PreDestroy
+	public void preDestroy(@Optional ListBookInfo data) {
+		if (data != null) {
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK, data.id);
+			PreferenceSupplier.save();
+		}
 	}
 
 	@PostConstruct
@@ -418,6 +415,8 @@ public class StartView {
 						(ListBookInfo) selection.getFirstElement());
 			}
 		});
+
+		booksList.setSelection();
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		// gd.horizontalAlignment = SWT.RIGHT;

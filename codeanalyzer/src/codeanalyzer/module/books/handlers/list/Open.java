@@ -7,14 +7,14 @@ import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
-import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.module.books.interfaces.IBookListManager;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
 public class Open {
 	@Execute
-	public void execute(Shell shell, IBookManager bm) {
+	public void execute(Shell shell, IBookListManager bm) {
 		IPath p = Utils.browseFile(
 				new Path(PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),

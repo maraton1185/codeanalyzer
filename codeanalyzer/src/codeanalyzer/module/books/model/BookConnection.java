@@ -1,71 +1,55 @@
-package codeanalyzer.module.books;
+package codeanalyzer.module.books.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
-import codeanalyzer.module.db.interfaces.IDbService;
+import codeanalyzer.core.models.BaseDbService;
+import codeanalyzer.module.books.BookService;
+import codeanalyzer.module.books.BookStructure;
+import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Utils;
 
-public class WindowBookInfo implements IDbService {
+public class BookConnection extends BaseDbService {
 
 	IPath path;
 	String name;
-	private Connection con;
 
-	public WindowBookInfo(IPath path) {
+	public BookConnection(IPath path) throws InvocationTargetException {
+
+		super(new BookStructure());
+
+		if (path == null)
+			throw new InvocationTargetException(null);
+
+		if (!path.isValidPath(path.toString()))
+			throw new InvocationTargetException(null);
+
 		setPath(path);
+
+		check();
+	}
+
+	public BookConnection(String name) throws InvocationTargetException {
+
+		super(new BookStructure());
+
+		this.name = name;
+		this.path = new Path(
+				PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY));
+		create();
 	}
 
 	@Override
-	public void init(boolean createNew) throws InvocationTargetException {
-		try {
-			openConnection();
-			con = getConnection();
-			if (createNew)
-				dbStructure.createStructure(con);
-			else if (exist)
-				dbStructure.checkSructure(con);
-			else
-				dbStructure.createStructure(con);
-
-		} catch (Exception e) {
-			throw new InvocationTargetException(e, e.getMessage());
-		}
-
-	}
-
-	@Override
-	public Connection getConnection() throws IllegalAccessException {
-
-		if (con == null)
-			throw new IllegalAccessException();
-		else
-			return con;
-
-	}
-
-	@Override
-	public Connection makeConnection(boolean exist)
-			throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException {
-
-		Class.forName("org.h2.Driver").newInstance();
-		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
-
-		IPath path = getPath().append(name);
-
-		return DriverManager.getConnection("jdbc:h2:" + path.toString()
-				+ ifExist, "sa", "");
-
+	protected IPath getConnectionPath() {
+		return getPath().append(name);
 	}
 
 	// *****************************************************************
 
-	void setPath(IPath path) {
+	private void setPath(IPath path) {
 		if (path == null)
 			return;
 		this.path = path.removeLastSegments(1);
@@ -73,56 +57,37 @@ public class WindowBookInfo implements IDbService {
 				.lastSegment();
 	}
 
-	IPath getPath() {
+	public IPath getPath() {
 		return Utils.getAbsolute(path);
 	}
 
-	void openConnection() throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException, SQLException {
-		if (con != null)
-			return;
+	// *****************************************************************
 
-		Class.forName("org.h2.Driver").newInstance();
-		boolean exist = true;
-		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
-		boolean editMode = true;
-		String mode = !editMode ? ";FILE_LOCK=SERIALIZED" : "";
-
-		IPath path = getPath().append(name);
-
-		con = DriverManager.getConnection("jdbc:h2:" + path.toString()
-				+ ifExist + mode, "sa", "");
+	public String getName() {
+		return name;
 	}
 
-	void closeConnection() {
-		if (con == null)
-			return;
-		try {
-
-			con.close();
-			con = null;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public String getFullName() {
+		return Utils.getAbsolute(path).append(name).toString();
 	}
 
-	@Override
-	protected void finalize() {
-		closeConnection();
+	public String getWindowTitle() {
+		// return name + (editMode ? " (Редактор)" : "");
+		return getFullName();
 	}
+
+	BookService service;
+
+	public BookService service() {
+
+		service = service == null ? new BookService(this) : service;
+
+		return service;
+	}
+
+	// *****************************************************************
 
 }
-
-// SectionsService bookSections;
-//
-// public SectionsService sections() {
-//
-// bookSections = bookSections == null ? new SectionsService()
-// : bookSections;
-//
-// return bookSections;
-// }
 //
 // public boolean isGroup;
 //
@@ -191,9 +156,7 @@ public class WindowBookInfo implements IDbService {
 // return Utils.getAbsolute(path);
 // }
 //
-// public String getFullName() {
-// return Utils.getAbsolute(path).append(name).toString();
-// }
+
 //
 // public Image getImage() {
 // File folder = getPath().toFile();
@@ -221,9 +184,7 @@ public class WindowBookInfo implements IDbService {
 // // this.image = image.createImage();
 // }
 //
-// public String getName() {
-// return name;
-// }
+
 //
 // public String getWindowTitle() {
 // return name + (editMode ? " (Редактор)" : "");

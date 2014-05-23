@@ -28,7 +28,7 @@ public class Show {
 				Strings.get("model.id.partstack.sections"), MPartStack.class,
 				null);
 
-		String partID = section.block ? Strings
+		String partID = !section.isGroup() ? Strings
 				.get("codeanalyzer.partdescriptor.sectionsBlockView") : Strings
 				.get("codeanalyzer.partdescriptor.sectionView");
 

@@ -14,24 +14,26 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.WindowBookInfo;
+import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.section.SectionInfoSelection;
 import codeanalyzer.utils.Strings;
 
 public class Delete {
 	@Execute
-	public void execute(Shell shell, WindowBookInfo book,
-			@Active final SectionInfo section, EPartService partService,
-			EModelService model, @Active MWindow window) {
+	public void execute(Shell shell, BookConnection book,
+			@Active final SectionInfo section, SectionInfoSelection selection,
+			EPartService partService, EModelService model,
+			@Active MWindow window) {
 		// if (MessageDialog.openConfirm(shell, Strings.get("appTitle"),
 		// "Удалить раздел?"))
-		book.sections().delete(section);
+		book.service().delete(selection);
 
 		List<MPartStack> stacks = model.findElements(window,
 				Strings.get("model.id.partstack.sections"), MPartStack.class,
 				null);
 
-		String partID = section.block ? Strings
+		String partID = !section.isGroup() ? Strings
 				.get("codeanalyzer.partdescriptor.sectionsBlockView") : Strings
 				.get("codeanalyzer.partdescriptor.sectionView");
 

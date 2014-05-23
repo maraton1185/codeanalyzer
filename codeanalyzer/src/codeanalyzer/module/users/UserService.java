@@ -11,21 +11,21 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.db.DbOptions;
-import codeanalyzer.module.db.interfaces.IDbService;
+import codeanalyzer.core.interfaces.IDbService;
+import codeanalyzer.core.models.DbOptions;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
 
 public class UserService extends TreeService {
 
-	IDbService db = pico.get(IDbService.class);
+	// IDbService db = pico.get(IDbService.class);
 
 	final static String tableName = "USERS";
 	final static String updateEvent = Events.EVENT_UPDATE_USERS;
 
 	public UserService() {
-		super(tableName, updateEvent);
+		super(tableName, updateEvent, pico.get(IDbService.class));
 	}
 
 	@Override
@@ -145,31 +145,4 @@ public class UserService extends TreeService {
 
 	}
 
-	public void save(UserInfo data) throws InvocationTargetException {
-
-		try {
-			Connection con = db.getConnection();
-			String SQL;
-			PreparedStatement prep;
-			// ResultSet rs;
-
-			SQL = "UPDATE " + tableName + " SET OPTIONS=?  WHERE ID=?;";
-
-			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
-
-			prep.setString(1, DbOptions.save(data.options));
-			prep.setInt(2, data.id);
-			int affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
-
-			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
-					get(data.parent), data));
-
-		} catch (Exception e) {
-			throw new InvocationTargetException(e);
-
-		}
-
-	}
 }

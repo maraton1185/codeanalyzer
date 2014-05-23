@@ -32,18 +32,17 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.core.Events;
-import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.module.books.interfaces.IBookListManager;
 import codeanalyzer.module.users.UserInfo;
 import codeanalyzer.module.users.UserService;
 import codeanalyzer.module.users.interfaces.IUserManager;
-import codeanalyzer.utils.Strings;
 
 public class UserView {
 
 	ScrolledForm form;
 	WritableValue dataValue;
 	UserService us = new UserService();
-	UserViewModel model;
+	UserViewModel model = new UserViewModel(new UserInfo());
 
 	@Inject
 	MDirtyable dirty;
@@ -60,11 +59,11 @@ public class UserView {
 	@Optional
 	public void EVENT_UPDATE_USER_INFO(
 			@UIEventTopic(Events.EVENT_UPDATE_USER_INFO) Object o,
-			@Optional UserInfo data, IBookManager bm, final EHandlerService hs,
+			@Optional UserInfo data, IBookListManager bm, final EHandlerService hs,
 			final ECommandService cs) {
 
 		if (data == null) {
-			form.setText(Strings.get("UserViewTitle"));
+			// form.setText(Strings.get("UserViewTitle"));
 			return;
 		}
 
@@ -108,15 +107,7 @@ public class UserView {
 
 		// »Ãﬂ *******************************************
 
-		// label = toolkit.createLabel(form.getBody(), "»Ïˇ:", SWT.LEFT);
-		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-		// 1,
-		// 1));
-		label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		// gd.grabExcessVerticalSpace = true;
-		label.setLayoutData(gd);
+		gap(toolkit);
 
 		label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -130,25 +121,15 @@ public class UserView {
 		Font font = new Font(Display.getCurrent(), data.getName(), height,
 				SWT.BOLD);
 		label.setFont(font);
-		// text = toolkit.createText(form.getBody(), "", SWT.BORDER | SWT.WRAP
-		// | SWT.SINGLE | SWT.READ_ONLY);
-		// text.setBackground(parent.getDisplay().getSystemColor(
-		// SWT.COLOR_WIDGET_LIGHT_SHADOW));
-		// gd = new GridData(GridData.FILL_HORIZONTAL);
-		// // gd_path.horizontalSpan = 2;
-		// text.setLayoutData(gd);
 
 		target = WidgetProperties.text().observe(label);
-		field_model = BeanProperties.value(UserViewModel.class, "title")
+		field_model = BeanProperties.value(model.getClass(), "title")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 
 		// œ¿–ŒÀ‹ *******************************************
 
-		label = toolkit.createLabel(form.getBody(), "", SWT.LEFT);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
+		gap(toolkit);
 
 		label = toolkit.createLabel(form.getBody(), "œ‡ÓÎ¸:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
@@ -161,25 +142,20 @@ public class UserView {
 		text.setEchoChar('*');
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
-		field_model = BeanProperties.value(UserViewModel.class, "password")
+		field_model = BeanProperties.value(model.getClass(), "password")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 
 		target = WidgetProperties.visible().observe(label);
-		field_model = BeanProperties.value(UserViewModel.class, "group")
+		field_model = BeanProperties.value(model.getClass(), "group")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 		target = WidgetProperties.visible().observe(text);
-		field_model = BeanProperties.value(UserViewModel.class, "group")
+		field_model = BeanProperties.value(model.getClass(), "group")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 
 		// Œœ»—¿Õ»≈ *******************************************
-
-		// label = toolkit.createLabel(form.getBody(), "", SWT.LEFT);
-		// gd = new GridData(GridData.FILL_HORIZONTAL);
-		// gd.horizontalSpan = 2;
-		// label.setLayoutData(gd);
 
 		label = toolkit.createLabel(form.getBody(), "ŒÔËÒ‡ÌËÂ:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
@@ -194,18 +170,9 @@ public class UserView {
 		// text.setEchoChar('*');
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
-		field_model = BeanProperties.value(UserViewModel.class, "description")
+		field_model = BeanProperties.value(model.getClass(), "description")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
-
-		// target = WidgetProperties.visible().observe(label);
-		// field_model = BeanProperties.value(UserViewModel.class, "group")
-		// .observeDetail(dataValue);
-		// ctx.bindValue(target, field_model);
-		// target = WidgetProperties.visible().observe(text);
-		// field_model = BeanProperties.value(UserViewModel.class, "group")
-		// .observeDetail(dataValue);
-		// ctx.bindValue(target, field_model);
 
 		// *******************************************
 
@@ -214,9 +181,15 @@ public class UserView {
 			b.getTarget().addChangeListener(listener);
 		}
 
-		// dataValue.setValue(new CurrentBookInfo());
-
 		dirty.setDirty(false);
+	}
+
+	private void gap(FormToolkit toolkit) {
+		Label label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.list;
+package codeanalyzer.module.books;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -13,22 +13,21 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.books.WindowBookInfo;
-import codeanalyzer.module.db.DbOptions;
-import codeanalyzer.module.db.interfaces.IDbService;
+import codeanalyzer.core.interfaces.IDbService;
+import codeanalyzer.core.models.DbOptions;
+import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.books.list.ListBookInfoOptions;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
 
-public class BookService extends TreeService {
-
-	IDbService db = pico.get(IDbService.class);
+public class BookListService extends TreeService {
 
 	final static String tableName = "BOOKS";
 	final static String updateEvent = Events.EVENT_UPDATE_BOOK_LIST;
 
-	public BookService() {
-		super(tableName, updateEvent);
+	public BookListService() {
+		super(tableName, updateEvent, pico.get(IDbService.class));
 	}
 
 	// ******************************************************************
@@ -41,71 +40,21 @@ public class BookService extends TreeService {
 		return null;
 	}
 
-	public void getData(Connection con, WindowBookInfo info)
-			throws SQLException {
-		String SQL = "Select TOP 1 T.DESCRIPTION, T.EDIT_MODE FROM INFO AS T";
-		Statement stat = con.createStatement();
-		ResultSet rs = stat.executeQuery(SQL);
-		try {
-			if (rs.next()) {
-				info.setDescription(rs.getString(1));
-				info.setEditMode(rs.getBoolean(2));
-			} else {
-				info.setDescription("Новая книга");
-				info.setEditMode(true);
-			}
-		} finally {
-			rs.close();
-		}
-	}
-
-	public void setData(Connection con, WindowBookInfo info)
-			throws SQLException {
-
-		String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
-		Statement stat = con.createStatement();
-		ResultSet rs = stat.executeQuery(SQL);
-		try {
-			if (rs.next()) {
-				SQL = "UPDATE INFO SET DESCRIPTION=?, EDIT_MODE=? WHERE ID=?;";
-				PreparedStatement prep = con.prepareStatement(SQL,
-						Statement.CLOSE_CURRENT_RESULT);
-
-				prep.setString(1, info.getDescription());
-				prep.setBoolean(2, info.isEditMode());
-				prep.setInt(3, rs.getInt(1));
-				int affectedRows = prep.executeUpdate();
-				if (affectedRows == 0)
-					throw new SQLException();
-			} else {
-				SQL = "INSERT INTO INFO (DESCRIPTION, EDIT_MODE) VALUES (?,?);";
-				PreparedStatement prep = con.prepareStatement(SQL,
-						Statement.CLOSE_CURRENT_RESULT);
-
-				prep.setString(1, info.getDescription());
-				prep.setBoolean(2, info.isEditMode());
-				int affectedRows = prep.executeUpdate();
-				if (affectedRows == 0)
-					throw new SQLException();
-			}
-		} finally {
-			rs.close();
-		}
-	}
-
 	// SERVICE
 	// *****************************************************************
 
 	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
-		BookInfo info = new BookInfo();
+		ListBookInfo info = new ListBookInfo();
 		info.title = rs.getString(1);
 		info.id = rs.getInt(2);
 		info.parent = rs.getInt(3);
 		info.isGroup = rs.getBoolean(4);
-		info.options = DbOptions.load(BookInfoOptions.class, rs.getString(5));
+		info.options = DbOptions.load(ListBookInfoOptions.class,
+				rs.getString(5));
 		// info.path = rs.getString(5);
+		info.role = "Lars";
 		return info;
 	}
 
@@ -113,8 +62,8 @@ public class BookService extends TreeService {
 	public void add(ITreeItemInfo item, ITreeItemInfo parent_item, boolean sub)
 			throws InvocationTargetException {
 
-		BookInfo parent = (BookInfo) parent_item;
-		BookInfo data = (BookInfo) item;
+		ListBookInfo parent = (ListBookInfo) parent_item;
+		ListBookInfo data = (ListBookInfo) item;
 
 		if (parent == null)
 			data.parent = ITreeService.rootId;

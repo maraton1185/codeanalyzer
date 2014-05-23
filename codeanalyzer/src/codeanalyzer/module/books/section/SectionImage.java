@@ -21,7 +21,7 @@ public class SectionImage {
 	public SectionImage() {
 	}
 
-	public Image getScaled(Device display, SectionOptions options) {
+	public Image getScaled(Device display, SectionInfoOptions options) {
 
 		Image scaled = image;
 		int mWidth = options.scaledImageWidth;

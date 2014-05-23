@@ -39,9 +39,9 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 import codeanalyzer.auth.interfaces.IAuthorize;
-import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.core.interfaces.IDbService;
+import codeanalyzer.module.books.interfaces.IBookListManager;
 import codeanalyzer.module.cf.services.FillProcLinkTableJob;
-import codeanalyzer.module.db.interfaces.IDbService;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -91,15 +91,18 @@ public class AppManager {
 
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
+		IDbService db = pico.get(IDbService.class);
 		try {
 			// throw new SQLException();
-			pico.get(IDbService.class).init(false);
+			db.check();
+			db.openConnection();
 		} catch (Exception e) {
 			Shell shell = (Shell) window.getWidget();
 			if (MessageDialog.openQuestion(shell, Strings.get("appTitle"),
 					Strings.get("error.initDb"))) {
 				try {
-					pico.get(IDbService.class).init(true);
+					db.create();
+					db.openConnection();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -184,7 +187,7 @@ public class AppManager {
 			if (p.isEmpty())
 				return;
 
-			IBookManager bm = pico.get(IBookManager.class);
+			IBookListManager bm = pico.get(IBookListManager.class);
 
 			bm.openBook(p, (Shell) window.getWidget());
 

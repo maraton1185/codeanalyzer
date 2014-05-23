@@ -1,29 +1,23 @@
 package codeanalyzer.module.books;
 
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.eclipse.core.runtime.IPath;
-
 import codeanalyzer.core.exceptions.DbStructureException;
-import codeanalyzer.module.db.interfaces.IDbStructure;
+import codeanalyzer.core.interfaces.IDbStructure;
+import codeanalyzer.core.models.DbOptions;
+import codeanalyzer.module.books.model.BookOptions;
 import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Strings;
 
 public class BookStructure implements IDbStructure {
 
-	public void createStructure(Connection con, WindowBookInfo db)
-			throws InstantiationException, IllegalAccessException,
-			ClassNotFoundException, SQLException {
-		IPath path = db.getPath();
-		if (!path.isValidPath(path.toString()))
-			throw new IllegalAccessException();
-
-		// Connection con = db.getConnection(false);
+	@Override
+	public void createStructure(Connection con) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException, SQLException {
 
 		Statement stat = con.createStatement();
 
@@ -31,12 +25,16 @@ public class BookStructure implements IDbStructure {
 		try {
 
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
-					+ "DESCRIPTION VARCHAR(500), SELECTED_SECTION INTEGER, EDIT_MODE BOOLEAN, "
-					+ "PRIMARY KEY (ID));");
+			// + "DESCRIPTION VARCHAR(500), "
+			// + " SELECTED_SECTION INTEGER, EDIT_MODE BOOLEAN, "
+					+ "OPTIONS VARCHAR(500), " + "PRIMARY KEY (ID));");
 
 			stat.execute("CREATE TABLE SECTIONS (ID INTEGER AUTO_INCREMENT, "
-					+ "PARENT INTEGER, SORT INTEGER, BLOCK BOOLEAN, OPTIONS VARCHAR(500), "
+
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(500), "
+
 					+ "FOREIGN KEY(PARENT) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
@@ -56,12 +54,13 @@ public class BookStructure implements IDbStructure {
 			PreparedStatement prep;
 			int affectedRows;
 
-			SQL = "INSERT INTO INFO (DESCRIPTION, SELECTED_SECTION, EDIT_MODE) VALUES (?, ?, ?);";
+			SQL = "INSERT INTO INFO (OPTIONS) VALUES (?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, db.getName());
-			prep.setInt(2, 1);
-			prep.setBoolean(3, true);
+			// prep.setString(1, "");// db.getName());
+			BookOptions opt = new BookOptions();
+			prep.setString(1, DbOptions.save(opt));
+			// prep.setBoolean(3, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -83,26 +82,18 @@ public class BookStructure implements IDbStructure {
 
 	}
 
-	public void checkSructure(Connection con, WindowBookInfo db)
-			throws DbStructureException, SQLException, FileNotFoundException {
+	@Override
+	public void checkSructure(Connection con) throws DbStructureException,
+			SQLException {
 
-		IPath path = db.getPath();
-
-		if (!path.isValidPath(path.toString()))
-			throw new FileNotFoundException();
-
-		// Connection con = null;
 		boolean haveStructure;
-		// try {
-		// con = db.getConnection(true);
 
 		DatabaseMetaData metadata = con.getMetaData();
 
 		DbStructureChecker ch = new DbStructureChecker();
-		haveStructure = ch.checkColumns(metadata, "INFO",
-				"DESCRIPTION, SELECTED_SECTION, EDIT_MODE")
+		haveStructure = ch.checkColumns(metadata, "INFO", "OPTIONS")
 				&& ch.checkColumns(metadata, "SECTIONS",
-						"PARENT, SORT, TITLE, BLOCK, OPTIONS")
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "S_TEXT", "TEXT")
 				&& ch.checkColumns(metadata, "S_IMAGES",
 						"DATA, TITLE, SORT, EXPANDED")

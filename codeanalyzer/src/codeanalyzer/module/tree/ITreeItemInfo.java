@@ -1,5 +1,7 @@
 package codeanalyzer.module.tree;
 
+import codeanalyzer.core.models.DbOptions;
+
 public interface ITreeItemInfo {
 
 	Integer getId();
@@ -16,4 +18,6 @@ public interface ITreeItemInfo {
 	boolean equals(Object obj);
 
 	Integer getParent();
+
+	DbOptions getOptions();
 }

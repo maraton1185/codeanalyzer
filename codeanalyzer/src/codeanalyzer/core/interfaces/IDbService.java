@@ -1,4 +1,4 @@
-package codeanalyzer.module.db.interfaces;
+package codeanalyzer.core.interfaces;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -6,11 +6,15 @@ import java.sql.SQLException;
 
 public interface IDbService {
 
-	void init(boolean createNew) throws InvocationTargetException;
+	void create() throws InvocationTargetException;
 
-	Connection getConnection() throws IllegalAccessException;
+	void check() throws InvocationTargetException;
 
 	Connection makeConnection(boolean exist) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException;
+
+	void openConnection() throws InvocationTargetException;
+
+	Connection getConnection() throws IllegalAccessException;
 
 }

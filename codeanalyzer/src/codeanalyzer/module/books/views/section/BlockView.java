@@ -46,10 +46,10 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.WindowBookInfo;
+import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionImage;
 import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionOptions;
+import codeanalyzer.module.books.section.SectionInfoOptions;
 import codeanalyzer.module.books.section.SectionSaveData;
 import codeanalyzer.module.books.views.section.interfaces.IBlockTune;
 import codeanalyzer.module.books.views.section.tools.TinyTextEditor;
@@ -65,7 +65,7 @@ public class BlockView {
 
 	@Inject
 	@Active
-	WindowBookInfo book;
+	BookConnection book;
 
 	SectionInfo section;
 
@@ -102,7 +102,7 @@ public class BlockView {
 		SectionSaveData data = new SectionSaveData();
 		data.text = getText();
 		data.options = getSectionOptions();
-		book.sections().saveBlock(section, data);
+		book.service().saveBlock(section, data);
 		dirty.setDirty(false);
 	}
 
@@ -150,7 +150,7 @@ public class BlockView {
 		Composite rightComposite = new Composite(sashForm, SWT.NONE);
 		rightComposite.setLayout(new FillLayout());
 
-		String buf = book.sections().getText(section);
+		String buf = book.service().getText(section);
 		tinymce = new TinyTextEditor(leftComposite, section);
 		tinymce.setText(buf);
 		tinymce.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -227,9 +227,9 @@ public class BlockView {
 		return tinymce.getText();
 	}
 
-	public SectionOptions getSectionOptions() {
+	public SectionInfoOptions getSectionOptions() {
 
-		SectionOptions result = new SectionOptions();
+		SectionInfoOptions result = new SectionInfoOptions();
 		result.scaledImageWidth = scaledImageWidthSlider.getSelection();
 		result.columnCount = columnCountSpinner.getSelection();
 		return result;
@@ -251,9 +251,9 @@ public class BlockView {
 						SWT.HORIZONTAL);
 				toolkit.adapt(scaledImageWidthSlider, true, true);
 				scaledImageWidthSlider
-						.setMaximum(SectionOptions.scaledImageMaxWidth);
+						.setMaximum(SectionInfoOptions.scaledImageMaxWidth);
 				scaledImageWidthSlider
-						.setMinimum(SectionOptions.scaledImageMinWidth);
+						.setMinimum(SectionInfoOptions.scaledImageMinWidth);
 				// scaledImageWidthSlider.setIncrement(20);
 				scaledImageWidthSlider.setPageIncrement(50);
 				scaledImageWidthSlider
@@ -298,7 +298,7 @@ public class BlockView {
 	private void addImageSections() {
 		final Device display = body.getDisplay();
 
-		imageList = book.sections().getImages(display, section);
+		imageList = book.service().getImages(display, section);
 
 		for (final SectionImage sectionImage : imageList) {
 

@@ -23,9 +23,10 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.WindowBookInfo;
+import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.views.section.tools.BrowserComposite;
+import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
@@ -41,7 +42,7 @@ public class SectionView {
 
 	@Inject
 	@Active
-	WindowBookInfo book;
+	BookConnection book;
 
 	SectionInfo section;
 	MPart part;
@@ -50,7 +51,7 @@ public class SectionView {
 		return section;
 	}
 
-	private List<SectionInfo> sectionsList;
+	private List<ITreeItemInfo> sectionsList;
 	private ECommandService cs;
 	private EHandlerService hs;
 	private MWindow window;
@@ -160,11 +161,11 @@ public class SectionView {
 		// }
 		// *************************************************************
 
-		sectionsList = book.sections().getChildren(section);
+		sectionsList = book.service().getChildren(section.getId());
 
-		for (SectionInfo sec : sectionsList) {
+		for (ITreeItemInfo sec : sectionsList) {
 
-			text.append("<div>" + sec.title + "</div>");
+			text.append("<div>" + sec.getTitle() + "</div>");
 			// createTopLinks(sec);
 
 			// if (sec.block) {

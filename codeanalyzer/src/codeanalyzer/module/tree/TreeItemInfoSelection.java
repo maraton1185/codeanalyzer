@@ -1,13 +1,10 @@
-package codeanalyzer.module.books.list;
+package codeanalyzer.module.tree;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import codeanalyzer.module.tree.ITreeItemInfo;
-import codeanalyzer.module.tree.ITreeItemSelection;
-
-public class BookInfoSelection implements ITreeItemSelection {
+public abstract class TreeItemInfoSelection implements ITreeItemSelection {
 
 	private List<ITreeItemInfo> list = new ArrayList<ITreeItemInfo>();
 

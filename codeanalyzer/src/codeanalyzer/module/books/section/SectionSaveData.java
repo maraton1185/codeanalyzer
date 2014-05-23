@@ -4,6 +4,6 @@ public class SectionSaveData {
 
 	public String text;
 
-	public SectionOptions options;
+	public SectionInfoOptions options;
 
 }

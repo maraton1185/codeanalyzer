@@ -50,7 +50,7 @@ public class UserManager implements IUserManager {
 	@Override
 	public boolean save(UserInfo data, Shell shell) {
 		try {
-			us.save(data);
+			us.saveOptions(data);
 		} catch (InvocationTargetException e) {
 			MessageDialog
 					.openError(

@@ -9,22 +9,22 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.interfaces.IBookManager;
-import codeanalyzer.module.books.list.BookInfo;
+import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.module.books.list.ListBookInfo;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.utils.Strings;
 
 public class AddSubGroup {
 	@Execute
-	public void execute(@Optional ICf db, Shell shell, IBookManager bm,
-			@Optional BookInfo book) {
+	public void execute(@Optional ICf db, Shell shell, IBookListManager bm,
+			@Optional ListBookInfo book) {
 		InputDialog dlg = new InputDialog(shell,
 				codeanalyzer.utils.Strings.get("appTitle"),
 				"¬ведите название группы:", "", null);
 		if (dlg.open() == Window.OK)
 			try {
 
-				BookInfo data = new BookInfo();
+				ListBookInfo data = new ListBookInfo();
 				data.title = dlg.getValue();
 				data.isGroup = true;
 				// data.path = "";

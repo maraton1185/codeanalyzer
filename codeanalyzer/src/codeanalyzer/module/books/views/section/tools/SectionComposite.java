@@ -31,10 +31,10 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.module.books.WindowBookInfo;
+import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionImage;
 import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionOptions;
+import codeanalyzer.module.books.section.SectionInfoOptions;
 import codeanalyzer.module.books.views.section.interfaces.IBlockTune;
 import codeanalyzer.module.books.views.section.interfaces.ISectionComposite;
 import codeanalyzer.utils.Strings;
@@ -54,7 +54,7 @@ public class SectionComposite implements ISectionComposite {
 
 	FormToolkit toolkit;
 	ScrolledForm form;
-	WindowBookInfo book;
+	BookConnection book;
 	SectionInfo section;
 	MDirtyable dirty;
 	boolean blockView;
@@ -64,7 +64,7 @@ public class SectionComposite implements ISectionComposite {
 
 	@Override
 	public void initSectionView(FormToolkit toolkit, ScrolledForm form,
-			WindowBookInfo book, SectionInfo section) {
+			BookConnection book, SectionInfo section) {
 
 		this.toolkit = toolkit;
 		// this.body = body;
@@ -85,7 +85,7 @@ public class SectionComposite implements ISectionComposite {
 
 	@Override
 	public void initBlockView(FormToolkit toolkit, ScrolledForm form,
-			WindowBookInfo book, SectionInfo section, MDirtyable dirty) {
+			BookConnection book, SectionInfo section, MDirtyable dirty) {
 
 		this.toolkit = toolkit;
 		this.form = form;
@@ -113,7 +113,7 @@ public class SectionComposite implements ISectionComposite {
 
 	private void addTinyText() {
 
-		String buf = book.sections().getText(section);
+		String buf = book.service().getText(section);
 
 		tinymce = new TinyTextEditor(blockComposite, section);
 		toolkit.adapt(tinymce, true, true);
@@ -234,9 +234,9 @@ public class SectionComposite implements ISectionComposite {
 						SWT.HORIZONTAL);
 				toolkit.adapt(scaledImageWidthSlider, true, true);
 				scaledImageWidthSlider
-						.setMaximum(SectionOptions.scaledImageMaxWidth);
+						.setMaximum(SectionInfoOptions.scaledImageMaxWidth);
 				scaledImageWidthSlider
-						.setMinimum(SectionOptions.scaledImageMinWidth);
+						.setMinimum(SectionInfoOptions.scaledImageMinWidth);
 				// scaledImageWidthSlider.setIncrement(20);
 				scaledImageWidthSlider.setPageIncrement(50);
 				scaledImageWidthSlider
@@ -281,7 +281,7 @@ public class SectionComposite implements ISectionComposite {
 	private void addImageSections() {
 		final Device display = groupsComposite.getDisplay();
 
-		imageList = book.sections().getImages(display, section);
+		imageList = book.service().getImages(display, section);
 
 		for (final SectionImage sectionImage : imageList) {
 
@@ -394,9 +394,9 @@ public class SectionComposite implements ISectionComposite {
 	}
 
 	@Override
-	public SectionOptions getSectionOptions() {
+	public SectionInfoOptions getSectionOptions() {
 
-		SectionOptions result = new SectionOptions();
+		SectionInfoOptions result = new SectionInfoOptions();
 		result.scaledImageWidth = scaledImageWidthSlider.getSelection();
 		result.columnCount = columnCountSpinner.getSelection();
 		return result;

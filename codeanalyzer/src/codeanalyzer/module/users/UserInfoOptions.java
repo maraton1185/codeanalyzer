@@ -1,6 +1,6 @@
 package codeanalyzer.module.users;
 
-import codeanalyzer.module.db.DbOptions;
+import codeanalyzer.core.models.DbOptions;
 
 public class UserInfoOptions extends DbOptions {
 

@@ -28,10 +28,10 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.module.books.interfaces.IBookManager;
-import codeanalyzer.module.books.list.BookInfo;
-import codeanalyzer.module.books.list.BookInfoSelection;
-import codeanalyzer.module.books.list.BookService;
+import codeanalyzer.module.books.BookListService;
+import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.books.list.ListBookInfoSelection;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
@@ -76,14 +76,14 @@ public class BooksListView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, final IBookManager bm,
+	public void postConstruct(Composite parent, final IBookListManager bm,
 			final Shell shell, EMenuService menuService) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent booksList = new TreeViewComponent(parent,
-				new BookService(), 3);
+				new BookListService(), 3);
 
 		viewer = booksList.getViewer();
 
@@ -94,16 +94,16 @@ public class BooksListView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				BookInfoSelection sel = new BookInfoSelection();
+				ListBookInfoSelection sel = new ListBookInfoSelection();
 				@SuppressWarnings("unchecked")
-				Iterator<BookInfo> iterator = selection.iterator();
+				Iterator<ListBookInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
 					sel.add(iterator.next());
 
-				AppManager.ctx.set(BookInfoSelection.class, sel);
+				AppManager.ctx.set(ListBookInfoSelection.class, sel);
 
-				AppManager.ctx.set(BookInfo.class,
-						(BookInfo) selection.getFirstElement());
+				AppManager.ctx.set(ListBookInfo.class,
+						(ListBookInfo) selection.getFirstElement());
 
 				AppManager.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
 			}
@@ -115,7 +115,8 @@ public class BooksListView {
 
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				BookInfo selected = (BookInfo) selection.getFirstElement();
+				ListBookInfo selected = (ListBookInfo) selection
+						.getFirstElement();
 				bm.openBook(selected.getPath(), shell);
 			}
 		});

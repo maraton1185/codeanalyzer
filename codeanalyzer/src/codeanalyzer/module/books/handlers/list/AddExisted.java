@@ -11,8 +11,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.interfaces.IBookManager;
-import codeanalyzer.module.books.list.BookInfo;
+import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.module.books.list.ListBookInfo;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
@@ -21,7 +21,7 @@ import codeanalyzer.utils.Utils;
 public class AddExisted {
 	@Execute
 	public void execute(@Optional ICf db, final Shell shell,
-			final IBookManager bm, @Optional final BookInfo book) {
+			final IBookListManager bm, @Optional final ListBookInfo book) {
 
 		final List<IPath> files = Utils.browseFileMulti(
 				new Path(PreferenceSupplier

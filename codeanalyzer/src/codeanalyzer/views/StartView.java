@@ -49,9 +49,9 @@ import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.books.interfaces.IBookManager;
-import codeanalyzer.module.books.list.BookInfo;
-import codeanalyzer.module.books.list.BookService;
+import codeanalyzer.module.books.BookListService;
+import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.module.books.list.ListBookInfo;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -68,7 +68,7 @@ public class StartView {
 	// Section bookSection;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
-	IBookManager bm = pico.get(IBookManager.class);
+	IBookListManager bm = pico.get(IBookListManager.class);
 	private TreeViewer viewer;
 
 	// @Inject
@@ -103,7 +103,7 @@ public class StartView {
 	@PostConstruct
 	public void postConstruct(final Composite parent, EMenuService menuService,
 			final ECommandService comService, final EHandlerService hService,
-			final Shell shell, final IWorkbench wb, final IBookManager bm) {
+			final Shell shell, final IWorkbench wb, final IBookListManager bm) {
 
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
@@ -375,7 +375,7 @@ public class StartView {
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent booksList = new TreeViewComponent(bookSectionClient,
-				new BookService(), 2);
+				new BookListService(), 2);
 		viewer = booksList.getViewer();
 		toolkit.adapt(viewer.getTree());
 		viewer.getTree().addControlListener(new ControlAdapter() {
@@ -393,7 +393,7 @@ public class StartView {
 
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				BookInfo selected = (BookInfo) selection.getFirstElement();
+				ListBookInfo selected = (ListBookInfo) selection.getFirstElement();
 
 				bm.openBook(selected.getPath(), shell);
 			}
@@ -414,8 +414,8 @@ public class StartView {
 				//
 				// AppManager.ctx.set(BookInfoSelection.class, sel);
 
-				AppManager.ctx.set(BookInfo.class,
-						(BookInfo) selection.getFirstElement());
+				AppManager.ctx.set(ListBookInfo.class,
+						(ListBookInfo) selection.getFirstElement());
 			}
 		});
 

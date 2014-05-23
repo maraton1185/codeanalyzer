@@ -3,11 +3,11 @@ package codeanalyzer.module.books.handlers.list;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.WindowBookInfo;
+import codeanalyzer.module.books.model.BookConnection;
 
 public class InfoImage {
 	@Execute
-	public void execute(WindowBookInfo book, Shell shell) {
+	public void execute(BookConnection book, Shell shell) {
 		// IPath p = Utils.browseFile(book.getPath(), shell,
 		// Strings.get("appTitle"), "*.bmp; *.png");
 		// if (p == null)

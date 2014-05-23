@@ -7,24 +7,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.core.pico;
-import codeanalyzer.module.db.interfaces.IDbService;
+import codeanalyzer.core.interfaces.IDbService;
+import codeanalyzer.core.models.DbOptions;
 
 public abstract class TreeService implements ITreeService {
 
-	IDbService db = pico.get(IDbService.class);
+	protected IDbService db;
 	private String tableName;
-	private String EVENT_UPDATE_TREE_NAME;
+	private String updateEvent;
 
-	protected TreeService(String tableName, String EVENT_UPDATE_TREE_NAME) {
+	protected TreeService(String tableName, String EVENT_UPDATE_TREE_NAME,
+			IDbService db) {
 		this.tableName = tableName;
-		this.EVENT_UPDATE_TREE_NAME = EVENT_UPDATE_TREE_NAME;
+		this.updateEvent = EVENT_UPDATE_TREE_NAME;
+		this.db = db;
 	}
-
 
 	protected String getItemString(String table) {
 		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS ";
@@ -34,15 +36,14 @@ public abstract class TreeService implements ITreeService {
 
 	protected abstract ITreeItemInfo getItem(ResultSet rs) throws SQLException;
 
-
 	@Override
-	public abstract void add(ITreeItemInfo item, ITreeItemInfo parent,
+	public abstract void add(ITreeItemInfo item, ITreeItemInfo parent_item,
 			boolean sub) throws InvocationTargetException;
 
 	@Override
 	public List<ITreeItemInfo> getRoot() {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
-		// Connection con = null;
+
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
@@ -204,6 +205,17 @@ public abstract class TreeService implements ITreeService {
 
 	}
 
+	public void delete(TreeItemInfoSelection selection) {
+		int parent = selection.getParent();
+
+		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext())
+			delete(iterator.next());
+
+		if (parent != 0)
+			selectLast(parent);
+	}
+
 	public void selectLast(int index) {
 		ITreeItemInfo parent = get(index);
 
@@ -211,8 +223,8 @@ public abstract class TreeService implements ITreeService {
 		if (selected == null)
 			selected = parent;
 
-		AppManager.br.post(EVENT_UPDATE_TREE_NAME, new EVENT_UPDATE_TREE_DATA(
-				parent, selected));
+		AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
+				selected));
 	}
 
 	@Override
@@ -239,8 +251,8 @@ public abstract class TreeService implements ITreeService {
 
 			updateOrder(items);
 
-			AppManager.br.post(EVENT_UPDATE_TREE_NAME,
-					new EVENT_UPDATE_TREE_DATA(target, item));
+			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(target,
+					item));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,8 +283,8 @@ public abstract class TreeService implements ITreeService {
 		updateOrder(items);
 
 		if (notify)
-			AppManager.br.post(EVENT_UPDATE_TREE_NAME,
-					new EVENT_UPDATE_TREE_DATA(parent, item));
+			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
+					item));
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 		// new EVENT_UPDATE_VIEW_DATA(book, parent, section));
 
@@ -304,8 +316,8 @@ public abstract class TreeService implements ITreeService {
 		updateOrder(items);
 
 		if (notify)
-			AppManager.br.post(EVENT_UPDATE_TREE_NAME,
-					new EVENT_UPDATE_TREE_DATA(parent, item));
+			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
+					item));
 
 		return true;
 	}
@@ -354,6 +366,34 @@ public abstract class TreeService implements ITreeService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+
+		}
+
+	}
+
+	public void saveOptions(ITreeItemInfo data)
+			throws InvocationTargetException {
+
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE " + tableName + " SET OPTIONS=?  WHERE ID=?;";
+
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, DbOptions.save(data.getOptions()));
+			prep.setInt(2, data.getId());
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			AppManager.br.post(updateEvent,
+					new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
+
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
 
 		}
 

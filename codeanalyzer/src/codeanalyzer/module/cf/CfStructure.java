@@ -13,12 +13,11 @@ import org.eclipse.core.runtime.IPath;
 
 import codeanalyzer.core.exceptions.DbStructureException;
 import codeanalyzer.module.cf.interfaces.ICf;
-import codeanalyzer.module.db.interfaces.IDbStructure;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Utils;
 
-public class CfStructure implements IDbStructure {
+public class CfStructure {// implements IDbStructure {
 
 	public void createStructure(ICf db) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException {

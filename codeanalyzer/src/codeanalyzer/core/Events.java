@@ -1,6 +1,6 @@
 package codeanalyzer.core;
 
-import codeanalyzer.module.books.WindowBookInfo;
+import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.tree.ITreeItemInfo;
 
@@ -33,7 +33,7 @@ public abstract class Events {
 
 	public static class EVENT_UPDATE_VIEW_DATA {
 
-		public EVENT_UPDATE_VIEW_DATA(WindowBookInfo book, SectionInfo parent,
+		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
 				SectionInfo selected) {
 			super();
 			this.book = book;
@@ -42,20 +42,20 @@ public abstract class Events {
 			onlySectionView = false;
 		}
 
-		public EVENT_UPDATE_VIEW_DATA(WindowBookInfo book, SectionInfo parent,
+		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
 				SectionInfo selected, boolean setBook) {
 			this(book, parent, selected);
 			this.setBook = setBook;
 		}
 
-		public EVENT_UPDATE_VIEW_DATA(WindowBookInfo book, SectionInfo parent,
+		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
 				boolean onlySectionView) {
 			this.book = book;
 			this.parent = parent;
 			this.onlySectionView = onlySectionView;
 		}
 
-		public WindowBookInfo book;
+		public BookConnection book;
 		public SectionInfo parent;
 		public SectionInfo selected;
 		public boolean setBook;

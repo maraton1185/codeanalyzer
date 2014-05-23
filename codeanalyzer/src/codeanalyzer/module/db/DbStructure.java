@@ -1,6 +1,5 @@
 package codeanalyzer.module.db;
 
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -8,12 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import codeanalyzer.core.exceptions.DbStructureException;
-import codeanalyzer.module.db.interfaces.IDbStructure;
+import codeanalyzer.core.interfaces.IDbStructure;
 import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Strings;
 
 public class DbStructure implements IDbStructure {
 
+	@Override
 	public void createStructure(Connection con) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException {
 
@@ -24,7 +24,6 @@ public class DbStructure implements IDbStructure {
 
 		// create table
 		try {
-
 
 			stat.execute("DROP TABLE IF EXISTS BOOKS;");
 
@@ -76,8 +75,9 @@ public class DbStructure implements IDbStructure {
 
 	}
 
-	public void checkSructure(Connection con) throws FileNotFoundException,
-			DbStructureException, SQLException {
+	@Override
+	public void checkSructure(Connection con) throws DbStructureException,
+			SQLException {
 
 		// Connection con = null;
 		boolean haveStructure;
@@ -90,8 +90,7 @@ public class DbStructure implements IDbStructure {
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
 					"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 					&& ch.checkColumns(metadata, "USERS",
-							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
-			;
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
 
 		} catch (Exception e) {
 			throw new DbStructureException();

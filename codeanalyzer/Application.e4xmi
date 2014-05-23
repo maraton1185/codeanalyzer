@@ -239,15 +239,15 @@
       </children>
       <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="codeanalyzer.partstack.BookContent" containerData="30000">
         <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="codeanalyzer.part.BookContent" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.views.ContentView" label="Содержание">
-          <handlers xmi:id="_Al6O0OAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.13" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.Add" command="_sPoPIK3EEeOHwvV36BHkVA"/>
+          <handlers xmi:id="_Al6O0OAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.13" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddGroup" command="_sPoPIK3EEeOHwvV36BHkVA"/>
           <handlers xmi:id="_A8HIUOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.14" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.Delete" command="_8pkSAK3EEeOHwvV36BHkVA"/>
-          <handlers xmi:id="_BVcOUOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddSub" command="_sXbRULAWEeOa8OKjTLKQvw"/>
+          <handlers xmi:id="_BVcOUOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddGroupSub" command="_sXbRULAWEeOa8OKjTLKQvw"/>
           <handlers xmi:id="_BrfW0OAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.EditTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
           <handlers xmi:id="_CApugOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.17" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.Show" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
-          <handlers xmi:id="_DZd7kOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddBlock" command="_B6xfwMt7EeOTW91tESaq8A"/>
+          <handlers xmi:id="_DZd7kOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddGroupBlock" command="_B6xfwMt7EeOTW91tESaq8A"/>
           <handlers xmi:id="_Ei7eAOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.20" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
           <handlers xmi:id="_FU_0IOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.19" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.GoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
-          <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.21" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
+          <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.21" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.section.AddGroupPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
           <handlers xmi:id="_SL_UsOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.22" contributionURI="bundleclass://codeanalyzer/codeanalyzer.handlers.Save" command="_Zz8mANXcEeOaVPXyFpV1rg"/>
           <menus xsi:type="menu:PopupMenu" xmi:id="_aCBVYLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.popupmenu.contentView">
             <children xsi:type="menu:HandledMenuItem" xmi:id="_cGMzoLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>

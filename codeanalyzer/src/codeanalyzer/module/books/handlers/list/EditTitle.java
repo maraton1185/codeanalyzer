@@ -8,11 +8,11 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.module.books.list.BookInfo;
+import codeanalyzer.module.books.list.ListBookInfo;
 
 public class EditTitle {
 	@Execute
-	public void execute(BookInfo book) {
+	public void execute(ListBookInfo book) {
 
 		AppManager.br.post(Events.EVENT_EDIT_TITLE_BOOK_LIST,
 				new EVENT_UPDATE_TREE_DATA(null, book));
@@ -20,7 +20,7 @@ public class EditTitle {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active BookInfo book) {
+	public boolean canExecute(@Optional @Active ListBookInfo book) {
 		return book != null;
 	}
 }

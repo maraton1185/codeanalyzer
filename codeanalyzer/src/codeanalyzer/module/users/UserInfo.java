@@ -1,5 +1,6 @@
 package codeanalyzer.module.users;
 
+import codeanalyzer.core.models.DbOptions;
 import codeanalyzer.module.tree.TreeItemInfo;
 
 public class UserInfo extends TreeItemInfo {
@@ -12,4 +13,8 @@ public class UserInfo extends TreeItemInfo {
 				.substring(0, 10).concat("...");
 	}
 
+	@Override
+	public DbOptions getOptions() {
+		return options;
+	}
 }

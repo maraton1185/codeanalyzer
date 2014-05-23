@@ -1,6 +1,8 @@
 package codeanalyzer.module.tree;
 
-public class TreeItemInfo implements ITreeItemInfo {
+import codeanalyzer.core.models.DbOptions;
+
+public abstract class TreeItemInfo implements ITreeItemInfo {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof TreeItemInfo)
@@ -44,5 +46,8 @@ public class TreeItemInfo implements ITreeItemInfo {
 	public Integer getParent() {
 		return parent;
 	}
+
+	@Override
+	public abstract DbOptions getOptions();
 
 }

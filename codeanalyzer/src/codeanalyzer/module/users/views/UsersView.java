@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.core.AppManager;
 import codeanalyzer.core.Events;
 import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.module.books.interfaces.IBookManager;
+import codeanalyzer.module.books.interfaces.IBookListManager;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.module.users.UserInfo;
 import codeanalyzer.module.users.UserInfoSelection;
@@ -74,7 +74,7 @@ public class UsersView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, final IBookManager bm,
+	public void postConstruct(Composite parent, final IBookListManager bm,
 			final Shell shell, EMenuService menuService) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier

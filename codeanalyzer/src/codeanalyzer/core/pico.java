@@ -5,7 +5,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import codeanalyzer.auth.SignIn;
-import codeanalyzer.module.books.BookManager;
+import codeanalyzer.module.books.BookListManager;
 import codeanalyzer.module.books.views.section.tools.SectionComposite;
 import codeanalyzer.module.cf.Cf;
 import codeanalyzer.module.cf.CfManager;
@@ -42,7 +42,7 @@ public final class pico {
 		instance.as(Characteristics.CACHE).addComponent(TextParser.class);
 		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
 
-		instance.as(Characteristics.CACHE).addComponent(BookManager.class);
+		instance.as(Characteristics.CACHE).addComponent(BookListManager.class);
 		instance.as(Characteristics.CACHE).addComponent(UserManager.class);
 
 		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);

@@ -2,45 +2,38 @@ package codeanalyzer.module.books.handlers.section;
 
 import java.lang.reflect.InvocationTargetException;
 
-import javax.inject.Named;
-
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.Events;
 import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.utils.Strings;
 
-public class Add {
+public class AddSubGroup {
 	@Execute
-	public void execute(
-			Shell shell,
-			BookConnection book,
-			@Active MPart part,
-			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
+	public void execute(Shell shell, BookConnection book,
+			@Active SectionInfo section) {
 
 		try {
 
 			SectionInfo data = new SectionInfo();
-			data.title = Strings.get("s.newblock.title");
+			data.title = Strings.get("s.newsection.title ");
 			data.isGroup = true;
 			book.service().add(data, section, true);
 
 		} catch (InvocationTargetException e) {
 			MessageDialog.openError(shell, Strings.get("appTitle"),
-					"Ошибка создания блока текста.");
+					"Ошибка создания раздела.");
 		}
+
 	}
 
 	@CanExecute
-	public boolean canExecute(
-			@Optional @Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
+	public boolean canExecute(@Optional @Active SectionInfo section) {
 		return section != null;
 	}
 

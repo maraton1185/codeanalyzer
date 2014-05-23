@@ -18,8 +18,10 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -195,7 +197,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		addRole(toolkit, ctx);
+		addComboRoles(toolkit, ctx);
 
 		label = toolkit.createLabel(groupComp, "Описание группы:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
@@ -282,7 +284,7 @@ public class BookView {
 
 	}
 
-	private void addRole(FormToolkit toolkit, DataBindingContext ctx) {
+	private void addComboRoles(FormToolkit toolkit, DataBindingContext ctx) {
 
 		Label label;
 		GridData gd;
@@ -294,27 +296,40 @@ public class BookView {
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 
-		ComboViewer combo = new ComboViewer(groupComp, SWT.READ_ONLY);
+		final ComboViewer combo = new ComboViewer(groupComp, SWT.READ_ONLY);
 		combo.setContentProvider(new IStructuredContentProvider() {
 
 			@Override
 			public void inputChanged(Viewer viewer, Object oldInput,
 					Object newInput) {
+				// NEXT Auto-generated method stub
+
 			}
 
 			@Override
 			public void dispose() {
+				// NEXT Auto-generated method stub
+
 			}
 
 			@Override
 			public Object[] getElements(Object inputElement) {
-				return new String[] { "Lars", "Vogel", "Tim", "Taler" };
+				// NEXT Auto-generated method stub
+				return new String[] { "Marat", "Vogel", "Tim", "Taler" };
 			}
 		});
 		combo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
 				return ((String) element);
+			}
+		});
+
+		combo.addOpenListener(new IOpenListener() {
+			@Override
+			public void open(OpenEvent event) {
+				// return ;
+				combo.setInput(new String[] { "Lars", "Vogel", "Tim", "Taler" });
 			}
 		});
 

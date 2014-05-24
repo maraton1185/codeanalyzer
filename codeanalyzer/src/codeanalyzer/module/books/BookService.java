@@ -21,12 +21,8 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
+import codeanalyzer.core.App;
 import codeanalyzer.core.models.DbOptions;
-import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionImage;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.section.SectionInfoOptions;
@@ -34,7 +30,10 @@ import codeanalyzer.module.books.section.SectionSaveData;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Strings;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class BookService extends TreeService {
 
@@ -131,7 +130,7 @@ public class BookService extends TreeService {
 				generatedKeys.close();
 			}
 
-			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
+			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
 					get(data.parent), data));
 
 		} catch (Exception e) {
@@ -336,7 +335,7 @@ public class BookService extends TreeService {
 
 			section.options = options;
 
-			AppManager.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
 					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
 							null));
 
@@ -383,7 +382,7 @@ public class BookService extends TreeService {
 				}
 
 				if (parent != null)
-					AppManager.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
+					App.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
 							new EVENT_UPDATE_VIEW_DATA((BookConnection) db,
 									parent, true));
 			} finally {
@@ -536,7 +535,7 @@ public class BookService extends TreeService {
 			// if (affectedRows == 0)
 			// throw new SQLException();
 
-			AppManager.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
 					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
 							null));
 

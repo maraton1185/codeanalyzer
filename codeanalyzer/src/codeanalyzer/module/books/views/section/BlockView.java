@@ -44,18 +44,18 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.model.BookConnection;
+import codeanalyzer.module.books.BookConnection;
 import codeanalyzer.module.books.section.SectionImage;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.section.SectionInfoOptions;
 import codeanalyzer.module.books.section.SectionSaveData;
 import codeanalyzer.module.books.views.section.interfaces.IBlockTune;
 import codeanalyzer.module.books.views.section.tools.TinyTextEditor;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class BlockView {
 
@@ -102,7 +102,7 @@ public class BlockView {
 		SectionSaveData data = new SectionSaveData();
 		data.text = getText();
 		data.options = getSectionOptions();
-		book.service().saveBlock(section, data);
+		book.srv().saveBlock(section, data);
 		dirty.setDirty(false);
 	}
 
@@ -150,7 +150,7 @@ public class BlockView {
 		Composite rightComposite = new Composite(sashForm, SWT.NONE);
 		rightComposite.setLayout(new FillLayout());
 
-		String buf = book.service().getText(section);
+		String buf = book.srv().getText(section);
 		tinymce = new TinyTextEditor(leftComposite, section);
 		tinymce.setText(buf);
 		tinymce.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -298,7 +298,7 @@ public class BlockView {
 	private void addImageSections() {
 		final Device display = body.getDisplay();
 
-		imageList = book.service().getImages(display, section);
+		imageList = book.srv().getImages(display, section);
 
 		for (final SectionImage sectionImage : imageList) {
 

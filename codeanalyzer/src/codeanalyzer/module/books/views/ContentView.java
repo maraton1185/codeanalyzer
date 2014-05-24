@@ -25,16 +25,16 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
+import codeanalyzer.module.books.BookConnection;
 import codeanalyzer.module.books.list.ListBookInfo;
-import codeanalyzer.module.books.model.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.section.SectionInfoSelection;
 import codeanalyzer.module.tree.TreeViewComponent;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class ContentView {
 
@@ -87,7 +87,7 @@ public class ContentView {
 	@PreDestroy
 	public void preDestroy(@Active SectionInfo section) {
 		if (section != null)
-			book.service().saveSelectedSelection(section);
+			book.srv().saveSelectedSelection(section);
 		book.closeConnection();
 	}
 
@@ -100,7 +100,7 @@ public class ContentView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent sectionsList = new TreeViewComponent(parent,
-				book.service(), 3);
+				book.srv(), 3);
 
 		viewer = sectionsList.getViewer();
 

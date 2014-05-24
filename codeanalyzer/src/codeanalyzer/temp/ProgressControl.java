@@ -19,9 +19,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
+import codeanalyzer.core.App;
 import codeanalyzer.module.cf.interfaces.ICf;
+import codeanalyzer.utils.Events;
 
 public class ProgressControl implements IProgressMonitor {
 
@@ -75,7 +75,7 @@ public class ProgressControl implements IProgressMonitor {
 		BeginTaskData data = new BeginTaskData();
 		data.name = name;
 		data.total = totalWork;
-		AppManager.br.post(Events.EVENT_PROGRESS_BEGIN_TASK, data);
+		App.br.post(Events.EVENT_PROGRESS_BEGIN_TASK, data);
 
 	}
 
@@ -84,7 +84,7 @@ public class ProgressControl implements IProgressMonitor {
 		if (cancelled)
 			return;
 
-		AppManager.br.post(Events.EVENT_PROGRESS_WORKED, work);
+		App.br.post(Events.EVENT_PROGRESS_WORKED, work);
 
 	}
 
@@ -92,7 +92,7 @@ public class ProgressControl implements IProgressMonitor {
 	public void done() {
 		if (cancelled)
 			return;
-		AppManager.br.post(Events.EVENT_PROGRESS_DONE, null);
+		App.br.post(Events.EVENT_PROGRESS_DONE, null);
 	}
 
 	@Inject

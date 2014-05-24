@@ -6,10 +6,10 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
+import codeanalyzer.core.App;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.module.cf.interfaces.ICfManager;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Strings;
 
 public class DbExecute {
@@ -26,7 +26,7 @@ public class DbExecute {
 		}
 
 		dbManager.execute(db, shell);
-		AppManager.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
+		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 
 	}
 

@@ -26,9 +26,9 @@ import org.osgi.service.prefs.Preferences;
 
 import codeanalyzer.auth.ActivationInfo;
 import codeanalyzer.auth.interfaces.IAuthorize;
-import codeanalyzer.core.Events;
 import codeanalyzer.core.pico;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 

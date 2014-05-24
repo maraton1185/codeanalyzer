@@ -13,7 +13,7 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.module.books.model.BookConnection;
+import codeanalyzer.module.books.BookConnection;
 
 public class StartView {
 

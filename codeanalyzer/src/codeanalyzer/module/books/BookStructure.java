@@ -9,7 +9,6 @@ import java.sql.Statement;
 import codeanalyzer.core.exceptions.DbStructureException;
 import codeanalyzer.core.interfaces.IDbStructure;
 import codeanalyzer.core.models.DbOptions;
-import codeanalyzer.module.books.model.BookOptions;
 import codeanalyzer.utils.DbStructureChecker;
 import codeanalyzer.utils.Strings;
 

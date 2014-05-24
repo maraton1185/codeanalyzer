@@ -6,18 +6,19 @@ import java.util.Iterator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import codeanalyzer.core.App;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.users.interfaces.IUserManager;
 import codeanalyzer.utils.Strings;
 
 public class UserManager implements IUserManager {
 
-	UserService us = new UserService();
+	UserService srv = App.srv.us();
 
 	@Override
 	public void add(UserInfo data, UserInfo user, boolean sub, Shell shell) {
 		try {
-			us.add(data, user, sub);
+			srv.add(data, user, sub);
 		} catch (InvocationTargetException e) {
 
 			if (data.isGroup)
@@ -40,17 +41,17 @@ public class UserManager implements IUserManager {
 
 		Iterator<ITreeItemInfo> iterator = selection.iterator();
 		while (iterator.hasNext())
-			us.delete(iterator.next());
+			srv.delete(iterator.next());
 
 		if (parent != 0)
-			us.selectLast(parent);
+			srv.selectLast(parent);
 
 	}
 
 	@Override
 	public boolean save(UserInfo data, Shell shell) {
 		try {
-			us.saveOptions(data);
+			srv.saveOptions(data);
 		} catch (InvocationTargetException e) {
 			MessageDialog
 					.openError(

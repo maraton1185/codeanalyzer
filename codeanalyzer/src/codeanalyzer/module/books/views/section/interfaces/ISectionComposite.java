@@ -4,7 +4,7 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.module.books.model.BookConnection;
+import codeanalyzer.module.books.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.section.SectionInfoOptions;
 

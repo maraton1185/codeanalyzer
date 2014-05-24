@@ -31,7 +31,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.module.books.model.BookConnection;
+import codeanalyzer.module.books.BookConnection;
 import codeanalyzer.module.books.section.SectionImage;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.section.SectionInfoOptions;
@@ -113,7 +113,7 @@ public class SectionComposite implements ISectionComposite {
 
 	private void addTinyText() {
 
-		String buf = book.service().getText(section);
+		String buf = book.srv().getText(section);
 
 		tinymce = new TinyTextEditor(blockComposite, section);
 		toolkit.adapt(tinymce, true, true);
@@ -281,7 +281,7 @@ public class SectionComposite implements ISectionComposite {
 	private void addImageSections() {
 		final Device display = groupsComposite.getDisplay();
 
-		imageList = book.service().getImages(display, section);
+		imageList = book.srv().getImages(display, section);
 
 		for (final SectionImage sectionImage : imageList) {
 

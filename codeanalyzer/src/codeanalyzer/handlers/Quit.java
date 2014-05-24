@@ -15,13 +15,13 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.AppManager.WindowCloseHandler;
+import codeanalyzer.core.App;
+import codeanalyzer.core.App.WindowCloseHandler;
 
 public class Quit {
 	@Execute
 	public void execute(MWindow window, IWorkbench workbench) {
-		WindowCloseHandler handler = new AppManager.WindowCloseHandler();
+		WindowCloseHandler handler = new App.WindowCloseHandler();
 		handler.close(window);
 		workbench.close();
 	}

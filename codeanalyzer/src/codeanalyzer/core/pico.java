@@ -5,14 +5,15 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import codeanalyzer.auth.SignIn;
-import codeanalyzer.module.books.BookListManager;
+import codeanalyzer.core.models.ServiceFactory;
 import codeanalyzer.module.books.views.section.tools.SectionComposite;
+import codeanalyzer.module.booksList.BookListManager;
 import codeanalyzer.module.cf.Cf;
 import codeanalyzer.module.cf.CfManager;
 import codeanalyzer.module.cf.LoaderManager;
 import codeanalyzer.module.cf.services.CfServices;
 import codeanalyzer.module.cf.services.TextParser;
-import codeanalyzer.module.db.DbService;
+import codeanalyzer.module.db.DbConnection;
 import codeanalyzer.module.users.UserManager;
 
 public final class pico {
@@ -33,7 +34,7 @@ public final class pico {
 	private static void init() {
 		instance.as(Characteristics.CACHE).addComponent(SignIn.class);
 
-		instance.as(Characteristics.CACHE).addComponent(DbService.class);
+		instance.as(Characteristics.CACHE).addComponent(DbConnection.class);
 
 		instance.addComponent(Cf.class);
 		instance.as(Characteristics.CACHE).addComponent(CfManager.class);
@@ -44,6 +45,8 @@ public final class pico {
 
 		instance.as(Characteristics.CACHE).addComponent(BookListManager.class);
 		instance.as(Characteristics.CACHE).addComponent(UserManager.class);
+
+		instance.as(Characteristics.CACHE).addComponent(ServiceFactory.class);
 
 		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
 		// instance.as(Characteristics.CACHE).addComponent(BookService.class);

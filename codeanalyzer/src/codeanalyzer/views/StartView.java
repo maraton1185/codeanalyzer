@@ -46,18 +46,17 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
+import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.books.BookListService;
-import codeanalyzer.module.books.interfaces.IBookListManager;
 import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.booksList.IBookListManager;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class StartView {
 
@@ -372,7 +371,7 @@ public class StartView {
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent booksList = new TreeViewComponent(bookSectionClient,
-				new BookListService(), 2);
+				App.srv.bls(), 2);
 		viewer = booksList.getViewer();
 		toolkit.adapt(viewer.getTree());
 		viewer.getTree().addControlListener(new ControlAdapter() {
@@ -411,7 +410,7 @@ public class StartView {
 				//
 				// AppManager.ctx.set(BookInfoSelection.class, sel);
 
-				AppManager.ctx.set(ListBookInfo.class,
+				App.ctx.set(ListBookInfo.class,
 						(ListBookInfo) selection.getFirstElement());
 			}
 		});

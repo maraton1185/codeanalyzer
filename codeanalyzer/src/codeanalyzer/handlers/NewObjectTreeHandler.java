@@ -10,7 +10,7 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
-import codeanalyzer.core.AppManager;
+import codeanalyzer.core.App;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.utils.Strings;
 
@@ -27,7 +27,7 @@ public class NewObjectTreeHandler {
 		// else
 		// part.setLabel(db.getName());
 
-		List<MPartStack> stacks = model.findElements(AppManager.app,
+		List<MPartStack> stacks = model.findElements(App.app,
 				Strings.get("model.id.partstack.tree"), MPartStack.class, null);
 		stacks.get(0).getChildren().add(part);
 

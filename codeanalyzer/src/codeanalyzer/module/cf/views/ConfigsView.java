@@ -28,11 +28,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
+import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.module.cf.interfaces.ICfManager;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
 
@@ -101,9 +101,9 @@ public class ConfigsView {
 				Object selected = selection.getFirstElement();
 				if (selected != null) {
 					ICf db = (ICf) selection.getFirstElement();
-					AppManager.ctx.set(ICf.class, db);
+					App.ctx.set(ICf.class, db);
 				} else
-					AppManager.ctx.set(ICf.class, null);
+					App.ctx.set(ICf.class, null);
 			}
 		});
 

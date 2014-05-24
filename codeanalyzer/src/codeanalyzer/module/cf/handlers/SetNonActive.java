@@ -5,9 +5,9 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 
-import codeanalyzer.core.Events;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.module.cf.interfaces.ICfManager;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 
 public class SetNonActive {

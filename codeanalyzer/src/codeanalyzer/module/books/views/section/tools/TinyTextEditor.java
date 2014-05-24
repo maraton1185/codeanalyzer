@@ -16,9 +16,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
+import codeanalyzer.core.App;
 import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.utils.Events;
 
 public class TinyTextEditor extends Composite {
 
@@ -80,7 +80,7 @@ public class TinyTextEditor extends Composite {
 	}
 
 	protected void setDirty() {
-		AppManager.br.post(Events.EVENT_SET_SECTIONVIEW_DIRTY, section);
+		App.br.post(Events.EVENT_SET_SECTIONVIEW_DIRTY, section);
 	}
 
 	public void setText(String text) {

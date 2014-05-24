@@ -18,8 +18,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
+import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.module.cf.interfaces.ICf.DbState;
@@ -28,6 +27,7 @@ import codeanalyzer.module.cf.interfaces.ILoaderManager;
 import codeanalyzer.module.cf.interfaces.ILoaderManager.operationType;
 import codeanalyzer.module.cf.services.FillProcLinkTableJob;
 import codeanalyzer.temp.ProgressControl;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
@@ -225,7 +225,7 @@ public class CfManager implements ICfManager {
 
 					try {
 						loaderManager.loadFromDb(db);
-						AppManager.br.post(Events.EVENT_UPDATE_CONFIG_LIST,
+						App.br.post(Events.EVENT_UPDATE_CONFIG_LIST,
 								null);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
@@ -244,8 +244,8 @@ public class CfManager implements ICfManager {
 		IJobManager manager = Job.getJobManager();
 
 		// ToolItem has the ID "statusbar" in the model
-		MToolControl element = (MToolControl) AppManager.model.find(
-				Strings.get("model.id.statustool"), AppManager.app);
+		MToolControl element = (MToolControl) App.model.find(
+				Strings.get("model.id.statustool"), App.app);
 
 		Object widget = element.getObject();
 		((ProgressControl) widget).setDb(db);

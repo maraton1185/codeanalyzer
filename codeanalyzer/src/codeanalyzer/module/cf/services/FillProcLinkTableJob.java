@@ -8,13 +8,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
+import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
 import codeanalyzer.core.exceptions.LinksExistsException;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.module.cf.interfaces.ICf.DbState;
 import codeanalyzer.module.cf.interfaces.ILoaderManager;
+import codeanalyzer.utils.Events;
 
 public class FillProcLinkTableJob extends Job {
 
@@ -57,7 +57,7 @@ public class FillProcLinkTableJob extends Job {
 		try {
 
 			loaderManager.fillProcLinkTable(db, monitor);
-			AppManager.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
+			App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 
 			return Status.OK_STATUS;
 
@@ -67,7 +67,7 @@ public class FillProcLinkTableJob extends Job {
 				db.setLinkState(DbState.notLoaded);
 
 			if (!(e.getTargetException() instanceof InterruptedException))
-				AppManager.br.post(Events.EVENT_PROGRESS_ERROR, e.getMessage());
+				App.br.post(Events.EVENT_PROGRESS_ERROR, e.getMessage());
 
 			return Status.CANCEL_STATUS;
 		}

@@ -24,17 +24,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.core.App;
+import codeanalyzer.module.booksList.IBookListManager;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.module.users.UserInfo;
 import codeanalyzer.module.users.UserInfoSelection;
-import codeanalyzer.module.users.UserService;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class UsersView {
 
@@ -91,7 +90,7 @@ public class UsersView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				new UserService(), 2);
+				App.srv.us(), 2);
 
 		viewer = treeComponent.getViewer();
 
@@ -108,12 +107,12 @@ public class UsersView {
 				while (iterator.hasNext())
 					sel.add(iterator.next());
 
-				AppManager.ctx.set(UserInfoSelection.class, sel);
+				App.ctx.set(UserInfoSelection.class, sel);
 
-				AppManager.ctx.set(UserInfo.class,
+				App.ctx.set(UserInfo.class,
 						(UserInfo) selection.getFirstElement());
 
-				AppManager.br.post(Events.EVENT_UPDATE_USER_INFO, null);
+				App.br.post(Events.EVENT_UPDATE_USER_INFO, null);
 			}
 		});
 

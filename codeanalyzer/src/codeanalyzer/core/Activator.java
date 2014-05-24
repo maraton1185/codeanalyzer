@@ -5,8 +5,9 @@ import org.eclipse.e4.ui.internal.workbench.E4Workbench;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import codeanalyzer.core.interfaces.IDbService;
-import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.core.interfaces.IDbConnection;
+import codeanalyzer.core.interfaces.IServiceFactory;
+import codeanalyzer.module.booksList.IBookListManager;
 import codeanalyzer.module.cf.interfaces.ICfManager;
 import codeanalyzer.module.users.interfaces.IUserManager;
 
@@ -24,7 +25,9 @@ public class Activator implements BundleActivator {
 
 		ctx.set(IBookListManager.class, pico.get(IBookListManager.class));
 		ctx.set(IUserManager.class, pico.get(IUserManager.class));
-		ctx.set(IDbService.class, pico.get(IDbService.class));
+		ctx.set(IDbConnection.class, pico.get(IDbConnection.class));
+
+		ctx.set(IServiceFactory.class, pico.get(IServiceFactory.class));
 
 		bundle = this;
 

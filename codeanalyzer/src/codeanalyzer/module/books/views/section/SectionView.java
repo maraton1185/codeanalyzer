@@ -20,16 +20,16 @@ import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_VIEW_DATA;
-import codeanalyzer.module.books.model.BookConnection;
+import codeanalyzer.core.App;
+import codeanalyzer.module.books.BookConnection;
 import codeanalyzer.module.books.section.SectionInfo;
 import codeanalyzer.module.books.views.section.tools.BrowserComposite;
 import codeanalyzer.module.tree.ITreeItemInfo;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class SectionView {
 
@@ -161,7 +161,7 @@ public class SectionView {
 		// }
 		// *************************************************************
 
-		sectionsList = book.service().getChildren(section.getId());
+		sectionsList = book.srv().getChildren(section.getId());
 
 		for (ITreeItemInfo sec : sectionsList) {
 
@@ -222,7 +222,7 @@ public class SectionView {
 				Utils.executeHandler(hs, cs,
 						Strings.get("command.id.ShowSection"));
 				// window.getContext().set(BookSection.class, current_section);
-				AppManager.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
+				App.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
 						new EVENT_UPDATE_VIEW_DATA(book, null, selected));
 			}
 

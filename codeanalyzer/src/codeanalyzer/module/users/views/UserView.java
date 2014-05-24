@@ -31,17 +31,17 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-import codeanalyzer.core.Events;
-import codeanalyzer.module.books.interfaces.IBookListManager;
+import codeanalyzer.core.App;
+import codeanalyzer.module.booksList.IBookListManager;
 import codeanalyzer.module.users.UserInfo;
-import codeanalyzer.module.users.UserService;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.utils.Events;
 
 public class UserView {
 
 	ScrolledForm form;
 	WritableValue dataValue;
-	UserService us = new UserService();
+	// UserService us = new UserService();
 	UserViewModel model = new UserViewModel(new UserInfo());
 
 	@Inject
@@ -67,7 +67,7 @@ public class UserView {
 			return;
 		}
 
-		model = new UserViewModel((UserInfo) us.get(data.id));
+		model = new UserViewModel((UserInfo) App.srv.us().get(data.id));
 
 		form.reflow(true);
 

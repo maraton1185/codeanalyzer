@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
-import codeanalyzer.core.interfaces.IDbService;
+import codeanalyzer.core.App;
+import codeanalyzer.core.interfaces.IDbConnection;
 import codeanalyzer.core.models.DbOptions;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public abstract class TreeService implements ITreeService {
 
-	protected IDbService db;
+	protected IDbConnection db;
 	private String tableName;
 	private String updateEvent;
 
 	protected TreeService(String tableName, String EVENT_UPDATE_TREE_NAME,
-			IDbService db) {
+			IDbConnection db) {
 		this.tableName = tableName;
 		this.updateEvent = EVENT_UPDATE_TREE_NAME;
 		this.db = db;
@@ -223,7 +223,7 @@ public abstract class TreeService implements ITreeService {
 		if (selected == null)
 			selected = parent;
 
-		AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
+		App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
 				selected));
 	}
 
@@ -251,7 +251,7 @@ public abstract class TreeService implements ITreeService {
 
 			updateOrder(items);
 
-			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(target,
+			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(target,
 					item));
 
 		} catch (Exception e) {
@@ -283,7 +283,7 @@ public abstract class TreeService implements ITreeService {
 		updateOrder(items);
 
 		if (notify)
-			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
+			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
 					item));
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 		// new EVENT_UPDATE_VIEW_DATA(book, parent, section));
@@ -316,7 +316,7 @@ public abstract class TreeService implements ITreeService {
 		updateOrder(items);
 
 		if (notify)
-			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
+			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
 					item));
 
 		return true;
@@ -389,7 +389,7 @@ public abstract class TreeService implements ITreeService {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			AppManager.br.post(updateEvent,
+			App.br.post(updateEvent,
 					new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
 
 		} catch (Exception e) {

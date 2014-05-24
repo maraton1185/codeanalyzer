@@ -9,16 +9,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import codeanalyzer.core.AppManager;
-import codeanalyzer.core.Events;
-import codeanalyzer.core.Events.EVENT_UPDATE_TREE_DATA;
+import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IDbService;
+import codeanalyzer.core.interfaces.IDbConnection;
 import codeanalyzer.core.models.DbOptions;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class UserService extends TreeService {
 
@@ -28,7 +28,7 @@ public class UserService extends TreeService {
 	final static String updateEvent = Events.EVENT_UPDATE_USERS;
 
 	public UserService() {
-		super(tableName, updateEvent, pico.get(IDbService.class));
+		super(tableName, updateEvent, pico.get(IDbConnection.class));
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class UserService extends TreeService {
 
 		super.saveTitle(item);
 
-		AppManager.br.post(Events.EVENT_UPDATE_USER_INFO, null);
+		App.br.post(Events.EVENT_UPDATE_USER_INFO, null);
 	}
 
 	@Override
@@ -138,10 +138,10 @@ public class UserService extends TreeService {
 				generatedKeys.close();
 			}
 
-			AppManager.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
+			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
 					get(data.parent), data));
 
-			AppManager.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
+			App.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
 
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);

@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.section;
+package codeanalyzer.module.books.tree;
 
 public class SectionSaveData {
 

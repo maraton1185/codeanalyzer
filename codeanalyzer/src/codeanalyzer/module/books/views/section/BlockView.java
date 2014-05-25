@@ -45,10 +45,10 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionImage;
-import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionInfoOptions;
-import codeanalyzer.module.books.section.SectionSaveData;
+import codeanalyzer.module.books.tree.SectionImage;
+import codeanalyzer.module.books.tree.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfoOptions;
+import codeanalyzer.module.books.tree.SectionSaveData;
 import codeanalyzer.module.books.views.section.interfaces.IBlockTune;
 import codeanalyzer.module.books.views.section.tools.TinyTextEditor;
 import codeanalyzer.utils.Events;

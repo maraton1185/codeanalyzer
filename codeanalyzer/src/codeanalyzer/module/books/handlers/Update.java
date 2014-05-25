@@ -9,7 +9,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 
 import codeanalyzer.core.App;
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 

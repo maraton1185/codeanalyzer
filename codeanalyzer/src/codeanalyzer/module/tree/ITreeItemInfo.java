@@ -20,4 +20,12 @@ public interface ITreeItemInfo {
 	Integer getParent();
 
 	DbOptions getOptions();
+
+	// void setOptions(DbOptions value);
+
+	void setParent(int value);
+
+	void setId(int value);
+
+	void setGroup(boolean value);
 }

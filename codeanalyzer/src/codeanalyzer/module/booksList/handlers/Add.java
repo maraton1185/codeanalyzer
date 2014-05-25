@@ -9,8 +9,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.list.ListBookInfo;
 import codeanalyzer.module.booksList.IBookListManager;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.utils.Strings;
 

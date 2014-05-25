@@ -11,10 +11,10 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 			return super.equals(obj);
 	}
 
-	public String title;
-	public boolean isGroup;
-	public Integer id;
-	public int parent;
+	private String title;
+	private boolean isGroup;
+	private Integer id;
+	private int parent;
 
 	@Override
 	public Integer getId() {
@@ -38,6 +38,11 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 	}
 
 	@Override
+	public void setGroup(boolean value) {
+		this.isGroup = value;
+	}
+
+	@Override
 	public String getSuffix() {
 		return "";
 	}
@@ -49,5 +54,17 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 
 	@Override
 	public abstract DbOptions getOptions();
+
+	@Override
+	public void setParent(int value) {
+		this.parent = value;
+	}
+
+	@Override
+	public void setId(int value) {
+		this.id = value;
+
+	}
+
 
 }

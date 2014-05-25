@@ -26,15 +26,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.list.ListBookInfo;
-import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionInfoSelection;
+import codeanalyzer.module.books.tree.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfoSelection;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.Events;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class ContentView {
 
@@ -99,10 +99,10 @@ public class ContentView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent sectionsList = new TreeViewComponent(parent,
+		TreeViewComponent treeComponent = new TreeViewComponent(parent,
 				book.srv(), 3);
 
-		viewer = sectionsList.getViewer();
+		viewer = treeComponent.getViewer();
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
@@ -132,6 +132,8 @@ public class ContentView {
 						Strings.get("command.id.ShowSection"));
 			}
 		});
+
+		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.contentview.popup"));

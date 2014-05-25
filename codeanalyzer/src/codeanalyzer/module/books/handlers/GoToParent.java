@@ -12,11 +12,11 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 
 import codeanalyzer.core.App;
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.utils.Events;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class GoToParent {
 	@Execute
@@ -27,7 +27,7 @@ public class GoToParent {
 			ECommandService cs, EHandlerService hs) {
 
 		SectionInfo selected = (SectionInfo) book.srv()
-				.get(section.parent);
+				.get(section.getParent());
 
 		if (selected == null)
 			return;
@@ -42,7 +42,7 @@ public class GoToParent {
 	@CanExecute
 	public boolean canExecute(
 			@Optional @Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
-		return section != null && section.parent != 0;
+		return section != null && section.getParent() != 0;
 	}
 
 }

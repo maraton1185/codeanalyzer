@@ -1,11 +1,11 @@
-package codeanalyzer.module.books.list;
+package codeanalyzer.module.booksList.tree;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import codeanalyzer.core.models.DbOptions;
 import codeanalyzer.module.tree.TreeItemInfo;
-import codeanalyzer.module.users.UserInfo;
+import codeanalyzer.module.users.tree.UserInfo;
 
 public class ListBookInfo extends TreeItemInfo {
 
@@ -16,7 +16,7 @@ public class ListBookInfo extends TreeItemInfo {
 	@Override
 	public String getSuffix() {
 		if (isGroup() && role != null)
-			return role.title;
+			return role.getTitle();
 		else
 			return options.path;
 	}

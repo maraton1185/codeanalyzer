@@ -1,7 +1,7 @@
 package codeanalyzer.module.users.views;
 
 import codeanalyzer.core.models.ModelObject;
-import codeanalyzer.module.users.UserInfo;
+import codeanalyzer.module.users.tree.UserInfo;
 
 public class UserViewModel extends ModelObject {
 
@@ -23,12 +23,13 @@ public class UserViewModel extends ModelObject {
 	}
 
 	public String getTitle() {
-		return data.title;
+		return data.getTitle();
 	}
 
 	public void setTitle(String value) {
 
-		fireIndexedPropertyChange("title", data.title, data.title = value);
+		fireIndexedPropertyChange("title", data.getTitle(), value);
+		data.setTitle(value);
 	}
 
 	public String getDescription() {
@@ -46,6 +47,6 @@ public class UserViewModel extends ModelObject {
 	}
 
 	public boolean isGroup() {
-		return !data.isGroup;
+		return !data.isGroup();
 	}
 }

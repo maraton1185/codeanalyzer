@@ -9,6 +9,8 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.core.App;
 import codeanalyzer.module.tree.ITreeItemInfo;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.module.users.tree.UserInfo;
+import codeanalyzer.module.users.tree.UserInfoSelection;
 import codeanalyzer.utils.Strings;
 
 public class UserManager implements IUserManager {
@@ -21,7 +23,7 @@ public class UserManager implements IUserManager {
 			srv.add(data, user, sub);
 		} catch (InvocationTargetException e) {
 
-			if (data.isGroup)
+			if (data.isGroup())
 				MessageDialog
 						.openError(shell, Strings.get("appTitle"),
 								"Ошибка создании группы. \nВозможно, группа с таким именем уже существует.");

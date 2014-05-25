@@ -5,8 +5,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionInfoOptions;
+import codeanalyzer.module.books.tree.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfoOptions;
 
 public interface ISectionComposite {
 

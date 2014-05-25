@@ -37,8 +37,84 @@ public abstract class TreeService implements ITreeService {
 	protected abstract ITreeItemInfo getItem(ResultSet rs) throws SQLException;
 
 	@Override
-	public abstract void add(ITreeItemInfo item, ITreeItemInfo parent_item,
-			boolean sub) throws InvocationTargetException;
+	public void add(ITreeItemInfo data, ITreeItemInfo parent, boolean sub)
+			throws InvocationTargetException {
+
+		// ListBookInfo parent = (ListBookInfo) parent_item;
+		// ListBookInfo data = (ListBookInfo) item;
+
+		if (parent == null)
+			data.setParent(ITreeService.rootId);
+		else if (parent.getId() == ITreeService.rootId)
+			data.setParent(ITreeService.rootId);
+		else if (parent.isGroup())
+			data.setParent(sub ? parent.getId() : parent.getParent());
+		else
+			data.setParent(parent.getParent());
+
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "SELECT Top 1 T.SORT FROM " + tableName
+					+ " AS T WHERE T.PARENT=? ORDER BY T.SORT DESC";
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, data.getParent());
+			ResultSet rs = prep.executeQuery();
+
+			int sort = 0;
+			try {
+				if (rs.next())
+					sort = rs.getInt(1);
+				sort++;
+			} finally {
+				rs.close();
+			}
+
+			SQL = "INSERT INTO "
+					+ tableName
+					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
+			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+
+			prep.setString(1, data.getTitle());
+			if (data.getParent() == 0)
+				prep.setNull(2, java.sql.Types.INTEGER);
+			else
+				prep.setInt(2, data.getParent());
+			prep.setBoolean(3, data.isGroup());
+			prep.setInt(4, sort);
+			prep.setString(5, DbOptions.save(data.getOptions()));
+
+			ResultSet generatedKeys = null;
+			try {
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+
+				generatedKeys = prep.getGeneratedKeys();
+				if (generatedKeys.next()) {
+					// added = new BookInfo();
+					data.setId(generatedKeys.getInt(1));
+					// added.parent = data
+				} else
+					throw new SQLException();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				generatedKeys.close();
+			}
+
+			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
+get(data.getParent()), data));
+
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
+
+		}
+
+	}
 
 	@Override
 	public List<ITreeItemInfo> getRoot() {
@@ -397,34 +473,6 @@ public abstract class TreeService implements ITreeService {
 
 		}
 
-	}
-
-	@Override
-	public ITreeItemInfo get(Integer id) {
-		ITreeItemInfo result = null;
-		// result.id = id;
-		// Connection con = null;
-		try {
-			Connection con = db.getConnection();
-			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.ID=? ORDER BY T.SORT, T.ID";
-
-			PreparedStatement prep = con.prepareStatement(SQL);
-
-			prep.setInt(1, id);
-			ResultSet rs = prep.executeQuery();
-
-			try {
-				if (rs.next()) {
-					return getItem(rs);
-				}
-			} finally {
-				rs.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
 
 }

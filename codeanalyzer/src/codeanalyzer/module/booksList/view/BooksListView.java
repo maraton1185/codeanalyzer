@@ -27,15 +27,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.core.App;
-import codeanalyzer.module.books.list.ListBookInfo;
-import codeanalyzer.module.books.list.ListBookInfoSelection;
 import codeanalyzer.module.booksList.IBookListManager;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
+import codeanalyzer.module.booksList.tree.ListBookInfoSelection;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.Events;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class BooksListView {
 
@@ -79,22 +79,23 @@ public class BooksListView {
 	@PreDestroy
 	public void preDestroy(@Optional ListBookInfo data) {
 		if (data != null) {
-			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK, data.id);
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
+					data.getId());
 			PreferenceSupplier.save();
 		}
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, final IBookListManager bm,
+	public void postConstruct(Composite parent, final IBookListManager blm,
 			final Shell shell, EMenuService menuService) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent booksList = new TreeViewComponent(parent,
+		TreeViewComponent treeComponent = new TreeViewComponent(parent,
 				App.srv.bls(), 3);
 
-		viewer = booksList.getViewer();
+		viewer = treeComponent.getViewer();
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
@@ -108,6 +109,8 @@ public class BooksListView {
 				Iterator<ListBookInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
 					sel.add(iterator.next());
+
+				// AppManager;
 
 				App.ctx.set(ListBookInfoSelection.class, sel);
 
@@ -126,11 +129,11 @@ public class BooksListView {
 						.getSelection();
 				ListBookInfo selected = (ListBookInfo) selection
 						.getFirstElement();
-				bm.openBook(selected.getPath(), shell);
+				blm.openBook(selected.getPath(), shell);
 			}
 		});
 
-		booksList.setSelection();
+		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.booklistview.popup"));

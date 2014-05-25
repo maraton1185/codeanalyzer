@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import codeanalyzer.core.models.ModelObject;
-import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
 import codeanalyzer.module.tree.ITreeService;
-import codeanalyzer.module.users.UserInfo;
+import codeanalyzer.module.users.tree.UserInfo;
 
 public class BookViewModel extends ModelObject {
 
@@ -68,15 +68,15 @@ public class BookViewModel extends ModelObject {
 	}
 
 	public String getTitle() {
-		return data.title;
+		return data.getTitle();
 	}
 
 	public boolean isGroup() {
-		return data.isGroup;
+		return data.isGroup();
 	}
 
 	public boolean isItem() {
-		return !data.isGroup;
+		return !data.isGroup();
 	}
 
 	public String getDescription() {
@@ -104,7 +104,7 @@ public class BookViewModel extends ModelObject {
 	}
 
 	public boolean isShowRole() {
-		return data.parent == ITreeService.rootId;
+		return data.getParent() == ITreeService.rootId;
 	}
 
 }

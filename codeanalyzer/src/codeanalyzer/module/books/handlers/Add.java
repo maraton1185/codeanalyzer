@@ -13,7 +13,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Strings;
 
@@ -28,8 +28,8 @@ public class Add {
 		try {
 
 			SectionInfo data = new SectionInfo();
-			data.title = Strings.get("s.newblock.title");
-			data.isGroup = true;
+			data.setTitle(Strings.get("s.newblock.title"));
+			data.setGroup(true);
 			book.srv().add(data, section, true);
 
 		} catch (InvocationTargetException e) {

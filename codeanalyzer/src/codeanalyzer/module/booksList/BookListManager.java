@@ -9,9 +9,9 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.core.App;
 import codeanalyzer.module.books.BookConnection;
 import codeanalyzer.module.books.BookStructure;
-import codeanalyzer.module.books.list.ListBookInfo;
-import codeanalyzer.module.books.list.ListBookInfoOptions;
-import codeanalyzer.module.books.list.ListBookInfoSelection;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
+import codeanalyzer.module.booksList.tree.ListBookInfoOptions;
+import codeanalyzer.module.booksList.tree.ListBookInfoSelection;
 import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Strings;
 
@@ -36,8 +36,8 @@ public class BookListManager implements IBookListManager {
 		BookConnection book = new BookConnection(value);
 
 		ListBookInfo data = new ListBookInfo();
-		data.title = book.getName();
-		data.isGroup = false;
+		data.setTitle(book.getName());
+		data.setGroup(false);
 		ListBookInfoOptions opt = new ListBookInfoOptions();
 		opt.path = book.getFullName();
 		data.options = opt;
@@ -52,8 +52,8 @@ public class BookListManager implements IBookListManager {
 		BookConnection book = new BookConnection(path);
 
 		ListBookInfo data = new ListBookInfo();
-		data.title = book.getName();
-		data.isGroup = false;
+		data.setTitle(book.getName());
+		data.setGroup(false);
 		ListBookInfoOptions opt = new ListBookInfoOptions();
 		opt.path = book.getFullName();
 		data.options = opt;

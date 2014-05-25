@@ -15,7 +15,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.utils.Strings;
 
 public class Show {
@@ -38,7 +38,7 @@ public class Show {
 		List<MPart> parts = model.findElements(stacks.get(0), partID,
 				MPart.class, new ArrayList<String>() {
 					{
-						add(section.id.toString());
+						add(section.getId().toString());
 					}
 				});
 
@@ -47,12 +47,12 @@ public class Show {
 		if (parts.isEmpty()) {
 			part = partService.createPart(partID);
 
-			part.setLabel(section.title);
-			part.getTags().add(section.id.toString());
+			part.setLabel(section.getTitle());
+			part.getTags().add(section.getId().toString());
 			stacks.get(0).getChildren().add(part);
 		} else {
 			part = parts.get(0);
-			part.setLabel(section.title);
+			part.setLabel(section.getTitle());
 		}
 
 		partService.showPart(part, PartState.ACTIVATE);

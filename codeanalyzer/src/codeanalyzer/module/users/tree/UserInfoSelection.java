@@ -1,4 +1,4 @@
-package codeanalyzer.module.users;
+package codeanalyzer.module.users.tree;
 
 import codeanalyzer.module.tree.TreeItemInfoSelection;
 

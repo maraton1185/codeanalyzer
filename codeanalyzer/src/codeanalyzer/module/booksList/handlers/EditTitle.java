@@ -6,7 +6,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 
 import codeanalyzer.core.App;
-import codeanalyzer.module.books.list.ListBookInfo;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
 import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 

@@ -7,7 +7,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 
 import codeanalyzer.core.App;
-import codeanalyzer.module.users.UserInfo;
+import codeanalyzer.module.users.tree.UserInfo;
 import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 

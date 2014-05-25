@@ -1,7 +1,7 @@
 package codeanalyzer.utils;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.module.tree.ITreeItemInfo;
 
 public abstract class Events {

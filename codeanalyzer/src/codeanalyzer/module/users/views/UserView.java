@@ -33,8 +33,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.core.App;
 import codeanalyzer.module.booksList.IBookListManager;
-import codeanalyzer.module.users.UserInfo;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.module.users.tree.UserInfo;
 import codeanalyzer.utils.Events;
 
 public class UserView {
@@ -67,7 +67,7 @@ public class UserView {
 			return;
 		}
 
-		model = new UserViewModel((UserInfo) App.srv.us().get(data.id));
+		model = new UserViewModel((UserInfo) App.srv.us().get(data.getId()));
 
 		form.reflow(true);
 

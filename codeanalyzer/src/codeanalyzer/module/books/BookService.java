@@ -23,17 +23,15 @@ import org.eclipse.swt.graphics.ImageData;
 
 import codeanalyzer.core.App;
 import codeanalyzer.core.models.DbOptions;
-import codeanalyzer.module.books.section.SectionImage;
-import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionInfoOptions;
-import codeanalyzer.module.books.section.SectionSaveData;
+import codeanalyzer.module.books.tree.SectionImage;
+import codeanalyzer.module.books.tree.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfoOptions;
+import codeanalyzer.module.books.tree.SectionSaveData;
 import codeanalyzer.module.tree.ITreeItemInfo;
-import codeanalyzer.module.tree.ITreeService;
 import codeanalyzer.module.tree.TreeService;
 import codeanalyzer.utils.Events;
-import codeanalyzer.utils.Strings;
-import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
+import codeanalyzer.utils.Strings;
 
 public class BookService extends TreeService {
 
@@ -49,10 +47,10 @@ public class BookService extends TreeService {
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
 		SectionInfo info = new SectionInfo();
-		info.title = rs.getString(1);
-		info.id = rs.getInt(2);
-		info.parent = rs.getInt(3);
-		info.isGroup = rs.getBoolean(4);
+		info.setTitle(rs.getString(1));
+		info.setId(rs.getInt(2));
+		info.setParent(rs.getInt(3));
+		info.setGroup(rs.getBoolean(4));
 		info.options = DbOptions
 				.load(SectionInfoOptions.class, rs.getString(5));
 		return info;
@@ -62,82 +60,7 @@ public class BookService extends TreeService {
 	public void add(ITreeItemInfo item, ITreeItemInfo parent_item, boolean sub)
 			throws InvocationTargetException {
 
-		SectionInfo parent = (SectionInfo) parent_item;
-		SectionInfo data = (SectionInfo) item;
-
-		if (parent == null)
-			data.parent = ITreeService.rootId;
-		else if (parent.id == ITreeService.rootId)
-			data.parent = ITreeService.rootId;
-		else if (parent.isGroup)
-			data.parent = sub ? parent.id : parent.parent;
-		else
-			data.parent = parent.parent;
-
-		// BookInfo added = null;
-		// Connection con = null;
-		try {
-			Connection con = db.getConnection();
-			String SQL;
-			PreparedStatement prep;
-
-			SQL = "SELECT Top 1 T.SORT FROM " + tableName
-					+ " AS T WHERE T.PARENT=? ORDER BY T.SORT DESC";
-			prep = con.prepareStatement(SQL);
-
-			prep.setInt(1, data.parent);
-			ResultSet rs = prep.executeQuery();
-
-			int sort = 0;
-			try {
-				if (rs.next())
-					sort = rs.getInt(1);
-				sort++;
-			} finally {
-				rs.close();
-			}
-
-			SQL = "INSERT INTO "
-					+ tableName
-					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
-			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-
-			prep.setString(1, data.title);
-			if (data.parent == 0)
-				prep.setNull(2, java.sql.Types.INTEGER);
-			else
-				prep.setInt(2, data.parent);
-			prep.setBoolean(3, data.isGroup);
-			prep.setInt(4, sort);
-			prep.setString(5, DbOptions.save(data.options));
-
-			ResultSet generatedKeys = null;
-			try {
-				int affectedRows = prep.executeUpdate();
-				if (affectedRows == 0)
-					throw new SQLException();
-
-				generatedKeys = prep.getGeneratedKeys();
-				if (generatedKeys.next()) {
-					// added = new BookInfo();
-					data.id = generatedKeys.getInt(1);
-					// added.parent = data
-				} else
-					throw new SQLException();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				generatedKeys.close();
-			}
-
-			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
-					get(data.parent), data));
-
-		} catch (Exception e) {
-			throw new InvocationTargetException(e);
-
-		}
-
+		add(item, parent_item, sub);
 	}
 
 	// ************************************************************************************
@@ -264,7 +187,7 @@ public class BookService extends TreeService {
 					PreparedStatement prep = con.prepareStatement(SQL,
 							Statement.CLOSE_CURRENT_RESULT);
 
-					prep.setInt(1, section.id);
+					prep.setInt(1, section.getId());
 					prep.setInt(2, rs.getInt(1));
 					int affectedRows = prep.executeUpdate();
 					if (affectedRows == 0)
@@ -274,7 +197,7 @@ public class BookService extends TreeService {
 					PreparedStatement prep = con.prepareStatement(SQL,
 							Statement.CLOSE_CURRENT_RESULT);
 
-					prep.setInt(1, section.id);
+					prep.setInt(1, section.getId());
 					int affectedRows = prep.executeUpdate();
 					if (affectedRows == 0)
 						throw new SQLException();
@@ -328,7 +251,7 @@ public class BookService extends TreeService {
 					Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, SectionInfoOptions.save(options));
-			prep.setInt(2, section.id);
+			prep.setInt(2, section.getId());
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -346,13 +269,13 @@ public class BookService extends TreeService {
 
 	private void saveText(SectionInfo section, String text) {
 		try {
-			SectionInfo parent = (SectionInfo) get(section.parent);
+			SectionInfo parent = (SectionInfo) get(section.getParent());
 
 			Connection con = db.getConnection();
 			String SQL = "SELECT TOP 1 ID FROM S_TEXT WHERE SECTION=?;";
 			PreparedStatement prep = con.prepareStatement(SQL,
 					Statement.CLOSE_CURRENT_RESULT);
-			prep.setInt(1, section.id);
+			prep.setInt(1, section.getId());
 
 			ResultSet rs = prep.executeQuery();
 			try {
@@ -375,7 +298,7 @@ public class BookService extends TreeService {
 
 					prep2.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
-					prep2.setInt(2, section.id);
+					prep2.setInt(2, section.getId());
 					int affectedRows = prep2.executeUpdate();
 					if (affectedRows == 0)
 						throw new SQLException();
@@ -401,7 +324,7 @@ public class BookService extends TreeService {
 			Connection con = db.getConnection();
 			String SQL = "SELECT TEXT FROM S_TEXT WHERE SECTION=?";
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, section.id);
+			prep.setInt(1, section.getId());
 			ResultSet rs = prep.executeQuery();
 			BufferedReader bufferedReader = null;
 
@@ -444,7 +367,7 @@ public class BookService extends TreeService {
 			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.EXPANDED, T.ID FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, section.id);
+			prep.setInt(1, section.getId());
 			ResultSet rs = prep.executeQuery();
 
 			try {
@@ -487,7 +410,7 @@ public class BookService extends TreeService {
 			SQL = "Select Top 1 T.SORT FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT DESC";
 			prep = con.prepareStatement(SQL);
 
-			prep.setInt(1, section.id);
+			prep.setInt(1, section.getId());
 			ResultSet rs = prep.executeQuery();
 
 			int sort = 0;
@@ -507,7 +430,7 @@ public class BookService extends TreeService {
 			prep.setString(1, title);
 			prep.setInt(3, sort);
 			prep.setBoolean(4, true);
-			prep.setInt(5, section.id);
+			prep.setInt(5, section.getId());
 
 			File f = p.toFile();
 			FileInputStream fis = new FileInputStream(f);

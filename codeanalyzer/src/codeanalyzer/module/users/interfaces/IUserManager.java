@@ -2,8 +2,8 @@ package codeanalyzer.module.users.interfaces;
 
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.users.UserInfo;
-import codeanalyzer.module.users.UserInfoSelection;
+import codeanalyzer.module.users.tree.UserInfo;
+import codeanalyzer.module.users.tree.UserInfoSelection;
 
 public interface IUserManager {
 

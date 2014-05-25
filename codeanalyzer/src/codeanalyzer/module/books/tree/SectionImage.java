@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.section;
+package codeanalyzer.module.books.tree;
 
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;

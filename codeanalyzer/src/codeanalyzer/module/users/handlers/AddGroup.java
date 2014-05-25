@@ -6,8 +6,8 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.users.UserInfo;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.module.users.tree.UserInfo;
 
 public class AddGroup {
 	@Execute
@@ -19,8 +19,8 @@ public class AddGroup {
 
 		{
 			UserInfo data = new UserInfo();
-			data.title = dlg.getValue();
-			data.isGroup = true;
+			data.setTitle(dlg.getValue());
+			data.setGroup(true);
 			// data.password = "";
 			um.add(data, user, false, shell);
 

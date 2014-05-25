@@ -17,7 +17,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import codeanalyzer.core.App;
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.utils.Events;
 
 public class TinyTextEditor extends Composite {

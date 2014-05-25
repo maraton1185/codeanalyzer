@@ -8,8 +8,8 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.module.cf.interfaces.ICf;
-import codeanalyzer.module.users.UserInfoSelection;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.module.users.tree.UserInfoSelection;
 
 public class Delete {
 	@Execute

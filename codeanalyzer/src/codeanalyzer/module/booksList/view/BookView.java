@@ -45,9 +45,9 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import codeanalyzer.core.App;
-import codeanalyzer.module.books.list.ListBookInfo;
 import codeanalyzer.module.booksList.IBookListManager;
-import codeanalyzer.module.users.UserInfo;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
+import codeanalyzer.module.users.tree.UserInfo;
 import codeanalyzer.utils.Events;
 
 public class BookView {
@@ -93,7 +93,8 @@ public class BookView {
 			return;
 		}
 
-		model = new BookViewModel((ListBookInfo) App.srv.bls().get(data.id));
+		model = new BookViewModel((ListBookInfo) App.srv.bls()
+				.get(data.getId()));
 
 		dataValue.setValue(model);
 

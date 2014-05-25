@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.books.list.ListBookInfo;
-import codeanalyzer.module.books.list.ListBookInfoSelection;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
+import codeanalyzer.module.booksList.tree.ListBookInfoSelection;
 
 public interface IBookListManager {
 

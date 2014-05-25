@@ -48,15 +48,15 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
-import codeanalyzer.module.books.list.ListBookInfo;
 import codeanalyzer.module.booksList.IBookListManager;
+import codeanalyzer.module.booksList.tree.ListBookInfo;
 import codeanalyzer.module.tree.TreeViewComponent;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.Events;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class StartView {
 
@@ -68,7 +68,7 @@ public class StartView {
 	// Section bookSection;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
-	IBookListManager bm = pico.get(IBookListManager.class);
+	IBookListManager blm = pico.get(IBookListManager.class);
 	private TreeViewer viewer;
 
 
@@ -91,7 +91,8 @@ public class StartView {
 	@PreDestroy
 	public void preDestroy(@Optional ListBookInfo data) {
 		if (data != null) {
-			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK, data.id);
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
+					data.getId());
 			PreferenceSupplier.save();
 		}
 	}
@@ -391,7 +392,7 @@ public class StartView {
 						.getSelection();
 				ListBookInfo selected = (ListBookInfo) selection.getFirstElement();
 
-				bm.openBook(selected.getPath(), shell);
+				blm.openBook(selected.getPath(), shell);
 			}
 		});
 

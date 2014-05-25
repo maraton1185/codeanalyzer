@@ -15,8 +15,8 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
-import codeanalyzer.module.books.section.SectionInfoSelection;
+import codeanalyzer.module.books.tree.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfoSelection;
 import codeanalyzer.utils.Strings;
 
 public class Delete {
@@ -41,7 +41,7 @@ public class Delete {
 		List<MPart> parts = model.findElements(stacks.get(0), partID,
 				MPart.class, new ArrayList<String>() {
 					{
-						add(section.id.toString());
+						add(section.getId().toString());
 					}
 				});
 

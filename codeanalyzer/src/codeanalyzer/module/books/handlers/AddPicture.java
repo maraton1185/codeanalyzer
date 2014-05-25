@@ -10,7 +10,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
 import codeanalyzer.module.books.BookConnection;
-import codeanalyzer.module.books.section.SectionInfo;
+import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;

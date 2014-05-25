@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.list;
+package codeanalyzer.module.booksList.tree;
 
 import codeanalyzer.core.models.DbOptions;
 

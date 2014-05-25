@@ -7,8 +7,8 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import codeanalyzer.module.users.UserInfo;
 import codeanalyzer.module.users.interfaces.IUserManager;
+import codeanalyzer.module.users.tree.UserInfo;
 
 public class AddSubGroup {
 	@Execute
@@ -20,8 +20,8 @@ public class AddSubGroup {
 
 		{
 			UserInfo data = new UserInfo();
-			data.title = dlg.getValue();
-			data.isGroup = true;
+			data.setTitle(dlg.getValue());
+			data.setGroup(true);
 			um.add(data, user, true, shell);
 		}
 

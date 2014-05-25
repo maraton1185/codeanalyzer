@@ -27,13 +27,13 @@ import org.eclipse.swt.widgets.Shell;
 import codeanalyzer.core.App;
 import codeanalyzer.module.booksList.IBookListManager;
 import codeanalyzer.module.tree.TreeViewComponent;
-import codeanalyzer.module.users.UserInfo;
-import codeanalyzer.module.users.UserInfoSelection;
+import codeanalyzer.module.users.tree.UserInfo;
+import codeanalyzer.module.users.tree.UserInfoSelection;
 import codeanalyzer.utils.Events;
+import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class UsersView {
 
@@ -77,7 +77,8 @@ public class UsersView {
 	public void preDestroy(@Optional UserInfo data) {
 		if (data != null)
  {
-			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK, data.id);
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
+					data.getId());
 			PreferenceSupplier.save();
 		}
 	}

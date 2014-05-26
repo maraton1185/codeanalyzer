@@ -36,6 +36,11 @@ public abstract class TreeService implements ITreeService {
 
 	protected abstract ITreeItemInfo getItem(ResultSet rs) throws SQLException;
 
+	protected Object getUpdateEventData(ITreeItemInfo parent, ITreeItemInfo item) {
+
+		return new EVENT_UPDATE_TREE_DATA(parent, item);
+	}
+
 	@Override
 	public void add(ITreeItemInfo data, ITreeItemInfo parent, boolean sub)
 			throws InvocationTargetException {
@@ -78,7 +83,8 @@ public abstract class TreeService implements ITreeService {
 					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-			prep.setString(1, data.getTitle());
+			prep.setString(1, data.isTitleIncrement() ? data.getTitle() + " "
+					+ Integer.toString(sort) : data.getTitle());
 			if (data.getParent() == 0)
 				prep.setNull(2, java.sql.Types.INTEGER);
 			else
@@ -106,8 +112,8 @@ public abstract class TreeService implements ITreeService {
 				generatedKeys.close();
 			}
 
-			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(
-get(data.getParent()), data));
+			App.br.post(updateEvent,
+					getUpdateEventData(get(data.getParent()), data));
 
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
@@ -299,8 +305,7 @@ get(data.getParent()), data));
 		if (selected == null)
 			selected = parent;
 
-		App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
-				selected));
+		App.br.post(updateEvent, getUpdateEventData(parent, selected));
 	}
 
 	@Override
@@ -327,8 +332,7 @@ get(data.getParent()), data));
 
 			updateOrder(items);
 
-			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(target,
-					item));
+			App.br.post(updateEvent, getUpdateEventData(target, item));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -359,8 +363,7 @@ get(data.getParent()), data));
 		updateOrder(items);
 
 		if (notify)
-			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
-					item));
+			App.br.post(updateEvent, getUpdateEventData(parent, item));
 		// AppManager.br.post(Const.EVENT_UPDATE_CONTENT_VIEW,
 		// new EVENT_UPDATE_VIEW_DATA(book, parent, section));
 
@@ -392,8 +395,7 @@ get(data.getParent()), data));
 		updateOrder(items);
 
 		if (notify)
-			App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(parent,
-					item));
+			App.br.post(updateEvent, getUpdateEventData(parent, item));
 
 		return true;
 	}
@@ -466,7 +468,7 @@ get(data.getParent()), data));
 				throw new SQLException();
 
 			App.br.post(updateEvent,
-					new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
+					getUpdateEventData(get(data.getParent()), data));
 
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);

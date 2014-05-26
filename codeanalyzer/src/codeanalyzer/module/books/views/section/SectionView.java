@@ -245,4 +245,10 @@ public class SectionView {
 		};
 
 	}
+
+	public Integer getId() {
+
+		return section.getId();
+	}
+
 }

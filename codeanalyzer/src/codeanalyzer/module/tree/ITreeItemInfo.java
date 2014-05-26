@@ -10,6 +10,8 @@ public interface ITreeItemInfo {
 
 	String getTitle();
 
+	boolean isTitleIncrement();
+
 	boolean isGroup();
 
 	String getSuffix();

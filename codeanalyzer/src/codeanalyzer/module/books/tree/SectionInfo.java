@@ -11,4 +11,9 @@ public class SectionInfo extends TreeItemInfo {
 	public DbOptions getOptions() {
 		return options;
 	}
+
+	@Override
+	public boolean isTitleIncrement() {
+		return true;
+	}
 }

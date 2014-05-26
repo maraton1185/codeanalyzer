@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,150 +56,55 @@ public class BookService extends TreeService {
 	}
 
 	@Override
-	public void add(ITreeItemInfo item, ITreeItemInfo parent_item, boolean sub)
-			throws InvocationTargetException {
+	protected Object getUpdateEventData(ITreeItemInfo parent, ITreeItemInfo item) {
 
-		add(item, parent_item, sub);
+		return new EVENT_UPDATE_VIEW_DATA((BookConnection) db,
+				(SectionInfo) parent, (SectionInfo) item);
+	}
+
+	// @Override
+	// public void add(ITreeItemInfo item, ITreeItemInfo parent_item, boolean
+	// sub)
+	// throws InvocationTargetException {
+	//
+	// try {
+	// super.add(item, parent_item, sub);
+	//
+	// App.br.post(updateEvent, new EVENT_UPDATE_VIEW_DATA(
+	// (BookConnection) db, (SectionInfo) get(item.getParent()),
+	// (SectionInfo) item));
+	//
+	// } catch (Exception e) {
+	// throw new InvocationTargetException(e, e.getMessage());
+	// }
+	// }
+
+	@Override
+	public ITreeItemInfo getSelected() {
+		BookOptions opt = getBookOptions();
+		return get(opt.selectedSection);
 	}
 
 	// ************************************************************************************
 
-	// public BookInfo getBookInfo() {
-	//
-	// BookInfo result = new BookInfo();
-	//
-	// try {
-	// Connection con = db.getConnection();
-	// String SQL = "Select TOP 1 T.DESCRIPTION, T.OPTIONS FROM INFO AS T";
-	// PreparedStatement prep = con.prepareStatement(SQL);
-	//
-	// ResultSet rs = prep.executeQuery();
-	// try {
-	// if (rs.next()) {
-	//
-	// result.description = rs.getString(1);
-	// result.options = DbOptions.load(BookInfoOptions.class,
-	// rs.getString(2));
-	// } else {
-	// result.description = "";
-	// result.options = new BookInfoOptions();
-	// // result.options
-	// }
-	// } finally {
-	// rs.close();
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	//
-	// return result;
-	//
-	// }
-	//
-	// public void setBookInfo(BookInfo info) {
-	//
-	// try {
-	//
-	// Connection con = db.getConnection();
-	// String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
-	// Statement stat = con.createStatement();
-	// ResultSet rs = stat.executeQuery(SQL);
-	//
-	// try {
-	//
-	// PreparedStatement prep;
-	// if (rs.next()) {
-	//
-	// SQL = "UPDATE INFO SET DESCRIPTION=?, OPTIONS=? WHERE ID=?;";
-	// prep = con.prepareStatement(SQL,
-	// Statement.CLOSE_CURRENT_RESULT);
-	//
-	// prep.setString(1, info.description);
-	// prep.setString(2, DbOptions.save(info.options));
-	// prep.setInt(3, rs.getInt(1));
-	// int affectedRows = prep.executeUpdate();
-	// if (affectedRows == 0)
-	// throw new SQLException();
-	//
-	// } else {
-	// SQL = "INSERT INTO INFO (DESCRIPTION, EDIT_MODE) VALUES (?,?);";
-	// prep = con.prepareStatement(SQL,
-	// Statement.CLOSE_CURRENT_RESULT);
-	// prep.setString(1, info.description);
-	// prep.setString(2, DbOptions.save(info.options));
-	//
-	// int affectedRows = prep.executeUpdate();
-	// if (affectedRows == 0)
-	// throw new SQLException();
-	//
-	// }
-	//
-	// } finally {
-	// rs.close();
-	// }
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
+	public BookOptions getBookOptions() {
 
-	// public void setBook(WindowBookInfo book) throws IllegalAccessException {
-	// this.book = book;
-	// try {
-	// book.openConnection();
-	// Connection con = book.getConnection();
-	//
-	// SectionInfo sec = new SectionInfo();
-	// sec.id = 1;
-	//
-	// String SQL =
-	// "Select TOP 1 T1.TITLE, T.SELECTED_SECTION, T1.PARENT, T1.BLOCK, T1.OPTIONS FROM INFO AS T INNER JOIN SECTIONS AS T1 ON T.SELECTED_SECTION=T1.ID";
-	// Statement stat = con.createStatement();
-	// ResultSet rs = stat.executeQuery(SQL);
-	// try {
-	// if (rs.next()) {
-	// sec = getSection(rs);
-	// }
-	// } finally {
-	// rs.close();
-	// }
-	//
-	// AppManager.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
-	// new EVENT_UPDATE_VIEW_DATA(book, null, sec, true));
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// throw new IllegalAccessException();
-	// }
-	// }
+		BookOptions result = new BookOptions();
 
-	public void saveSelectedSelection(SectionInfo section) {
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
-			Statement stat = con.createStatement();
-			ResultSet rs = stat.executeQuery(SQL);
+			String SQL = "SELECT TOP 1 T.OPTIONS FROM INFO AS T";
+			PreparedStatement prep = con.prepareStatement(SQL);
+
+			ResultSet rs = prep.executeQuery();
 			try {
-
 				if (rs.next()) {
-					SQL = "UPDATE INFO SET SELECTED_SECTION=? WHERE ID=?;";
-					PreparedStatement prep = con.prepareStatement(SQL,
-							Statement.CLOSE_CURRENT_RESULT);
 
-					prep.setInt(1, section.getId());
-					prep.setInt(2, rs.getInt(1));
-					int affectedRows = prep.executeUpdate();
-					if (affectedRows == 0)
-						throw new SQLException();
-				} else {
-					SQL = "INSERT INTO INFO (SELECTED_SECTION) VALUES (?);";
-					PreparedStatement prep = con.prepareStatement(SQL,
-							Statement.CLOSE_CURRENT_RESULT);
-
-					prep.setInt(1, section.getId());
-					int affectedRows = prep.executeUpdate();
-					if (affectedRows == 0)
-						throw new SQLException();
+					result = DbOptions.load(BookOptions.class, rs.getString(1));
+					// } else {
+					// result.description = "";
+					// result.options = new BookInfoOptions();
+					// result.options
 				}
 			} finally {
 				rs.close();
@@ -208,35 +112,58 @@ public class BookService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return result;
+
 	}
 
-	// public void saveSection(SectionInfo section) {
-	// try {
-	// SectionInfo parent = getParent(section);
-	//
-	// Connection con = book.getConnection();
-	// String SQL = "UPDATE SECTIONS SET TITLE=? WHERE ID=?;";
-	// PreparedStatement prep = con.prepareStatement(SQL,
-	// Statement.CLOSE_CURRENT_RESULT);
-	//
-	// prep.setString(1, section.title);
-	// prep.setInt(2, section.id);
-	// int affectedRows = prep.executeUpdate();
-	// if (affectedRows == 0)
-	// throw new SQLException();
-	//
-	// AppManager.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
-	// new EVENT_UPDATE_VIEW_DATA(book, section, true));
-	//
-	// if (parent != null)
-	// AppManager.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
-	// new EVENT_UPDATE_VIEW_DATA(book, parent, true));
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
+	public void saveBookOptions(BookOptions opt) {
+
+		try {
+
+			Connection con = db.getConnection();
+			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
+			Statement stat = con.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+
+			try {
+
+				PreparedStatement prep;
+				if (rs.next()) {
+
+					SQL = "UPDATE INFO SET OPTIONS=? WHERE ID=?;";
+					prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+
+					prep.setString(1, DbOptions.save(opt));
+					prep.setInt(2, rs.getInt(1));
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+
+				} else {
+					SQL = "INSERT INTO INFO (OPTIONS) VALUES (?);";
+					prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+					prep.setString(1, DbOptions.save(opt));
+
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+
+				}
+
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// ************************************************************************************
 
 	public void saveBlock(SectionInfo section, SectionSaveData data) {
 		saveText(section, data.text);
@@ -466,12 +393,5 @@ public class BookService extends TreeService {
 			e.printStackTrace();
 		}
 
-	}
-
-	@Override
-	public ITreeItemInfo getSelected() {
-//		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_USER);
-
-		return null;
 	}
 }

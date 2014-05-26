@@ -64,10 +64,11 @@ public class BookStructure implements IDbStructure {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			SQL = "INSERT INTO SECTIONS (TITLE) VALUES (?);";
+			SQL = "INSERT INTO SECTIONS (TITLE, ISGROUP) VALUES (?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.get("initBookSectionTitle"));
+			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();

@@ -21,7 +21,7 @@ public class AddSubGroup {
 		try {
 
 			SectionInfo data = new SectionInfo();
-			data.setTitle(Strings.get("s.newsection.title "));
+			data.setTitle(Strings.get("s.newsection.title"));
 			data.setGroup(true);
 			book.srv().add(data, section, true);
 

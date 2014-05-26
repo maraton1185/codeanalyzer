@@ -13,6 +13,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -26,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import codeanalyzer.module.books.BookConnection;
+import codeanalyzer.module.books.BookOptions;
 import codeanalyzer.module.books.tree.SectionInfo;
 import codeanalyzer.module.books.tree.SectionInfoSelection;
 import codeanalyzer.module.booksList.tree.ListBookInfo;
@@ -77,17 +79,62 @@ public class ContentView {
 
 		if (data.selected != null)
 			viewer.setSelection(new StructuredSelection(data.selected), true);
-		if (data.setBook == true) {
-			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
-		}
-		// viewer.setExpandedState(section, true);
+		// if (data.setBook == true) {
+		// Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+		// }
+
+		// if (data.parent == null)
+		// return;
+		//
+		// viewer.refresh(data.parent);
+		//
+		// if (data.selected != null)
+		// viewer.setSelection(new StructuredSelection(data.selected), true);
 
 	}
 
 	@PreDestroy
-	public void preDestroy(@Active SectionInfo section) {
+	public void preDestroy(@Optional @Active SectionInfo section,
+			EPartService partService, EModelService model) {
+		BookOptions opt = new BookOptions();
 		if (section != null)
-			book.srv().saveSelectedSelection(section);
+			opt.selectedSection = section.getId();
+
+		// List<MPartStack> stacks = model.findElements(App.app,
+		// Strings.get("codeanalyzer.partstack.sections"),
+		// MPartStack.class, null);
+
+		// if (!stacks.isEmpty()) {
+		//
+		// opt.openSections = new ArrayList<Integer>();
+		// for (MStackElement _part : stacks.get(0).getChildren()) {
+		//
+		// if (!(_part instanceof MPart))
+		// continue;
+		//
+		// MPart part = (MPart) _part;
+		//
+		// if (!part.isVisible())
+		// continue;
+		// String id = part.getElementId();
+
+		// if (id.equals(Strings
+		// .get("codeanalyzer.partdescriptor.sectionView"))) {
+		// SectionView view = (SectionView) part.getObject();
+		// opt.openSections.add(view.getId());
+		// }
+		//
+		// if (id.equals(Strings
+		// .get("codeanalyzer.partdescriptor.sectionsBlockView"))) {
+		// BlockView view = (BlockView) part.getObject();
+		// opt.openSections.add(view.getId());
+		// }
+
+		// }
+		//
+		// }
+		book.srv().saveBookOptions(opt);
+
 		book.closeConnection();
 	}
 

@@ -30,8 +30,8 @@ public class Delete {
 		book.srv().delete(selection);
 
 		List<MPartStack> stacks = model.findElements(window,
-				Strings.get("model.id.partstack.sections"), MPartStack.class,
-				null);
+				Strings.get("codeanalyzer.partstack.sections"),
+				MPartStack.class, null);
 
 		String partID = !section.isGroup() ? Strings
 				.get("codeanalyzer.partdescriptor.sectionsBlockView") : Strings

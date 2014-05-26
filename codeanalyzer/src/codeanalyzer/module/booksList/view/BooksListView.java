@@ -40,12 +40,12 @@ import codeanalyzer.utils.Utils;
 public class BooksListView {
 
 	private TreeViewer viewer;
+	private TreeViewComponent treeComponent;
 
 	@Inject
 	public BooksListView() {
 		// TODO Your code here
 	}
-
 
 	@Inject
 	@Optional
@@ -76,6 +76,14 @@ public class BooksListView {
 		// form.reflow(true);
 	}
 
+	@Inject
+	@Optional
+	public void EVENT_BOOK_LIST_SETSELECTION(
+			@UIEventTopic(Events.EVENT_BOOK_LIST_SET_SELECTION) Object data) {
+
+		treeComponent.setSelection();
+	}
+
 	@PreDestroy
 	public void preDestroy(@Optional ListBookInfo data) {
 		if (data != null) {
@@ -92,8 +100,7 @@ public class BooksListView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				App.srv.bls(), 3);
+		treeComponent = new TreeViewComponent(parent, App.srv.bls(), 3);
 
 		viewer = treeComponent.getViewer();
 
@@ -133,11 +140,8 @@ public class BooksListView {
 			}
 		});
 
-		treeComponent.setSelection();
-
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.booklistview.popup"));
-		
 
 	}
 

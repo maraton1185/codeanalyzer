@@ -66,5 +66,9 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 
 	}
 
+	@Override
+	public boolean isTitleIncrement() {
+		return false;
+	}
 
 }

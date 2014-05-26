@@ -76,7 +76,7 @@ public class UserService extends TreeService {
 				rs.close();
 			}
 
-			add(item, parent_item, sub);
+			super.add(item, parent_item, sub);
 
 			App.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
 
@@ -85,8 +85,6 @@ public class UserService extends TreeService {
 
 		}
 
-
-
 	}
 
 	public List<UserInfo> getBookRoles() {
@@ -94,7 +92,10 @@ public class UserService extends TreeService {
 
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
+			String SQL = "SELECT "
+					+ getItemString("T")
+					+ "FROM "
+					+ tableName
 					+ " AS T WHERE T.PARENT=? AND T.ISGROUP  ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, ITreeService.rootId);

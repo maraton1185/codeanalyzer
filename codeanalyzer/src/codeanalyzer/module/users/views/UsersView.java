@@ -38,10 +38,19 @@ import codeanalyzer.utils.Utils;
 public class UsersView {
 
 	private TreeViewer viewer;
+	private TreeViewComponent treeComponent;
 
 	@Inject
 	public UsersView() {
 		// TODO Your code here
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_BOOK_LIST_SETSELECTION(
+			@UIEventTopic(Events.EVENT_USER_LIST_SET_SELECTION) Object data) {
+
+		treeComponent.setSelection();
 	}
 
 	@Inject
@@ -75,8 +84,7 @@ public class UsersView {
 
 	@PreDestroy
 	public void preDestroy(@Optional UserInfo data) {
-		if (data != null)
- {
+		if (data != null) {
 			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
 					data.getId());
 			PreferenceSupplier.save();
@@ -90,8 +98,7 @@ public class UsersView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				App.srv.us(), 2);
+		treeComponent = new TreeViewComponent(parent, App.srv.us(), 2);
 
 		viewer = treeComponent.getViewer();
 

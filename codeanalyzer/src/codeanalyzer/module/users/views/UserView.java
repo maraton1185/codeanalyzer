@@ -59,8 +59,8 @@ public class UserView {
 	@Optional
 	public void EVENT_UPDATE_USER_INFO(
 			@UIEventTopic(Events.EVENT_UPDATE_USER_INFO) Object o,
-			@Optional UserInfo data, IBookListManager bm, final EHandlerService hs,
-			final ECommandService cs) {
+			@Optional UserInfo data, IBookListManager bm,
+			final EHandlerService hs, final ECommandService cs) {
 
 		if (data == null) {
 			// form.setText(Strings.get("UserViewTitle"));
@@ -182,6 +182,8 @@ public class UserView {
 		}
 
 		dirty.setDirty(false);
+
+		App.br.post(Events.EVENT_BOOK_LIST_SET_SELECTION, null);
 	}
 
 	private void gap(FormToolkit toolkit) {

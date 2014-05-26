@@ -33,6 +33,10 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_USER_ROLES = "EVENT_UPDATE_USER_ROLES";
 
+	public static final String EVENT_BOOK_LIST_SET_SELECTION = "EVENT_BOOK_LIST_SET_SELECTION";
+
+	public static final String EVENT_USER_LIST_SET_SELECTION = "EVENT_USER_LIST_SET_SELECTION";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
@@ -44,11 +48,12 @@ public abstract class Events {
 			onlySectionView = false;
 		}
 
-		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
-				SectionInfo selected, boolean setBook) {
-			this(book, parent, selected);
-			this.setBook = setBook;
-		}
+		// public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo
+		// parent,
+		// SectionInfo selected, boolean setBook) {
+		// this(book, parent, selected);
+		// this.setBook = setBook;
+		// }
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
 				boolean onlySectionView) {
@@ -60,7 +65,7 @@ public abstract class Events {
 		public BookConnection book;
 		public SectionInfo parent;
 		public SectionInfo selected;
-		public boolean setBook;
+		// public boolean setBook;
 		public boolean onlySectionView;
 
 	}

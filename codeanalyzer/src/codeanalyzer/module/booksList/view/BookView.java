@@ -134,7 +134,6 @@ public class BookView {
 		// ИМЯ *******************************************
 		nameField(toolkit, ctx, parent);
 
-
 		// СТЕК *******************************************
 
 		stack = toolkit.createComposite(form.getBody());
@@ -156,6 +155,8 @@ public class BookView {
 		}
 
 		dirty.setDirty(false);
+
+		App.br.post(Events.EVENT_USER_LIST_SET_SELECTION, null);
 
 	}
 
@@ -184,8 +185,7 @@ public class BookView {
 					IPath p = model.data.getPath();
 					if (p == null)
 						return;
-					File temp = new File(p
-							.addFileExtension("txt").toString());
+					File temp = new File(p.addFileExtension("txt").toString());
 					if (!temp.exists())
 						temp.createNewFile();
 					java.awt.Desktop.getDesktop().open(temp);
@@ -232,7 +232,6 @@ public class BookView {
 		label = toolkit.createLabel(groupComp, "Описание группы", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
 				1));
-
 
 		text = toolkit.createText(groupComp, "", SWT.BORDER | SWT.WRAP
 				| SWT.MULTI);

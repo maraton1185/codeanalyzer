@@ -52,10 +52,10 @@ import codeanalyzer.module.books.tree.SectionSaveData;
 import codeanalyzer.module.books.views.section.interfaces.IBlockTune;
 import codeanalyzer.module.books.views.section.tools.TinyTextEditor;
 import codeanalyzer.utils.Events;
+import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
-import codeanalyzer.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class BlockView {
 
@@ -405,6 +405,10 @@ public class BlockView {
 
 		opt.tune(toolkit, section, sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	public Integer getId() {
+		return section.getId();
 	}
 
 }

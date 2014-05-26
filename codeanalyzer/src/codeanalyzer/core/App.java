@@ -1,5 +1,6 @@
 package codeanalyzer.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -13,6 +14,8 @@ import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
+import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
@@ -41,6 +44,10 @@ import org.osgi.service.event.EventHandler;
 import codeanalyzer.auth.interfaces.IAuthorize;
 import codeanalyzer.core.interfaces.IDbConnection;
 import codeanalyzer.core.interfaces.IServiceFactory;
+import codeanalyzer.module.books.BookConnection;
+import codeanalyzer.module.books.BookOptions;
+import codeanalyzer.module.books.tree.SectionInfo;
+import codeanalyzer.module.books.views.section.SectionView;
 import codeanalyzer.module.booksList.IBookListManager;
 import codeanalyzer.module.cf.services.FillProcLinkTableJob;
 import codeanalyzer.utils.Events;
@@ -59,6 +66,10 @@ public class App {
 	public static ESelectionService ss;
 
 	public static IServiceFactory srv = pico.get(IServiceFactory.class);
+
+	// public static EHandlerService hs;
+	// public static ECommandService cs;
+
 	// private static EContextService cs;
 	// public static EHandlerService hs;
 	// public static ECommandService cs;
@@ -84,6 +95,8 @@ public class App {
 		App.sync = sync;
 		App.model = modelService;
 		App.ps = ps;
+		// App.hs = hs;
+		// App.cs = cs;
 		App.app = application;
 
 		MTrimmedWindow window = (MTrimmedWindow) modelService.find(
@@ -254,9 +267,51 @@ public class App {
 		@Override
 		public boolean close(MWindow window) {
 
-			// BookInfo book = window.getContext().get(BookInfo.class);
-			// book.closeConnection();
-			// AppManager.ss.setSelection(null);
+			BookConnection book = window.getContext().get(BookConnection.class);
+
+			SectionInfo section = window.getContext().get(SectionInfo.class);
+			BookOptions opt = new BookOptions();
+			if (section != null)
+				opt.selectedSection = section.getId();
+
+			List<MPartStack> stacks = model.findElements(App.app,
+					Strings.get("codeanalyzer.partstack.sections"),
+					MPartStack.class, null);
+
+			if (!stacks.isEmpty()) {
+
+				opt.openSections = new ArrayList<Integer>();
+				for (MStackElement _part : stacks.get(0).getChildren()) {
+
+					if (!(_part instanceof MPart))
+						continue;
+
+					MPart part = (MPart) _part;
+
+					if (!part.isVisible())
+						continue;
+					String id = part.getElementId();
+
+					if (id.equals(Strings
+							.get("codeanalyzer.partdescriptor.sectionView"))) {
+						SectionView view = (SectionView) part.getObject();
+						opt.openSections.add(view.getId());
+					}
+
+					// if (id.equals(Strings
+					// .get("codeanalyzer.partdescriptor.sectionsBlockView"))) {
+					// BlockView view = (BlockView) part.getObject();
+					// opt.openSections.add(view.getId());
+					// }
+
+				}
+
+			}
+
+			book.srv().saveBookOptions(opt);
+
+			book.closeConnection();
+
 			return true;
 		}
 	}

@@ -108,6 +108,7 @@
             </children>
             <children xsi:type="basic:Part" xmi:id="_pR2BcODfEeOAI_38tK8ATw" elementId="codeanalyzer.part.book" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.booksList.view.BookView" label="Книга">
               <toolbar xmi:id="_zpNhEODjEeOAI_38tK8ATw" elementId="codeanalyzer.toolbar.10">
+                <children xsi:type="menu:HandledToolItem" xmi:id="_ldyoQOTVEeOGWI1qik9KEA" elementId="codeanalyzer.handledtoolitem.31" label="Открыть книгу" tooltip="" command="_A3uvkOP_EeOAy9eWHpjDYw"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_0CPsIODjEeOAI_38tK8ATw" elementId="codeanalyzer.handledtoolitem.29" iconURI="platform:/plugin/codeanalyzer/icons/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
               </toolbar>
             </children>
@@ -219,6 +220,9 @@
     <toolbar xmi:id="_ZtkZsKhUEeOKceOp7VW7lQ" elementId="codeanalyzer.toolbar.0"/>
   </descriptors>
   <descriptors xmi:id="_9H_DAMt2EeOTW91tESaq8A" elementId="codeanalyzer.partdescriptor.sectionView" label="секция книги" allowMultiple="true" closeable="true" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.views.section.SectionView">
+    <handlers xmi:id="_FU_0IOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.19" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.GoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
+    <handlers xmi:id="_DZd7kOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.Add" command="_B6xfwMt7EeOTW91tESaq8A"/>
+    <handlers xmi:id="_Ei7eAOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.20" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
     <toolbar xmi:id="_9l8KUMt2EeOTW91tESaq8A" elementId="codeanalyzer.toolbar.4">
       <children xsi:type="menu:HandledToolItem" xmi:id="_MY2wQNQjEeOFfdAek_eJEQ" elementId="codeanalyzer.handledtoolitem.12" label="" iconURI="platform:/plugin/codeanalyzer/icons/level_up.png" tooltip="Перейти к родителю" command="_dea_gNQiEeOFfdAek_eJEQ">
         <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_qYbJENQoEeOFfdAek_eJEQ" coreExpressionId="codeanalyzer.expressions.onContentSelected"/>
@@ -254,9 +258,6 @@
           <handlers xmi:id="_BVcOUOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.15" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.AddSubGroup" command="_sXbRULAWEeOa8OKjTLKQvw"/>
           <handlers xmi:id="_BrfW0OAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.16" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.EditTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
           <handlers xmi:id="_CApugOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.17" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.Show" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
-          <handlers xmi:id="_DZd7kOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.18" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.Add" command="_B6xfwMt7EeOTW91tESaq8A"/>
-          <handlers xmi:id="_Ei7eAOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.20" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
-          <handlers xmi:id="_FU_0IOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.19" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.GoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
           <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="codeanalyzer.handler.21" contributionURI="bundleclass://codeanalyzer/codeanalyzer.module.books.handlers.AddPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
           <menus xsi:type="menu:PopupMenu" xmi:id="_aCBVYLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.popupmenu.contentView">
             <children xsi:type="menu:HandledMenuItem" xmi:id="_cGMzoLAYEeOa8OKjTLKQvw" elementId="codeanalyzer.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/codeanalyzer/icons/add_section.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>

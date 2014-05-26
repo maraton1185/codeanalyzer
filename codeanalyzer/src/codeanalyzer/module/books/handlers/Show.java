@@ -55,7 +55,7 @@ public class Show {
 			part.setLabel(section.getTitle());
 		}
 
-		partService.showPart(part, PartState.ACTIVATE);
+		partService.showPart(part, PartState.VISIBLE);
 	}
 
 	@CanExecute

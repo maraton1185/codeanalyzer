@@ -3,7 +3,6 @@ package codeanalyzer.module.books.views;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
@@ -13,7 +12,6 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -93,51 +91,6 @@ public class ContentView {
 
 	}
 
-	@PreDestroy
-	public void preDestroy(@Optional @Active SectionInfo section,
-			EPartService partService, EModelService model) {
-		BookOptions opt = new BookOptions();
-		if (section != null)
-			opt.selectedSection = section.getId();
-
-		// List<MPartStack> stacks = model.findElements(App.app,
-		// Strings.get("codeanalyzer.partstack.sections"),
-		// MPartStack.class, null);
-
-		// if (!stacks.isEmpty()) {
-		//
-		// opt.openSections = new ArrayList<Integer>();
-		// for (MStackElement _part : stacks.get(0).getChildren()) {
-		//
-		// if (!(_part instanceof MPart))
-		// continue;
-		//
-		// MPart part = (MPart) _part;
-		//
-		// if (!part.isVisible())
-		// continue;
-		// String id = part.getElementId();
-
-		// if (id.equals(Strings
-		// .get("codeanalyzer.partdescriptor.sectionView"))) {
-		// SectionView view = (SectionView) part.getObject();
-		// opt.openSections.add(view.getId());
-		// }
-		//
-		// if (id.equals(Strings
-		// .get("codeanalyzer.partdescriptor.sectionsBlockView"))) {
-		// BlockView view = (BlockView) part.getObject();
-		// opt.openSections.add(view.getId());
-		// }
-
-		// }
-		//
-		// }
-		book.srv().saveBookOptions(opt);
-
-		book.closeConnection();
-	}
-
 	@PostConstruct
 	public void postConstruct(Composite parent, @Active final MWindow window,
 			EMenuService menuService, final EHandlerService hs,
@@ -180,10 +133,30 @@ public class ContentView {
 			}
 		});
 
+		showSections(window, hs, cs);
+
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.contentview.popup"));
+
+	}
+
+	private void showSections(MWindow window, EHandlerService hs,
+			ECommandService cs) {
+
+		BookOptions opt = book.srv().getBookOptions();
+		for (Integer i : opt.openSections) {
+
+			final SectionInfo section = (SectionInfo) book.srv().get(i);
+			if (section == null)
+				continue;
+
+			window.getContext().set(SectionInfo.class, section);
+
+			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+
+		}
 
 	}
 

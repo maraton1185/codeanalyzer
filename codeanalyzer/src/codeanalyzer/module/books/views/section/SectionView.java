@@ -8,9 +8,7 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
-import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.graphics.Font;
@@ -65,29 +63,30 @@ public class SectionView {
 	BrowserComposite browserComposite;
 	StringBuffer text = new StringBuffer();
 
-	@Inject
-	@Optional
-	public void EVENT_UPDATE_CONTENT_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data,
-			final EHandlerService hs, final ECommandService cs) {
-
-		if (book != data.book)
-			return;
-
-		// if (!data.onlySectionView)
-		// return;
-
-		if (data.parent == null)
-			return;
-
-		if (!data.parent.equals(section))
-			return;
-
-		// part.setLabel(data.parent.title);
-		part.setLabel(section.getTitle());
-
-		fillBody();
-	}
+	// @Inject
+	// @Optional
+	// public void EVENT_UPDATE_CONTENT_VIEW(
+	// @UIEventTopic(Events.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA
+	// data,
+	// final EHandlerService hs, final ECommandService cs) {
+	//
+	// if (book != data.book)
+	// return;
+	//
+	// // if (!data.onlySectionView)
+	// // return;
+	//
+	// if (data.parent == null)
+	// return;
+	//
+	// if (!data.parent.equals(section))
+	// return;
+	//
+	// // part.setLabel(data.parent.title);
+	// part.setLabel(section.getTitle());
+	//
+	// fillBody();
+	// }
 
 	@Focus
 	public void OnFocus() {

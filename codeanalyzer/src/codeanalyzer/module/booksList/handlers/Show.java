@@ -45,7 +45,8 @@ public class Show {
 
 	@Execute
 	public void execute(EPartService partService, EModelService model,
-			final @Active BookConnection book, IEclipseContext ctx) {
+			final @Active BookConnection book, IEclipseContext ctx,
+			EHandlerService hs, ECommandService cs) {
 
 		MWindow mainWindow = App.app.getChildren().get(0);
 
@@ -59,7 +60,7 @@ public class Show {
 
 		if (windows.isEmpty())
 
-			createBookWindow(mainWindow, book, model, ctx, partService);
+			createBookWindow(mainWindow, book, model, ctx, partService, hs, cs);
 
 		else {
 			MWindow w = windows.get(0);
@@ -69,7 +70,8 @@ public class Show {
 	}
 
 	private void createBookWindow(MWindow mainWindow, BookConnection book,
-			EModelService model, IEclipseContext ctx, EPartService partService) {
+			EModelService model, IEclipseContext ctx, EPartService partService,
+			EHandlerService hs, ECommandService cs) {
 
 		MTrimmedWindow bookWindow = (MTrimmedWindow) model.cloneSnippet(
 				App.app, Strings.get("model.id.book.window"), null);
@@ -82,6 +84,7 @@ public class Show {
 		bookWindow.getTags().add(book.getFullName());
 
 		App.app.getChildren().add(bookWindow);
+		// App.app.setSelectedElement(bookWindow);
 		bookWindow.getContext().set(BookConnection.class, book);
 
 		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();

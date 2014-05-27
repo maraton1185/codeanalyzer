@@ -71,7 +71,6 @@ public class StartView {
 	IBookListManager blm = pico.get(IBookListManager.class);
 	private TreeViewer viewer;
 
-
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_BOOK_LIST(
@@ -113,6 +112,7 @@ public class StartView {
 		form.getBody().setLayout(layout);
 
 		form.setText(Strings.get("appTitle"));
+		toolkit.decorateFormHeading(form.getForm());
 
 		mainLinks(hService, comService);
 
@@ -331,20 +331,21 @@ public class StartView {
 		gd = new GridData();
 		gd.horizontalSpan = 3;
 		check1.setLayoutData(gd);
-
-		final Button check = toolkit.createButton(prefSectionClient,
-				"Не показывать при запуске", SWT.CHECK);
-		check.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				PreferenceSupplier.set(PreferenceSupplier.SHOW_START_PAGE,
-						!check.getSelection());
-				PreferenceSupplier.save();
-			}
-		});
-		gd = new GridData();
-		gd.horizontalSpan = 3;
-		check.setLayoutData(gd);
+		check1.setSelection(PreferenceSupplier
+				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE));
+		// final Button check = toolkit.createButton(prefSectionClient,
+		// "Не показывать при запуске", SWT.CHECK);
+		// check.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// PreferenceSupplier.set(PreferenceSupplier.SHOW_START_PAGE,
+		// !check.getSelection());
+		// PreferenceSupplier.save();
+		// }
+		// });
+		// gd = new GridData();
+		// gd.horizontalSpan = 3;
+		// check.setLayoutData(gd);
 
 		prefSection.setClient(prefSectionClient);
 
@@ -390,7 +391,8 @@ public class StartView {
 
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				ListBookInfo selected = (ListBookInfo) selection.getFirstElement();
+				ListBookInfo selected = (ListBookInfo) selection
+						.getFirstElement();
 
 				blm.openBook(selected.getPath(), shell);
 			}

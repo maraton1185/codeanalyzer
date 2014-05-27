@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.web;
+package codeanalyzer._web.hessian;
 
 import java.net.MalformedURLException;
 

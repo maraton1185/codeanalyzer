@@ -33,33 +33,60 @@
          </with>
       </definition>
    </extension>
-<extension point="org.eclipse.equinox.http.registry.resources">
-    <resource
-      alias="/"
-      base-name="/web"/>
-  </extension>
-  <extension point="org.eclipse.equinox.http.registry.servlets">
-    <servlet
-      alias="/test"
-      class="codeanalyzer.module.books.web.TestServlet"/>
-      <servlet
-      alias="/test1"
-      class="codeanalyzer.module.books.web.BasicService"/>
-    <servlet
-		alias="/*.jsp"
-		class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
-		httpcontextId="jsp">
-	</servlet>
-  </extension>
-  
-   <extension
+   
+ 
+<extension
 	point="org.eclipse.equinox.http.registry.httpcontexts">
+		<httpcontext
+			id="base">
+			<resource-mapping
+				path="/_web">
+			</resource-mapping>
+		</httpcontext>
+		
 		<httpcontext
 			id="jsp">
 			<resource-mapping
-				path="/web">
+				path="/_web/jsp">
 			</resource-mapping>
 		</httpcontext>
-	</extension>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+    <resource
+          alias="/image"
+          base-name="/images"
+          httpcontextId="base">
+    </resource>
+
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+      alias="/test1"
+      class="codeanalyzer._web.hessian.BasicService"/>
+          
+    <servlet
+      alias="/list"
+      class="codeanalyzer._web.BooksListServlet"/>
+    
+     <servlet
+      alias="/about"
+      class="codeanalyzer._web.AboutServlet"/>
+      
+    <servlet
+      alias="/"
+      class="codeanalyzer._web.IndexServlet"/>
+    
+    <servlet
+		alias="/*.jsp"
+		class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		httpcontextId="base">
+	</servlet>
+	
+	 
+</extension>
+  
+   
 </plugin>
 

@@ -14,7 +14,7 @@ import codeanalyzer.core.App;
 import codeanalyzer.module.cf.interfaces.ICf;
 import codeanalyzer.utils.Strings;
 
-public class NewObjectTreeHandler {
+public class _NewObjectTreeHandler {
 	@Execute
 	public void execute(@Optional ICf db, EPartService partService,
 			EModelService model) {

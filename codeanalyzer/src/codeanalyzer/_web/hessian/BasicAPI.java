@@ -1,4 +1,5 @@
-package codeanalyzer.module.books.web;
+package codeanalyzer._web.hessian;
+
 
 public interface BasicAPI {
 	public String hello();

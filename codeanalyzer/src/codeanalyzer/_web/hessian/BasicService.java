@@ -1,4 +1,4 @@
-package codeanalyzer.module.books.web;
+package codeanalyzer._web.hessian;
 
 import com.caucho.hessian.server.HessianServlet;
 

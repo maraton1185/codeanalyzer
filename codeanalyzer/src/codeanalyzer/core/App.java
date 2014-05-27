@@ -1,7 +1,13 @@
 package codeanalyzer.core;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -18,23 +24,25 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.model.application.ui.menu.MDirectToolItem;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.UIEvents;
-import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
-import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
-import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
@@ -57,6 +65,22 @@ import codeanalyzer.utils.Utils;
 
 public class App {
 
+	public enum Perspectives {
+		books, main;
+
+		@Override
+		public String toString() {
+			switch (this) {
+			case books:
+				return Strings.get("model.id.perspective.books");
+			default:
+				return Strings.get("model.id.perspective.default");
+			}
+		}
+	}
+
+	public static Perspectives currentPerspective;
+
 	public static IEventBroker br;
 	public static IEclipseContext ctx;
 	public static UISynchronize sync;
@@ -67,22 +91,12 @@ public class App {
 
 	public static IServiceFactory srv = pico.get(IServiceFactory.class);
 
-	// public static EHandlerService hs;
-	// public static ECommandService cs;
+	private static int jettyPort;
+	private static String jettyMessage;
 
-	// private static EContextService cs;
-	// public static EHandlerService hs;
-	// public static ECommandService cs;
-
-	@PostContextCreate
-	public void postContextCreate() {
-
-	}
-
-	@PreSave
-	public void preSave() {
-
-	}
+	public static String jettyHost() {
+		return "http://localhost:" + jettyPort;
+	};
 
 	@ProcessAdditions
 	public void processAdditions(IEventBroker br, IEclipseContext ctx,
@@ -105,8 +119,70 @@ public class App {
 		br.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 				new AppStartupCompleteEventHandler(window));
 
+		startJetty();
+
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
+		dbInit(window);
+
+	}
+
+	private void startJetty() {
+
+		jettyPort = findFreePort();
+		jettyMessage = "Web-сервер: localhost:" + jettyPort;
+
+		Dictionary<String, Object> settings = new Hashtable<String, Object>();
+		settings.put("http.enabled", Boolean.TRUE);
+		settings.put("http.port", jettyPort);
+		settings.put("http.host", "localhost");
+		settings.put("https.enabled", Boolean.FALSE);
+		settings.put("context.path", "/");
+		settings.put("context.sessioninactiveinterval", 1800);
+		// settings.put(JettyConstants.CUSTOMIZER_CLASS, 1800);
+
+		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
+
+		try {
+			// JettyConfigurator.stopServer(PLUGIN_ID + ".jetty");
+			JettyConfigurator.startServer(Activator.PLUGIN_ID + ".jetty",
+					settings);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jettyMessage = "Ошибка старта web-сервера (порт: " + jettyPort
+					+ ")";
+		}
+
+	}
+
+	private int findFreePort() {
+		int port = 0;
+		try (ServerSocket server = create(new int[] {
+				PreferenceSupplier.getInt(PreferenceSupplier.REMOTE_PORT), 0 });) {
+			port = server.getLocalPort();
+			System.err.println(port);
+		} catch (Exception e) {
+			System.err.println("unable to find a free port");
+			return 0;
+		}
+		return port;
+	}
+
+	private ServerSocket create(int[] ports) throws IOException {
+		for (int port : ports) {
+			try {
+				return new ServerSocket(port);
+			} catch (IOException ex) {
+				continue; // try next port
+			}
+		}
+
+		// if the program gets here, no port in the range was found
+		throw new IOException("no free port found");
+	}
+
+	// DB INIT
+	private void dbInit(MTrimmedWindow window) {
 		IDbConnection db = pico.get(IDbConnection.class);
 		try {
 			// throw new SQLException();
@@ -123,12 +199,12 @@ public class App {
 					e1.printStackTrace();
 				}
 			}
-			// IWorkbench workbench = window.getContext().get(IWorkbench.class);
 
-			// workbench.close();
 			e.printStackTrace();
 		}
 	}
+
+	// APP STARTUP, TRAY
 
 	private static class AppStartupCompleteEventHandler implements EventHandler {
 		private MTrimmedWindow window;
@@ -168,6 +244,7 @@ public class App {
 					final TrayItem item = new TrayItem(tray, SWT.NONE);
 					item.setToolTipText(Strings.get("appTitle"));
 					item.setImage(image);
+
 					item.addListener(SWT.DefaultSelection, new Listener() {
 
 						@Override
@@ -181,6 +258,47 @@ public class App {
 							shell.forceActive();
 						}
 
+					});
+
+					item.addListener(SWT.MenuDetect, new Listener() {
+						@Override
+						public void handleEvent(
+								org.eclipse.swt.widgets.Event event) {
+
+							// Style must be pop up
+							Menu m = new Menu(shell, SWT.POP_UP);
+
+							MenuItem open = new MenuItem(m, SWT.NONE);
+							open.setText("Открыть в браузере");
+							open.addListener(SWT.Selection, new Listener() {
+								@Override
+								public void handleEvent(
+										org.eclipse.swt.widgets.Event event) {
+
+									Program.launch(App.jettyHost().concat(
+											"/about"));
+									// IWorkbench workbench =
+									// window.getContext()
+									// .get(IWorkbench.class);
+									// workbench.close();
+								}
+							});
+
+							MenuItem exit = new MenuItem(m, SWT.NONE);
+							exit.setText("Выход");
+							exit.addListener(SWT.Selection, new Listener() {
+								@Override
+								public void handleEvent(
+										org.eclipse.swt.widgets.Event event) {
+									IWorkbench workbench = window.getContext()
+											.get(IWorkbench.class);
+									workbench.close();
+								}
+							});
+
+							// We need to make the menu visible
+							m.setVisible(true);
+						};
 					});
 
 				}
@@ -217,6 +335,8 @@ public class App {
 
 	}
 
+	// UPADTE STATUS
+
 	private static class EVENT_UPDATE_STATUS implements EventHandler {
 
 		@Override
@@ -229,17 +349,27 @@ public class App {
 					App.sync.asyncExec(new Runnable() {
 						@Override
 						public void run() {
-							MHandledToolItem element = (MHandledToolItem) App.model
+							// MHandledToolItem element;
+							MHandledToolItem h_element = (MHandledToolItem) App.model
 									.find(Strings.get("model_id_activate"),
 											App.app);
-							element.setLabel(status);
-							element.setVisible(true);
+							h_element.setLabel(status);
+							h_element.setVisible(true);
+
+							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
+									Strings.get("codeanalyzer.directtoolitem.1"),
+									App.app);
+							d_element.setLabel(jettyMessage);
+							d_element.setVisible(true);
+
 						}
 					});
 				}
 			}).start();
 		}
 	}
+
+	// WINDOWS CLOSING
 
 	public static class WindowCloseHandler implements IWindowCloseHandler {
 
@@ -316,34 +446,36 @@ public class App {
 		}
 	}
 
+	// PERSPECTIVES
+	// ******************************************************************
+
 	public static void perspectiveActions() {
-		MPerspective persp;
 
 		if (PreferenceSupplier
-				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE)) {
+				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE))
+			currentPerspective = Perspectives.books;
+		else
+			currentPerspective = Perspectives.main;
 
-			persp = (MPerspective) model.find(
-					Strings.get("model.id.perspective.books"), app);
-			persp.setVisible(true);
-			ps.switchPerspective(persp);
+		showPerspective(currentPerspective);
 
-		} else {
-
-			persp = (MPerspective) model.find(
-					Strings.get("model.id.perspective.default"), app);
-			persp.setVisible(true);
-			ps.switchPerspective(persp);
-
-			List<MPart> parts = model.findElements(app,
-					Strings.get("model.id.part.start"), MPart.class, null);
-			MPart part = parts.get(0);
-			if (PreferenceSupplier
-					.getBoolean(PreferenceSupplier.SHOW_START_PAGE))
-				ps.showPart(part, PartState.ACTIVATE);
-			else
-				ps.hidePart(part);
-
-		}
 	}
 
+	public static void togglePerspective() {
+		if (currentPerspective == Perspectives.books)
+			currentPerspective = Perspectives.main;
+		else
+			currentPerspective = Perspectives.books;
+		showPerspective(currentPerspective);
+	}
+
+	public static void showPerspective(Perspectives perspType) {
+
+		MPerspective persp;
+
+		persp = (MPerspective) model.find(perspType.toString(), app);
+		persp.setVisible(true);
+		ps.switchPerspective(persp);
+
+	}
 }

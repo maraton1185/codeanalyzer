@@ -6,7 +6,7 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-public class SetTitle {
+public class _SetTitle {
 	@Execute
 	public void execute(MPart activePart, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,

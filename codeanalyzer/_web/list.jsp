@@ -8,7 +8,7 @@
 %> 
   <html>
       <head> 
-          <title>Простейшая страница JSP</title>
+          <title>Список книг</title>
           <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
      </head>
 	 

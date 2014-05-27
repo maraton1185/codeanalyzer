@@ -26,7 +26,7 @@ public abstract class PreferenceSupplier {
 	public static final String INIT_EXECUTION = "P_INIT_EXECUTION";
 	public static final String BASE_ACTIVE = "P_BASE_ACTIVE";
 	public static final String BASE_COMPARE = "P_BASE_COMPARE";
-	public static final String SHOW_START_PAGE = "P_SHOW_START_PAGE";
+	// public static final String SHOW_START_PAGE = "P_SHOW_START_PAGE";
 	public static final String SHOW_BOOK_PERSPECTIVE = "P_SHOW_BOOK_PERSPECTIVE";
 	public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
 	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
@@ -37,19 +37,23 @@ public abstract class PreferenceSupplier {
 
 	public static final String SELECTED_BOOK = "SELECTED_BOOK";
 	public static final String SELECTED_USER = "SELECTED_USER";
-	
+
+	public static final String REMOTE_PORT = "REMOTE_PORT";
+
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
 
+		preferenceStore.setDefault(PreferenceSupplier.REMOTE_PORT, 80);
+
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_BOOK, 1);
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_USER, 1);
 
 		preferenceStore.setDefault(PreferenceSupplier.NTPSERVER,
 				"ptbtime1.ptb.de");
-		preferenceStore.setDefault(PreferenceSupplier.SHOW_START_PAGE, true);
+		// preferenceStore.setDefault(PreferenceSupplier.SHOW_START_PAGE, true);
 
 		preferenceStore.setDefault(PreferenceSupplier.DEFAULT_DIRECTORY,
 				ResourcesPlugin.getWorkspace().getRoot().getLocation()

@@ -1,4 +1,4 @@
-package codeanalyzer._web;
+package codeanalyzer.web;
 
 import java.io.IOException;
 
@@ -17,6 +17,8 @@ public class AboutServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -43823400533628363L;
 
+	// private static String template = "scrolling-nav";
+
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -28,8 +30,13 @@ public class AboutServlet extends HttpServlet {
 		// if (c == null)
 		// error_view.forward(request, response);
 
-		request.setAttribute("host", App.jettyHost());
-		RequestDispatcher view = request.getRequestDispatcher("about.jsp");
+		request.setAttribute("host", App.getJetty().host());
+		// RequestDispatcher view = request.getRequestDispatcher("about.jsp");
+		// RequestDispatcher view = request.getServletContext()
+		// .getRequestDispatcher("/about/scrolling-nav/index.html");
+		RequestDispatcher view = request.getRequestDispatcher("info/index.jsp");
+
 		view.forward(request, response);
+
 	}
 }

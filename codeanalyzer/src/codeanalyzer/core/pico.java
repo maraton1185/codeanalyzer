@@ -48,6 +48,9 @@ public final class pico {
 
 		instance.as(Characteristics.CACHE).addComponent(ServiceFactory.class);
 
+		instance.as(Characteristics.CACHE).addComponent(
+				codeanalyzer.web.Jetty.class);
+
 		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
 		// instance.as(Characteristics.CACHE).addComponent(BookService.class);
 		// instance.as(Characteristics.CACHE).addComponent(Events.class);

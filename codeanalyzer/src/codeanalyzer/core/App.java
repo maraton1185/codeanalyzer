@@ -1,13 +1,7 @@
 package codeanalyzer.core;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -33,7 +27,6 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
-import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
@@ -62,6 +55,7 @@ import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 import codeanalyzer.utils.Utils;
+import codeanalyzer.web.IJetty;
 
 public class App {
 
@@ -91,12 +85,7 @@ public class App {
 
 	public static IServiceFactory srv = pico.get(IServiceFactory.class);
 
-	private static int jettyPort;
-	private static String jettyMessage;
-
-	public static String jettyHost() {
-		return "http://localhost:" + jettyPort;
-	};
+	private static IJetty jetty = pico.get(IJetty.class);
 
 	@ProcessAdditions
 	public void processAdditions(IEventBroker br, IEclipseContext ctx,
@@ -119,66 +108,12 @@ public class App {
 		br.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 				new AppStartupCompleteEventHandler(window));
 
-		startJetty();
+		jetty.startJetty();
 
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
 		dbInit(window);
 
-	}
-
-	private void startJetty() {
-
-		jettyPort = findFreePort();
-		jettyMessage = "Web-сервер: localhost:" + jettyPort;
-
-		Dictionary<String, Object> settings = new Hashtable<String, Object>();
-		settings.put("http.enabled", Boolean.TRUE);
-		settings.put("http.port", jettyPort);
-		settings.put("http.host", "localhost");
-		settings.put("https.enabled", Boolean.FALSE);
-		settings.put("context.path", "/");
-		settings.put("context.sessioninactiveinterval", 1800);
-		// settings.put(JettyConstants.CUSTOMIZER_CLASS, 1800);
-
-		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
-
-		try {
-			// JettyConfigurator.stopServer(PLUGIN_ID + ".jetty");
-			JettyConfigurator.startServer(Activator.PLUGIN_ID + ".jetty",
-					settings);
-		} catch (Exception e) {
-			e.printStackTrace();
-			jettyMessage = "Ошибка старта web-сервера (порт: " + jettyPort
-					+ ")";
-		}
-
-	}
-
-	private int findFreePort() {
-		int port = 0;
-		try (ServerSocket server = create(new int[] {
-				PreferenceSupplier.getInt(PreferenceSupplier.REMOTE_PORT), 0 });) {
-			port = server.getLocalPort();
-			System.err.println(port);
-		} catch (Exception e) {
-			System.err.println("unable to find a free port");
-			return 0;
-		}
-		return port;
-	}
-
-	private ServerSocket create(int[] ports) throws IOException {
-		for (int port : ports) {
-			try {
-				return new ServerSocket(port);
-			} catch (IOException ex) {
-				continue; // try next port
-			}
-		}
-
-		// if the program gets here, no port in the range was found
-		throw new IOException("no free port found");
 	}
 
 	// DB INIT
@@ -275,8 +210,7 @@ public class App {
 								public void handleEvent(
 										org.eclipse.swt.widgets.Event event) {
 
-									Program.launch(App.jettyHost().concat(
-											"/about"));
+									Program.launch(App.getJetty().info());
 									// IWorkbench workbench =
 									// window.getContext()
 									// .get(IWorkbench.class);
@@ -359,7 +293,7 @@ public class App {
 							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
 									Strings.get("codeanalyzer.directtoolitem.1"),
 									App.app);
-							d_element.setLabel(jettyMessage);
+							d_element.setLabel(jetty.jettyMessage());
 							d_element.setVisible(true);
 
 						}
@@ -477,5 +411,9 @@ public class App {
 		persp.setVisible(true);
 		ps.switchPerspective(persp);
 
+	}
+
+	public static IJetty getJetty() {
+		return jetty;
 	}
 }

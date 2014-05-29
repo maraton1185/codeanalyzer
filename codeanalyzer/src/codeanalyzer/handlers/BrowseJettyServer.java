@@ -8,7 +8,7 @@ import codeanalyzer.core.App;
 public class BrowseJettyServer {
 	@Execute
 	public void execute() {
-		Program.launch(App.jettyHost().concat("/about"));
+		Program.launch(App.getJetty().info());
 	}
 
 }

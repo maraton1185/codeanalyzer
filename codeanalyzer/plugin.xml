@@ -35,6 +35,8 @@
    </extension>
    
  
+<!-- 
+ --> 
 <extension
 	point="org.eclipse.equinox.http.registry.httpcontexts">
 		<httpcontext
@@ -45,46 +47,55 @@
 		</httpcontext>
 		
 		<httpcontext
-			id="jsp">
+			id="info">
 			<resource-mapping
-				path="/_web/jsp">
+				path="/_web/tmpl/info">
 			</resource-mapping>
 		</httpcontext>
+
 </extension>
 
 <extension point="org.eclipse.equinox.http.registry.resources">
-    <resource
-          alias="/image"
-          base-name="/images"
-          httpcontextId="base">
+<!--
+	<resource
+          alias="/about"
+          base-name="/tmpl/about/scrolling-nav"
+          httpcontextId="about">
     </resource>
-
+     -->
+ 	<resource
+          alias="/rinfo"
+          httpcontextId="info">
+    </resource>
 </extension>
 
 <extension point="org.eclipse.equinox.http.registry.servlets">
+<!-- 
     <servlet
       alias="/test1"
-      class="codeanalyzer._web.hessian.BasicService"/>
+      class="codeanalyzer.web.hessian.BasicService"/>
           
     <servlet
       alias="/list"
-      class="codeanalyzer._web.BooksListServlet"/>
-    
+      class="codeanalyzer.web.BooksListServlet"/>
+  --> 
+  	<servlet
+		 alias="/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="base">
+		 </servlet>
+		    
      <servlet
-      alias="/about"
-      class="codeanalyzer._web.AboutServlet"/>
-      
-    <servlet
-      alias="/"
-      class="codeanalyzer._web.IndexServlet"/>
-    
-    <servlet
-		alias="/*.jsp"
-		class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
-		httpcontextId="base">
-	</servlet>
-	
-	 
+           alias="/info"
+           class="codeanalyzer.web.AboutServlet"
+           httpcontextId="info"/>
+          
+	  
+	<servlet
+		 alias="/info/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="info">
+		 </servlet>
 </extension>
   
    

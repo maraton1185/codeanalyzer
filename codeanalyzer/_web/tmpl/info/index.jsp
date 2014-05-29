@@ -1,4 +1,4 @@
-<%! 
+﻿<%! 
     String root = "rinfo/"; 
 %>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Start Bootstrap - Scrolling Nav</title>
+    <title>Привет медвед!</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<%= root%>css/bootstrap.min.css" rel="stylesheet" type="text/css">

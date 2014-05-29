@@ -35,8 +35,7 @@
    </extension>
    
  
-<!-- 
- --> 
+<!-- base --> 
 <extension
 	point="org.eclipse.equinox.http.registry.httpcontexts">
 		<httpcontext
@@ -45,24 +44,30 @@
 				path="/_web">
 			</resource-mapping>
 		</httpcontext>
-		
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+
+  	<servlet
+		 alias="/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="base">
+		 </servlet>
+		 
+</extension>
+
+<!-- info --> 
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
 		<httpcontext
 			id="info">
 			<resource-mapping
 				path="/_web/tmpl/info">
 			</resource-mapping>
 		</httpcontext>
-
 </extension>
 
 <extension point="org.eclipse.equinox.http.registry.resources">
-<!--
-	<resource
-          alias="/about"
-          base-name="/tmpl/about/scrolling-nav"
-          httpcontextId="about">
-    </resource>
-     -->
  	<resource
           alias="/rinfo"
           httpcontextId="info">
@@ -70,32 +75,75 @@
 </extension>
 
 <extension point="org.eclipse.equinox.http.registry.servlets">
-<!-- 
     <servlet
-      alias="/test1"
-      class="codeanalyzer.web.hessian.BasicService"/>
-          
-    <servlet
-      alias="/list"
-      class="codeanalyzer.web.BooksListServlet"/>
-  --> 
-  	<servlet
-		 alias="/*.jsp"
-		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
-		 httpcontextId="base">
-		 </servlet>
-		    
-     <servlet
            alias="/info"
-           class="codeanalyzer.web.AboutServlet"
+           class="codeanalyzer.web.InfoServlet"
            httpcontextId="info"/>
-          
-	  
-	<servlet
+  	<servlet
 		 alias="/info/*.jsp"
 		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
 		 httpcontextId="info">
-		 </servlet>
+		 </servlet>		
+</extension>
+ 
+<!-- list -->
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
+		<httpcontext
+			id="list">
+			<resource-mapping
+				path="/_web/tmpl/list">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+ 	<resource
+          alias="/rlist"
+          httpcontextId="list">
+    </resource>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+           alias="/list"
+           class="codeanalyzer.web.ListServlet"
+           httpcontextId="list"/>
+  	<servlet
+		 alias="/list/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="list">
+		 </servlet>		
+</extension>
+ 
+<!-- book --> 
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
+		<httpcontext
+			id="book">
+			<resource-mapping
+				path="/_web/tmpl/book">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+ 	<resource
+          alias="/rbook"
+          httpcontextId="book">
+    </resource>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+           alias="/book"
+           class="codeanalyzer.web.BookServlet"
+           httpcontextId="book"/>
+  	<servlet
+		 alias="/book/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="book">
+		 </servlet>		
 </extension>
   
    

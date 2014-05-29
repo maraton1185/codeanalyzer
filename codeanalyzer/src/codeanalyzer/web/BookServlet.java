@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import codeanalyzer.core.App;
 
-public class AboutServlet extends HttpServlet {
+public class BookServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -31,10 +31,8 @@ public class AboutServlet extends HttpServlet {
 		// error_view.forward(request, response);
 
 		request.setAttribute("host", App.getJetty().host());
-		// RequestDispatcher view = request.getRequestDispatcher("about.jsp");
-		// RequestDispatcher view = request.getServletContext()
-		// .getRequestDispatcher("/about/scrolling-nav/index.html");
-		RequestDispatcher view = request.getRequestDispatcher("info/index.jsp");
+
+		RequestDispatcher view = request.getRequestDispatcher("book/index.jsp");
 
 		view.forward(request, response);
 

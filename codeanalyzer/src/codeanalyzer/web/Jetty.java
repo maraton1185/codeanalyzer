@@ -31,37 +31,9 @@ public class Jetty implements IJetty {
 
 		if (!startjetty)
 			return;
-		// new fragment.TestFragment();
-		// try {
-		// Class.forName("jettycustom.ServerCustomizer");
-		// } catch (ClassNotFoundException e1) {
-		// // NEXT Auto-generated catch block
-		// e1.printStackTrace();
-		// }
 
 		jettyPort = findFreePort();
 		jettyMessage = "Web-сервер: localhost:" + jettyPort;
-
-		// Server server = new Server(jettyPort);
-		//
-		// String WEBAPPDIR = "_web/";
-		// String CONTEXTPATH = "/admin";
-		//
-		// final URL warUrl = this.getClass().getClassLoader()
-		// .getResource(WEBAPPDIR);
-		// final String warUrlString = warUrl.toExternalForm();
-		// server.setHandler(new WebAppContext(warUrlString, CONTEXTPATH));
-
-		// WebAppContext webapp = new WebAppContext();
-		// webapp.setContextPath("/");
-		// webapp.setWar("../../jetty-distribution/target/distribution/demo-base/webapps/test.war");
-
-		// Bundle bundle = FrameworkUtil.getBundle(Jetty.class);
-		// URL warUrl = FileLocator.find(bundle, new Path("icons/"), null);
-		// final URL warUrl = FrameworkUtil.getBundle(Jetty.class).getResource(
-		// WEBAPPDIR);
-		// final String warUrlString = warUrl.toExternalForm();
-		// server.setHandler(new WebAppContext(warUrl.toString(), CONTEXTPATH));
 
 		Dictionary<String, Object> settings = new Hashtable<String, Object>();
 		settings.put("http.enabled", Boolean.TRUE);
@@ -129,3 +101,31 @@ public class Jetty implements IJetty {
 		return debug;
 	}
 }
+
+// try {
+// Class.forName("jettycustom.ServerCustomizer");
+// } catch (ClassNotFoundException e1) {
+// // NEXT Auto-generated catch block
+// e1.printStackTrace();
+// }
+
+// Server server = new Server(jettyPort);
+//
+// String WEBAPPDIR = "_web/";
+// String CONTEXTPATH = "/admin";
+//
+// final URL warUrl = this.getClass().getClassLoader()
+// .getResource(WEBAPPDIR);
+// final String warUrlString = warUrl.toExternalForm();
+// server.setHandler(new WebAppContext(warUrlString, CONTEXTPATH));
+
+// WebAppContext webapp = new WebAppContext();
+// webapp.setContextPath("/");
+// webapp.setWar("../../jetty-distribution/target/distribution/demo-base/webapps/test.war");
+
+// Bundle bundle = FrameworkUtil.getBundle(Jetty.class);
+// URL warUrl = FileLocator.find(bundle, new Path("icons/"), null);
+// final URL warUrl = FrameworkUtil.getBundle(Jetty.class).getResource(
+// WEBAPPDIR);
+// final String warUrlString = warUrl.toExternalForm();
+// server.setHandler(new WebAppContext(warUrl.toString(), CONTEXTPATH));

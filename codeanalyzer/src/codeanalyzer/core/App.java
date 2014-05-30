@@ -1,5 +1,6 @@
 package codeanalyzer.core;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 import codeanalyzer.auth.interfaces.IAuthorize;
+import codeanalyzer.core.exceptions.MakeConnectionException;
 import codeanalyzer.core.interfaces.IDbConnection;
 import codeanalyzer.core.interfaces.IServiceFactory;
 import codeanalyzer.module.books.BookConnection;
@@ -122,8 +124,17 @@ public class App {
 		IDbConnection db = pico.get(IDbConnection.class);
 		try {
 			// throw new SQLException();
-			db.check();
+
+			try {
+				db.check();
+			} catch (InvocationTargetException e1) {
+				if (e1.getTargetException() instanceof MakeConnectionException) {
+					db.create();
+				}
+			}
+
 			db.openConnection();
+
 		} catch (Exception e) {
 			Shell shell = (Shell) window.getWidget();
 			if (MessageDialog.openQuestion(shell, Strings.get("appTitle"),

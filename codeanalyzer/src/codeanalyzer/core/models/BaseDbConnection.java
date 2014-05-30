@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import org.eclipse.core.runtime.IPath;
 
+import codeanalyzer.core.exceptions.MakeConnectionException;
 import codeanalyzer.core.interfaces.IDbConnection;
 import codeanalyzer.core.interfaces.IDbStructure;
 
@@ -59,11 +60,18 @@ public abstract class BaseDbConnection implements IDbConnection {
 			Connection con = null;
 			try {
 				con = makeConnection(true);
-				dbStructure.checkSructure(con);
+			} catch (Exception e) {
+				if (con != null)
+					con.close();
+				throw new MakeConnectionException();
+			}
 
+			try {
+				dbStructure.checkSructure(con);
 			} finally {
 				con.close();
 			}
+
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 		}

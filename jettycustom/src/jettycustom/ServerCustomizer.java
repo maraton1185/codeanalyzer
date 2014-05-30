@@ -15,6 +15,13 @@ public class ServerCustomizer extends JettyCustomizer {
 	public Object customizeContext(Object _context,
 			Dictionary<String, ?> settings) {
 		ServletContextHandler context = (ServletContextHandler) _context;
+		// String path = Activator.class.getResource("/").toExternalForm();
+		// path = path.substring(0, path.length() - 1);
+		// IPath p = new Path(path);
+
+		// context.setClassLoader(Thread.currentThread().getContextClassLoader());
+		context.setContextPath("/");
+		context.setResourceBase(".");
 		// context.setContextPath("/_web");
 
 		if (!pico.get(IJetty.class).debug()) {

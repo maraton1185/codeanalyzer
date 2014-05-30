@@ -48,6 +48,8 @@ public abstract class PreferenceSupplier {
 
 		preferenceStore.setDefault(PreferenceSupplier.REMOTE_PORT, 80);
 
+		// preferenceStore.setDefault(PreferenceSupplier.FONT, null);
+
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_BOOK, 1);
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_USER, 1);
 
@@ -91,7 +93,12 @@ public abstract class PreferenceSupplier {
 	}
 
 	public static FontData[] getFontData(String key) {
-		return PreferenceConverter.getFontDataArray(preferenceStore, key);
+		FontData[] data = PreferenceConverter.getFontDataArray(preferenceStore,
+				key);
+		// if (data == null)
+		// data = JFaceResources.getDialogFont().getFontData();
+
+		return data;
 	}
 
 	public static Boolean getBoolean(String key) {

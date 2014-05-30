@@ -39,4 +39,34 @@
 		 
 </extension>
 
+<!-- info --> 
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
+		<httpcontext
+			id="info">
+			<resource-mapping
+				path="/web/tmpl/info">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+ 	<resource
+          alias="/rinfo"
+          httpcontextId="info">
+    </resource>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+           alias="/info"
+           class="webtest.InfoServlet"
+           httpcontextId="info"/>
+  	<servlet
+		 alias="/info/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="info">
+		 </servlet>		
+</extension>
+
 </plugin>

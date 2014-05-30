@@ -111,8 +111,6 @@ public class App {
 		br.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 				new AppStartupCompleteEventHandler(window));
 
-		jetty.startJetty();
-
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
 		dbInit(window);
@@ -173,68 +171,6 @@ public class App {
 			final Image image = Utils.getImage("favicon.png");
 			final Shell shell = ((Shell) window.getWidget());
 
-			final Tray tray = Display.getCurrent().getSystemTray();
-			if (tray == null)
-				return;
-			if (tray.getItemCount() != 0)
-				return;
-			final TrayItem item = new TrayItem(tray, SWT.NONE);
-			item.setToolTipText(Strings.get("appTitle"));
-			item.setImage(image);
-
-			item.addListener(SWT.DefaultSelection, new Listener() {
-
-				@Override
-				public void handleEvent(org.eclipse.swt.widgets.Event event) {
-
-					window.setVisible(true);
-
-					shell.setMinimized(false);
-
-					shell.forceActive();
-				}
-
-			});
-
-			item.addListener(SWT.MenuDetect, new Listener() {
-				@Override
-				public void handleEvent(org.eclipse.swt.widgets.Event event) {
-
-					// Style must be pop up
-					Menu m = new Menu(shell, SWT.POP_UP);
-
-					MenuItem open = new MenuItem(m, SWT.NONE);
-					open.setText("Открыть в браузере");
-					open.addListener(SWT.Selection, new Listener() {
-						@Override
-						public void handleEvent(
-								org.eclipse.swt.widgets.Event event) {
-
-							Program.launch(App.getJetty().info());
-							// IWorkbench workbench =
-							// window.getContext()
-							// .get(IWorkbench.class);
-							// workbench.close();
-						}
-					});
-
-					MenuItem exit = new MenuItem(m, SWT.NONE);
-					exit.setText("Выход");
-					exit.addListener(SWT.Selection, new Listener() {
-						@Override
-						public void handleEvent(
-								org.eclipse.swt.widgets.Event event) {
-							IWorkbench workbench = window.getContext().get(
-									IWorkbench.class);
-							workbench.close();
-						}
-					});
-
-					// We need to make the menu visible
-					m.setVisible(true);
-				};
-			});
-
 			shell.addShellListener(new ShellAdapter() {
 				@Override
 				public void shellIconified(ShellEvent e) {
@@ -244,7 +180,69 @@ public class App {
 						return;
 
 					window.setVisible(false);
+					final Tray tray = Display.getCurrent().getSystemTray();
+					if (tray == null)
+						return;
+					if (tray.getItemCount() != 0)
+						return;
+					final TrayItem item = new TrayItem(tray, SWT.NONE);
+					item.setToolTipText(Strings.get("appTitle"));
+					item.setImage(image);
 
+					item.addListener(SWT.DefaultSelection, new Listener() {
+
+						@Override
+						public void handleEvent(
+								org.eclipse.swt.widgets.Event event) {
+
+							window.setVisible(true);
+
+							shell.setMinimized(false);
+
+							shell.forceActive();
+						}
+
+					});
+
+					item.addListener(SWT.MenuDetect, new Listener() {
+						@Override
+						public void handleEvent(
+								org.eclipse.swt.widgets.Event event) {
+
+							// Style must be pop up
+							Menu m = new Menu(shell, SWT.POP_UP);
+
+							MenuItem open = new MenuItem(m, SWT.NONE);
+							open.setText("Открыть в браузере");
+							open.addListener(SWT.Selection, new Listener() {
+								@Override
+								public void handleEvent(
+										org.eclipse.swt.widgets.Event event) {
+
+									Program.launch(App.getJetty().info());
+									// IWorkbench workbench =
+									// window.getContext()
+									// .get(IWorkbench.class);
+									// workbench.close();
+								}
+							});
+
+							MenuItem exit = new MenuItem(m, SWT.NONE);
+							exit.setText("Выход");
+							exit.addListener(SWT.Selection, new Listener() {
+								@Override
+								public void handleEvent(
+										org.eclipse.swt.widgets.Event event) {
+									IWorkbench workbench = window.getContext()
+											.get(IWorkbench.class);
+									workbench.close();
+								}
+							});
+
+							// We need to make the menu visible
+							m.setVisible(true);
+						};
+					});
 				}
 			});
 

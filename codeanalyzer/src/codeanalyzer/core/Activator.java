@@ -31,6 +31,7 @@ public class Activator implements BundleActivator {
 
 		bundle = this;
 
+		App.getJetty().startJetty();
 	}
 
 	@Override

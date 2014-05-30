@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
-import org.eclipse.equinox.http.jetty.JettyConstants;
 
 import codeanalyzer.core.Activator;
 import codeanalyzer.utils.PreferenceSupplier;
@@ -42,8 +41,8 @@ public class Jetty implements IJetty {
 		settings.put("https.enabled", Boolean.FALSE);
 		settings.put("context.path", "/");
 		settings.put("context.sessioninactiveinterval", 1800);
-		settings.put(JettyConstants.CUSTOMIZER_CLASS,
-				"jettycustom.ServerCustomizer");
+		// settings.put(JettyConstants.CUSTOMIZER_CLASS,
+		// "jettycustom.ServerCustomizer");
 
 		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
 

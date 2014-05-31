@@ -113,6 +113,8 @@ public class App {
 
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
+		br.subscribe(Events.EVENT_START_JETTY, new EVENT_START_JETTY());
+
 		dbInit(window);
 
 	}
@@ -159,6 +161,7 @@ public class App {
 			WindowCloseHandler closeHandler = new WindowCloseHandler();
 			window.getContext().set(IWindowCloseHandler.class, closeHandler);
 			App.br.post(Events.EVENT_UPDATE_STATUS, null);
+			App.br.post(Events.EVENT_START_JETTY, null);
 
 			perspectiveActions();
 
@@ -291,6 +294,7 @@ public class App {
 					App.sync.asyncExec(new Runnable() {
 						@Override
 						public void run() {
+
 							// MHandledToolItem element;
 							MHandledToolItem h_element = (MHandledToolItem) App.model
 									.find(Strings.get("model_id_activate"),
@@ -304,6 +308,41 @@ public class App {
 							d_element.setLabel(jetty.jettyMessage());
 							d_element.setVisible(true);
 
+						}
+					});
+				}
+			}).start();
+		}
+	}
+
+	// START JETTY
+
+	private static class EVENT_START_JETTY implements EventHandler {
+
+		@Override
+		public void handleEvent(Event event) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+
+					jetty.startJetty();
+
+					App.sync.asyncExec(new Runnable() {
+						@Override
+						public void run() {
+
+							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
+									Strings.get("ebook.directtoolitem.1"),
+									App.app);
+							d_element.setLabel(jetty.jettyMessage());
+							d_element.setVisible(false);
+							d_element.setVisible(true);
+
+							// MToolBar tb = (MToolBar) App.model.find(
+							// Strings.get("ebook.toolbar.top"), App.app);
+							// ToolBar tbw = (ToolBar) tb.getWidget();
+							// tbw.layout(true);
+							// ((ToolBar));
 						}
 					});
 				}
@@ -347,8 +386,8 @@ public class App {
 				opt.selectedSection = section.getId();
 
 			List<MPartStack> stacks = model.findElements(App.app,
-					Strings.get("ebook.partstack.sections"),
-					MPartStack.class, null);
+					Strings.get("ebook.partstack.sections"), MPartStack.class,
+					null);
 
 			if (!stacks.isEmpty()) {
 
@@ -418,6 +457,8 @@ public class App {
 		persp = (MPerspective) model.find(perspType.toString(), app);
 		persp.setVisible(true);
 		ps.switchPerspective(persp);
+
+		currentPerspective = perspType;
 
 	}
 

@@ -28,8 +28,7 @@ public class JettyErrorHandler extends ErrorHandler {
 	public void handle(String target, Request baseRequest,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		RequestDispatcher error_view = request
-				.getRequestDispatcher("error.jsp");
+		RequestDispatcher error_view = request.getRequestDispatcher("/list");
 		try {
 			error_view.forward(request, response);
 		} catch (ServletException e) {

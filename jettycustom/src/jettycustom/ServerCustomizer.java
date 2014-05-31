@@ -6,9 +6,6 @@ import org.eclipse.equinox.http.jetty.JettyCustomizer;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
-import codeanalyzer.core.pico;
-import codeanalyzer.web.IJetty;
-
 public class ServerCustomizer extends JettyCustomizer {
 
 	@Override
@@ -22,13 +19,14 @@ public class ServerCustomizer extends JettyCustomizer {
 		// context.setClassLoader(Thread.currentThread().getContextClassLoader());
 		context.setContextPath("/");
 		context.setResourceBase(".");
+		// context.setWelcomeFiles(new String[] { "web/error.jsp" });
 		// context.setContextPath("/_web");
 
-		if (!pico.get(IJetty.class).debug()) {
-			ErrorHandler errorHandler = new JettyErrorHandler();
-			errorHandler.setShowStacks(true);
-			context.setErrorHandler(errorHandler);
-		}
+		// if (!pico.get(IJetty.class).debug()) {
+		ErrorHandler errorHandler = new JettyErrorHandler();
+		errorHandler.setShowStacks(true);
+		context.setErrorHandler(errorHandler);
+		// }
 		// context.addServlet(new ServletHolder(new IndexServlet()), "/test");
 		//
 		// // Server s = context.getServer(); // return null

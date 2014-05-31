@@ -8,6 +8,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferenceStore;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.osgi.service.prefs.Preferences;
 
@@ -39,6 +40,7 @@ public abstract class PreferenceSupplier {
 	public static final String SELECTED_USER = "SELECTED_USER";
 
 	public static final String REMOTE_PORT = "REMOTE_PORT";
+	public static final String START_JETTY = "START_JETTY";
 
 	// ******************************************************************
 
@@ -46,9 +48,12 @@ public abstract class PreferenceSupplier {
 
 		preferenceStore = new PreferenceStore(prefFileName);
 
+		preferenceStore.setDefault(PreferenceSupplier.START_JETTY, true);
 		preferenceStore.setDefault(PreferenceSupplier.REMOTE_PORT, 80);
 
-		// preferenceStore.setDefault(PreferenceSupplier.FONT, null);
+		PreferenceConverter.setDefault(preferenceStore,
+				PreferenceSupplier.FONT, new FontData("Arial", 12, SWT.NONE));
+		// preferenceStore.setDefault(PreferenceSupplier.FONT, "Arial");
 
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_BOOK, 1);
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_USER, 1);

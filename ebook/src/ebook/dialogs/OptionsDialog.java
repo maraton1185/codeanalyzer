@@ -14,6 +14,11 @@ import org.eclipse.jface.preference.PreferenceNode;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.ScaleFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 
 import ebook.utils.PreferenceSupplier;
 
@@ -27,10 +32,10 @@ public class OptionsDialog {
 		// Create the nodes
 		p = new PreferenceNode("", new FieldEditorPageCommon());
 		mgr.addToRoot(p);
-		p = new PreferenceNode("", new FieldEditorPageOne());
-		mgr.addToRoot(p);
-		p = new PreferenceNode("", new FieldEditorPageTwo());
-		mgr.addToRoot(p);
+		// p = new PreferenceNode("", new FieldEditorPageOne());
+		// mgr.addToRoot(p);
+		// p = new PreferenceNode("", new FieldEditorPageTwo());
+		// mgr.addToRoot(p);
 
 		// Create the preferences dialog
 		PreferenceDialog dlg = new PreferenceDialog(null, mgr);
@@ -49,8 +54,16 @@ public class OptionsDialog {
 		public FieldEditorPageCommon() {
 			// Use the "flat" layout
 			super(GRID);
-			setTitle("Общие настройки");
+			setTitle("Настройки");
 		}
+
+		// Composite fonts;
+		// List<FieldEditor> fontsFieldEditors = new ArrayList<FieldEditor>();
+		//
+		// protected FieldEditor addEditorToFontsGroup(FieldEditor editor) {
+		// fontsFieldEditors.add(editor);
+		// return editor;
+		// }
 
 		/**
 		 * Creates the field editors
@@ -58,22 +71,40 @@ public class OptionsDialog {
 		@Override
 		protected void createFieldEditors() {
 
+			Composite comp;
+			Group group;
 			// StringFieldEditor f1 = new StringFieldEditor(
 			// PreferenceSupplier.NTPSERVER, "NTP-сервер:",
 			// getFieldEditorParent());
 			// addField(f1);
 
-			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
-					PreferenceSupplier.DEFAULT_DIRECTORY,
-					"Каталог конфигураций:", getFieldEditorParent());
-			f2.setChangeButtonText("...");
-			addField(f2);
+			// group = new Group(getFieldEditorParent(), SWT.NULL);
+			// group.getParent().setLayout(new GridLayout(2, false));
+			// group.setLayout(new GridLayout(1, false));
+			// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+			// 4, 1));
+			// group.setText("Действия при запуске:");
+			//
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			DirectoryFieldEditor f3 = new DirectoryFieldEditor(
-					PreferenceSupplier.DEFAULT_BOOK_DIRECTORY, "Каталог книг:",
+			BooleanFieldEditor f11 = new BooleanFieldEditor(
+					PreferenceSupplier.MINIMIZE_TO_TRAY, "Сворачивать в трей",
 					getFieldEditorParent());
-			f3.setChangeButtonText("...");
-			addField(f3);
+			addField(f11);
+
+			BooleanFieldEditor f14 = new BooleanFieldEditor(
+					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
+					getFieldEditorParent());
+			addField(f14);
+
+			IntegerFieldEditor f13 = new IntegerFieldEditor(
+					PreferenceSupplier.REMOTE_PORT, "Порт web-сервера",
+					getFieldEditorParent());
+			addField(f13);
+
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			BooleanFieldEditor f4 = new BooleanFieldEditor(
 					PreferenceSupplier.INIT_EXECUTION,
@@ -81,51 +112,96 @@ public class OptionsDialog {
 					getFieldEditorParent());
 			addField(f4);
 
-			BooleanFieldEditor f5 = new BooleanFieldEditor(
-					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
-					"При запуске открывать список книг", getFieldEditorParent());
-			addField(f5);
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			// BooleanFieldEditor f6 = new BooleanFieldEditor(
-			// PreferenceSupplier.SHOW_START_PAGE,
-			// "Показывать страницу приветствия", getFieldEditorParent());
-			// addField(f6);
-
-			BooleanFieldEditor f7 = new BooleanFieldEditor(
-					PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
-					"Открывать книгу при запуске", getFieldEditorParent());
-			addField(f7);
-
-			FileFieldEditor f8 = new FileFieldEditor(
-					PreferenceSupplier.BOOK_ON_STARTUP, "Книга:",
-					getFieldEditorParent());
-			f8.setChangeButtonText("...");
-			addField(f8);
-
-			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
-					"Шрифт разделов книги:", getFieldEditorParent());
-			f9.setChangeButtonText("...");
-			addField(f9);
-
-			BooleanFieldEditor f10 = new BooleanFieldEditor(
-					PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
-					"Не открывать страницу книги \"Как работать с книгой\"",
-					getFieldEditorParent());
-			addField(f10);
-
-			BooleanFieldEditor f11 = new BooleanFieldEditor(
-					PreferenceSupplier.MINIMIZE_TO_TRAY, "Сворачивать в трей",
-					getFieldEditorParent());
-			addField(f11);
 			BooleanFieldEditor f12 = new BooleanFieldEditor(
 					PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP,
 					"Минимизировать при запуске", getFieldEditorParent());
 			addField(f12);
 
-			IntegerFieldEditor f13 = new IntegerFieldEditor(
-					PreferenceSupplier.REMOTE_PORT, "Порт web-сервера",
-					getFieldEditorParent());
-			addField(f13);
+			group = new Group(getFieldEditorParent(), SWT.NULL);
+			group.getParent().setLayout(new GridLayout(2, false));
+			group.setLayout(new GridLayout(1, false));
+			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+					2, 1));
+			group.setText("Каталоги по умолчанию:");
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
+					PreferenceSupplier.DEFAULT_DIRECTORY, "Для конфигураций:",
+					comp);
+			f2.setChangeButtonText("...");
+			addField(f2);
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			DirectoryFieldEditor f3 = new DirectoryFieldEditor(
+					PreferenceSupplier.DEFAULT_BOOK_DIRECTORY, "Для книг:",
+					comp);
+			f3.setChangeButtonText("...");
+			addField(f3);
+
+			group = new Group(getFieldEditorParent(), SWT.NULL);
+			group.getParent().setLayout(new GridLayout(2, false));
+			group.setLayout(new GridLayout(1, false));
+			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+					2, 1));
+			group.setText("Настройки книг:");
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			BooleanFieldEditor f5 = new BooleanFieldEditor(
+					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
+					"Открывать список книг при запуске", comp);
+			addField(f5);
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			BooleanFieldEditor f7 = new BooleanFieldEditor(
+					PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
+					"Открывать книгу при запуске", comp);
+			addField(f7);
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			FileFieldEditor f8 = new FileFieldEditor(
+					PreferenceSupplier.BOOK_ON_STARTUP, "Книга:", comp);
+			f8.setChangeButtonText("...");
+			addField(f8);
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
+					"Шрифт разделов книги:", comp);
+			f9.setChangeButtonText("...");
+			addField(f9);
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			BooleanFieldEditor f10 = new BooleanFieldEditor(
+					PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
+					"Не открывать страницу \"Как работать с книгой\"", comp);
+			addField(f10);
+
+			// group = new Group(getFieldEditorParent(), SWT.NULL);
+			// group.getParent().setLayout(new GridLayout(2, false));
+			// group.setLayout(new GridLayout(1, false));
+			// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+			// 2, 1));
+			// group.setText("Другое:");
+
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
 		}
 	}
 

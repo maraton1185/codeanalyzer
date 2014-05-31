@@ -227,7 +227,7 @@ public class StartView {
 				form.reflow(true);
 			}
 		});
-		prefSection.setText("Параметры");
+		prefSection.setText("Настройки");
 		prefSection
 				.setDescription("Перед началом работы заполните настройки по умолчанию.");
 		Composite prefSectionClient = toolkit.createComposite(prefSection);

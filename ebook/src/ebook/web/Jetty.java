@@ -8,17 +8,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
+import org.eclipse.equinox.http.jetty.JettyConstants;
 
 import ebook.core.Activator;
 import ebook.utils.PreferenceSupplier;
 
 public class Jetty implements IJetty {
 
-	private boolean startjetty = true;
-	private boolean debug = true;
-
 	private int jettyPort;
-	private String jettyMessage;
+	private String jettyMessage = "Web-сервер не запущен";
+	private JettyStatus status = JettyStatus.stopped;
+	private boolean manualStart = false;
 
 	@Override
 	public String host() {
@@ -28,11 +28,19 @@ public class Jetty implements IJetty {
 	@Override
 	public void startJetty() {
 
-		if (!startjetty)
+		jettyMessage = "Web-сервер не запущен";
+		if (!PreferenceSupplier.getBoolean(PreferenceSupplier.START_JETTY)
+				&& !manualStart)
 			return;
 
 		jettyPort = findFreePort();
 		jettyMessage = "Web-сервер: localhost:" + jettyPort;
+
+		// try {
+		// Class.forName("jettycustom.ServerCustomizer");
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 		Dictionary<String, Object> settings = new Hashtable<String, Object>();
 		settings.put("http.enabled", Boolean.TRUE);
@@ -41,8 +49,8 @@ public class Jetty implements IJetty {
 		settings.put("https.enabled", Boolean.FALSE);
 		settings.put("context.path", "/");
 		settings.put("context.sessioninactiveinterval", 1800);
-		// settings.put(JettyConstants.CUSTOMIZER_CLASS,
-		// "jettycustom.ServerCustomizer");
+		settings.put(JettyConstants.CUSTOMIZER_CLASS,
+				"jettycustom.ServerCustomizer");
 
 		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
 
@@ -51,10 +59,14 @@ public class Jetty implements IJetty {
 			// JettyConfigurator.stopServer(PLUGIN_ID + ".jetty");
 			JettyConfigurator.startServer(Activator.PLUGIN_ID + ".jetty",
 					settings);
+
+			status = JettyStatus.started;
 		} catch (Exception e) {
 			e.printStackTrace();
 			jettyMessage = "Ошибка старта web-сервера (порт: " + jettyPort
 					+ ")";
+
+			status = JettyStatus.error;
 		}
 
 	}
@@ -96,8 +108,14 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public boolean debug() {
-		return debug;
+	public JettyStatus status() {
+		return status;
+	}
+
+	@Override
+	public void setManual() {
+		manualStart = true;
+
 	}
 }
 

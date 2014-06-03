@@ -39,6 +39,14 @@ public abstract class Events {
 
 	public static final String EVENT_START_JETTY = "EVENT_START_JETTY";
 
+	public static final String EVENT_UPDATE_CONF_LIST = "EVENT_UPDATE_CONF_LIST";
+
+	public static final String EVENT_EDIT_TITLE_CONF_LIST = "EVENT_EDIT_TITLE_CONF_LIST";
+
+	public static final String EVENT_CONF_LIST_SET_SELECTION = "EVENT_CONF_LIST_SET_SELECTION";
+
+	public static final String EVENT_UPDATE_CONF_INFO = "EVENT_UPDATE_CONF_INFO";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,

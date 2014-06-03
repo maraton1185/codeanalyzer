@@ -130,7 +130,8 @@ public class App {
 			} catch (InvocationTargetException e1) {
 				if (e1.getTargetException() instanceof MakeConnectionException) {
 					db.create();
-				}
+				} else
+					throw new Exception();
 			}
 
 			db.openConnection();

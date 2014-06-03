@@ -3,6 +3,7 @@ package ebook.core.interfaces;
 import ebook.module.books.BookConnection;
 import ebook.module.books.BookService;
 import ebook.module.booksList.BookListService;
+import ebook.module.confList.ConfListService;
 import ebook.module.users.UserService;
 
 public interface IServiceFactory {
@@ -12,5 +13,7 @@ public interface IServiceFactory {
 	BookListService bls();
 
 	BookService bs(BookConnection bookConnection);
+
+	ConfListService cls();
 
 }

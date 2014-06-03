@@ -4,6 +4,7 @@ import ebook.core.interfaces.IServiceFactory;
 import ebook.module.books.BookConnection;
 import ebook.module.books.BookService;
 import ebook.module.booksList.BookListService;
+import ebook.module.confList.ConfListService;
 import ebook.module.users.UserService;
 
 public class ServiceFactory implements IServiceFactory {
@@ -26,10 +27,19 @@ public class ServiceFactory implements IServiceFactory {
 		return bls;
 	}
 
-
 	@Override
 	public BookService bs(BookConnection bookConnection) {
 		return new BookService(bookConnection);
+	}
+
+	ConfListService cls;
+
+	@Override
+	public ConfListService cls() {
+
+		if (cls == null)
+			cls = new ConfListService();
+		return cls;
 	}
 
 }

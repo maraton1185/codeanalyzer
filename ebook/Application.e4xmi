@@ -6,7 +6,7 @@
         <children xsi:type="basic:PartSashContainer" xmi:id="_7GppUJriEeOlcttaCxvpFw" elementId="ebook.partsashcontainer.0" horizontal="true">
           <children xsi:type="basic:PartStack" xmi:id="_-BN3oJrPEeOlcttaCxvpFw" elementId="ebook.partstack.treeView" visible="false" containerData="7000"/>
           <children xsi:type="basic:Part" xmi:id="_IY_TIJlkEeOo9rJNc5wjoQ" elementId="ebook.part.start" containerData="7000" contributionURI="bundleclass://ebook/ebook.views.StartView" label="Добро пожаловать!"/>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_9mGHQJriEeOlcttaCxvpFw" elementId="ebook.partsashcontainer.1" containerData="3000">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_9mGHQJriEeOlcttaCxvpFw" elementId="ebook.partsashcontainer.1" visible="false" containerData="3000">
             <children xsi:type="basic:PartStack" xmi:id="__EbGcJriEeOlcttaCxvpFw" elementId="ebook.partstack.1">
               <children xsi:type="basic:Part" xmi:id="_3m16kJriEeOlcttaCxvpFw" elementId="ebook.part.1" contributionURI="bundleclass://ebook/ebook.module.cf.views.ConfigsView" label="Список конфигураций">
                 <handlers xmi:id="_J9YUgOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.2" contributionURI="bundleclass://ebook/ebook.module.cf.handlers.Edit" command="_u-hH8JrkEeOlcttaCxvpFw"/>
@@ -39,7 +39,7 @@
       </children>
       <children xsi:type="advanced:Perspective" xmi:id="_pV0B8KmpEeOFWZN9IXa3MA" elementId="ebook.perspective.books" visible="false" tooltip="Список книг">
         <children xsi:type="basic:PartSashContainer" xmi:id="_s5qS8OCuEeOAI_38tK8ATw" elementId="ebook.partsashcontainer.3" horizontal="true">
-          <children xsi:type="basic:PartStack" xmi:id="_IxyNgNzXEeO2K4Dwib9TKw" elementId="ebook.partstack.0" containerData="7000">
+          <children xsi:type="basic:PartStack" xmi:id="_IxyNgNzXEeO2K4Dwib9TKw" elementId="ebook.partstack.itemlist" containerData="7000">
             <children xsi:type="basic:Part" xmi:id="_s4T4UKmpEeOFWZN9IXa3MA" elementId="ebook.part.0" contributionURI="bundleclass://ebook/ebook.module.booksList.view.BooksListView" label="Книги" bindingContexts="_K6bdMN8VEeO4waw7J7j0xQ">
               <handlers xmi:id="_otMtQOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.25" contributionURI="bundleclass://ebook/ebook.module.booksList.handlers.Delete" command="_as2bUNtrEeO08YnUrs_6Pw"/>
               <handlers xmi:id="_zI6eMOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.30" contributionURI="bundleclass://ebook/ebook.module.booksList.handlers.AddExisted" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
@@ -89,6 +89,9 @@
                 <children xsi:type="menu:HandledToolItem" xmi:id="_4J3FAOAjEeOuHKOpYE-s4Q" elementId="ebook.handledtoolitem.27" iconURI="platform:/plugin/ebook/icons/delete.png" tooltip="Удалить" command="_IJr0MOAjEeOuHKOpYE-s4Q"/>
               </toolbar>
             </children>
+            <children xsi:type="basic:Part" xmi:id="_Z-Fm4OrMEeOjdt5IkPdmcg" elementId="ebook.part.confList" contributionURI="bundleclass://ebook/ebook.module.confList.view.ConfListView" label="Конфигурации" bindingContexts="_nXM9EOrMEeOjdt5IkPdmcg">
+              <toolbar xmi:id="_znPGgOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.6"/>
+            </children>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_uVwdgOCuEeOAI_38tK8ATw" elementId="ebook.partstack.editItem" containerData="3000">
             <children xsi:type="basic:Part" xmi:id="_Q89iEOCvEeOAI_38tK8ATw" elementId="ebook.part.user" contributionURI="bundleclass://ebook/ebook.module.users.views.UserView" label="Пользователь">
@@ -101,6 +104,9 @@
                 <children xsi:type="menu:HandledToolItem" xmi:id="_ldyoQOTVEeOGWI1qik9KEA" elementId="ebook.handledtoolitem.31" label="Открыть книгу" tooltip="" command="_A3uvkOP_EeOAy9eWHpjDYw"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_0CPsIODjEeOAI_38tK8ATw" elementId="ebook.handledtoolitem.29" iconURI="platform:/plugin/ebook/icons/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
               </toolbar>
+            </children>
+            <children xsi:type="basic:Part" xmi:id="_ehHtMOrMEeOjdt5IkPdmcg" elementId="ebook.part.conf" contributionURI="bundleclass://ebook/ebook.module.confList.view.ConfView" label="Конфигурация">
+              <toolbar xmi:id="_1T_jQOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.11"/>
             </children>
           </children>
         </children>
@@ -118,7 +124,7 @@
       </children>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="ebook.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="ebook.handledmenuitem.9" label="&amp;Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
-      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="ebook.directmenuitem.1" label="Переключить вид (главная/список книг)" iconURI="platform:/plugin/ebook/icons/update.png" contributionURI="bundleclass://ebook/ebook.handlers.TogglePerspective"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="ebook.directmenuitem.1" label="Переключить вид (главная/списки)" iconURI="platform:/plugin/ebook/icons/update.png" contributionURI="bundleclass://ebook/ebook.handlers.TogglePerspective"/>
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="ebook.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="ebook.statusbar">
@@ -195,11 +201,23 @@
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
+  <bindingTables xmi:id="_0TqzgOrMEeOjdt5IkPdmcg" elementId="ebook.bindingtable.4" bindingContext="_nXM9EOrMEeOjdt5IkPdmcg">
+    <bindings xmi:id="_1uiPAOrMEeOjdt5IkPdmcg" elementId="ebook.keybinding.7" keySequence="INSERT" command="_-4nRcOAiEeOuHKOpYE-s4Q">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_2ZKgYOrMEeOjdt5IkPdmcg" elementId="ebook.keybinding.8" keySequence="DELETE" command="_IJr0MOAjEeOuHKOpYE-s4Q">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_2xA_sOrMEeOjdt5IkPdmcg" elementId="ebook.keybinding.9" keySequence="F2" command="_Gz2psOAjEeOuHKOpYE-s4Q">
+      <tags>type:user</tags>
+    </bindings>
+  </bindingTables>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows">
       <children xmi:id="_E5YnYLAbEeOa8OKjTLKQvw" elementId="ebook.bindingcontext.bookWindow" name="book window"/>
       <children xmi:id="_K6bdMN8VEeO4waw7J7j0xQ" elementId="ebook.bindingcontext.bookListPart" name="book list part"/>
       <children xmi:id="_ehF7EOAjEeOuHKOpYE-s4Q" elementId="ebook.bindingcontext.userListPart" name="user list part"/>
+      <children xmi:id="_nXM9EOrMEeOjdt5IkPdmcg" elementId="ebook.bindingcontext.confListPart" name="conf list part"/>
     </children>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>

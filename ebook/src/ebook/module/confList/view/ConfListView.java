@@ -1,4 +1,4 @@
-package ebook.module.booksList.view;
+package ebook.module.confList.view;
 
 import java.util.Iterator;
 
@@ -12,6 +12,7 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -26,9 +27,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.booksList.IBookListManager;
-import ebook.module.booksList.tree.ListBookInfo;
-import ebook.module.booksList.tree.ListBookInfoSelection;
+import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confList.tree.ListConfInfoSelection;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
@@ -36,20 +36,20 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class BooksListView {
+public class ConfListView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
 
 	@Inject
-	public BooksListView() {
+	public ConfListView() {
 		// TODO Your code here
 	}
 
 	@Inject
 	@Optional
-	public void EVENT_EDIT_TITLE_BOOK_LIST(
-			@UIEventTopic(Events.EVENT_EDIT_TITLE_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
+	public void EVENT_EDIT_TITLE_CONF_LIST(
+			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONF_LIST) EVENT_UPDATE_TREE_DATA data) {
 
 		if (data.selected == null)
 			return;
@@ -60,8 +60,8 @@ public class BooksListView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_BOOK_LIST(
-			@UIEventTopic(Events.EVENT_UPDATE_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
+	public void EVENT_UPDATE_CONF_LIST(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_LIST) EVENT_UPDATE_TREE_DATA data) {
 
 		if (data.parent == null)
 			return;
@@ -77,29 +77,29 @@ public class BooksListView {
 
 	@Inject
 	@Optional
-	public void EVENT_BOOK_LIST_SETSELECTION(
-			@UIEventTopic(Events.EVENT_BOOK_LIST_SET_SELECTION) Object data) {
+	public void EVENT_CONF_LIST_SET_SELECTION(
+			@UIEventTopic(Events.EVENT_CONF_LIST_SET_SELECTION) Object data) {
 
 		treeComponent.setSelection();
 	}
 
 	@PreDestroy
-	public void preDestroy(@Optional ListBookInfo data) {
+	public void preDestroy(@Optional ListConfInfo data) {
 		if (data != null) {
-			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_CONF,
 					data.getId());
 			PreferenceSupplier.save();
 		}
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, final IBookListManager blm,
-			final Shell shell, EMenuService menuService) {
+	public void postConstruct(Composite parent, final Shell shell,
+			EMenuService menuService) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		treeComponent = new TreeViewComponent(parent, App.srv.bls(), 3);
+		treeComponent = new TreeViewComponent(parent, App.srv.cls(), 3);
 
 		viewer = treeComponent.getViewer();
 
@@ -110,20 +110,20 @@ public class BooksListView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				ListBookInfoSelection sel = new ListBookInfoSelection();
+				ListConfInfoSelection sel = new ListConfInfoSelection();
 				@SuppressWarnings("unchecked")
-				Iterator<ListBookInfo> iterator = selection.iterator();
+				Iterator<ListConfInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
 					sel.add(iterator.next());
 
 				// AppManager;
 
-				App.ctx.set(ListBookInfoSelection.class, sel);
+				App.ctx.set(ListConfInfoSelection.class, sel);
 
-				App.ctx.set(ListBookInfo.class,
-						(ListBookInfo) selection.getFirstElement());
+				App.ctx.set(ListConfInfo.class,
+						(ListConfInfo) selection.getFirstElement());
 
-				App.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
+				App.br.post(Events.EVENT_UPDATE_CONF_INFO, null);
 			}
 		});
 
@@ -133,21 +133,22 @@ public class BooksListView {
 
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				ListBookInfo selected = (ListBookInfo) selection
+				ListConfInfo selected = (ListConfInfo) selection
 						.getFirstElement();
-				blm.openBook(selected.getPath(), shell);
+				// blm.openBook(selected.getPath(), shell);
 			}
 		});
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.booklistview.popup"));
+				Strings.get("ebook.conflistview.popup"));
 
 	}
 
 	@Focus
-	public void OnFocus(@Active MWindow window, EModelService model) {
+	public void OnFocus(@Active MWindow window, EPartService partService,
+			EModelService model) {
 
-		Utils.togglePart(window, model, "ebook.part.book",
+		Utils.togglePart(window, model, "ebook.part.conf",
 				"ebook.partstack.editItem");
 
 	}

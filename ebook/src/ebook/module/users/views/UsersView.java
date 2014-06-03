@@ -47,7 +47,7 @@ public class UsersView {
 
 	@Inject
 	@Optional
-	public void EVENT_BOOK_LIST_SETSELECTION(
+	public void EVENT_USER_LIST_SET_SELECTION(
 			@UIEventTopic(Events.EVENT_USER_LIST_SET_SELECTION) Object data) {
 
 		treeComponent.setSelection();

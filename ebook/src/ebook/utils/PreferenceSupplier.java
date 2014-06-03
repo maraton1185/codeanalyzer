@@ -41,6 +41,7 @@ public abstract class PreferenceSupplier {
 
 	public static final String REMOTE_PORT = "REMOTE_PORT";
 	public static final String START_JETTY = "START_JETTY";
+	public static final String SELECTED_CONF = "SELECTED_CONF";
 
 	// ******************************************************************
 
@@ -57,6 +58,7 @@ public abstract class PreferenceSupplier {
 
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_BOOK, 1);
 		preferenceStore.setDefault(PreferenceSupplier.SELECTED_USER, 1);
+		preferenceStore.setDefault(PreferenceSupplier.SELECTED_CONF, 1);
 
 		preferenceStore.setDefault(PreferenceSupplier.NTPSERVER,
 				"ptbtime1.ptb.de");

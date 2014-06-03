@@ -183,7 +183,7 @@ public class UserView {
 
 		dirty.setDirty(false);
 
-		App.br.post(Events.EVENT_BOOK_LIST_SET_SELECTION, null);
+		App.br.post(Events.EVENT_USER_LIST_SET_SELECTION, null);
 	}
 
 	private void gap(FormToolkit toolkit) {

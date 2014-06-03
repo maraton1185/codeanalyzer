@@ -1,7 +1,4 @@
-package ebook.module.booksList.view;
-
-import java.io.File;
-import java.io.IOException;
+package ebook.module.confList.view;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -13,7 +10,6 @@ import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -38,24 +34,20 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
-import ebook.module.booksList.IBookListManager;
-import ebook.module.booksList.tree.ListBookInfo;
+import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.users.tree.UserInfo;
 import ebook.utils.Events;
 
-public class BookView {
+public class ConfView {
 
 	ScrolledForm form;
 	WritableValue dataValue;
 	// BookListService bs = new BookListService();
-	BookViewModel model = new BookViewModel(new ListBookInfo());
+	ConfViewModel model = new ConfViewModel(new ListConfInfo());
 
 	Composite stack;
 	StackLayout stackLayout;
@@ -76,24 +68,17 @@ public class BookView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_USER_ROLES(
-			@UIEventTopic(Events.EVENT_UPDATE_USER_ROLES) Object o) {
-		combo.setInput(App.srv.us().getBookRoles());
-	}
-
-	@Inject
-	@Optional
-	public void EVENT_UPDATE_BOOK_INFO(
-			@UIEventTopic(Events.EVENT_UPDATE_BOOK_INFO) Object o,
-			@Optional ListBookInfo data, IBookListManager bm,
-			final EHandlerService hs, final ECommandService cs) {
+	public void EVENT_UPDATE_CONF_INFO(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_INFO) Object o,
+			@Optional ListConfInfo data, final EHandlerService hs,
+			final ECommandService cs) {
 		if (data == null) {
 			// form.setText(Strings.get("bookInfoViewTitle"));
 			// title.setText(Strings.get("bookInfoViewTitle"));
 			return;
 		}
 
-		model = new BookViewModel((ListBookInfo) App.srv.bls()
+		model = new ConfViewModel((ListConfInfo) App.srv.cls()
 				.get(data.getId()));
 
 		dataValue.setValue(model);
@@ -110,12 +95,12 @@ public class BookView {
 	}
 
 	@Persist
-	public void save(IBookListManager bm, Shell shell) {
+	public void save(Shell shell) {
 		if (model == null)
 			return;
 
-		if (bm.save(model.getData(), shell))
-			dirty.setDirty(false);
+		// if (bm.save(model.getData(), shell))
+		// dirty.setDirty(false);
 	}
 
 	@PostConstruct
@@ -156,7 +141,7 @@ public class BookView {
 
 		dirty.setDirty(false);
 
-		App.br.post(Events.EVENT_BOOK_LIST_SET_SELECTION, null);
+		App.br.post(Events.EVENT_CONF_LIST_SET_SELECTION, null);
 
 	}
 
@@ -175,41 +160,43 @@ public class BookView {
 
 		pathField(toolkit, ctx, itemComp);
 
-		Hyperlink link = toolkit.createHyperlink(itemComp, "Описание книги",
-				SWT.RIGHT);
-		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				try {
-					IPath p = model.data.getPath();
-					if (p == null)
-						return;
-					File temp = new File(p.addFileExtension("txt").toString());
-					if (!temp.exists())
-						temp.createNewFile();
-					java.awt.Desktop.getDesktop().open(temp);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
+		// Hyperlink link = toolkit.createHyperlink(itemComp, "Описание книги",
+		// SWT.RIGHT);
+		// link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2,
+		// 1));
+		// link.addHyperlinkListener(new HyperlinkAdapter() {
+		// @Override
+		// public void linkActivated(HyperlinkEvent e) {
+		// // try {
+		// // IPath p = model.data.getPath();
+		// // if (p == null)
+		// // return;
+		// // File temp = new File(p.addFileExtension("txt").toString());
+		// // if (!temp.exists())
+		// // temp.createNewFile();
+		// // java.awt.Desktop.getDesktop().open(temp);
+		// // } catch (IOException e1) {
+		// // e1.printStackTrace();
+		// // }
+		// }
+		// });
 
 		// label = toolkit.createLabel(itemComp, "Описание книги:", SWT.LEFT);
 		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
 		// 2,
 		// 1));
 
-		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
-				| SWT.READ_ONLY);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		text.setLayoutData(gd);
-
-		target = WidgetProperties.text().observe(text);
-		field_model = BeanProperties.value(model.getClass(), "bookDescription")
-				.observeDetail(dataValue);
-		ctx.bindValue(target, field_model);
+		// text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
+		// | SWT.READ_ONLY);
+		// gd = new GridData(GridData.FILL_BOTH);
+		// gd.horizontalSpan = 2;
+		// text.setLayoutData(gd);
+		//
+		// target = WidgetProperties.text().observe(text);
+		// field_model = BeanProperties.value(model.getClass(),
+		// "bookDescription")
+		// .observeDetail(dataValue);
+		// ctx.bindValue(target, field_model);
 
 	}
 
@@ -227,7 +214,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		addComboRoles(toolkit, ctx);
+		// addComboRoles(toolkit, ctx);
 
 		label = toolkit.createLabel(groupComp, "Описание группы", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,

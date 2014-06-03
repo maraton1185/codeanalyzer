@@ -68,6 +68,26 @@ public class DbStructure implements IDbStructure {
 			if (affectedRows == 0)
 				throw new SQLException();
 
+			// *****************************
+
+			stat.execute("DROP TABLE IF EXISTS CONFS;");
+
+			stat.execute("CREATE TABLE CONFS (ID INTEGER AUTO_INCREMENT, "
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(500), "
+					+ "FOREIGN KEY(PARENT) REFERENCES CONFS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			SQL = "INSERT INTO CONFS (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initConfTitle"));
+			prep.setBoolean(2, true);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
 		} catch (Exception e) {
 			throw new SQLException();
 		} finally {
@@ -91,6 +111,8 @@ public class DbStructure implements IDbStructure {
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
 					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ROLE")
 					&& ch.checkColumns(metadata, "USERS",
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+					&& ch.checkColumns(metadata, "CONFS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
 
 		} catch (Exception e) {

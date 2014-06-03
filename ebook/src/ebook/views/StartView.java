@@ -1,6 +1,7 @@
 package ebook.views;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -8,9 +9,13 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.IWorkbench;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -47,9 +52,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import ebook.core.App;
+import ebook.core.App.Perspectives;
 import ebook.core.pico;
 import ebook.module.booksList.IBookListManager;
 import ebook.module.booksList.tree.ListBookInfo;
+import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Const;
 import ebook.utils.Events;
@@ -66,10 +73,12 @@ public class StartView {
 	FormToolkit toolkit;
 	ScrolledForm form;
 	// Section bookSection;
+	Composite confSectionClient;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
 	IBookListManager blm = pico.get(IBookListManager.class);
 	private TreeViewer viewer;
+	private TreeViewer confViewer;
 
 	@Inject
 	@Optional
@@ -88,10 +97,17 @@ public class StartView {
 	}
 
 	@PreDestroy
-	public void preDestroy(@Optional ListBookInfo data) {
+	public void preDestroy(@Optional ListBookInfo data,
+			@Optional ListConfInfo conf) {
 		if (data != null) {
 			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
 					data.getId());
+			PreferenceSupplier.save();
+		}
+
+		if (conf != null) {
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_CONF,
+					conf.getId());
 			PreferenceSupplier.save();
 		}
 	}
@@ -99,7 +115,8 @@ public class StartView {
 	@PostConstruct
 	public void postConstruct(final Composite parent, EMenuService menuService,
 			final ECommandService comService, final EHandlerService hService,
-			final Shell shell, final IWorkbench wb, final IBookListManager bm) {
+			final Shell shell, final IWorkbench wb, final IBookListManager bm,
+			@Active final MWindow window, final EModelService model) {
 
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
@@ -116,9 +133,129 @@ public class StartView {
 
 		mainLinks(hService, comService);
 
-		bookslist(shell, hService, comService);
+		booksList(shell, hService, comService);
+
+		confList(shell, hService, comService, window, model);
 
 		parameters(shell, hService, comService);
+
+	}
+
+	private void confList(final Shell shell, EHandlerService hService,
+			ECommandService comService, @Active final MWindow window,
+			final EModelService model) {
+
+		Section section = toolkit.createSection(form.getBody(),
+				Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED
+						| SWT.BORDER);
+
+		section.setText("Список конфигураций 1с");
+		section.setLayout(new GridLayout());
+		confSectionClient = toolkit.createComposite(section);
+		confSectionClient.setLayout(new GridLayout());
+
+		confListCommands(hService, comService, window, model);
+
+		confSectionClient.setFont(new Font(Display.getCurrent(),
+				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
+
+		TreeViewComponent treeComponent = new TreeViewComponent(
+				confSectionClient, App.srv.cls(), 2);
+		confViewer = treeComponent.getViewer();
+		toolkit.adapt(confViewer.getTree());
+		confViewer.getTree().addControlListener(new ControlAdapter() {
+
+			@Override
+			public void controlResized(ControlEvent e) {
+				form.reflow(true);
+			}
+
+		});
+
+		confViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+
+				IStructuredSelection selection = (IStructuredSelection) confViewer
+						.getSelection();
+				ListConfInfo selected = (ListConfInfo) selection
+						.getFirstElement();
+
+				// blm.openBook(selected.getPath(), shell);
+			}
+		});
+
+		confViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+
+				IStructuredSelection selection = (IStructuredSelection) confViewer
+						.getSelection();
+
+				// BookInfoSelection sel = new BookInfoSelection();
+				// @SuppressWarnings("unchecked")
+				// Iterator<BookInfo> iterator = selection.iterator();
+				// while (iterator.hasNext())
+				// sel.add(iterator.next());
+				//
+				// AppManager.ctx.set(BookInfoSelection.class, sel);
+
+				App.ctx.set(ListConfInfo.class,
+						(ListConfInfo) selection.getFirstElement());
+			}
+		});
+
+		treeComponent.setSelection();
+
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		// gd.horizontalAlignment = SWT.RIGHT;
+		confViewer.getTree().setLayoutData(gd);
+		section.setClient(confSectionClient);
+
+	}
+
+	private void confListCommands(final EHandlerService hService,
+			final ECommandService comService, @Active final MWindow window,
+			final EModelService model) {
+		ImageHyperlink link;
+		GridData gd;
+		Hyperlink _link;
+
+		Composite comp = toolkit.createComposite(confSectionClient);
+		comp.setLayout(new RowLayout());
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalAlignment = SWT.RIGHT;
+		comp.setLayoutData(gd);
+
+		_link = toolkit.createHyperlink(comp, "Настроить", SWT.WRAP);
+		_link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				App.showPerspective(Perspectives.books);
+				// Utils.togglePart(window, model, "ebook.part.confList",
+				// "ebook.partstack.itemlist");
+
+				List<MPart> parts = model.findElements(window,
+						Strings.get("ebook.part.confList"), MPart.class, null);
+				App.ps.activate(parts.get(0));
+				// parts.get(0).setVisible(true);
+
+			}
+
+		});
+
+		link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+		link.setImage(Utils.getImage("update.png"));
+		link.setToolTipText("Обновить список");
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				// Utils.executeHandler(hService, comService,
+				// Strings.get("command.id.BookListUpdate"));
+				// super.linkActivated(e);
+			}
+
+		});
 
 	}
 
@@ -351,12 +488,7 @@ public class StartView {
 
 	}
 
-	// @PreDestroy
-	// public void preDestroy() {
-	// toolkit.dispose();
-	// }
-
-	private void bookslist(final Shell shell, EHandlerService hService,
+	private void booksList(final Shell shell, EHandlerService hService,
 			ECommandService comService) {
 		Section bookSection = toolkit.createSection(form.getBody(),
 				Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED
@@ -444,8 +576,7 @@ public class StartView {
 		_link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				Utils.executeHandler(hService, comService,
-						Strings.get("command.id.OpenBookList"));
+				App.showPerspective(Perspectives.books);
 			}
 
 		});

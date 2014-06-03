@@ -180,7 +180,7 @@ public class OptionsDialog {
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
-					"Шрифт разделов книги:", comp);
+					"Шрифт:", comp);
 			f9.setChangeButtonText("...");
 			addField(f9);
 

@@ -54,8 +54,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import ebook.core.App;
 import ebook.core.App.Perspectives;
 import ebook.core.pico;
-import ebook.module.booksList.IBookListManager;
-import ebook.module.booksList.tree.ListBookInfo;
+import ebook.module.bookList.IBookListManager;
+import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Const;
@@ -379,7 +379,7 @@ public class StartView {
 		label.setLayoutData(gd);
 
 		DEFAULT_DIRECTORY = toolkit.createText(prefSectionClient,
-				PreferenceSupplier.get(PreferenceSupplier.DEFAULT_DIRECTORY),
+				PreferenceSupplier.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY),
 				SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
 		DEFAULT_DIRECTORY.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
@@ -389,7 +389,7 @@ public class StartView {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Utils.browseForPath(DEFAULT_DIRECTORY, shell);
-				PreferenceSupplier.set(PreferenceSupplier.DEFAULT_DIRECTORY,
+				PreferenceSupplier.set(PreferenceSupplier.DEFAULT_CONF_DIRECTORY,
 						DEFAULT_DIRECTORY.getText());
 				PreferenceSupplier.save();
 			}

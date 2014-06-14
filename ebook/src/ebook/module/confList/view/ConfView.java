@@ -39,7 +39,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.users.tree.UserInfo;
+import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
 
 public class ConfView {
@@ -47,7 +47,7 @@ public class ConfView {
 	ScrolledForm form;
 	WritableValue dataValue;
 	// BookListService bs = new BookListService();
-	ConfViewModel model = new ConfViewModel(new ListConfInfo());
+	ConfViewModel model = new ConfViewModel(new ListConfInfo(null));
 
 	Composite stack;
 	StackLayout stackLayout;

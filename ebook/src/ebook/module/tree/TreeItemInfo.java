@@ -3,6 +3,11 @@ package ebook.module.tree;
 import ebook.core.models.DbOptions;
 
 public abstract class TreeItemInfo implements ITreeItemInfo {
+
+	public TreeItemInfo(DbOptions options) {
+		this.options = options;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof TreeItemInfo)
@@ -11,6 +16,7 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 			return super.equals(obj);
 	}
 
+	private DbOptions options;
 	private String title;
 	private boolean isGroup;
 	private Integer id;
@@ -53,7 +59,14 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 	}
 
 	@Override
-	public abstract DbOptions getOptions();
+	public DbOptions getOptions() {
+		return options;
+	}
+
+	@Override
+	public void setOptions(DbOptions options) {
+		this.options = options;
+	}
 
 	@Override
 	public void setParent(int value) {

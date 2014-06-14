@@ -23,6 +23,8 @@ public interface ITreeItemInfo {
 
 	DbOptions getOptions();
 
+	void setOptions(DbOptions options);
+
 	// void setOptions(DbOptions value);
 
 	void setParent(int value);

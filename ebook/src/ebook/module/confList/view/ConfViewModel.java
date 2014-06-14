@@ -55,7 +55,7 @@ public class ConfViewModel extends ModelObject {
 	}
 
 	public String getPath() {
-		return data.options.path;
+		return data.getOptions().path;
 	}
 
 	public String getTitle() {
@@ -71,13 +71,13 @@ public class ConfViewModel extends ModelObject {
 	}
 
 	public String getDescription() {
-		return data.options.description;
+		return data.getOptions().description;
 	}
 
 	public void setDescription(String value) {
 
-		fireIndexedPropertyChange("description", data.options.description,
-				data.options.description = value);
+		fireIndexedPropertyChange("description", data.getOptions().description,
+				data.getOptions().description = value);
 	}
 
 	// public String getBookDescription() {

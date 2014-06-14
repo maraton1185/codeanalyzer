@@ -140,7 +140,7 @@ public class ConfListView {
 		});
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("ebook.conflistview.popup"));
+				Strings.get("ebook.popupmenu.conflist"));
 
 	}
 

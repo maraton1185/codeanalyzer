@@ -107,7 +107,7 @@ public class CfInfo implements Serializable {
 		}
 
 		String defaultPath = PreferenceSupplier
-				.get(PreferenceSupplier.DEFAULT_DIRECTORY);
+				.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY);
 
 		auto_name = true;
 		path = defaultPath;

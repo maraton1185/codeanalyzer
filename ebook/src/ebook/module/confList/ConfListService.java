@@ -33,8 +33,8 @@ public class ConfListService extends TreeService {
 		info.setId(rs.getInt(2));
 		info.setParent(rs.getInt(3));
 		info.setGroup(rs.getBoolean(4));
-		info.options = DbOptions.load(ListConfInfoOptions.class,
-				rs.getString(5));
+		info.setOptions(DbOptions.load(ListConfInfoOptions.class,
+				rs.getString(5)));
 		return info;
 	}
 

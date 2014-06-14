@@ -1,7 +1,7 @@
 package ebook.utils;
 
-import ebook.module.books.BookConnection;
-import ebook.module.books.tree.SectionInfo;
+import ebook.module.book.BookConnection;
+import ebook.module.book.tree.SectionInfo;
 import ebook.module.tree.ITreeItemInfo;
 
 public abstract class Events {

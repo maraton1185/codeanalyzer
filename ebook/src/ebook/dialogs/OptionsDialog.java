@@ -131,7 +131,7 @@ public class OptionsDialog {
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
-					PreferenceSupplier.DEFAULT_DIRECTORY, "Для конфигураций:",
+					PreferenceSupplier.DEFAULT_CONF_DIRECTORY, "Для конфигураций:",
 					comp);
 			f2.setChangeButtonText("...");
 			addField(f2);

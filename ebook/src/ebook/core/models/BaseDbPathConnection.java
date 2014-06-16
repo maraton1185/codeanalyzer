@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
-import ebook.module.conf.ConfStructure;
+import ebook.core.interfaces.IDbStructure;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Utils;
 
@@ -14,9 +14,10 @@ public class BaseDbPathConnection extends BaseDbConnection {
 	IPath path;
 	String name;
 
-	public BaseDbPathConnection(IPath path) throws InvocationTargetException {
+	public BaseDbPathConnection(IPath path, IDbStructure dbStructure)
+			throws InvocationTargetException {
 
-		super(new ConfStructure());
+		super(dbStructure);
 
 		if (path == null)
 			throw new InvocationTargetException(null);
@@ -29,9 +30,10 @@ public class BaseDbPathConnection extends BaseDbConnection {
 		check();
 	}
 
-	public BaseDbPathConnection(String name) throws InvocationTargetException {
+	public BaseDbPathConnection(String name, IDbStructure dbStructure)
+			throws InvocationTargetException {
 
-		super(new ConfStructure());
+		super(dbStructure);
 
 		this.name = name;
 		this.path = new Path(

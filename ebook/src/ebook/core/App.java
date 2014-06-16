@@ -406,7 +406,8 @@ public class App {
 					if (id.equals(Strings
 							.get("ebook.partdescriptor.sectionView"))) {
 						SectionView view = (SectionView) part.getObject();
-						opt.openSections.add(view.getId());
+						if (view != null)
+							opt.openSections.add(view.getId());
 					}
 
 					// if (id.equals(Strings

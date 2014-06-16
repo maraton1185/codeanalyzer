@@ -246,8 +246,7 @@ public class ConfView {
 
 		comp = toolkit.createComposite(parent);
 		comp.setLayout(new GridLayout(2, false));
-		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
-				1));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
 
 		label = toolkit.createLabel(comp, "Путь:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,

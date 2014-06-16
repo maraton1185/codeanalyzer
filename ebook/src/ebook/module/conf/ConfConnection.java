@@ -9,11 +9,11 @@ import ebook.core.models.BaseDbPathConnection;
 public class ConfConnection extends BaseDbPathConnection {
 
 	public ConfConnection(IPath path) throws InvocationTargetException {
-		super(path);
+		super(path, new ConfStructure());
 	}
 
 	public ConfConnection(String name) throws InvocationTargetException {
-		super(name);
+		super(name, new ConfStructure());
 	}
 
 }

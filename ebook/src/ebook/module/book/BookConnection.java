@@ -11,13 +11,13 @@ public class BookConnection extends BaseDbPathConnection {
 
 	public BookConnection(IPath path) throws InvocationTargetException {
 
-		super(path);
+		super(path, new BookStructure());
 
 	}
 
 	public BookConnection(String name) throws InvocationTargetException {
 
-		super(name);
+		super(name, new BookStructure());
 
 	}
 

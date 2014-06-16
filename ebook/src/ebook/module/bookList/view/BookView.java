@@ -128,6 +128,8 @@ public class BookView {
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		// form.setText(Strings.get("appTitle"));
+		// TableWrapLayout layout = new TableWrapLayout();
+		// layout.numColumns = 2;
 		form.getBody().setLayout(new GridLayout(2, false));
 
 		// »Ãﬂ *******************************************
@@ -138,8 +140,8 @@ public class BookView {
 		stack = toolkit.createComposite(form.getBody());
 		stackLayout = new StackLayout();
 		stack.setLayout(stackLayout);
-		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 
+		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 		// œŒÀﬂ √–”œœ *******************************************
 		groupFields(toolkit, ctx);
 
@@ -168,7 +170,10 @@ public class BookView {
 		IObservableValue field_model;
 
 		itemComp = toolkit.createComposite(stack);
+		// TableWrapLayout layout = new TableWrapLayout();
+		// layout.numColumns = 2;
 		itemComp.setLayout(new GridLayout(2, false));
+		// itemComp.setLayout(layout);
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
@@ -261,11 +266,15 @@ public class BookView {
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
 				1));
 
+		// TableWrapData td = new TableWrapData(SWT.FILL, SWT.FILL, 2, 1);
+		// td.grabHorizontal = false;
+		// td.grabVertical = true;
+
 		label = toolkit.createLabel(comp, "œÛÚ¸:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 
-		text = toolkit.createText(comp, "", SWT.WRAP | SWT.SINGLE
+		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
 				| SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(gd);

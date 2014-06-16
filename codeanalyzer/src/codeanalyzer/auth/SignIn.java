@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 import org.osgi.service.prefs.Preferences;
 
+import codeanalyzer.auth.interfaces.IAuthorize;
 import codeanalyzer.core.exceptions.CryptException;
 import codeanalyzer.core.exceptions.RequestParseException;
 import codeanalyzer.core.exceptions.SiteAccessException;
 import codeanalyzer.core.exceptions.SiteCryptException;
-import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.utils.AesCrypt;
 import codeanalyzer.utils.Const;
 import codeanalyzer.utils.PreferenceSupplier;

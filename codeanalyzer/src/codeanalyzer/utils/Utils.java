@@ -2,6 +2,7 @@ package codeanalyzer.utils;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,26 +12,43 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
+import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IBookManager;
-import codeanalyzer.views.main.ConfigsView;
+import codeanalyzer.module.cf.views.ConfigsView;
 
 public abstract class Utils {
+
+	public static void togglePart(MWindow window, EModelService model,
+			String partId, String stackId) {
+		List<MPart> parts = model.findElements(window, Strings.get(partId),
+				MPart.class, null);
+		parts.get(0).setVisible(true);
+
+		List<MPartStack> stacks = model.findElements(window,
+				Strings.get(stackId), MPartStack.class, null);
+
+		// String partID = Strings.get("codeanalyzer.part.book");
+
+		for (MStackElement item : stacks.get(0).getChildren()) {
+			if (!(item instanceof MPart))
+				continue;
+			MPart part = (MPart) item;
+			part.setVisible(part.getElementId().equals(partId));
+		}
+	}
 
 	public static void executeHandler(EHandlerService hService,
 			ECommandService comService, String id) {
@@ -122,6 +140,7 @@ public abstract class Utils {
 		String[] filter = new String[1];
 		filter[0] = filter_name;
 		dialog.setFilterExtensions(filter);
+		// dialog.
 
 		if (path != null) {
 			dialog.setFilterPath(path.toString());
@@ -132,21 +151,48 @@ public abstract class Utils {
 		return new Path(result);
 	}
 
+	public static List<IPath> browseFileMulti(IPath path, Shell shell,
+			String title, String filter_name) {
+		FileDialog dialog = new FileDialog(shell, SWT.MULTI);
+		dialog.setText(title);
+		String[] filter = new String[1];
+		filter[0] = filter_name;
+		dialog.setFilterExtensions(filter);
+		// dialog.
+
+		if (path != null) {
+			dialog.setFilterPath(path.toString());
+		}
+		String result = dialog.open();
+		if (result == null)
+			return null;
+
+		IPath p = new Path(result).removeLastSegments(1);
+		List<IPath> value = new ArrayList<IPath>();
+
+		for (String f : dialog.getFileNames()) {
+			value.add(p.append(f));
+		}
+		// p.removeLastSegments(1).append(path)
+
+		return value;
+	}
 	// *********************************************************************
 
-	public static void fillBooks(Composite sectionClient, FormToolkit toolkit,
-			final Shell shell, HyperlinkAdapter handler) {
-		List<BookInfo> bl = pico.get(IBookManager.class).getBooks();
-		for (BookInfo book : bl) {
-			ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
-					SWT.WRAP);
-			link.setUnderlined(false);
-			link.setImage(book.getImage());
-			link.setText(book.getName());
-			link.setHref(book);
-			link.addHyperlinkListener(handler);
-
-		}
-
-	}
+	// public static void fillBooks(Composite sectionClient, FormToolkit
+	// toolkit,
+	// final Shell shell, HyperlinkAdapter handler) {
+	// List<CurrentBookInfo> bl = pico.get(IBookManager.class).getBooks();
+	// for (CurrentBookInfo book : bl) {
+	// ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
+	// SWT.WRAP);
+	// link.setUnderlined(false);
+	// link.setImage(book.getImage());
+	// link.setText(book.getName());
+	// link.setHref(book);
+	// link.addHyperlinkListener(handler);
+	//
+	// }
+	//
+	// }
 }

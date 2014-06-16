@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension-point id="splashExtension" name="Splash Extensions" schema="schema/splashExtension.exsd"/>
+
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            name="ebook"
+            application="org.eclipse.e4.ui.workbench.swt.E4Application">
+         <property
+               name="applicationCSS"
+               value="platform:/plugin/ebook/css/default.css">
+         </property>
+         <property
+               name="appName"
+               value="ebook">
+         </property>
+         <property
+               name="lifeCycleURI"
+               value="bundleclass://ebook/ebook.core.App">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="ebook.expressions.onContentSelected">
+         <with
+               variable="CONTENT_SECTION_SELECTED">
+            <equals
+                  value="true">
+            </equals>
+         </with>
+      </definition>
+   </extension>
+   
+ 
+<!-- base --> 
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">
+		<httpcontext
+			id="base">
+			<resource-mapping
+				path="/web">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+
+  	<servlet
+		 alias="/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="base">
+		 </servlet>
+		 
+</extension>
+
+<!-- info --> 
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
+		<httpcontext
+			id="info">
+			<resource-mapping
+				path="/web/tmpl/info">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+ 	<resource
+          alias="/rinfo"
+          httpcontextId="info">
+    </resource>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+           alias="/info"
+           class="ebook.web.InfoServlet"
+           httpcontextId="info"/>
+  	<servlet
+		 alias="/info/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="info">
+		 </servlet>		
+</extension>
+ 
+<!-- list -->
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
+		<httpcontext
+			id="list">
+			<resource-mapping
+				path="/web/tmpl/list">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+ 	<resource
+          alias="/rlist"
+          httpcontextId="list">
+    </resource>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+           alias="/list"
+           class="ebook.web.ListServlet"
+           httpcontextId="list"/>
+  	<servlet
+		 alias="/list/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="list">
+		 </servlet>		
+</extension>
+ 
+<!-- book --> 
+<extension
+	point="org.eclipse.equinox.http.registry.httpcontexts">		
+		<httpcontext
+			id="book">
+			<resource-mapping
+				path="/web/tmpl/book">
+			</resource-mapping>
+		</httpcontext>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.resources">
+ 	<resource
+          alias="/rbook"
+          httpcontextId="book">
+    </resource>
+</extension>
+
+<extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+           alias="/book"
+           class="ebook.web.BookServlet"
+           httpcontextId="book"/>
+  	<servlet
+		 alias="/book/*.jsp"
+		 class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"
+		 httpcontextId="book">
+		 </servlet>		
+</extension>
+   
+</plugin>
+

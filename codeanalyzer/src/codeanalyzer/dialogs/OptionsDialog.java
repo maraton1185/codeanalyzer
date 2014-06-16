@@ -86,10 +86,10 @@ public class OptionsDialog {
 					"При запуске открывать список книг", getFieldEditorParent());
 			addField(f5);
 
-			BooleanFieldEditor f6 = new BooleanFieldEditor(
-					PreferenceSupplier.SHOW_START_PAGE,
-					"Показывать страницу приветствия", getFieldEditorParent());
-			addField(f6);
+			// BooleanFieldEditor f6 = new BooleanFieldEditor(
+			// PreferenceSupplier.SHOW_START_PAGE,
+			// "Показывать страницу приветствия", getFieldEditorParent());
+			// addField(f6);
 
 			BooleanFieldEditor f7 = new BooleanFieldEditor(
 					PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
@@ -121,6 +121,11 @@ public class OptionsDialog {
 					PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP,
 					"Минимизировать при запуске", getFieldEditorParent());
 			addField(f12);
+
+			IntegerFieldEditor f13 = new IntegerFieldEditor(
+					PreferenceSupplier.REMOTE_PORT, "Порт web-сервера",
+					getFieldEditorParent());
+			addField(f13);
 		}
 	}
 

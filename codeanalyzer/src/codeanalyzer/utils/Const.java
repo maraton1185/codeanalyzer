@@ -4,9 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import codeanalyzer.books.book.BookInfo;
-import codeanalyzer.books.section.SectionInfo;
-
 public class Const {
 
 	// VERSION *******************************************************
@@ -39,6 +36,7 @@ public class Const {
 	public static final int DEFAULT_FREE_FILES_COUNT = 50;
 	public static final String DB1 = "db1";
 	public static final String DB2 = "db2";
+	public static final String SYSTEM_DB_NAME = "db";
 
 	/**
 	 * âîçâðàùàåò òåêóùóþ âåðñèÿ ñòðîêîé
@@ -174,88 +172,5 @@ public class Const {
 	public static final String PATTERN_PROCEDURE = "(ÔÓÍÊÖÈß|ÏÐÎÖÅÄÓÐÀ)\\s+([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*\\(";
 	public static final String PATTERN_PROCEDURE_IN_STRING = "(\\.)*([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*\\(";
 	public static final String PATTERN_MODULE = "([À-ß]|[A-Z]|_|¨)+[À-ßA-Z0-9_¨]*\\s*";
-
-	// Events *******************************************************
-	public static final String EVENT_UPDATE_STATUS = "update_status";
-
-	public static final String EVENT_PROGRESS_WORKED = "EVENT_PROGRESS_WORKED";
-	public static final String EVENT_PROGRESS_BEGIN_TASK = "EVENT_PROGRESS_BEGIN_TASK";
-	public static final String EVENT_PROGRESS_DONE = "EVENT_PROGRESS_DONE";
-	public static final String EVENT_PROGRESS_ERROR = "EVENT_PROGRESS_ERROR";
-
-	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";
-
-	public static final String EVENT_UPDATE_BOOK_INFO = "EVENT_UPDATE_BOOK_INFO";
-	public static final String EVENT_UPDATE_BOOK_LIST = "EVENT_UPDATE_BOOK_LIST";
-	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
-	public static final String EVENT_UPDATE_CONTENT_VIEW = "EVENT_UPDATE_CONTENT_VIEW";
-
-	public static final String EVENT_EDIT_TITLE_CONTENT_VIEW = "EVENT_EDIT_TITLE_CONTENT_VIEW";
-	public static final String EVENT_SET_SECTIONVIEW_DIRTY = "EVENT_SET_SECTIONVIEW_DIRTY";
-	public static final String CONTEXT_ACTIVE_VIEW_SECTION = "CONTEXT_ACTIVE_VIEW_SECTION";
-	public static final String EVENT_UPDATE_SECTION_BLOCK_VIEW = "EVENT_UPDATE_SECTION_BLOCK_VIEW";
-
-	// public static final String CONTENT_SECTION_SELECTED =
-	// "CONTENT_SECTION_SELECTED";
-
-	// public static final String EVENT_DELETE_SECTION = "EVENT_DELETE_SECTION";
-
-	public static class EVENT_UPDATE_VIEW_DATA {
-
-		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				SectionInfo parent, SectionInfo selected) {
-			super();
-			this.book = book;
-			this.parent = parent;
-			this.selected = selected;
-			onlySectionView = false;
-		}
-
-		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				SectionInfo parent, SectionInfo selected, boolean setBook) {
-			this(book, parent, selected);
-			this.setBook = setBook;
-		}
-
-		public EVENT_UPDATE_VIEW_DATA(BookInfo book,
-				SectionInfo parent, boolean onlySectionView) {
-			this.book = book;
-			this.parent = parent;
-			this.onlySectionView = onlySectionView;
-		}
-
-		public BookInfo book;
-		public SectionInfo parent;
-		public SectionInfo selected;
-		public boolean setBook;
-		public boolean onlySectionView;
-
-	}
-
-	// public static class EVENT_DELETE_SECTION_DATA {
-	//
-	// public EVENT_DELETE_SECTION_DATA(BookInfo book, BookSection parent) {
-	// super();
-	// this.book = book;
-	// this.parent = parent;
-	// }
-	//
-	// public BookInfo book;
-	// public BookSection parent;
-	//
-	// }
-	// public static final String EVENT_SET_FONT_CONTENT_VIEW =
-	// "EVENT_SET_FONT_CONTENT_VIEW";
-	// public static class EVENT_SET_FONT_CONTENT_VIEW_DATA {
-	//
-	// public EVENT_SET_FONT_CONTENT_VIEW_DATA(FontData newFont, RGB rgb) {
-	// this.newFont = newFont;
-	// this.rgb = rgb;
-	// }
-	//
-	// public FontData newFont;
-	// public RGB rgb;
-	//
-	// }
 
 }

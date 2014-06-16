@@ -5,13 +5,16 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import codeanalyzer.auth.SignIn;
-import codeanalyzer.books.book.BookManager;
-import codeanalyzer.db.Db;
-import codeanalyzer.db.DbManager;
-import codeanalyzer.db.LoaderManager;
-import codeanalyzer.db.services.DbServices;
-import codeanalyzer.db.services.TextParser;
-import codeanalyzer.views.books.SectionComposite;
+import codeanalyzer.core.models.ServiceFactory;
+import codeanalyzer.module.books.views.section.tools.SectionComposite;
+import codeanalyzer.module.booksList.BookListManager;
+import codeanalyzer.module.cf.Cf;
+import codeanalyzer.module.cf.CfManager;
+import codeanalyzer.module.cf.LoaderManager;
+import codeanalyzer.module.cf.services.CfServices;
+import codeanalyzer.module.cf.services.TextParser;
+import codeanalyzer.module.db.DbConnection;
+import codeanalyzer.module.users.UserManager;
 
 public final class pico {
 
@@ -31,14 +34,23 @@ public final class pico {
 	private static void init() {
 		instance.as(Characteristics.CACHE).addComponent(SignIn.class);
 
-		instance.addComponent(Db.class);
-		instance.as(Characteristics.CACHE).addComponent(DbManager.class);
-		instance.as(Characteristics.CACHE).addComponent(DbServices.class);
+		instance.as(Characteristics.CACHE).addComponent(DbConnection.class);
+
+		instance.addComponent(Cf.class);
+		instance.as(Characteristics.CACHE).addComponent(CfManager.class);
+		instance.as(Characteristics.CACHE).addComponent(CfServices.class);
 
 		instance.as(Characteristics.CACHE).addComponent(TextParser.class);
 		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
 
-		instance.as(Characteristics.CACHE).addComponent(BookManager.class);
+		instance.as(Characteristics.CACHE).addComponent(BookListManager.class);
+		instance.as(Characteristics.CACHE).addComponent(UserManager.class);
+
+		instance.as(Characteristics.CACHE).addComponent(ServiceFactory.class);
+
+		instance.as(Characteristics.CACHE).addComponent(
+				codeanalyzer.web.Jetty.class);
+
 		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
 		// instance.as(Characteristics.CACHE).addComponent(BookService.class);
 		// instance.as(Characteristics.CACHE).addComponent(Events.class);

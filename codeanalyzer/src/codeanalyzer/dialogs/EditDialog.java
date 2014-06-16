@@ -23,19 +23,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import codeanalyzer.core.AppManager;
+import codeanalyzer.core.App;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IDb;
-import codeanalyzer.core.interfaces.IDb.DbState;
-import codeanalyzer.core.interfaces.IDbManager;
-import codeanalyzer.core.interfaces.ILoaderManager.operationType;
-import codeanalyzer.utils.Const;
+import codeanalyzer.module.cf.interfaces.ICf;
+import codeanalyzer.module.cf.interfaces.ICf.DbState;
+import codeanalyzer.module.cf.interfaces.ICfManager;
+import codeanalyzer.module.cf.interfaces.ILoaderManager.operationType;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.Utils;
 
 @Creatable
 public class EditDialog extends Dialog {
 
-	IDbManager dbManager = pico.get(IDbManager.class);
+	ICfManager dbManager = pico.get(ICfManager.class);
 
 	private Boolean dbPathModified = false;
 
@@ -48,7 +48,7 @@ public class EditDialog extends Dialog {
 	private Button btnCheckButton;
 	// private Button btnUpdateName;
 
-	private IDb db;
+	private ICf db;
 
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
@@ -60,12 +60,12 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, IDb db) {
+	public EditDialog(Shell parentShell, ICf db) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
 
 		if (db == null) {
-			db = pico.get(IDb.class);
+			db = pico.get(ICf.class);
 			db.load("db." + UUID.randomUUID().toString());
 			dbManager.add(db);
 		}
@@ -278,7 +278,7 @@ public class EditDialog extends Dialog {
 			});
 			button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true,
 					false, 1, 1));
-			button.setText(pico.get(IDbManager.class).getOperationName(key));
+			button.setText(pico.get(ICfManager.class).getOperationName(key));
 			radioBtns.put(key, button);
 		}
 
@@ -330,7 +330,7 @@ public class EditDialog extends Dialog {
 		dbManager.execute(db, getShell());
 
 		// initContents();
-		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 
 		super.okPressed();
 	}
@@ -345,7 +345,7 @@ public class EditDialog extends Dialog {
 	public boolean close() {
 		updateDb();
 		db.save();
-		AppManager.br.post(Const.EVENT_UPDATE_CONFIG_LIST, null);
+		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 		return super.close();
 	}
 }

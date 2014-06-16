@@ -25,9 +25,10 @@ import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
 import codeanalyzer.auth.ActivationInfo;
+import codeanalyzer.auth.interfaces.IAuthorize;
 import codeanalyzer.core.pico;
-import codeanalyzer.core.interfaces.IAuthorize;
 import codeanalyzer.utils.Const;
+import codeanalyzer.utils.Events;
 import codeanalyzer.utils.PreferenceSupplier;
 import codeanalyzer.utils.Strings;
 
@@ -304,7 +305,7 @@ public class ActivateDialog extends Dialog {
 	@Override
 	public boolean close() {
 		setValues();
-		br.post(Const.EVENT_UPDATE_STATUS, null);
+		br.post(Events.EVENT_UPDATE_STATUS, null);
 		return super.close();
 	}
 

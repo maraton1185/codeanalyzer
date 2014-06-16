@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import codeanalyzer.core.exceptions.ProcNotFoundException;
-import codeanalyzer.core.interfaces.ICf.EContext;
-import codeanalyzer.core.interfaces.ICf.EType;
+import codeanalyzer.module.cf.interfaces.ICfConfig;
+import codeanalyzer.module.cf.interfaces.ICfConfig.EContext;
+import codeanalyzer.module.cf.interfaces.ICfConfig.EType;
 
 public interface ITextParser {
 

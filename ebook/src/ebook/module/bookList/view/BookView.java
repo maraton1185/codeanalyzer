@@ -275,8 +275,10 @@ public class BookView {
 				1));
 
 		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
-				| SWT.READ_ONLY);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+				| SWT.READ_ONLY | SWT.V_SCROLL);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 30;
+		// gd.heightHint = 50;
 		text.setLayoutData(gd);
 
 		target = WidgetProperties.text().observe(text);

@@ -8,11 +8,9 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import ebook.core.interfaces.IDbConnection;
+import ebook.core.interfaces.IManagerFactory;
 import ebook.core.interfaces.IServiceFactory;
-import ebook.module.bookList.IBookListManager;
 import ebook.module.cf.interfaces.ICfManager;
-import ebook.module.confList.IConfManager;
-import ebook.module.userList.IUserManager;
 
 public class Activator implements BundleActivator {
 
@@ -26,12 +24,13 @@ public class Activator implements BundleActivator {
 		ctx.set(ICfManager.class, pico.get(ICfManager.class));
 		pico.get(ICfManager.class).init();
 
-		ctx.set(IBookListManager.class, pico.get(IBookListManager.class));
-		ctx.set(IUserManager.class, pico.get(IUserManager.class));
-		ctx.set(IConfManager.class, pico.get(IConfManager.class));
+		// ctx.set(IBookListManager.class, pico.get(IBookListManager.class));
+		// ctx.set(IUserManager.class, pico.get(IUserManager.class));
+		// ctx.set(IConfManager.class, pico.get(IConfManager.class));
 		ctx.set(IDbConnection.class, pico.get(IDbConnection.class));
 
 		ctx.set(IServiceFactory.class, pico.get(IServiceFactory.class));
+		ctx.set(IManagerFactory.class, pico.get(IManagerFactory.class));
 
 		bundle = this;
 

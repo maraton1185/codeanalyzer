@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfoSelection;
+import ebook.module.tree.TreeItemInfoSelection;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
@@ -110,7 +110,7 @@ public class ConfListView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				ListConfInfoSelection sel = new ListConfInfoSelection();
+				TreeItemInfoSelection sel = new TreeItemInfoSelection();
 				@SuppressWarnings("unchecked")
 				Iterator<ListConfInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
@@ -118,7 +118,7 @@ public class ConfListView {
 
 				// AppManager;
 
-				App.ctx.set(ListConfInfoSelection.class, sel);
+				App.ctx.set("confListSelection", sel);
 
 				App.ctx.set(ListConfInfo.class,
 						(ListConfInfo) selection.getFirstElement());

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class TreeItemInfoSelection implements ITreeItemSelection {
+public class TreeItemInfoSelection implements ITreeItemSelection {
 
 	private List<ITreeItemInfo> list = new ArrayList<ITreeItemInfo>();
 

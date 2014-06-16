@@ -1,56 +1,53 @@
 package ebook.module.userList;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.TreeManager;
 import ebook.module.userList.tree.UserInfo;
-import ebook.module.userList.tree.UserInfoSelection;
 import ebook.utils.Strings;
 
-public class UserManager implements IUserManager {
+public class UserManager extends TreeManager {
 
-	UserService srv = App.srv.us();
+	public UserManager() {
+		super(App.srv.us());
+	}
 
 	@Override
-	public void add(UserInfo data, UserInfo user, boolean sub, Shell shell) {
-		try {
-			srv.add(data, user, sub);
-		} catch (InvocationTargetException e) {
+	public void add(ITreeItemInfo parent, Shell shell) {
+		InputDialog dlg = new InputDialog(shell,
+				ebook.utils.Strings.get("appTitle"),
+				"Введите имя пользователя:", "", null);
+		if (dlg.open() == Window.OK) {
 
-			if (data.isGroup())
-				MessageDialog
-						.openError(shell, Strings.get("appTitle"),
-								"Ошибка создании группы. \nВозможно, группа с таким именем уже существует.");
-			else
+			UserInfo data = new UserInfo();
+			data.setTitle(dlg.getValue());
+			data.setGroup(false);
+			// data.password = "";
+			// um.add(data, user, true, shell);
+
+			try {
+				srv.add(data, parent, true);
+			} catch (InvocationTargetException e) {
+
 				MessageDialog
 						.openError(
 								shell,
 								Strings.get("appTitle"),
-								"Ошибка создании пользователя. \nВозможно, пользователь с таким именем уже существует.");
+								"Ошибка создания пользователя. \nВозможно, пользователь с таким именем уже существует.");
+			}
+
 		}
-
 	}
 
 	@Override
-	public void delete(UserInfoSelection selection) {
-		int parent = selection.getParent();
-
-		Iterator<ITreeItemInfo> iterator = selection.iterator();
-		while (iterator.hasNext())
-			srv.delete(iterator.next());
-
-		if (parent != 0)
-			srv.selectLast(parent);
-
-	}
-
-	@Override
-	public boolean save(UserInfo data, Shell shell) {
+	public boolean save(ITreeItemInfo data, Shell shell) {
 		try {
 			srv.saveOptions(data);
 		} catch (InvocationTargetException e) {
@@ -64,6 +61,57 @@ public class UserManager implements IUserManager {
 		}
 
 		return true;
+	}
+
+	@Override
+	public void addGroup(ITreeItemInfo parent, Shell shell) {
+		InputDialog dlg = new InputDialog(shell,
+				ebook.utils.Strings.get("appTitle"), "Введите название роли:",
+				"", null);
+		if (dlg.open() == Window.OK)
+
+		{
+			UserInfo data = new UserInfo();
+			data.setTitle(dlg.getValue());
+			data.setGroup(true);
+			// data.password = "";
+			// um.add(data, user, false, shell);
+			try {
+				srv.add(data, parent, false);
+			} catch (InvocationTargetException e) {
+
+				MessageDialog
+						.openError(shell, Strings.get("appTitle"),
+								"Ошибка создания роли. \nВозможно, роль с таким именем уже существует.");
+			}
+			// bm.add((ITreeItemInfo) data);
+		}
+
+	}
+
+	@Override
+	public void addSubGroup(ITreeItemInfo parent, Shell shell) {
+		InputDialog dlg = new InputDialog(shell,
+				ebook.utils.Strings.get("appTitle"), "Введите название роли:",
+				"", null);
+		if (dlg.open() == Window.OK)
+
+		{
+			UserInfo data = new UserInfo();
+			data.setTitle(dlg.getValue());
+			data.setGroup(true);
+			// um.add(data, user, true, shell);
+
+			try {
+				srv.add(data, parent, true);
+			} catch (InvocationTargetException e) {
+
+				MessageDialog
+						.openError(shell, Strings.get("appTitle"),
+								"Ошибка создания роли. \nВозможно, роль с таким именем уже существует.");
+			}
+		}
+
 	}
 
 }

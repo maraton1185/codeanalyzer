@@ -32,8 +32,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
-import ebook.module.bookList.IBookListManager;
-import ebook.module.userList.IUserManager;
 import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
 
@@ -59,8 +57,8 @@ public class UserView {
 	@Optional
 	public void EVENT_UPDATE_USER_INFO(
 			@UIEventTopic(Events.EVENT_UPDATE_USER_INFO) Object o,
-			@Optional UserInfo data, IBookListManager bm,
-			final EHandlerService hs, final ECommandService cs) {
+			@Optional UserInfo data, final EHandlerService hs,
+			final ECommandService cs) {
 
 		if (data == null) {
 			// form.setText(Strings.get("UserViewTitle"));
@@ -77,11 +75,11 @@ public class UserView {
 	}
 
 	@Persist
-	public void save(IUserManager um, Shell shell) {
+	public void save(Shell shell) {
 		if (model == null)
 			return;
 
-		if (um.save(model.getData(), shell))
+		if (App.mng.um().save(model.getData(), shell))
 			dirty.setDirty(false);
 	}
 

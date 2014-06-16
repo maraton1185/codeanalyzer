@@ -25,10 +25,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.bookList.IBookListManager;
+import ebook.module.tree.TreeItemInfoSelection;
 import ebook.module.tree.TreeViewComponent;
 import ebook.module.userList.tree.UserInfo;
-import ebook.module.userList.tree.UserInfoSelection;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -92,8 +91,8 @@ public class UsersView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, final IBookListManager bm,
-			final Shell shell, EMenuService menuService) {
+	public void postConstruct(Composite parent, final Shell shell,
+			EMenuService menuService) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
@@ -109,13 +108,13 @@ public class UsersView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				UserInfoSelection sel = new UserInfoSelection();
+				TreeItemInfoSelection sel = new TreeItemInfoSelection();
 				@SuppressWarnings("unchecked")
 				Iterator<UserInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
 					sel.add(iterator.next());
 
-				App.ctx.set(UserInfoSelection.class, sel);
+				App.ctx.set("userListSelection", sel);
 
 				App.ctx.set(UserInfo.class,
 						(UserInfo) selection.getFirstElement());

@@ -5,17 +5,15 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import ebook.auth.SignIn;
+import ebook.core.models.ManagerFactory;
 import ebook.core.models.ServiceFactory;
 import ebook.module.book.views.section.tools.SectionComposite;
-import ebook.module.bookList.BookListManager;
 import ebook.module.cf.Cf;
 import ebook.module.cf.CfManager;
 import ebook.module.cf.LoaderManager;
 import ebook.module.cf.services.CfServices;
 import ebook.module.cf.services.TextParser;
-import ebook.module.confList.ConfManager;
 import ebook.module.db.DbConnection;
-import ebook.module.userList.UserManager;
 
 public final class pico {
 
@@ -44,11 +42,12 @@ public final class pico {
 		instance.as(Characteristics.CACHE).addComponent(TextParser.class);
 		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
 
-		instance.as(Characteristics.CACHE).addComponent(BookListManager.class);
-		instance.as(Characteristics.CACHE).addComponent(UserManager.class);
-		instance.as(Characteristics.CACHE).addComponent(ConfManager.class);
+		// instance.as(Characteristics.CACHE).addComponent(BookListManager.class);
+		// instance.as(Characteristics.CACHE).addComponent(UserManager.class);
+		// instance.as(Characteristics.CACHE).addComponent(ConfManager.class);
 
 		instance.as(Characteristics.CACHE).addComponent(ServiceFactory.class);
+		instance.as(Characteristics.CACHE).addComponent(ManagerFactory.class);
 
 		instance.as(Characteristics.CACHE).addComponent(ebook.web.Jetty.class);
 

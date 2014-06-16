@@ -45,7 +45,6 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
-import ebook.module.bookList.IBookListManager;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
@@ -85,8 +84,8 @@ public class BookView {
 	@Optional
 	public void EVENT_UPDATE_BOOK_INFO(
 			@UIEventTopic(Events.EVENT_UPDATE_BOOK_INFO) Object o,
-			@Optional ListBookInfo data, IBookListManager bm,
-			final EHandlerService hs, final ECommandService cs) {
+			@Optional ListBookInfo data, final EHandlerService hs,
+			final ECommandService cs) {
 		if (data == null) {
 			// form.setText(Strings.get("bookInfoViewTitle"));
 			// title.setText(Strings.get("bookInfoViewTitle"));
@@ -110,11 +109,11 @@ public class BookView {
 	}
 
 	@Persist
-	public void save(IBookListManager bm, Shell shell) {
+	public void save(Shell shell) {
 		if (model == null)
 			return;
 
-		if (bm.save(model.getData(), shell))
+		if (App.mng.blm().save(model.getData(), shell))
 			dirty.setDirty(false);
 	}
 

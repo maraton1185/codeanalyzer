@@ -53,8 +53,6 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import ebook.core.App;
 import ebook.core.App.Perspectives;
-import ebook.core.pico;
-import ebook.module.bookList.IBookListManager;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.TreeViewComponent;
@@ -76,7 +74,7 @@ public class StartView {
 	Composite confSectionClient;
 	Composite bookSectionClient;
 	HyperlinkAdapter bookSectionHandler;
-	IBookListManager blm = pico.get(IBookListManager.class);
+
 	private TreeViewer viewer;
 	private TreeViewer confViewer;
 
@@ -115,7 +113,7 @@ public class StartView {
 	@PostConstruct
 	public void postConstruct(final Composite parent, EMenuService menuService,
 			final ECommandService comService, final EHandlerService hService,
-			final Shell shell, final IWorkbench wb, final IBookListManager bm,
+			final Shell shell, final IWorkbench wb,
 			@Active final MWindow window, final EModelService model) {
 
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -379,7 +377,8 @@ public class StartView {
 		label.setLayoutData(gd);
 
 		DEFAULT_DIRECTORY = toolkit.createText(prefSectionClient,
-				PreferenceSupplier.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY),
+				PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY),
 				SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
 		DEFAULT_DIRECTORY.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
 				true, false, 1, 1));
@@ -389,7 +388,8 @@ public class StartView {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Utils.browseForPath(DEFAULT_DIRECTORY, shell);
-				PreferenceSupplier.set(PreferenceSupplier.DEFAULT_CONF_DIRECTORY,
+				PreferenceSupplier.set(
+						PreferenceSupplier.DEFAULT_CONF_DIRECTORY,
 						DEFAULT_DIRECTORY.getText());
 				PreferenceSupplier.save();
 			}
@@ -526,7 +526,7 @@ public class StartView {
 				ListBookInfo selected = (ListBookInfo) selection
 						.getFirstElement();
 
-				blm.openBook(selected.getPath(), shell);
+				App.mng.blm().openBook(selected.getPath(), shell);
 			}
 		});
 

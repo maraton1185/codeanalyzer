@@ -1,25 +1,28 @@
 package ebook.module.bookList.handlers;
 
+import javax.inject.Named;
+
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.bookList.IBookListManager;
-import ebook.module.bookList.tree.ListBookInfoSelection;
+import ebook.core.App;
 import ebook.module.cf.interfaces.ICf;
+import ebook.module.tree.ITreeItemSelection;
 
 public class Delete {
 	@Execute
-	public void execute(@Optional ICf db, Shell shell, IBookListManager bm,
-			ListBookInfoSelection selection) {
+	public void execute(@Optional ICf db, Shell shell,
+			@Named("bookListSelection") ITreeItemSelection selection) {
 
-		bm.delete(selection);
+		App.mng.blm().delete(selection, shell);
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active ListBookInfoSelection selection) {
+	public boolean canExecute(
+			@Optional @Active @Named("bookListSelection") ITreeItemSelection selection) {
 		return selection != null;
 	}
 }

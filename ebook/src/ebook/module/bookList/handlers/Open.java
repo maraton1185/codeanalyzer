@@ -5,14 +5,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.bookList.IBookListManager;
+import ebook.core.App;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 public class Open {
 	@Execute
-	public void execute(Shell shell, IBookListManager blm) {
+	public void execute(Shell shell) {
 		IPath p = Utils.browseFile(
 				new Path(PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
@@ -20,7 +20,7 @@ public class Open {
 		if (p == null)
 			return;
 
-		blm.openBook(p, shell);
+		App.mng.blm().openBook(p, shell);
 
 		// App.br.post(Events.EVENT_SHOW_BOOK, null);
 	}

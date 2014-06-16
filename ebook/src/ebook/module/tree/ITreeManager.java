@@ -1,14 +1,19 @@
 package ebook.module.tree;
 
-import java.lang.reflect.InvocationTargetException;
+import org.eclipse.swt.widgets.Shell;
 
 public interface ITreeManager {
 
-	void add(ITreeItemInfo data, ITreeItemInfo user, boolean sub)
-			throws InvocationTargetException;
+	void add(ITreeItemInfo parent, Shell shell);
 
-	void delete(ITreeItemSelection selection) throws InvocationTargetException;
+	void addToList(ITreeItemInfo parent, Shell shell);
 
-	boolean save(ITreeItemInfo data) throws InvocationTargetException;
+	void addGroup(ITreeItemInfo parent, Shell shell);
+
+	void addSubGroup(ITreeItemInfo parent, Shell shell);
+
+	void delete(ITreeItemSelection selection, Shell shell);
+
+	boolean save(ITreeItemInfo data, Shell shell);
 
 }

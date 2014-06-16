@@ -47,12 +47,12 @@ import org.osgi.service.event.EventHandler;
 import ebook.auth.interfaces.IAuthorize;
 import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IDbConnection;
+import ebook.core.interfaces.IManagerFactory;
 import ebook.core.interfaces.IServiceFactory;
 import ebook.module.book.BookConnection;
 import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.section.SectionView;
-import ebook.module.bookList.IBookListManager;
 import ebook.module.cf.services.FillProcLinkTableJob;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -87,6 +87,7 @@ public class App {
 	public static ESelectionService ss;
 
 	public static IServiceFactory srv = pico.get(IServiceFactory.class);
+	public static IManagerFactory mng = pico.get(IManagerFactory.class);
 
 	private static IJetty jetty = pico.get(IJetty.class);
 
@@ -267,9 +268,7 @@ public class App {
 			if (p.isEmpty())
 				return;
 
-			IBookListManager bm = pico.get(IBookListManager.class);
-
-			bm.openBook(p, (Shell) window.getWidget());
+			App.mng.blm().openBook(p, (Shell) window.getWidget());
 
 			App.br.post(Events.EVENT_SHOW_BOOK, null);
 

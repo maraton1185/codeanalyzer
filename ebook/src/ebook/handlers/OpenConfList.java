@@ -6,11 +6,10 @@ import ebook.core.App;
 import ebook.core.App.ListParts;
 import ebook.core.App.Perspectives;
 
-public class OpenBookList {
+public class OpenConfList {
 	@Execute
 	public void execute() {
-
-		App.showPerspective(Perspectives.lists, ListParts.books);
+		App.showPerspective(Perspectives.lists, ListParts.confs);
 
 	}
 

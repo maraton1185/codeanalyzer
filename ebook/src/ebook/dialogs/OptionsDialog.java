@@ -19,10 +19,26 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Shell;
 
 import ebook.utils.PreferenceSupplier;
+import ebook.utils.Strings;
 
 public class OptionsDialog {
+
+	private class Dialog extends PreferenceDialog {
+
+		public Dialog(Shell parentShell, PreferenceManager manager) {
+			super(parentShell, manager);
+		}
+
+		@Override
+		protected void configureShell(Shell newShell) {
+			super.configureShell(newShell);
+			newShell.setText(Strings.get("appTitle"));
+		}
+
+	}
 
 	public void open() {
 
@@ -38,8 +54,7 @@ public class OptionsDialog {
 		// mgr.addToRoot(p);
 
 		// Create the preferences dialog
-		PreferenceDialog dlg = new PreferenceDialog(null, mgr);
-
+		PreferenceDialog dlg = new Dialog(null, mgr);
 		dlg.setPreferenceStore(PreferenceSupplier.getPreferenceStore());
 
 		// Open the dialog
@@ -54,7 +69,7 @@ public class OptionsDialog {
 		public FieldEditorPageCommon() {
 			// Use the "flat" layout
 			super(GRID);
-			setTitle("Настройки");
+			setTitle("Общие");
 		}
 
 		// Composite fonts;
@@ -131,8 +146,8 @@ public class OptionsDialog {
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
-					PreferenceSupplier.DEFAULT_CONF_DIRECTORY, "Для конфигураций:",
-					comp);
+					PreferenceSupplier.DEFAULT_CONF_DIRECTORY,
+					"Для конфигураций:", comp);
 			f2.setChangeButtonText("...");
 			addField(f2);
 

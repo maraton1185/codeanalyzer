@@ -52,7 +52,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import ebook.core.App;
-import ebook.core.App.Perspectives;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.TreeViewComponent;
@@ -77,6 +76,8 @@ public class StartView {
 
 	private TreeViewer viewer;
 	private TreeViewer confViewer;
+	private TreeViewComponent confTreeComponent;
+	private TreeViewComponent booksTreeComponent;
 
 	@Inject
 	@Optional
@@ -131,9 +132,9 @@ public class StartView {
 
 		mainLinks(hService, comService);
 
-		booksList(shell, hService, comService);
+		booksList(shell, hService, comService, menuService);
 
-		confList(shell, hService, comService, window, model);
+		confList(shell, hService, comService, window, model, menuService);
 
 		parameters(shell, hService, comService);
 
@@ -141,7 +142,7 @@ public class StartView {
 
 	private void confList(final Shell shell, EHandlerService hService,
 			ECommandService comService, @Active final MWindow window,
-			final EModelService model) {
+			final EModelService model, EMenuService menuService) {
 
 		Section section = toolkit.createSection(form.getBody(),
 				Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED
@@ -149,17 +150,18 @@ public class StartView {
 
 		section.setText("Список конфигураций 1с");
 		section.setLayout(new GridLayout());
+		// section.ad
 		confSectionClient = toolkit.createComposite(section);
 		confSectionClient.setLayout(new GridLayout());
 
-		confListCommands(hService, comService, window, model);
+		// confListCommands(hService, comService, window, model);
 
 		confSectionClient.setFont(new Font(Display.getCurrent(),
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent treeComponent = new TreeViewComponent(
-				confSectionClient, App.srv.cls(), 2);
-		confViewer = treeComponent.getViewer();
+		confTreeComponent = new TreeViewComponent(confSectionClient,
+				App.srv.cls(), 2, false);
+		confViewer = confTreeComponent.getViewer();
 		toolkit.adapt(confViewer.getTree());
 		confViewer.getTree().addControlListener(new ControlAdapter() {
 
@@ -203,12 +205,15 @@ public class StartView {
 			}
 		});
 
-		treeComponent.setSelection();
+		confTreeComponent.setSelection();
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		// gd.horizontalAlignment = SWT.RIGHT;
 		confViewer.getTree().setLayoutData(gd);
 		section.setClient(confSectionClient);
+
+		menuService.registerContextMenu(confViewer.getControl(),
+				Strings.get("ebook.popupmenu.0"));
 
 	}
 
@@ -229,7 +234,7 @@ public class StartView {
 		_link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				App.showPerspective(Perspectives.books);
+				// App.showPerspective(Perspectives.lists);
 				// Utils.togglePart(window, model, "ebook.part.confList",
 				// "ebook.partstack.itemlist");
 
@@ -489,7 +494,7 @@ public class StartView {
 	}
 
 	private void booksList(final Shell shell, EHandlerService hService,
-			ECommandService comService) {
+			ECommandService comService, EMenuService menuService) {
 		Section bookSection = toolkit.createSection(form.getBody(),
 				Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED
 						| SWT.BORDER);
@@ -499,14 +504,14 @@ public class StartView {
 		bookSectionClient = toolkit.createComposite(bookSection);
 		bookSectionClient.setLayout(new GridLayout());
 
-		booksListCommands(hService, comService);
+		// booksListCommands(hService, comService);
 
 		bookSectionClient.setFont(new Font(Display.getCurrent(),
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent booksList = new TreeViewComponent(bookSectionClient,
-				App.srv.bls(), 2);
-		viewer = booksList.getViewer();
+		booksTreeComponent = new TreeViewComponent(bookSectionClient,
+				App.srv.bls(), 2, false);
+		viewer = booksTreeComponent.getViewer();
 		toolkit.adapt(viewer.getTree());
 		viewer.getTree().addControlListener(new ControlAdapter() {
 
@@ -550,12 +555,15 @@ public class StartView {
 			}
 		});
 
-		booksList.setSelection();
+		booksTreeComponent.setSelection();
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		// gd.horizontalAlignment = SWT.RIGHT;
 		viewer.getTree().setLayoutData(gd);
 		bookSection.setClient(bookSectionClient);
+
+		menuService.registerContextMenu(viewer.getControl(),
+				Strings.get("ebook.popupmenu.1"));
 
 	}
 
@@ -576,7 +584,7 @@ public class StartView {
 		_link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				App.showPerspective(Perspectives.books);
+				// App.showPerspective(Perspectives.lists);
 			}
 
 		});
@@ -652,4 +660,9 @@ public class StartView {
 
 	}
 
+	public void updateLists() {
+		confTreeComponent.setInput();
+		booksTreeComponent.setInput();
+
+	}
 }

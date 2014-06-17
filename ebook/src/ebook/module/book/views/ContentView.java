@@ -100,7 +100,7 @@ public class ContentView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				book.srv(), 3);
+				book.srv(), 3, true);
 
 		viewer = treeComponent.getViewer();
 

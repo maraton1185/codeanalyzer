@@ -52,7 +52,7 @@ public class TreeViewComponent {
 	protected TreeItem selectedItem;
 
 	public TreeViewComponent(Composite parent, ITreeService service,
-			int expandLevel) {
+			int expandLevel, boolean editingSupport) {
 
 		this.service = service;
 		this.parent = parent;
@@ -90,10 +90,18 @@ public class TreeViewComponent {
 		viewer.setAutoExpandLevel(expandLevel);
 		viewer.setInput(input);
 
-		editingSupport();
+		if (editingSupport) {
+			editingSupport();
 
-		dragAndDropSupport();
+			dragAndDropSupport();
+		}
+	}
 
+	public void setInput() {
+		List<ITreeItemInfo> input = service.getRoot();
+		root = input.size() == 0 ? null : input.get(0);
+		// viewer.setAutoExpandLevel(expandLevel);
+		viewer.setInput(input);
 	}
 
 	public void setLabelProvider(StyledCellLabelProvider prov) {
@@ -175,7 +183,7 @@ public class TreeViewComponent {
 						}
 					});
 				}
-					// text.append(" " + section.id);
+				// text.append(" " + section.id);
 				// }
 
 			}

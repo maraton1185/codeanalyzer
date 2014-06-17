@@ -1,4 +1,4 @@
-package ebook.dialogs;
+package ebook.module.conf;
 
 import java.util.HashMap;
 import java.util.UUID;

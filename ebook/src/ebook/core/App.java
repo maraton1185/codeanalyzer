@@ -58,20 +58,39 @@ import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
+import ebook.views.StartView;
 import ebook.web.IJetty;
 
 public class App {
 
 	public enum Perspectives {
-		books, main;
+		lists, main;
+
+		@Override
+		public String toString() {
+			switch (this) {
+			case lists:
+				return Strings.get("model.id.perspective.books");
+			default:
+				return Strings.get("model.id.perspective.default");
+			}
+		}
+	}
+
+	public enum ListParts {
+		books, users, confs, current;
 
 		@Override
 		public String toString() {
 			switch (this) {
 			case books:
-				return Strings.get("model.id.perspective.books");
+				return Strings.get("ebook.part.0");
+			case users:
+				return Strings.get("ebook.part.4");
+			case confs:
+				return Strings.get("ebook.part.confList");
 			default:
-				return Strings.get("model.id.perspective.default");
+				return "current";
 			}
 		}
 	}
@@ -435,23 +454,24 @@ public class App {
 
 		if (PreferenceSupplier
 				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE))
-			currentPerspective = Perspectives.books;
+			currentPerspective = Perspectives.lists;
 		else
 			currentPerspective = Perspectives.main;
 
-		showPerspective(currentPerspective);
+		showPerspective(currentPerspective, ListParts.books);
 
 	}
 
 	public static void togglePerspective() {
-		if (currentPerspective == Perspectives.books)
+		if (currentPerspective == Perspectives.lists)
 			currentPerspective = Perspectives.main;
 		else
-			currentPerspective = Perspectives.books;
-		showPerspective(currentPerspective);
+			currentPerspective = Perspectives.lists;
+		showPerspective(currentPerspective, ListParts.current);
 	}
 
-	public static void showPerspective(Perspectives perspType) {
+	public static void showPerspective(Perspectives perspType,
+			ListParts partType) {
 
 		MPerspective persp;
 
@@ -460,7 +480,18 @@ public class App {
 		ps.switchPerspective(persp);
 
 		currentPerspective = perspType;
+		MPart part;
 
+		if (partType != ListParts.current) {
+			part = (MPart) model.find(partType.toString(), app);
+			App.ps.activate(part);
+		}
+
+		if (perspType == Perspectives.main) {
+			part = (MPart) model.find(Strings.get("ebook.part.start"), app);
+			StartView view = (StartView) part.getObject();
+			view.updateLists();
+		}
 	}
 
 	public static IJetty getJetty() {

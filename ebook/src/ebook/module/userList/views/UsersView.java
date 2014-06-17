@@ -97,7 +97,7 @@ public class UsersView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		treeComponent = new TreeViewComponent(parent, App.srv.us(), 2);
+		treeComponent = new TreeViewComponent(parent, App.srv.us(), 2, true);
 
 		viewer = treeComponent.getViewer();
 

@@ -1,11 +1,7 @@
-package ebook.module.cf;
+package ebook.module.conf;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobManager;
@@ -20,29 +16,23 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.core.pico;
-import ebook.module.cf.interfaces.ICf;
-import ebook.module.cf.interfaces.ICf.DbState;
-import ebook.module.cf.interfaces.ICfManager;
-import ebook.module.cf.interfaces.ILoaderManager;
-import ebook.module.cf.interfaces.ILoaderManager.operationType;
-import ebook.module.cf.services.FillProcLinkTableJob;
+import ebook.module.conf.interfaces.ILoaderManager;
+import ebook.module.conf.interfaces.ILoaderManager.operationType;
+import ebook.module.conf.services.FillProcLinkTableJob;
+import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confList.tree.ListConfInfo.DbState;
 import ebook.temp.ProgressControl;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class CfManager implements ICfManager {
+public class ConfManager {
 
 	ILoaderManager loaderManager = pico.get(ILoaderManager.class);
 
-	List<ICf> dbs = new ArrayList<ICf>();
-	ICf active;
-	ICf nonActive;
-
 	HashMap<operationType, String> operationNames = new HashMap<operationType, String>();
 
-	@Override
-	public void init() {
+	public ConfManager() {
 
 		operationNames.put(operationType.fromDirectory,
 				Strings.get("operationType.fromDirectory"));
@@ -55,89 +45,14 @@ public class CfManager implements ICfManager {
 		operationNames.put(operationType.fillProcLinkTable,
 				Strings.get("operationType.fillProcLinkTable"));
 
-		String activeKey = PreferenceSupplier
-				.get(PreferenceSupplier.BASE_ACTIVE);
-		String compareKey = PreferenceSupplier
-				.get(PreferenceSupplier.BASE_COMPARE);
-
-		List<String> keys = PreferenceSupplier.getBaseList();
-
-		for (String key : keys) {
-			ICf db = pico.get(ICf.class);
-			db.load(key);
-			dbs.add(db);
-
-			if (activeKey.equalsIgnoreCase(key))
-				setActive(db);
-
-			if (compareKey.equalsIgnoreCase(key))
-				setNonActive(db);
-
-			executeInit(db);
-		}
-
-		Collections.sort(dbs, new Comparator<ICf>() {
-			@Override
-			public int compare(ICf db1, ICf db2) {
-
-				return db1.getName().compareTo(db2.getName());
-			}
-		});
-
-		if (dbs.size() != 0) {
-			if (active == null)
-				setActive(dbs.get(0));
-
-			if (nonActive == null)
-				setNonActive(dbs.get(0));
-		}
-
 	}
 
-	@Override
-	public List<ICf> getList() {
-		return dbs;
-	}
-
-	@Override
-	public void add(ICf db) {
-		dbs.add(db);
-
-	}
-
-	@Override
-	public void remove(ICf db) {
-		dbs.remove(db);
-	}
-
-	@Override
-	public ICf getActive() {
-		return active;
-	}
-
-	@Override
-	public ICf getNonActive() {
-		return nonActive;
-	}
-
-	@Override
-	public void setActive(ICf db) {
-		active = db;
-	}
-
-	@Override
-	public void setNonActive(ICf db) {
-		nonActive = db;
-	}
-
-	@Override
 	public String getOperationName(operationType key) {
 		String name = operationNames.get(key);
 		return name == null ? "DBManager.getOperationName" : name;
 	}
 
-	@Override
-	public void execute(final ICf db, final Shell shell) {
+	public void execute(final ListConfInfo db, final Shell shell) {
 
 		switch (db.getType()) {
 		case fillProcLinkTable:
@@ -145,6 +60,7 @@ public class CfManager implements ICfManager {
 			return;
 		case fromDb:
 			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
+
 				@Override
 				public void run() {
 					try {
@@ -168,6 +84,7 @@ public class CfManager implements ICfManager {
 		}
 
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
+
 			@Override
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException, InterruptedException {
@@ -212,21 +129,20 @@ public class CfManager implements ICfManager {
 		}
 	}
 
-	@Override
-	public void executeInit(final ICf db) {
+	public void executeInit(final ListConfInfo db) {
 
 		if (!PreferenceSupplier.getBoolean(PreferenceSupplier.INIT_EXECUTION))
 			return;
 
 		if (db.getType() == operationType.fromDb) {
 			new Thread(new Runnable() {
+
 				@Override
 				public void run() {
 
 					try {
 						loaderManager.loadFromDb(db);
-						App.br.post(Events.EVENT_UPDATE_CONFIG_LIST,
-								null);
+						App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
 					}
@@ -238,7 +154,7 @@ public class CfManager implements ICfManager {
 
 	}
 
-	private void sheduleFillProcLinkTableJob(ICf db) {
+	private void sheduleFillProcLinkTableJob(ListConfInfo db) {
 
 		// setting the progress monitor
 		IJobManager manager = Job.getJobManager();
@@ -251,6 +167,7 @@ public class CfManager implements ICfManager {
 		((ProgressControl) widget).setDb(db);
 		final IProgressMonitor p = (IProgressMonitor) widget;
 		ProgressProvider provider = new ProgressProvider() {
+
 			@Override
 			public IProgressMonitor createMonitor(Job job) {
 				return p;

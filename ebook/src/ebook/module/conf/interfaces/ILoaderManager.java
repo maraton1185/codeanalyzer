@@ -1,8 +1,10 @@
-package ebook.module.cf.interfaces;
+package ebook.module.conf.interfaces;
 
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+
+import ebook.module.confList.tree.ListConfInfo;
 
 public interface ILoaderManager {
 
@@ -10,18 +12,18 @@ public interface ILoaderManager {
 		fromDb, fromDirectory, update, fromSQL, fillProcLinkTable
 	}
 
-	void loadFromDirectory(ICf db, IProgressMonitor monitor)
+	void loadFromDirectory(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException;
 
-	void loadFromDb(ICf db) throws InvocationTargetException;
+	void loadFromDb(ListConfInfo db) throws InvocationTargetException;
 
-	void fillProcLinkTable(ICf db, IProgressMonitor monitor)
+	void fillProcLinkTable(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException;
 
-	void update(ICf db, IProgressMonitor monitor)
+	void update(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException;
 
-	void loadFromSQL(ICf db, IProgressMonitor monitor)
+	void loadFromSQL(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException;
 
 }

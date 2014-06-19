@@ -10,7 +10,6 @@ import org.osgi.framework.BundleContext;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IManagerFactory;
 import ebook.core.interfaces.IServiceFactory;
-import ebook.module.cf.interfaces.ICfManager;
 
 public class Activator implements BundleActivator {
 
@@ -21,8 +20,8 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext context) throws Exception {
 
 		IEclipseContext ctx = E4Workbench.getServiceContext();
-		ctx.set(ICfManager.class, pico.get(ICfManager.class));
-		pico.get(ICfManager.class).init();
+		// ctx.set(IConfManager.class, pico.get(IConfManager.class));
+		// pico.get(IConfManager.class).init();
 
 		// ctx.set(IBookListManager.class, pico.get(IBookListManager.class));
 		// ctx.set(IUserManager.class, pico.get(IUserManager.class));

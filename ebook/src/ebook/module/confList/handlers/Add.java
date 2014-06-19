@@ -11,7 +11,7 @@ public class Add {
 	@Execute
 	public void execute(Shell shell, @Optional ListConfInfo parent) {
 
-		App.mng.cm().add(parent, shell);
+		App.mng.clm().add(parent, shell);
 
 	}
 

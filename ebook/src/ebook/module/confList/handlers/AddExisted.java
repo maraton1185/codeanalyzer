@@ -11,7 +11,7 @@ public class AddExisted {
 	@Execute
 	public void execute(final Shell shell, @Optional final ListConfInfo parent) {
 
-		App.mng.cm().addToList(parent, shell);
+		App.mng.clm().addToList(parent, shell);
 
 	}
 

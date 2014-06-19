@@ -1,4 +1,4 @@
-package ebook.module.cf;
+package ebook.module.conf;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -12,21 +12,21 @@ import ebook.core.pico;
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.LinksExistsException;
 import ebook.core.exceptions.LoadConfigException;
-import ebook.module.cf.interfaces.ICf;
-import ebook.module.cf.interfaces.ILoaderManager;
-import ebook.module.cf.interfaces.ICf.DbState;
-import ebook.module.cf.services.LoaderService;
+import ebook.module.conf.interfaces.ILoaderManager;
+import ebook.module.conf.services.LoaderService;
+import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confList.tree.ListConfInfo.DbState;
 import ebook.utils.Const;
 import ebook.utils.Utils;
 
 public class LoaderManager implements ILoaderManager {
 
 	IAuthorize sign = pico.get(IAuthorize.class);
-	CfStructure cfStructure = new CfStructure();
+	// CfStructure cfStructure = new CfStructure();
 	LoaderService loaderService = new LoaderService();
 
 	@Override
-	public void loadFromDirectory(ICf db, IProgressMonitor monitor)
+	public void loadFromDirectory(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException {
 
 		// œ–Œ¬≈– » ******************************************************
@@ -71,10 +71,9 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
-			db.initDbPath();
+			ConfConnection _con = new ConfConnection(db.getDbPath());
 
-			cfStructure.createStructure(db);
-			con = db.getConnection(false);
+			con = _con.makeConnection(true);
 
 			monitor.beginTask("«‡„ÛÁÍ‡ ÍÓÌÙË„Û‡ˆËË...", length);
 
@@ -120,7 +119,7 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void loadFromDb(ICf db) throws InvocationTargetException {
+	public void loadFromDb(ListConfInfo db) throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
 
@@ -134,10 +133,11 @@ public class LoaderManager implements ILoaderManager {
 		try {
 
 			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
-
-			con = db.getConnection(true);
-
-			cfStructure.checkSructure(db);
+			ConfConnection _con = new ConfConnection(db.getDbPath());
+			con = _con.makeConnection(true);
+			// con = db.getConnection(true);
+			//
+			// cfStructure.checkSructure(db);
 
 			if (loaderService.linkTableFilled(con)) {
 				db.setState(DbState.Loaded);
@@ -174,7 +174,7 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void update(ICf db, IProgressMonitor monitor)
+	public void update(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
@@ -212,9 +212,9 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
-			con = db.getConnection(true);
+			ConfConnection _con = new ConfConnection(db.getDbPath());
 
-			cfStructure.checkSructure(db);
+			con = _con.makeConnection(true);
 
 			loaderService.clearLinkTable(con);
 			// db.initDbPath();
@@ -266,14 +266,14 @@ public class LoaderManager implements ILoaderManager {
 	}
 
 	@Override
-	public void loadFromSQL(ICf db, IProgressMonitor monitor)
+	public void loadFromSQL(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void fillProcLinkTable(ICf db, IProgressMonitor monitor)
+	public void fillProcLinkTable(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
@@ -304,17 +304,17 @@ public class LoaderManager implements ILoaderManager {
 
 			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 
-			cfStructure.checkSructure(db);
+			ConfConnection _con = new ConfConnection(db.getDbPath());
 
-			con = db.getConnection(true);
+			con = _con.makeConnection(true);
 
 			loaderService.fillProcLinkTableDoWork(con, monitor);
 
-			if (!sign.check())
-				if (!cfStructure.checkLisence(db))
-					throw new InvocationTargetException(
-							new InterruptedException(),
-							Const.ERROR_PRO_ACCESS_LOAD);
+			// if (!sign.check())
+			// if (!cfStructure.checkLisence(db))
+			// throw new InvocationTargetException(
+			// new InterruptedException(),
+			// Const.ERROR_PRO_ACCESS_LOAD);
 
 			db.setLinkState(DbState.Loaded);
 

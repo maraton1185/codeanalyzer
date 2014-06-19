@@ -53,7 +53,7 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.section.SectionView;
-import ebook.module.cf.services.FillProcLinkTableJob;
+import ebook.module.conf.services.FillProcLinkTableJob;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;

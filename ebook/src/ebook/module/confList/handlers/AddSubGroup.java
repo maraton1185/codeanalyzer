@@ -11,7 +11,7 @@ public class AddSubGroup {
 	@Execute
 	public void execute(Shell shell, @Optional ListConfInfo parent) {
 
-		App.mng.cm().addSubGroup(parent, shell);
+		App.mng.clm().addSubGroup(parent, shell);
 
 	}
 

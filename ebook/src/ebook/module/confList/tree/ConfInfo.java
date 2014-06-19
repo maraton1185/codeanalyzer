@@ -1,14 +1,14 @@
-package ebook.module.cf;
+package ebook.module.confList.tree;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import org.eclipse.core.runtime.Path;
 
-import ebook.module.cf.interfaces.ILoaderManager.operationType;
+import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.utils.PreferenceSupplier;
 
-public class CfInfo implements Serializable {
+public class ConfInfo implements Serializable {
 
 	public String name;
 	public operationType type;
@@ -92,7 +92,7 @@ public class CfInfo implements Serializable {
 		return result;
 	}
 
-	public CfInfo() {
+	public ConfInfo() {
 		super();
 		for (Field f : this.getClass().getFields()) {
 			try {

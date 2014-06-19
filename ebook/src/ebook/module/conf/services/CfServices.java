@@ -1,6 +1,6 @@
-package ebook.module.cf.services;
+package ebook.module.conf.services;
 
-import ebook.module.cf.interfaces.ICfServices;
+import ebook.module.conf.interfaces.ICfServices;
 
 public class CfServices implements ICfServices {
 

@@ -9,15 +9,14 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.cf.interfaces.ICf;
 import ebook.module.tree.ITreeItemSelection;
 
 public class Delete {
 	@Execute
-	public void execute(@Optional ICf db, Shell shell,
+	public void execute(Shell shell,
 			@Named("confListSelection") ITreeItemSelection selection) {
 
-		App.mng.cm().delete(selection, shell);
+		App.mng.clm().delete(selection, shell);
 	}
 
 	@CanExecute

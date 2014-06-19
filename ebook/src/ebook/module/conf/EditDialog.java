@@ -1,7 +1,6 @@
 package ebook.module.conf;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -24,18 +23,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import ebook.core.App;
-import ebook.core.pico;
-import ebook.module.cf.interfaces.ICf;
-import ebook.module.cf.interfaces.ICf.DbState;
-import ebook.module.cf.interfaces.ICfManager;
-import ebook.module.cf.interfaces.ILoaderManager.operationType;
+import ebook.module.conf.interfaces.ILoaderManager.operationType;
+import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confList.tree.ListConfInfo.DbState;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 
 @Creatable
 public class EditDialog extends Dialog {
 
-	ICfManager dbManager = pico.get(ICfManager.class);
+	ConfManager dbManager = App.mng.cm();
 
 	private Boolean dbPathModified = false;
 
@@ -48,7 +45,7 @@ public class EditDialog extends Dialog {
 	private Button btnCheckButton;
 	// private Button btnUpdateName;
 
-	private ICf db;
+	private ListConfInfo db;
 
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
@@ -60,15 +57,10 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, ICf db) {
+	public EditDialog(Shell parentShell, ListConfInfo db) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
 
-		if (db == null) {
-			db = pico.get(ICf.class);
-			db.load("db." + UUID.randomUUID().toString());
-			dbManager.add(db);
-		}
 		this.db = db;
 
 	}
@@ -278,7 +270,7 @@ public class EditDialog extends Dialog {
 			});
 			button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true,
 					false, 1, 1));
-			button.setText(pico.get(ICfManager.class).getOperationName(key));
+			button.setText(App.mng.cm().getOperationName(key));
 			radioBtns.put(key, button);
 		}
 
@@ -325,14 +317,14 @@ public class EditDialog extends Dialog {
 	protected void okPressed() {
 
 		updateDb();
-		db.save();
-
+		App.mng.clm().save(db, getShell());
 		dbManager.execute(db, getShell());
 
 		// initContents();
 		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 
 		super.okPressed();
+
 	}
 
 	@Override
@@ -344,7 +336,7 @@ public class EditDialog extends Dialog {
 	@Override
 	public boolean close() {
 		updateDb();
-		db.save();
+		App.mng.clm().save(db, getShell());
 		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 		return super.close();
 	}

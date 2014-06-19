@@ -2,7 +2,8 @@ package ebook.core.models;
 
 import ebook.core.interfaces.IManagerFactory;
 import ebook.module.bookList.BookListManager;
-import ebook.module.confList.ConfManager;
+import ebook.module.conf.ConfManager;
+import ebook.module.confList.ConfListManager;
 import ebook.module.userList.UserManager;
 
 public class ManagerFactory implements IManagerFactory {
@@ -25,6 +26,15 @@ public class ManagerFactory implements IManagerFactory {
 		return um;
 	}
 
+	ConfListManager clm;
+
+	@Override
+	public ConfListManager clm() {
+		if (clm == null)
+			clm = new ConfListManager();
+		return clm;
+	}
+
 	ConfManager cm;
 
 	@Override
@@ -33,5 +43,4 @@ public class ManagerFactory implements IManagerFactory {
 			cm = new ConfManager();
 		return cm;
 	}
-
 }

@@ -1,4 +1,4 @@
-package ebook.module.cf.services;
+package ebook.module.conf.services;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,9 +11,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.exceptions.LinksExistsException;
-import ebook.module.cf.interfaces.ICf;
-import ebook.module.cf.interfaces.ICf.DbState;
-import ebook.module.cf.interfaces.ILoaderManager;
+import ebook.module.conf.interfaces.ILoaderManager;
+import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confList.tree.ListConfInfo.DbState;
 import ebook.utils.Events;
 
 public class FillProcLinkTableJob extends Job {
@@ -40,11 +40,11 @@ public class FillProcLinkTableJob extends Job {
 
 	// private String family;
 
-	private ICf db;
+	private ListConfInfo db;
 
 	// private Shell shell;
 
-	public FillProcLinkTableJob(ICf db) {
+	public FillProcLinkTableJob(ListConfInfo db) {
 		super(db.getName());
 		// this.family = family;
 		this.db = db;

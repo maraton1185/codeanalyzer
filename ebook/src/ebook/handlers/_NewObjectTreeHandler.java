@@ -11,12 +11,12 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
 import ebook.core.App;
-import ebook.module.cf.interfaces.ICf;
+import ebook.module.confList.tree.ListConfInfo;
 import ebook.utils.Strings;
 
 public class _NewObjectTreeHandler {
 	@Execute
-	public void execute(@Optional ICf db, EPartService partService,
+	public void execute(@Optional ListConfInfo db, EPartService partService,
 			EModelService model) {
 
 		MPart part = partService.createPart(Strings

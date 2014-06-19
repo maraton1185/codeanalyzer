@@ -29,16 +29,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
 import ebook.core.App;
-import ebook.core.pico;
-import ebook.module.cf.interfaces.ICf;
-import ebook.module.cf.interfaces.ICfManager;
+import ebook.module.conf.ConfManager;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 public class ConfigsView {
 
-	ICfManager dbMng = pico.get(ICfManager.class);
+	ConfManager dbMng = App.mng.cm();
 
 	private final Image ACTIVE = Utils.getImage("active.png");
 	private final Image NONACTIVE = Utils.getImage("nonactive.png");
@@ -90,7 +88,7 @@ public class ConfigsView {
 
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 
-		viewer.setInput(dbMng.getList());
+		// viewer.setInput(dbMng.getList());
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
@@ -99,11 +97,11 @@ public class ConfigsView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 				Object selected = selection.getFirstElement();
-				if (selected != null) {
-					ICf db = (ICf) selection.getFirstElement();
-					App.ctx.set(ICf.class, db);
-				} else
-					App.ctx.set(ICf.class, null);
+				// if (selected != null) {
+				// ICf db = (ICf) selection.getFirstElement();
+				// App.ctx.set(ICf.class, db);
+				// } else
+				// App.ctx.set(ICf.class, null);
 			}
 		});
 
@@ -133,12 +131,12 @@ public class ConfigsView {
 
 			@Override
 			public Image getImage(Object element) {
-				if (dbMng.getActive() == (ICf) element) {
-					return ACTIVE;
-				}
-				if (dbMng.getNonActive() == (ICf) element) {
-					return NONACTIVE;
-				}
+				// if (dbMng.getActive() == (ICf) element) {
+				// return ACTIVE;
+				// }
+				// if (dbMng.getNonActive() == (ICf) element) {
+				// return NONACTIVE;
+				// }
 				return null;
 			}
 		});
@@ -152,7 +150,8 @@ public class ConfigsView {
 			@Override
 			public String getText(Object element) {
 				// Person p =
-				return ((ICf) element).getName();// status();
+				return "";
+				// return ((ICf) element).getName();// status();
 			}
 		});
 
@@ -169,20 +168,21 @@ public class ConfigsView {
 
 			@Override
 			public Image getImage(Object element) {
-				ICf info = (ICf) element;
-				switch (info.getState()) {
-				case Loaded:
-					switch (info.getLinkState()) {
-					case Loaded:
-						return LOADED_WITH_LINKS;
-					default:
-						return LOADED;
-					}
-				case notLoaded:
-					return NOT_LOADED;
-				default:
-					return NOT_LOADED;
-				}
+				// ICf info = (ICf) element;
+				// switch (info.getState()) {
+				// case Loaded:
+				// switch (info.getLinkState()) {
+				// case Loaded:
+				// return LOADED_WITH_LINKS;
+				// default:
+				// return LOADED;
+				// }
+				// case notLoaded:
+				// return NOT_LOADED;
+				// default:
+				// return NOT_LOADED;
+				// }
+				return null;
 			}
 		});
 

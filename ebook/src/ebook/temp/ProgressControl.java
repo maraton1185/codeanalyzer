@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.cf.interfaces.ICf;
+import ebook.module.confList.tree.ListConfInfo;
 import ebook.utils.Events;
 
 public class ProgressControl implements IProgressMonitor {
@@ -38,7 +38,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	private Label lable;
 
-	private ICf db;
+	private ListConfInfo db;
 	private Button btnCancel;
 
 	@PostConstruct
@@ -164,7 +164,7 @@ public class ProgressControl implements IProgressMonitor {
 
 	}
 
-	public void setDb(ICf db) {
+	public void setDb(ListConfInfo db) {
 		this.db = db;
 		cancelled = false;
 

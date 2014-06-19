@@ -21,9 +21,9 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class ConfManager extends TreeManager {
+public class ConfListManager extends TreeManager {
 
-	public ConfManager() {
+	public ConfListManager() {
 		super(App.srv.cls());
 
 	}
@@ -39,11 +39,10 @@ public class ConfManager extends TreeManager {
 				ConfConnection con = new ConfConnection(dlg.getValue());
 
 				ListConfInfoOptions opt = new ListConfInfoOptions();
-				opt.path = con.getFullName();
 				ListConfInfo data = new ListConfInfo(opt);
 				data.setTitle(con.getName());
 				data.setGroup(false);
-
+				data.setDbPath(con.getFullName());
 				// data.options = opt;
 				srv.add(data, parent, true);
 
@@ -75,10 +74,10 @@ public class ConfManager extends TreeManager {
 						ConfConnection con = new ConfConnection(path);
 
 						ListConfInfoOptions opt = new ListConfInfoOptions();
-						opt.path = con.getFullName();
 						ListConfInfo data = new ListConfInfo(opt);
 						data.setTitle(con.getName());
 						data.setGroup(false);
+						data.setDbPath(con.getFullName());
 
 						srv.add(data, parent, true);
 
@@ -142,8 +141,18 @@ public class ConfManager extends TreeManager {
 
 	@Override
 	public boolean save(ITreeItemInfo data, Shell shell) {
-		// NEXT Auto-generated method stub
-		return false;
+		try {
+
+			srv.saveOptions(data);
+
+		} catch (InvocationTargetException e) {
+			MessageDialog.openError(shell, Strings.get("appTitle"),
+					"Ошибка сохранения данных конфигурации.");
+
+			return false;
+		}
+
+		return true;
 	}
 
 }

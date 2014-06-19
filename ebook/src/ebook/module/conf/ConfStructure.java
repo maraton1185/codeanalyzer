@@ -1,12 +1,15 @@
 package ebook.module.conf;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
+import ebook.utils.Const;
 import ebook.utils.DbStructureChecker;
 
 public class ConfStructure implements IDbStructure {
@@ -115,4 +118,26 @@ public class ConfStructure implements IDbStructure {
 
 	}
 
+	public boolean checkLisence(Connection con) throws FileNotFoundException,
+			SQLException {
+		try {
+			ResultSet rs;
+			Statement stat = con.createStatement();
+			rs = stat.executeQuery("Select COUNT(ID) from OBJECTS");
+			try {
+				int count = 0;
+				if (rs.next())
+					count = rs.getInt(1);
+
+				return count < Const.DEFAULT_FREE_FILES_COUNT;
+
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			throw new SQLException();
+		} finally {
+			con.close();
+		}
+	}
 }

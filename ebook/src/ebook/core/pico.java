@@ -8,11 +8,9 @@ import ebook.auth.SignIn;
 import ebook.core.models.ManagerFactory;
 import ebook.core.models.ServiceFactory;
 import ebook.module.book.views.section.tools.SectionComposite;
-import ebook.module.cf.Cf;
-import ebook.module.cf.CfManager;
-import ebook.module.cf.LoaderManager;
-import ebook.module.cf.services.CfServices;
-import ebook.module.cf.services.TextParser;
+import ebook.module.conf.LoaderManager;
+import ebook.module.conf.services.CfServices;
+import ebook.module.conf.services.TextParser;
 import ebook.module.db.DbConnection;
 
 public final class pico {
@@ -35,8 +33,8 @@ public final class pico {
 
 		instance.as(Characteristics.CACHE).addComponent(DbConnection.class);
 
-		instance.addComponent(Cf.class);
-		instance.as(Characteristics.CACHE).addComponent(CfManager.class);
+		// instance.addComponent(Cf.class);
+		// instance.as(Characteristics.CACHE).addComponent(ConfManager.class);
 		instance.as(Characteristics.CACHE).addComponent(CfServices.class);
 
 		instance.as(Characteristics.CACHE).addComponent(TextParser.class);

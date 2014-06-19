@@ -55,7 +55,7 @@ public class ConfViewModel extends ModelObject {
 	}
 
 	public String getPath() {
-		return data.getOptions().path;
+		return data.getDbPath().toString();
 	}
 
 	public String getTitle() {

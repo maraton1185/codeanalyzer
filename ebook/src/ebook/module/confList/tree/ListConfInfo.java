@@ -20,6 +20,7 @@ public class ListConfInfo extends TreeItemInfo {
 
 	public ListConfInfo(ListConfInfoOptions options) {
 		super(options);
+		data = getOptions().info;
 	}
 
 	public ListConfInfo() {

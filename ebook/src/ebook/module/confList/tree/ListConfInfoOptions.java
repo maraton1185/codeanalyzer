@@ -13,4 +13,9 @@ public class ListConfInfoOptions extends DbOptions {
 
 	public ConfInfo info;
 
+	public ListConfInfoOptions() {
+		super();
+		this.info = new ConfInfo();
+	}
+
 }

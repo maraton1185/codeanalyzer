@@ -47,7 +47,7 @@ public class ConfView {
 	ScrolledForm form;
 	WritableValue dataValue;
 	// BookListService bs = new BookListService();
-	ConfViewModel model = new ConfViewModel(new ListConfInfo(null));
+	ConfViewModel model = new ConfViewModel(new ListConfInfo());
 
 	Composite stack;
 	StackLayout stackLayout;

@@ -4,6 +4,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
+import ebook.core.models.DbOptions;
 import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.module.confList.tree.ConfInfo.SQLConnection;
 import ebook.module.tree.TreeItemInfo;
@@ -19,17 +20,21 @@ public class ListConfInfo extends TreeItemInfo {
 
 	public ListConfInfo(ListConfInfoOptions options) {
 		super(options);
-		data = getOptions().info;
 	}
 
 	public ListConfInfo() {
 		super(null);
-		data = getOptions().info;
 	}
 
 	@Override
 	public ListConfInfoOptions getOptions() {
 		return (ListConfInfoOptions) super.getOptions();
+	}
+
+	@Override
+	public void setOptions(DbOptions options) {
+		super.setOptions(options);
+		data = getOptions().info;
 	}
 
 	private DbState status = DbState.notLoaded;

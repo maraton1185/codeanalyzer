@@ -278,7 +278,6 @@ public class BookView {
 				| SWT.READ_ONLY | SWT.V_SCROLL);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.widthHint = 30;
-		// gd.heightHint = 50;
 		text.setLayoutData(gd);
 
 		target = WidgetProperties.text().observe(text);

@@ -246,15 +246,16 @@ public class ConfView {
 
 		comp = toolkit.createComposite(parent);
 		comp.setLayout(new GridLayout(2, false));
-		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
 		label = toolkit.createLabel(comp, "Путь:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 
-		text = toolkit.createText(comp, "", SWT.WRAP | SWT.SINGLE
-				| SWT.READ_ONLY);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
+				| SWT.READ_ONLY | SWT.V_SCROLL);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 30;
 		text.setLayoutData(gd);
 
 		target = WidgetProperties.text().observe(text);

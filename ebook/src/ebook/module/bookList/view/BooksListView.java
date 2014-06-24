@@ -142,6 +142,8 @@ public class BooksListView {
 			}
 		});
 
+		treeComponent.setSelection();
+
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.booklistview.popup"));
 

@@ -31,7 +31,7 @@ public class ExecuteLastCommand {
 
 	@CanExecute
 	public boolean canExecute(@Optional @Active ListConfInfo item) {
-		return item != null;
+		return item != null && !item.isGroup();
 	}
 
 }

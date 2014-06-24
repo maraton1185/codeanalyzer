@@ -155,10 +155,10 @@ public class ConfView {
 			final EHandlerService hService, final ECommandService comService) {
 		// Label label;
 		GridData gd;
-		Text text;
+		ImageHyperlink link;
 
-		IObservableValue target;
-		IObservableValue field_model;
+		// IObservableValue target;
+		// IObservableValue field_model;
 
 		itemComp = toolkit.createComposite(stack);
 		itemComp.setLayout(new GridLayout(2, false));
@@ -167,7 +167,9 @@ public class ConfView {
 
 		pathField(toolkit, ctx, itemComp);
 
-		ImageHyperlink link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
+		dbFileNameField(toolkit, ctx, itemComp);
+
+		link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
 		link.setText("Загрузить");
 		link.setImage(Utils.getImage("load.png"));
 		link.setUnderlined(false);
@@ -259,6 +261,43 @@ public class ConfView {
 
 		target = WidgetProperties.text().observe(text);
 		field_model = BeanProperties.value(model.getClass(), "path")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
+
+		// target = WidgetProperties.visible().observe(comp);
+		// field_model = BeanProperties.value(model.getClass(), "item")
+		// .observeDetail(dataValue);
+		// ctx.bindValue(target, field_model);
+
+	}
+
+	private void dbFileNameField(FormToolkit toolkit, DataBindingContext ctx,
+			Composite parent) {
+
+		Label label;
+		GridData gd;
+		Text text;
+		Composite comp;
+
+		IObservableValue target;
+		IObservableValue field_model;
+
+		comp = toolkit.createComposite(parent);
+		comp.setLayout(new GridLayout(2, false));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+
+		label = toolkit.createLabel(comp, "Файл базы данных:", SWT.LEFT);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
+				1));
+
+		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
+				| SWT.READ_ONLY | SWT.V_SCROLL);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 30;
+		text.setLayoutData(gd);
+
+		target = WidgetProperties.text().observe(text);
+		field_model = BeanProperties.value(model.getClass(), "dbFileName")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 

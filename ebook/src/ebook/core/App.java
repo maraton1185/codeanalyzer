@@ -93,6 +93,19 @@ public class App {
 				return "current";
 			}
 		}
+
+		public static ListParts get(String id) {
+			switch (id) {
+			case "ebook.part.book":
+				return ListParts.books;
+			case "ebook.part.user":
+				return ListParts.users;
+			case "ebook.part.conf":
+				return ListParts.confs;
+			default:
+				return ListParts.current;
+			}
+		}
 	}
 
 	public static Perspectives currentPerspective;
@@ -175,7 +188,7 @@ public class App {
 	// APP STARTUP, TRAY
 
 	private static class AppStartupCompleteEventHandler implements EventHandler {
-		private MTrimmedWindow window;
+		private final MTrimmedWindow window;
 
 		@Override
 		public void handleEvent(Event event) {
@@ -376,6 +389,8 @@ public class App {
 		@Override
 		public boolean close(MWindow window) {
 
+			PreferenceSupplier.save();
+
 			IJobManager jobMan = Job.getJobManager();
 			jobMan.cancel(FillProcLinkTableJob.FillProcLinkTableJob_FAMILY);
 			try {
@@ -458,7 +473,8 @@ public class App {
 		else
 			currentPerspective = Perspectives.main;
 
-		showPerspective(currentPerspective, ListParts.books);
+		showPerspective(currentPerspective, ListParts.get(PreferenceSupplier
+				.get(PreferenceSupplier.SELECTED_LIST)));
 
 	}
 

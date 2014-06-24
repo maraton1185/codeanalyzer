@@ -2,6 +2,7 @@ package ebook.module.confList.view;
 
 import ebook.core.models.ModelObject;
 import ebook.module.confList.tree.ListConfInfo;
+import ebook.utils.Const;
 
 public class ConfViewModel extends ModelObject {
 
@@ -12,43 +13,7 @@ public class ConfViewModel extends ModelObject {
 	public ConfViewModel(ListConfInfo data) {
 		super();
 		this.data = data;
-
-		// readDescription();
-
 	}
-
-	// private void readDescription() {
-	// if (data.isGroup())
-	// return;
-	// if (!description.isEmpty())
-	// return;
-	// if (data.getPath() == null)
-	// return;
-	//
-	// try {
-	// File f = new File(data.getPath().addFileExtension("txt").toString());
-	// if (!f.exists())
-	// throw new FileNotFoundException();
-	//
-	// BufferedReader br = null;
-	// StringBuffer sb = new StringBuffer();
-	// try {
-	// Reader in = new InputStreamReader(new FileInputStream(f));
-	// br = new BufferedReader(in);
-	// String source_line = null;
-	// while ((source_line = br.readLine()) != null) {
-	// sb.append(source_line + '\n');
-	// }
-	// } finally {
-	// br.close();
-	// }
-	// description = sb.toString();
-	//
-	// } catch (Exception e) {
-	// description = "Нет описания";
-	// }
-	//
-	// }
 
 	public ListConfInfo getData() {
 		return data;
@@ -56,6 +21,11 @@ public class ConfViewModel extends ModelObject {
 
 	public String getPath() {
 		return data.getDbPath().toString();
+	}
+
+	public String getdbFileName() {
+		return data.getDbPath().lastSegment()
+				.concat(Const.DEFAULT_DB_EXTENSION);
 	}
 
 	public String getTitle() {
@@ -79,23 +49,5 @@ public class ConfViewModel extends ModelObject {
 		fireIndexedPropertyChange("description", data.getOptions().description,
 				data.getOptions().description = value);
 	}
-
-	// public String getBookDescription() {
-	//
-	// return description;
-	// }
-
-	// public UserInfo getRole() {
-	// return data.role;
-	// }
-	//
-	// public void setRole(UserInfo value) {
-	//
-	// fireIndexedPropertyChange("role", data.role, data.role = value);
-	// }
-	//
-	// public boolean isShowRole() {
-	// return data.getParent() == ITreeService.rootId;
-	// }
 
 }

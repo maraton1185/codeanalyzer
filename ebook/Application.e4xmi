@@ -67,8 +67,6 @@
               </toolbar>
             </children>
             <children xsi:type="basic:Part" xmi:id="_Z-Fm4OrMEeOjdt5IkPdmcg" elementId="ebook.part.confList" contributionURI="bundleclass://ebook/ebook.module.confList.view.ConfListView" label="Конфигурации" bindingContexts="_nXM9EOrMEeOjdt5IkPdmcg">
-              <handlers xmi:id="_-5gDEOwnEeO98Pond6SApQ" elementId="ebook.handler.46" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Load" command="_5uhzAOwnEeO98Pond6SApQ"/>
-              <handlers xmi:id="_IoVx0OwmEeO98Pond6SApQ" elementId="ebook.handler.45" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.ExecuteLastCommand" command="_5xAxMOwlEeO98Pond6SApQ"/>
               <handlers xmi:id="_eXlpUOwiEeO98Pond6SApQ" elementId="ebook.handler.22" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Add" command="_-GzpkOwhEeO98Pond6SApQ"/>
               <handlers xmi:id="_fz090OwiEeO98Pond6SApQ" elementId="ebook.handler.38" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.AddGroup" command="_BnhXQOwiEeO98Pond6SApQ"/>
               <handlers xmi:id="_hijJcOwiEeO98Pond6SApQ" elementId="ebook.handler.39" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.AddSubGroup" command="_D_91UOwiEeO98Pond6SApQ"/>
@@ -168,6 +166,8 @@
   <handlers xmi:id="_2g1cQOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.29" contributionURI="bundleclass://ebook/ebook.handlers.OpenBookList" command="_v4IJINzSEeO2K4Dwib9TKw"/>
   <handlers xmi:id="_jwBgcOBXEeOrrqXXc-guSQ" elementId="ebook.handler.8" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.Add" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_2BtIEOBXEeOrrqXXc-guSQ" elementId="ebook.handler.1" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Add" command="_dMqP4JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_-5gDEOwnEeO98Pond6SApQ" elementId="ebook.handler.46" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Load" command="_5uhzAOwnEeO98Pond6SApQ"/>
+  <handlers xmi:id="_IoVx0OwmEeO98Pond6SApQ" elementId="ebook.handler.45" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.ExecuteLastCommand" command="_5xAxMOwlEeO98Pond6SApQ"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="ebook.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_1dqYYKoIEeOvm9Uu729JwA" elementId="ebook.keybinding.3" keySequence="M1+T" command="_XybQsKkaEeOctbxZaJIj4Q">
       <tags>type:user</tags>

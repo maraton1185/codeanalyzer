@@ -84,7 +84,7 @@ public class UsersView {
 	@PreDestroy
 	public void preDestroy(@Optional UserInfo data) {
 		if (data != null) {
-			PreferenceSupplier.set(PreferenceSupplier.SELECTED_BOOK,
+			PreferenceSupplier.set(PreferenceSupplier.SELECTED_USER,
 					data.getId());
 			PreferenceSupplier.save();
 		}

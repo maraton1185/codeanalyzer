@@ -48,6 +48,8 @@ public abstract class Utils {
 			MPart part = (MPart) item;
 			part.setVisible(part.getElementId().equals(partId));
 		}
+
+		PreferenceSupplier.set(PreferenceSupplier.SELECTED_LIST, partId);
 	}
 
 	public static void executeHandler(EHandlerService hService,

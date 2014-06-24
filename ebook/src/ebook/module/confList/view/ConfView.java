@@ -34,13 +34,18 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
+import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class ConfView {
 
@@ -104,7 +109,8 @@ public class ConfView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent) {
+	public void postConstruct(Composite parent, EHandlerService hService,
+			ECommandService comService) {
 
 		dataValue = new WritableValue();
 		DataBindingContext ctx = new DataBindingContext();
@@ -130,7 +136,7 @@ public class ConfView {
 		groupFields(toolkit, ctx);
 
 		// ПОЛЯ ЭЛЕМЕНТОВ *******************************************
-		itemFields(toolkit, ctx);
+		itemFields(toolkit, ctx, hService, comService);
 
 		// *******************************************
 
@@ -145,7 +151,8 @@ public class ConfView {
 
 	}
 
-	private void itemFields(FormToolkit toolkit, DataBindingContext ctx) {
+	private void itemFields(FormToolkit toolkit, DataBindingContext ctx,
+			final EHandlerService hService, final ECommandService comService) {
 		// Label label;
 		GridData gd;
 		Text text;
@@ -160,26 +167,18 @@ public class ConfView {
 
 		pathField(toolkit, ctx, itemComp);
 
-		// Hyperlink link = toolkit.createHyperlink(itemComp, "Описание книги",
-		// SWT.RIGHT);
-		// link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2,
-		// 1));
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// // try {
-		// // IPath p = model.data.getPath();
-		// // if (p == null)
-		// // return;
-		// // File temp = new File(p.addFileExtension("txt").toString());
-		// // if (!temp.exists())
-		// // temp.createNewFile();
-		// // java.awt.Desktop.getDesktop().open(temp);
-		// // } catch (IOException e1) {
-		// // e1.printStackTrace();
-		// // }
-		// }
-		// });
+		ImageHyperlink link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
+		link.setText("Загрузить");
+		link.setImage(Utils.getImage("load.png"));
+		link.setUnderlined(false);
+		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				Utils.executeHandler(hService, comService,
+						Strings.get("command.id.LoadConfiguration"));
+			}
+		});
 
 		// label = toolkit.createLabel(itemComp, "Описание книги:", SWT.LEFT);
 		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,

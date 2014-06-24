@@ -352,7 +352,7 @@
   <commands xmi:id="_OSZAAOwlEeO98Pond6SApQ" elementId="ebook.command.17" commandName="Конфигурация - Показать"/>
   <commands xmi:id="_1OlH0OwlEeO98Pond6SApQ" elementId="ebook.command.18" commandName="Конфигурация - Открыть"/>
   <commands xmi:id="_5xAxMOwlEeO98Pond6SApQ" elementId="ebook.command.19" commandName="Конфигурация - Выполнить последнее действие"/>
-  <commands xmi:id="_5uhzAOwnEeO98Pond6SApQ" elementId="ebook.command.20" commandName="Конфигурация - Загрузить"/>
+  <commands xmi:id="_5uhzAOwnEeO98Pond6SApQ" elementId="ebook.command.LoadConfiguration" commandName="Конфигурация - Загрузить"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

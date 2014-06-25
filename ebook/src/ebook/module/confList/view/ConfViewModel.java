@@ -2,7 +2,6 @@ package ebook.module.confList.view;
 
 import ebook.core.models.ModelObject;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.utils.Const;
 
 public class ConfViewModel extends ModelObject {
 
@@ -19,13 +18,16 @@ public class ConfViewModel extends ModelObject {
 		return data;
 	}
 
-	public String getPath() {
-		return data.getDbPath().toString();
+	public String getdbPath() {
+		return data.getDbPath();
 	}
 
 	public String getdbFileName() {
-		return data.getDbPath().lastSegment()
-				.concat(Const.DEFAULT_DB_EXTENSION);
+		return data.getDbName();
+	}
+
+	public String getloadFolder() {
+		return data.getLoadPath().toString();
 	}
 
 	public String getTitle() {

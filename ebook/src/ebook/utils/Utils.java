@@ -109,7 +109,8 @@ public abstract class Utils {
 		// if (rootLoc.isPrefixOf(path))
 		// path = path.setDevice(null).removeFirstSegments(
 		// rootLoc.segmentCount());
-		field.setText(path.toString());
+		field.setText(path.removeFileExtension().removeFileExtension()
+				.toString());
 	}
 
 	// *********************************************************************

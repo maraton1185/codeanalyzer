@@ -12,11 +12,13 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
+import ebook.module.book.BookConnection;
 import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeManager;
+import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -42,7 +44,7 @@ public class ConfListManager extends TreeManager {
 				ListConfInfo data = new ListConfInfo(opt);
 				data.setTitle(con.getName());
 				data.setGroup(false);
-				data.setDbPath(con.getFullName());
+				data.setDbFullPath(con.getFullName());
 				// data.options = opt;
 				srv.add(data, parent, true);
 
@@ -77,7 +79,7 @@ public class ConfListManager extends TreeManager {
 						ListConfInfo data = new ListConfInfo(opt);
 						data.setTitle(con.getName());
 						data.setGroup(false);
-						data.setDbPath(con.getFullName());
+						data.setDbFullPath(con.getFullName());
 
 						srv.add(data, parent, true);
 
@@ -155,4 +157,24 @@ public class ConfListManager extends TreeManager {
 		return true;
 	}
 
+	public void open(IPath path, Shell shell) {
+
+		if (path == null)
+			return;
+
+		try {
+
+			ConfConnection con = new ConfConnection(path);
+			con.openConnection();
+			App.ctx.set(ConfConnection.class, con);
+			App.br.post(Events.EVENT_SHOW_CONF, null);
+
+		} catch (Exception e) {
+
+			App.ctx.set(BookConnection.class, null);
+			if (shell != null)
+				MessageDialog.openError(shell, Strings.get("appTitle"),
+						"Ошибка открытия книги.");
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package ebook.module.confList;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -43,6 +44,18 @@ public class ConfListService extends TreeService {
 		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_CONF);
 
 		return get(id);
+	}
+
+	@Override
+	public void saveTitle(ITreeItemInfo item) {
+		if (item.isGroup())
+			super.saveTitle(item);
+		else
+			try {
+				saveOptions(item);
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
 	}
 
 }

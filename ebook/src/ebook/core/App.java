@@ -305,7 +305,7 @@ public class App {
 			if (p.isEmpty())
 				return;
 
-			App.mng.blm().openBook(p, (Shell) window.getWidget());
+			App.mng.blm().open(p, (Shell) window.getWidget());
 
 			App.br.post(Events.EVENT_SHOW_BOOK, null);
 

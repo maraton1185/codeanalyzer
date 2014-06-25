@@ -138,7 +138,7 @@ public class BooksListView {
 						.getSelection();
 				ListBookInfo selected = (ListBookInfo) selection
 						.getFirstElement();
-				App.mng.blm().openBook(selected.getPath(), shell);
+				App.mng.blm().open(selected.getPath(), shell);
 			}
 		});
 

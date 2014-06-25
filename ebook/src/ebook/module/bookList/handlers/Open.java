@@ -20,9 +20,8 @@ public class Open {
 		if (p == null)
 			return;
 
-		App.mng.blm().openBook(p, shell);
+		App.mng.blm().open(p, shell);
 
-		// App.br.post(Events.EVENT_SHOW_BOOK, null);
 	}
 
 }

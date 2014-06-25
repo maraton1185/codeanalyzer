@@ -36,16 +36,16 @@ public class EditDialog extends Dialog {
 
 	private Boolean dbPathModified = false;
 
-	private Text nameField;
-	private Text pathField;
-	private Text db_pathField;
+	private Text name;
+	private Text load_path;
+	private Text db_full_path;
 	// private Text sql_pathField;
 	// private Text sql_userField;
 	// private Text sql_passwordField;
 	private Button btnCheckButton;
 	// private Button btnUpdateName;
 
-	private final ListConfInfo db;
+	private final ListConfInfo conf;
 
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
@@ -57,38 +57,38 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, ListConfInfo db) {
+	public EditDialog(Shell parentShell, ListConfInfo conf) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
 
-		this.db = db;
+		this.conf = conf;
 
 	}
 
 	protected void updateName() {
 		updateDb();
-		nameField.setText(db.getName());
-		nameField.setEditable(!db.getAutoName());
+		name.setText(conf.getName());
+		name.setEditable(!conf.getAutoName());
 	}
 
 	protected void updateDb() {
-		db.setName(nameField.getText());
-		db.setPath(pathField.getText());
-		db.setDbPath(db_pathField.getText());
+		conf.setName(name.getText());
+		conf.setLoadPath(load_path.getText());
+		conf.setDbFullPath(db_full_path.getText());
 		// db.setSQL(sql_pathField.getText(), sql_userField.getText(),
 		// sql_passwordField.getText());
-		db.setAutoName(btnCheckButton.getSelection());
-		db.setDeleteSourceFiles(btnDeleteSourceFiles.getSelection());
+		conf.setAutoName(btnCheckButton.getSelection());
+		conf.setDeleteSourceFiles(btnDeleteSourceFiles.getSelection());
 		if (dbPathModified)
-			db.setState(DbState.notLoaded);
+			conf.setState(DbState.notLoaded);
 	}
 
 	protected void initContents() {
-		nameField.setText(db.getName());
-		pathField.setText(db.getPath().toString());
-		db_pathField.setText(db.getDbPath().toString());
-		btnCheckButton.setSelection(db.getAutoName());
-		radioBtns.get(db.getType()).setSelection(true);
+		name.setText(conf.getName());
+		load_path.setText(conf.getLoadPath().toString());
+		db_full_path.setText(conf.getDbFullPath().toString());
+		btnCheckButton.setSelection(conf.getAutoName());
+		radioBtns.get(conf.getType()).setSelection(true);
 
 		// SQLConnection sql = db.getSQL();
 		// sql_userField.setText(sql.user);
@@ -96,9 +96,9 @@ public class EditDialog extends Dialog {
 
 		// sql_pathField.setText(sql.path);
 
-		nameField.setEditable(!db.getAutoName());
+		name.setEditable(!conf.getAutoName());
 
-		btnDeleteSourceFiles.setSelection(db.getDeleteSourceFiles());
+		btnDeleteSourceFiles.setSelection(conf.getDeleteSourceFiles());
 
 		dbPathModified = false;
 	}
@@ -129,13 +129,13 @@ public class EditDialog extends Dialog {
 		label.setAlignment(SWT.RIGHT);
 		label.setText("Имя конфигурации:");
 
-		nameField = new Text(container, SWT.SINGLE | SWT.BORDER);
+		name = new Text(container, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData();
 		gridData.widthHint = 267;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.horizontalSpan = 2;
 		gridData.grabExcessHorizontalSpace = true;
-		nameField.setLayoutData(gridData);
+		name.setLayoutData(gridData);
 
 		btnCheckButton = new Button(container, SWT.FLAT | SWT.CHECK
 				| SWT.CENTER);
@@ -152,12 +152,12 @@ public class EditDialog extends Dialog {
 		label = new Label(container, SWT.LEFT);
 		label.setText("Каталог для загрузки:");
 
-		pathField = new Text(container, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
+		load_path = new Text(container, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY);
 		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 2;
-		pathField.setLayoutData(gridData);
+		load_path.setLayoutData(gridData);
 
 		button = new Button(container, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
@@ -174,13 +174,13 @@ public class EditDialog extends Dialog {
 		label = new Label(container, SWT.LEFT);
 		label.setText("Файл базы данных:");
 
-		db_pathField = new Text(container, SWT.SINGLE | SWT.BORDER
+		db_full_path = new Text(container, SWT.SINGLE | SWT.BORDER
 				| SWT.READ_ONLY);
 		gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.horizontalSpan = 2;
-		db_pathField.setLayoutData(gridData);
+		db_full_path.setLayoutData(gridData);
 
 		button = new Button(container, SWT.FLAT);
 		button.addSelectionListener(new SelectionAdapter() {
@@ -267,7 +267,7 @@ public class EditDialog extends Dialog {
 			button.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					db.setType(key);
+					conf.setType(key);
 					updateName();
 				}
 			});
@@ -309,19 +309,19 @@ public class EditDialog extends Dialog {
 	}
 
 	protected void browseForFile() {
-		Utils.browseForFile(db_pathField, getShell());
+		Utils.browseForFile(db_full_path, getShell());
 	}
 
 	protected void browseForPath() {
-		Utils.browseForPath(pathField, getShell());
+		Utils.browseForPath(load_path, getShell());
 	}
 
 	@Override
 	protected void okPressed() {
 
 		updateDb();
-		App.mng.clm().save(db, getShell());
-		dbManager.execute(db, getShell());
+		App.mng.clm().save(conf, getShell());
+		dbManager.execute(conf, getShell());
 
 		// initContents();
 		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
@@ -333,13 +333,13 @@ public class EditDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(db.getName());
+		shell.setText(conf.getName());
 	}
 
 	@Override
 	public boolean close() {
 		updateDb();
-		App.mng.clm().save(db, getShell());
+		App.mng.clm().save(conf, getShell());
 		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 		return super.close();
 	}

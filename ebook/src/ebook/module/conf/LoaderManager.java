@@ -31,7 +31,7 @@ public class LoaderManager implements ILoaderManager {
 
 		// œ–Œ¬≈– » ******************************************************
 
-		File folder = db.getPath().toFile();
+		File folder = db.getLoadPath().toFile();
 		if (!folder.exists())
 			throw new InvocationTargetException(new LoadConfigException(),
 					Const.ERROR_CONFIG_PATH);
@@ -71,7 +71,7 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
-			ConfConnection _con = new ConfConnection(db.getDbPath());
+			ConfConnection _con = new ConfConnection(db.getDbFullPath());
 
 			con = _con.makeConnection(true);
 
@@ -123,7 +123,7 @@ public class LoaderManager implements ILoaderManager {
 
 		// œ–Œ¬≈– » ******************************************************
 
-		File folder = db.getDbPath().toFile();
+		File folder = db.getDbFullPath().toFile();
 		if (!folder.exists())
 			throw new InvocationTargetException(new LoadConfigException(),
 					Const.ERROR_CONFIG_PATH);
@@ -133,7 +133,7 @@ public class LoaderManager implements ILoaderManager {
 		try {
 
 			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
-			ConfConnection _con = new ConfConnection(db.getDbPath());
+			ConfConnection _con = new ConfConnection(db.getDbFullPath());
 			con = _con.makeConnection(true);
 			// con = db.getConnection(true);
 			//
@@ -179,7 +179,7 @@ public class LoaderManager implements ILoaderManager {
 
 		// œ–Œ¬≈– » ******************************************************
 
-		File folder = db.getPath().toFile();
+		File folder = db.getLoadPath().toFile();
 		if (!folder.exists())
 			throw new InvocationTargetException(new LoadConfigException(),
 					Const.ERROR_CONFIG_PATH);
@@ -212,7 +212,7 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
-			ConfConnection _con = new ConfConnection(db.getDbPath());
+			ConfConnection _con = new ConfConnection(db.getDbFullPath());
 
 			con = _con.makeConnection(true);
 
@@ -304,7 +304,7 @@ public class LoaderManager implements ILoaderManager {
 
 			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 
-			ConfConnection _con = new ConfConnection(db.getDbPath());
+			ConfConnection _con = new ConfConnection(db.getDbFullPath());
 
 			con = _con.makeConnection(true);
 

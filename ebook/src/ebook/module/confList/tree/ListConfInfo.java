@@ -46,13 +46,13 @@ public class ListConfInfo extends TreeItemInfo {
 		String op = "";
 		switch (data.type) {
 		case fromDb:
-			op = "Подключить " + data.db_path;
+			op = "Подключить " + data.db_full_path;
 			break;
 		case fromDirectory:
-			op = "Загрузить из " + data.path;
+			op = "Загрузить из " + data.load_path;
 			break;
 		case update:
-			op = "Обновить из " + data.path;
+			op = "Обновить из " + data.load_path;
 			break;
 		case fromSQL:
 			op = data.sql == null ? "-" : "Загрузить из " + data.sql.path;
@@ -72,6 +72,23 @@ public class ListConfInfo extends TreeItemInfo {
 		data.type = type;
 	}
 
+	@Override
+	public String getTitle() {
+		if (isGroup())
+			return super.getTitle();
+		else
+			return data.getName();
+	}
+
+	@Override
+	public void setTitle(String title) {
+		if (!isGroup() && data != null)
+			data.name = title;
+		else
+			super.setTitle(title);
+
+	}
+
 	public operationType getType() {
 		return data.type;
 	}
@@ -84,12 +101,13 @@ public class ListConfInfo extends TreeItemInfo {
 		return data.auto_name;
 	}
 
-	public void setPath(String path) {
-		data.path = path;
+	public void setLoadPath(String path) {
+		data.load_path = path;
 	}
 
-	public IPath getPath() {
-		return Utils.getAbsolute(new Path(data.path));
+	public IPath getLoadPath() {
+		return data.load_path == null ? new Path("") : Utils
+				.getAbsolute(new Path(data.load_path));
 	}
 
 	public void setName(String name) {
@@ -100,12 +118,25 @@ public class ListConfInfo extends TreeItemInfo {
 		return data.getName();
 	}
 
-	public void setDbPath(String path) {
-		data.db_path = path;
+	public void setDbFullPath(String path) {
+		data.db_full_path = path;
+		data.db_path = new Path(path).removeLastSegments(1).toString();
+		data.db_name = new Path(path).removeFileExtension()
+				.removeFileExtension().lastSegment();
 	}
 
-	public IPath getDbPath() {
-		return Utils.getAbsolute(new Path(data.db_path));
+	public IPath getDbFullPath() {
+		return data.db_full_path == null ? new Path("") : Utils
+				.getAbsolute(new Path(data.db_full_path));
+	}
+
+	public String getDbPath() {
+		return data.db_path == null ? "" : Utils.getAbsolute(
+				new Path(data.db_path)).toString();
+	}
+
+	public String getDbName() {
+		return data.db_name;
 	}
 
 	public void setState(DbState status) {

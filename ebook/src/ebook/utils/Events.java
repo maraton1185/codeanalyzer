@@ -16,10 +16,12 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";
 
+	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
 	public static final String EVENT_UPDATE_BOOK_INFO = "EVENT_UPDATE_BOOK_INFO";
 	public static final String EVENT_UPDATE_BOOK_LIST = "EVENT_UPDATE_BOOK_LIST";
-	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
 	public static final String EVENT_UPDATE_CONTENT_VIEW = "EVENT_UPDATE_CONTENT_VIEW";
+
+	public static final String EVENT_SHOW_CONF = "EVENT_SHOW_CONF";
 
 	public static final String EVENT_EDIT_TITLE_CONTENT_VIEW = "EVENT_EDIT_TITLE_CONTENT_VIEW";
 	public static final String EVENT_SET_SECTIONVIEW_DIRTY = "EVENT_SET_SECTIONVIEW_DIRTY";

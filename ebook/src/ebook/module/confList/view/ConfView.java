@@ -17,11 +17,7 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Font;
@@ -42,7 +38,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -104,9 +99,9 @@ public class ConfView {
 	public void save(Shell shell) {
 		if (model == null)
 			return;
+		if (App.mng.clm().save(model.getData(), shell))
+			dirty.setDirty(false);
 
-		// if (bm.save(model.getData(), shell))
-		// dirty.setDirty(false);
 	}
 
 	@PostConstruct
@@ -124,7 +119,7 @@ public class ConfView {
 		form.getBody().setLayout(new GridLayout(2, false));
 
 		// ИМЯ *******************************************
-		nameField(toolkit, ctx, parent);
+		fNAME(toolkit, ctx, parent);
 
 		// СТЕК *******************************************
 
@@ -134,10 +129,10 @@ public class ConfView {
 		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 
 		// ПОЛЯ ГРУПП *******************************************
-		groupFields(toolkit, ctx);
+		fGROUP(toolkit, ctx);
 
 		// ПОЛЯ ЭЛЕМЕНТОВ *******************************************
-		itemFields(toolkit, ctx, hService, comService);
+		fITEM(toolkit, ctx, hService, comService);
 
 		// *******************************************
 
@@ -152,23 +147,27 @@ public class ConfView {
 
 	}
 
-	private void itemFields(FormToolkit toolkit, DataBindingContext ctx,
+	private void fITEM(FormToolkit toolkit, DataBindingContext ctx,
 			final EHandlerService hService, final ECommandService comService) {
-		// Label label;
+		Label label;
 		GridData gd;
 		ImageHyperlink link;
 
-		// IObservableValue target;
-		// IObservableValue field_model;
+		Text text;
+
+		IObservableValue target;
+		IObservableValue field_model;
 
 		itemComp = toolkit.createComposite(stack);
 		itemComp.setLayout(new GridLayout(2, false));
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		pathField(toolkit, ctx, itemComp);
+		ifLoadFolder(toolkit, ctx, itemComp);
 
-		dbFileNameField(toolkit, ctx, itemComp);
+		ifPATH(toolkit, ctx, itemComp);
+
+		ifDbFileName(toolkit, ctx, itemComp);
 
 		link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
 		link.setText("Загрузить");
@@ -183,46 +182,11 @@ public class ConfView {
 			}
 		});
 
-		// label = toolkit.createLabel(itemComp, "Описание книги:", SWT.LEFT);
-		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-		// 2,
-		// 1));
-
-		// text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
-		// | SWT.READ_ONLY);
-		// gd = new GridData(GridData.FILL_BOTH);
-		// gd.horizontalSpan = 2;
-		// text.setLayoutData(gd);
-		//
-		// target = WidgetProperties.text().observe(text);
-		// field_model = BeanProperties.value(model.getClass(),
-		// "bookDescription")
-		// .observeDetail(dataValue);
-		// ctx.bindValue(target, field_model);
-
-	}
-
-	private void groupFields(FormToolkit toolkit, DataBindingContext ctx) {
-
-		Label label;
-		GridData gd;
-		Text text;
-
-		IObservableValue target;
-		IObservableValue field_model;
-
-		groupComp = toolkit.createComposite(stack);
-		groupComp.setLayout(new GridLayout(2, false));
-		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
-		// 1));
-
-		// addComboRoles(toolkit, ctx);
-
-		label = toolkit.createLabel(groupComp, "Описание группы", SWT.LEFT);
+		label = toolkit.createLabel(itemComp, "Описание", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
 				1));
 
-		text = toolkit.createText(groupComp, "", SWT.BORDER | SWT.WRAP
+		text = toolkit.createText(itemComp, "", SWT.BORDER | SWT.WRAP
 				| SWT.MULTI);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
@@ -235,7 +199,7 @@ public class ConfView {
 
 	}
 
-	private void pathField(FormToolkit toolkit, DataBindingContext ctx,
+	private void ifPATH(FormToolkit toolkit, DataBindingContext ctx,
 			Composite parent) {
 
 		Label label;
@@ -261,7 +225,7 @@ public class ConfView {
 		text.setLayoutData(gd);
 
 		target = WidgetProperties.text().observe(text);
-		field_model = BeanProperties.value(model.getClass(), "path")
+		field_model = BeanProperties.value(model.getClass(), "dbPath")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 
@@ -272,7 +236,39 @@ public class ConfView {
 
 	}
 
-	private void dbFileNameField(FormToolkit toolkit, DataBindingContext ctx,
+	private void ifLoadFolder(FormToolkit toolkit, DataBindingContext ctx,
+			Composite parent) {
+
+		Label label;
+		GridData gd;
+		Text text;
+		Composite comp;
+
+		IObservableValue target;
+		IObservableValue field_model;
+
+		comp = toolkit.createComposite(parent);
+		comp.setLayout(new GridLayout(2, false));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+
+		label = toolkit.createLabel(comp, "Каталог файлов:", SWT.LEFT);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
+				1));
+
+		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
+				| SWT.READ_ONLY);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 30;
+		text.setLayoutData(gd);
+
+		target = WidgetProperties.text().observe(text);
+		field_model = BeanProperties.value(model.getClass(), "loadFolder")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
+
+	}
+
+	private void ifDbFileName(FormToolkit toolkit, DataBindingContext ctx,
 			Composite parent) {
 
 		Label label;
@@ -309,7 +305,7 @@ public class ConfView {
 
 	}
 
-	private void nameField(FormToolkit toolkit, DataBindingContext ctx,
+	private void fNAME(FormToolkit toolkit, DataBindingContext ctx,
 			Composite parent) {
 
 		Label label;
@@ -320,7 +316,7 @@ public class ConfView {
 
 		gap(toolkit);
 
-		label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
+		label = toolkit.createLabel(form.getBody(), "", SWT.WRAP | SWT.CENTER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		label.setLayoutData(gd);
@@ -340,53 +336,40 @@ public class ConfView {
 
 	}
 
-	private void addComboRoles(FormToolkit toolkit, DataBindingContext ctx) {
-
-		Label label;
-		GridData gd;
-
-		IObservableValue target;
-		IObservableValue field_model;
-
-		label = toolkit.createLabel(groupComp, "Роль:", SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
-				1));
-
-		combo = new ComboViewer(groupComp, SWT.READ_ONLY);
-		combo.setContentProvider(ArrayContentProvider.getInstance());
-		combo.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((UserInfo) element).getTitle();
-			}
-		});
-
-		combo.setInput(App.srv.us().getBookRoles());
-
-		toolkit.adapt(combo.getControl(), true, true);
-
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		combo.getControl().setLayoutData(gd);
-
-		IViewerObservableValue selected = ViewerProperties.singleSelection()
-				.observe(combo);
-
-		field_model = BeanProperties.value(model.getClass(), "role",
-				UserInfo.class).observeDetail(dataValue);
-		ctx.bindValue(selected, field_model);
-
-		target = WidgetProperties.enabled().observe(combo.getCombo());
-		field_model = BeanProperties.value(model.getClass(), "showRole")
-				.observeDetail(dataValue);
-		ctx.bindValue(target, field_model);
-
-	}
-
 	private void gap(FormToolkit toolkit) {
 		Label label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		label.setLayoutData(gd);
+
+	}
+
+	private void fGROUP(FormToolkit toolkit, DataBindingContext ctx) {
+
+		Label label;
+		GridData gd;
+		Text text;
+
+		IObservableValue target;
+		IObservableValue field_model;
+
+		groupComp = toolkit.createComposite(stack);
+		groupComp.setLayout(new GridLayout(2, false));
+
+		label = toolkit.createLabel(groupComp, "Описание группы", SWT.LEFT);
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
+				1));
+
+		text = toolkit.createText(groupComp, "", SWT.BORDER | SWT.WRAP
+				| SWT.MULTI);
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 2;
+		text.setLayoutData(gd);
+
+		target = WidgetProperties.text(SWT.Modify).observe(text);
+		field_model = BeanProperties.value(model.getClass(), "description")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
 
 	}
 

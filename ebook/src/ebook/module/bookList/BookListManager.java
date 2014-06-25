@@ -173,7 +173,7 @@ public class BookListManager extends TreeManager {
 		return true;
 	}
 
-	public void openBook(IPath path, Shell shell) {
+	public void open(IPath path, Shell shell) {
 
 		if (path == null)
 			return;

@@ -12,8 +12,10 @@ public class ConfInfo implements Serializable {
 
 	public String name;
 	public operationType type;
-	public String path;
+	public String load_path;
+	public String db_full_path;
 	public String db_path;
+	public String db_name;
 	public Boolean auto_name;
 	public Boolean deleteSourceFiles;
 
@@ -49,7 +51,7 @@ public class ConfInfo implements Serializable {
 
 		final class helper {
 
-			private int segments;
+			private final int segments;
 
 			public helper(int segments) {
 				this.segments = segments;
@@ -57,6 +59,8 @@ public class ConfInfo implements Serializable {
 
 			public String getName(String path) {
 				String result = "";
+				if (path == null)
+					return result;
 				Path p = new Path(path);
 				if (p.segmentCount() < segments)
 					result = p.toString();
@@ -75,18 +79,18 @@ public class ConfInfo implements Serializable {
 		switch (type) {
 		case update:
 
-			result = new helper(3).getName(db_path);
+			result = new helper(3).getName(db_full_path);
 			break;
 
 		case fromDb:
 
-			result = new helper(3).getName(db_path);
+			result = new helper(3).getName(db_full_path);
 			break;
 		case fromSQL:
 			result = sql == null ? "Новая конфигурация" : sql.path;
 			break;
 		default:
-			result = new helper(2).getName(path);
+			result = new helper(2).getName(load_path);
 			break;
 		}
 		return result;
@@ -110,8 +114,8 @@ public class ConfInfo implements Serializable {
 				.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY);
 
 		auto_name = true;
-		path = defaultPath;
-		db_path = defaultPath;
+		load_path = defaultPath;
+		db_full_path = defaultPath;
 		type = operationType.fromDirectory;
 
 	}

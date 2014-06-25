@@ -28,6 +28,11 @@ public class ListConfInfo extends TreeItemInfo {
 	}
 
 	@Override
+	public String getSuffix() {
+		return getDbName();
+	}
+
+	@Override
 	public ListConfInfoOptions getOptions() {
 		return (ListConfInfoOptions) super.getOptions();
 	}

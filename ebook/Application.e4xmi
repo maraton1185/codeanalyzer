@@ -73,7 +73,7 @@
               <handlers xmi:id="_i7NlgOwiEeO98Pond6SApQ" elementId="ebook.handler.40" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Edit" command="_Gcb3wOwiEeO98Pond6SApQ"/>
               <handlers xmi:id="_kJmEMOwiEeO98Pond6SApQ" elementId="ebook.handler.41" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Delete" command="_JCJVwOwiEeO98Pond6SApQ"/>
               <handlers xmi:id="_0oVukOwiEeO98Pond6SApQ" elementId="ebook.handler.42" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.AddExisted" command="_vtwq8OwiEeO98Pond6SApQ"/>
-              <handlers xmi:id="_TvPqQOwlEeO98Pond6SApQ" elementId="ebook.handler.43" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Show" command="_OSZAAOwlEeO98Pond6SApQ"/>
+              <handlers xmi:id="_TvPqQOwlEeO98Pond6SApQ" elementId="ebook.handler.43" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Show"/>
               <handlers xmi:id="_AGo2gOwmEeO98Pond6SApQ" elementId="ebook.handler.44" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Open" command="_1OlH0OwlEeO98Pond6SApQ"/>
               <menus xsi:type="menu:PopupMenu" xmi:id="_qwYVgOwjEeO98Pond6SApQ" elementId="ebook.popupmenu.conflist">
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_3yRegOwjEeO98Pond6SApQ" elementId="ebook.handledmenuitem.28" label="Создать" iconURI="platform:/plugin/ebook/icons/add.png" tooltip="" command="_-GzpkOwhEeO98Pond6SApQ"/>
@@ -82,7 +82,7 @@
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_LZ_sAOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.31" label="Изменить" iconURI="platform:/plugin/ebook/icons/edit.png" tooltip="" command="_Gcb3wOwiEeO98Pond6SApQ"/>
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_LyuVEOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.32" label="Удалить" iconURI="platform:/plugin/ebook/icons/delete.png" tooltip="" command="_JCJVwOwiEeO98Pond6SApQ"/>
                 <children xsi:type="menu:MenuSeparator" xmi:id="_MQhrYOwkEeO98Pond6SApQ" elementId="ebook.menuseparator.4"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_MqdOUOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.33" label="Показать" command="_OSZAAOwlEeO98Pond6SApQ"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_MqdOUOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.33" label="Показать"/>
               </menus>
               <menus xmi:id="_rRA9YOwjEeO98Pond6SApQ" elementId="ebook.menu.2">
                 <tags>ViewMenu</tags>
@@ -168,11 +168,12 @@
   <handlers xmi:id="_8iKLwNzSEeO2K4Dwib9TKw" elementId="ebook.handler.28" contributionURI="bundleclass://ebook/ebook.handlers._OpenStartPage" command="_0zl9kNzSEeO2K4Dwib9TKw"/>
   <handlers xmi:id="_2g1cQOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.29" contributionURI="bundleclass://ebook/ebook.handlers.OpenBookList" command="_v4IJINzSEeO2K4Dwib9TKw"/>
   <handlers xmi:id="_jwBgcOBXEeOrrqXXc-guSQ" elementId="ebook.handler.8" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.Add" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
-  <handlers xmi:id="_2BtIEOBXEeOrrqXXc-guSQ" elementId="ebook.handler.1" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Add" command="_dMqP4JrkEeOlcttaCxvpFw"/>
+  <handlers xmi:id="_2BtIEOBXEeOrrqXXc-guSQ" elementId="ebook.handler.1" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Add" command="_vtwq8OwiEeO98Pond6SApQ"/>
   <handlers xmi:id="_-5gDEOwnEeO98Pond6SApQ" elementId="ebook.handler.46" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Load" command="_5uhzAOwnEeO98Pond6SApQ"/>
   <handlers xmi:id="_IoVx0OwmEeO98Pond6SApQ" elementId="ebook.handler.45" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.ExecuteLastCommand" command="_5xAxMOwlEeO98Pond6SApQ"/>
   <handlers xmi:id="_Q-rwkPxfEeOykK3iUHvgTQ" elementId="ebook.handler.2" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Show" command="_Kdc4MPxfEeOykK3iUHvgTQ"/>
   <handlers xmi:id="_S2MEwPxfEeOykK3iUHvgTQ" elementId="ebook.handler.3" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.serviceShow" command="_Gp9_gPxfEeOykK3iUHvgTQ"/>
+  <handlers xmi:id="_7YQu0PxrEeOykK3iUHvgTQ" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Open" command="_5ZJ90PxrEeOykK3iUHvgTQ"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="ebook.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_1dqYYKoIEeOvm9Uu729JwA" elementId="ebook.keybinding.3" keySequence="M1+T" command="_XybQsKkaEeOctbxZaJIj4Q">
       <tags>type:user</tags>
@@ -311,12 +312,6 @@
   </snippets>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="ebook.command.Activate" commandName="Сервис -Активация"/>
-  <commands xmi:id="_dMqP4JrkEeOlcttaCxvpFw" elementId="ebook.command.ConfigListAdd" commandName="Конфигурация - Добавить"/>
-  <commands xmi:id="_hUHNcJrkEeOlcttaCxvpFw" elementId="ebook.command.ConfigListDelete" commandName="Конфигурация - Удалить"/>
-  <commands xmi:id="_u-hH8JrkEeOlcttaCxvpFw" elementId="ebook.command.ConfigListEdit" commandName="Конфигурация - Изменить"/>
-  <commands xmi:id="_aINPEJ4TEeOx3LwFmv1Qcw" elementId="ebook.command.ConfigListExecute" commandName="Конфигурация - Выполнить" description="Выполнить"/>
-  <commands xmi:id="_SDff0J4VEeOx3LwFmv1Qcw" elementId="ebook.command.ConfigListSetActive" commandName="Конфигурация - Установить активной"/>
-  <commands xmi:id="_1TFaEJ4VEeOx3LwFmv1Qcw" elementId="ebook.command.ConfigListSetNonActive" commandName="Конфигурация - Установить для сравнения"/>
   <commands xmi:id="_irP60J6aEeORdqnZrqq27Q" elementId="ebook.command.Options" commandName="Сервис - Параметры"/>
   <commands xmi:id="_0zl9kNzSEeO2K4Dwib9TKw" elementId="ebook.command.OpenStartPage" commandName="Файл - Открыть стартовую страницу" description=""/>
   <commands xmi:id="_v4IJINzSEeO2K4Dwib9TKw" elementId="ebook.command.OpenBookList" commandName="Файл - Настроить список книг"/>
@@ -353,13 +348,13 @@
   <commands xmi:id="_D_91UOwiEeO98Pond6SApQ" elementId="ebook.command.13" commandName="Конфигурация - Создать подгруппу"/>
   <commands xmi:id="_Gcb3wOwiEeO98Pond6SApQ" elementId="ebook.command.14" commandName="Конфигурация - Изменить"/>
   <commands xmi:id="_JCJVwOwiEeO98Pond6SApQ" elementId="ebook.command.15" commandName="Конфигурация - Удалить"/>
-  <commands xmi:id="_vtwq8OwiEeO98Pond6SApQ" elementId="ebook.command.16" commandName="Конфигурация - Добавить в список"/>
-  <commands xmi:id="_OSZAAOwlEeO98Pond6SApQ" elementId="ebook.command.17" commandName="Конфигурация - Показать"/>
+  <commands xmi:id="_vtwq8OwiEeO98Pond6SApQ" elementId="ebook.command.ConfigListAdd" commandName="Конфигурация - Добавить в список"/>
   <commands xmi:id="_1OlH0OwlEeO98Pond6SApQ" elementId="ebook.command.18" commandName="Конфигурация - Открыть"/>
   <commands xmi:id="_5xAxMOwlEeO98Pond6SApQ" elementId="ebook.command.19" commandName="Конфигурация - Выполнить последнее действие"/>
   <commands xmi:id="_5uhzAOwnEeO98Pond6SApQ" elementId="ebook.command.LoadConfiguration" commandName="Конфигурация - Загрузить"/>
   <commands xmi:id="_Kdc4MPxfEeOykK3iUHvgTQ" elementId="ebook.command.21" commandName="Конфигурация - Показать"/>
-  <commands xmi:id="_Gp9_gPxfEeOykK3iUHvgTQ" elementId="ebook.command.20" commandName="Конфигурация - Показать (служебная команда)"/>
+  <commands xmi:id="_Gp9_gPxfEeOykK3iUHvgTQ" elementId="ebook.command.ShowConf" commandName="Конфигурация - Показать (служебная команда)"/>
+  <commands xmi:id="_5ZJ90PxrEeOykK3iUHvgTQ" elementId="ebook.command.OpenConf" commandName="Конфигурация - Открыть"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

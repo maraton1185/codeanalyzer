@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.conf.ConfConnection;
+import ebook.module.conf.EditDialog;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -47,6 +48,8 @@ public class ConfListManager extends TreeManager {
 				data.setDbFullPath(con.getFullName());
 				// data.options = opt;
 				srv.add(data, parent, true);
+
+				new EditDialog(shell, data).open();
 
 			} catch (InvocationTargetException e) {
 				MessageDialog
@@ -174,7 +177,7 @@ public class ConfListManager extends TreeManager {
 			App.ctx.set(BookConnection.class, null);
 			if (shell != null)
 				MessageDialog.openError(shell, Strings.get("appTitle"),
-						"Ошибка открытия книги.");
+						"Ошибка открытия конфигурации.");
 		}
 	}
 }

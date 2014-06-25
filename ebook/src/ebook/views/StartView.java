@@ -95,6 +95,23 @@ public class StartView {
 		form.reflow(true);
 	}
 
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_CONF_LIST(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_LIST) EVENT_UPDATE_TREE_DATA data) {
+
+		if (data.parent == null)
+			return;
+
+		confViewer.refresh(data.parent, true);
+
+		if (data.selected != null)
+			confViewer.setSelection(new StructuredSelection(data.selected),
+					true);
+
+		form.reflow(true);
+	}
+
 	@PreDestroy
 	public void preDestroy(@Optional ListBookInfo data,
 			@Optional ListConfInfo conf) {
@@ -181,7 +198,7 @@ public class StartView {
 				ListConfInfo selected = (ListConfInfo) selection
 						.getFirstElement();
 
-				// blm.openBook(selected.getPath(), shell);
+				App.mng.clm().open(selected.getDbFullPath(), shell);
 			}
 		});
 
@@ -279,6 +296,7 @@ public class StartView {
 
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("add_book.png"));
+		link.setUnderlined(false);
 		link.setText("Создать книгу");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
@@ -292,6 +310,7 @@ public class StartView {
 
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("open_book.png"));
+		link.setUnderlined(false);
 		link.setText("Открыть книгу");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
@@ -304,22 +323,9 @@ public class StartView {
 
 		});
 
-		// link = toolkit.createImageHyperlink(linksSectionClient, SWT.NULL);
-		// link.setImage(Utils.getImage("start.png"));
-		// link.setText("Открыть дерево объектов");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// hService.executeHandler(comService.createCommand(
-		// Strings.get("command.id.NewObjectTree"),
-		// Collections.EMPTY_MAP));
-		// super.linkActivated(e);
-		// }
-		//
-		// });
-
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("cf_add.png"));
+		link.setUnderlined(false);
 		link.setText("Добавить конфигурацию");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
@@ -332,7 +338,23 @@ public class StartView {
 		});
 
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
+		link.setImage(Utils.getImage("open_book.png"));
+		link.setUnderlined(false);
+		link.setText("Открыть конфигурацию");
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				hService.executeHandler(comService.createCommand(
+						Strings.get("command.id.OpenConf"),
+						Collections.EMPTY_MAP));
+				super.linkActivated(e);
+			}
+
+		});
+
+		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("help.png"));
+		link.setUnderlined(false);
 		link.setText("Документация");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
@@ -660,9 +682,8 @@ public class StartView {
 
 	}
 
-	public void updateLists() {
-		confTreeComponent.setInput();
-		booksTreeComponent.setInput();
-
-	}
+	// public void updateLists() {
+	// confTreeComponent.setInput();
+	// booksTreeComponent.setInput();
+	// }
 }

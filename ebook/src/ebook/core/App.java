@@ -58,7 +58,6 @@ import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
-import ebook.views.StartView;
 import ebook.web.IJetty;
 
 public class App {
@@ -508,11 +507,11 @@ public class App {
 			App.ps.activate(part);
 		}
 
-		if (perspType == Perspectives.main) {
-			part = (MPart) model.find(Strings.get("ebook.part.start"), app);
-			StartView view = (StartView) part.getObject();
-			view.updateLists();
-		}
+		// if (perspType == Perspectives.main) {
+		// part = (MPart) model.find(Strings.get("ebook.part.start"), app);
+		// StartView view = (StartView) part.getObject();
+		// view.updateLists();
+		// }
 	}
 
 	public static IJetty getJetty() {

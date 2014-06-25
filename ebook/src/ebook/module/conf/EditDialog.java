@@ -45,7 +45,7 @@ public class EditDialog extends Dialog {
 	private Button btnCheckButton;
 	// private Button btnUpdateName;
 
-	private ListConfInfo db;
+	private final ListConfInfo db;
 
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
@@ -112,7 +112,7 @@ public class EditDialog extends Dialog {
 	@PostConstruct
 	protected Control createDialogArea(Composite parent) {
 		parent.setToolTipText("");
-
+		parent.getShell().setImage(Utils.getImage("favicon.png"));
 		GridData gridData;
 		Label label;
 		Button button;
@@ -256,7 +256,10 @@ public class EditDialog extends Dialog {
 				.setText("Удалять исходные файлы при загрузке/обновлении из каталога");
 
 		for (final operationType key : operationType.values()) {
-			if (key == operationType.fromSQL) {
+
+			String opName = App.mng.cm().getOperationName(key);
+
+			if (opName == null) {
 				continue;
 			}
 
@@ -270,7 +273,7 @@ public class EditDialog extends Dialog {
 			});
 			button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true,
 					false, 1, 1));
-			button.setText(App.mng.cm().getOperationName(key));
+			button.setText(opName);
 			radioBtns.put(key, button);
 		}
 

@@ -102,7 +102,8 @@ public class BookView {
 		else
 			stackLayout.topControl = itemComp;
 		stack.layout();
-
+		itemComp.layout(true);
+		groupComp.layout(true);
 		form.reflow(true);
 
 		dirty.setDirty(false);
@@ -275,7 +276,7 @@ public class BookView {
 				1));
 
 		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
-				| SWT.READ_ONLY | SWT.V_SCROLL);
+				| SWT.READ_ONLY);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.widthHint = 30;
 		text.setLayoutData(gd);

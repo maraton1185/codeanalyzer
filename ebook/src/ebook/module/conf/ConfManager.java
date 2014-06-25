@@ -38,10 +38,10 @@ public class ConfManager {
 				Strings.get("operationType.fromDirectory"));
 		operationNames.put(operationType.update,
 				Strings.get("operationType.update"));
-		operationNames.put(operationType.fromDb,
-				Strings.get("operationType.fromDb"));
-		operationNames.put(operationType.fromSQL,
-				Strings.get("operationType.fromSQL"));
+		// operationNames.put(operationType.fromDb,
+		// Strings.get("operationType.fromDb"));
+		// operationNames.put(operationType.fromSQL,
+		// Strings.get("operationType.fromSQL"));
 		operationNames.put(operationType.fillProcLinkTable,
 				Strings.get("operationType.fillProcLinkTable"));
 
@@ -49,7 +49,8 @@ public class ConfManager {
 
 	public String getOperationName(operationType key) {
 		String name = operationNames.get(key);
-		return name == null ? "DBManager.getOperationName" : name;
+		return name;
+		// return name == null ? "DBManager.getOperationName" : name;
 	}
 
 	public void execute(final ListConfInfo db, final Shell shell) {

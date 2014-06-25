@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class OptionsDialog {
 
@@ -36,6 +37,7 @@ public class OptionsDialog {
 		protected void configureShell(Shell newShell) {
 			super.configureShell(newShell);
 			newShell.setText(Strings.get("appTitle"));
+			newShell.setImage(Utils.getImage("favicon.png"));
 		}
 
 	}

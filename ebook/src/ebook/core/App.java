@@ -178,6 +178,11 @@ public class App {
 					db.openConnection();
 				} catch (Exception e1) {
 					e1.printStackTrace();
+					MessageDialog.openError(shell, Strings.get("appTitle"),
+							Strings.get("error.start"));
+					IWorkbench workbench = window.getContext().get(
+							IWorkbench.class);
+					workbench.close();
 				}
 			}
 

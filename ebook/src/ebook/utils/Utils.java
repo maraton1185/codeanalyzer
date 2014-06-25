@@ -104,10 +104,11 @@ public abstract class Utils {
 				"Выберите файл базы данных", "*.db");
 		if (path == null)
 			return;
-		IPath rootLoc = ResourcesPlugin.getWorkspace().getRoot().getLocation();
-		if (rootLoc.isPrefixOf(path))
-			path = path.setDevice(null).removeFirstSegments(
-					rootLoc.segmentCount());
+		// IPath rootLoc =
+		// ResourcesPlugin.getWorkspace().getRoot().getLocation();
+		// if (rootLoc.isPrefixOf(path))
+		// path = path.setDevice(null).removeFirstSegments(
+		// rootLoc.segmentCount());
 		field.setText(path.toString());
 	}
 

@@ -90,9 +90,6 @@
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_evjgkOwmEeO98Pond6SApQ" elementId="ebook.handledmenuitem.34" label="Открыть существующую" command="_1OlH0OwlEeO98Pond6SApQ"/>
               </menus>
               <toolbar xmi:id="_znPGgOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.6">
-                <children xsi:type="menu:HandledToolItem" xmi:id="_LxHOsOwoEeO98Pond6SApQ" elementId="ebook.handledtoolitem.38" iconURI="platform:/plugin/ebook/icons/load.png" tooltip="Загрузить" command="_5uhzAOwnEeO98Pond6SApQ"/>
-                <children xsi:type="menu:HandledToolItem" xmi:id="_jjkpMOwmEeO98Pond6SApQ" elementId="ebook.handledtoolitem.37" label="" iconURI="platform:/plugin/ebook/icons/_run.png" tooltip="Выполнить" command="_5xAxMOwlEeO98Pond6SApQ"/>
-                <children xsi:type="menu:ToolBarSeparator" xmi:id="_P1Jr4OwoEeO98Pond6SApQ" elementId="ebook.toolbarseparator.1"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_STQfUOwjEeO98Pond6SApQ" elementId="ebook.handledtoolitem.32" iconURI="platform:/plugin/ebook/icons/open.png" tooltip="Добавить существующую" command="_vtwq8OwiEeO98Pond6SApQ"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_LVsQQOwjEeO98Pond6SApQ" elementId="ebook.handledtoolitem.15" iconURI="platform:/plugin/ebook/icons/add.png" tooltip="Создать" command="_-GzpkOwhEeO98Pond6SApQ"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_XlOvQOwjEeO98Pond6SApQ" elementId="ebook.handledtoolitem.33" iconURI="platform:/plugin/ebook/icons/add_section.png" tooltip="Создать группу" command="_BnhXQOwiEeO98Pond6SApQ"/>
@@ -115,7 +112,10 @@
               </toolbar>
             </children>
             <children xsi:type="basic:Part" xmi:id="_ehHtMOrMEeOjdt5IkPdmcg" elementId="ebook.part.conf" contributionURI="bundleclass://ebook/ebook.module.confList.view.ConfView" label="Конфигурация">
-              <toolbar xmi:id="_1T_jQOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.11"/>
+              <toolbar xmi:id="_1T_jQOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.11">
+                <children xsi:type="menu:HandledToolItem" xmi:id="_LxHOsOwoEeO98Pond6SApQ" elementId="ebook.handledtoolitem.38" iconURI="platform:/plugin/ebook/icons/load.png" tooltip="Загрузить" command="_5uhzAOwnEeO98Pond6SApQ"/>
+                <children xsi:type="menu:HandledToolItem" xmi:id="_jjkpMOwmEeO98Pond6SApQ" elementId="ebook.handledtoolitem.37" label="" iconURI="platform:/plugin/ebook/icons/_run.png" tooltip="Выполнить" command="_5xAxMOwlEeO98Pond6SApQ"/>
+              </toolbar>
             </children>
           </children>
         </children>

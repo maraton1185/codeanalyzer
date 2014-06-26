@@ -30,11 +30,12 @@
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_8U7zcN8UEeO4waw7J7j0xQ" elementId="ebook.handledmenuitem.20" label="Изменить" iconURI="platform:/plugin/ebook/icons/edit.png" command="_W2YgENtrEeO08YnUrs_6Pw"/>
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_AMJ8oN8VEeO4waw7J7j0xQ" elementId="ebook.handledmenuitem.21" label="Удалить" iconURI="platform:/plugin/ebook/icons/delete.png" command="_as2bUNtrEeO08YnUrs_6Pw"/>
                 <children xsi:type="menu:MenuSeparator" xmi:id="_SCjHsOP9EeOAy9eWHpjDYw" elementId="ebook.menuseparator.3"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_CWUrMONUEeONZpSpW3C1Ew" elementId="ebook.handledmenuitem.27" label="Открыть книгу" command="_A3uvkOP_EeOAy9eWHpjDYw"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_CWUrMONUEeONZpSpW3C1Ew" elementId="ebook.handledmenuitem.27" label="Открыть" command="_A3uvkOP_EeOAy9eWHpjDYw"/>
               </menus>
               <menus xmi:id="_PBKVoOLREeOuwO28iF6Snw" elementId="ebook.menu.5">
                 <tags>ViewMenu</tags>
                 <children xsi:type="menu:DirectMenuItem" xmi:id="_PwQQQOLREeOuwO28iF6Snw" elementId="ebook.directmenuitem.3" label="Открыть каталог книг" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.OpenBookFolder"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_mNgIkP0sEeONSOVuBcgXoA" elementId="ebook.handledmenuitem.5" label="Открыть не из списка" command="_SMVncKhVEeOKceOp7VW7lQ"/>
               </menus>
               <toolbar xmi:id="_J0_W8NzXEeO2K4Dwib9TKw" elementId="ebook.toolbar.7">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_tDyMcN_3EeOuHKOpYE-s4Q" elementId="ebook.handledtoolitem.23" label="" iconURI="platform:/plugin/ebook/icons/open.png" tooltip="Добавить существующую" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
@@ -82,12 +83,12 @@
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_LZ_sAOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.31" label="Изменить" iconURI="platform:/plugin/ebook/icons/edit.png" tooltip="" command="_Gcb3wOwiEeO98Pond6SApQ"/>
                 <children xsi:type="menu:HandledMenuItem" xmi:id="_LyuVEOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.32" label="Удалить" iconURI="platform:/plugin/ebook/icons/delete.png" tooltip="" command="_JCJVwOwiEeO98Pond6SApQ"/>
                 <children xsi:type="menu:MenuSeparator" xmi:id="_MQhrYOwkEeO98Pond6SApQ" elementId="ebook.menuseparator.4"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_MqdOUOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.33" label="Показать"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_MqdOUOwkEeO98Pond6SApQ" elementId="ebook.handledmenuitem.33" label="Открыть" command="_Kdc4MPxfEeOykK3iUHvgTQ"/>
               </menus>
               <menus xmi:id="_rRA9YOwjEeO98Pond6SApQ" elementId="ebook.menu.2">
                 <tags>ViewMenu</tags>
                 <children xsi:type="menu:DirectMenuItem" xmi:id="_sFUIIOwjEeO98Pond6SApQ" elementId="ebook.directmenuitem.2" label="Открыть каталог конфигураций" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.OpenConfFolder"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_evjgkOwmEeO98Pond6SApQ" elementId="ebook.handledmenuitem.34" label="Открыть существующую" command="_1OlH0OwlEeO98Pond6SApQ"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_evjgkOwmEeO98Pond6SApQ" elementId="ebook.handledmenuitem.34" label="Открыть не из списка" command="_1OlH0OwlEeO98Pond6SApQ"/>
               </menus>
               <toolbar xmi:id="_znPGgOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.6">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_STQfUOwjEeO98Pond6SApQ" elementId="ebook.handledtoolitem.32" iconURI="platform:/plugin/ebook/icons/open.png" tooltip="Добавить существующую" command="_vtwq8OwiEeO98Pond6SApQ"/>
@@ -310,6 +311,7 @@
       </children>
     </trimBars>
   </snippets>
+  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_9E2bIP0pEeONSOVuBcgXoA" elementId="ebook.window.conf"/>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="ebook.command.Activate" commandName="Сервис -Активация"/>
   <commands xmi:id="_irP60J6aEeORdqnZrqq27Q" elementId="ebook.command.Options" commandName="Сервис - Параметры"/>
@@ -352,7 +354,7 @@
   <commands xmi:id="_1OlH0OwlEeO98Pond6SApQ" elementId="ebook.command.18" commandName="Конфигурация - Открыть"/>
   <commands xmi:id="_5xAxMOwlEeO98Pond6SApQ" elementId="ebook.command.19" commandName="Конфигурация - Выполнить последнее действие"/>
   <commands xmi:id="_5uhzAOwnEeO98Pond6SApQ" elementId="ebook.command.LoadConfiguration" commandName="Конфигурация - Загрузить"/>
-  <commands xmi:id="_Kdc4MPxfEeOykK3iUHvgTQ" elementId="ebook.command.21" commandName="Конфигурация - Показать"/>
+  <commands xmi:id="_Kdc4MPxfEeOykK3iUHvgTQ" elementId="ebook.command.23" commandName="Конфигурация - Показать"/>
   <commands xmi:id="_Gp9_gPxfEeOykK3iUHvgTQ" elementId="ebook.command.ShowConf" commandName="Конфигурация - Показать (служебная команда)"/>
   <commands xmi:id="_5ZJ90PxrEeOykK3iUHvgTQ" elementId="ebook.command.OpenConf" commandName="Конфигурация - Открыть"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>

@@ -41,8 +41,8 @@ public class BookListManager extends TreeManager {
 	public void add(ListConfInfo db, ListBookInfo parent, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
 				ebook.utils.Strings.get("appTitle"),
-				"Введите имя файла книги:", db == null ? "" : db.getTitle()
-						.replaceAll("[//\\:\\.]", "_"), null);
+				"Введите имя файла книги:",
+				ebook.utils.Strings.get("bookFileName"), null);
 		if (dlg.open() == Window.OK) {
 			try {
 
@@ -143,8 +143,14 @@ public class BookListManager extends TreeManager {
 												+ path
 												+ "\nВозможно, структура книги не соответствует ожидаемой."
 												+ "\nПродолжить?"))
-
 							return;
+						else
+							MessageDialog.openError(
+									shell,
+									Strings.get("appTitle"),
+									"Ошибка открытия книги: "
+											+ path
+											+ "\nВозможно, структура книги не соответствует ожидаемой.");
 					}
 				}
 			}

@@ -1,5 +1,8 @@
 package ebook.module.confList.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
@@ -10,11 +13,14 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 
+import ebook.core.App;
+import ebook.core.App.ConfWindowCloseHandler;
 import ebook.module.conf.ConfConnection;
 import ebook.utils.Events;
 import ebook.utils.Strings;
@@ -37,10 +43,59 @@ public class serviceShow {
 
 	@Execute
 	public void execute(EPartService partService, EModelService model,
-			final @Active ConfConnection conf, IEclipseContext ctx,
-			EHandlerService hs, ECommandService cs, Shell shell) {
-		MessageDialog.openInformation(shell, Strings.get("appTitle"),
-				"открываем окно конфигурации");
-		conf.closeConnection();
+			final @Active ConfConnection con, IEclipseContext ctx,
+			EHandlerService hs, ECommandService cs) {
+
+		MWindow mainWindow = App.app.getChildren().get(0);
+
+		@SuppressWarnings("serial")
+		List<MTrimmedWindow> windows = model.findElements(App.app, null,
+				MTrimmedWindow.class, new ArrayList<String>() {
+					{
+						add(con.getFullName());
+					}
+				});
+
+		if (windows.isEmpty())
+
+			createWindow(mainWindow, con, model, ctx, partService, hs, cs);
+
+		else {
+			MWindow w = windows.get(0);
+			w.setVisible(true);
+			App.app.setSelectedElement(w);
+		}
+	}
+
+	private void createWindow(MWindow mainWindow, ConfConnection con,
+			EModelService model, IEclipseContext ctx, EPartService partService,
+			EHandlerService hs, ECommandService cs) {
+
+		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
+				Strings.get("ebook.window.conf"), null);
+
+		newWindow.setLabel(con.getWindowTitle());
+		newWindow.setX(mainWindow.getX() + 20);
+		newWindow.setY(mainWindow.getY() + 20);
+		newWindow.setWidth(mainWindow.getWidth());
+		newWindow.setHeight(mainWindow.getHeight());
+		newWindow.getTags().add(con.getFullName());
+
+		App.app.getChildren().add(newWindow);
+		// App.app.setSelectedElement(bookWindow);
+		newWindow.getContext().set(ConfConnection.class, con);
+
+		ConfWindowCloseHandler closeHandler = new ConfWindowCloseHandler();
+		newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
+
+		// List<MPart> parts = model.findElements(newWindow,
+		// Strings.get("model.id.part.SectionsStartView"), MPart.class,
+		// null);
+		// if (!parts.isEmpty()) {
+		// MPart part = parts.get(0);
+		// if (PreferenceSupplier
+		// .getBoolean(PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW))
+		// part.setVisible(false);
+		// }
 	}
 }

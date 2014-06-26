@@ -1,5 +1,8 @@
 package ebook.module.confList.tree;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
@@ -7,14 +10,11 @@ import ebook.core.App;
 import ebook.core.models.DbOptions;
 import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.module.confList.tree.ConfInfo.SQLConnection;
+import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.module.tree.TreeItemInfo;
 import ebook.utils.Utils;
 
 public class ListConfInfo extends TreeItemInfo {
-
-	public static enum DbState {
-		notLoaded, Loaded
-	}
 
 	ConfInfo data;
 
@@ -42,9 +42,6 @@ public class ListConfInfo extends TreeItemInfo {
 		super.setOptions(options);
 		data = getOptions().info;
 	}
-
-	private DbState status = DbState.notLoaded;
-	private DbState link_status = DbState.notLoaded;
 
 	public String status() {
 
@@ -141,24 +138,36 @@ public class ListConfInfo extends TreeItemInfo {
 	}
 
 	public String getDbName() {
-		return data.db_name;
+		return data == null || data.db_name == null ? "" : data.db_name;
 	}
 
 	public void setState(DbState status) {
-		this.status = status;
-		link_status = DbState.notLoaded;
+		getOptions().status = status;
+		getOptions().link_status = DbState.notLoaded;
+		getOptions().status_date = new Date();
+		try {
+			App.srv.cls().saveOptions(this);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setLinkState(DbState status) {
-		this.link_status = status;
+		getOptions().link_status = status;
+		getOptions().link_status_date = new Date();
+		try {
+			App.srv.cls().saveOptions(this);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public DbState getState() {
-		return status;
+		return getOptions().status;
 	}
 
 	public DbState getLinkState() {
-		return link_status;
+		return getOptions().link_status;
 	}
 
 	public void setSQL(String path, String user, String password) {

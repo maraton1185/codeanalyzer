@@ -45,7 +45,7 @@ public class serviceShow {
 
 	@Execute
 	public void execute(EPartService partService, EModelService model,
-			final @Active BookConnection book, IEclipseContext ctx,
+			final @Active BookConnection con, IEclipseContext ctx,
 			EHandlerService hs, ECommandService cs) {
 
 		MWindow mainWindow = App.app.getChildren().get(0);
@@ -54,13 +54,13 @@ public class serviceShow {
 		List<MTrimmedWindow> windows = model.findElements(App.app, null,
 				MTrimmedWindow.class, new ArrayList<String>() {
 					{
-						add(book.getFullName());
+						add(con.getFullName());
 					}
 				});
 
 		if (windows.isEmpty())
 
-			createBookWindow(mainWindow, book, model, ctx, partService, hs, cs);
+			createWindow(mainWindow, con, model, ctx, partService, hs, cs);
 
 		else {
 			MWindow w = windows.get(0);
@@ -69,28 +69,28 @@ public class serviceShow {
 		}
 	}
 
-	private void createBookWindow(MWindow mainWindow, BookConnection book,
+	private void createWindow(MWindow mainWindow, BookConnection con,
 			EModelService model, IEclipseContext ctx, EPartService partService,
 			EHandlerService hs, ECommandService cs) {
 
-		MTrimmedWindow bookWindow = (MTrimmedWindow) model.cloneSnippet(
+		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(
 				App.app, Strings.get("model.id.book.window"), null);
 
-		bookWindow.setLabel(book.getWindowTitle());
-		bookWindow.setX(mainWindow.getX() + 20);
-		bookWindow.setY(mainWindow.getY() + 20);
-		bookWindow.setWidth(mainWindow.getWidth());
-		bookWindow.setHeight(mainWindow.getHeight());
-		bookWindow.getTags().add(book.getFullName());
+		newWindow.setLabel(con.getWindowTitle());
+		newWindow.setX(mainWindow.getX() + 20);
+		newWindow.setY(mainWindow.getY() + 20);
+		newWindow.setWidth(mainWindow.getWidth());
+		newWindow.setHeight(mainWindow.getHeight());
+		newWindow.getTags().add(con.getFullName());
 
-		App.app.getChildren().add(bookWindow);
+		App.app.getChildren().add(newWindow);
 		// App.app.setSelectedElement(bookWindow);
-		bookWindow.getContext().set(BookConnection.class, book);
+		newWindow.getContext().set(BookConnection.class, con);
 
 		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
-		bookWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
+		newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 
-		List<MPart> parts = model.findElements(bookWindow,
+		List<MPart> parts = model.findElements(newWindow,
 				Strings.get("model.id.part.SectionsStartView"), MPart.class,
 				null);
 		if (!parts.isEmpty()) {

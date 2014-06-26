@@ -6,13 +6,13 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.conf.EditDialog;
+import ebook.module.conf.LoadDialog;
 import ebook.module.confList.tree.ListConfInfo;
 
 public class Load {
 	@Execute
 	public void execute(ListConfInfo item, Shell shell) {
-		new EditDialog(shell, item).open();
+		new LoadDialog(shell, item).open();
 	}
 
 	@CanExecute

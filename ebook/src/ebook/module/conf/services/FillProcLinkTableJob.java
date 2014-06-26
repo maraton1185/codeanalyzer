@@ -13,7 +13,7 @@ import ebook.core.pico;
 import ebook.core.exceptions.LinksExistsException;
 import ebook.module.conf.interfaces.ILoaderManager;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfo.DbState;
+import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.utils.Events;
 
 public class FillProcLinkTableJob extends Job {
@@ -40,7 +40,7 @@ public class FillProcLinkTableJob extends Job {
 
 	// private String family;
 
-	private ListConfInfo db;
+	private final ListConfInfo db;
 
 	// private Shell shell;
 

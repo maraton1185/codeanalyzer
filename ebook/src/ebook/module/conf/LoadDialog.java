@@ -25,12 +25,12 @@ import org.eclipse.swt.widgets.Text;
 import ebook.core.App;
 import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfo.DbState;
+import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 
 @Creatable
-public class EditDialog extends Dialog {
+public class LoadDialog extends Dialog {
 
 	ConfManager dbManager = App.mng.cm();
 
@@ -57,7 +57,7 @@ public class EditDialog extends Dialog {
 	 * @param parentShell
 	 */
 	@Inject
-	public EditDialog(Shell parentShell, ListConfInfo conf) {
+	public LoadDialog(Shell parentShell, ListConfInfo conf) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
 

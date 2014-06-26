@@ -20,7 +20,7 @@ import ebook.module.conf.interfaces.ILoaderManager;
 import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.module.conf.services.FillProcLinkTableJob;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfo.DbState;
+import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.temp.ProgressControl;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;

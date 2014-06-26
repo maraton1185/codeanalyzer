@@ -54,6 +54,10 @@ public class ConfView {
 	Composite groupComp;
 	Composite itemComp;
 	ComboViewer combo;
+	@Inject
+	EHandlerService hService;
+	@Inject
+	ECommandService comService;
 
 	@Inject
 	MDirtyable dirty;
@@ -105,8 +109,7 @@ public class ConfView {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, EHandlerService hService,
-			ECommandService comService) {
+	public void postConstruct(Composite parent) {
 
 		dataValue = new WritableValue();
 		DataBindingContext ctx = new DataBindingContext();
@@ -132,7 +135,7 @@ public class ConfView {
 		fGROUP(toolkit, ctx);
 
 		// ПОЛЯ ЭЛЕМЕНТОВ *******************************************
-		fITEM(toolkit, ctx, hService, comService);
+		fITEM(toolkit, ctx);
 
 		// *******************************************
 
@@ -147,11 +150,9 @@ public class ConfView {
 
 	}
 
-	private void fITEM(FormToolkit toolkit, DataBindingContext ctx,
-			final EHandlerService hService, final ECommandService comService) {
+	private void fITEM(FormToolkit toolkit, DataBindingContext ctx) {
 		Label label;
 		GridData gd;
-		ImageHyperlink link;
 
 		Text text;
 
@@ -169,18 +170,9 @@ public class ConfView {
 
 		ifDbFileName(toolkit, ctx, itemComp);
 
-		link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
-		link.setText("Загрузить");
-		link.setImage(Utils.getImage("load.png"));
-		link.setUnderlined(false);
-		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				Utils.executeHandler(hService, comService,
-						Strings.get("command.id.LoadConfiguration"));
-			}
-		});
+		ifDbStatus(toolkit, ctx, itemComp);
+
+		ifDbCommands(toolkit, ctx, itemComp);
 
 		label = toolkit.createLabel(itemComp, "Описание", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
@@ -288,10 +280,15 @@ public class ConfView {
 				1));
 
 		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
-				| SWT.READ_ONLY);
+				| SWT.READ_ONLY | SWT.BOLD);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.widthHint = 30;
 		text.setLayoutData(gd);
+		FontData fontDatas[] = text.getFont().getFontData();
+		FontData data = fontDatas[0];
+		Font font = new Font(Display.getCurrent(), data.getName(),
+				data.getHeight(), SWT.BOLD);
+		text.setFont(font);
 
 		target = WidgetProperties.text().observe(text);
 		field_model = BeanProperties.value(model.getClass(), "dbFileName")
@@ -302,6 +299,83 @@ public class ConfView {
 		// field_model = BeanProperties.value(model.getClass(), "item")
 		// .observeDetail(dataValue);
 		// ctx.bindValue(target, field_model);
+
+	}
+
+	private void ifDbStatus(FormToolkit toolkit, DataBindingContext ctx,
+			Composite parent) {
+
+		Label label;
+		Composite comp;
+
+		IObservableValue target;
+		IObservableValue field_model;
+
+		comp = toolkit.createComposite(parent);
+		comp.setLayout(new GridLayout(1, false));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+
+		label = toolkit.createLabel(comp, "", SWT.LEFT);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
+				1));
+
+		target = WidgetProperties.text().observe(label);
+		field_model = BeanProperties.value(model.getClass(), "status")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
+
+		label = toolkit.createLabel(comp, "", SWT.LEFT);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
+				1));
+
+		target = WidgetProperties.text().observe(label);
+		field_model = BeanProperties.value(model.getClass(), "linkStatus")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
+
+	}
+
+	private void ifDbCommands(FormToolkit toolkit, DataBindingContext ctx,
+			Composite parent) {
+
+		// Label label;
+		Composite comp;
+		ImageHyperlink link;
+
+		// IObservableValue target;
+		// IObservableValue field_model;
+
+		comp = toolkit.createComposite(parent);
+		comp.setLayout(new GridLayout(2, false));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+
+		link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
+		link.setText("Загрузить");
+		link.setImage(Utils.getImage("load.png"));
+		link.setUnderlined(false);
+		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				Utils.executeHandler(hService, comService,
+						Strings.get("command.id.LoadConfiguration"));
+			}
+		});
+
+		// link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
+		// link.setText("Открыть");
+		// // link.setImage(Utils.getImage("load.png"));
+		// link.setUnderlined(false);
+		// link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
+		// 1,
+		// 1));
+		// link.addHyperlinkListener(new HyperlinkAdapter() {
+		// @Override
+		// public void linkActivated(HyperlinkEvent e) {
+		// Utils.executeHandler(hService, comService,
+		// Strings.get("command.id.ShowConfFromList"));
+		// }
+		// });
 
 	}
 

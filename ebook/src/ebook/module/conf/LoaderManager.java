@@ -10,12 +10,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import ebook.auth.interfaces.IAuthorize;
 import ebook.core.pico;
 import ebook.core.exceptions.DbStructureException;
-import ebook.core.exceptions.LinksExistsException;
 import ebook.core.exceptions.LoadConfigException;
 import ebook.module.conf.interfaces.ILoaderManager;
 import ebook.module.conf.services.LoaderService;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfo.DbState;
+import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.utils.Const;
 import ebook.utils.Utils;
 
@@ -282,9 +281,9 @@ public class LoaderManager implements ILoaderManager {
 			throw new InvocationTargetException(new Exception(),
 					Const.ERROR_CONFIG_LOADED);
 
-		if (db.getLinkState() == DbState.Loaded)
-			throw new InvocationTargetException(new LinksExistsException(),
-					Const.ERROR_LINK_LOADED);
+		// if (db.getLinkState() == DbState.Loaded)
+		// throw new InvocationTargetException(new LinksExistsException(),
+		// Const.ERROR_LINK_LOADED);
 
 		// if (!sign.check()) {
 		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {

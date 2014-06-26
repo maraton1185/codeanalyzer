@@ -53,6 +53,7 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.section.SectionView;
+import ebook.module.conf.ConfConnection;
 import ebook.module.conf.services.FillProcLinkTableJob;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -461,6 +462,21 @@ public class App {
 			book.srv().saveBookOptions(opt);
 
 			book.closeConnection();
+
+			return true;
+		}
+	}
+
+	public static class ConfWindowCloseHandler implements IWindowCloseHandler {
+
+		@Override
+		public boolean close(MWindow window) {
+
+			ConfConnection conf = window.getContext().get(ConfConnection.class);
+
+			// book.srv().saveBookOptions(opt);
+
+			conf.closeConnection();
 
 			return true;
 		}

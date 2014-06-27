@@ -1,5 +1,11 @@
 package ebook.core;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.internal.workbench.E4Workbench;
@@ -39,6 +45,26 @@ public class Activator implements BundleActivator {
 		}
 
 		// App.getJetty().startJetty();
+
+		Bundle bundle1 = Platform.getBundle("org.mozilla.xulrunner"); //$NON-NLS-1$  
+		if (bundle1 != null) {
+			URL resourceUrl = bundle1.getResource("xulrunner"); //$NON-NLS-1$
+			if (resourceUrl != null) {
+				try {
+					URL fileUrl = FileLocator.toFileURL(resourceUrl);
+					File file = new File(fileUrl.toURI());
+					System.setProperty("org.eclipse.swt.browser.DefaultType",
+							"mozilla");
+					System.setProperty(
+							"org.eclipse.swt.browser.XULRunnerPath", file.getAbsolutePath()); //$NON-NLS-1$
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override

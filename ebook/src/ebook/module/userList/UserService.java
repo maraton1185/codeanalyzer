@@ -62,7 +62,7 @@ public class UserService extends TreeService {
 			ResultSet rs;
 
 			SQL = "SELECT Top 1 T.ID FROM " + tableName
-					+ " AS T WHERE T.TITLE=?";
+					+ " AS T WHERE T.TITLE=? AND NOT T.ISGROUP";
 			prep = con.prepareStatement(SQL);
 
 			prep.setString(1, item.getTitle());

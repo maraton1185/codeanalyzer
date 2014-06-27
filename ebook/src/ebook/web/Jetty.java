@@ -22,7 +22,7 @@ public class Jetty implements IJetty {
 
 	@Override
 	public String host() {
-		return "http://localhost:" + jettyPort;
+		return "http://localhost:" + jettyPort + "/";
 	};
 
 	@Override
@@ -104,7 +104,7 @@ public class Jetty implements IJetty {
 
 	@Override
 	public String info() {
-		return host().concat("/info");
+		return host().concat("info");
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class BrowserComposite extends Composite {
 
 	// BookSection section;
 
-	public BrowserComposite(Composite blockComposite) {
+	public BrowserComposite(Composite blockComposite, String url) {
 		super(blockComposite, SWT.BORDER);
 
 		// this.blockComposite = blockComposite;
@@ -30,7 +30,7 @@ public class BrowserComposite extends Composite {
 
 		setLayout(new FillLayout());
 
-		browser = new Browser(this, SWT.Resize);
+		browser = new Browser(this, SWT.Resize | SWT.MOZILLA);
 		browser.setJavascriptEnabled(true);
 
 		// Set content of editor after load completed
@@ -46,7 +46,7 @@ public class BrowserComposite extends Composite {
 			}
 		});
 
-		browser.setUrl("http://localhost:8081/test?book=1&section=2");
+		browser.setUrl(url);
 		// browser.addStatusTextListener(new StatusTextListener() {
 		// @Override
 		// public void changed(StatusTextEvent event) {

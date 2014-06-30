@@ -148,6 +148,9 @@ public class App {
 
 		br.subscribe(Events.EVENT_START_JETTY, new EVENT_START_JETTY());
 
+		br.subscribe(Events.EVENT_UPDATE_PERSPECTIVE_ICON,
+				new EVENT_UPDATE_PERSPECTIVE_ICON());
+
 		dbInit(window);
 
 	}
@@ -315,6 +318,48 @@ public class App {
 			this.window = window;
 		}
 
+	}
+
+	// UPADTE PERSPECTIVE ICON
+
+	private static class EVENT_UPDATE_PERSPECTIVE_ICON implements EventHandler {
+
+		@Override
+		public void handleEvent(Event event) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+
+					App.sync.asyncExec(new Runnable() {
+						@Override
+						public void run() {
+
+							MDirectToolItem data = (MDirectToolItem) model
+									.find(Strings
+											.get("ebook.directtoolitem.data"),
+											app);
+							MDirectToolItem panel = (MDirectToolItem) model
+									.find(Strings
+											.get("ebook.directtoolitem.panel"),
+											app);
+
+							switch (currentPerspective) {
+							case lists:
+								data.setSelected(true);
+								panel.setSelected(false);
+								break;
+							case main:
+								data.setSelected(false);
+								panel.setSelected(true);
+								break;
+
+							}
+
+						}
+					});
+				}
+			}).start();
+		}
 	}
 
 	// UPADTE STATUS
@@ -523,11 +568,7 @@ public class App {
 			App.ps.activate(part);
 		}
 
-		// if (perspType == Perspectives.main) {
-		// part = (MPart) model.find(Strings.get("ebook.part.start"), app);
-		// StartView view = (StartView) part.getObject();
-		// view.updateLists();
-		// }
+		br.post(Events.EVENT_UPDATE_PERSPECTIVE_ICON, null);
 	}
 
 	public static IJetty getJetty() {

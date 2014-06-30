@@ -137,7 +137,6 @@
       </children>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="ebook.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="ebook.handledmenuitem.9" label="&amp;Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
-      <children xsi:type="menu:DirectMenuItem" xmi:id="_aIMy0KmqEeOFWZN9IXa3MA" elementId="ebook.directmenuitem.1" label="Переключить вид (главная/списки)" iconURI="platform:/plugin/ebook/icons/update.png" contributionURI="bundleclass://ebook/ebook.handlers.TogglePerspective"/>
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="ebook.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="ebook.statusbar">
@@ -149,6 +148,9 @@
     <trimBars xmi:id="_f-i-IJrjEeOlcttaCxvpFw" elementId="ebook.toopbar.0">
       <tags>status</tags>
       <children xsi:type="menu:ToolBar" xmi:id="_bTe9MJrjEeOlcttaCxvpFw" elementId="ebook.toolbar.top">
+        <children xsi:type="menu:DirectToolItem" xmi:id="_Q5LqkABGEeSEV5F0mIcfmQ" elementId="ebook.directtoolitem.panel" label="Панель управления" contributionURI="bundleclass://ebook/ebook.handlers.MainPerspective"/>
+        <children xsi:type="menu:DirectToolItem" xmi:id="_TcNA8ABGEeSEV5F0mIcfmQ" elementId="ebook.directtoolitem.data" label="Панель данных" contributionURI="bundleclass://ebook/ebook.handlers.ListPerspective"/>
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_QQWwAABGEeSEV5F0mIcfmQ" elementId="ebook.toolbarseparator.1"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="ebook.handledtoolitem.activate" visible="false" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw">
           <tags>status</tags>
         </children>

@@ -4,6 +4,7 @@
   <%@ page import="java.util.*, java.text.*" %>
  <%
   String id = (String) request.getAttribute("host");
+ 
 
 %> 
   <html>

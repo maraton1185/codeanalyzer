@@ -21,11 +21,6 @@ public class Jetty implements IJetty {
 	private boolean manualStart = false;
 
 	@Override
-	public String host() {
-		return "http://localhost:" + jettyPort + "/";
-	};
-
-	@Override
 	public void startJetty() {
 
 		jettyMessage = "Web-сервер не запущен";
@@ -103,11 +98,6 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public String info() {
-		return host().concat("info");
-	}
-
-	@Override
 	public JettyStatus status() {
 		return status;
 	}
@@ -116,6 +106,21 @@ public class Jetty implements IJetty {
 	public void setManual() {
 		manualStart = true;
 
+	}
+
+	@Override
+	public String host() {
+		return "http://localhost:" + jettyPort + "/";
+	}
+
+	@Override
+	public String info() {
+		return host().concat("info");
+	}
+
+	@Override
+	public String book(Integer id) {
+		return host().concat("book?id=" + id.toString());
 	}
 }
 

@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ebook.core.App;
-
 public class BookServlet extends HttpServlet {
+
+	public class Model {
+
+		public String id;
+	}
 
 	/**
 	 * 
@@ -23,14 +26,16 @@ public class BookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// RequestDispatcher error_view = request
-		// .getRequestDispatcher("error.jsp");
+		RequestDispatcher error_view = request
+				.getRequestDispatcher("error.jsp");
 
-		// String c = request.getParameter("book");
-		// if (c == null)
-		// error_view.forward(request, response);
+		String id = request.getParameter("id");
+		if (id == null)
+			error_view.forward(request, response);
 
-		request.setAttribute("host", App.getJetty().host());
+		Model model = new Model();
+		model.id = id;
+		request.setAttribute("model", model);
 
 		RequestDispatcher view = request.getRequestDispatcher("book/index.jsp");
 

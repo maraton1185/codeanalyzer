@@ -136,8 +136,8 @@ public class SectionView {
 		// layout.numColumns = 2;
 		// blockComposite.setLayout(layout);
 
-		browserComposite = new BrowserComposite(body, App.getJetty().host()
-				.concat("test"));
+		browserComposite = new BrowserComposite(body, App.getJetty().book(
+				section.getId()));
 		// toolkit.adapt(browserComposite, true, true);
 
 		// fillBody();
@@ -152,6 +152,7 @@ public class SectionView {
 		// }
 		//
 		// });
+		OnFocus();
 	}
 
 	private void fillBody() {

@@ -3,7 +3,6 @@ package jettycustom;
 import java.util.Dictionary;
 
 import org.eclipse.equinox.http.jetty.JettyCustomizer;
-import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
 public class ServerCustomizer extends JettyCustomizer {
@@ -23,9 +22,10 @@ public class ServerCustomizer extends JettyCustomizer {
 		// context.setContextPath("/_web");
 
 		// if (!pico.get(IJetty.class).debug()) {
-		ErrorHandler errorHandler = new JettyErrorHandler();
-		errorHandler.setShowStacks(true);
-		context.setErrorHandler(errorHandler);
+		// ErrorHandler errorHandler = new JettyErrorHandler();
+		// errorHandler.setShowStacks(true);
+		// context.setErrorHandler(errorHandler);
+
 		// }
 		// context.addServlet(new ServletHolder(new IndexServlet()), "/test");
 		//

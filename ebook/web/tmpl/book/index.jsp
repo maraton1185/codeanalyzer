@@ -1,5 +1,9 @@
-﻿<%! 
+<%@ page import="ebook.web.BookServlet.Model" %>
+
+<% 
     String root = "rbook/"; 
+	
+	Model model = (Model) request.getAttribute("model");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +25,7 @@
 
 <body>
 
+<h1>HELLO <%=model.id%></h1>
     <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">

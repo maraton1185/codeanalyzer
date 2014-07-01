@@ -8,14 +8,16 @@ public interface IJetty {
 
 	public JettyStatus status();
 
-	public String host();
-
-	public String info();
-
 	public void startJetty();
 
 	public String jettyMessage();
 
 	public void setManual();
+
+	public String host();
+
+	public String info();
+
+	public String book(Integer integer);
 
 }

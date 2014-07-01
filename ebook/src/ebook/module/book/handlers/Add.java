@@ -29,7 +29,7 @@ public class Add {
 
 			SectionInfo data = new SectionInfo();
 			data.setTitle(Strings.get("s.newblock.title"));
-			data.setGroup(true);
+			data.setGroup(false);
 			book.srv().add(data, section, true);
 
 		} catch (InvocationTargetException e) {

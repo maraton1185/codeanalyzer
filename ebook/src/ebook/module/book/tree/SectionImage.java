@@ -6,6 +6,11 @@ import org.eclipse.swt.graphics.Image;
 public class SectionImage {
 
 	public Integer id;
+
+	public Integer getId() {
+		return id;
+	}
+
 	public Image image;
 	public String title;
 	public boolean expanded;

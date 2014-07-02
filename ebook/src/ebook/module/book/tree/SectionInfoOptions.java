@@ -11,7 +11,7 @@ public class SectionInfoOptions extends DbOptions {
 
 	public Integer scaledImageWidth = 300;
 
-	public int columnCount = 1;
+	// public int columnCount = 1;
 
 	public int getCompositeWidthHint() {
 		return scaledImageWidth + 30;

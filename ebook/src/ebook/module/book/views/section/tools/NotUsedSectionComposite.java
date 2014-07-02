@@ -20,7 +20,6 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
@@ -40,7 +39,7 @@ import ebook.module.book.views.section.interfaces.ISectionComposite;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class SectionComposite implements ISectionComposite {
+public class NotUsedSectionComposite implements ISectionComposite {
 
 	Composite blockComposite;
 	Composite groupsComposite;
@@ -60,7 +59,8 @@ public class SectionComposite implements ISectionComposite {
 	boolean blockView;
 
 	Scale scaledImageWidthSlider;
-	Spinner columnCountSpinner;
+
+	// Spinner columnCountSpinner;
 
 	@Override
 	public void initSectionView(FormToolkit toolkit, ScrolledForm form,
@@ -176,7 +176,7 @@ public class SectionComposite implements ISectionComposite {
 		if (blockView)
 			layout.maxNumColumns = 1;
 		else
-			layout.maxNumColumns = section.getOptions().columnCount;
+			layout.maxNumColumns = 1;// section.getOptions().columnCount;
 		// layout.numColumns = 1;
 		groupsComposite.setLayout(layout);
 
@@ -255,22 +255,23 @@ public class SectionComposite implements ISectionComposite {
 				scaledImageWidthSlider.setLayoutData(new GridData(
 						GridData.FILL_HORIZONTAL));
 
-				columnCountSpinner = new Spinner(sectionClient, SWT.BORDER);
-				toolkit.adapt(columnCountSpinner, true, true);
-				columnCountSpinner.setMinimum(1);
-				columnCountSpinner.setMaximum(5);
-				columnCountSpinner
-						.setSelection(section.getOptions().columnCount);
-				columnCountSpinner.setIncrement(1);
-				columnCountSpinner.setPageIncrement(1);
-				columnCountSpinner.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						super.widgetSelected(e);
-						dirty.setDirty(true);
-					}
-
-				});
+				// columnCountSpinner = new Spinner(sectionClient, SWT.BORDER);
+				// toolkit.adapt(columnCountSpinner, true, true);
+				// columnCountSpinner.setMinimum(1);
+				// columnCountSpinner.setMaximum(5);
+				// columnCountSpinner
+				// .setSelection(section.getOptions().columnCount);
+				// columnCountSpinner.setIncrement(1);
+				// columnCountSpinner.setPageIncrement(1);
+				// columnCountSpinner.addSelectionListener(new
+				// SelectionAdapter() {
+				// @Override
+				// public void widgetSelected(SelectionEvent e) {
+				// super.widgetSelected(e);
+				// dirty.setDirty(true);
+				// }
+				//
+				// });
 
 			}
 		};
@@ -282,7 +283,7 @@ public class SectionComposite implements ISectionComposite {
 	private void addImageSections() {
 		final Device display = groupsComposite.getDisplay();
 
-		imageList = book.srv().getImages(display, section);
+		imageList = book.srv().getImages(section);
 
 		for (final SectionImage sectionImage : imageList) {
 
@@ -399,7 +400,7 @@ public class SectionComposite implements ISectionComposite {
 
 		SectionInfoOptions result = new SectionInfoOptions();
 		result.scaledImageWidth = scaledImageWidthSlider.getSelection();
-		result.columnCount = columnCountSpinner.getSelection();
+		// result.columnCount = columnCountSpinner.getSelection();
 		return result;
 	}
 }

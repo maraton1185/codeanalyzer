@@ -7,7 +7,7 @@ import org.picocontainer.MutablePicoContainer;
 import ebook.auth.SignIn;
 import ebook.core.models.ManagerFactory;
 import ebook.core.models.ServiceFactory;
-import ebook.module.book.views.section.tools.SectionComposite;
+import ebook.module.book.views.section.tools.NotUsedSectionComposite;
 import ebook.module.conf.LoaderManager;
 import ebook.module.conf.services.CfServices;
 import ebook.module.conf.services.TextParser;
@@ -60,7 +60,7 @@ public final class pico {
 		// instance.as(Characteristics.CACHE).addComponent(ColorManager.class);
 		// instance.addComponent(CData.class);
 		// instance.addComponent(ColorManager.class);
-		instance.addComponent(SectionComposite.class);
+		instance.addComponent(NotUsedSectionComposite.class);
 
 	}
 

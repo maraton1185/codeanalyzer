@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
 import ebook.core.models.DbOptions;
@@ -277,7 +277,7 @@ public class BookService extends TreeService {
 		return result.toString();
 	}
 
-	public List<SectionImage> getImages(Device display, SectionInfo section) {
+	public List<SectionImage> getImages(SectionInfo section) {
 
 		// List<BookSectionImage> result = new ArrayList<BookSectionImage>();
 		//
@@ -313,7 +313,7 @@ public class BookService extends TreeService {
 					// new ByteArrayInputStream(imageByte));
 					ImageData imageData = new ImageData(inputStreamReader);
 
-					sec.image = new Image(display, imageData);
+					sec.image = new Image(Display.getCurrent(), imageData);
 
 					result.add(sec);
 				}
@@ -363,27 +363,9 @@ public class BookService extends TreeService {
 			FileInputStream fis = new FileInputStream(f);
 			prep.setBinaryStream(2, fis, (int) f.length());
 
-			// ResultSet generatedKeys = null;
-			// try {
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
-
-			// generatedKeys = prep.getGeneratedKeys();
-			// if (generatedKeys.next()) {
-			// sec = new BookSection();
-			// sec.title = title;
-			// sec.id = generatedKeys.getInt(1);
-			// sec.parent = section.id;
-			// } else
-			// throw new SQLException();
-			// } finally {
-			// generatedKeys.close();
-			// }
-
-			// int affectedRows = prep.executeUpdate();
-			// if (affectedRows == 0)
-			// throw new SQLException();
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
 					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
@@ -391,6 +373,144 @@ public class BookService extends TreeService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void delete_image(SectionInfo section, SectionImage item) {
+
+		try {
+			Connection con = db.getConnection();
+
+			String SQL = "DELETE FROM S_IMAGES WHERE ID=?;";
+			PreparedStatement prep;
+
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, item.getId());
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
+							null));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void edit_image(SectionInfo section, SectionImage image, IPath p) {
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE S_IMAGES SET DATA=? WHERE ID=?; ";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setInt(2, image.getId());
+
+			File f = p.toFile();
+			FileInputStream fis = new FileInputStream(f);
+			prep.setBinaryStream(1, fis, (int) f.length());
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
+							null));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void save_image_title(SectionInfo section, SectionImage image,
+			String title) {
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE S_IMAGES SET TITLE=? WHERE ID=?; ";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setInt(2, image.getId());
+
+			prep.setString(1, title);
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
+							null));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void move_image(SectionInfo section, SectionImage item,
+			boolean direction) {
+
+		try {
+
+			List<SectionImage> items = getImages(section);
+
+			int i = items.indexOf(item);
+
+			if (direction == true) {
+				// up
+				i = i == 0 ? items.size() : i - 1;
+			} else {
+				// down
+				i = i == items.size() - 1 ? 0 : i + 1;
+			}
+
+			items.remove(item);
+			items.add(i, item);
+
+			updateImagesOrder(items);
+
+			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
+							null));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void updateImagesOrder(List<SectionImage> items) throws Exception {
+		try {
+			Connection con = db.getConnection();
+			int order = 0;
+			for (SectionImage item : items) {
+
+				String SQL = "UPDATE S_IMAGES SET SORT=? WHERE ID=?;";
+				PreparedStatement prep = con.prepareStatement(SQL,
+						Statement.CLOSE_CURRENT_RESULT);
+
+				prep.setInt(1, order);
+				prep.setInt(2, item.getId());
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+
+				order++;
+			}
+
+		} catch (Exception e) {
+			throw new Exception();
 		}
 
 	}

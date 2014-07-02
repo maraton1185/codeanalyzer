@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
@@ -17,6 +18,8 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -33,7 +36,7 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
@@ -67,6 +70,15 @@ public class BlockView {
 	@Active
 	BookConnection book;
 
+	@Inject
+	private EHandlerService hService;
+
+	@Inject
+	private ECommandService comService;
+
+	@Inject
+	Shell shell;
+
 	SectionInfo section;
 
 	@Inject
@@ -81,7 +93,8 @@ public class BlockView {
 	TinyTextEditor tinymce;
 	List<SectionImage> imageList;
 	Scale scaledImageWidthSlider;
-	Spinner columnCountSpinner;
+
+	// Spinner columnCountSpinner;
 
 	@Inject
 	public BlockView() {
@@ -232,7 +245,7 @@ public class BlockView {
 
 		SectionInfoOptions result = new SectionInfoOptions();
 		result.scaledImageWidth = scaledImageWidthSlider.getSelection();
-		result.columnCount = columnCountSpinner.getSelection();
+		// result.columnCount = columnCountSpinner.getSelection();
 		return result;
 	}
 
@@ -273,22 +286,55 @@ public class BlockView {
 				scaledImageWidthSlider.setLayoutData(new GridData(
 						GridData.FILL_HORIZONTAL));
 
-				columnCountSpinner = new Spinner(sectionClient, SWT.BORDER);
-				toolkit.adapt(columnCountSpinner, true, true);
-				columnCountSpinner.setMinimum(1);
-				columnCountSpinner.setMaximum(5);
-				columnCountSpinner
-						.setSelection(section.getOptions().columnCount);
-				columnCountSpinner.setIncrement(1);
-				columnCountSpinner.setPageIncrement(1);
-				columnCountSpinner.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						super.widgetSelected(e);
-						dirty.setDirty(true);
-					}
+				Composite panel = toolkit.createComposite(sectionClient);
+				panel.setLayout(new RowLayout());
+				GridData gd = new GridData();
+				gd.horizontalAlignment = SWT.RIGHT;
+				gd.grabExcessHorizontalSpace = true;
+				panel.setLayoutData(gd);
 
+				ImageHyperlink hlink;
+
+				hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+				hlink.setImage(Utils.getImage("add_text.png"));
+				hlink.setText("Добавить картинку");
+				hlink.setUnderlined(false);
+				hlink.addHyperlinkListener(new HyperlinkAdapter() {
+					@Override
+					public void linkActivated(HyperlinkEvent e) {
+						Utils.executeHandler(hService, comService,
+								Strings.get("ebook.command.2"));
+					}
 				});
+
+				hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+				hlink.setImage(Utils.getImage("save.png"));
+				hlink.setText("Сохранить");
+				hlink.setUnderlined(false);
+				hlink.addHyperlinkListener(new HyperlinkAdapter() {
+					@Override
+					public void linkActivated(HyperlinkEvent e) {
+						Utils.executeHandler(hService, comService,
+								Strings.get("ebook.command.Save"));
+					}
+				});
+				// columnCountSpinner = new Spinner(sectionClient, SWT.BORDER);
+				// toolkit.adapt(columnCountSpinner, true, true);
+				// columnCountSpinner.setMinimum(1);
+				// columnCountSpinner.setMaximum(5);
+				// columnCountSpinner
+				// .setSelection(section.getOptions().columnCount);
+				// columnCountSpinner.setIncrement(1);
+				// columnCountSpinner.setPageIncrement(1);
+				// columnCountSpinner.addSelectionListener(new
+				// SelectionAdapter() {
+				// @Override
+				// public void widgetSelected(SelectionEvent e) {
+				// super.widgetSelected(e);
+				// dirty.setDirty(true);
+				// }
+				//
+				// });
 
 			}
 		};
@@ -300,7 +346,7 @@ public class BlockView {
 	private void addImageSections() {
 		final Device display = body.getDisplay();
 
-		imageList = book.srv().getImages(display, section);
+		imageList = book.srv().getImages(section);
 
 		for (final SectionImage sectionImage : imageList) {
 
@@ -353,21 +399,81 @@ public class BlockView {
 					panel.setLayoutData(gd);
 
 					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+					// hlink.setImage(Utils.getImage("edit.png"));
+					hlink.setText("Изменить заголовок");
+					hlink.setHref(sectionImage);
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+							SectionImage image = (SectionImage) e.getHref();
+
+							InputDialog dlg = new InputDialog(shell,
+									ebook.utils.Strings.get("appTitle"),
+									"Введите заголовок картинки:",
+									ebook.utils.Strings
+											.get("s.new_image.title"), null);
+							if (dlg.open() == Window.OK) {
+								book.srv().save_image_title(section, image,
+										dlg.getValue());
+							}
+						}
+					});
+
+					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 					hlink.setImage(Utils.getImage("edit.png"));
-					hlink.setToolTipText("????????");
+					hlink.setToolTipText("Изменить");
+					hlink.setHref(sectionImage);
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+							SectionImage image = (SectionImage) e.getHref();
+
+							IPath p = Utils.browseFile(book.getPath(), shell,
+									Strings.get("appTitle"), "*.bmp; *.png");
+							if (p == null)
+								return;
+
+							book.srv().edit_image(section, image, p);
+						}
+					});
 
 					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 					hlink.setImage(Utils.getImage("delete.png"));
-					hlink.setToolTipText("???????");
+					hlink.setToolTipText("Удалить");
+					hlink.setHref(sectionImage);
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+							SectionImage image = (SectionImage) e.getHref();
+							book.srv().delete_image(section, image);
+						}
+					});
 
 					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 					hlink.setImage(Utils.getImage("up.png"));
-					hlink.setToolTipText("??????????? ?????");
+					hlink.setHref(sectionImage);
+					hlink.setToolTipText("Переместить вверх");
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+							SectionImage image = (SectionImage) e.getHref();
+							book.srv().move_image(section, image, true);
+						}
+					});
 
 					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 					hlink.setImage(Utils.getImage("down.png"));
-					hlink.setToolTipText("??????????? ????");
-
+					hlink.setHref(sectionImage);
+					hlink.setToolTipText("Переместить вниз");
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+							SectionImage image = (SectionImage) e.getHref();
+							book.srv().move_image(section, image, false);
+						}
+					});
 				}
 			};
 			addSection(Strings.get("s.sectionBlockComposite.picture"),

@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ebook.core.App;
+import ebook.module.book.BookConnection;
+
 public class BookServlet extends HttpServlet {
 
-	public class Model {
+	public static class BookServletModel {
 
 		public String id;
 	}
@@ -29,12 +32,21 @@ public class BookServlet extends HttpServlet {
 		RequestDispatcher error_view = request
 				.getRequestDispatcher("error.jsp");
 
-		String id = request.getParameter("id");
-		if (id == null)
+		String book_id = request.getParameter("book");
+		if (book_id == null)
 			error_view.forward(request, response);
 
-		Model model = new Model();
-		model.id = id;
+		String section_id = request.getParameter("id");
+		if (section_id == null)
+			error_view.forward(request, response);
+
+		BookConnection book = App.srv.bls().getBook(book_id);
+		if (book == null)
+			error_view.forward(request, response);
+
+		BookServletModel model = book.getModel(section_id);
+
+		// model.id = id;
 		request.setAttribute("model", model);
 
 		RequestDispatcher view = request.getRequestDispatcher("book/index.jsp");

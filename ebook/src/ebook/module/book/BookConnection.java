@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.IPath;
 
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
+import ebook.web.BookServlet.BookServletModel;
 
 public class BookConnection extends BaseDbPathConnection {
 
@@ -28,6 +29,13 @@ public class BookConnection extends BaseDbPathConnection {
 		service = service == null ? App.srv.bs(this) : service;
 
 		return service;
+	}
+
+	public BookServletModel getModel(String section_id) {
+
+		BookServletModel result = new BookServletModel();
+		result.id = section_id;
+		return result;
 	}
 
 	// *****************************************************************

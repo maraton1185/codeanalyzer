@@ -13,6 +13,7 @@ import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
+import ebook.module.book.BookConnection;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -104,5 +105,28 @@ public class BookListService extends TreeService {
 		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_BOOK);
 
 		return get(id);
+	}
+
+	public BookConnection getBook(String book_id) {
+
+		Integer id;
+		try {
+			id = Integer.getInteger(book_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		ListBookInfo book = (ListBookInfo) get(id);
+		ListBookInfoOptions opt = (ListBookInfoOptions) book.getOptions();
+
+		BookConnection con;
+		try {
+			con = new BookConnection(opt.path);
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return con;
 	}
 }

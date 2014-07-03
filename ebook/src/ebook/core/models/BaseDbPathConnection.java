@@ -14,8 +14,8 @@ public class BaseDbPathConnection extends BaseDbConnection {
 	IPath path;
 	String name;
 
-	public BaseDbPathConnection(IPath path, IDbStructure dbStructure)
-			throws InvocationTargetException {
+	public BaseDbPathConnection(IPath path, IDbStructure dbStructure,
+			boolean check) throws InvocationTargetException {
 
 		super(dbStructure);
 
@@ -27,7 +27,8 @@ public class BaseDbPathConnection extends BaseDbConnection {
 
 		setPath(path);
 
-		check();
+		if (check)
+			check();
 	}
 
 	public BaseDbPathConnection(String name, IDbStructure dbStructure)

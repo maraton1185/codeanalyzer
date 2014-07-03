@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
@@ -46,9 +47,25 @@ public class BookListService extends TreeService {
 	// *****************************************************************
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROLE ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROLE, $Table.PATH ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
+	}
+
+	@Override
+	protected String additionKeysString() {
+		return ", PATH";
+	}
+
+	@Override
+	protected String additionValuesString() {
+		return ", ?";
+	}
+
+	@Override
+	protected void setAdditions(PreparedStatement prep, ITreeItemInfo data)
+			throws SQLException {
+		prep.setString(6, ((ListBookInfo) data).getPath().toString());
 	}
 
 	@Override
@@ -61,8 +78,9 @@ public class BookListService extends TreeService {
 		info.setGroup(rs.getBoolean(4));
 		info.setOptions(DbOptions.load(ListBookInfoOptions.class,
 				rs.getString(5)));
-		// info.path = rs.getString(5);
 		info.role = (UserInfo) App.srv.us().get(rs.getInt(6));
+		info.setPath(rs.getString(7));
+
 		return info;
 	}
 
@@ -111,22 +129,52 @@ public class BookListService extends TreeService {
 
 		Integer id;
 		try {
-			id = Integer.getInteger(book_id);
+			id = Integer.parseInt(book_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		ListBookInfo book = (ListBookInfo) get(id);
-		ListBookInfoOptions opt = (ListBookInfoOptions) book.getOptions();
+		ListBookInfo bookInfo = (ListBookInfo) get(id);
+		if (bookInfo == null)
+			return null;
+		// ListBookInfoOptions opt = (ListBookInfoOptions)
+		// bookInfo.getOptions();
 
-		BookConnection con;
+		BookConnection book;
 		try {
-			con = new BookConnection(opt.path);
+			book = new BookConnection(bookInfo.getPath(), false);
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
-		return con;
+		return book;
 	}
+
+	public Integer getBookId(IPath connectionPath) {
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT T.ID FROM " + tableName + " AS T "
+					+ "WHERE T.PATH=?";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setString(1, connectionPath.toString());
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					return rs.getInt(1);
+				}
+			} finally {
+				rs.close();
+			}
+
+			return null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

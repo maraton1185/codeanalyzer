@@ -20,22 +20,29 @@ public class ListBookInfo extends TreeItemInfo {
 
 	public UserInfo role;
 
+	private String path;
+
+	public void setPath(String path) {
+		this.path = path == null ? "" : path;
+	}
+
 	@Override
 	public String getSuffix() {
 		if (isGroup() && role != null)
 			return role.getTitle();
 		else
-			return ((ListBookInfoOptions) getOptions()).path;
+			return path;// ((ListBookInfoOptions) getOptions()).path;
 	}
 
 	public IPath getPath() {
 
-		if (getOptions() == null)
+		// return new Path(path);
+		if (path == null)
 			return null;
+		//
+		// ListBookInfoOptions options = (ListBookInfoOptions) getOptions();
+		//
 
-		ListBookInfoOptions options = (ListBookInfoOptions) getOptions();
-
-		return options.path.isEmpty() ? null : new Path(options.path);
+		return path.isEmpty() ? null : new Path(path);
 	}
-
 }

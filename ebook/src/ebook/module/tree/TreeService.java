@@ -18,8 +18,8 @@ import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 public abstract class TreeService implements ITreeService {
 
 	protected IDbConnection db;
-	private String tableName;
-	private String updateEvent;
+	private final String tableName;
+	private final String updateEvent;
 
 	protected TreeService(String tableName, String EVENT_UPDATE_TREE_NAME,
 			IDbConnection db) {
@@ -78,9 +78,10 @@ public abstract class TreeService implements ITreeService {
 				rs.close();
 			}
 
-			SQL = "INSERT INTO "
-					+ tableName
-					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS) VALUES (?,?,?,?,?);";
+			SQL = "INSERT INTO " + tableName
+					+ " (TITLE, PARENT, ISGROUP, SORT, OPTIONS"
+					+ additionKeysString() + ") VALUES (?,?,?,?,?"
+					+ additionValuesString() + ");";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			prep.setString(1, data.isTitleIncrement() ? data.getTitle() + " "
@@ -92,6 +93,8 @@ public abstract class TreeService implements ITreeService {
 			prep.setBoolean(3, data.isGroup());
 			prep.setInt(4, sort);
 			prep.setString(5, DbOptions.save(data.getOptions()));
+
+			setAdditions(prep, data);
 
 			ResultSet generatedKeys = null;
 			try {
@@ -120,6 +123,19 @@ public abstract class TreeService implements ITreeService {
 
 		}
 
+	}
+
+	protected void setAdditions(PreparedStatement prep, ITreeItemInfo data)
+			throws SQLException {
+
+	}
+
+	protected String additionValuesString() {
+		return "";
+	}
+
+	protected String additionKeysString() {
+		return "";
 	}
 
 	@Override

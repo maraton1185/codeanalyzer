@@ -1,9 +1,9 @@
-<%@ page import="ebook.web.BookServlet.Model" %>
+<%@ page import="ebook.module.book.BookServlet.BookServletModel" %>
 
 <% 
     String root = "rbook/"; 
 	
-	Model model = (Model) request.getAttribute("model");
+BookServletModel model = (BookServletModel) request.getAttribute("model");
 %>
 <!DOCTYPE html>
 <html lang="en">

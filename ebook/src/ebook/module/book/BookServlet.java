@@ -1,4 +1,4 @@
-package ebook.web;
+package ebook.module.book;
 
 import java.io.IOException;
 
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
-import ebook.module.book.BookConnection;
 
 public class BookServlet extends HttpServlet {
 
@@ -30,7 +29,7 @@ public class BookServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher error_view = request
-				.getRequestDispatcher("error.jsp");
+				.getRequestDispatcher("bookNotFind.jsp");
 
 		String book_id = request.getParameter("book");
 		if (book_id == null)

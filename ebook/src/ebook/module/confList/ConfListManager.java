@@ -175,7 +175,7 @@ public class ConfListManager extends TreeManager {
 		try {
 
 			ConfConnection con = new ConfConnection(path);
-			con.openConnection();
+			// con.openConnection();
 			App.ctx.set(ConfConnection.class, con);
 			App.br.post(Events.EVENT_SHOW_CONF, null);
 

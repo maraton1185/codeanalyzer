@@ -49,11 +49,12 @@ public class BookListManager extends TreeManager {
 				BookConnection con = new BookConnection(dlg.getValue());
 
 				ListBookInfoOptions opt = new ListBookInfoOptions();
-				opt.path = con.getFullName();
+				// opt.path = con.getFullName();
 
 				ListBookInfo data = new ListBookInfo(opt);
 				data.setTitle(con.getName());
 				data.setGroup(false);
+				data.setPath(con.getFullName());
 				srv.add(data, parent, true);
 
 			} catch (InvocationTargetException e) {
@@ -125,13 +126,14 @@ public class BookListManager extends TreeManager {
 				for (IPath path : files) {
 					try {
 
-						BookConnection con = new BookConnection(path);
+						BookConnection con = new BookConnection(path, true);
 
 						ListBookInfoOptions opt = new ListBookInfoOptions();
-						opt.path = con.getFullName();
+						// opt.path = con.getFullName();
 						ListBookInfo data = new ListBookInfo(opt);
 						data.setTitle(con.getName());
 						data.setGroup(false);
+						data.setPath(con.getFullName());
 						srv.add(data, parent, true);
 
 					} catch (InvocationTargetException e) {
@@ -186,8 +188,8 @@ public class BookListManager extends TreeManager {
 
 		try {
 
-			BookConnection book = new BookConnection(path);
-			book.openConnection();
+			BookConnection book = new BookConnection(path, true);
+			// book.openConnection();
 			App.ctx.set(BookConnection.class, book);
 			App.br.post(Events.EVENT_SHOW_BOOK, null);
 

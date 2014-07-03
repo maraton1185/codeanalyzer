@@ -171,7 +171,7 @@ public class App {
 					throw new Exception();
 			}
 
-			db.openConnection();
+			// db.openConnection();
 
 		} catch (Exception e) {
 			Shell shell = (Shell) window.getWidget();
@@ -179,7 +179,7 @@ public class App {
 					Strings.get("error.initDb"))) {
 				try {
 					db.create();
-					db.openConnection();
+					// db.openConnection();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 					MessageDialog.openError(shell, Strings.get("appTitle"),

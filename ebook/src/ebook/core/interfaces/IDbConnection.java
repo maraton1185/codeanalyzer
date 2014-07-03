@@ -13,7 +13,7 @@ public interface IDbConnection {
 	Connection makeConnection(boolean exist) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, SQLException;
 
-	void openConnection() throws InvocationTargetException;
+	// void openConnection() throws InvocationTargetException;
 
 	Connection getConnection() throws IllegalAccessException;
 

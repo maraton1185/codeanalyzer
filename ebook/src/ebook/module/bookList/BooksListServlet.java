@@ -1,4 +1,4 @@
-package ebook.web;
+package ebook.module.bookList;
 
 import java.io.IOException;
 

@@ -19,7 +19,6 @@
           <children xsi:type="basic:PartStack" xmi:id="_IxyNgNzXEeO2K4Dwib9TKw" elementId="ebook.partstack.itemlist" containerData="7000">
             <children xsi:type="basic:Part" xmi:id="_s4T4UKmpEeOFWZN9IXa3MA" elementId="ebook.part.0" contributionURI="bundleclass://ebook/ebook.module.bookList.view.BooksListView" label="Книги" bindingContexts="_K6bdMN8VEeO4waw7J7j0xQ">
               <handlers xmi:id="_otMtQOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.25" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.Delete" command="_as2bUNtrEeO08YnUrs_6Pw"/>
-              <handlers xmi:id="_zI6eMOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.30" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.AddExisted" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
               <handlers xmi:id="_sIFXkOBXEeOrrqXXc-guSQ" elementId="ebook.handler.26" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.EditTitle" command="_W2YgENtrEeO08YnUrs_6Pw"/>
               <handlers xmi:id="_tFL5AOBXEeOrrqXXc-guSQ" elementId="ebook.handler.24" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.AddSubGroup" command="_-33RcNtqEeO08YnUrs_6Pw"/>
               <handlers xmi:id="_uAyloOBXEeOrrqXXc-guSQ" elementId="ebook.handler.23" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.AddGroup" command="_fOlogNtoEeO08YnUrs_6Pw"/>
@@ -35,7 +34,7 @@
               <menus xmi:id="_PBKVoOLREeOuwO28iF6Snw" elementId="ebook.menu.5">
                 <tags>ViewMenu</tags>
                 <children xsi:type="menu:DirectMenuItem" xmi:id="_PwQQQOLREeOuwO28iF6Snw" elementId="ebook.directmenuitem.3" label="Открыть каталог книг" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.OpenBookFolder"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_mNgIkP0sEeONSOVuBcgXoA" elementId="ebook.handledmenuitem.5" label="Открыть не из списка" command="_SMVncKhVEeOKceOp7VW7lQ"/>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_mNgIkP0sEeONSOVuBcgXoA" elementId="ebook.handledmenuitem.5" label="Открыть не из списка"/>
               </menus>
               <toolbar xmi:id="_J0_W8NzXEeO2K4Dwib9TKw" elementId="ebook.toolbar.7">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_tDyMcN_3EeOuHKOpYE-s4Q" elementId="ebook.handledtoolitem.23" label="" iconURI="platform:/plugin/ebook/icons/open.png" tooltip="Добавить существующую" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
@@ -128,7 +127,7 @@
     <mainMenu xmi:id="_wpG8QJlJEeOhhK_cqm6rMQ" elementId="ebook.menu.0">
       <children xsi:type="menu:Menu" xmi:id="_R1HOIJlKEeOhhK_cqm6rMQ" elementId="ebook.menu.File" label="&amp;Файл">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_ZQuQMKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.10" visible="false" label="&amp;Создать книгу" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_cayYcKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.11" visible="false" label="&amp;Открыть книгу" command="_SMVncKhVEeOKceOp7VW7lQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_cayYcKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.11" visible="false" label="&amp;Открыть книгу"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_RIfvYKhWEeOKceOp7VW7lQ" elementId="ebook.menuseparator.1" visible="false"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_qCxREKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.12" visible="false" label="&amp;Сохранить" iconURI="platform:/plugin/ebook/icons/save.png" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_spYuAKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.13" visible="false" label="Сохранить как" command="_mvAaQKhVEeOKceOp7VW7lQ"/>
@@ -162,7 +161,6 @@
   <handlers xmi:id="_1JWToJlREeOJH5GrNyMMVw" elementId="ebook.handler.0" contributionURI="bundleclass://ebook/ebook.handlers.Activate" command="_x0HdMJlREeOJH5GrNyMMVw"/>
   <handlers xmi:id="_rR19MJ6aEeORdqnZrqq27Q" elementId="ebook.handler.7" contributionURI="bundleclass://ebook/ebook.handlers.Options" command="_irP60J6aEeORdqnZrqq27Q"/>
   <handlers xmi:id="_Fgr-sKkaEeOctbxZaJIj4Q" elementId="ebook.handler.9" contributionURI="bundleclass://ebook/ebook.handlers._NewObjectTreeHandler" command="_XybQsKkaEeOctbxZaJIj4Q"/>
-  <handlers xmi:id="_jTSr0KkaEeOctbxZaJIj4Q" elementId="ebook.handler.10" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.Open" command="_SMVncKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_9KZXMKnfEeOFWZN9IXa3MA" elementId="ebook.handler.11" contributionURI="bundleclass://ebook/ebook.handlers.Save" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_vOiskODjEeOAI_38tK8ATw" elementId="ebook.handler.31" contributionURI="bundleclass://ebook/ebook.handlers.SaveAll" command="_mvAaQKhVEeOKceOp7VW7lQ"/>
   <handlers xmi:id="_QSvFAOP_EeOAy9eWHpjDYw" elementId="ebook.handler.37" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.Show" command="_A3uvkOP_EeOAy9eWHpjDYw"/>
@@ -177,6 +175,7 @@
   <handlers xmi:id="_Q-rwkPxfEeOykK3iUHvgTQ" elementId="ebook.handler.2" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Show" command="_Kdc4MPxfEeOykK3iUHvgTQ"/>
   <handlers xmi:id="_S2MEwPxfEeOykK3iUHvgTQ" elementId="ebook.handler.3" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.serviceShow" command="_Gp9_gPxfEeOykK3iUHvgTQ"/>
   <handlers xmi:id="_7YQu0PxrEeOykK3iUHvgTQ" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Open" command="_5ZJ90PxrEeOykK3iUHvgTQ"/>
+  <handlers xmi:id="_zI6eMOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.30" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.AddExisted" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="ebook.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_1dqYYKoIEeOvm9Uu729JwA" elementId="ebook.keybinding.3" keySequence="M1+T" command="_XybQsKkaEeOctbxZaJIj4Q">
       <tags>type:user</tags>
@@ -329,7 +328,6 @@
   <commands xmi:id="_W2YgENtrEeO08YnUrs_6Pw" elementId="ebook.command.EditBookTitle" commandName="Файл - Редактировать название книги"/>
   <commands xmi:id="_A3uvkOP_EeOAy9eWHpjDYw" elementId="ebook.command.11" commandName="Файл - Показать книгу из списка"/>
   <commands xmi:id="_KIPSEKteEeOoWahGiuWvNw" elementId="ebook.command.ShowBook" commandName="Файл - Показать книгу (служебная команда)"/>
-  <commands xmi:id="_SMVncKhVEeOKceOp7VW7lQ" elementId="ebook.command.OpenBook" commandName="Файл - Открыть книгу"/>
   <commands xmi:id="_as2bUNtrEeO08YnUrs_6Pw" elementId="ebook.command.BookDelete" commandName="Файл - Удалить книгу"/>
   <commands xmi:id="_jdrzcKhVEeOKceOp7VW7lQ" elementId="ebook.command.Save" commandName="Файл - Сохранить" description="Файл - Сохранить"/>
   <commands xmi:id="_mvAaQKhVEeOKceOp7VW7lQ" elementId="ebook.command.SaveAll" commandName="Файл - Сохранить все"/>

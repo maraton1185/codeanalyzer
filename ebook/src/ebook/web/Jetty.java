@@ -2,11 +2,14 @@ package ebook.web;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.sql.Connection;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.eclipse.equinox.http.jetty.JettyConstants;
 
@@ -19,6 +22,13 @@ public class Jetty implements IJetty {
 	private String jettyMessage = "Web-сервер не запущен";
 	private JettyStatus status = JettyStatus.stopped;
 	private boolean manualStart = false;
+
+	HashMap<IPath, Connection> connectionPull = new HashMap<IPath, Connection>();
+
+	@Override
+	public HashMap<IPath, Connection> pull() {
+		return connectionPull;
+	}
 
 	@Override
 	public void startJetty() {
@@ -119,8 +129,20 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public String book(Integer id) {
-		return host().concat("book?id=" + id.toString());
+	public String book(Integer book, Integer section) {
+		return host().concat(
+				"book?book=" + book.toString() + "&id=" + section.toString());
+	}
+
+	@Override
+	protected void finalize() {
+		for (Connection con : connectionPull.values()) {
+			try {
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

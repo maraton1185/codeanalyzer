@@ -311,7 +311,7 @@ public class StartView {
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("open_book.png"));
 		link.setUnderlined(false);
-		link.setText("Открыть книгу");
+		link.setText("Добавить книгу");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {

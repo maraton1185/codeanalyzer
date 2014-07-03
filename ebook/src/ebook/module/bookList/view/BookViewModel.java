@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.eclipse.core.runtime.IPath;
+
 import ebook.core.models.ModelObject;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
@@ -19,7 +21,7 @@ public class BookViewModel extends ModelObject {
 
 	public String description = "";
 
-	private ListBookInfoOptions options;
+	private final ListBookInfoOptions options;
 
 	public BookViewModel(ListBookInfo data) {
 		super();
@@ -67,7 +69,8 @@ public class BookViewModel extends ModelObject {
 	}
 
 	public String getPath() {
-		return options.path;
+		IPath path = data.getPath();
+		return path == null ? "" : path.toString();
 	}
 
 	public String getTitle() {

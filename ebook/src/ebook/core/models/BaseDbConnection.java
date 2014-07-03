@@ -4,9 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import org.eclipse.core.runtime.IPath;
 
+import ebook.core.App;
 import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IDbStructure;
@@ -14,7 +16,8 @@ import ebook.core.interfaces.IDbStructure;
 public abstract class BaseDbConnection implements IDbConnection {
 
 	protected IDbStructure dbStructure;
-	protected Connection con;
+
+	// protected Connection con;
 
 	protected BaseDbConnection(IDbStructure dbStructure) {
 		this.dbStructure = dbStructure;
@@ -78,18 +81,21 @@ public abstract class BaseDbConnection implements IDbConnection {
 
 	}
 
-	@Override
-	public void openConnection() throws InvocationTargetException {
-
-		try {
-			if (con != null)
-				throw new IllegalAccessException();
-
-			con = connect(true, true, getConnectionPath());
-		} catch (Exception e) {
-			throw new InvocationTargetException(e, e.getMessage());
-		}
-	}
+	// @Override
+	// public void openConnection() throws InvocationTargetException {
+	//
+	// HashMap<String, Connection> pull = App.getJetty().pull();
+	// Connection pull_con = pull.get(getConnectionPath());
+	//
+	// try {
+	// if (con != null)
+	// throw new IllegalAccessException();
+	//
+	// con = connect(true, true, getConnectionPath());
+	// } catch (Exception e) {
+	// throw new InvocationTargetException(e, e.getMessage());
+	// }
+	// }
 
 	@Override
 	public Connection makeConnection(boolean exist)
@@ -103,28 +109,43 @@ public abstract class BaseDbConnection implements IDbConnection {
 	@Override
 	public Connection getConnection() throws IllegalAccessException {
 
-		if (con == null)
-			throw new IllegalAccessException();
-		else
+		IPath path = getConnectionPath();
+		HashMap<IPath, Connection> pull = App.getJetty().pull();
+		Connection pull_con = pull.get(path);
+
+		if (pull_con == null) {
+			Connection con;
+			try {
+				con = connect(true, true, path);
+			} catch (Exception e) {
+				throw new IllegalAccessException();
+			}
+			pull.put(path, con);
 			return con;
+		} else
+			return pull_con;
 
 	}
 
 	public void closeConnection() {
-		if (con == null)
+		IPath path = getConnectionPath();
+		HashMap<IPath, Connection> pull = App.getJetty().pull();
+		Connection pull_con = pull.get(path);
+
+		if (pull_con == null)
 			return;
 		try {
 
-			con.close();
-			con = null;
+			pull_con.close();
+			pull.remove(path);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	protected void finalize() {
-		closeConnection();
-	}
+	// @Override
+	// protected void finalize() {
+	// closeConnection();
+	// }
 }

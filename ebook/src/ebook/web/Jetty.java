@@ -3,15 +3,14 @@ package ebook.web;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.Connection;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.equinox.http.jetty.JettyConfigurator;
-import org.eclipse.equinox.http.jetty.JettyConstants;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import ebook.core.Activator;
 import ebook.utils.PreferenceSupplier;
@@ -24,6 +23,8 @@ public class Jetty implements IJetty {
 	private boolean manualStart = false;
 
 	HashMap<IPath, Connection> connectionPull = new HashMap<IPath, Connection>();
+
+	private final Map<String, Server> servers = new HashMap<String, Server>();
 
 	@Override
 	public HashMap<IPath, Connection> pull() {
@@ -46,24 +47,44 @@ public class Jetty implements IJetty {
 		// } catch (Exception e) {
 		// e.printStackTrace();
 		// }
+		Server server = new Server();
 
-		Dictionary<String, Object> settings = new Hashtable<String, Object>();
-		settings.put("http.enabled", Boolean.TRUE);
-		settings.put("http.port", jettyPort);
-		settings.put("http.host", "localhost");
-		settings.put("https.enabled", Boolean.FALSE);
-		settings.put("context.path", "/");
-		settings.put("context.sessioninactiveinterval", 1800);
-		settings.put(JettyConstants.CUSTOMIZER_CLASS,
-				"jettycustom.ServerCustomizer");
+		ServerConnector connector = new ServerConnector(server);
+		connector.setPort(findFreePort());
+		server.setConnectors(new Connector[] { connector });
 
-		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
+		String webapp = "/webapp";
+		WebAppContext context = new WebAppContext();
+		context.setDescriptor(webapp + "/WEB-INF/web.xml");
+		context.setResourceBase("webapp");
+		context.setContextPath("/");
+		context.setParentLoaderPriority(true);
+
+		server.setHandler(context);
 
 		try {
+
+			server.start();
+			servers.put(Activator.PLUGIN_ID + ".jetty", server);
+
+			// Dictionary<String, Object> settings = new Hashtable<String,
+			// Object>();
+			// settings.put("http.enabled", Boolean.TRUE);
+			// settings.put("http.port", jettyPort);
+			// settings.put("http.host", "localhost");
+			// settings.put("https.enabled", Boolean.FALSE);
+			// settings.put("context.path", "/");
+			// settings.put("context.sessioninactiveinterval", 1800);
+			// settings.put(JettyConstants.CUSTOMIZER_CLASS,
+			// "jettycustom.ServerCustomizer");
+			//
+			//		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
+
+			// try {
 			// server.start();
 			// JettyConfigurator.stopServer(PLUGIN_ID + ".jetty");
-			JettyConfigurator.startServer(Activator.PLUGIN_ID + ".jetty",
-					settings);
+			// JettyConfigurator.startServer(Activator.PLUGIN_ID + ".jetty",
+			// settings);
 
 			status = JettyStatus.started;
 		} catch (Exception e) {

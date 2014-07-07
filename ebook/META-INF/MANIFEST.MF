@@ -38,6 +38,8 @@ Bundle-ClassPath: resources/,
  .,
  lib/picocontainer-2.14.1.jar,
  lib/h2-1.3.176.jar,
- lib/taglibs-standard-impl-1.2.1.jar
+ lib/jetty/jsp/org.eclipse.jetty.orbit.javax.servlet.jsp.jstl-1.2.0.v201105211821.jar,
+ lib/jetty/jetty-all-9.2.1.v20140609.jar,
+ lib/jetty/javax.servlet-api-3.1.0.jar
 Export-Package: ebook.core,
  ebook.web

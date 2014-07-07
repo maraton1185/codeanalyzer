@@ -113,7 +113,7 @@ public class NotUsedSectionComposite implements ISectionComposite {
 
 	private void addTinyText() {
 
-		String buf = book.srv().getText(section);
+		String buf = book.srv().getText(section.getId());
 
 		tinymce = new TinyTextEditor(blockComposite, section);
 		toolkit.adapt(tinymce, true, true);
@@ -283,7 +283,7 @@ public class NotUsedSectionComposite implements ISectionComposite {
 	private void addImageSections() {
 		final Device display = groupsComposite.getDisplay();
 
-		imageList = book.srv().getImages(section);
+		imageList = book.srv().getImages(section.getId());
 
 		for (final SectionImage sectionImage : imageList) {
 

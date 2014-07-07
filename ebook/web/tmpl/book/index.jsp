@@ -1,4 +1,5 @@
-<%@ page import="ebook.module.book.BookServlet.BookServletModel" %>
+<%@ page import="ebook.module.book.servlets.BookServlet.BookServletModel" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <% 
     String root = "rbook/"; 
@@ -25,7 +26,10 @@ BookServletModel model = (BookServletModel) request.getAttribute("model");
 
 <body>
 
-<h1>HELLO <%=model.id%></h1>
+<c:forEach var="item" begin="1" end="6">
+      <p>Item ${item}</p> 
+   </c:forEach>
+   
     <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -69,7 +73,8 @@ BookServletModel model = (BookServletModel) request.getAttribute("model");
         <div class="row">
 
             <div class="col-md-8">
-                <img class="img-responsive" src="http://placehold.it/750x500">
+                <!-- <img class="img-responsive" src="http://placehold.it/750x500"> -->
+                <img class="img-responsive" src="img?book=4&id=5">
             </div>
 
             <div class="col-md-4">
@@ -94,13 +99,15 @@ BookServletModel model = (BookServletModel) request.getAttribute("model");
 
             <div class="col-sm-3 col-xs-6">
                 <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300">
+                    <!--  <img class="img-responsive portfolio-item" src="http://placehold.it/500x300">-->
+                    <img class="img-responsive portfolio-item" src="img?book=4&id=4">
                 </a>
             </div>
 
             <div class="col-sm-3 col-xs-6">
                 <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300">
+                    <!--  <img class="img-responsive portfolio-item" src="http://placehold.it/500x300">-->
+                    <img class="img-responsive portfolio-item" src="img?book=4&id=5">
                 </a>
             </div>
 

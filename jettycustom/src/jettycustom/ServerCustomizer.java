@@ -18,7 +18,8 @@ public class ServerCustomizer extends JettyCustomizer {
 		// context.setClassLoader(Thread.currentThread().getContextClassLoader());
 		context.setContextPath("/");
 		context.setResourceBase(".");
-		// context.setWelcomeFiles(new String[] { "web/error.jsp" });
+		// context.setwe
+		// context.setWelcomeFiles(new String[] { "error.jsp" });
 		// context.setContextPath("/_web");
 
 		// if (!pico.get(IJetty.class).debug()) {

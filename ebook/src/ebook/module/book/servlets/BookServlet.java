@@ -1,6 +1,7 @@
-package ebook.module.book;
+package ebook.module.book.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,12 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
+import ebook.module.book.BookConnection;
+import ebook.module.book.tree.SectionImage;
 
 public class BookServlet extends HttpServlet {
 
 	public static class BookServletModel {
 
-		public String id;
+		public class Section {
+
+			public String text;
+			public String title;
+			public boolean isGroup;
+			public List<SectionImage> images;
+
+		}
+
+		public int book;
+		public int section;
+		public List<Section> sections;
 	}
 
 	/**
@@ -44,6 +58,8 @@ public class BookServlet extends HttpServlet {
 			error_view.forward(request, response);
 
 		BookServletModel model = book.getModel(section_id);
+		if (model == null)
+			error_view.forward(request, response);
 
 		// model.id = id;
 		request.setAttribute("model", model);

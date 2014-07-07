@@ -6,7 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.graphics.Font;
@@ -19,6 +21,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.section.tools.BrowserComposite;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 
 public class SectionView {
@@ -46,6 +49,20 @@ public class SectionView {
 	@Focus
 	public void OnFocus() {
 		window.getContext().set(Events.CONTEXT_ACTIVE_VIEW_SECTION, section);
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_SECTION_VIEW(
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (book != data.book)
+			return;
+
+		if (data.parent != section)
+			return;
+
+		browserComposite.updateUrl();
 	}
 
 	@PostConstruct

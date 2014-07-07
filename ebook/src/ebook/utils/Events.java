@@ -20,6 +20,7 @@ public abstract class Events {
 	public static final String EVENT_UPDATE_BOOK_INFO = "EVENT_UPDATE_BOOK_INFO";
 	public static final String EVENT_UPDATE_BOOK_LIST = "EVENT_UPDATE_BOOK_LIST";
 	public static final String EVENT_UPDATE_CONTENT_VIEW = "EVENT_UPDATE_CONTENT_VIEW";
+	public static final String EVENT_UPDATE_SECTION_VIEW = "EVENT_UPDATE_SECTION_VIEW";
 
 	public static final String EVENT_SHOW_CONF = "EVENT_SHOW_CONF";
 
@@ -59,28 +60,20 @@ public abstract class Events {
 			this.book = book;
 			this.parent = parent;
 			this.selected = selected;
-			onlySectionView = false;
+			// onlySectionView = false;
 		}
 
-		// public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo
-		// parent,
-		// SectionInfo selected, boolean setBook) {
-		// this(book, parent, selected);
-		// this.setBook = setBook;
-		// }
-
-		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
-				boolean onlySectionView) {
+		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent) {
 			this.book = book;
 			this.parent = parent;
-			this.onlySectionView = onlySectionView;
+			// this.onlySectionView = onlySectionView;
 		}
 
 		public BookConnection book;
 		public SectionInfo parent;
 		public SectionInfo selected;
 		// public boolean setBook;
-		public boolean onlySectionView;
+		// public boolean onlySectionView;
 
 	}
 

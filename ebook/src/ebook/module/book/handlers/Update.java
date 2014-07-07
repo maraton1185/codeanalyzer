@@ -18,8 +18,8 @@ public class Update {
 	public void execute(
 			BookConnection book,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
-		App.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
-				new EVENT_UPDATE_VIEW_DATA(book, section, true));
+		App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
+				new EVENT_UPDATE_VIEW_DATA(book, section));
 	}
 
 	@CanExecute

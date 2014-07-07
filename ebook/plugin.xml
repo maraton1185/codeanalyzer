@@ -138,7 +138,11 @@
 <extension point="org.eclipse.equinox.http.registry.servlets">
     <servlet
            alias="/book"
-           class="ebook.module.book.BookServlet"
+           class="ebook.module.book.servlets.BookServlet"
+           httpcontextId="book"/>
+    <servlet
+           alias="/img"
+           class="ebook.module.book.servlets.ImageServlet"
            httpcontextId="book"/>
   	<servlet
 		 alias="/book/*.jsp"

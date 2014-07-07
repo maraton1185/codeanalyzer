@@ -163,7 +163,7 @@ public class BlockView {
 		Composite rightComposite = new Composite(sashForm, SWT.NONE);
 		rightComposite.setLayout(new FillLayout());
 
-		String buf = book.srv().getText(section);
+		String buf = book.srv().getText(section.getId());
 		tinymce = new TinyTextEditor(leftComposite, section);
 		tinymce.setText(buf);
 		tinymce.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -346,7 +346,7 @@ public class BlockView {
 	private void addImageSections() {
 		final Device display = body.getDisplay();
 
-		imageList = book.srv().getImages(section);
+		imageList = book.srv().getImages(section.getId());
 
 		for (final SectionImage sectionImage : imageList) {
 

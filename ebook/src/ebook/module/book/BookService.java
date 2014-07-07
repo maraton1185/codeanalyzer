@@ -232,9 +232,9 @@ public class BookService extends TreeService {
 				}
 
 				if (parent != null)
-					App.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
+					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
 							new EVENT_UPDATE_VIEW_DATA((BookConnection) db,
-									parent, true));
+									parent));
 			} finally {
 				rs.close();
 			}
@@ -243,7 +243,7 @@ public class BookService extends TreeService {
 		}
 	}
 
-	public String getText(SectionInfo section) {
+	public String getText(int section) {
 
 		StringBuilder result = new StringBuilder();
 
@@ -251,7 +251,7 @@ public class BookService extends TreeService {
 			Connection con = db.getConnection();
 			String SQL = "SELECT TEXT FROM S_TEXT WHERE SECTION=?";
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, section.getId());
+			prep.setInt(1, section);
 			ResultSet rs = prep.executeQuery();
 			BufferedReader bufferedReader = null;
 
@@ -277,7 +277,7 @@ public class BookService extends TreeService {
 		return result.toString();
 	}
 
-	public List<SectionImage> getImages(SectionInfo section) {
+	public List<SectionImage> getImages(int section) {
 
 		// List<BookSectionImage> result = new ArrayList<BookSectionImage>();
 		//
@@ -294,7 +294,7 @@ public class BookService extends TreeService {
 			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.EXPANDED, T.ID FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, section.getId());
+			prep.setInt(1, section);
 			ResultSet rs = prep.executeQuery();
 
 			try {
@@ -324,6 +324,40 @@ public class BookService extends TreeService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public BufferedInputStream getImage(String image_id) {
+		Integer id;
+		try {
+			id = Integer.parseInt(image_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		BufferedInputStream inputStreamReader = null;
+
+		try {
+			Connection con = db.getConnection();
+			String SQL = "Select T.DATA FROM S_IMAGES AS T WHERE T.ID=?";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					InputStream is = rs.getBinaryStream(1);
+					inputStreamReader = new BufferedInputStream(is);
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return inputStreamReader;
 	}
 
 	public void add_image(SectionInfo section, IPath p) {
@@ -464,7 +498,7 @@ public class BookService extends TreeService {
 
 		try {
 
-			List<SectionImage> items = getImages(section);
+			List<SectionImage> items = getImages(section.getId());
 
 			int i = items.indexOf(item);
 

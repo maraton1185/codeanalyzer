@@ -122,7 +122,19 @@ public class Jetty implements IJetty {
 			context.setAttribute(InstanceManager.class.getName(),
 					new SimpleInstanceManager());
 			context.setDefaultsDescriptor(WEBROOT_INDEX + "WEB-INF/web.xml");
-			context.setServer(server);
+			// context.setServer(server);
+
+			// ResourceHandler resource_handler = new ResourceHandler();
+			// resource_handler.setDirectoriesListed(true);
+			// resource_handler.setWelcomeFiles(new String[] { "index.html" });
+			//
+			// resource_handler.setResourceBase(".");
+			//
+			// HandlerList handlers = new HandlerList();
+			// handlers.setHandlers(new Handler[] { resource_handler, context
+			// });
+			// server.setHandler(handlers);
+
 			server.setHandler(context);
 
 			// Add Application Servlets
@@ -141,7 +153,7 @@ public class Jetty implements IJetty {
 					initializers);
 			context.addBean(sciStarter, true);
 
-			context.preConfigure();
+			// context.preConfigure();
 
 			// Set Classloader of Context to be sane (needed for JSTL)
 			// JSP requires a non-System classloader, this simply wraps the
@@ -151,55 +163,6 @@ public class Jetty implements IJetty {
 			ClassLoader jspClassLoader = new URLClassLoader(new URL[0], this
 					.getClass().getClassLoader());
 			context.setClassLoader(jspClassLoader);
-
-			// context.setClassLoader(new WebAppClassLoader(getClass()
-			// .getClassLoader(), context));
-
-			// URL urlTaglibs = this.getClass().getResource(
-			// "/lib/jetty/taglibs-standard-impl-1.2.1.jar");
-
-			// context.setClassLoader(new WebAppClassLoader(new URLClassLoader(
-			// allURLs.toArray(new URL[] {}), parentLoader),
-			// ((WebAppClassLoader) context).getContext()));
-
-			// ClassLoader cl = this.getClass().getClassLoader();
-			// ClassLoader jspClassLoader = new URLClassLoader(
-			// new URL[] { urlTaglibs }, this.getClass().getClassLoader());
-			// context.setClassLoader(new WebAppClassLoader(jspClassLoader,
-			// context));
-
-			// Replace classloader with a new classloader with all URLs in
-			// manifests
-			// from the parent loader bubbled up so Jasper looks at them.
-			// ClassLoader contextClassLoader = context.getClassLoader();
-			// ClassLoader parentLoader = contextClassLoader.getParent();
-			// if (contextClassLoader instanceof WebAppClassLoader
-			// && parentLoader instanceof URLClassLoader) {
-			// LinkedList<URL> allURLs = new LinkedList<URL>(
-			// Arrays.asList(((URLClassLoader) parentLoader).getURLs()));
-			// for (URL url : ((LinkedList<URL>) allURLs.clone())) {
-			// try {
-			// URLConnection conn = new URL("jar:" + url.toString()
-			// + "!/").openConnection();
-			// if (!(conn instanceof JarURLConnection))
-			// continue;
-			// JarURLConnection jconn = (JarURLConnection) conn;
-			// Manifest jarManifest = jconn.getManifest();
-			// String[] classPath = jarManifest.getMainAttributes()
-			// .getValue("Class-Path").split(" ");
-			//
-			// for (String cpurl : classPath)
-			// allURLs.add(new URL(url, cpurl));
-			// } catch (IOException e) {
-			// } catch (NullPointerException e) {
-			// }
-			// }
-			//
-			// context.setClassLoader(new WebAppClassLoader(
-			// new URLClassLoader(allURLs.toArray(new URL[] {}),
-			// parentLoader),
-			// ((WebAppClassLoader) contextClassLoader).getContext()));
-			// }
 
 			// Add JSP Servlet (must be named "jsp")
 			ServletHolder holderJsp = new ServletHolder("jsp", JspServlet.class);

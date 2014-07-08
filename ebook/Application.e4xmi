@@ -153,7 +153,8 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="ebook.handledtoolitem.activate" visible="false" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw">
           <tags>status</tags>
         </children>
-        <children xsi:type="menu:DirectToolItem" xmi:id="_TXjysOWFEeOaOtR2JTzg6w" elementId="ebook.directtoolitem.1" visible="false" label="Web-доступ" contributionURI="bundleclass://ebook/ebook.handlers.BrowseJettyServer"/>
+        <children xsi:type="menu:DirectToolItem" xmi:id="_TXjysOWFEeOaOtR2JTzg6w" elementId="ebook.directtoolitem.1" label="Web-доступ" contributionURI="bundleclass://ebook/ebook.handlers.BrowseJettyServer"/>
+        <children xsi:type="menu:DirectToolItem" xmi:id="_mPU1gAaYEeS-Mpikc4Lbfw" elementId="ebook.directtoolitem.0" iconURI="platform:/plugin/ebook/icons/delete.png" tooltip="Остановить web-сервер" contributionURI="bundleclass://ebook/ebook.handlers.StopJetty"/>
       </children>
     </trimBars>
   </children>

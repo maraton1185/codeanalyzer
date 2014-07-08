@@ -41,6 +41,7 @@ public abstract class Events {
 	public static final String EVENT_USER_LIST_SET_SELECTION = "EVENT_USER_LIST_SET_SELECTION";
 
 	public static final String EVENT_START_JETTY = "EVENT_START_JETTY";
+	public static final String EVENT_STOP_JETTY = "EVENT_STOP_JETTY";
 
 	public static final String EVENT_UPDATE_CONF_LIST = "EVENT_UPDATE_CONF_LIST";
 

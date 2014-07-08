@@ -148,6 +148,7 @@ public class App {
 		br.subscribe(Events.EVENT_UPDATE_STATUS, new EVENT_UPDATE_STATUS());
 
 		br.subscribe(Events.EVENT_START_JETTY, new EVENT_START_JETTY());
+		br.subscribe(Events.EVENT_STOP_JETTY, new EVENT_STOP_JETTY());
 
 		br.subscribe(Events.EVENT_UPDATE_PERSPECTIVE_ICON,
 				new EVENT_UPDATE_PERSPECTIVE_ICON());
@@ -408,7 +409,40 @@ public class App {
 				@Override
 				public void run() {
 
-					jetty.startJetty();
+					jetty.start();
+
+					App.sync.asyncExec(new Runnable() {
+						@Override
+						public void run() {
+
+							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
+									Strings.get("ebook.directtoolitem.1"),
+									App.app);
+							d_element.setLabel(jetty.jettyMessage());
+							d_element.setVisible(false);
+							d_element.setVisible(true);
+
+							// MToolBar tb = (MToolBar) App.model.find(
+							// Strings.get("ebook.toolbar.top"), App.app);
+							// ToolBar tbw = (ToolBar) tb.getWidget();
+							// tbw.layout(true);
+							// ((ToolBar));
+						}
+					});
+				}
+			}).start();
+		}
+	}
+
+	private static class EVENT_STOP_JETTY implements EventHandler {
+
+		@Override
+		public void handleEvent(Event event) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+
+					jetty.stop();
 
 					App.sync.asyncExec(new Runnable() {
 						@Override

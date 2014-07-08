@@ -13,7 +13,9 @@ public interface IJetty {
 
 	public JettyStatus status();
 
-	public void startJetty();
+	public void start();
+
+	public void stop();
 
 	public String jettyMessage();
 

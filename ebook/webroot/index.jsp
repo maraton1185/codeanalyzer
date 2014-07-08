@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Embedded Jetty: JSP Examples</title>
-  <link href="static/main.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="/static/main.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <h1>Embedded Jetty: JSP Examples</h1>

@@ -57,6 +57,7 @@ Bundle-ClassPath: resources/,
  lib/jetty/jetty-xml-9.2.0.v20140526.jar,
  lib/jetty/org.eclipse.jdt.core-3.8.2.v20130121.jar,
  lib/jetty/taglibs-standard-impl-1.2.1.jar,
- lib/jetty/taglibs-standard-spec-1.2.1.jar
+ lib/jetty/taglibs-standard-spec-1.2.1.jar,
+ lib/jetty/jetty-servlet-9.2.1.v20140609.jar
 Export-Package: ebook.core,
  ebook.web

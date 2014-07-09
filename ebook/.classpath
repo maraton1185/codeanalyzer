@@ -22,13 +22,17 @@
 	<classpathentry kind="lib" path="lib/jetty/jetty-plus-9.2.0.v20140526.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-schemas-3.1.M0.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-security-9.2.0.v20140526.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-server-9.2.0.v20140526.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-servlet-9.2.0.v20140526.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-server-9.2.0.v20140526.jar" sourcepath="lib/jetty/jetty-server-9.2.0.v20140526-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ebook/lib/jetty/jetty-server-9.2.0.v20140526-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/jetty/jetty-util-9.2.0.v20140526.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-webapp-9.2.0.v20140526.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-xml-9.2.0.v20140526.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/org.eclipse.jdt.core-3.8.2.v20130121.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/taglibs-standard-impl-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/taglibs-standard-spec-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-servlet-9.2.0.v20140526.jar" sourcepath="lib/jetty/jetty-servlet-9.2.0.v20140526-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

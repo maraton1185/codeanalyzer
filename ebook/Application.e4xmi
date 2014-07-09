@@ -127,7 +127,6 @@
     <mainMenu xmi:id="_wpG8QJlJEeOhhK_cqm6rMQ" elementId="ebook.menu.0">
       <children xsi:type="menu:Menu" xmi:id="_R1HOIJlKEeOhhK_cqm6rMQ" elementId="ebook.menu.File" label="&amp;Файл">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_ZQuQMKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.10" visible="false" label="&amp;Создать книгу" command="_NJAQcKhVEeOKceOp7VW7lQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_cayYcKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.11" visible="false" label="&amp;Открыть книгу"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_RIfvYKhWEeOKceOp7VW7lQ" elementId="ebook.menuseparator.1" visible="false"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_qCxREKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.12" visible="false" label="&amp;Сохранить" iconURI="platform:/plugin/ebook/icons/save.png" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_spYuAKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.13" visible="false" label="Сохранить как" command="_mvAaQKhVEeOKceOp7VW7lQ"/>
@@ -153,7 +152,7 @@
         <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="ebook.handledtoolitem.activate" visible="false" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw">
           <tags>status</tags>
         </children>
-        <children xsi:type="menu:DirectToolItem" xmi:id="_TXjysOWFEeOaOtR2JTzg6w" elementId="ebook.directtoolitem.1" label="Web-доступ" contributionURI="bundleclass://ebook/ebook.handlers.BrowseJettyServer"/>
+        <children xsi:type="menu:DirectToolItem" xmi:id="_TXjysOWFEeOaOtR2JTzg6w" elementId="ebook.directtoolitem.1" label="Web-сервер не запущен" contributionURI="bundleclass://ebook/ebook.handlers.BrowseJettyServer"/>
         <children xsi:type="menu:DirectToolItem" xmi:id="_mPU1gAaYEeS-Mpikc4Lbfw" elementId="ebook.directtoolitem.0" iconURI="platform:/plugin/ebook/icons/delete.png" tooltip="Остановить web-сервер" contributionURI="bundleclass://ebook/ebook.handlers.StopJetty"/>
       </children>
     </trimBars>

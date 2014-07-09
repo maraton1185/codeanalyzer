@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.jasper.servlet.JspServlet;
-import org.apache.tomcat.InstanceManager;
-import org.apache.tomcat.SimpleInstanceManager;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.jetty.annotations.ServletContainerInitializersStarter;
@@ -25,7 +22,6 @@ import org.eclipse.jetty.plus.annotation.ContainerInitializer;
 import org.eclipse.jetty.server.ConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -119,8 +115,8 @@ public class Jetty implements IJetty {
 			context.setContextPath("/");
 			context.setAttribute("javax.servlet.context.tempdir", scratchDir);
 			context.setResourceBase(baseUri.toASCIIString());
-			context.setAttribute(InstanceManager.class.getName(),
-					new SimpleInstanceManager());
+			// context.setAttribute(InstanceManager.class.getName(),
+			// new SimpleInstanceManager());
 			context.setDefaultsDescriptor(WEBROOT_INDEX + "WEB-INF/web.xml");
 			// context.setServer(server);
 
@@ -128,10 +124,14 @@ public class Jetty implements IJetty {
 			// resource_handler.setDirectoriesListed(true);
 			// resource_handler.setWelcomeFiles(new String[] { "index.html" });
 			//
-			// resource_handler.setResourceBase(".");
+			// resource_handler.setResourceBase(baseUri.toASCIIString());
 			//
 			// HandlerList handlers = new HandlerList();
 			// handlers.setHandlers(new Handler[] { resource_handler, context
+			// });
+
+			// HandlerList handlers = new HandlerList();
+			// handlers.setHandlers(new Handler[] { context, resource_handler
 			// });
 			// server.setHandler(handlers);
 
@@ -160,9 +160,12 @@ public class Jetty implements IJetty {
 			// embedded System classloader in a way that makes it suitable
 			// for JSP to use
 
-			ClassLoader jspClassLoader = new URLClassLoader(new URL[0], this
-					.getClass().getClassLoader());
-			context.setClassLoader(jspClassLoader);
+			// ClassLoader jspClassLoader = new URLClassLoader(new URL[0], this
+			// .getClass().getClassLoader());
+			// context.setClassLoader(jspClassLoader);
+
+			context.setClassLoader(Thread.currentThread()
+					.getContextClassLoader());
 
 			// Add JSP Servlet (must be named "jsp")
 			ServletHolder holderJsp = new ServletHolder("jsp", JspServlet.class);
@@ -173,6 +176,7 @@ public class Jetty implements IJetty {
 			holderJsp.setInitParameter("compilerTargetVM", "1.7");
 			holderJsp.setInitParameter("compilerSourceVM", "1.7");
 			holderJsp.setInitParameter("keepgenerated", "true");
+			holderJsp.setInitParameter("classpath", context.getClassPath());
 			context.addServlet(holderJsp, "*.jsp");
 			// context.addServlet(holderJsp,"*.jspf");
 			// context.addServlet(holderJsp,"*.jspx");
@@ -185,12 +189,21 @@ public class Jetty implements IJetty {
 
 			// Add Default Servlet (must be named "default")
 			ServletHolder holderDefault = new ServletHolder("default",
-					DefaultServlet.class);
+					WebDefaultServlet.class);
 			LOG.info("Base URI: " + baseUri);
 			holderDefault.setInitParameter("resourceBase",
 					baseUri.toASCIIString());
+			// holderDefault.setInitParameter("resourceBase", ".");
+			// holderDefault.setInitParameter("useFileMappedBuffer", "true");
+
 			holderDefault.setInitParameter("dirAllowed", "true");
 			context.addServlet(holderDefault, "/");
+
+			// ServletHolder holderDefault = context.addServlet(
+			// DefaultServlet.class, "/");
+			// holderDefault.setInitParameter("resourceBase",
+			// baseUri.toASCIIString());
+			// holderDefault.setInitParameter("dirAllowed", "true");
 
 			// Start Server
 			server.start();

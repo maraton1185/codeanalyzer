@@ -11,13 +11,13 @@
     </description>
 
 	<servlet>
-		<servlet-name>HelloServlet</servlet-name>
-		<servlet-class>ebook.web.DateServlet</servlet-class>
+		<servlet-name>info</servlet-name>
+		<jsp-file>/tmpl/info/index.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>HelloServlet</servlet-name>
-		<url-pattern>/hello</url-pattern>
+		<servlet-name>info</servlet-name>
+		<url-pattern>/info</url-pattern>
 	</servlet-mapping>
 
 	<jsp-config>

@@ -1,5 +1,5 @@
 ﻿<%! 
-    String root = "rinfo/"; 
+    String root = "tmpl/info/"; 
 %>
 <!DOCTYPE html>
 <html lang="en">

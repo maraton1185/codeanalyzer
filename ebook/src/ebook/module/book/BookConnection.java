@@ -8,8 +8,8 @@ import org.eclipse.core.runtime.IPath;
 
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
-import ebook.module.book.servlets.BookServlet.BookServletModel;
-import ebook.module.book.servlets.BookServlet.BookServletModel.Section;
+import ebook.module.book.servlets.BookServletModel;
+import ebook.module.book.servlets.BookServletModel.Section;
 import ebook.module.tree.ITreeItemInfo;
 
 public class BookConnection extends BaseDbPathConnection {
@@ -55,26 +55,36 @@ public class BookConnection extends BaseDbPathConnection {
 			return null;
 		}
 
-		BookServletModel result = new BookServletModel();
-		result.book = getId();
-		result.section = id;
-		result.sections = new ArrayList<Section>();
+		ITreeItemInfo sec = srv().get(id);
+		if (sec == null)
+			return null;
+
+		BookServletModel model = new BookServletModel();
+
+		model.section = model.new Section();
+
+		model.section.id = sec.getId();
+		model.section.title = sec.getTitle();
+		model.section.group = sec.isGroup();
+		model.section.text = srv().getText(id);
+
+		model.sections = new ArrayList<Section>();
 
 		List<ITreeItemInfo> list = srv().getChildren(id);
 
 		for (ITreeItemInfo item : list) {
 
-			Section section = result.new Section();
+			Section sub_section = model.new Section();
 
-			section.title = item.getTitle();
-			section.isGroup = item.isGroup();
-			section.text = srv().getText(id);
-			section.images = srv().getImages(id);
+			sub_section.id = item.getId();
+			sub_section.title = item.getTitle();
+			sub_section.group = item.isGroup();
+			sub_section.text = srv().getText(item.getId());
+			sub_section.images = srv().getImages(item.getId());
 
-			result.sections.add(section);
+			model.sections.add(sub_section);
 		}
 
-		return result;
+		return model;
 	}
-
 }

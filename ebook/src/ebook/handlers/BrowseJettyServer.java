@@ -9,17 +9,11 @@ import ebook.utils.Events;
 public class BrowseJettyServer {
 	@Execute
 	public void execute() {
-
-		switch (App.getJetty().status()) {
-		case started:
+		if (App.getJetty().isStarted())
 			Program.launch(App.getJetty().info());
-			break;
-		default:
+		else {
 			App.getJetty().setManual();
 			App.br.post(Events.EVENT_START_JETTY, null);
-			break;
-		// case error:
-		// break;
 		}
 
 	}

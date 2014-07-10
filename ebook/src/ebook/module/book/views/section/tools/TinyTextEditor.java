@@ -68,7 +68,7 @@ public class TinyTextEditor extends Composite {
 		try {
 			Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
 			URL url_bundle = FileLocator.find(bundle, new Path(
-					"web_editor/index.html"), null);
+					"web/tinyMCE/index.html"), null);
 			URL url_file = FileLocator.toFileURL(url_bundle);
 
 			browser.setUrl(url_file.toString());

@@ -11,7 +11,7 @@ public interface IJetty {
 		started, stopped, error;
 	}
 
-	public JettyStatus status();
+	public boolean isStarted();
 
 	public void start();
 
@@ -28,5 +28,7 @@ public interface IJetty {
 	public String book(Integer book, Integer section);
 
 	public HashMap<IPath, Connection> pull();
+
+	public String image(Integer book, Integer id);
 
 }

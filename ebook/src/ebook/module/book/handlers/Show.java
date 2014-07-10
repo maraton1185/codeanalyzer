@@ -15,6 +15,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.swt.widgets.Shell;
 
+import ebook.core.App;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Strings;
 
@@ -61,7 +62,7 @@ public class Show {
 	@CanExecute
 	public boolean canExecute(@Optional SectionInfo section) {
 
-		return section != null;
+		return section != null && App.getJetty().isStarted();
 	}
 
 }

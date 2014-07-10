@@ -877,7 +877,16 @@ public class WebDefaultServlet extends HttpServlet implements ResourceFactory {
 				}
 				// otherwise write content blocking
 				else {
-					((HttpOutput) out).sendContent(content);
+
+					ReadableByteChannel channel = resource
+							.getReadableByteChannel();
+					if (channel != null)
+						((HttpOutput) out).sendContent(channel);
+					else
+						((HttpOutput) out).sendContent(resource
+								.getInputStream());
+
+					// ((HttpOutput) out).sendContent(content);
 				}
 			}
 		} else {

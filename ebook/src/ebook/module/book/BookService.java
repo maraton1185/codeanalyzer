@@ -307,6 +307,7 @@ public class BookService extends TreeService {
 					sec.sort = rs.getInt(3);
 					sec.expanded = rs.getBoolean(4);
 					sec.id = rs.getInt(5);
+					sec.book = ((BookConnection) db).getId();
 
 					BufferedInputStream inputStreamReader = new BufferedInputStream(
 							is);

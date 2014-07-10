@@ -1,7 +1,6 @@
 package ebook.module.book.servlets;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,25 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionImage;
 
 public class BookServlet extends HttpServlet {
-
-	public static class BookServletModel {
-
-		public class Section {
-
-			public String text;
-			public String title;
-			public boolean isGroup;
-			public List<SectionImage> images;
-
-		}
-
-		public int book;
-		public int section;
-		public List<Section> sections;
-	}
 
 	/**
 	 * 
@@ -43,28 +25,37 @@ public class BookServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher error_view = request
-				.getRequestDispatcher("bookNotFind.jsp");
+				.getRequestDispatcher("/bookNotFind.jsp");
 
 		String book_id = request.getParameter("book");
-		if (book_id == null)
+		if (book_id == null) {
 			error_view.forward(request, response);
+			return;
+		}
 
 		String section_id = request.getParameter("id");
-		if (section_id == null)
+		if (section_id == null) {
 			error_view.forward(request, response);
+			return;
+		}
 
 		BookConnection book = App.srv.bls().getBook(book_id);
-		if (book == null)
+		if (book == null) {
 			error_view.forward(request, response);
+			return;
+		}
 
 		BookServletModel model = book.getModel(section_id);
-		if (model == null)
+		if (model == null) {
 			error_view.forward(request, response);
+			return;
+		}
 
 		// model.id = id;
 		request.setAttribute("model", model);
 
-		RequestDispatcher view = request.getRequestDispatcher("book/index.jsp");
+		RequestDispatcher view = request
+				.getRequestDispatcher("/tmpl/book/index.jsp");
 
 		view.forward(request, response);
 

@@ -5,7 +5,6 @@ import org.eclipse.e4.core.di.annotations.Execute;
 
 import ebook.core.App;
 import ebook.utils.Events;
-import ebook.web.IJetty.JettyStatus;
 
 public class StopJetty {
 	@Execute
@@ -18,6 +17,6 @@ public class StopJetty {
 	@CanExecute
 	public boolean canExecute() {
 
-		return App.getJetty().status() == JettyStatus.started;
+		return App.getJetty().isStarted();
 	}
 }

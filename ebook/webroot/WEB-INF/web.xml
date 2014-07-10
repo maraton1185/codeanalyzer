@@ -4,12 +4,36 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 
+	<init-param>
+  		<param-name>cacheControl</param-name>
+  		<param-value>max-age=0,public</param-value>
+	</init-param>
+
 	<display-name>HelloWorld Application</display-name>
 	<description>
         This is a simple web application with a source code organization
         based on the recommendations of the Application Developer's Guide.
     </description>
 
+
+	<servlet>
+		<servlet-name>image</servlet-name>
+		<servlet-class>ebook.module.book.servlets.ImageServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>image</servlet-name>
+		<url-pattern>/img</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>book</servlet-name>
+		<servlet-class>ebook.module.book.servlets.BookServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>book</servlet-name>
+		<url-pattern>/book</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>info</servlet-name>
 		<jsp-file>/tmpl/info/index.jsp</jsp-file>
@@ -35,4 +59,8 @@
 		</servlet> <servlet-mapping> <servlet-name>home</servlet-name> <url-pattern>/*</url-pattern> 
 		</servlet-mapping> -->
 
+	<error-page>
+        <location>/error.jsp</location>
+    </error-page>
+    
 </web-app> 

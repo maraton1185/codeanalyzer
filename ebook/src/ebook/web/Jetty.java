@@ -138,7 +138,7 @@ public class Jetty implements IJetty {
 			server.setHandler(context);
 
 			// Add Application Servlets
-			context.addServlet(DateServlet.class, "/date/");
+			// context.addServlet(DateServlet.class, "/date/");
 
 			// Ensure the jsp engine is initialized correctly
 			JettyJasperInitializer sci = new JettyJasperInitializer();
@@ -193,6 +193,7 @@ public class Jetty implements IJetty {
 			LOG.info("Base URI: " + baseUri);
 			holderDefault.setInitParameter("resourceBase",
 					baseUri.toASCIIString());
+			holderDefault.setInitParameter("cacheControl", "max-age=0,public");
 			// holderDefault.setInitParameter("resourceBase", ".");
 			// holderDefault.setInitParameter("useFileMappedBuffer", "true");
 
@@ -315,8 +316,8 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public JettyStatus status() {
-		return status;
+	public boolean isStarted() {
+		return status == JettyStatus.started;
 	}
 
 	@Override
@@ -339,6 +340,12 @@ public class Jetty implements IJetty {
 	public String book(Integer book, Integer section) {
 		return host().concat(
 				"book?book=" + book.toString() + "&id=" + section.toString());
+	}
+
+	@Override
+	public String image(Integer book, Integer id) {
+		return host().concat(
+				"img?book=" + book.toString() + "&id=" + id.toString());
 	}
 
 	@Override

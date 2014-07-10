@@ -3,7 +3,11 @@ package ebook.module.book.tree;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
+import ebook.core.App;
+
 public class SectionImage {
+
+	public Integer book;
 
 	public Integer id;
 
@@ -16,12 +20,20 @@ public class SectionImage {
 	public boolean expanded;
 	public int sort;
 
-	public SectionImage(Image image, String title, boolean opened) {
-		super();
-		this.image = image;
-		this.title = title;
-		this.expanded = opened;
+	public String url;
+
+	public String getUrl() {
+		return App.getJetty().image(book, id);
 	}
+
+	// public SectionImage(Image image, String title, boolean opened, Integer
+	// book) {
+	// super();
+	// this.image = image;
+	// this.title = title;
+	// this.expanded = opened;
+	// this.book = book;
+	// }
 
 	public SectionImage() {
 	}

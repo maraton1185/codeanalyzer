@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ebook.core.App;
-
 public class InfoServlet extends HttpServlet {
 
 	/**
@@ -30,11 +28,12 @@ public class InfoServlet extends HttpServlet {
 		// if (c == null)
 		// error_view.forward(request, response);
 
-		request.setAttribute("host", App.getJetty().host());
+		// request.setAttribute("host", App.getJetty().host());
 		// RequestDispatcher view = request.getRequestDispatcher("about.jsp");
 		// RequestDispatcher view = request.getServletContext()
 		// .getRequestDispatcher("/about/scrolling-nav/index.html");
-		RequestDispatcher view = request.getRequestDispatcher("info/index.jsp");
+		RequestDispatcher view = request
+				.getRequestDispatcher("/tmpl/info/index.html");
 
 		view.forward(request, response);
 

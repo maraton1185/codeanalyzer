@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
+import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
@@ -144,6 +145,9 @@ public class ContentView {
 
 	private void showSections(MWindow window, EHandlerService hs,
 			ECommandService cs) {
+
+		if (!App.getJetty().isStarted())
+			return;
 
 		BookOptions opt = book.srv().getBookOptions();
 		for (Integer i : opt.openSections) {

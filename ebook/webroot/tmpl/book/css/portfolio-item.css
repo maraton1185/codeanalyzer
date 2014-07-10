@@ -1,5 +1,5 @@
 body {
-	margin-top: 50px; /* 50px is the height of the navbar - change this if the navbarn height changes */
+	//margin-top: 50px; /* 50px is the height of the navbar - change this if the navbarn height changes */
 }
 
 .portfolio-item {
@@ -8,4 +8,14 @@ body {
 
 footer {
 	margin: 50px 0;
+}
+
+.back-to-top {
+	color: #999;
+	float: right;
+}
+
+.back-to-top:hover {
+	color: #101010;
+	text-decoration: none;
 }

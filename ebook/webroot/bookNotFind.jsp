@@ -13,7 +13,17 @@
      </head>
 	 
      <body>
-          <h1>Книга не найдена (<%= book%>, <%= section%>)</h1>
+          <h1>Книга не найдена</h1>
+          <table>
+          	<tr>
+          		<td>Код книги:</td>
+          		<td><%= book%></td>
+          	</tr>
+          	<tr>
+          		<td>Код раздела:</td>
+          		<td><%= section%></td>
+          	</tr>
+          </table>
      </body>
   </html>
   

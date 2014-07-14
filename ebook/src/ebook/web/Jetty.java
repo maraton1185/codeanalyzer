@@ -182,10 +182,10 @@ public class Jetty implements IJetty {
 			// context.addServlet(holderJsp,"*.jspx");
 
 			// Add Example of mapping jsp to path spec
-			ServletHolder holderAltMapping = new ServletHolder("foo.jsp",
-					JspServlet.class);
-			holderAltMapping.setForcedPath("/test/foo/foo.jsp");
-			context.addServlet(holderAltMapping, "/test/foo/");
+			// ServletHolder holderAltMapping = new ServletHolder("foo.jsp",
+			// JspServlet.class);
+			// holderAltMapping.setForcedPath("/test/foo/foo.jsp");
+			// context.addServlet(holderAltMapping, "/test/foo/");
 
 			// Add Default Servlet (must be named "default")
 			ServletHolder holderDefault = new ServletHolder("default",

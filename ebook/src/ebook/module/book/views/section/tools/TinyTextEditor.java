@@ -7,10 +7,12 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.OpenWindowListener;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
+import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
@@ -47,6 +49,15 @@ public class TinyTextEditor extends Composite {
 			@Override
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
+				browser.execute("setContent('" + editor_content + "');");
+				browser.execute("$.cookie(\"tinyEditor\", true);");
+			}
+		});
+
+		browser.addOpenWindowListener(new OpenWindowListener() {
+			@Override
+			public void open(WindowEvent event) {
+
 			}
 		});
 

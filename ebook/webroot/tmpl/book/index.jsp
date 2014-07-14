@@ -7,6 +7,15 @@
 
 	BookServletModel model = (BookServletModel) request
 			.getAttribute("model");
+	
+	boolean editMode = false;
+	
+	Cookie[] ck = request.getCookies();
+	for (int i = 0; i < ck.length; i++) {
+		if(ck[i].getName().equalsIgnoreCase("tinyEditor"))
+			editMode = true;
+	}
+	
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +37,7 @@
 
 <body>
 
+<h1> <%=editMode %></h1>
 	<!-- 	<table> -->
 
 	<%-- 		<c:if test="${model.section.group}"> --%>
@@ -86,8 +96,13 @@
 				<div class="col-lg-12">
 					<h1 class="page-header">${section.title}</h1>
 
-					<a href="#" class="back-to-top"><small>Наверх</small></a>
-
+					<div class="back-to-top"> 
+					<a href="#"><small>Наверх</small></a>
+										
+					<a href="#" target="_blank" > 
+					<span class="glyphicon glyphicon-edit"></span>					
+					<small>Изменить</small></a>
+					</div>
 				</div>
 
 			</div>
@@ -96,7 +111,7 @@
 
 				<div class="col-md-8">
 					<!-- <img class="img-responsive" src="http://placehold.it/750x500"> -->
-					<img class="img-responsive" src="/img?book=2&id=5">
+					<img class="big-picture img-responsive" src="/img?book=2&id=5">
 				</div>
 
 				<div class="col-md-4">${section.text}</div>
@@ -113,7 +128,7 @@
 
 				<c:forEach var="image" items="${section.images}">
 					<div class="col-sm-3 col-xs-6">
-						<a href="#"> <img class="img-responsive portfolio-item"
+						<a class="small-picture" href="#${section.id}"> <img class="img-responsive portfolio-item"
 							src="${image.url}">
 						</a>
 					</div>
@@ -144,7 +159,8 @@
 	<!-- JavaScript -->
 	<script src="<%=root%>js/jquery-1.10.2.js"></script>
 	<script src="<%=root%>js/bootstrap.js"></script>
-
+	<script src="<%=root%>js/code.js"></script>
+	<script src="<%=root%>js/jquery.cookie.js"></script>
 </body>
 
 </html>

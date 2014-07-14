@@ -10,12 +10,15 @@ footer {
 	margin: 50px 0;
 }
 
-.back-to-top {
+.back-to-top a{
 	color: #999;
 	float: right;
+	margin-left: 10px;
+
 }
 
-.back-to-top:hover {
+.back-to-top a:hover {
 	color: #101010;
 	text-decoration: none;
 }
+

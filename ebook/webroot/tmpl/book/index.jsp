@@ -112,7 +112,11 @@
 							<a href="#" class="openSectionBrowse">
 								<h1 class="page-header">${section.title}</h1>
 							</a>
-						</c:if>						
+						</c:if>	
+
+						<div class="back-to-top">
+							<a href="#"><small>Наверх</small></a>
+						</div>					
 					</c:if>
 
 					<c:if test="${not section.group}">

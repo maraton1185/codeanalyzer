@@ -5,6 +5,7 @@ $ ->
 	#click on change block link
 	$('.openSection').click (e)->
 		e.preventDefault()
+		alert '!'
 		id = $(this).parents('.container').attr('id')
 		changeStatusLine 'event:openSection()='+id
 		return

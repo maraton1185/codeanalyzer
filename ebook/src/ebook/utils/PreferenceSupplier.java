@@ -43,12 +43,15 @@ public abstract class PreferenceSupplier {
 
 	public static final String REMOTE_PORT = "REMOTE_PORT";
 	public static final String START_JETTY = "START_JETTY";
+	public static final String IMAGE_WIDTH = "IMAGE_WIDTH";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.IMAGE_WIDTH, 200);
 
 		preferenceStore.setDefault(PreferenceSupplier.START_JETTY, true);
 		preferenceStore.setDefault(PreferenceSupplier.REMOTE_PORT, 80);

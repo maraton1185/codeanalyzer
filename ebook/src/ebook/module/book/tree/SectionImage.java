@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
+import ebook.utils.PreferenceSupplier;
 
 public class SectionImage {
 
@@ -41,7 +42,7 @@ public class SectionImage {
 	public Image getScaled(Device display, SectionInfoOptions options) {
 
 		Image scaled = image;
-		int mWidth = options.scaledImageWidth;
+		int mWidth = PreferenceSupplier.getInt(PreferenceSupplier.IMAGE_WIDTH);// options.scaledImageWidth;
 		int width = image.getBounds().width;
 		int height = image.getBounds().height;
 		if (width > mWidth)

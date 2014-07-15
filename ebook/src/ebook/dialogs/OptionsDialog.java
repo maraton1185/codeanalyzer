@@ -201,6 +201,13 @@ public class OptionsDialog {
 			f9.setChangeButtonText("...");
 			addField(f9);
 
+			// Label l = new Label();
+
+			IntegerFieldEditor f15 = new IntegerFieldEditor(
+					PreferenceSupplier.IMAGE_WIDTH,
+					"Ширина картинок (в пикселах)", comp);
+			addField(f15);
+
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 

@@ -14,11 +14,17 @@ footer {
 	color: #999;
 	float: right;
 	margin-left: 10px;
-
 }
 
-.back-to-top a:hover {
+.back-to-top a:hover{
 	color: #101010;
 	text-decoration: none;
 }
 
+a{
+	color: #101010;
+}
+a:hover{
+	color: #999;
+	text-decoration: none;
+}

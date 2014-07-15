@@ -244,7 +244,7 @@ public class BlockView {
 	public SectionInfoOptions getSectionOptions() {
 
 		SectionInfoOptions result = new SectionInfoOptions();
-		result.scaledImageWidth = scaledImageWidthSlider.getSelection();
+		// result.scaledImageWidth = scaledImageWidthSlider.getSelection();
 		// result.columnCount = columnCountSpinner.getSelection();
 		return result;
 	}
@@ -269,7 +269,8 @@ public class BlockView {
 				scaledImageWidthSlider
 						.setMinimum(SectionInfoOptions.scaledImageMinWidth);
 				// scaledImageWidthSlider.setIncrement(20);
-				scaledImageWidthSlider.setPageIncrement(50);
+				scaledImageWidthSlider
+						.setPageIncrement(SectionInfoOptions.pageIncrement);
 				scaledImageWidthSlider
 						.setSelection(section.getOptions().scaledImageWidth);
 				scaledImageWidthSlider

@@ -6,16 +6,20 @@ public class SectionInfoOptions extends DbOptions {
 
 	private static final long serialVersionUID = -8134048308726133820L;
 
-	public static final int scaledImageMaxWidth = 500;
-	public static final int scaledImageMinWidth = 100;
+	public static final int scaledImageMaxWidth = 12;
+	public static final int scaledImageMinWidth = 1;
 
-	public Integer scaledImageWidth = 300;
+	public static final int pageIncrement = 1;
+
+	// public Integer scaledImageWidth = 300;
+
+	public Integer scaledImageWidth = 6;
 
 	// public int columnCount = 1;
 
-	public int getCompositeWidthHint() {
-		return scaledImageWidth + 30;
-	}
+	// public int getCompositeWidthHint() {
+	// return scaledImageWidth + 30;
+	// }
 
 	// public static String save(SectionOptions data) {
 	//

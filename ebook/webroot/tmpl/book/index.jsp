@@ -29,13 +29,14 @@
 <title>Single Portfolio Item Template for Bootstrap 3</title>
 
 <!-- Bootstrap core CSS -->
-<link href="<%=root%>css/bootstrap.css" rel="stylesheet">
+<link href="<%=root%>css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
 <link href="<%=root%>css/book.css" rel="stylesheet">
 </head>
 
 <body host="${model.host}">
+
 
 	<!-- 	<table> -->
 
@@ -140,12 +141,12 @@
 			
 			<div class="row">
 
-				<div class="col-md-8">
+				<div class="col-md-6">
 					<!-- <img class="img-responsive" src="http://placehold.it/750x500"> -->
 					<img class="big-picture img-responsive" src="/img?book=2&id=5">
 				</div>
 
-				<div class="col-md-4">${section.text}</div>
+				<div class="col-md-6">${section.text}</div>
 
 			</div>
 
@@ -188,8 +189,8 @@
 	<!-- /.container -->
 
 	<!-- JavaScript -->
-	<script src="<%=root%>js/jquery-1.10.2.js"></script>
-	<script src="<%=root%>js/bootstrap.js"></script>
+	<script src="<%=root%>js/jquery.js"></script>
+	<script src="<%=root%>js/bootstrap.min.js"></script>
 	<script src="<%=root%>js/book.js"></script>
 <%-- 	<script src="<%=root%>js/jquery.cookie.js"></script> --%>
 </body>

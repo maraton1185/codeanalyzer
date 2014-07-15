@@ -51,6 +51,11 @@ public class BookServletModel {
 	// this.section = section;
 	// this.sections = sections;
 	// }
+	public boolean swtMode = false;
+
+	public boolean isSwtMode() {
+		return swtMode;
+	}
 
 	// int book;
 	public Section section;

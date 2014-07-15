@@ -22,4 +22,5 @@ public class SectionInfo extends TreeItemInfo {
 		return (SectionInfoOptions) super.getOptions();
 	}
 
+	public String tag = "";
 }

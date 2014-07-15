@@ -8,13 +8,13 @@
 	BookServletModel model = (BookServletModel) request
 			.getAttribute("model");
 	
-	boolean editMode = false;
+// 	boolean editMode = false;
 	
-	Cookie[] ck = request.getCookies();
-	for (int i = 0; i < ck.length; i++) {
-		if(ck[i].getName().equalsIgnoreCase("tinyEditor"))
-			editMode = true;
-	}
+// 	Cookie[] ck = request.getCookies();
+// 	for (int i = 0; i < ck.length; i++) {
+// 		if(ck[i].getName().equalsIgnoreCase("tinyEditor"))
+// 			editMode = true;
+// 	}
 	
 %>
 <!DOCTYPE html>
@@ -32,12 +32,11 @@
 <link href="<%=root%>css/bootstrap.css" rel="stylesheet">
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
-<link href="<%=root%>css/portfolio-item.css" rel="stylesheet">
+<link href="<%=root%>css/book.css" rel="stylesheet">
 </head>
 
 <body>
 
-<h1> <%=editMode %></h1>
 	<!-- 	<table> -->
 
 	<%-- 		<c:if test="${model.section.group}"> --%>
@@ -96,12 +95,14 @@
 				<div class="col-lg-12">
 					<h1 class="page-header">${section.title}</h1>
 
-					<div class="back-to-top"> 
-					<a href="#"><small>Наверх</small></a>
-										
-					<a href="#" target="_blank" > 
-					<span class="glyphicon glyphicon-edit"></span>					
-					<small>Изменить</small></a>
+					<div class="back-to-top">
+						<a href="#"><small>Наверх</small></a>
+
+						<c:if test="${model.swtMode}">
+							<a href="#" class="change-block"> <span
+								class="glyphicon glyphicon-edit"></span> <small>Изменить</small>
+							</a>
+						</c:if>
 					</div>
 				</div>
 
@@ -159,8 +160,8 @@
 	<!-- JavaScript -->
 	<script src="<%=root%>js/jquery-1.10.2.js"></script>
 	<script src="<%=root%>js/bootstrap.js"></script>
-	<script src="<%=root%>js/code.js"></script>
-	<script src="<%=root%>js/jquery.cookie.js"></script>
+	<script src="<%=root%>js/book.js"></script>
+<%-- 	<script src="<%=root%>js/jquery.cookie.js"></script> --%>
 </body>
 
 </html>

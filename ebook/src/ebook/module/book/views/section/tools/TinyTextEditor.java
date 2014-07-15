@@ -50,7 +50,7 @@ public class TinyTextEditor extends Composite {
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
 				browser.execute("setContent('" + editor_content + "');");
-				browser.execute("$.cookie(\"tinyEditor\", true);");
+				// browser.execute("$.cookie(\"tinyEditor\", true);");
 			}
 		});
 

@@ -310,9 +310,11 @@ public class App {
 			if (p.isEmpty())
 				return;
 
-			App.mng.blm().open(p, (Shell) window.getWidget());
+			jetty.setOpenBookOnStratUp();
 
-			App.br.post(Events.EVENT_SHOW_BOOK, null);
+			// App.mng.blm().open(p, (Shell) window.getWidget());
+			//
+			// App.br.post(Events.EVENT_SHOW_BOOK, null);
 
 		}
 
@@ -410,6 +412,8 @@ public class App {
 				public void run() {
 
 					jetty.start();
+
+					jetty.openBookOnStratUp();
 
 					App.sync.asyncExec(new Runnable() {
 						@Override

@@ -25,10 +25,16 @@ public interface IJetty {
 
 	public String info();
 
-	public String book(Integer book, Integer section);
+	public String section(Integer book, Integer section);
 
 	public HashMap<IPath, Connection> pull();
 
 	public String image(Integer book, Integer id);
+
+	public void openBookOnStratUp();
+
+	public void setOpenBookOnStratUp();
+
+	String book(Integer book);
 
 }

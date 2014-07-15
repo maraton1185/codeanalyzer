@@ -61,6 +61,7 @@ public class BookConnection extends BaseDbPathConnection {
 
 		BookServletModel model = new BookServletModel();
 
+		model.host = App.getJetty().book(getId());
 		model.section = model.new Section();
 
 		model.section.id = sec.getId();

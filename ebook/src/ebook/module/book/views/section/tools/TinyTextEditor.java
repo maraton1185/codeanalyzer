@@ -50,6 +50,7 @@ public class TinyTextEditor extends Composite {
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
 				browser.execute("setContent('" + editor_content + "');");
+				// browser.execute("tinymce.activeEditor.execCommand(\"mceRepaint\");");
 				// browser.execute("$.cookie(\"tinyEditor\", true);");
 			}
 		});

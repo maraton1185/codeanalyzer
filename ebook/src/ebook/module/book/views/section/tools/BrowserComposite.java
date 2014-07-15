@@ -61,9 +61,8 @@ public class BrowserComposite extends Composite {
 			@Override
 			public void changed(StatusTextEvent event) {
 				String text = event.text;
-				if (text.contains("event:changeBlock()"))
-
-					openSection(text.replace("event:changeBlock()=", ""));
+				if (text.contains("event:openSection()"))
+					openSection(text.replace("event:openSection()=", ""));
 				// MessageDialog.openInformation(getShell(),
 				// Strings.get("appTitle"), "event:changeBlock():"
 				// + text.replace("event:changeBlock()=", ""));

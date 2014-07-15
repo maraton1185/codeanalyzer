@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.jetty.annotations.ServletContainerInitializersStarter;
 import org.eclipse.jetty.apache.jsp.JettyJasperInitializer;
@@ -25,6 +26,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import ebook.core.App;
+import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 
 public class Jetty implements IJetty {
@@ -47,6 +50,7 @@ public class Jetty implements IJetty {
 	// private int port;
 	private Server server;
 	private URI serverURI;
+	private boolean openBookOnStratUp;
 	private static final String WEBROOT_INDEX = "/webroot/";
 	private static final Logger LOG = Logger.getLogger(Main.class.getName());
 
@@ -337,7 +341,12 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public String book(Integer book, Integer section) {
+	public String book(Integer book) {
+		return host().concat("book?book=" + book.toString());
+	}
+
+	@Override
+	public String section(Integer book, Integer section) {
 		return host().concat(
 				"book?book=" + book.toString() + "&id=" + section.toString());
 	}
@@ -357,6 +366,30 @@ public class Jetty implements IJetty {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void openBookOnStratUp() {
+
+		if (!openBookOnStratUp)
+			return;
+
+		IPath p = new Path(
+				PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
+		if (p.isEmpty())
+			return;
+
+		App.mng.blm().open(p, null);
+
+		App.br.post(Events.EVENT_SHOW_BOOK, null);
+
+		openBookOnStratUp = false;
+	}
+
+	@Override
+	public void setOpenBookOnStratUp() {
+		openBookOnStratUp = true;
+
 	}
 
 }

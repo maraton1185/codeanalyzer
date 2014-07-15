@@ -3,9 +3,19 @@ $ ->
 	#$.cookie("tinyEditor", 1);
 
 	#click on change block link
-	$('.change-block').click (e)->
+	$('.openSection').click (e)->
+		e.preventDefault()
 		id = $(this).parents('.container').attr('id')
-		changeStatusLine 'event:changeBlock()='+id
+		changeStatusLine 'event:openSection()='+id
+		return
+
+	#click on section
+	$('.openSectionBrowse').click (e)->
+		e.preventDefault()
+		id = $(this).parents('.container').attr('id')
+		host = $('body').attr('host');
+		#window.location.replace(host + '&id=' + id);	
+		window.location.href = host + '&id=' + id
 		return
 
 	#click on small images cause load it into big image

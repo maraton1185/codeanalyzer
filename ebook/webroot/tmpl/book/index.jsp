@@ -35,7 +35,7 @@
 <link href="<%=root%>css/book.css" rel="stylesheet">
 </head>
 
-<body>
+<body host="${model.host}">
 
 	<!-- 	<table> -->
 
@@ -93,21 +93,47 @@
 			<div class="row">
 
 				<div class="col-lg-12">
-					<h1 class="page-header">${section.title}</h1>
 
-					<div class="back-to-top">
-						<a href="#"><small>Наверх</small></a>
+					<c:if test="${not section.group}">
+
+						<h1 class="page-header1"><small>${section.title}</small></h1>
+					
+					</c:if>
+
+					<c:if test="${section.group}">
 
 						<c:if test="${model.swtMode}">
-							<a href="#" class="change-block"> <span
-								class="glyphicon glyphicon-edit"></span> <small>Изменить</small>
+							<a href="#" class="openSection">
+								<h1 class="page-header">${section.title}</h1>
 							</a>
 						</c:if>
-					</div>
+
+						<c:if test="${not model.swtMode}">
+							<a href="#" class="openSectionBrowse">
+								<h1 class="page-header">${section.title}</h1>
+							</a>
+						</c:if>						
+					</c:if>
+
+					<c:if test="${not section.group}">
+
+						<div class="back-to-top">
+							<a href="#"><small>Наверх</small></a>
+
+							<c:if test="${model.swtMode}">
+								<a href="#" class="openSection"> <span
+									class="glyphicon glyphicon-edit"></span> <small>Изменить</small>
+								</a>
+							</c:if>
+						</div>
+
+					</c:if>
 				</div>
 
 			</div>
 
+			<c:if test="${not section.group}">
+			
 			<div class="row">
 
 				<div class="col-md-8">
@@ -136,7 +162,7 @@
 				</c:forEach>
 
 			</div>
-
+			</c:if>
 		</div>
 		<!-- /.container -->
 

@@ -48,6 +48,11 @@ public class serviceShow {
 			final @Active BookConnection con, IEclipseContext ctx,
 			EHandlerService hs, ECommandService cs) {
 
+		// книги нет в списке
+		Integer id = con.getId();
+		if (id == null)
+			return;
+
 		MWindow mainWindow = App.app.getChildren().get(0);
 
 		@SuppressWarnings("serial")
@@ -73,8 +78,8 @@ public class serviceShow {
 			EModelService model, IEclipseContext ctx, EPartService partService,
 			EHandlerService hs, ECommandService cs) {
 
-		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(
-				App.app, Strings.get("model.id.book.window"), null);
+		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
+				Strings.get("model.id.book.window"), null);
 
 		newWindow.setLabel(con.getWindowTitle());
 		newWindow.setX(mainWindow.getX() + 20);

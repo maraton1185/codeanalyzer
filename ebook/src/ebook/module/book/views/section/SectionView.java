@@ -76,7 +76,7 @@ public class SectionView {
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		String url = App.getJetty().book(book.getId(), section.getId())
+		String url = App.getJetty().section(book.getId(), section.getId())
 				+ "&swt=true";
 
 		browserComposite = new BrowserComposite(body, url, section.tag, book,

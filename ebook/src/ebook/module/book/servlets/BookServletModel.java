@@ -6,17 +6,32 @@ import ebook.module.book.tree.SectionImage;
 
 public class BookServletModel {
 
-	public class Section {
+	public String host;
 
-		// public Section(Integer id, String text, String title, boolean group,
-		// List<SectionImage> images) {
-		// super();
-		// this.id = id;
-		// this.text = text;
-		// this.title = title;
-		// this.group = group;
-		// this.images = images;
-		// }
+	public String getHost() {
+		return host;
+	}
+
+	public boolean swtMode = false;
+
+	public boolean isSwtMode() {
+		return swtMode;
+	}
+
+	// int book;
+	public Section section;
+
+	public List<Section> sections;
+
+	public Section getSection() {
+		return section;
+	}
+
+	public List<Section> getSections() {
+		return sections;
+	}
+
+	public class Section {
 
 		public Integer id;
 		public String text;
@@ -45,29 +60,4 @@ public class BookServletModel {
 		}
 
 	}
-
-	// public BookServletModel(Section section, List<Section> sections) {
-	// super();
-	// this.section = section;
-	// this.sections = sections;
-	// }
-	public boolean swtMode = false;
-
-	public boolean isSwtMode() {
-		return swtMode;
-	}
-
-	// int book;
-	public Section section;
-
-	public List<Section> sections;
-
-	public Section getSection() {
-		return section;
-	}
-
-	public List<Section> getSections() {
-		return sections;
-	}
-
 }

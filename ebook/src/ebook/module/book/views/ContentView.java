@@ -129,8 +129,28 @@ public class ContentView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 
-				Utils.executeHandler(hs, cs,
-						Strings.get("command.id.ShowSection"));
+				SectionInfo section = window.getContext()
+						.get(SectionInfo.class);
+				if (section.isGroup()) {
+					Utils.executeHandler(hs, cs,
+							Strings.get("command.id.ShowSection"));
+					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
+							new EVENT_UPDATE_VIEW_DATA(book, section, section));
+				} else {
+					SectionInfo selected = (SectionInfo) book.srv().get(
+							section.getParent());
+
+					selected.tag = section.getId().toString();
+
+					window.getContext().set(SectionInfo.class, selected);
+
+					Utils.executeHandler(hs, cs,
+							Strings.get("command.id.ShowSection"));
+
+					App.br.post(
+							Events.EVENT_UPDATE_SECTION_VIEW,
+							new EVENT_UPDATE_VIEW_DATA(book, selected, selected));
+				}
 			}
 		});
 

@@ -1,6 +1,7 @@
 var changeStatusLine;
 
 $(function() {
+  $(".fancy").fancybox();
   $('.openSection').click(function(e) {
     var id;
     e.preventDefault();

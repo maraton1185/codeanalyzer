@@ -90,43 +90,16 @@ public class OptionsDialog {
 
 			Composite comp;
 			Group group;
-			// StringFieldEditor f1 = new StringFieldEditor(
-			// PreferenceSupplier.NTPSERVER, "NTP-сервер:",
-			// getFieldEditorParent());
-			// addField(f1);
-
-			// group = new Group(getFieldEditorParent(), SWT.NULL);
-			// group.getParent().setLayout(new GridLayout(2, false));
-			// group.setLayout(new GridLayout(1, false));
-			// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
-			// 4, 1));
-			// group.setText("Действия при запуске:");
-			//
-			// comp = new Composite(group, SWT.NULL);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+			comp = getFieldEditorParent();
 
 			BooleanFieldEditor f11 = new BooleanFieldEditor(
 					PreferenceSupplier.MINIMIZE_TO_TRAY, "Сворачивать в трей",
-					getFieldEditorParent());
+					comp);
 			addField(f11);
-
-			BooleanFieldEditor f14 = new BooleanFieldEditor(
-					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
-					getFieldEditorParent());
-			addField(f14);
-
-			IntegerFieldEditor f13 = new IntegerFieldEditor(
-					PreferenceSupplier.REMOTE_PORT, "Порт web-сервера",
-					getFieldEditorParent());
-			addField(f13);
-
-			// comp = new Composite(group, SWT.NULL);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			BooleanFieldEditor f4 = new BooleanFieldEditor(
 					PreferenceSupplier.INIT_EXECUTION,
-					"Подключать конфигурации при запуске",
-					getFieldEditorParent());
+					"Подключать конфигурации при запуске", comp);
 			addField(f4);
 
 			// comp = new Composite(group, SWT.NULL);
@@ -134,8 +107,45 @@ public class OptionsDialog {
 
 			BooleanFieldEditor f12 = new BooleanFieldEditor(
 					PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP,
-					"Минимизировать при запуске", getFieldEditorParent());
+					"Минимизировать при запуске", comp);
 			addField(f12);
+
+			BooleanFieldEditor f5 = new BooleanFieldEditor(
+					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
+					"Открывать список книг при запуске", comp);
+			addField(f5);
+
+			group = new Group(getFieldEditorParent(), SWT.NULL);
+			group.getParent().setLayout(new GridLayout(2, false));
+			group.setLayout(new GridLayout(1, false));
+			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+					2, 1));
+			group.setText("Настройки web-сервера:");
+
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			BooleanFieldEditor f14 = new BooleanFieldEditor(
+					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
+					comp);
+			addField(f14);
+
+			IntegerFieldEditor f13 = new IntegerFieldEditor(
+					PreferenceSupplier.REMOTE_PORT, "Порт web-сервера", comp);
+			addField(f13);
+
+			BooleanFieldEditor f17 = new BooleanFieldEditor(
+					PreferenceSupplier.EXTERNAL_JETTY_BASE,
+					"Внешний каталог web-сервера", comp);
+			addField(f17);
+
+			DirectoryFieldEditor f16 = new DirectoryFieldEditor(
+					PreferenceSupplier.JETTY_BASE, "Каталог web-сервера", comp);
+			f16.setChangeButtonText("...");
+			addField(f16);
+
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
@@ -169,13 +179,8 @@ public class OptionsDialog {
 					2, 1));
 			group.setText("Настройки книг:");
 
-			comp = new Composite(group, SWT.NULL);
-			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			BooleanFieldEditor f5 = new BooleanFieldEditor(
-					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
-					"Открывать список книг при запуске", comp);
-			addField(f5);
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -194,6 +199,7 @@ public class OptionsDialog {
 			addField(f8);
 
 			comp = new Composite(group, SWT.NULL);
+			comp.setLayout(new GridLayout(2, false));
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
@@ -201,30 +207,23 @@ public class OptionsDialog {
 			f9.setChangeButtonText("...");
 			addField(f9);
 
-			// Label l = new Label();
-
-			IntegerFieldEditor f15 = new IntegerFieldEditor(
-					PreferenceSupplier.IMAGE_WIDTH,
-					"Ширина картинок (в пикселах)", comp);
-			addField(f15);
-
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+			// comp.setLayout(new GridLayout(2, false));
 
 			BooleanFieldEditor f10 = new BooleanFieldEditor(
 					PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
 					"Не открывать страницу \"Как работать с книгой\"", comp);
 			addField(f10);
 
-			// group = new Group(getFieldEditorParent(), SWT.NULL);
-			// group.getParent().setLayout(new GridLayout(2, false));
-			// group.setLayout(new GridLayout(1, false));
-			// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
-			// 2, 1));
-			// group.setText("Другое:");
-
-			// comp = new Composite(group, SWT.NULL);
+			// comp = new Composite(group, SWT.BORDER);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+			// comp.setLayout(new FillLayout());
+
+			IntegerFieldEditor f15 = new IntegerFieldEditor(
+					PreferenceSupplier.IMAGE_WIDTH,
+					"Ширина картинок (в пикселах)", comp);
+			addField(f15);
 
 		}
 	}

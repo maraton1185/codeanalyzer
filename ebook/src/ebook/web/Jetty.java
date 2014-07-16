@@ -88,7 +88,27 @@ public class Jetty implements IJetty {
 			connector.setPort(jettyPort);
 			server.addConnector(connector);
 
-			URL indexUri = this.getClass().getResource(WEBROOT_INDEX);
+			boolean EXTERNAL_JETTY_BASE = PreferenceSupplier
+					.getBoolean(PreferenceSupplier.EXTERNAL_JETTY_BASE);
+			URL indexUri;
+			if (EXTERNAL_JETTY_BASE) {
+
+				File file = new File(
+						PreferenceSupplier.get(PreferenceSupplier.JETTY_BASE));
+				if (!file.exists())
+					throw new FileNotFoundException(
+							"Unable to find jetty base "
+									+ file.getAbsolutePath());
+
+				indexUri = file.toURI().toURL();
+
+				// throw new FileNotFoundException("Unable to find jetty base "
+				// + file.getAbsolutePath());
+
+			} else
+
+				indexUri = this.getClass().getResource(WEBROOT_INDEX);
+
 			if (indexUri == null) {
 				throw new FileNotFoundException("Unable to find resource "
 						+ WEBROOT_INDEX);
@@ -121,7 +141,8 @@ public class Jetty implements IJetty {
 			context.setResourceBase(baseUri.toASCIIString());
 			// context.setAttribute(InstanceManager.class.getName(),
 			// new SimpleInstanceManager());
-			context.setDefaultsDescriptor(WEBROOT_INDEX + "WEB-INF/web.xml");
+			if (!EXTERNAL_JETTY_BASE)
+				context.setDefaultsDescriptor(WEBROOT_INDEX + "WEB-INF/web.xml");
 			// context.setServer(server);
 
 			// ResourceHandler resource_handler = new ResourceHandler();

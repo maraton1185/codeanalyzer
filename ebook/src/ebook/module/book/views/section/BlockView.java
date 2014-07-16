@@ -244,6 +244,7 @@ public class BlockView {
 	public SectionInfoOptions getSectionOptions() {
 
 		SectionInfoOptions result = new SectionInfoOptions();
+		result.setBigImageCSS(scaledImageWidthSlider.getSelection());
 		// result.scaledImageWidth = scaledImageWidthSlider.getSelection();
 		// result.columnCount = columnCountSpinner.getSelection();
 		return result;
@@ -265,14 +266,14 @@ public class BlockView {
 						SWT.HORIZONTAL);
 				toolkit.adapt(scaledImageWidthSlider, true, true);
 				scaledImageWidthSlider
-						.setMaximum(SectionInfoOptions.scaledImageMaxWidth);
+						.setMaximum(SectionInfoOptions.gridScaleMax);
 				scaledImageWidthSlider
-						.setMinimum(SectionInfoOptions.scaledImageMinWidth);
+						.setMinimum(SectionInfoOptions.gridScaleMin);
 				// scaledImageWidthSlider.setIncrement(20);
 				scaledImageWidthSlider
-						.setPageIncrement(SectionInfoOptions.pageIncrement);
-				scaledImageWidthSlider
-						.setSelection(section.getOptions().scaledImageWidth);
+						.setPageIncrement(SectionInfoOptions.scaleIncrement);
+				scaledImageWidthSlider.setSelection(section.getOptions()
+						.getBigImageCSS());
 				scaledImageWidthSlider
 						.addSelectionListener(new SelectionAdapter() {
 							@Override

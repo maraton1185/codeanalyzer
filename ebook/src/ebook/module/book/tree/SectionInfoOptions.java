@@ -6,62 +6,20 @@ public class SectionInfoOptions extends DbOptions {
 
 	private static final long serialVersionUID = -8134048308726133820L;
 
-	public static final int scaledImageMaxWidth = 12;
-	public static final int scaledImageMinWidth = 1;
+	public static final int gridScaleMax = 11;
+	public static final int gridScaleMin = 0;
+	public static final int gridLength = 12;
 
-	public static final int pageIncrement = 1;
+	public static final int scaleIncrement = 1;
 
-	// public Integer scaledImageWidth = 300;
+	private Integer bigImageCSS = 6;
 
-	public Integer scaledImageWidth = 6;
+	public Integer getBigImageCSS() {
+		return bigImageCSS == null ? 0 : bigImageCSS;
+	}
 
-	// public int columnCount = 1;
-
-	// public int getCompositeWidthHint() {
-	// return scaledImageWidth + 30;
-	// }
-
-	// public static String save(SectionOptions data) {
-	//
-	// String value = "";
-	// try {
-	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	// ObjectOutputStream oos = new ObjectOutputStream(baos);
-	// oos.writeObject(data);
-	// oos.close();
-	// BASE64Encoder encoder = new BASE64Encoder();
-	// value = encoder.encodeBuffer(baos.toByteArray());
-	// } catch (Exception e) {
-	// value = "";
-	// }
-	// return value;
-	// }
-	//
-	// public static SectionOptions load(String s) {
-	//
-	// if (s == null || s.isEmpty())
-	// return new SectionOptions();
-	//
-	// SectionOptions obj;
-	// ObjectInputStream ois = null;
-	// try {
-	// BASE64Decoder decoder = new BASE64Decoder();
-	// byte[] data = decoder.decodeBuffer(s);
-	// ois = new ObjectInputStream(new ByteArrayInputStream(data));
-	//
-	// obj = (SectionOptions) ois.readObject();
-	//
-	// } catch (Exception e) {
-	// return new SectionOptions();
-	// } finally {
-	// try {
-	// if (ois != null)
-	// ois.close();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return obj;
-	// }
+	public void setBigImageCSS(Integer bigImageCSS) {
+		this.bigImageCSS = bigImageCSS;
+	}
 
 }

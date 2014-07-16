@@ -10,6 +10,7 @@ import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
 import ebook.module.book.servlets.BookServletModel;
 import ebook.module.book.servlets.BookServletModel.Section;
+import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 
 public class BookConnection extends BaseDbPathConnection {
@@ -82,6 +83,10 @@ public class BookConnection extends BaseDbPathConnection {
 			sub_section.group = item.isGroup();
 			sub_section.text = srv().getText(item.getId());
 			sub_section.images = srv().getImages(item.getId());
+			Integer bigImageCSS = ((SectionInfoOptions) item.getOptions())
+					.getBigImageCSS();
+			sub_section.bigImageCSS = bigImageCSS;
+			sub_section.textCSS = SectionInfoOptions.gridLength - bigImageCSS;
 
 			model.sections.add(sub_section);
 		}

@@ -33,6 +33,17 @@ public class BookServletModel {
 
 	public class Section {
 
+		public Integer bigImageCSS;
+		public Integer textCSS;
+
+		public Integer getTextCSS() {
+			return textCSS;
+		}
+
+		public Integer getBigImageCSS() {
+			return bigImageCSS;
+		}
+
 		public Integer id;
 		public String text;
 		public String title;

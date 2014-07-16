@@ -1,11 +1,11 @@
 $ ->
 	#console.log 'hi'
 	#$.cookie("tinyEditor", 1);
+	$(".fancy").fancybox()
 
 	#click on change block link
 	$('.openSection').click (e)->
 		e.preventDefault()
-		alert '!'
 		id = $(this).parents('.container').attr('id')
 		changeStatusLine 'event:openSection()='+id
 		return
@@ -15,7 +15,6 @@ $ ->
 		e.preventDefault()
 		id = $(this).parents('.container').attr('id')
 		host = $('body').attr('host');
-		#window.location.replace(host + '&id=' + id);	
 		window.location.href = host + '&id=' + id
 		return
 

@@ -234,13 +234,13 @@ public class NotUsedSectionComposite implements ISectionComposite {
 						SWT.HORIZONTAL);
 				toolkit.adapt(scaledImageWidthSlider, true, true);
 				scaledImageWidthSlider
-						.setMaximum(SectionInfoOptions.scaledImageMaxWidth);
+						.setMaximum(SectionInfoOptions.gridScaleMax);
 				scaledImageWidthSlider
-						.setMinimum(SectionInfoOptions.scaledImageMinWidth);
+						.setMinimum(SectionInfoOptions.gridScaleMin);
 				// scaledImageWidthSlider.setIncrement(20);
 				scaledImageWidthSlider.setPageIncrement(50);
-				scaledImageWidthSlider
-						.setSelection(section.getOptions().scaledImageWidth);
+				scaledImageWidthSlider.setSelection(section.getOptions()
+						.getBigImageCSS());
 				scaledImageWidthSlider
 						.addSelectionListener(new SelectionAdapter() {
 							@Override
@@ -399,7 +399,7 @@ public class NotUsedSectionComposite implements ISectionComposite {
 	public SectionInfoOptions getSectionOptions() {
 
 		SectionInfoOptions result = new SectionInfoOptions();
-		result.scaledImageWidth = scaledImageWidthSlider.getSelection();
+		// result.bigImageCSS = scaledImageWidthSlider.getSelection();
 		// result.columnCount = columnCountSpinner.getSelection();
 		return result;
 	}

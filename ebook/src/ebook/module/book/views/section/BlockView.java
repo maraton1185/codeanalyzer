@@ -204,30 +204,30 @@ public class BlockView {
 
 		// ****************************************************************
 
-		IBlockTune defaultTune = new IBlockTune() {
-			@Override
-			public void tune(FormToolkit toolkit, Section section,
-					Composite sectionClient) {
-				toolkit.createLabel(sectionClient, "test");
-			}
-		};
-		addSection(Strings.get("s.sectionBlockComposite.code"), defaultTune);
+		// IBlockTune defaultTune = new IBlockTune() {
+		// @Override
+		// public void tune(FormToolkit toolkit, Section section,
+		// Composite sectionClient) {
+		// toolkit.createLabel(sectionClient, "test");
+		// }
+		// };
+		// addSection(Strings.get("s.sectionBlockComposite.code"), defaultTune);
 
 		// ****************************************************************
 
-		IBlockTune bookmarkTune = new IBlockTune() {
-
-			@Override
-			public void tune(FormToolkit toolkit, Section section,
-					Composite sectionClient) {
-
-				toolkit.createLabel(sectionClient, "bookmark");
-
-			}
-		};
-
-		addSection(Strings.get("s.sectionBlockComposite.bookmark"),
-				bookmarkTune);
+		// IBlockTune bookmarkTune = new IBlockTune() {
+		//
+		// @Override
+		// public void tune(FormToolkit toolkit, Section section,
+		// Composite sectionClient) {
+		//
+		// toolkit.createLabel(sectionClient, "bookmark");
+		//
+		// }
+		// };
+		//
+		// addSection(Strings.get("s.sectionBlockComposite.bookmark"),
+		// bookmarkTune);
 
 		// ****************************************************************
 

@@ -18,6 +18,11 @@ public class SectionImage {
 
 	public Image image;
 	public String title;
+
+	public String getTitle() {
+		return title;
+	}
+
 	public boolean expanded;
 	public int sort;
 

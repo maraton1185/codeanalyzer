@@ -142,7 +142,7 @@
 								
 							<div class="col-md-${section.bigImageCSS}">
 								<!--img class="big-picture img-responsive" src="${section.images.get(0).url}"-->
-								<a class="fancy" href="${section.images.get(0).url}&.jpg" title="big picture">
+								<a class="fancy" href="${section.images.get(0).url}&.jpg" title="${section.images.get(0).title}">
 									<img class="big-picture img-responsive" src="${section.images.get(0).url}">
 								</a>
 							</div>
@@ -175,12 +175,12 @@
 								class="img-responsive portfolio-item" src="${image.url}">
 							</a>-->
 							<c:if test="${section.bigImageCSS!=0}">	
-								<a rel="group${section.id}" class="small-picture" href="#${section.id}" title="picture"> <img
+								<a rel="group${section.id}" class="small-picture" href="#${section.id}" title="${image.title}"> <img
 									class="img-responsive portfolio-item" src="${image.url}">
 								</a>
 							</c:if>
 							<c:if test="${section.bigImageCSS==0}">	
-								<a rel="group${section.id}" class="fancy" href="${image.url}&.jpg" title="picture"> <img
+								<a rel="group${section.id}" class="fancy" href="${image.url}&.jpg" title="${image.title}"> <img
 									class="img-responsive portfolio-item" src="${image.url}">
 								</a>
 							</c:if>

@@ -31,6 +31,32 @@ public class BookServletModel {
 		return sections;
 	}
 
+	public List<Parent> parents;
+
+	public String title;
+
+	public String getTitle() {
+		return title;
+	}
+
+	public List<Parent> getParents() {
+		return parents;
+	}
+
+	public class Parent {
+		public String title;
+		public String url;
+
+		public String getTitle() {
+			return title;
+		}
+
+		public String getUrl() {
+			return url;
+		}
+
+	}
+
 	public class Section {
 
 		public Integer bigImageCSS;
@@ -47,6 +73,13 @@ public class BookServletModel {
 		public Integer id;
 		public String text;
 		public String title;
+
+		public String url;
+
+		public String getUrl() {
+			return url;
+		}
+
 		public boolean group;
 		public List<SectionImage> images;
 

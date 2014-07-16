@@ -98,6 +98,7 @@ public class BrowserComposite extends Composite {
 
 	public void updateUrl(String tag) {
 		browser.setUrl(url + (tag.isEmpty() ? "" : "#" + tag));
+		// browser.refresh();
 	}
 
 }

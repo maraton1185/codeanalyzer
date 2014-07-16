@@ -15,6 +15,7 @@ import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.book.BookConnection;
+import ebook.module.bookList.servlets.ListServletModel;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -150,11 +151,11 @@ public class BookListService extends TreeService {
 		return book;
 	}
 
-	public Integer getBookId(IPath connectionPath) {
+	public ITreeItemInfo getBookTreeItem(IPath connectionPath) {
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT T.ID FROM " + tableName + " AS T "
-					+ "WHERE T.PATH=?";
+			String SQL = "SELECT " + getItemString("T") + " FROM " + tableName
+					+ " AS T " + "WHERE T.PATH=?";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setString(1, connectionPath.toString());
@@ -163,7 +164,7 @@ public class BookListService extends TreeService {
 			try {
 				if (rs.next()) {
 
-					return rs.getInt(1);
+					return getItem(rs);
 				}
 			} finally {
 				rs.close();
@@ -174,7 +175,14 @@ public class BookListService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return null;
 	}
 
+	public ListServletModel getModel() {
+		ListServletModel model = new ListServletModel();
+
+		model.host = App.getJetty().host();
+
+		return model;
+	}
 }

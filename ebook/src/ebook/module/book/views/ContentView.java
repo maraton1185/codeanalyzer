@@ -147,9 +147,8 @@ public class ContentView {
 					Utils.executeHandler(hs, cs,
 							Strings.get("command.id.ShowSection"));
 
-					App.br.post(
-							Events.EVENT_UPDATE_SECTION_VIEW,
-							new EVENT_UPDATE_VIEW_DATA(book, selected, selected));
+					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
+							new EVENT_UPDATE_VIEW_DATA(book, selected, section));
 				}
 			}
 		});

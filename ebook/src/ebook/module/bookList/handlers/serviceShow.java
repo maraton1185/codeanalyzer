@@ -49,7 +49,7 @@ public class serviceShow {
 			EHandlerService hs, ECommandService cs) {
 
 		// книги нет в списке
-		Integer id = con.getId();
+		Integer id = con.getTreeItem().getId();
 		if (id == null)
 			return;
 

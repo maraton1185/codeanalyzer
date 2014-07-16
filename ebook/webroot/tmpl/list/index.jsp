@@ -1,6 +1,23 @@
-﻿<%! 
-    String root = "rlist/"; 
+
+<%@page import="ebook.module.bookList.servlets.ListServletModel"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page contentType="text/html;charset=UTF-8"%>
+
+<%
+    String root = "tmpl/list/";
+
+    ListServletModel model = (ListServletModel) request
+            .getAttribute("model");
+
+    //  boolean editMode = false;
+
+    //  Cookie[] ck = request.getCookies();
+    //  for (int i = 0; i < ck.length; i++) {
+    //      if(ck[i].getName().equalsIgnoreCase("tinyEditor"))
+    //          editMode = true;
+    //  }
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,89 +27,127 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>About Page Template for Bootstrap 3</title>
 
     <!-- Bootstrap core CSS -->
     <link href="<%= root%>css/bootstrap.css" rel="stylesheet">
 
-    <!-- Add custom CSS here -->
-    <link href="<%= root%>css/simple-sidebar.css" rel="stylesheet">
-    <link href="<%= root%>font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Custom CSS for the 'Round About' Template -->
+    <link href="<%= root%>css/list.css" rel="stylesheet">
 
 </head>
 
 <body>
 
-    <div id="wrapper">
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.php">Start Bootstrap</a>
+            </div>
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="#">Start Bootstrap</a>
-                </li>
-                <li><a href="#">Dashboard</a>
-                </li>
-                <li><a href="#">Shortcuts</a>
-                </li>
-                <li><a href="#">Overview</a>
-                </li>
-                <li><a href="#">Events</a>
-                </li>
-                <li><a href="#">About</a>
-                </li>
-                <li><a href="#">Services</a>
-                </li>
-                <li><a href="#">Contact</a>
-                </li>
-            </ul>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#about">About</a>
+                    </li>
+                    <li><a href="#services">Services</a>
+                    </li>
+                    <li><a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h1 class="page-header">About Us
+                    <small>It's Nice to Meet You!</small>
+                </h1>
+                <p>This is a great place to start off with a short and sweet description of your company, organization, or whatever purpose your website is serving. Keep it friendly, engaging, but short enough to where you won't lose your reader!</p>
+                <p>If you need a bit more space to describe what is going on, we recommend putting a picture in this section. Use the
+                    <code>pull-right</code>class on the image to make it look good!</p>
+            </div>
+
+            <div class="col-lg-12">
+                <h2 class="page-header">Our Team</h2>
+            </div>
+
         </div>
 
-        <!-- Page content -->
-        <div id="page-content-wrapper">
-            <div class="content-header">
-                <h1>
-                    <a id="menu-toggle" href="#" class="btn btn-default"><i class="icon-reorder"></i></a>
-                    Simple Sidebar
-                </h1>
+        <div class="row">
+            <div class="col-lg-4 col-sm-6">
+                <img class="img-circle img-responsive" src="http://placehold.it/200x200">
+                <h3>John Smith
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
             </div>
-            <!-- Keep all page content within the page-content inset div! -->
-            <div class="page-content inset">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="lead">This simple sidebar template has a hint of JavaScript to make the template responsive. It also includes Font Awesome icon fonts.</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="well">The template still uses the default Bootstrap rows and columns.</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="well">But the full-width layout means that you wont be using containers.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="well">Three Column Example</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="well">Three Column Example</p>
-                    </div>
-                    <div class="col-md-4">
-                        <p class="well">You get the idea! Do whatever you want in the page content area!</p>
-                    </div>
+            <div class="col-lg-4 col-sm-6">
+                <img class="img-circle img-responsive" src="http://placehold.it/200x200">
+                <h3>John Smath
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <img class="img-circle img-responsive" src="http://placehold.it/200x200">
+                <h3>John Smeth
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <img class="img-circle img-responsive" src="http://placehold.it/200x200">
+                <h3>John Smyth
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <img class="img-circle img-responsive" src="http://placehold.it/200x200">
+                <h3>John Smoth
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <img class="img-circle img-responsive" src="http://placehold.it/200x200">
+                <h3>John Smuth
+                    <small>Job Title</small>
+                </h3>
+                <p>What does this team member to? Keep it short! This is also a great spot for social links!</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Company 2013</p>
                 </div>
             </div>
-        </div>
+        </footer>
 
     </div>
+    <!-- /container -->
 
     <!-- JavaScript -->
     <script src="<%= root%>js/jquery-1.10.2.js"></script>
     <script src="<%= root%>js/bootstrap.js"></script>
 
-    <!-- Custom JavaScript for the Menu Toggle -->
-    <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("active");
-    });
-    </script>
 </body>
 
 </html>

@@ -25,7 +25,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>${model.section.title}</title>
+<title>${model.title}</title>
 
 <!-- Bootstrap core CSS -->
 <link href="<%=root%>css/bootstrap.min.css" rel="stylesheet">
@@ -37,7 +37,7 @@
 
 </head>
 
-<body host="${model.host}">
+<body>
 
 	<!-- NAV BAR -->
 	<nav class="navbar navbar-static-top navbar-inverse" role="navigation">
@@ -64,6 +64,20 @@
 
 		</div>
 	</nav><!-- /NAV BAR -->
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<ol class="breadcrumb">
+				<c:forEach var="parent" items="${model.parents}">
+                	<li><a href="${parent.url}">${parent.title}</a></li>            		
+            	</c:forEach>
+            	<li class="active">${model.section.title}</li>
+            </ol>
+		</div>
+	</div>
+</div>
 
 
 <!--
@@ -98,7 +112,7 @@
 
 						<!-- BROWSER-->
 						<c:if test="${not model.swtMode}">
-							<a href="#" class="openSectionBrowse">
+							<a href="${section.url}">
 								<h2 class="page-header1">${section.title}</h2>
 							</a>
 						</c:if>

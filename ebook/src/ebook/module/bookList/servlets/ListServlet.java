@@ -1,4 +1,4 @@
-package ebook.web;
+package ebook.module.bookList.servlets;
 
 import java.io.IOException;
 
@@ -23,16 +23,20 @@ public class ListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// RequestDispatcher error_view = request
-		// .getRequestDispatcher("error.jsp");
+		RequestDispatcher error_view = request
+				.getRequestDispatcher("/error.jsp");
 
-		// String c = request.getParameter("book");
-		// if (c == null)
-		// error_view.forward(request, response);
+		ListServletModel model = App.srv.bls().getModel();
 
-		request.setAttribute("host", App.getJetty().host());
+		String isSwt = request.getParameter("swt");
+		if (isSwt != null) {
+			model.swtMode = true;
+		}
 
-		RequestDispatcher view = request.getRequestDispatcher("list/index.jsp");
+		request.setAttribute("model", model);
+
+		RequestDispatcher view = request
+				.getRequestDispatcher("/tmpl/list/index.jsp");
 
 		view.forward(request, response);
 

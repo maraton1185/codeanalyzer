@@ -9,13 +9,14 @@ import org.eclipse.core.runtime.IPath;
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
 import ebook.module.book.servlets.BookServletModel;
+import ebook.module.book.servlets.BookServletModel.Parent;
 import ebook.module.book.servlets.BookServletModel.Section;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 
 public class BookConnection extends BaseDbPathConnection {
 
-	int id;
+	ITreeItemInfo treeItem;
 
 	public BookConnection(IPath path, boolean check)
 			throws InvocationTargetException {
@@ -39,9 +40,12 @@ public class BookConnection extends BaseDbPathConnection {
 		return service;
 	}
 
-	public Integer getId() {
+	public ITreeItemInfo getTreeItem() {
 
-		return App.srv.bls().getBookId(getConnectionPath());
+		if (treeItem == null)
+			return App.srv.bls().getBookTreeItem(getConnectionPath());
+		else
+			return treeItem;
 	}
 
 	// *****************************************************************
@@ -62,13 +66,20 @@ public class BookConnection extends BaseDbPathConnection {
 
 		BookServletModel model = new BookServletModel();
 
-		model.host = App.getJetty().book(getId());
+		ITreeItemInfo bookItem = getTreeItem();
+		if (bookItem == null)
+			return null;
+
+		model.host = App.getJetty().book(bookItem.getId());
+		model.title = bookItem.getTitle();
+
 		model.section = model.new Section();
 
 		model.section.id = sec.getId();
 		model.section.title = sec.getTitle();
 		model.section.group = sec.isGroup();
 		model.section.text = srv().getText(id);
+		model.section.url = getUrl(model.host, model.section.id);
 
 		model.sections = new ArrayList<Section>();
 
@@ -76,21 +87,41 @@ public class BookConnection extends BaseDbPathConnection {
 
 		for (ITreeItemInfo item : list) {
 
-			Section sub_section = model.new Section();
+			Section section = model.new Section();
 
-			sub_section.id = item.getId();
-			sub_section.title = item.getTitle();
-			sub_section.group = item.isGroup();
-			sub_section.text = srv().getText(item.getId());
-			sub_section.images = srv().getImages(item.getId());
+			section.id = item.getId();
+			section.title = item.getTitle();
+			section.group = item.isGroup();
+			section.text = srv().getText(item.getId());
+			section.images = srv().getImages(item.getId());
 			Integer bigImageCSS = ((SectionInfoOptions) item.getOptions())
 					.getBigImageCSS();
-			sub_section.bigImageCSS = bigImageCSS;
-			sub_section.textCSS = SectionInfoOptions.gridLength - bigImageCSS;
+			section.bigImageCSS = bigImageCSS;
+			section.textCSS = SectionInfoOptions.gridLength - bigImageCSS;
 
-			model.sections.add(sub_section);
+			section.url = getUrl(model.host, section.id);
+
+			model.sections.add(section);
+		}
+
+		model.parents = new ArrayList<Parent>();
+		ITreeItemInfo parent = srv().get(sec.getParent());
+		while (parent != null) {
+
+			Parent item = model.new Parent();
+			item.title = parent.getTitle();
+			item.url = getUrl(model.host, parent.getId());
+
+			model.parents.add(0, item);
+
+			ITreeItemInfo current = parent;
+			parent = srv().get(current.getParent());
 		}
 
 		return model;
+	}
+
+	private String getUrl(String host, Integer id) {
+		return host + "&id=" + id;
 	}
 }

@@ -292,6 +292,7 @@
           <handlers xmi:id="_BVcOUOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.15" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddSubGroup" command="_sXbRULAWEeOa8OKjTLKQvw"/>
           <handlers xmi:id="_BrfW0OAlEeOuHKOpYE-s4Q" elementId="ebook.handler.16" contributionURI="bundleclass://ebook/ebook.module.book.handlers.EditTitle" command="_cimZwLAuEeOa8OKjTLKQvw"/>
           <menus xsi:type="menu:PopupMenu" xmi:id="_aCBVYLAYEeOa8OKjTLKQvw" elementId="ebook.popupmenu.contentView">
+            <children xsi:type="menu:DirectMenuItem" xmi:id="_9LwKIAzcEeStTI7-AEq-BQ" elementId="ebook.directmenuitem.6" label="Изменить раздел" contributionURI="bundleclass://ebook/ebook.module.book.handlers.ChangeBlock"/>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_cGMzoLAYEeOa8OKjTLKQvw" elementId="ebook.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/add_section.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_dCGbMLAYEeOa8OKjTLKQvw" elementId="ebook.handledmenuitem.2" label="Добавить подраздел" iconURI="platform:/plugin/ebook/icons/add_sub_section.png" tooltip="Добавить подраздел" command="_sXbRULAWEeOa8OKjTLKQvw"/>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_2cO0wLAvEeOa8OKjTLKQvw" elementId="ebook.handledmenuitem.14" label="Изменить заголовок" iconURI="platform:/plugin/ebook/icons/edit.png" tooltip="Изменить заголовок" command="_cimZwLAuEeOa8OKjTLKQvw"/>
@@ -342,6 +343,7 @@
   <commands xmi:id="_sPoPIK3EEeOHwvV36BHkVA" elementId="ebook.command.BookAddSection" commandName="Книга - Добавить секцию"/>
   <commands xmi:id="_8pkSAK3EEeOHwvV36BHkVA" elementId="ebook.command.BookDeleteSection" commandName="Книга - Удалить секцию"/>
   <commands xmi:id="_sXbRULAWEeOa8OKjTLKQvw" elementId="ebook.command.BookAddSubSection" commandName="Книга - Добавить подсекцию"/>
+  <commands xmi:id="_zT238AzcEeStTI7-AEq-BQ" elementId="ebook.command.16" commandName="Книга - Изменить раздел"/>
   <commands xmi:id="_cimZwLAuEeOa8OKjTLKQvw" elementId="ebook.command.EditBookSectionTitle" commandName="Книга - Изменить заголовок секции"/>
   <commands xmi:id="_uu33wMPIEeOmSK0x6jLnPQ" elementId="ebook.command.ShowSection" commandName="Книга - Показать секцию"/>
   <commands xmi:id="_B6xfwMt7EeOTW91tESaq8A" elementId="ebook.command.AddSectionsBlock" commandName="Книга - Добавить блок секции"/>

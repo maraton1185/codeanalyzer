@@ -10,14 +10,15 @@ $ ->
 		changeStatusLine 'event:openSection()='+id
 		return
 
-	#click on section
+	###click on section
 	$('.openSectionBrowse').click (e)->
 		e.preventDefault()
 		id = $(this).parents('.container').attr('id')
 		host = $('body').attr('host');
 		window.location.href = host + '&id=' + id
 		return
-
+	###
+	
 	#click on small images cause load it into big image
 	$('.small-picture').click (e)->
 		#e.preventDefault()

@@ -35,6 +35,15 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>list</servlet-name>
+		<servlet-class>ebook.module.bookList.servlets.ListServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>list</servlet-name>
+		<url-pattern>/list</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>info</servlet-name>
 		<jsp-file>/tmpl/info/index.jsp</jsp-file>
 	</servlet>

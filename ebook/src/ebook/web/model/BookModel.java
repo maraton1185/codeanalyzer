@@ -2,7 +2,7 @@ package ebook.web.model;
 
 import java.util.List;
 
-public class BookServletModel {
+public class BookModel {
 
 	public boolean swtMode = false;
 
@@ -32,6 +32,12 @@ public class BookServletModel {
 
 	public List<ModelItem> getParents() {
 		return parents;
+	}
+
+	public String url;
+
+	public String getUrl() {
+		return url;
 	}
 
 }

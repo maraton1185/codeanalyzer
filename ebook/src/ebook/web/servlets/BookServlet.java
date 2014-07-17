@@ -1,6 +1,7 @@
 package ebook.web.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.web.model.BookServletModel;
+import ebook.module.tree.ITreeItemInfo;
+import ebook.web.controllers.BookController;
+import ebook.web.model.BookModel;
 
 public class BookServlet extends HttpServlet {
 
@@ -34,19 +37,24 @@ public class BookServlet extends HttpServlet {
 			return;
 		}
 
-		String section_id = request.getParameter("id");
-		if (section_id == null) {
-			error_view.forward(request, response);
-			return;
-		}
-
 		BookConnection book = App.srv.bls().getBook(book_id);
 		if (book == null) {
 			error_view.forward(request, response);
 			return;
 		}
 
-		BookServletModel model = book.getModel(section_id);
+		String section_id = request.getParameter("id");
+		if (section_id == null) {
+
+			List<ITreeItemInfo> input = App.srv.bls().getRoot();
+			if (input.isEmpty()) {
+				error_view.forward(request, response);
+				return;
+			}
+			section_id = input.get(0).getId().toString();
+		}
+
+		BookModel model = new BookController(book).getModel(section_id);
 		if (model == null) {
 			error_view.forward(request, response);
 			return;

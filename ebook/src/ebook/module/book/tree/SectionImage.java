@@ -29,7 +29,7 @@ public class SectionImage {
 	public String url;
 
 	public String getUrl() {
-		return App.getJetty().image(book, id);
+		return App.getJetty().bookImage(book, id);
 	}
 
 	// public SectionImage(Image image, String title, boolean opened, Integer

@@ -23,6 +23,10 @@ public class ListBookInfo extends TreeItemInfo {
 		return image;
 	}
 
+	public boolean hasImage() {
+		return image != null;
+	}
+
 	public void setImage(Image image) {
 		this.image = image;
 	}

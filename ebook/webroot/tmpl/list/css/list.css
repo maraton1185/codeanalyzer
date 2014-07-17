@@ -9,3 +9,11 @@ footer {
 .navbar{
 	margin-bottom: 5px;
 }
+
+a{
+	color: #101010;
+}
+a:hover{
+	color: #999;
+	text-decoration: none;
+}

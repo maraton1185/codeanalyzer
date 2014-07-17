@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.SWT;
@@ -34,9 +33,6 @@ import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.PreferenceSupplier;
-import ebook.utils.Utils;
-import ebook.web.model.ListServletModel;
-import ebook.web.model.ModelItem;
 
 public class BookListService extends TreeService {
 
@@ -131,6 +127,43 @@ public class BookListService extends TreeService {
 
 	}
 
+	public BufferedInputStream getImage(String book_id) {
+		Integer id;
+		try {
+			id = Integer.parseInt(book_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		BufferedInputStream inputStreamReader = null;
+
+		try {
+			Connection con = db.getConnection();
+			String SQL = "Select T.IMAGE FROM " + tableName
+					+ " AS T WHERE T.ID=?";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					InputStream is = rs.getBinaryStream(1);
+					if (is == null)
+						return null;
+					inputStreamReader = new BufferedInputStream(is);
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return inputStreamReader;
+	}
+
 	// SERVICE
 	// *****************************************************************
 	@Override
@@ -153,7 +186,9 @@ public class BookListService extends TreeService {
 	@Override
 	protected void setAdditions(PreparedStatement prep, ITreeItemInfo data)
 			throws SQLException {
-		prep.setString(6, ((ListBookInfo) data).getPath().toString());
+
+		prep.setString(6, data.isGroup() ? "" : ((ListBookInfo) data).getPath()
+				.toString());
 	}
 
 	@Override
@@ -271,40 +306,4 @@ public class BookListService extends TreeService {
 		return null;
 	}
 
-	public ListServletModel getModel(String book_id) {
-		ListServletModel model = new ListServletModel();
-
-		Integer id;
-		try {
-			id = Integer.parseInt(book_id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		ITreeItemInfo treeItem = get(id);
-		if (treeItem == null)
-			return null;
-
-		String host = App.getJetty().list(treeItem.getId());
-
-		model.title = treeItem.getTitle();
-
-		model.parents = new ArrayList<ModelItem>();
-		ITreeItemInfo parent = get(treeItem.getParent());
-		while (parent != null) {
-
-			ModelItem item = new ModelItem();
-			item.title = parent.getTitle();
-			item.url = Utils.getUrl(host, parent.getId());
-			item.id = parent.getId();
-
-			model.parents.add(0, item);
-
-			ITreeItemInfo current = parent;
-			parent = get(current.getParent());
-		}
-
-		return model;
-	}
 }

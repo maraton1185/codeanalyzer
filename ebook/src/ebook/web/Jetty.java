@@ -219,6 +219,7 @@ public class Jetty implements IJetty {
 			holderDefault.setInitParameter("resourceBase",
 					baseUri.toASCIIString());
 			holderDefault.setInitParameter("cacheControl", "max-age=0,public");
+			holderDefault.setInitParameter("welcomeServlets", "true");
 			// holderDefault.setInitParameter("resourceBase", ".");
 			// holderDefault.setInitParameter("useFileMappedBuffer", "true");
 
@@ -358,7 +359,7 @@ public class Jetty implements IJetty {
 
 	@Override
 	public String info() {
-		return host().concat("info");
+		return "info";
 	}
 
 	@Override
@@ -373,14 +374,23 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public String section(Integer book, Integer section) {
-		return host().concat(
-				"book?book=" + book.toString() + "&id=" + section.toString());
+	public String list() {
+		return "list";
 	}
 
 	@Override
-	public String image(Integer book, Integer id) {
-		return "img?book=" + book.toString() + "&id=" + id.toString();
+	public String section(Integer book, Integer section) {
+		return "book?book=" + book.toString() + "&id=" + section.toString();
+	}
+
+	@Override
+	public String bookImage(Integer book, Integer id) {
+		return "book_img?book=" + book.toString() + "&id=" + id.toString();
+	}
+
+	@Override
+	public String bookListImage(Integer book) {
+		return "book_list_img?book=" + book.toString();
 	}
 
 	@Override

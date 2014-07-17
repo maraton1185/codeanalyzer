@@ -142,6 +142,8 @@ public class BookListManager extends TreeManager {
 						data.setTitle(con.getName());
 						data.setGroup(false);
 						data.setPath(con.getFullName());
+						// data.setImage(readBookImage(new
+						// Path(con.getFullName())));
 						srv.add(data, parent, true);
 
 					} catch (InvocationTargetException e) {

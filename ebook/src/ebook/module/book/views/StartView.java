@@ -18,7 +18,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.views.section.tools.BrowserComposite;
 import ebook.utils.PreferenceSupplier;
@@ -55,18 +54,18 @@ public class StartView {
 		parent.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		if (!App.getJetty().isStarted()) {
-			toolkit = new FormToolkit(parent.getDisplay());
-			form = toolkit.createScrolledForm(parent);
-			form.setSize(448, 377);
-			form.setLocation(0, 0);
-			ColumnLayout layout = new ColumnLayout();
-			layout.maxNumColumns = 2;
-			form.getBody().setLayout(layout);
-
-			form.setText("Не запущен web-сервер!");
-			return;
-		}
+		// if (!App.getJetty().isStarted()) {
+		// toolkit = new FormToolkit(parent.getDisplay());
+		// form = toolkit.createScrolledForm(parent);
+		// form.setSize(448, 377);
+		// form.setLocation(0, 0);
+		// ColumnLayout layout = new ColumnLayout();
+		// layout.maxNumColumns = 2;
+		// form.getBody().setLayout(layout);
+		//
+		// form.setText("Не запущен web-сервер!");
+		// return;
+		// }
 
 		Bundle bundle = FrameworkUtil.getBundle(this.getClass());
 		URL url_bundle = FileLocator.find(bundle, new Path(

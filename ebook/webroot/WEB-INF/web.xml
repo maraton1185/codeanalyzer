@@ -17,12 +17,21 @@
 
 
 	<servlet>
-		<servlet-name>image</servlet-name>
-		<servlet-class>ebook.web.servlets.ImageServlet</servlet-class>
+		<servlet-name>book image</servlet-name>
+		<servlet-class>ebook.web.servlets.BookImageServlet</servlet-class>
 	</servlet>
  	<servlet-mapping>
-		<servlet-name>image</servlet-name>
-		<url-pattern>/img</url-pattern>
+		<servlet-name>book image</servlet-name>
+		<url-pattern>/book_img</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>book list image</servlet-name>
+		<servlet-class>ebook.web.servlets.BookListImageServlet</servlet-class>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>book list image</servlet-name>
+		<url-pattern>/book_list_img</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -61,7 +70,7 @@
 	</jsp-config>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>/list</welcome-file>
 	</welcome-file-list>
 
 	<!-- <servlet> <servlet-name>home</servlet-name> <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class> 

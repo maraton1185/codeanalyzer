@@ -35,7 +35,15 @@
 						class="icon-bar"></span>
 				</button>
 				<!-- BRAND -->
-				<a class="navbar-brand" href="#">${model.section.title}</a>
+				<c:choose>
+					<c:when test="${model.swtMode}">
+	            		<a class="navbar-brand" href="#">${model.title}</a>
+	                </c:when>
+	                <c:otherwise>
+	        			<a class="navbar-brand" href="${model.url}">${model.title}</a>
+	    			</c:otherwise>
+				</c:choose>
+				
 			</div>
 
 			<!-- LINKS -->
@@ -198,20 +206,7 @@
 
 	</c:forEach>
 
-	<div class="container">
-
-		<hr>
-
-		<footer>
-			<div class="row">
-				<div class="col-lg-12">
-					<p>Copyright &copy; Company 2013</p>
-				</div>
-			</div>
-		</footer>
-
-	</div>
-	<!-- /.container -->
+	<c:import url="/tmpl/footer.jsp"/>
 
 	<!-- JavaScript -->
 	<script src="${root}js/jquery.js"></script>

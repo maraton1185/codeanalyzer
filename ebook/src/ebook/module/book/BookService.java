@@ -350,6 +350,8 @@ public class BookService extends TreeService {
 				if (rs.next()) {
 
 					InputStream is = rs.getBinaryStream(1);
+					if (is == null)
+						return null;
 					inputStreamReader = new BufferedInputStream(is);
 				}
 			} finally {

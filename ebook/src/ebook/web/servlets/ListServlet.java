@@ -1,6 +1,7 @@
 package ebook.web.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
-import ebook.web.model.ListServletModel;
+import ebook.module.tree.ITreeItemInfo;
+import ebook.web.controllers.ListController;
+import ebook.web.model.ListModel;
 
 public class ListServlet extends HttpServlet {
 
@@ -29,11 +32,15 @@ public class ListServlet extends HttpServlet {
 
 		String book_id = request.getParameter("id");
 		if (book_id == null) {
-			error_view.forward(request, response);
-			return;
+			List<ITreeItemInfo> input = App.srv.bls().getRoot();
+			if (input.isEmpty()) {
+				error_view.forward(request, response);
+				return;
+			}
+			book_id = input.get(0).getId().toString();
 		}
 
-		ListServletModel model = App.srv.bls().getModel(book_id);
+		ListModel model = new ListController(App.srv.bls()).getModel(book_id);
 		if (model == null) {
 			error_view.forward(request, response);
 			return;

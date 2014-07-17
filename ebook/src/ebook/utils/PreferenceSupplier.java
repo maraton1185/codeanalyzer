@@ -46,12 +46,16 @@ public abstract class PreferenceSupplier {
 	public static final String IMAGE_WIDTH = "IMAGE_WIDTH";
 	public static final String EXTERNAL_JETTY_BASE = "EXTERNAL_JETTY_BASE";
 	public static final String JETTY_BASE = "JETTY_BASE";
+	public static final String AppBrand = "AppBrand";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.AppBrand,
+				"Анализатор кода 1С");
 
 		preferenceStore.setDefault(PreferenceSupplier.IMAGE_WIDTH, 200);
 		preferenceStore.setDefault(PreferenceSupplier.EXTERNAL_JETTY_BASE,

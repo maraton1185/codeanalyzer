@@ -78,9 +78,9 @@ public class SectionView {
 		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		String url = App.getJetty().section(book.getTreeItem().getId(),
-				section.getId())
-				+ "&swt=true";
+		String url = App.getJetty().host()
+				+ App.getJetty().section(book.getTreeItem().getId(),
+						section.getId()) + "&swt=true";
 		// url = "http://localhost/tmpl/book/css/bootstrap.min.css";
 		// url = "http://localhost/tmpl/book/js/book.js";
 		browserComposite = new BrowserComposite(body, url, section.tag, book,

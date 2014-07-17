@@ -29,7 +29,7 @@ public interface IJetty {
 
 	public HashMap<IPath, Connection> pull();
 
-	public String image(Integer book, Integer id);
+	public String bookImage(Integer book, Integer id);
 
 	public void openBookOnStratUp();
 
@@ -38,5 +38,9 @@ public interface IJetty {
 	String book(Integer book);
 
 	String list(Integer id);
+
+	String list();
+
+	String bookListImage(Integer book);
 
 }

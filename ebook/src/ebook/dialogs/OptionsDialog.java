@@ -125,6 +125,10 @@ public class OptionsDialog {
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
+			StringFieldEditor f18 = new StringFieldEditor(
+					PreferenceSupplier.AppBrand, "Заголовок списка книг", comp);
+			addField(f18);
+
 			BooleanFieldEditor f14 = new BooleanFieldEditor(
 					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
 					comp);
@@ -143,6 +147,10 @@ public class OptionsDialog {
 					PreferenceSupplier.JETTY_BASE, "Каталог web-сервера", comp);
 			f16.setChangeButtonText("...");
 			addField(f16);
+
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+			//
 
 			// comp = new Composite(group, SWT.NULL);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));

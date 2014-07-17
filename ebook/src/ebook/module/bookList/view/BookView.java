@@ -2,6 +2,7 @@ package ebook.module.bookList.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -33,6 +35,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -42,12 +45,16 @@ import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
+import ebook.utils.PreferenceSupplier;
+import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class BookView {
 
@@ -191,8 +198,13 @@ public class BookView {
 					if (p == null)
 						return;
 					File temp = new File(p.addFileExtension("txt").toString());
-					if (!temp.exists())
+					if (!temp.exists()) {
 						temp.createNewFile();
+					}
+					PrintWriter writer = new PrintWriter(temp, "UTF-8");
+					writer.println(model.getDescription());
+					writer.close();
+
 					java.awt.Desktop.getDesktop().open(temp);
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -200,19 +212,67 @@ public class BookView {
 			}
 		});
 
-		// label = toolkit.createLabel(itemComp, "Описание книги:", SWT.LEFT);
-		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
-		// 2,
-		// 1));
-
-		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
-				| SWT.READ_ONLY);
+		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		text.setLayoutData(gd);
 
-		target = WidgetProperties.text().observe(text);
-		field_model = BeanProperties.value(model.getClass(), "bookDescription")
+		target = WidgetProperties.text(SWT.Modify).observe(text);
+		field_model = BeanProperties.value(model.getClass(), "description")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
+
+		Composite panel = toolkit.createComposite(itemComp);
+		panel.setLayout(new RowLayout());
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.RIGHT;
+		gd.grabExcessHorizontalSpace = true;
+		panel.setLayoutData(gd);
+
+		ImageHyperlink hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+		hlink.setText("Картинка книги");
+
+		hlink.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+
+				final IPath p = Utils.browseFile(
+						new Path(PreferenceSupplier
+								.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
+						itemComp.getShell(), Strings.get("appTitle"),
+						"*.png;*.bmp");
+				if (p == null)
+					return;
+
+				App.srv.bls().addImage(model.getId(), p);
+			}
+		});
+
+		hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+		hlink.setImage(Utils.getImage("delete.png"));
+		hlink.setToolTipText("Удалить");
+
+		hlink.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+
+				App.srv.bls().deleteImage(model.getId());
+			}
+		});
+
+		// link = toolkit.createHyperlink(itemComp, "Картинка книги",
+		// SWT.RIGHT);
+		// link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2,
+		// 1));
+
+		Label label = toolkit.createLabel(itemComp, "");
+
+		gd = new GridData(GridData.FILL_BOTH);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
+
+		target = WidgetProperties.image().observe(label);
+		field_model = BeanProperties.value(model.getClass(), "image")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 

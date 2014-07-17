@@ -363,7 +363,13 @@ public class Jetty implements IJetty {
 
 	@Override
 	public String book(Integer book) {
-		return host().concat("book?book=" + book.toString());
+		// return host().concat("book?book=" + book.toString());
+		return "book?book=" + book.toString();
+	}
+
+	@Override
+	public String list(Integer id) {
+		return "list?id=" + id.toString();
 	}
 
 	@Override
@@ -374,8 +380,7 @@ public class Jetty implements IJetty {
 
 	@Override
 	public String image(Integer book, Integer id) {
-		return host().concat(
-				"img?book=" + book.toString() + "&id=" + id.toString());
+		return "img?book=" + book.toString() + "&id=" + id.toString();
 	}
 
 	@Override

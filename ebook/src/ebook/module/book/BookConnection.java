@@ -8,11 +8,12 @@ import org.eclipse.core.runtime.IPath;
 
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
-import ebook.module.book.servlets.BookServletModel;
-import ebook.module.book.servlets.BookServletModel.Parent;
-import ebook.module.book.servlets.BookServletModel.Section;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.utils.Utils;
+import ebook.web.model.BookServletModel;
+import ebook.web.model.ModelItem;
+import ebook.web.model.Section;
 
 public class BookConnection extends BaseDbPathConnection {
 
@@ -60,8 +61,8 @@ public class BookConnection extends BaseDbPathConnection {
 			return null;
 		}
 
-		ITreeItemInfo sec = srv().get(id);
-		if (sec == null)
+		ITreeItemInfo treeItem = srv().get(id);
+		if (treeItem == null)
 			return null;
 
 		BookServletModel model = new BookServletModel();
@@ -70,16 +71,16 @@ public class BookConnection extends BaseDbPathConnection {
 		if (bookItem == null)
 			return null;
 
-		model.host = App.getJetty().book(bookItem.getId());
+		String host = App.getJetty().book(bookItem.getId());
 		model.title = bookItem.getTitle();
 
-		model.section = model.new Section();
+		model.section = new Section();
 
-		model.section.id = sec.getId();
-		model.section.title = sec.getTitle();
-		model.section.group = sec.isGroup();
+		model.section.id = treeItem.getId();
+		model.section.title = treeItem.getTitle();
+		model.section.group = treeItem.isGroup();
 		model.section.text = srv().getText(id);
-		model.section.url = getUrl(model.host, model.section.id);
+		model.section.url = Utils.getUrl(host, model.section.id);
 
 		model.sections = new ArrayList<Section>();
 
@@ -87,7 +88,7 @@ public class BookConnection extends BaseDbPathConnection {
 
 		for (ITreeItemInfo item : list) {
 
-			Section section = model.new Section();
+			Section section = new Section();
 
 			section.id = item.getId();
 			section.title = item.getTitle();
@@ -99,18 +100,19 @@ public class BookConnection extends BaseDbPathConnection {
 			section.bigImageCSS = bigImageCSS;
 			section.textCSS = SectionInfoOptions.gridLength - bigImageCSS;
 
-			section.url = getUrl(model.host, section.id);
+			section.url = Utils.getUrl(host, section.id);
 
 			model.sections.add(section);
 		}
 
-		model.parents = new ArrayList<Parent>();
-		ITreeItemInfo parent = srv().get(sec.getParent());
+		model.parents = new ArrayList<ModelItem>();
+		ITreeItemInfo parent = srv().get(treeItem.getParent());
 		while (parent != null) {
 
-			Parent item = model.new Parent();
+			ModelItem item = new ModelItem();
 			item.title = parent.getTitle();
-			item.url = getUrl(model.host, parent.getId());
+			item.url = Utils.getUrl(host, parent.getId());
+			item.id = parent.getId();
 
 			model.parents.add(0, item);
 
@@ -119,9 +121,5 @@ public class BookConnection extends BaseDbPathConnection {
 		}
 
 		return model;
-	}
-
-	private String getUrl(String host, Integer id) {
-		return host + "&id=" + id;
 	}
 }

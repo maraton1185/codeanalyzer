@@ -31,6 +31,10 @@ import ebook.module.cf.views.ConfigsView;
 
 public abstract class Utils {
 
+	public static String getUrl(String host, Integer id) {
+		return host + "&id=" + id;
+	}
+
 	public static void togglePart(MWindow window, EModelService model,
 			String partId, String stackId) {
 		List<MPart> parts = model.findElements(window, Strings.get(partId),

@@ -1,4 +1,4 @@
-package ebook.module.book.servlets;
+package ebook.web.servlets;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

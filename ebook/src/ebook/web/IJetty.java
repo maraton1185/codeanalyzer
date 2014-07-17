@@ -37,4 +37,6 @@ public interface IJetty {
 
 	String book(Integer book);
 
+	String list(Integer id);
+
 }

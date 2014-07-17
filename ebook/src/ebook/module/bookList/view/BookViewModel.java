@@ -1,13 +1,7 @@
 package ebook.module.bookList.view;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.swt.graphics.Image;
 
 import ebook.core.models.ModelObject;
 import ebook.module.bookList.tree.ListBookInfo;
@@ -19,7 +13,7 @@ public class BookViewModel extends ModelObject {
 
 	public ListBookInfo data;
 
-	public String description = "";
+	// public String description = "";
 
 	private final ListBookInfoOptions options;
 
@@ -27,40 +21,7 @@ public class BookViewModel extends ModelObject {
 		super();
 		this.data = data;
 		this.options = (ListBookInfoOptions) data.getOptions();
-		readDescription();
-
-	}
-
-	private void readDescription() {
-		if (data.isGroup())
-			return;
-		if (!description.isEmpty())
-			return;
-		if (data.getPath() == null)
-			return;
-
-		try {
-			File f = new File(data.getPath().addFileExtension("txt").toString());
-			if (!f.exists())
-				throw new FileNotFoundException();
-
-			BufferedReader br = null;
-			StringBuffer sb = new StringBuffer();
-			try {
-				Reader in = new InputStreamReader(new FileInputStream(f));
-				br = new BufferedReader(in);
-				String source_line = null;
-				while ((source_line = br.readLine()) != null) {
-					sb.append(source_line + '\n');
-				}
-			} finally {
-				br.close();
-			}
-			description = sb.toString();
-
-		} catch (Exception e) {
-			description = "Нет описания";
-		}
+		// readDescription();
 
 	}
 
@@ -95,10 +56,14 @@ public class BookViewModel extends ModelObject {
 				options.description = value);
 	}
 
-	public String getBookDescription() {
-
-		return description;
+	public Image getImage() {
+		return data.getImage();
 	}
+
+	// public String getBookDescription() {
+	//
+	// return description;
+	// }
 
 	public UserInfo getRole() {
 		return data.role;
@@ -111,6 +76,10 @@ public class BookViewModel extends ModelObject {
 
 	public boolean isShowRole() {
 		return data.getParent() == ITreeService.rootId;
+	}
+
+	public Integer getId() {
+		return data.getId();
 	}
 
 }

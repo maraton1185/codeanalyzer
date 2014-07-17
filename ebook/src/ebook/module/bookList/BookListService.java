@@ -1,21 +1,31 @@
 package ebook.module.bookList;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.book.BookConnection;
-import ebook.module.bookList.servlets.ListServletModel;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -24,6 +34,9 @@ import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.PreferenceSupplier;
+import ebook.utils.Utils;
+import ebook.web.model.ListServletModel;
+import ebook.web.model.ModelItem;
 
 public class BookListService extends TreeService {
 
@@ -35,20 +48,94 @@ public class BookListService extends TreeService {
 	}
 
 	// ******************************************************************
-	public Image getImage(Connection con) {
 
-		// ImageData data = new ImageData(stream);
-		// ImageDescriptor image = ImageDescriptor.createFromImageData(data);
-		// return image.createImage();
+	public void addImage(Integer id, IPath p) {
 
-		return null;
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE " + tableName + " SET IMAGE=? WHERE ID=?;";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setInt(2, id);
+
+			File f = p.toFile();
+			FileInputStream fis = new FileInputStream(f);
+
+			BufferedInputStream inputStreamReader = new BufferedInputStream(fis);
+			ImageData imageData = new ImageData(inputStreamReader);
+
+			int mWidth = PreferenceSupplier
+					.getInt(PreferenceSupplier.IMAGE_WIDTH);// options.scaledImageWidth;
+			int width = imageData.width;
+			int height = imageData.height;
+			if (width > mWidth)
+				imageData = imageData.scaledTo((mWidth), (int) ((float) height
+						/ width * mWidth));
+
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+			ImageLoader loader = new ImageLoader();
+			loader.data = new ImageData[] { imageData };
+			int type;
+			switch (p.getFileExtension()) {
+			case "png":
+				type = SWT.IMAGE_PNG;
+				break;
+			case "bmp":
+				type = SWT.IMAGE_BMP;
+			default:
+				type = SWT.IMAGE_BMP;
+				break;
+			}
+			loader.save(os, type);
+
+			ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+			prep.setBinaryStream(1, is);
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			App.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void deleteImage(Integer id) {
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE " + tableName + " SET IMAGE=? WHERE ID=?;";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setNull(1, java.sql.Types.BINARY);
+			prep.setInt(2, id);
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			App.br.post(Events.EVENT_UPDATE_BOOK_INFO, null);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	// SERVICE
 	// *****************************************************************
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROLE, $Table.PATH ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROLE, $Table.PATH, $Table.IMAGE ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -82,6 +169,12 @@ public class BookListService extends TreeService {
 		info.role = (UserInfo) App.srv.us().get(rs.getInt(6));
 		info.setPath(rs.getString(7));
 
+		InputStream is = rs.getBinaryStream(8);
+		if (is != null) {
+			BufferedInputStream inputStreamReader = new BufferedInputStream(is);
+			ImageData imageData = new ImageData(inputStreamReader);
+			info.setImage(new Image(Display.getCurrent(), imageData));
+		}
 		return info;
 	}
 
@@ -178,10 +271,39 @@ public class BookListService extends TreeService {
 		return null;
 	}
 
-	public ListServletModel getModel() {
+	public ListServletModel getModel(String book_id) {
 		ListServletModel model = new ListServletModel();
 
-		model.host = App.getJetty().host();
+		Integer id;
+		try {
+			id = Integer.parseInt(book_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		ITreeItemInfo treeItem = get(id);
+		if (treeItem == null)
+			return null;
+
+		String host = App.getJetty().list(treeItem.getId());
+
+		model.title = treeItem.getTitle();
+
+		model.parents = new ArrayList<ModelItem>();
+		ITreeItemInfo parent = get(treeItem.getParent());
+		while (parent != null) {
+
+			ModelItem item = new ModelItem();
+			item.title = parent.getTitle();
+			item.url = Utils.getUrl(host, parent.getId());
+			item.id = parent.getId();
+
+			model.parents.add(0, item);
+
+			ITreeItemInfo current = parent;
+			parent = get(current.getParent());
+		}
 
 		return model;
 	}

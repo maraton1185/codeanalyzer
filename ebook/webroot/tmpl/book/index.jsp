@@ -1,21 +1,6 @@
-<%@page import="ebook.module.book.servlets.BookServletModel"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 
-<%
-	String root = "tmpl/book/";
-
-	BookServletModel model = (BookServletModel) request
-			.getAttribute("model");
-
-	// 	boolean editMode = false;
-
-	// 	Cookie[] ck = request.getCookies();
-	// 	for (int i = 0; i < ck.length; i++) {
-	// 		if(ck[i].getName().equalsIgnoreCase("tinyEditor"))
-	// 			editMode = true;
-	// 	}
-%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,12 +13,12 @@
 <title>${model.title}</title>
 
 <!-- Bootstrap core CSS -->
-<link href="<%=root%>css/bootstrap.min.css" rel="stylesheet">
+<link href="${root}css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
-<link href="<%=root%>css/book.css" rel="stylesheet">
+<link href="${root}css/book.css" rel="stylesheet">
 
-<link href="<%=root%>fancybox/jquery.fancybox.css?v=2.1.5" rel="stylesheet">
+<link href="${root}fancybox/jquery.fancybox.css?v=2.1.5" rel="stylesheet">
 
 </head>
 
@@ -65,24 +50,29 @@
 		</div>
 	</nav><!-- /NAV BAR -->
 
-
-<div class="container">
-	<div class="row">
-		<div class="col-lg-12">
-			<ol class="breadcrumb">
-				<c:forEach var="parent" items="${model.parents}">
-                	<li><a href="${parent.url}">${parent.title}</a></li>            		
-            	</c:forEach>
-            	<li class="active">${model.section.title}</li>
-            </ol>
+	<!-- BREADCUMPS -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<ol class="breadcrumb">
+					<c:forEach var="parent" items="${model.parents}">
+	                	<li>
+							<c:choose>
+								<c:when test="${model.swtMode}">
+	                				<a class="openSection" data="${parent.id}" href="${parent.url}">${parent.title}</a>
+	                			</c:when>
+	                			 <c:otherwise>
+	        						<a href="${parent.url}">${parent.title}</a>
+	    						</c:otherwise>
+	                		</c:choose>
+	                	</li>            		
+	            	</c:forEach>
+	            	<li class="active">${model.section.title}</li>
+	            </ol>
+			</div>
 		</div>
 	</div>
-</div>
 
-
-<!--
-<a class="fancybox" href="http://localhost:80/img?book=2&id=8" title="Lorem ipsum dolor sit amet"><img src="http://localhost:80/img?book=2&id=8" alt="" /></a>
--->
 	<c:forEach var="section" items="${model.sections}">
 
 		<div class="container" id=${section.id}>
@@ -103,19 +93,19 @@
 					<!-- GROUP -->
 					<c:if test="${section.group}">
 
-						<!-- SWT-->
-						<c:if test="${model.swtMode}">
-							<a href="#" class="openSection">
-								<h2 class="page-header1">${section.title}</h2>
-							</a>
-						</c:if>
-
-						<!-- BROWSER-->
-						<c:if test="${not model.swtMode}">
-							<a href="${section.url}">
-								<h2 class="page-header1">${section.title}</h2>
-							</a>
-						</c:if>
+						<!-- TITLE-->
+						<c:choose>
+							<c:when test="${model.swtMode}">
+                				<a href="#" class="openSection">
+									<h2 class="page-header1">${section.title}</h2>
+								</a>
+                			</c:when>
+                			<c:otherwise>
+        						<a href="${section.url}">
+									<h2 class="page-header1">${section.title}</h2>
+								</a>
+    						</c:otherwise>
+                		</c:choose>
 
 						<!-- UP link-->
 						<div class="back-to-top">
@@ -224,14 +214,14 @@
 	<!-- /.container -->
 
 	<!-- JavaScript -->
-	<script src="<%=root%>js/jquery.js"></script>
-	<script src="<%=root%>fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
+	<script src="${root}js/jquery.js"></script>
+	<script src="${root}fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
 
-	<script src="<%=root%>fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<script src="${root}fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-	<script src="<%=root%>js/bootstrap.min.js"></script>
-	<script src="<%=root%>js/book.js"></script>
-	<%-- 	<script src="<%=root%>js/jquery.cookie.js"></script> --%>
+	<script src="${root}js/bootstrap.min.js"></script>
+	<script src="${root}js/book.js"></script>
+	<%-- 	<script src="${root}js/jquery.cookie.js"></script> --%>
 </body>
 
 </html>

@@ -5,7 +5,10 @@ $(function() {
   $('.openSection').click(function(e) {
     var id;
     e.preventDefault();
-    id = $(this).parents('.container').attr('id');
+    id = $(this).attr('data');
+    if (id === void 0) {
+      id = $(this).parents('.container').attr('id');
+    }
     changeStatusLine('event:openSection()=' + id);
   });
 

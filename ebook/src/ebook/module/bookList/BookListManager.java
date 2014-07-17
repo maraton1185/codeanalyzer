@@ -1,5 +1,11 @@
 package ebook.module.bookList;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -129,7 +135,9 @@ public class BookListManager extends TreeManager {
 						BookConnection con = new BookConnection(path, true);
 
 						ListBookInfoOptions opt = new ListBookInfoOptions();
-						// opt.path = con.getFullName();
+						opt.description = readBookDescription(new Path(con
+								.getFullName()));
+
 						ListBookInfo data = new ListBookInfo(opt);
 						data.setTitle(con.getName());
 						data.setGroup(false);
@@ -158,6 +166,35 @@ public class BookListManager extends TreeManager {
 			}
 		});
 
+	}
+
+	private String readBookDescription(IPath path) {
+
+		String description;
+		try {
+			File f = new File(path.addFileExtension("txt").toString());
+			if (!f.exists())
+				throw new FileNotFoundException();
+
+			BufferedReader br = null;
+			StringBuffer sb = new StringBuffer();
+			try {
+				Reader in = new InputStreamReader(new FileInputStream(f));
+				br = new BufferedReader(in);
+				String source_line = null;
+				while ((source_line = br.readLine()) != null) {
+					sb.append(source_line + '\n');
+				}
+			} finally {
+				br.close();
+			}
+			description = sb.toString();
+
+		} catch (Exception e) {
+			description = "Нет описания";
+		}
+
+		return description;
 	}
 
 	@Override

@@ -1,22 +1,6 @@
 
-<%@page import="ebook.module.bookList.servlets.ListServletModel"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-
-<%
-    String root = "tmpl/list/";
-
-    ListServletModel model = (ListServletModel) request
-            .getAttribute("model");
-
-    //  boolean editMode = false;
-
-    //  Cookie[] ck = request.getCookies();
-    //  for (int i = 0; i < ck.length; i++) {
-    //      if(ck[i].getName().equalsIgnoreCase("tinyEditor"))
-    //          editMode = true;
-    //  }
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,19 +11,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>About Page Template for Bootstrap 3</title>
+    <title>${model.title}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<%= root%>css/bootstrap.css" rel="stylesheet">
+    <link href="${root}css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom CSS for the 'Round About' Template -->
-    <link href="<%= root%>css/list.css" rel="stylesheet">
+    <link href="${root}css/list.css" rel="stylesheet">
 
 </head>
 
 <body>
 
-    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <!-- NAV BAR -->
+    <nav class="navbar navbar-static-top navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -65,11 +50,28 @@
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
-    </nav>
+    </nav><!-- /NAV BAR -->
+
+
+    <!-- BREADCUMPS -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <c:forEach var="parent" items="${model.parents}">
+                        <li>
+                            <a href="${parent.url}">${parent.title}</a>                            
+                        </li>                   
+                    </c:forEach>
+                    <li class="active">${model.title}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
 
-        <div class="row">
+        <!--div class="row">
 
             <div class="col-lg-12">
                 <h1 class="page-header">About Us
@@ -84,7 +86,7 @@
                 <h2 class="page-header">Our Team</h2>
             </div>
 
-        </div>
+        </div-->
 
         <div class="row">
             <div class="col-lg-4 col-sm-6">
@@ -145,8 +147,8 @@
     <!-- /container -->
 
     <!-- JavaScript -->
-    <script src="<%= root%>js/jquery-1.10.2.js"></script>
-    <script src="<%= root%>js/bootstrap.js"></script>
+    <script src="${root}js/jquery-1.10.2.js"></script>
+    <script src="${root}js/bootstrap.js"></script>
 
 </body>
 

@@ -55,6 +55,7 @@ public class DbStructure implements IDbStructure {
 					+ "OPTIONS VARCHAR(500), "
 					+ "PATH VARCHAR(1500), "
 					+ "ROLE INTEGER, "
+					+ "IMAGE BINARY, "
 					+ "FOREIGN KEY(ROLE) REFERENCES USERS(ID), "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -110,7 +111,7 @@ public class DbStructure implements IDbStructure {
 
 			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
-					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, ROLE")
+					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, ROLE, IMAGE")
 					&& ch.checkColumns(metadata, "USERS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 					&& ch.checkColumns(metadata, "CONFS",

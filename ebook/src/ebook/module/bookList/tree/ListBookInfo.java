@@ -2,6 +2,7 @@ package ebook.module.bookList.tree;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.graphics.Image;
 
 import ebook.module.tree.TreeItemInfo;
 import ebook.module.userList.tree.UserInfo;
@@ -16,7 +17,15 @@ public class ListBookInfo extends TreeItemInfo {
 		super(null);
 	}
 
-	// public ListBookInfoOptions options;
+	private Image image;
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
 
 	public UserInfo role;
 

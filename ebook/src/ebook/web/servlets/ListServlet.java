@@ -1,4 +1,4 @@
-package ebook.module.book.servlets;
+package ebook.web.servlets;
 
 import java.io.IOException;
 
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
-import ebook.module.book.BookConnection;
+import ebook.web.model.ListServletModel;
 
-public class BookServlet extends HttpServlet {
+public class ListServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -27,39 +27,23 @@ public class BookServlet extends HttpServlet {
 		RequestDispatcher error_view = request
 				.getRequestDispatcher("/bookNotFind.jsp");
 
-		String book_id = request.getParameter("book");
+		String book_id = request.getParameter("id");
 		if (book_id == null) {
 			error_view.forward(request, response);
 			return;
 		}
 
-		String section_id = request.getParameter("id");
-		if (section_id == null) {
-			error_view.forward(request, response);
-			return;
-		}
-
-		BookConnection book = App.srv.bls().getBook(book_id);
-		if (book == null) {
-			error_view.forward(request, response);
-			return;
-		}
-
-		BookServletModel model = book.getModel(section_id);
+		ListServletModel model = App.srv.bls().getModel(book_id);
 		if (model == null) {
 			error_view.forward(request, response);
 			return;
 		}
 
-		String isSwt = request.getParameter("swt");
-		if (isSwt != null) {
-			model.swtMode = true;
-		}
-		// model.id = id;
 		request.setAttribute("model", model);
+		request.setAttribute("root", "tmpl/list/");
 
 		RequestDispatcher view = request
-				.getRequestDispatcher("/tmpl/book/index.jsp");
+				.getRequestDispatcher("/tmpl/list/index.jsp");
 
 		view.forward(request, response);
 

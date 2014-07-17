@@ -18,7 +18,7 @@
 
 	<servlet>
 		<servlet-name>image</servlet-name>
-		<servlet-class>ebook.module.book.servlets.ImageServlet</servlet-class>
+		<servlet-class>ebook.web.servlets.ImageServlet</servlet-class>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>image</servlet-name>
@@ -27,7 +27,7 @@
 	
 	<servlet>
 		<servlet-name>book</servlet-name>
-		<servlet-class>ebook.module.book.servlets.BookServlet</servlet-class>
+		<servlet-class>ebook.web.servlets.BookServlet</servlet-class>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>book</servlet-name>
@@ -36,7 +36,7 @@
 	
 	<servlet>
 		<servlet-name>list</servlet-name>
-		<servlet-class>ebook.module.bookList.servlets.ListServlet</servlet-class>
+		<servlet-class>ebook.web.servlets.ListServlet</servlet-class>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>list</servlet-name>

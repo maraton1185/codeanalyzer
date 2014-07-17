@@ -28,3 +28,7 @@ a:hover{
 	color: #999;
 	text-decoration: none;
 }
+
+.navbar{
+	margin-bottom: 5px;
+}

@@ -34,9 +34,9 @@ public class ListModel {
 	// return aboutUrl;
 	// }
 
-	public String brand;
-
-	public String getBrand() {
-		return brand;
-	}
+	// public String brand;
+	//
+	// public String getBrand() {
+	// return brand;
+	// }
 }

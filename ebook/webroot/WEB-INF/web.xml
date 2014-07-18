@@ -4,21 +4,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 
-	<init-param>
-  		<param-name>cacheControl</param-name>
-  		<param-value>max-age=0,public</param-value>
-	</init-param>
-
-	<display-name>HelloWorld Application</display-name>
-	<description>
-        This is a simple web application with a source code organization
-        based on the recommendations of the Application Developer's Guide.
-    </description>
-
-
 	<servlet>
 		<servlet-name>book image</servlet-name>
 		<servlet-class>ebook.web.servlets.BookImageServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>book image</servlet-name>
@@ -28,6 +17,7 @@
 	<servlet>
 		<servlet-name>book list image</servlet-name>
 		<servlet-class>ebook.web.servlets.BookListImageServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>book list image</servlet-name>
@@ -37,6 +27,7 @@
 	<servlet>
 		<servlet-name>book</servlet-name>
 		<servlet-class>ebook.web.servlets.BookServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>book</servlet-name>
@@ -46,12 +37,34 @@
 	<servlet>
 		<servlet-name>list</servlet-name>
 		<servlet-class>ebook.web.servlets.ListServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>list</servlet-name>
 		<url-pattern>/list</url-pattern>
 	</servlet-mapping>
 	
+	
+	<context-param>
+		<param-name>root_404</param-name>
+		<param-value>tmpl/errors/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>root_book</param-name>
+		<param-value>tmpl/book/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>root_list</param-name>
+		<param-value>tmpl/list/</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>
+			ebook.web.EbookServletContextListener
+		</listener-class>
+	</listener>
 <!-- 	<servlet> -->
 <!-- 		<servlet-name>info</servlet-name> -->
 <!-- 		<jsp-file>/tmpl/info/index.jsp</jsp-file> -->
@@ -78,7 +91,13 @@
 		</servlet-mapping> -->
 
 	<error-page>
-        <location>/error.jsp</location>
+		<exception-type>java.lang.Throwable</exception-type>
+        <location>/tmpl/errors/error.jsp</location>
+    </error-page>
+    
+    <error-page>
+		<error-code>404</error-code>
+        <location>/tmpl/errors/404.jsp</location>
     </error-page>
     
 </web-app> 

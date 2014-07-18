@@ -14,10 +14,10 @@
     <title>${model.title}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="${root}css/bootstrap.css" rel="stylesheet">
+    <link href="${initParam.root_list}css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom CSS for the 'Round About' Template -->
-    <link href="${root}css/list.css" rel="stylesheet">
+    <link href="${initParam.root_list}css/list.css" rel="stylesheet">
 
 </head>
 
@@ -33,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${model.url}">${model.brand}</a>
+                <a class="navbar-brand" href="${model.url}">${applicationScope.brand}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -92,8 +92,8 @@
     <c:import url="/tmpl/footer.jsp"/>
 
     <!-- JavaScript -->
-    <script src="${root}js/jquery-1.10.2.js"></script>
-    <script src="${root}js/bootstrap.js"></script>
+    <script src="${initParam.root_list}js/jquery-1.10.2.js"></script>
+    <script src="${initParam.root_list}js/bootstrap.js"></script>
 
 </body>
 

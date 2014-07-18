@@ -47,7 +47,6 @@ public class ListServlet extends HttpServlet {
 		}
 
 		request.setAttribute("model", model);
-		request.setAttribute("root", "tmpl/list/");
 
 		RequestDispatcher view = request
 				.getRequestDispatcher("/tmpl/list/index.jsp");

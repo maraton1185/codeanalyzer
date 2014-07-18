@@ -13,12 +13,12 @@
 <title>${model.title}</title>
 
 <!-- Bootstrap core CSS -->
-<link href="${root}css/bootstrap.min.css" rel="stylesheet">
+<link href="${initParam.root_book}css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
-<link href="${root}css/book.css" rel="stylesheet">
+<link href="${initParam.root_book}css/book.css" rel="stylesheet">
 
-<link href="${root}fancybox/jquery.fancybox.css?v=2.1.5" rel="stylesheet">
+<link href="${initParam.root_book}fancybox/jquery.fancybox.css?v=2.1.5" rel="stylesheet">
 
 </head>
 
@@ -209,14 +209,14 @@
 	<c:import url="/tmpl/footer.jsp"/>
 
 	<!-- JavaScript -->
-	<script src="${root}js/jquery.js"></script>
-	<script src="${root}fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
+	<script src="${initParam.root_book}js/jquery.js"></script>
+	<script src="${initParam.root_book}fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
 
-	<script src="${root}fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<script src="${initParam.root_book}fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-	<script src="${root}js/bootstrap.min.js"></script>
-	<script src="${root}js/book.js"></script>
-	<%-- 	<script src="${root}js/jquery.cookie.js"></script> --%>
+	<script src="${initParam.root_book}js/bootstrap.min.js"></script>
+	<script src="${initParam.root_book}js/book.js"></script>
+	<%-- 	<script src="${initParam.root_book}js/jquery.cookie.js"></script> --%>
 </body>
 
 </html>

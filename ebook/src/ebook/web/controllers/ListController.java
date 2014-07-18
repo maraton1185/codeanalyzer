@@ -8,7 +8,6 @@ import ebook.module.bookList.BookListService;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
-import ebook.utils.PreferenceSupplier;
 import ebook.web.model.Book;
 import ebook.web.model.ListModel;
 import ebook.web.model.ModelItem;
@@ -41,7 +40,7 @@ public class ListController {
 		model.url = App.getJetty().list();
 		// model.aboutUrl = App.getJetty().info();
 		model.title = treeItem.getTitle();
-		model.brand = PreferenceSupplier.get(PreferenceSupplier.APP_BRAND);
+		// model.brand = PreferenceSupplier.get(PreferenceSupplier.APP_BRAND);
 
 		model.parents = new ArrayList<ModelItem>();
 		ITreeItemInfo parent = srv.get(treeItem.getParent());

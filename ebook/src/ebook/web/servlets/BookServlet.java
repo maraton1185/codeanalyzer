@@ -66,7 +66,6 @@ public class BookServlet extends HttpServlet {
 		}
 		// model.id = id;
 		request.setAttribute("model", model);
-		request.setAttribute("root", "tmpl/book/");
 
 		RequestDispatcher view = request
 				.getRequestDispatcher("/tmpl/book/index.jsp");

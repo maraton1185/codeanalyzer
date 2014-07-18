@@ -389,7 +389,7 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
-	public String bookListImage(Integer book) {
+	public String listImage(Integer book) {
 		return "book_list_img?book=" + book.toString();
 	}
 

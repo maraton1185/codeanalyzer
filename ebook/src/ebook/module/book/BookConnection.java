@@ -42,4 +42,9 @@ public class BookConnection extends BaseDbPathConnection {
 			return treeItem;
 	}
 
+	@Override
+	public String getWindowTitle() {
+		return getTreeItem().getTitle();
+	}
+
 }

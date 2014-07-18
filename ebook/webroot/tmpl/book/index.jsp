@@ -10,6 +10,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<link rel="SHORTCUT ICON" href="favicon.ico">
+
 <title>${model.title}</title>
 
 <!-- Bootstrap core CSS -->
@@ -17,6 +19,8 @@
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
 <link href="${initParam.root_book}book.css" rel="stylesheet">
+
+<link rel="SHORTCUT ICON" href="book.png">    
 
 </head>
 
@@ -35,7 +39,7 @@
 				<!-- BRAND -->
 				<c:choose>
 					<c:when test="${not empty swtMode}">
-	            		<a class="navbar-brand" href="#">${model.title}</a>
+	            		<span class="navbar-brand">${model.title}</span>
 	                </c:when>
 	                <c:otherwise>
 	        			<a class="navbar-brand" href="${model.url}">${model.title}</a>

@@ -21,19 +21,17 @@ public interface IJetty {
 
 	public void setManual();
 
-	public String host();
-
-	// public String info();
-
-	public String section(Integer book, Integer section);
-
 	public HashMap<IPath, Connection> pull();
-
-	public String bookImage(Integer book, Integer id);
 
 	public void openBookOnStratUp();
 
 	public void setOpenBookOnStratUp();
+
+	// url
+
+	String host();
+
+	String section(Integer book, Integer section);
 
 	String book(Integer book);
 
@@ -41,6 +39,8 @@ public interface IJetty {
 
 	String list();
 
-	String bookListImage(Integer book);
+	String bookImage(Integer book, Integer id);
+
+	String listImage(Integer book);
 
 }

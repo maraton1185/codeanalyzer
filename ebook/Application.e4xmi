@@ -34,7 +34,6 @@
               <menus xmi:id="_PBKVoOLREeOuwO28iF6Snw" elementId="ebook.menu.5">
                 <tags>ViewMenu</tags>
                 <children xsi:type="menu:DirectMenuItem" xmi:id="_PwQQQOLREeOuwO28iF6Snw" elementId="ebook.directmenuitem.3" label="Открыть каталог книг" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.OpenBookFolder"/>
-                <children xsi:type="menu:HandledMenuItem" xmi:id="_mNgIkP0sEeONSOVuBcgXoA" elementId="ebook.handledmenuitem.5" label="Открыть не из списка"/>
               </menus>
               <toolbar xmi:id="_J0_W8NzXEeO2K4Dwib9TKw" elementId="ebook.toolbar.7">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_tDyMcN_3EeOuHKOpYE-s4Q" elementId="ebook.handledtoolitem.23" label="" iconURI="platform:/plugin/ebook/icons/open.png" tooltip="Добавить существующую" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
@@ -280,7 +279,7 @@
       </children>
     </toolbar>
   </descriptors>
-  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="ebook.window.book" label="Книга" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
+  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="ebook.window.book" label="Книга" iconURI="platform:/plugin/ebook/icons/book.png" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="ebook.partsashcontainer.2" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="ebook.partstack.sections" containerData="70000"/>
       <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="ebook.partstack.BookContent" containerData="30000">

@@ -71,7 +71,7 @@ public class ListController {
 			book.hasImage = true;
 			boolean hasImage = ((ListBookInfo) item).hasImage();
 			if (hasImage)
-				book.image = App.getJetty().bookListImage(item.getId());
+				book.image = App.getJetty().listImage(item.getId());
 			else {
 				if (item.isGroup())
 					book.image = "/tmpl/list/img/group.png";

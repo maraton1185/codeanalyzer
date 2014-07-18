@@ -49,7 +49,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${applicationScope.root_url}">${applicationScope.brand}</a>
+				<a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
 			</div>
 
       <jsp:include page="/tmpl/auth.jsp" />
@@ -60,13 +60,15 @@
 
 	<div class="container">
 
-		<form class="form-signin" role="form">
+		<form class="form-signin" role="form" action="login" method="POST">
 			<h2 class="form-signin-heading">Вход</h2>
-			<input type="text" class="form-control" placeholder="Имя" required=""
-				autofocus=""> <input type="password" class="form-control"
+			<input name="username" type="text" class="form-control" placeholder="Имя" required=""
+				autofocus=""> 
+      <input name="password" type="password" class="form-control"
 				placeholder="Пароль" required="">
 			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me">
+				<label> 
+          <input name="remember-me" type="checkbox" value="remember-me">
 					Запомнить меня
 				</label>
 			</div>

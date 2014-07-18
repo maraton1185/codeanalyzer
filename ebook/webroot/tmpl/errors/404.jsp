@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${applicationScope.root_url}">${applicationScope.brand}</a>
+                <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
             </div>
 
             <!-- LINKS -->
@@ -49,7 +49,7 @@
                     <small>Page Not Found</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="${applicationScope.root_url}">Домашняя</a>
+                    <li><a href="${initParam.root_url}">Домашняя</a>
                     </li>
                     <li class="active">404</li>
                 </ol>

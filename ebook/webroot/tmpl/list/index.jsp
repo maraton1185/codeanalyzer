@@ -33,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${applicationScope.root_url}">${applicationScope.brand}</a>
+                <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
             </div>
 
             <!-- LINKS -->

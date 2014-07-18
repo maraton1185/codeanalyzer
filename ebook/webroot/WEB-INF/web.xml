@@ -48,8 +48,8 @@
 	
 	<servlet>
 		<servlet-name>login</servlet-name>
-		<jsp-file>/tmpl/signin/login.jsp</jsp-file>
-		<!--servlet-class>ebook.web.servlets.LoginServlet</servlet-class-->
+		<!--jsp-file>/tmpl/signin/login.jsp</jsp-file-->
+		<servlet-class>ebook.web.servlets.LoginServlet</servlet-class>
 		<load-on-startup>4</load-on-startup>
 	</servlet>
  	<servlet-mapping>
@@ -59,9 +59,9 @@
 	
 	<servlet>
 		<servlet-name>logout</servlet-name>
-		<jsp-file>/tmpl/signin/logout.jsp</jsp-file>
-		<!--servlet-class>ebook.web.servlets.LoginServlet</servlet-class-->
+		<servlet-class>ebook.web.servlets.LogoutServlet</servlet-class>
 		<load-on-startup>4</load-on-startup>
+		
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>logout</servlet-name>
@@ -71,6 +71,20 @@
 	
 
 <!--CONTEXT AND LISTENERS-->
+	<context-param>
+		<param-name>root_url</param-name>
+		<param-value>/list</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>login_url</param-name>
+		<param-value>/login</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>logout_url</param-name>
+		<param-value>/logout</param-value>
+	</context-param>
 	
 	<context-param>
 		<param-name>bootstrap</param-name>
@@ -103,7 +117,7 @@
 		</listener-class>
 	</listener>
 
-<!--WELCOME AND JSP-->
+<!--WELCOME, JSP, SESSIONS-->
 
 	<jsp-config>
 		<taglib>
@@ -116,6 +130,9 @@
 		<welcome-file>/list</welcome-file>
 	</welcome-file-list>
 
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
 
 <!--ERRORS-->
 	<error-page>
@@ -123,9 +140,14 @@
         <location>/tmpl/errors/error.jsp</location>
     </error-page>
     
-    <error-page>
+    <error-page>  
 		<error-code>404</error-code>
         <location>/tmpl/errors/404.jsp</location>
+    </error-page>
+    
+    <error-page>  
+		<error-code>400</error-code>
+        <location>/tmpl/errors/error.jsp</location>
     </error-page>
     
 </web-app> 

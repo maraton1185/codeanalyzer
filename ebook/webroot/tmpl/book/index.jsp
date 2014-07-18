@@ -13,12 +13,10 @@
 <title>${model.title}</title>
 
 <!-- Bootstrap core CSS -->
-<link href="${initParam.root_book}css/bootstrap.min.css" rel="stylesheet">
+ <jsp:include page="${initParam.bootstrap}bootstrap.css.jsp"/>
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
-<link href="${initParam.root_book}css/book.css" rel="stylesheet">
-
-<link href="${initParam.root_book}fancybox/jquery.fancybox.css?v=2.1.5" rel="stylesheet">
+<link href="${initParam.root_book}book.css" rel="stylesheet">
 
 </head>
 
@@ -53,8 +51,10 @@
 						<li><a href="#${section.id}">${section.title}</a></li>
 					</c:forEach>
 				</ul>
-			</div>
 
+				<jsp:include page="/tmpl/auth.jsp"/>
+			</div>
+			
 		</div>
 	</nav><!-- /NAV BAR -->
 
@@ -206,17 +206,13 @@
 
 	</c:forEach>
 
-	<c:import url="/tmpl/footer.jsp"/>
+	<jsp:include page="/tmpl/footer.jsp"/>
 
 	<!-- JavaScript -->
-	<script src="${initParam.root_book}js/jquery.js"></script>
-	<script src="${initParam.root_book}fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
+	<jsp:include page="${initParam.bootstrap}bootstrap.js.jsp"/>
 
-	<script src="${initParam.root_book}fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<script src="${initParam.root_book}book.js"></script>
 
-	<script src="${initParam.root_book}js/bootstrap.min.js"></script>
-	<script src="${initParam.root_book}js/book.js"></script>
-	<%-- 	<script src="${initParam.root_book}js/jquery.cookie.js"></script> --%>
 </body>
 
 </html>

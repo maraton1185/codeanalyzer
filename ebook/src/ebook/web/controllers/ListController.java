@@ -37,7 +37,7 @@ public class ListController {
 			return null;
 
 		// String host = App.getJetty().book(treeItem.getId());
-		model.url = App.getJetty().list();
+		// model.url = App.getJetty().list();
 		// model.aboutUrl = App.getJetty().info();
 		model.title = treeItem.getTitle();
 		// model.brand = PreferenceSupplier.get(PreferenceSupplier.APP_BRAND);

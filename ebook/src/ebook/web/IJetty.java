@@ -43,4 +43,6 @@ public interface IJetty {
 
 	String bookListImage(Integer book);
 
+	public Object login();
+
 }

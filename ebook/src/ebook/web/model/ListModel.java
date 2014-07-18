@@ -22,11 +22,11 @@ public class ListModel {
 		return books;
 	}
 
-	public String url;
-
-	public String getUrl() {
-		return url;
-	}
+	// public String url;
+	//
+	// public String getUrl() {
+	// return url;
+	// }
 
 	// public String aboutUrl;
 	//

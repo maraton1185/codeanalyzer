@@ -28,18 +28,18 @@ public class BookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		RequestDispatcher error_view = request
-				.getRequestDispatcher("/bookNotFind.jsp");
+		// RequestDispatcher error_view = request
+		// .getRequestDispatcher("/bookNotFind.jsp");
 
 		String book_id = request.getParameter("book");
 		if (book_id == null) {
-			error_view.forward(request, response);
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
 
 		BookConnection book = App.srv.bls().getBook(book_id);
 		if (book == null) {
-			error_view.forward(request, response);
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
 
@@ -48,7 +48,7 @@ public class BookServlet extends HttpServlet {
 
 			List<ITreeItemInfo> input = book.srv().getRoot();
 			if (input.isEmpty()) {
-				error_view.forward(request, response);
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
 			section_id = input.get(0).getId().toString();
@@ -56,7 +56,7 @@ public class BookServlet extends HttpServlet {
 
 		BookModel model = new BookController(book).getModel(section_id);
 		if (model == null) {
-			error_view.forward(request, response);
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
 
@@ -68,7 +68,8 @@ public class BookServlet extends HttpServlet {
 		request.setAttribute("model", model);
 
 		RequestDispatcher view = request
-				.getRequestDispatcher("/tmpl/book/index.jsp");
+				.getRequestDispatcher(getServletContext().getInitParameter(
+						"root_book").concat("index.jsp"));
 
 		view.forward(request, response);
 

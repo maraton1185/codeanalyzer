@@ -379,6 +379,11 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
+	public Object login() {
+		return "login";
+	}
+
+	@Override
 	public String section(Integer book, Integer section) {
 		return "book?book=" + book.toString() + "&id=" + section.toString();
 	}

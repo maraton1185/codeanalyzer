@@ -14,10 +14,10 @@
     <title>${model.title}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="${initParam.root_list}css/bootstrap.css" rel="stylesheet">
-
+   <jsp:include page="${initParam.bootstrap}bootstrap.css.jsp"/>
+    
     <!-- Custom CSS for the 'Round About' Template -->
-    <link href="${initParam.root_list}css/list.css" rel="stylesheet">
+    <link href="${initParam.root_list}list.css" rel="stylesheet">
 
 </head>
 
@@ -33,17 +33,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${model.url}">${applicationScope.brand}</a>
+                <a class="navbar-brand" href="${applicationScope.root_url}">${applicationScope.brand}</a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <!--div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="">Как пользоваться</a>
-                    </li>
-                </ul>
-            </div-->
-            <!-- /.navbar-collapse -->
+            <!-- LINKS -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <jsp:include page="/tmpl/auth.jsp" />
+            </div>
         </div>
         <!-- /.container -->
     </nav><!-- /NAV BAR -->
@@ -89,11 +85,11 @@
     </div>
     <!-- /container -->
 
-    <c:import url="/tmpl/footer.jsp"/>
+    <jsp:include page="/tmpl/footer.jsp"/>
 
     <!-- JavaScript -->
-    <script src="${initParam.root_list}js/jquery-1.10.2.js"></script>
-    <script src="${initParam.root_list}js/bootstrap.js"></script>
+    <jsp:include page="${initParam.bootstrap}bootstrap.js.jsp"/>
+    
 
 </body>
 

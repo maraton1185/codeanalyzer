@@ -11,12 +11,11 @@
 
     <title>${applicationScope.brand}</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="${initParam.root_404}css/bootstrap.css" rel="stylesheet">
-
+    
+    <jsp:include page="${initParam.bootstrap}bootstrap.css.jsp"/>
     <!-- Add custom CSS here -->
-    <link href="${initParam.root_404}css/modern-business.css" rel="stylesheet">
-    <link href="${initParam.root_404}font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="${initParam.root_404}errors.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -30,62 +29,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Modern Business</a>
+                <a class="navbar-brand" href="${applicationScope.root_url}">${applicationScope.brand}</a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- LINKS -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="about.html">About</a>
-                    </li>
-                    <li><a href="services.html">Services</a>
-                    </li>
-                    <li><a href="contact.php">Contact</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="portfolio-1-col.html">1 Column Portfolio</a>
-                            </li>
-                            <li><a href="portfolio-2-col.html">2 Column Portfolio</a>
-                            </li>
-                            <li><a href="portfolio-3-col.html">3 Column Portfolio</a>
-                            </li>
-                            <li><a href="portfolio-4-col.html">4 Column Portfolio</a>
-                            </li>
-                            <li><a href="portfolio-item.html">Single Portfolio Item</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="blog-home-1.html">Blog Home 1</a>
-                            </li>
-                            <li><a href="blog-home-2.html">Blog Home 2</a>
-                            </li>
-                            <li><a href="blog-post.html">Blog Post</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Pages <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="full-width.html">Full Width Page</a>
-                            </li>
-                            <li><a href="sidebar.html">Sidebar Page</a>
-                            </li>
-                            <li><a href="faq.html">FAQ</a>
-                            </li>
-                            <li class="active"><a href="404.html">404</a>
-                            </li>
-                            <li><a href="pricing.html">Pricing Table</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                <jsp:include page="/tmpl/auth.jsp" />
             </div>
-            <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
@@ -99,7 +49,7 @@
                     <small>Page Not Found</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="index.html">Home</a>
+                    <li><a href="${applicationScope.root_url}">Домашняя</a>
                     </li>
                     <li class="active">404</li>
                 </ol>
@@ -111,22 +61,7 @@
 
             <div class="col-lg-12">
                 <p class="error-404">404</p>
-                <p class="lead">The page you're looking for could not be found.</p>
-                <p>Here are some helpful links to help you find what you're looking for:</p>
-                <ul>
-                    <li><a href="#">Home</a>
-                    </li>
-                    <li><a href="#">About</a>
-                    </li>
-                    <li><a href="#">Services</a>
-                    </li>
-                    <li><a href="#">Contact</a>
-                    </li>
-                    <li><a href="#">Blog</a>
-                    </li>
-                    <li><a href="#">Other</a>
-                    </li>
-                </ul>
+                <p class="lead">Запрашиваемая страница не найдена.</p>
             </div>
 
         </div>
@@ -134,25 +69,11 @@
     </div>
     <!-- /.container -->
 
-    <div class="container">
-
-        <hr>
-
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Company 2013</p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <!-- /.container -->
+    <jsp:include page="/tmpl/footer.jsp"/>
 
     <!-- JavaScript -->
-    <script src="${initParam.root_404}js/jquery-1.10.2.js"></script>
-    <script src="${initParam.root_404}js/bootstrap.js"></script>
-    <script src="${initParam.root_404}js/modern-business.js"></script>
+    <jsp:include page="${initParam.bootstrap}bootstrap.js.jsp"/>
+    <script src="${initParam.root_404}errors.js"></script>
 
 </body>
 

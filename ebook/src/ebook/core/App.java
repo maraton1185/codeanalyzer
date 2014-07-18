@@ -76,6 +76,16 @@ public class App {
 				return Strings.get("model.id.perspective.default");
 			}
 		}
+
+		public static Perspectives get(String string) {
+
+			if (string.equalsIgnoreCase(Strings
+					.get("model.id.perspective.books")))
+				return lists;
+			else
+				return main;
+
+		}
 	}
 
 	public enum ListParts {
@@ -266,7 +276,7 @@ public class App {
 								public void handleEvent(
 										org.eclipse.swt.widgets.Event event) {
 
-									Program.launch(App.getJetty().info());
+									Program.launch(App.getJetty().host());
 									// IWorkbench workbench =
 									// window.getContext()
 									// .get(IWorkbench.class);
@@ -478,6 +488,8 @@ public class App {
 		@Override
 		public boolean close(MWindow window) {
 
+			PreferenceSupplier.set(PreferenceSupplier.START_PERSPECTIVE,
+					currentPerspective.toString());
 			PreferenceSupplier.save();
 
 			IJobManager jobMan = Job.getJobManager();
@@ -578,11 +590,8 @@ public class App {
 
 	public static void perspectiveActions() {
 
-		if (PreferenceSupplier
-				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE))
-			currentPerspective = Perspectives.lists;
-		else
-			currentPerspective = Perspectives.main;
+		currentPerspective = Perspectives.get(PreferenceSupplier
+				.get(PreferenceSupplier.START_PERSPECTIVE));
 
 		showPerspective(currentPerspective, ListParts.get(PreferenceSupplier
 				.get(PreferenceSupplier.SELECTED_LIST)));

@@ -1,7 +1,6 @@
 package ebook.views;
 
 import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,7 +11,6 @@ import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
@@ -234,50 +232,50 @@ public class StartView {
 
 	}
 
-	private void confListCommands(final EHandlerService hService,
-			final ECommandService comService, @Active final MWindow window,
-			final EModelService model) {
-		ImageHyperlink link;
-		GridData gd;
-		Hyperlink _link;
-
-		Composite comp = toolkit.createComposite(confSectionClient);
-		comp.setLayout(new RowLayout());
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = SWT.RIGHT;
-		comp.setLayoutData(gd);
-
-		_link = toolkit.createHyperlink(comp, "Настроить", SWT.WRAP);
-		_link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				// App.showPerspective(Perspectives.lists);
-				// Utils.togglePart(window, model, "ebook.part.confList",
-				// "ebook.partstack.itemlist");
-
-				List<MPart> parts = model.findElements(window,
-						Strings.get("ebook.part.confList"), MPart.class, null);
-				App.ps.activate(parts.get(0));
-				// parts.get(0).setVisible(true);
-
-			}
-
-		});
-
-		link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		link.setImage(Utils.getImage("update.png"));
-		link.setToolTipText("Обновить список");
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				// Utils.executeHandler(hService, comService,
-				// Strings.get("command.id.BookListUpdate"));
-				// super.linkActivated(e);
-			}
-
-		});
-
-	}
+	// private void confListCommands(final EHandlerService hService,
+	// final ECommandService comService, @Active final MWindow window,
+	// final EModelService model) {
+	// ImageHyperlink link;
+	// GridData gd;
+	// Hyperlink _link;
+	//
+	// Composite comp = toolkit.createComposite(confSectionClient);
+	// comp.setLayout(new RowLayout());
+	// gd = new GridData(GridData.FILL_BOTH);
+	// gd.horizontalAlignment = SWT.RIGHT;
+	// comp.setLayoutData(gd);
+	//
+	// _link = toolkit.createHyperlink(comp, "Настроить", SWT.WRAP);
+	// _link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// // App.showPerspective(Perspectives.lists);
+	// // Utils.togglePart(window, model, "ebook.part.confList",
+	// // "ebook.partstack.itemlist");
+	//
+	// List<MPart> parts = model.findElements(window,
+	// Strings.get("ebook.part.confList"), MPart.class, null);
+	// App.ps.activate(parts.get(0));
+	// // parts.get(0).setVisible(true);
+	//
+	// }
+	//
+	// });
+	//
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("update.png"));
+	// link.setToolTipText("Обновить список");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// // Utils.executeHandler(hService, comService,
+	// // Strings.get("command.id.BookListUpdate"));
+	// // super.linkActivated(e);
+	// }
+	//
+	// });
+	//
+	// }
 
 	private void mainLinks(final EHandlerService hService,
 			final ECommandService comService) {
@@ -481,22 +479,22 @@ public class StartView {
 		gd.horizontalSpan = 3;
 		hlink.setLayoutData(gd);
 
-		final Button check1 = toolkit.createButton(prefSectionClient,
-				"При запуске открывать список книг", SWT.CHECK);
-		check1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				PreferenceSupplier.set(
-						PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
-						check1.getSelection());
-				PreferenceSupplier.save();
-			}
-		});
-		gd = new GridData();
-		gd.horizontalSpan = 3;
-		check1.setLayoutData(gd);
-		check1.setSelection(PreferenceSupplier
-				.getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE));
+		// final Button check1 = toolkit.createButton(prefSectionClient,
+		// "При запуске открывать список книг", SWT.CHECK);
+		// check1.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// PreferenceSupplier.set(
+		// PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
+		// check1.getSelection());
+		// PreferenceSupplier.save();
+		// }
+		// });
+		// gd = new GridData();
+		// gd.horizontalSpan = 3;
+		// check1.setLayoutData(gd);
+		// check1.setSelection(PreferenceSupplier
+		// .getBoolean(PreferenceSupplier.SHOW_BOOK_PERSPECTIVE));
 		// final Button check = toolkit.createButton(prefSectionClient,
 		// "Не показывать при запуске", SWT.CHECK);
 		// check.addSelectionListener(new SelectionAdapter() {

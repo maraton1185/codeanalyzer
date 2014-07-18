@@ -10,7 +10,7 @@ public class BrowseJettyServer {
 	@Execute
 	public void execute() {
 		if (App.getJetty().isStarted())
-			Program.launch(App.getJetty().info());
+			Program.launch(App.getJetty().host());
 		else {
 			App.getJetty().setManual();
 			App.br.post(Events.EVENT_START_JETTY, null);

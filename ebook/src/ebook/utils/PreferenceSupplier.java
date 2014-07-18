@@ -12,6 +12,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.osgi.service.prefs.Preferences;
 
+import ebook.core.App.Perspectives;
+
 public abstract class PreferenceSupplier {
 
 	private static PreferenceStore preferenceStore;
@@ -27,12 +29,13 @@ public abstract class PreferenceSupplier {
 	public static final String INIT_EXECUTION = "P_INIT_EXECUTION";
 	public static final String BASE_ACTIVE = "P_BASE_ACTIVE";
 	public static final String BASE_COMPARE = "P_BASE_COMPARE";
-	// public static final String SHOW_START_PAGE = "P_SHOW_START_PAGE";
-	public static final String SHOW_BOOK_PERSPECTIVE = "P_SHOW_BOOK_PERSPECTIVE";
+
 	public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
 	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
 	public static final String FONT = "FONT";
-	public static final String NOT_OPEN_SECTION_START_VIEW = "NOT_OPEN_SECTION_START_VIEW";
+
+	public static final String START_PERSPECTIVE = "START_PERSPECTIVE";
+
 	public static final String MINIMIZE_TO_TRAY = "MINIMIZE_TO_TRAY";
 	public static final String MINIMIZE_TO_TRAY_ON_STARTUP = "MINIMIZE_TO_TRAY_ON_STARTUP";
 
@@ -46,7 +49,7 @@ public abstract class PreferenceSupplier {
 	public static final String IMAGE_WIDTH = "IMAGE_WIDTH";
 	public static final String EXTERNAL_JETTY_BASE = "EXTERNAL_JETTY_BASE";
 	public static final String JETTY_BASE = "JETTY_BASE";
-	public static final String AppBrand = "AppBrand";
+	public static final String APP_BRAND = "APP_BRAND";
 
 	// ******************************************************************
 
@@ -54,7 +57,10 @@ public abstract class PreferenceSupplier {
 
 		preferenceStore = new PreferenceStore(prefFileName);
 
-		preferenceStore.setDefault(PreferenceSupplier.AppBrand,
+		preferenceStore.setDefault(PreferenceSupplier.START_PERSPECTIVE,
+				Perspectives.main.toString());
+
+		preferenceStore.setDefault(PreferenceSupplier.APP_BRAND,
 				"Анализатор кода 1С");
 
 		preferenceStore.setDefault(PreferenceSupplier.IMAGE_WIDTH, 200);
@@ -87,6 +93,12 @@ public abstract class PreferenceSupplier {
 		preferenceStore.setDefault(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY,
 				ResourcesPlugin.getWorkspace().getRoot().getLocation()
 						.toString());
+
+		preferenceStore.setDefault(PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
+				true);
+
+		preferenceStore.setDefault(PreferenceSupplier.BOOK_ON_STARTUP,
+				Utils.getAboutBookPath() + Const.DEFAULT_DB_EXTENSION);
 
 		try {
 			preferenceStore.load();

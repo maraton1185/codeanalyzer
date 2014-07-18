@@ -357,10 +357,10 @@ public class Jetty implements IJetty {
 		return "http://localhost:" + jettyPort + "/";
 	}
 
-	@Override
-	public String info() {
-		return "info";
-	}
+	// @Override
+	// public String info() {
+	// return "info";
+	// }
 
 	@Override
 	public String book(Integer book) {

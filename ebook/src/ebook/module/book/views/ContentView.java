@@ -1,6 +1,7 @@
 package ebook.module.book.views;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -30,6 +31,7 @@ import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoSelection;
 import ebook.module.bookList.tree.ListBookInfo;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -174,6 +176,24 @@ public class ContentView {
 			final SectionInfo section = (SectionInfo) book.srv().get(i);
 			if (section == null)
 				continue;
+
+			window.getContext().set(SectionInfo.class, section);
+
+			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+		}
+
+		if (opt.openSections == null || opt.openSections.isEmpty()) {
+
+			List<ITreeItemInfo> input = book.srv().getRoot();
+			if (input.isEmpty()) {
+				return;
+			}
+			int section_id = input.get(0).getId();
+
+			final SectionInfo section = (SectionInfo) book.srv()
+					.get(section_id);
+			if (section == null)
+				return;
 
 			window.getContext().set(SectionInfo.class, section);
 

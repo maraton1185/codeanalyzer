@@ -13,7 +13,6 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
@@ -23,8 +22,8 @@ import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import ebook.core.App;
 import ebook.core.App.BookWindowCloseHandler;
 import ebook.module.book.BookConnection;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
-import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -49,8 +48,8 @@ public class serviceShow {
 			EHandlerService hs, ECommandService cs) {
 
 		// книги нет в списке
-		Integer id = con.getTreeItem().getId();
-		if (id == null)
+		ITreeItemInfo item = con.getTreeItem();
+		if (item == null)
 			return;
 
 		MWindow mainWindow = App.app.getChildren().get(0);
@@ -95,14 +94,14 @@ public class serviceShow {
 		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
 		newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 
-		List<MPart> parts = model.findElements(newWindow,
-				Strings.get("model.id.part.SectionsStartView"), MPart.class,
-				null);
-		if (!parts.isEmpty()) {
-			MPart part = parts.get(0);
-			if (PreferenceSupplier
-					.getBoolean(PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW))
-				part.setVisible(false);
-		}
+		// List<MPart> parts = model.findElements(newWindow,
+		// Strings.get("model.id.part.SectionsStartView"), MPart.class,
+		// null);
+		// if (!parts.isEmpty()) {
+		// MPart part = parts.get(0);
+		// if (PreferenceSupplier
+		// .getBoolean(PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW))
+		// part.setVisible(false);
+		// }
 	}
 }

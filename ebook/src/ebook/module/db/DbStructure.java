@@ -1,15 +1,23 @@
 package ebook.module.db;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
 import ebook.utils.DbStructureChecker;
 import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class DbStructure implements IDbStructure {
 
@@ -61,11 +69,39 @@ public class DbStructure implements IDbStructure {
 					+ "PRIMARY KEY (ID));");
 
 			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP, PATH) VALUES (?,?,?);";
-			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			prep.setString(1, Strings.get("initBookTitle"));
 			prep.setBoolean(2, true);
 			prep.setString(3, "");
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			ResultSet generatedKeys = prep.getGeneratedKeys();
+			int id;
+			if (generatedKeys.next()) {
+				id = generatedKeys.getInt(1);
+			} else
+				throw new SQLException();
+
+			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP, PATH, PARENT, IMAGE) VALUES (?,?,?,?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("aboutBookTitle"));
+			prep.setBoolean(2, false);
+			prep.setString(3, Utils.getAboutBookPath());
+			prep.setInt(4, id);
+
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+			ImageLoader loader = new ImageLoader();
+			loader.data = new ImageData[] { Utils.getImage("_help.png")
+					.getImageData() };
+			loader.save(os, SWT.IMAGE_PNG);
+			ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+			prep.setBinaryStream(5, is);
+
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();

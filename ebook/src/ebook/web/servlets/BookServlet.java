@@ -46,7 +46,7 @@ public class BookServlet extends HttpServlet {
 		String section_id = request.getParameter("id");
 		if (section_id == null) {
 
-			List<ITreeItemInfo> input = App.srv.bls().getRoot();
+			List<ITreeItemInfo> input = book.srv().getRoot();
 			if (input.isEmpty()) {
 				error_view.forward(request, response);
 				return;

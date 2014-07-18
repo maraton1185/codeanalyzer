@@ -23,7 +23,7 @@ public interface IJetty {
 
 	public String host();
 
-	public String info();
+	// public String info();
 
 	public String section(Integer book, Integer section);
 

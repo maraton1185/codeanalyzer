@@ -37,12 +37,12 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <!--div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="${model.aboutUrl}">Как пользоваться</a>
+                    <li><a href="">Как пользоваться</a>
                     </li>
                 </ul>
-            </div>
+            </div-->
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->

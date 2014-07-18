@@ -110,10 +110,10 @@ public class OptionsDialog {
 					"Минимизировать при запуске", comp);
 			addField(f12);
 
-			BooleanFieldEditor f5 = new BooleanFieldEditor(
-					PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
-					"Открывать список книг при запуске", comp);
-			addField(f5);
+			// BooleanFieldEditor f5 = new BooleanFieldEditor(
+			// PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
+			// "Открывать список книг при запуске", comp);
+			// addField(f5);
 
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
@@ -126,8 +126,13 @@ public class OptionsDialog {
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			StringFieldEditor f18 = new StringFieldEditor(
-					PreferenceSupplier.AppBrand, "Заголовок списка книг", comp);
+					PreferenceSupplier.APP_BRAND, "Заголовок списка книг", comp);
 			addField(f18);
+
+			IntegerFieldEditor f15 = new IntegerFieldEditor(
+					PreferenceSupplier.IMAGE_WIDTH,
+					"Ширина картинок (в пикселах)", comp);
+			addField(f15);
 
 			BooleanFieldEditor f14 = new BooleanFieldEditor(
 					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
@@ -219,19 +224,14 @@ public class OptionsDialog {
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 			// comp.setLayout(new GridLayout(2, false));
 
-			BooleanFieldEditor f10 = new BooleanFieldEditor(
-					PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
-					"Не открывать страницу \"Как работать с книгой\"", comp);
-			addField(f10);
+			// BooleanFieldEditor f10 = new BooleanFieldEditor(
+			// PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
+			// "Не открывать страницу \"Как работать с книгой\"", comp);
+			// addField(f10);
 
 			// comp = new Composite(group, SWT.BORDER);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 			// comp.setLayout(new FillLayout());
-
-			IntegerFieldEditor f15 = new IntegerFieldEditor(
-					PreferenceSupplier.IMAGE_WIDTH,
-					"Ширина картинок (в пикселах)", comp);
-			addField(f15);
 
 		}
 	}

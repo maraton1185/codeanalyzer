@@ -185,7 +185,13 @@ public abstract class Utils {
 
 		return value;
 	}
+
 	// *********************************************************************
+
+	public static String getAboutBookPath() {
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation()
+				.toString().concat("/about");
+	}
 
 	// public static void fillBooks(Composite sectionClient, FormToolkit
 	// toolkit,

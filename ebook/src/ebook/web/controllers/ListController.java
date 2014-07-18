@@ -39,9 +39,9 @@ public class ListController {
 
 		// String host = App.getJetty().book(treeItem.getId());
 		model.url = App.getJetty().list();
-		model.aboutUrl = App.getJetty().info();
+		// model.aboutUrl = App.getJetty().info();
 		model.title = treeItem.getTitle();
-		model.brand = PreferenceSupplier.get(PreferenceSupplier.AppBrand);
+		model.brand = PreferenceSupplier.get(PreferenceSupplier.APP_BRAND);
 
 		model.parents = new ArrayList<ModelItem>();
 		ITreeItemInfo parent = srv.get(treeItem.getParent());

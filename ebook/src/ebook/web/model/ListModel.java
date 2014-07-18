@@ -28,11 +28,11 @@ public class ListModel {
 		return url;
 	}
 
-	public String aboutUrl;
-
-	public String getAboutUrl() {
-		return aboutUrl;
-	}
+	// public String aboutUrl;
+	//
+	// public String getAboutUrl() {
+	// return aboutUrl;
+	// }
 
 	public String brand;
 

@@ -131,7 +131,7 @@
 							<!-- SWT edit link-->
 							<c:if test="${not empty swtMode}">
 								<a href="#" class="openSection"> <span
-									class="glyphicon glyphicon-edit"></span> <small>Изменить</small>
+									class="fa fa-pencil"></span> <small>Изменить</small>
 								</a>
 							</c:if>
 						</div>

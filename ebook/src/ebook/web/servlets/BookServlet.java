@@ -62,7 +62,7 @@ public class BookServlet extends HttpServlet {
 
 		String isSwt = request.getParameter("swt");
 		if (isSwt != null) {
-			model.swtMode = true;
+			request.setAttribute("swtMode", true);
 		}
 		// model.id = id;
 		request.setAttribute("model", model);

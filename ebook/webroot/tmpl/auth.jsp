@@ -2,10 +2,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- <div class="collapse navbar-collapse navbar-ex1-collapse"> -->
+
+<c:if test="${empty swtMode}">
+
 <ul class="nav navbar-nav navbar-right navbar-user">
 	
 	<c:choose>
-		<c:when test="${empty user}">
+		<c:when test="${empty sessionScope.user}">
 			<li><a href="${initParam.login_url}"><i class="fa fa-user"></i> Войти</a></li>    	
 	    </c:when>
 	    <c:otherwise>
@@ -27,4 +30,5 @@
 	
 			
 </ul>
+</c:if>
 <!-- </div> -->

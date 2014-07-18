@@ -34,7 +34,7 @@
 				</button>
 				<!-- BRAND -->
 				<c:choose>
-					<c:when test="${model.swtMode}">
+					<c:when test="${not empty swtMode}">
 	            		<a class="navbar-brand" href="#">${model.title}</a>
 	                </c:when>
 	                <c:otherwise>
@@ -66,7 +66,7 @@
 					<c:forEach var="parent" items="${model.parents}">
 	                	<li>
 							<c:choose>
-								<c:when test="${model.swtMode}">
+								<c:when test="not empty swtMode">
 	                				<a class="openSection" data="${parent.id}" href="${parent.url}">${parent.title}</a>
 	                			</c:when>
 	                			 <c:otherwise>
@@ -103,7 +103,7 @@
 
 						<!-- TITLE-->
 						<c:choose>
-							<c:when test="${model.swtMode}">
+							<c:when test="${not empty swtMode}">
                 				<a href="#" class="openSection">
 									<h2 class="page-header1">${section.title}</h2>
 								</a>
@@ -129,7 +129,7 @@
 							<a href="#"><small>Наверх</small></a>
 
 							<!-- SWT edit link-->
-							<c:if test="${model.swtMode}">
+							<c:if test="${not empty swtMode}">
 								<a href="#" class="openSection"> <span
 									class="glyphicon glyphicon-edit"></span> <small>Изменить</small>
 								</a>

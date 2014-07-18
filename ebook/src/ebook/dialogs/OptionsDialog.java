@@ -134,6 +134,11 @@ public class OptionsDialog {
 					"Ширина картинок (в пикселах)", comp);
 			addField(f15);
 
+			IntegerFieldEditor f19 = new IntegerFieldEditor(
+					PreferenceSupplier.SESSION_TIMEOUT,
+					"Таймаут сессии (в минутах)", comp);
+			addField(f19);
+
 			BooleanFieldEditor f14 = new BooleanFieldEditor(
 					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
 					comp);

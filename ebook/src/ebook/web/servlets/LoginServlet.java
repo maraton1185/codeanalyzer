@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ebook.core.App;
+import ebook.utils.PreferenceSupplier;
+import ebook.web.controllers.UserController;
 
 public class LoginServlet extends HttpServlet {
 
@@ -48,15 +50,26 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
+		if (!UserController.isValid(username, pass)) {
+
+			String message = "¬ход не выполнен.";
+
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect(request.getRequestURI());
+			return;
+		}
+
 		HttpSession session = request.getSession();
 		session.setAttribute("user", username);
 
 		String remember = request.getParameter("remember-me");
 		if (remember != null)
-			session.setMaxInactiveInterval(12 * 60 * 60);
+			session.setMaxInactiveInterval(PreferenceSupplier
+					.getInt(PreferenceSupplier.SESSION_TIMEOUT) * 60);
 
 		response.sendRedirect(App.getJetty().list());
 
 	}
-
 }

@@ -4,12 +4,6 @@ import java.util.List;
 
 public class BookModel {
 
-	public boolean swtMode = false;
-
-	public boolean isSwtMode() {
-		return swtMode;
-	}
-
 	public Section section;
 
 	public Section getSection() {

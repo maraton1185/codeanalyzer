@@ -50,12 +50,15 @@ public abstract class PreferenceSupplier {
 	public static final String EXTERNAL_JETTY_BASE = "EXTERNAL_JETTY_BASE";
 	public static final String JETTY_BASE = "JETTY_BASE";
 	public static final String APP_BRAND = "APP_BRAND";
+	public static final String SESSION_TIMEOUT = "SESSION_TIMEOUT";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.SESSION_TIMEOUT, 60);
 
 		preferenceStore.setDefault(PreferenceSupplier.START_PERSPECTIVE,
 				Perspectives.main.toString());

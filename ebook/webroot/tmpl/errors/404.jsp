@@ -29,7 +29,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
+                 <c:when test="${not empty swtMode}">
+                    <a class="navbar-brand" href="#">${applicationScope.brand}</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
+                </c:otherwise>
+                
             </div>
 
             <!-- LINKS -->

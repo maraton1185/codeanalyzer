@@ -1,4 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <!-- saved from url=(0040)http://getbootstrap.com/examples/signin/ -->
@@ -61,8 +62,18 @@
 	<div class="container">
 
 		<form class="form-signin" role="form" action="login" method="POST">
-			<h2 class="form-signin-heading">Вход</h2>
-			<input name="username" type="text" class="form-control" placeholder="Имя" required=""
+			
+      <c:choose>
+        <c:when test="${empty sessionScope.message}">
+          <h2 class="form-signin-heading">Вход</h2>
+        </c:when>
+        <c:otherwise>
+          <h2> <c:out value="${sessionScope.message}" /></h2>
+          <c:remove var="message" scope="session" />
+        </c:otherwise>
+      </c:choose>
+
+      <input name="username" type="text" class="form-control" placeholder="Имя" required=""
 				autofocus=""> 
       <input name="password" type="password" class="form-control"
 				placeholder="Пароль" required="">

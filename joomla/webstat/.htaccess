@@ -1,7 +1,0 @@
-AuthType Basic
-AuthName "/www/demo11.hstj.ru/webstat"
-AuthUserFile /var/www/hstjdemos/data/etc/155848123.passwd
-DirectoryIndex index.html
-<Limit GET POST>
-	require valid-user
-</Limit>

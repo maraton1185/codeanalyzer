@@ -101,33 +101,29 @@ public class BookViewModel extends ModelObject {
 	}
 
 	public void setRoles() {
+
+		if (!data.isGroup()) {
+
+			roles.clear();
+			activeRoles.clear();
+
+			return;
+		}
+
 		List<RoleViewModel> result = new ArrayList<RoleViewModel>();
 
 		List<UserInfo> input = App.srv.us().getRoles();
 		for (UserInfo info : input) {
 
-			RoleViewModel item = new RoleViewModel();
-			item.title = info.getTitle();
-			item.id = info.getId();
+			RoleViewModel item = new RoleViewModel(info.getId());
+			item.setTitle(info.getTitle());
 			result.add(item);
 
 		}
 		roles = result;
 		firePropertyChange("roles", null, null);
 
-		Set<RoleViewModel> result1 = new HashSet<RoleViewModel>();
-
-		List<UserInfo> input1 = App.srv.acl().get(data.getId());
-
-		for (UserInfo info : input1) {
-
-			RoleViewModel item = new RoleViewModel();
-			item.title = info.getTitle();
-			item.id = info.getId();
-			result1.add(item);
-		}
-
-		activeRoles = result1;
+		activeRoles = App.srv.acl().get(data.getId());
 
 		firePropertyChange("activeRoles", null, null);
 	}
@@ -138,10 +134,9 @@ public class BookViewModel extends ModelObject {
 		return new HashSet<RoleViewModel>(activeRoles);
 	}
 
-	public void setActiveRoles(Set<RoleViewModel> value) {
+	public void setActiveRoles(Object[] objects) {
 
-		// set to db
-		firePropertyChange("activeRoles", this.activeRoles,
-				this.activeRoles = new HashSet<RoleViewModel>(value));
+		App.srv.acl().set(data.getId(), objects);
+
 	}
 }

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateSetStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.ChangeEvent;
@@ -40,7 +41,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -116,7 +119,9 @@ public class BookView {
 				"title"));
 		ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
 				RoleViewModel.class), BeansObservables.observeSet(model,
-				"activeRoles", RoleViewModel.class));
+				"activeRoles", RoleViewModel.class), new UpdateSetStrategy(
+				UpdateSetStrategy.POLICY_NEVER), new UpdateSetStrategy(
+				UpdateSetStrategy.POLICY_UPDATE));
 
 		dataValue.setValue(model);
 
@@ -421,6 +426,15 @@ public class BookView {
 				| SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table rolesTable = roles.getTable();
+
+		rolesTable.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (event.detail == SWT.CHECK) {
+					model.setActiveRoles(roles.getCheckedElements());
+				}
+			}
+		});
 		rolesTable.setHeaderVisible(true);
 		rolesTable.setLinesVisible(true);
 		TableColumn titleColumn = new TableColumn(rolesTable, SWT.NONE);

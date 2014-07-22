@@ -4,14 +4,22 @@ import ebook.core.models.ModelObject;
 
 public class RoleViewModel extends ModelObject {
 
-	public Integer id;
+	private Integer id;
 
-	public String title;
+	public Integer getId() {
+		return id;
+	}
+
+	private String title;
+
+	public RoleViewModel(int id) {
+		this.id = id;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof RoleViewModel)
-			return ((RoleViewModel) obj).title.equalsIgnoreCase(title);
+			return ((RoleViewModel) obj).id.equals(id);
 		else
 			return super.equals(obj);
 	}

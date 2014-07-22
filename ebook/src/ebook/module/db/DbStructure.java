@@ -132,11 +132,9 @@ public class DbStructure implements IDbStructure {
 			stat.execute("DROP TABLE IF EXISTS ACL;");
 
 			stat.execute("CREATE TABLE ACL (ID INTEGER AUTO_INCREMENT, "
-					+ "SORT INTEGER, "
 					+ "BOOK INTEGER, "
 					+ "SECTION INTEGER, "
 					+ "ROLE INTEGER, "
-					+ "TITLE VARCHAR(500), "
 					+ "FOREIGN KEY(BOOK) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "FOREIGN KEY(ROLE) REFERENCES USERS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -176,8 +174,7 @@ public class DbStructure implements IDbStructure {
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 					&& ch.checkColumns(metadata, "CONFS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
-					&& ch.checkColumns(metadata, "ACL",
-							"BOOK, SECTION, ROLE, SORT, TITLE");
+					&& ch.checkColumns(metadata, "ACL", "BOOK, SECTION, ROLE");
 
 		} catch (Exception e) {
 			throw new DbStructureException();

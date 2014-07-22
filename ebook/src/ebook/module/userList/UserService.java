@@ -14,6 +14,7 @@ import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
+import ebook.module.tree.TreeItemInfoSelection;
 import ebook.module.tree.TreeService;
 import ebook.module.userList.tree.UserInfo;
 import ebook.module.userList.tree.UserInfoOptions;
@@ -87,7 +88,25 @@ public class UserService extends TreeService {
 
 	}
 
-	public List<UserInfo> getBookRoles() {
+	@Override
+	public void delete(ITreeItemInfo item) {
+		super.delete(item);
+		App.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
+	}
+
+	@Override
+	public void delete(TreeItemInfoSelection selection) {
+		super.delete(selection);
+		App.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
+	}
+
+	@Override
+	public void updateOrder(List<ITreeItemInfo> items) {
+		super.updateOrder(items);
+		App.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
+	}
+
+	public List<UserInfo> getRoles() {
 		List<UserInfo> result = new ArrayList<UserInfo>();
 
 		try {

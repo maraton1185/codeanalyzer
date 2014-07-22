@@ -101,7 +101,7 @@ public class BookViewModel extends ModelObject {
 	public void setRoles() {
 		List<RoleViewModel> result = new ArrayList<RoleViewModel>();
 
-		List<UserInfo> input = App.srv.us().getBookRoles();
+		List<UserInfo> input = App.srv.us().getRoles();
 		for (UserInfo info : input) {
 
 			RoleViewModel item = new RoleViewModel();

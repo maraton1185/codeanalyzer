@@ -223,10 +223,10 @@ public class BookView {
 			}
 		});
 
-		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		text.setLayoutData(gd);
+		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
+				| SWT.V_SCROLL);
+		GridDataFactory.fillDefaults().grab(true, true).span(2, 1)
+				.hint(SWT.DEFAULT, 40).applyTo(text);
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
 		field_model = BeanProperties.value(model.getClass(), "description")
@@ -271,11 +271,6 @@ public class BookView {
 			}
 		});
 
-		// link = toolkit.createHyperlink(itemComp, "Картинка книги",
-		// SWT.RIGHT);
-		// link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2,
-		// 1));
-
 		Label label = toolkit.createLabel(itemComp, "");
 
 		gd = new GridData(GridData.FILL_BOTH);
@@ -292,7 +287,6 @@ public class BookView {
 	private void groupFields(FormToolkit toolkit, DataBindingContext ctx) {
 
 		Label label;
-		GridData gd;
 		Text text;
 
 		IObservableValue target;
@@ -310,10 +304,9 @@ public class BookView {
 				1));
 
 		text = toolkit.createText(groupComp, "", SWT.BORDER | SWT.WRAP
-				| SWT.MULTI);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		text.setLayoutData(gd);
+				| SWT.MULTI | SWT.V_SCROLL);
+		GridDataFactory.fillDefaults().grab(true, true).span(2, 1)
+				.hint(SWT.DEFAULT, 40).applyTo(text);
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
 		field_model = BeanProperties.value(model.getClass(), "description")
@@ -414,6 +407,7 @@ public class BookView {
 		Composite rolesComposite = toolkit.createComposite(groupComp);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.widthHint = 1;
+		gd.heightHint = 150;
 		// gd.horizontalSpan = 2;
 		rolesComposite.setLayoutData(gd);
 		// GridDataFactory.fillDefaults().applyTo(rolesComposite);
@@ -421,7 +415,7 @@ public class BookView {
 		rolesComposite.setLayout(rolesColumnLayout);
 
 		roles = CheckboxTableViewer.newCheckList(rolesComposite, SWT.SINGLE
-				| SWT.BORDER | SWT.FULL_SELECTION);
+				| SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 
 		Table rolesTable = roles.getTable();
 		rolesTable.setHeaderVisible(true);
@@ -433,7 +427,7 @@ public class BookView {
 		GridDataFactory.fillDefaults().grab(true, true)
 				.applyTo(roles.getTable());
 
-		// toolkit.adapt(roles.getControl(), true, true);
+		toolkit.adapt(roles.getControl(), true, true);
 
 		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
 				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
@@ -446,10 +440,10 @@ public class BookView {
 		// UserInfo.class).observeDetail(dataValue);
 		// ctx.bindValue(selected, field_model);
 
-		target = WidgetProperties.enabled().observe(roles.getControl());
-		field_model = BeanProperties.value(model.getClass(), "showRole")
-				.observeDetail(dataValue);
-		ctx.bindValue(target, field_model);
+		// target = WidgetProperties.enabled().observe(roles.getControl());
+		// field_model = BeanProperties.value(model.getClass(), "showRole")
+		// .observeDetail(dataValue);
+		// ctx.bindValue(target, field_model);
 
 	}
 

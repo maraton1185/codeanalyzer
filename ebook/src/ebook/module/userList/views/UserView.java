@@ -17,6 +17,7 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -160,12 +161,9 @@ public class UserView {
 				1));
 
 		text = toolkit.createText(form.getBody(), "", SWT.BORDER | SWT.WRAP
-				| SWT.MULTI);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		// gd.grabExcessVerticalSpace = true;
-		text.setLayoutData(gd);
-		// text.setEchoChar('*');
+				| SWT.MULTI | SWT.V_SCROLL);
+		GridDataFactory.fillDefaults().grab(true, true).span(2, 1)
+				.hint(SWT.DEFAULT, 40).applyTo(text);
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
 		field_model = BeanProperties.value(model.getClass(), "description")

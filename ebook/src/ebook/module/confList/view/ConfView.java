@@ -17,6 +17,7 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -126,10 +127,12 @@ public class ConfView {
 
 		// СТЕК *******************************************
 
-		stack = toolkit.createComposite(form.getBody());
+		stack = toolkit.createComposite(form.getBody(), SWT.BORDER_DASH);
 		stackLayout = new StackLayout();
 		stack.setLayout(stackLayout);
-		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		gd.heightHint = 150;
+		stack.setLayoutData(gd);
 
 		// ПОЛЯ ГРУПП *******************************************
 		fGROUP(toolkit, ctx);
@@ -152,8 +155,6 @@ public class ConfView {
 
 	private void fITEM(FormToolkit toolkit, DataBindingContext ctx) {
 		Label label;
-		GridData gd;
-
 		Text text;
 
 		IObservableValue target;
@@ -179,10 +180,9 @@ public class ConfView {
 				1));
 
 		text = toolkit.createText(itemComp, "", SWT.BORDER | SWT.WRAP
-				| SWT.MULTI);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		text.setLayoutData(gd);
+				| SWT.MULTI | SWT.V_SCROLL);
+		GridDataFactory.fillDefaults().grab(true, true).span(2, 1)
+				.hint(SWT.DEFAULT, 40).applyTo(text);
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
 		field_model = BeanProperties.value(model.getClass(), "description")
@@ -206,7 +206,7 @@ public class ConfView {
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
-		label = toolkit.createLabel(comp, "Путь:", SWT.LEFT);
+		label = toolkit.createLabel(comp, "Каталог базы данных:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 
@@ -243,7 +243,7 @@ public class ConfView {
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
-		label = toolkit.createLabel(comp, "Каталог файлов:", SWT.LEFT);
+		label = toolkit.createLabel(comp, "Каталог для загрузки:", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
 				1));
 
@@ -383,7 +383,6 @@ public class ConfView {
 			Composite parent) {
 
 		Label label;
-		GridData gd;
 
 		IObservableValue target;
 		IObservableValue field_model;
@@ -391,9 +390,8 @@ public class ConfView {
 		gap(toolkit);
 
 		label = toolkit.createLabel(form.getBody(), "", SWT.WRAP | SWT.CENTER);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
+		GridDataFactory.fillDefaults().grab(true, false).span(2, 1)
+				.hint(50, SWT.DEFAULT).applyTo(label);
 
 		FontData fontDatas[] = parent.getFont().getFontData();
 		FontData data = fontDatas[0];
@@ -421,7 +419,6 @@ public class ConfView {
 	private void fGROUP(FormToolkit toolkit, DataBindingContext ctx) {
 
 		Label label;
-		GridData gd;
 		Text text;
 
 		IObservableValue target;
@@ -435,10 +432,9 @@ public class ConfView {
 				1));
 
 		text = toolkit.createText(groupComp, "", SWT.BORDER | SWT.WRAP
-				| SWT.MULTI);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalSpan = 2;
-		text.setLayoutData(gd);
+				| SWT.MULTI | SWT.V_SCROLL);
+		GridDataFactory.fillDefaults().grab(true, true).span(2, 1)
+				.hint(SWT.DEFAULT, 40).applyTo(text);
 
 		target = WidgetProperties.text(SWT.Modify).observe(text);
 		field_model = BeanProperties.value(model.getClass(), "description")

@@ -99,7 +99,7 @@ public class ConfListView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		treeComponent = new TreeViewComponent(parent, App.srv.cls(), 3, true);
+		treeComponent = new TreeViewComponent(parent, App.srv.cl(), 3, true);
 
 		viewer = treeComponent.getViewer();
 

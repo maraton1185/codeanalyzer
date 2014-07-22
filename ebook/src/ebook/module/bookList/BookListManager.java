@@ -34,7 +34,7 @@ public class BookListManager extends TreeManager {
 	// BookStructure bookStructure = new BookStructure();
 
 	public BookListManager() {
-		super(App.srv.bls());
+		super(App.srv.bl());
 	}
 
 	// BookListService srv = App.srv.bls();

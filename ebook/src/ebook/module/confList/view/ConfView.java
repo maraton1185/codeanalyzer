@@ -83,7 +83,7 @@ public class ConfView {
 			return;
 		}
 
-		model = new ConfViewModel((ListConfInfo) App.srv.cls()
+		model = new ConfViewModel((ListConfInfo) App.srv.cl()
 				.get(data.getId()));
 
 		dataValue.setValue(model);

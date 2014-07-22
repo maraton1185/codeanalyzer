@@ -5,9 +5,19 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.BookService;
 import ebook.module.bookList.BookListService;
 import ebook.module.confList.ConfListService;
+import ebook.module.db.ACLService;
 import ebook.module.userList.UserService;
 
 public class ServiceFactory implements IServiceFactory {
+
+	ACLService acl;
+
+	@Override
+	public ACLService acl() {
+		if (acl == null)
+			acl = new ACLService();
+		return acl;
+	}
 
 	UserService us;
 
@@ -18,24 +28,24 @@ public class ServiceFactory implements IServiceFactory {
 		return us;
 	}
 
-	BookListService bls;
+	BookListService bl;
 
 	@Override
-	public BookListService bls() {
-		if (bls == null)
-			bls = new BookListService();
-		return bls;
+	public BookListService bl() {
+		if (bl == null)
+			bl = new BookListService();
+		return bl;
 	}
 
 	@Override
-	public BookService bs(BookConnection bookConnection) {
+	public BookService bk(BookConnection bookConnection) {
 		return new BookService(bookConnection);
 	}
 
 	ConfListService cls;
 
 	@Override
-	public ConfListService cls() {
+	public ConfListService cl() {
 
 		if (cls == null)
 			cls = new ConfListService();

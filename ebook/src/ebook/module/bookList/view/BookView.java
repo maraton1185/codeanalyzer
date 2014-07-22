@@ -25,11 +25,11 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Font;
@@ -72,7 +72,9 @@ public class BookView {
 	Composite groupComp;
 	Composite itemComp;
 	// ComboViewer roles;
-	TableViewer roles;
+	CheckboxTableViewer roles;
+
+	DataBindingContext ctx;
 
 	@Inject
 	MDirtyable dirty;
@@ -107,11 +109,14 @@ public class BookView {
 
 		model = new BookViewModel();
 
-		model.setData((ListBookInfo) App.srv.bls().get(data.getId()));
+		model.setData((ListBookInfo) App.srv.bl().get(data.getId()));
 		model.setRoles();
 		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
 				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
 				"title"));
+		ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
+				RoleViewModel.class), BeansObservables.observeSet(model,
+				"activeRoles", RoleViewModel.class));
 
 		dataValue.setValue(model);
 
@@ -140,7 +145,7 @@ public class BookView {
 	public void postConstruct(Composite parent) {
 
 		dataValue = new WritableValue();
-		DataBindingContext ctx = new DataBindingContext();
+		ctx = new DataBindingContext();
 
 		// ********************************************
 		parent.setLayout(new FillLayout());
@@ -152,7 +157,7 @@ public class BookView {
 		form.getBody().setLayout(new GridLayout(2, false));
 
 		// »Ãﬂ *******************************************
-		nameField(toolkit, ctx, parent);
+		nameField(toolkit, parent);
 
 		// —“≈  *******************************************
 
@@ -162,10 +167,10 @@ public class BookView {
 
 		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 		// œŒÀﬂ √–”œœ *******************************************
-		groupFields(toolkit, ctx);
+		groupFields(toolkit);
 
 		// œŒÀﬂ ›À≈Ã≈Õ“Œ¬ *******************************************
-		itemFields(toolkit, ctx);
+		itemFields(toolkit);
 
 		// *******************************************
 
@@ -180,7 +185,7 @@ public class BookView {
 
 	}
 
-	private void itemFields(FormToolkit toolkit, DataBindingContext ctx) {
+	private void itemFields(FormToolkit toolkit) {
 		// Label label;
 		GridData gd;
 		Text text;
@@ -196,7 +201,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		pathField(toolkit, ctx, itemComp);
+		pathField(toolkit, itemComp);
 
 		Hyperlink link = toolkit.createHyperlink(itemComp, "ŒÔËÒ‡ÌËÂ ÍÌË„Ë",
 				SWT.RIGHT);
@@ -255,7 +260,7 @@ public class BookView {
 				if (p == null)
 					return;
 
-				App.srv.bls().addImage(model.getId(), p);
+				App.srv.bl().addImage(model.getId(), p);
 			}
 		});
 
@@ -267,7 +272,7 @@ public class BookView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 
-				App.srv.bls().deleteImage(model.getId());
+				App.srv.bl().deleteImage(model.getId());
 			}
 		});
 
@@ -284,7 +289,7 @@ public class BookView {
 
 	}
 
-	private void groupFields(FormToolkit toolkit, DataBindingContext ctx) {
+	private void groupFields(FormToolkit toolkit) {
 
 		Label label;
 		Text text;
@@ -297,7 +302,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		addRoles(toolkit, ctx);
+		addRoles(toolkit);
 
 		label = toolkit.createLabel(groupComp, "ŒÔËÒ‡ÌËÂ „ÛÔÔ˚", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
@@ -315,8 +320,7 @@ public class BookView {
 
 	}
 
-	private void pathField(FormToolkit toolkit, DataBindingContext ctx,
-			Composite parent) {
+	private void pathField(FormToolkit toolkit, Composite parent) {
 
 		Label label;
 		GridData gd;
@@ -357,8 +361,7 @@ public class BookView {
 
 	}
 
-	private void nameField(FormToolkit toolkit, DataBindingContext ctx,
-			Composite parent) {
+	private void nameField(FormToolkit toolkit, Composite parent) {
 
 		Label label;
 		GridData gd;
@@ -388,13 +391,13 @@ public class BookView {
 
 	}
 
-	private void addRoles(FormToolkit toolkit, DataBindingContext ctx) {
+	private void addRoles(FormToolkit toolkit) {
 
 		Label label;
 		GridData gd;
 
-		IObservableValue target;
-		IObservableValue field_model;
+		// IObservableValue target;
+		// IObservableValue field_model;
 
 		label = toolkit.createLabel(groupComp, "ƒÓÒÚÛÔ ÔÓ ÓÎˇÏ:", SWT.LEFT);
 		GridDataFactory.fillDefaults().span(2, 1).applyTo(label);
@@ -429,10 +432,14 @@ public class BookView {
 
 		toolkit.adapt(roles.getControl(), true, true);
 
-		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
-				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
-				"title"));
-
+		// ViewerSupport.bind(roles, BeansObservables.observeList(model,
+		// "roles",
+		// RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
+		// "title"));
+		//
+		// ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
+		// RoleViewModel.class), BeansObservables.observeSet(model,
+		// "activeRoles", RoleViewModel.class));
 		// IViewerObservableValue selected = ViewerProperties.singleSelection()
 		// .observe(friendsViewer);
 		//

@@ -28,7 +28,7 @@ public class BookListImageServlet extends HttpServlet {
 			return;
 		}
 
-		BufferedInputStream in = App.srv.bls().getImage(book_id);
+		BufferedInputStream in = App.srv.bl().getImage(book_id);
 		if (in == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;

@@ -27,7 +27,7 @@ import ebook.utils.Utils;
 public class ConfListManager extends TreeManager {
 
 	public ConfListManager() {
-		super(App.srv.cls());
+		super(App.srv.cl());
 
 	}
 

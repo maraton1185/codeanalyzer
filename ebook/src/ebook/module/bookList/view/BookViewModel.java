@@ -1,7 +1,9 @@
 package ebook.module.bookList.view;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.graphics.Image;
@@ -106,11 +108,40 @@ public class BookViewModel extends ModelObject {
 
 			RoleViewModel item = new RoleViewModel();
 			item.title = info.getTitle();
+			item.id = info.getId();
 			result.add(item);
 
 		}
 		roles = result;
 		firePropertyChange("roles", null, null);
+
+		Set<RoleViewModel> result1 = new HashSet<RoleViewModel>();
+
+		List<UserInfo> input1 = App.srv.acl().get(data.getId());
+
+		for (UserInfo info : input1) {
+
+			RoleViewModel item = new RoleViewModel();
+			item.title = info.getTitle();
+			item.id = info.getId();
+			result1.add(item);
+		}
+
+		activeRoles = result1;
+
+		firePropertyChange("activeRoles", null, null);
 	}
 
+	private Set<RoleViewModel> activeRoles = new HashSet<RoleViewModel>();
+
+	public Set<RoleViewModel> getActiveRoles() {
+		return new HashSet<RoleViewModel>(activeRoles);
+	}
+
+	public void setActiveRoles(Set<RoleViewModel> value) {
+
+		// set to db
+		firePropertyChange("activeRoles", this.activeRoles,
+				this.activeRoles = new HashSet<RoleViewModel>(value));
+	}
 }

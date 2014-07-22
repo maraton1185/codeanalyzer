@@ -175,7 +175,7 @@ public class StartView {
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
 		confTreeComponent = new TreeViewComponent(confSectionClient,
-				App.srv.cls(), 2, false);
+				App.srv.cl(), 2, false);
 		confViewer = confTreeComponent.getViewer();
 		toolkit.adapt(confViewer.getTree());
 		confViewer.getTree().addControlListener(new ControlAdapter() {
@@ -530,7 +530,7 @@ public class StartView {
 				PreferenceSupplier.getFontData(PreferenceSupplier.FONT)));
 
 		booksTreeComponent = new TreeViewComponent(bookSectionClient,
-				App.srv.bls(), 2, false);
+				App.srv.bl(), 2, false);
 		viewer = booksTreeComponent.getViewer();
 		toolkit.adapt(viewer.getTree());
 		viewer.getTree().addControlListener(new ControlAdapter() {

@@ -146,7 +146,7 @@ public class ListConfInfo extends TreeItemInfo {
 		getOptions().link_status = DbState.notLoaded;
 		getOptions().status_date = new Date();
 		try {
-			App.srv.cls().saveOptions(this);
+			App.srv.cl().saveOptions(this);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -156,7 +156,7 @@ public class ListConfInfo extends TreeItemInfo {
 		getOptions().link_status = status;
 		getOptions().link_status_date = new Date();
 		try {
-			App.srv.cls().saveOptions(this);
+			App.srv.cl().saveOptions(this);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}

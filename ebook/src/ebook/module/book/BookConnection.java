@@ -29,7 +29,7 @@ public class BookConnection extends BaseDbPathConnection {
 
 	public BookService srv() {
 
-		service = service == null ? App.srv.bs(this) : service;
+		service = service == null ? App.srv.bk(this) : service;
 
 		return service;
 	}
@@ -37,7 +37,7 @@ public class BookConnection extends BaseDbPathConnection {
 	public ITreeItemInfo getTreeItem() {
 
 		if (treeItem == null)
-			return App.srv.bls().getBookTreeItem(getConnectionPath());
+			return App.srv.bl().getBookTreeItem(getConnectionPath());
 		else
 			return treeItem;
 	}

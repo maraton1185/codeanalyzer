@@ -37,7 +37,7 @@ public class BookServlet extends HttpServlet {
 			return;
 		}
 
-		BookConnection book = App.srv.bls().getBook(book_id);
+		BookConnection book = App.srv.bl().getBook(book_id);
 		if (book == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;

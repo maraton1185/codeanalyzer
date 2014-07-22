@@ -64,7 +64,7 @@ public class DbStructure implements IDbStructure {
 					+ "PATH VARCHAR(1500), "
 					// + "ROLE INTEGER, "
 					+ "IMAGE BINARY, "
-					+ "FOREIGN KEY(ROLE) REFERENCES USERS(ID), "
+					// + "FOREIGN KEY(ROLE) REFERENCES USERS(ID), "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
@@ -134,6 +134,7 @@ public class DbStructure implements IDbStructure {
 			stat.execute("CREATE TABLE ACL (ID INTEGER AUTO_INCREMENT, "
 					+ "SORT INTEGER, "
 					+ "BOOK INTEGER, "
+					+ "SECTION INTEGER, "
 					+ "ROLE INTEGER, "
 					+ "TITLE VARCHAR(500), "
 					+ "FOREIGN KEY(BOOK) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
@@ -176,7 +177,7 @@ public class DbStructure implements IDbStructure {
 					&& ch.checkColumns(metadata, "CONFS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 					&& ch.checkColumns(metadata, "ACL",
-							"BOOK, ROLE, SORT, TITLE");
+							"BOOK, SECTION, ROLE, SORT, TITLE");
 
 		} catch (Exception e) {
 			throw new DbStructureException();

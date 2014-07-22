@@ -32,7 +32,7 @@ public class ListServlet extends HttpServlet {
 
 		String book_id = request.getParameter("id");
 		if (book_id == null) {
-			List<ITreeItemInfo> input = App.srv.bls().getRoot();
+			List<ITreeItemInfo> input = App.srv.bl().getRoot();
 			if (input.isEmpty()) {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
@@ -40,7 +40,7 @@ public class ListServlet extends HttpServlet {
 			book_id = input.get(0).getId().toString();
 		}
 
-		ListModel model = new ListController(App.srv.bls()).getModel(book_id);
+		ListModel model = new ListController(App.srv.bl()).getModel(book_id);
 		if (model == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;

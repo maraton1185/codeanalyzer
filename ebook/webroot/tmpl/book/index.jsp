@@ -37,8 +37,9 @@
 						class="icon-bar"></span>
 				</button>
 				<!-- BRAND -->
+
 				<c:choose>
-					<c:when test="${not empty swtMode}">
+					<c:when test="${swt == param.swt}">
 	            		<span class="navbar-brand">${model.title}</span>
 	                </c:when>
 	                <c:otherwise>
@@ -62,6 +63,7 @@
 		</div>
 	</nav><!-- /NAV BAR -->
 
+
 	<!-- BREADCUMPS -->
 	<div class="container">
 		<div class="row">
@@ -70,7 +72,7 @@
 					<c:forEach var="parent" items="${model.parents}">
 	                	<li>
 							<c:choose>
-								<c:when test="not empty swtMode">
+								<c:when test="${swt == param.swt}">
 	                				<a class="openSection" data="${parent.id}" href="${parent.url}">${parent.title}</a>
 	                			</c:when>
 	                			 <c:otherwise>
@@ -107,7 +109,7 @@
 
 						<!-- TITLE-->
 						<c:choose>
-							<c:when test="${not empty swtMode}">
+							<c:when test="${swt == param.swt}">
                 				<a href="#" class="openSection">
 									<h2 class="page-header1">${section.title}</h2>
 								</a>
@@ -133,7 +135,7 @@
 							<a href="#"><small>Наверх</small></a>
 
 							<!-- SWT edit link-->
-							<c:if test="${not empty swtMode}">
+							<c:if test="${swt == param.swt}">
 								<a href="#" class="openSection"> <span
 									class="fa fa-pencil"></span> <small>Изменить</small>
 								</a>
@@ -194,6 +196,7 @@
 								<a rel="group${section.id}" class="small-picture" href="#${section.id}" title="${image.title}"> <img
 									class="img-responsive portfolio-item" src="${image.url}">
 								</a>
+								<small>${image.title}</small>
 							</c:if>
 							<c:if test="${section.bigImageCSS==0}">	
 								<a rel="group${section.id}" class="fancy" href="${image.url}&.jpg" title="${image.title}"> <img

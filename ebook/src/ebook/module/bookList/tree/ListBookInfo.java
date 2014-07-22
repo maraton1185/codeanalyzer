@@ -5,7 +5,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.graphics.Image;
 
 import ebook.module.tree.TreeItemInfo;
-import ebook.module.userList.tree.UserInfo;
 
 public class ListBookInfo extends TreeItemInfo {
 
@@ -31,7 +30,7 @@ public class ListBookInfo extends TreeItemInfo {
 		this.image = image;
 	}
 
-	public UserInfo role;
+	// public UserInfo role;
 
 	private String path;
 
@@ -41,8 +40,9 @@ public class ListBookInfo extends TreeItemInfo {
 
 	@Override
 	public String getSuffix() {
-		if (isGroup() && role != null)
-			return role.getTitle();
+		if (isGroup())
+			// return role.getTitle();
+			return "";
 		else
 			return path;// ((ListBookInfoOptions) getOptions()).path;
 	}

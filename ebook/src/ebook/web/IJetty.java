@@ -43,4 +43,6 @@ public interface IJetty {
 
 	String listImage(Integer book);
 
+	String swt();
+
 }

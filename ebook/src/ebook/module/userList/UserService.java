@@ -122,4 +122,33 @@ public class UserService extends TreeService {
 
 		return get(id);
 	}
+
+	public List<UserInfo> find(String user) {
+		List<UserInfo> result = new ArrayList<UserInfo>();
+
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT "
+					+ getItemString("T")
+					+ "FROM "
+					+ tableName
+					+ " AS T WHERE T.TITLE=? AND NOT T.ISGROUP  ORDER BY T.SORT, T.ID";
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setString(1, user);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					result.add((UserInfo) getItem(rs));
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 }

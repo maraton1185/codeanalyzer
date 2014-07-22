@@ -1,4 +1,4 @@
-package ebook.web;
+package ebook.web.servlets;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

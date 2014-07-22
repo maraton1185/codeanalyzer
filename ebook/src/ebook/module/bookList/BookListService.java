@@ -29,9 +29,7 @@ import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeService;
-import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
-import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.PreferenceSupplier;
 
 public class BookListService extends TreeService {
@@ -168,7 +166,7 @@ public class BookListService extends TreeService {
 	// *****************************************************************
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROLE, $Table.PATH, $Table.IMAGE ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.PATH, $Table.IMAGE ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -201,10 +199,10 @@ public class BookListService extends TreeService {
 		info.setGroup(rs.getBoolean(4));
 		info.setOptions(DbOptions.load(ListBookInfoOptions.class,
 				rs.getString(5)));
-		info.role = (UserInfo) App.srv.us().get(rs.getInt(6));
-		info.setPath(rs.getString(7));
+		// info.role = (UserInfo) App.srv.us().get(rs.getInt(6));
+		info.setPath(rs.getString(6));
 
-		InputStream is = rs.getBinaryStream(8);
+		InputStream is = rs.getBinaryStream(7);
 		if (is != null) {
 			BufferedInputStream inputStreamReader = new BufferedInputStream(is);
 			ImageData imageData = new ImageData(inputStreamReader);
@@ -213,39 +211,39 @@ public class BookListService extends TreeService {
 		return info;
 	}
 
-	@Override
-	public void saveOptions(ITreeItemInfo _data)
-			throws InvocationTargetException {
-		ListBookInfo data = (ListBookInfo) _data;
-		try {
-			Connection con = db.getConnection();
-			String SQL;
-			PreparedStatement prep;
-
-			SQL = "UPDATE " + tableName + " SET OPTIONS=?, ROLE=?  WHERE ID=?;";
-
-			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
-
-			prep.setString(1, DbOptions.save(data.getOptions()));
-			if (data.role == null)
-				prep.setNull(2, java.sql.Types.INTEGER);
-			// prep.setInt(2, 0);
-			else
-				prep.setInt(2, data.role.getId());
-			prep.setInt(3, data.getId());
-			int affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
-
-			App.br.post(updateEvent,
-					new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
-
-		} catch (Exception e) {
-			throw new InvocationTargetException(e);
-
-		}
-
-	}
+	// @Override
+	// public void saveOptions(ITreeItemInfo _data)
+	// throws InvocationTargetException {
+	// ListBookInfo data = (ListBookInfo) _data;
+	// try {
+	// Connection con = db.getConnection();
+	// String SQL;
+	// PreparedStatement prep;
+	//
+	// SQL = "UPDATE " + tableName + " SET OPTIONS=? WHERE ID=?;";
+	//
+	// prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+	//
+	// prep.setString(1, DbOptions.save(data.getOptions()));
+	// // if (data.role == null)
+	// // prep.setNull(2, java.sql.Types.INTEGER);
+	// // // prep.setInt(2, 0);
+	// // else
+	// // prep.setInt(2, data.role.getId());
+	// prep.setInt(3, data.getId());
+	// int affectedRows = prep.executeUpdate();
+	// if (affectedRows == 0)
+	// throw new SQLException();
+	//
+	// App.br.post(updateEvent,
+	// new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
+	//
+	// } catch (Exception e) {
+	// throw new InvocationTargetException(e);
+	//
+	// }
+	//
+	// }
 
 	@Override
 	public ITreeItemInfo getSelected() {

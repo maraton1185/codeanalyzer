@@ -80,7 +80,7 @@ public class SectionView {
 
 		String url = App.getJetty().host()
 				+ App.getJetty().section(book.getTreeItem().getId(),
-						section.getId()) + "&swt=true";
+						section.getId());
 		// url = "http://localhost/tmpl/book/css/bootstrap.min.css";
 		// url = "http://localhost/tmpl/book/js/book.js";
 		browserComposite = new BrowserComposite(body, url, section.tag, book,

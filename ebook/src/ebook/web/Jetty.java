@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +30,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import ebook.core.App;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
+import ebook.web.servlets.WebDefaultServlet;
 
 public class Jetty implements IJetty {
 
@@ -51,6 +53,7 @@ public class Jetty implements IJetty {
 	private Server server;
 	private URI serverURI;
 	private boolean openBookOnStratUp;
+	private String swt;
 	private static final String WEBROOT_INDEX = "/webroot/";
 	private static final Logger LOG = Logger.getLogger(Main.class.getName());
 
@@ -82,6 +85,9 @@ public class Jetty implements IJetty {
 		jettyMessage = "Web-сервер: localhost:" + jettyPort;
 
 		try {
+
+			Random rand = new Random();
+			swt = Integer.toString(rand.nextInt());
 
 			server = new Server();
 			ServerConnector connector = new ServerConnector(server);
@@ -300,6 +306,7 @@ public class Jetty implements IJetty {
 			// settings);
 
 			status = JettyStatus.started;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			jettyMessage = "Ошибка старта web-сервера (порт: " + jettyPort
@@ -425,6 +432,13 @@ public class Jetty implements IJetty {
 	@Override
 	public void setOpenBookOnStratUp() {
 		openBookOnStratUp = true;
+
+	}
+
+	@Override
+	public String swt() {
+
+		return swt;
 
 	}
 

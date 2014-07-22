@@ -53,7 +53,7 @@
 				<a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
 			</div>
 
-      <jsp:include page="/tmpl/auth.jsp" />
+      		<jsp:include page="/tmpl/auth.jsp" />
 			
 		</div>
 		<!-- /.container -->
@@ -76,7 +76,7 @@
       <input name="username" type="text" class="form-control" placeholder="Имя" required=""
 				autofocus=""> 
       <input name="password" type="password" class="form-control"
-				placeholder="Пароль" required="">
+				placeholder="Пароль">
 			<div class="checkbox">
 				<label> 
           <input name="remember-me" type="checkbox" value="remember-me">

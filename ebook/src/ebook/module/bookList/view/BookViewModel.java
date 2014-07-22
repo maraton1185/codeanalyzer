@@ -1,29 +1,38 @@
 package ebook.module.bookList.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.graphics.Image;
 
+import ebook.core.App;
 import ebook.core.models.ModelObject;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeService;
 import ebook.module.userList.tree.UserInfo;
+import ebook.module.userList.views.RoleViewModel;
 
 public class BookViewModel extends ModelObject {
 
 	public ListBookInfo data;
+	private ListBookInfoOptions options;
 
 	// public String description = "";
 
-	private final ListBookInfoOptions options;
-
-	public BookViewModel(ListBookInfo data) {
-		super();
+	public void setData(ListBookInfo data) {
 		this.data = data;
 		this.options = (ListBookInfoOptions) data.getOptions();
-		// readDescription();
-
 	}
+
+	// public BookViewModel(ListBookInfo data) {
+	// super();
+	// this.data = data;
+	// this.options = (ListBookInfoOptions) data.getOptions();
+	// // readDescription();
+	//
+	// }
 
 	public ListBookInfo getData() {
 		return data;
@@ -65,14 +74,14 @@ public class BookViewModel extends ModelObject {
 	// return description;
 	// }
 
-	public UserInfo getRole() {
-		return data.role;
-	}
-
-	public void setRole(UserInfo value) {
-
-		fireIndexedPropertyChange("role", data.role, data.role = value);
-	}
+	// public UserInfo getRole() {
+	// return data.role;
+	// }
+	//
+	// public void setRole(UserInfo value) {
+	//
+	// fireIndexedPropertyChange("role", data.role, data.role = value);
+	// }
 
 	public boolean isShowRole() {
 		return data.getParent() == ITreeService.rootId;
@@ -80,6 +89,28 @@ public class BookViewModel extends ModelObject {
 
 	public Integer getId() {
 		return data.getId();
+	}
+
+	List<RoleViewModel> roles = new ArrayList<RoleViewModel>();
+
+	public List<RoleViewModel> getRoles() {
+
+		return roles;
+	}
+
+	public void setRoles() {
+		List<RoleViewModel> result = new ArrayList<RoleViewModel>();
+
+		List<UserInfo> input = App.srv.us().getBookRoles();
+		for (UserInfo info : input) {
+
+			RoleViewModel item = new RoleViewModel();
+			item.title = info.getTitle();
+			result.add(item);
+
+		}
+		roles = result;
+		firePropertyChange("roles", null, null);
 	}
 
 }

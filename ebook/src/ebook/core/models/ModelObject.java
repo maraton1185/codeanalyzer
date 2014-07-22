@@ -3,10 +3,9 @@ package ebook.core.models;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ModelObject {
+public abstract class ModelObject {
 
-	private PropertyChangeSupport changeSupport = new PropertyChangeSupport(
-			this);
+	public PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		changeSupport.addPropertyChangeListener(listener);
@@ -28,7 +27,11 @@ public class ModelObject {
 
 	public void fireIndexedPropertyChange(String propertyName, Object oldValue,
 			Object newValue) {
-		changeSupport.firePropertyChange(propertyName, oldValue,
-				newValue);
+		changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+	}
+
+	protected void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		changeSupport.firePropertyChange(propertyName, oldValue, newValue);
 	}
 }

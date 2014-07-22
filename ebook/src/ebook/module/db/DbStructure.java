@@ -62,7 +62,7 @@ public class DbStructure implements IDbStructure {
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(500), "
 					+ "PATH VARCHAR(1500), "
-					+ "ROLE INTEGER, "
+					// + "ROLE INTEGER, "
 					+ "IMAGE BINARY, "
 					+ "FOREIGN KEY(ROLE) REFERENCES USERS(ID), "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
@@ -126,6 +126,29 @@ public class DbStructure implements IDbStructure {
 			if (affectedRows == 0)
 				throw new SQLException();
 
+			// *****************************
+			// Access Control List
+
+			stat.execute("DROP TABLE IF EXISTS ACL;");
+
+			stat.execute("CREATE TABLE ACL (ID INTEGER AUTO_INCREMENT, "
+					+ "SORT INTEGER, "
+					+ "BOOK INTEGER, "
+					+ "ROLE INTEGER, "
+					+ "TITLE VARCHAR(500), "
+					+ "FOREIGN KEY(BOOK) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "FOREIGN KEY(ROLE) REFERENCES USERS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			// SQL = "INSERT INTO CONFS (TITLE, ISGROUP) VALUES (?,?);";
+			// prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+			//
+			// prep.setString(1, Strings.get("initConfTitle"));
+			// prep.setBoolean(2, true);
+			// affectedRows = prep.executeUpdate();
+			// if (affectedRows == 0)
+			// throw new SQLException();
+
 		} catch (Exception e) {
 			throw new SQLException();
 		} finally {
@@ -147,11 +170,13 @@ public class DbStructure implements IDbStructure {
 
 			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
-					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, ROLE, IMAGE")
+					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, IMAGE")
 					&& ch.checkColumns(metadata, "USERS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 					&& ch.checkColumns(metadata, "CONFS",
-							"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+					&& ch.checkColumns(metadata, "ACL",
+							"BOOK, ROLE, SORT, TITLE");
 
 		} catch (Exception e) {
 			throw new DbStructureException();

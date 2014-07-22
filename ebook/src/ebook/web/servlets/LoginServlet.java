@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		HttpSession session = request.getSession();
-		session.setAttribute("user", username);
+		session.setAttribute(UserController.SessionAttributeName, username);
 
 		String remember = request.getParameter("remember-me");
 		if (remember != null)

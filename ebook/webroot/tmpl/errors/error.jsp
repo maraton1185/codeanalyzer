@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <c:when test="${not empty swtMode}">
+                <c:when test="${swt == param.swt}">
                     <a class="navbar-brand" href="#">${applicationScope.brand}</a>
                 </c:when>
                 <c:otherwise>

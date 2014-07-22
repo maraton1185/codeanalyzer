@@ -60,10 +60,10 @@ public class BookServlet extends HttpServlet {
 			return;
 		}
 
-		String isSwt = request.getParameter("swt");
-		if (isSwt != null) {
-			request.setAttribute("swtMode", true);
-		}
+		// String isSwt = request.getParameter("swt");
+		// if (isSwt != null) {
+		// request.setAttribute("swtMode", App.getJetty().swt());
+		// }
 		// model.id = id;
 		request.setAttribute("model", model);
 

@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -23,11 +24,12 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.databinding.viewers.ViewerSupport;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Font;
@@ -40,6 +42,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -50,7 +54,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
 import ebook.module.bookList.tree.ListBookInfo;
-import ebook.module.userList.tree.UserInfo;
+import ebook.module.userList.views.RoleViewModel;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -61,13 +65,14 @@ public class BookView {
 	ScrolledForm form;
 	WritableValue dataValue;
 	// BookListService bs = new BookListService();
-	BookViewModel model = new BookViewModel(new ListBookInfo(null));
+	BookViewModel model = new BookViewModel();
 
 	Composite stack;
 	StackLayout stackLayout;
 	Composite groupComp;
 	Composite itemComp;
-	ComboViewer combo;
+	// ComboViewer roles;
+	TableViewer roles;
 
 	@Inject
 	MDirtyable dirty;
@@ -84,7 +89,8 @@ public class BookView {
 	@Optional
 	public void EVENT_UPDATE_USER_ROLES(
 			@UIEventTopic(Events.EVENT_UPDATE_USER_ROLES) Object o) {
-		combo.setInput(App.srv.us().getBookRoles());
+		// roles.setInput(App.srv.us().getBookRoles());
+		model.setRoles();
 	}
 
 	@Inject
@@ -99,8 +105,13 @@ public class BookView {
 			return;
 		}
 
-		model = new BookViewModel((ListBookInfo) App.srv.bls()
-				.get(data.getId()));
+		model = new BookViewModel();
+
+		model.setData((ListBookInfo) App.srv.bls().get(data.getId()));
+		model.setRoles();
+		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
+				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
+				"title"));
 
 		dataValue.setValue(model);
 
@@ -292,7 +303,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		addComboRoles(toolkit, ctx);
+		addRoles(toolkit, ctx);
 
 		label = toolkit.createLabel(groupComp, "Описание группы", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
@@ -384,7 +395,7 @@ public class BookView {
 
 	}
 
-	private void addComboRoles(FormToolkit toolkit, DataBindingContext ctx) {
+	private void addRoles(FormToolkit toolkit, DataBindingContext ctx) {
 
 		Label label;
 		GridData gd;
@@ -392,34 +403,50 @@ public class BookView {
 		IObservableValue target;
 		IObservableValue field_model;
 
-		label = toolkit.createLabel(groupComp, "Роль:", SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
-				1));
+		label = toolkit.createLabel(groupComp, "Доступ по ролям:", SWT.LEFT);
+		GridDataFactory.fillDefaults().span(2, 1).applyTo(label);
+		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
+		// 2,
+		// 1));
 
-		combo = new ComboViewer(groupComp, SWT.READ_ONLY);
-		combo.setContentProvider(ArrayContentProvider.getInstance());
-		combo.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((UserInfo) element).getTitle();
-			}
-		});
-
-		combo.setInput(App.srv.us().getBookRoles());
-
-		toolkit.adapt(combo.getControl(), true, true);
-
+		// Composite rolesComposite = new Composite(groupComp, SWT.NONE);
+		// toolkit.adapt(rolesComposite, true, true);
+		Composite rolesComposite = toolkit.createComposite(groupComp);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		combo.getControl().setLayoutData(gd);
+		gd.widthHint = 1;
+		// gd.horizontalSpan = 2;
+		rolesComposite.setLayoutData(gd);
+		// GridDataFactory.fillDefaults().applyTo(rolesComposite);
+		TableColumnLayout rolesColumnLayout = new TableColumnLayout();
+		rolesComposite.setLayout(rolesColumnLayout);
 
-		IViewerObservableValue selected = ViewerProperties.singleSelection()
-				.observe(combo);
+		roles = CheckboxTableViewer.newCheckList(rolesComposite, SWT.SINGLE
+				| SWT.BORDER | SWT.FULL_SELECTION);
 
-		field_model = BeanProperties.value(model.getClass(), "role",
-				UserInfo.class).observeDetail(dataValue);
-		ctx.bindValue(selected, field_model);
+		Table rolesTable = roles.getTable();
+		rolesTable.setHeaderVisible(true);
+		rolesTable.setLinesVisible(true);
+		TableColumn titleColumn = new TableColumn(rolesTable, SWT.NONE);
+		titleColumn.setText("Роль");
+		rolesColumnLayout.setColumnData(titleColumn, new ColumnWeightData(1));
 
-		target = WidgetProperties.enabled().observe(combo.getCombo());
+		GridDataFactory.fillDefaults().grab(true, true)
+				.applyTo(roles.getTable());
+
+		// toolkit.adapt(roles.getControl(), true, true);
+
+		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
+				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
+				"title"));
+
+		// IViewerObservableValue selected = ViewerProperties.singleSelection()
+		// .observe(friendsViewer);
+		//
+		// field_model = BeanProperties.value(model.getClass(), "role",
+		// UserInfo.class).observeDetail(dataValue);
+		// ctx.bindValue(selected, field_model);
+
+		target = WidgetProperties.enabled().observe(roles.getControl());
 		field_model = BeanProperties.value(model.getClass(), "showRole")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);

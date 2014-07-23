@@ -309,7 +309,7 @@
           </children>
         </children>
         <children xsi:type="basic:PartStack" xmi:id="_4_16MBJJEeSRHfCKVoiTkg" elementId="ebook.partstack.0" containerData="30000">
-          <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="ebook.part.1" contributionURI="bundleclass://ebook/ebook.module.book.views.section.SectionViewRoles" label="Роли">
+          <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="ebook.part.1" contributionURI="bundleclass://ebook/ebook.module.book.views.section.SectionRolesView" label="Роли">
             <toolbar xmi:id="_H_LAQBJKEeSRHfCKVoiTkg" elementId="ebook.toolbar.2"/>
           </children>
         </children>

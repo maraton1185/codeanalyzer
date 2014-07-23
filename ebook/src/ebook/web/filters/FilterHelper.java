@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ebook.core.App;
-import ebook.module.acl.ACLViewModel;
+import ebook.module.acl.AclViewModel;
 import ebook.module.book.BookConnection;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.userList.tree.UserInfo;
@@ -110,7 +110,7 @@ public class FilterHelper {
 	}
 
 	// acl
-	public void acl(Set<ACLViewModel> acl) throws IOException, ServletException {
+	public void acl(Set<AclViewModel> acl) throws IOException, ServletException {
 		// not restricted
 		if (acl.isEmpty()) {
 			chain.doFilter(request, response);
@@ -127,7 +127,7 @@ public class FilterHelper {
 			// get user role
 			// check if role is in acl
 			UserInfo role = App.srv.us().getRole(user);
-			if (role != null && acl.contains(new ACLViewModel(role.getId())))
+			if (role != null && acl.contains(new AclViewModel(role.getId())))
 				chain.doFilter(request, response);
 			else {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -2,7 +2,7 @@ package ebook.module.acl;
 
 import ebook.core.models.ModelObject;
 
-public class ACLViewModel extends ModelObject {
+public class AclViewModel extends ModelObject {
 
 	private Integer id;
 
@@ -12,14 +12,14 @@ public class ACLViewModel extends ModelObject {
 
 	private String title;
 
-	public ACLViewModel(int id) {
+	public AclViewModel(int id) {
 		this.id = id;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ACLViewModel)
-			return ((ACLViewModel) obj).id.equals(id);
+		if (obj instanceof AclViewModel)
+			return ((AclViewModel) obj).id.equals(id);
 		else
 			return super.equals(obj);
 	}

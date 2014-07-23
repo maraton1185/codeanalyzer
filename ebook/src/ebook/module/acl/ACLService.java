@@ -61,9 +61,9 @@ public class ACLService {
 		return false;
 	}
 
-	public Set<ACLViewModel> get(Integer book, ACLResult out) {
+	public Set<AclViewModel> get(Integer book, ACLResult out) {
 
-		Set<ACLViewModel> result = new HashSet<ACLViewModel>();
+		Set<AclViewModel> result = new HashSet<AclViewModel>();
 
 		try {
 			Connection con = db.getConnection();
@@ -79,7 +79,7 @@ public class ACLService {
 
 			try {
 				while (rs.next()) {
-					ACLViewModel item = new ACLViewModel(rs.getInt(1));
+					AclViewModel item = new AclViewModel(rs.getInt(1));
 					result.add(item);
 				}
 			} finally {
@@ -126,7 +126,7 @@ public class ACLService {
 
 			for (Object item : objects) {
 
-				if (!(item instanceof ACLViewModel))
+				if (!(item instanceof AclViewModel))
 					continue;
 
 				SQL = "INSERT INTO " + tableName
@@ -135,7 +135,7 @@ public class ACLService {
 						.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 				prep.setInt(1, book);
-				prep.setInt(2, ((ACLViewModel) item).getId());
+				prep.setInt(2, ((AclViewModel) item).getId());
 
 				affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)
@@ -148,8 +148,8 @@ public class ACLService {
 		}
 	}
 
-	public Set<ACLViewModel> get(Integer b_id, Integer s_id, ACLResult out) {
-		Set<ACLViewModel> result = new HashSet<ACLViewModel>();
+	public Set<AclViewModel> get(Integer b_id, Integer s_id, ACLResult out) {
+		Set<AclViewModel> result = new HashSet<AclViewModel>();
 
 		try {
 			Connection con = db.getConnection();
@@ -166,7 +166,7 @@ public class ACLService {
 
 			try {
 				while (rs.next()) {
-					ACLViewModel item = new ACLViewModel(rs.getInt(1));
+					AclViewModel item = new AclViewModel(rs.getInt(1));
 					result.add(item);
 				}
 			} finally {
@@ -215,7 +215,7 @@ public class ACLService {
 
 			for (Object item : objects) {
 
-				if (!(item instanceof ACLViewModel))
+				if (!(item instanceof AclViewModel))
 					continue;
 
 				SQL = "INSERT INTO " + tableName
@@ -225,7 +225,7 @@ public class ACLService {
 
 				prep.setInt(1, book);
 				prep.setInt(2, s_id);
-				prep.setInt(3, ((ACLViewModel) item).getId());
+				prep.setInt(3, ((AclViewModel) item).getId());
 
 				affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)

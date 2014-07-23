@@ -46,6 +46,11 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 	}
 
 	@Override
+	public void setACL() {
+
+	}
+
+	@Override
 	public String getTitle() {
 		return title;
 	}

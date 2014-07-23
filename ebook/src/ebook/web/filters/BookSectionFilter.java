@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
 import ebook.module.acl.ACLService.ACLResult;
-import ebook.module.acl.ACLViewModel;
+import ebook.module.acl.AclViewModel;
 
 public class BookSectionFilter implements Filter {
 
@@ -47,7 +47,7 @@ public class BookSectionFilter implements Filter {
 
 		// get acl set
 		ACLResult out = new ACLResult();
-		Set<ACLViewModel> acl = App.srv.acl().get(book, section, out);
+		Set<AclViewModel> acl = App.srv.acl().get(book, section, out);
 
 		helper.acl(acl);
 

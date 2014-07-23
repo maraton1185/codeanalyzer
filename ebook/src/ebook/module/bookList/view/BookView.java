@@ -56,7 +56,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
-import ebook.module.acl.ACLViewModel;
+import ebook.module.acl.AclViewModel;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -65,19 +65,18 @@ import ebook.utils.Utils;
 
 public class BookView {
 
+	DataBindingContext ctx;
+	FormToolkit toolkit;
 	ScrolledForm form;
 	WritableValue dataValue;
-	// BookListService bs = new BookListService();
-	BookViewModel model = new BookViewModel();
 
 	Composite stack;
 	StackLayout stackLayout;
 	Composite groupComp;
 	Composite itemComp;
-	// ComboViewer roles;
 	CheckboxTableViewer roles;
 
-	DataBindingContext ctx;
+	BookViewModel model = new BookViewModel(null, null);
 
 	@Inject
 	MDirtyable dirty;
@@ -110,18 +109,18 @@ public class BookView {
 			return;
 		}
 
-		model = new BookViewModel();
+		model = new BookViewModel(roles, (ListBookInfo) App.srv.bl().get(
+				data.getId()));
 
-		model.setData((ListBookInfo) App.srv.bl().get(data.getId()), roles);
 		model.setRoles();
 
 		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
-				ACLViewModel.class), BeanProperties.value(ACLViewModel.class,
+				AclViewModel.class), BeanProperties.value(AclViewModel.class,
 				"title"));
 
 		ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
-				ACLViewModel.class), BeansObservables.observeSet(model,
-				"activeRoles", ACLViewModel.class), new UpdateSetStrategy(
+				AclViewModel.class), BeansObservables.observeSet(model,
+				"activeRoles", AclViewModel.class), new UpdateSetStrategy(
 				UpdateSetStrategy.POLICY_NEVER), new UpdateSetStrategy(
 				UpdateSetStrategy.POLICY_UPDATE));
 
@@ -156,15 +155,12 @@ public class BookView {
 
 		// ********************************************
 		parent.setLayout(new FillLayout());
-		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
+		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
-		// form.setText(Strings.get("appTitle"));
-		// TableWrapLayout layout = new TableWrapLayout();
-		// layout.numColumns = 2;
 		form.getBody().setLayout(new GridLayout(2, false));
 
 		// »Ãﬂ *******************************************
-		nameField(toolkit, parent);
+		nameField(parent);
 
 		// —“≈  *******************************************
 
@@ -174,10 +170,10 @@ public class BookView {
 
 		stack.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 1));
 		// œŒÀﬂ √–”œœ *******************************************
-		groupFields(toolkit);
+		groupFields();
 
 		// œŒÀﬂ ›À≈Ã≈Õ“Œ¬ *******************************************
-		itemFields(toolkit);
+		itemFields();
 
 		// *******************************************
 
@@ -192,7 +188,7 @@ public class BookView {
 
 	}
 
-	private void itemFields(FormToolkit toolkit) {
+	private void itemFields() {
 		// Label label;
 		GridData gd;
 		Text text;
@@ -208,7 +204,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		pathField(toolkit, itemComp);
+		pathField(itemComp);
 
 		Hyperlink link = toolkit.createHyperlink(itemComp, "ŒÔËÒ‡ÌËÂ ÍÌË„Ë",
 				SWT.RIGHT);
@@ -296,7 +292,7 @@ public class BookView {
 
 	}
 
-	private void groupFields(FormToolkit toolkit) {
+	private void groupFields() {
 
 		Label label;
 		Text text;
@@ -309,7 +305,7 @@ public class BookView {
 		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
 		// 1));
 
-		addRoles(toolkit);
+		addRoles();
 
 		label = toolkit.createLabel(groupComp, "ŒÔËÒ‡ÌËÂ „ÛÔÔ˚", SWT.LEFT);
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2,
@@ -327,7 +323,7 @@ public class BookView {
 
 	}
 
-	private void pathField(FormToolkit toolkit, Composite parent) {
+	private void pathField(Composite parent) {
 
 		Label label;
 		GridData gd;
@@ -368,7 +364,7 @@ public class BookView {
 
 	}
 
-	private void nameField(FormToolkit toolkit, Composite parent) {
+	private void nameField(Composite parent) {
 
 		Label label;
 		GridData gd;
@@ -376,7 +372,7 @@ public class BookView {
 		IObservableValue target;
 		IObservableValue field_model;
 
-		gap(toolkit);
+		gap();
 
 		label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -398,7 +394,7 @@ public class BookView {
 
 	}
 
-	private void addRoles(FormToolkit toolkit) {
+	private void addRoles() {
 
 		Label label;
 		GridData gd;
@@ -486,7 +482,7 @@ public class BookView {
 
 	}
 
-	private void gap(FormToolkit toolkit) {
+	private void gap() {
 		Label label = toolkit.createLabel(form.getBody(), "", SWT.CENTER);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;

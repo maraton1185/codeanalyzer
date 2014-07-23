@@ -38,4 +38,6 @@ public interface ITreeItemInfo {
 	void setListImage(Image img);
 
 	Image getListImage();
+
+	void setACL();
 }

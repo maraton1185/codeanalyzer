@@ -377,7 +377,7 @@ public class Jetty implements IJetty {
 
 	@Override
 	public String list(Integer id) {
-		return "list?id=" + id.toString();
+		return "list?book=" + id.toString();
 	}
 
 	@Override

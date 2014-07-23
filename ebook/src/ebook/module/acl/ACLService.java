@@ -1,4 +1,4 @@
-package ebook.module.db;
+package ebook.module.acl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +11,8 @@ import java.util.Set;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.book.BookConnection;
 import ebook.module.tree.ITreeItemInfo;
-import ebook.module.userList.views.RoleViewModel;
 
 public class ACLService {
 
@@ -61,9 +61,9 @@ public class ACLService {
 		return false;
 	}
 
-	public Set<RoleViewModel> get(Integer book, ACLResult out) {
+	public Set<ACLViewModel> get(Integer book, ACLResult out) {
 
-		Set<RoleViewModel> result = new HashSet<RoleViewModel>();
+		Set<ACLViewModel> result = new HashSet<ACLViewModel>();
 
 		try {
 			Connection con = db.getConnection();
@@ -79,7 +79,7 @@ public class ACLService {
 
 			try {
 				while (rs.next()) {
-					RoleViewModel item = new RoleViewModel(rs.getInt(1));
+					ACLViewModel item = new ACLViewModel(rs.getInt(1));
 					result.add(item);
 				}
 			} finally {
@@ -126,7 +126,7 @@ public class ACLService {
 
 			for (Object item : objects) {
 
-				if (!(item instanceof RoleViewModel))
+				if (!(item instanceof ACLViewModel))
 					continue;
 
 				SQL = "INSERT INTO " + tableName
@@ -135,7 +135,97 @@ public class ACLService {
 						.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 				prep.setInt(1, book);
-				prep.setInt(2, ((RoleViewModel) item).getId());
+				prep.setInt(2, ((ACLViewModel) item).getId());
+
+				affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Set<ACLViewModel> get(Integer b_id, Integer s_id, ACLResult out) {
+		Set<ACLViewModel> result = new HashSet<ACLViewModel>();
+
+		try {
+			Connection con = db.getConnection();
+
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "SELECT T.ROLE FROM " + tableName
+					+ " AS T WHERE T.BOOK=? AND T.SECTION=?";
+			prep = con.prepareStatement(SQL);
+			prep.setInt(1, b_id);
+			prep.setInt(2, s_id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+					ACLViewModel item = new ACLViewModel(rs.getInt(1));
+					result.add(item);
+				}
+			} finally {
+				rs.close();
+			}
+
+			if (result.isEmpty()) {
+
+				out.inherited = true;
+
+				BookConnection book = App.srv.bl().getBook(b_id.toString());
+
+				ITreeItemInfo b = book.srv().get(s_id);
+				if (b == null)
+					return result;
+
+				Integer parent = b.getParent();
+				if (parent != null)
+					result = get(b_id, parent, out);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public void set(Integer book, Integer s_id, Object[] objects) {
+		try {
+			Connection con = db.getConnection();
+
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "DELETE FROM " + tableName + " WHERE BOOK=? AND SECTION=?;";
+
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, book);
+			prep.setInt(2, s_id);
+
+			int affectedRows = prep.executeUpdate();
+			// if (affectedRows == 0)
+			// throw new SQLException();
+
+			for (Object item : objects) {
+
+				if (!(item instanceof ACLViewModel))
+					continue;
+
+				SQL = "INSERT INTO " + tableName
+						+ " (BOOK, SECTION, ROLE) VALUES (?, ?,?);";
+				prep = con
+						.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+				prep.setInt(1, book);
+				prep.setInt(2, s_id);
+				prep.setInt(3, ((ACLViewModel) item).getId());
 
 				affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)

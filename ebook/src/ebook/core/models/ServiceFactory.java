@@ -1,11 +1,11 @@
 package ebook.core.models;
 
 import ebook.core.interfaces.IServiceFactory;
+import ebook.module.acl.ACLService;
 import ebook.module.book.BookConnection;
 import ebook.module.book.BookService;
 import ebook.module.bookList.BookListService;
 import ebook.module.confList.ConfListService;
-import ebook.module.db.ACLService;
 import ebook.module.userList.UserService;
 
 public class ServiceFactory implements IServiceFactory {

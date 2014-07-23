@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ebook.core.App;
+import ebook.module.userList.tree.UserInfo;
 import ebook.utils.PreferenceSupplier;
 import ebook.web.controllers.UserController;
 
@@ -50,7 +51,8 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
-		if (!UserController.isValid(username, pass)) {
+		UserInfo user = UserController.get(username, pass);
+		if (user == null) {
 
 			String message = "¬ход не выполнен.";
 
@@ -62,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		HttpSession session = request.getSession();
-		session.setAttribute(UserController.SessionAttributeName, username);
+		session.setAttribute(UserController.SessionAttributeName, user);
 
 		String remember = request.getParameter("remember-me");
 		if (remember != null)

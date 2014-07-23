@@ -56,8 +56,8 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.core.App;
+import ebook.module.acl.ACLViewModel;
 import ebook.module.bookList.tree.ListBookInfo;
-import ebook.module.userList.views.RoleViewModel;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -116,12 +116,12 @@ public class BookView {
 		model.setRoles();
 
 		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
-				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
+				ACLViewModel.class), BeanProperties.value(ACLViewModel.class,
 				"title"));
 
 		ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
-				RoleViewModel.class), BeansObservables.observeSet(model,
-				"activeRoles", RoleViewModel.class), new UpdateSetStrategy(
+				ACLViewModel.class), BeansObservables.observeSet(model,
+				"activeRoles", ACLViewModel.class), new UpdateSetStrategy(
 				UpdateSetStrategy.POLICY_NEVER), new UpdateSetStrategy(
 				UpdateSetStrategy.POLICY_UPDATE));
 

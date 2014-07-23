@@ -13,12 +13,12 @@ import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
 import ebook.core.models.ModelObject;
+import ebook.module.acl.ACLViewModel;
+import ebook.module.acl.ACLService.ACLResult;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
-import ebook.module.db.ACLService.ACLResult;
 import ebook.module.tree.ITreeService;
 import ebook.module.userList.tree.UserInfo;
-import ebook.module.userList.views.RoleViewModel;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 
@@ -100,10 +100,10 @@ public class BookViewModel extends ModelObject {
 		return info.getId();
 	}
 
-	List<RoleViewModel> roles = new ArrayList<RoleViewModel>();
+	List<ACLViewModel> roles = new ArrayList<ACLViewModel>();
 	private CheckboxTableViewer rolesViewer;
 
-	public List<RoleViewModel> getRoles() {
+	public List<ACLViewModel> getRoles() {
 
 		return roles;
 	}
@@ -118,12 +118,12 @@ public class BookViewModel extends ModelObject {
 			return;
 		}
 
-		List<RoleViewModel> result = new ArrayList<RoleViewModel>();
+		List<ACLViewModel> result = new ArrayList<ACLViewModel>();
 
 		List<UserInfo> input = App.srv.us().getRoles();
 		for (UserInfo info : input) {
 
-			RoleViewModel item = new RoleViewModel(info.getId());
+			ACLViewModel item = new ACLViewModel(info.getId());
 			item.setTitle(info.getTitle());
 			result.add(item);
 
@@ -146,10 +146,10 @@ public class BookViewModel extends ModelObject {
 
 	}
 
-	private Set<RoleViewModel> activeRoles = new HashSet<RoleViewModel>();
+	private Set<ACLViewModel> activeRoles = new HashSet<ACLViewModel>();
 
-	public Set<RoleViewModel> getActiveRoles() {
-		return new HashSet<RoleViewModel>(activeRoles);
+	public Set<ACLViewModel> getActiveRoles() {
+		return new HashSet<ACLViewModel>(activeRoles);
 	}
 
 	public void setActiveRoles(Object[] objects) {

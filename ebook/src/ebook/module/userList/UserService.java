@@ -170,4 +170,16 @@ public class UserService extends TreeService {
 
 		return result;
 	}
+
+	public UserInfo getRole(UserInfo user) {
+
+		ITreeItemInfo parent = get(user.getParent());
+
+		while (parent == null ? false : parent.getId() != ITreeService.rootId) {
+
+			parent = get(parent.getParent());
+
+		}
+		return (UserInfo) parent;
+	}
 }

@@ -69,20 +69,26 @@
 	</servlet-mapping>
 	
 <!--FILTERS-->
+	
 	<filter>
-		<filter-name>AuthRequestFilter</filter-name>
-		<filter-class>ebook.web.servlets.AuthRequestFilter</filter-class>
-	</filter>	
+		<filter-name>BookFilter</filter-name>
+		<filter-class>ebook.web.filters.BookFilter</filter-class>
+	</filter>
 	
 	<filter-mapping>
-		<filter-name>AuthRequestFilter</filter-name>
+		<filter-name>BookFilter</filter-name>
 		<servlet-name>list</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>BookSectionFilter</filter-name>
+		<filter-class>ebook.web.filters.BookSectionFilter</filter-class>
+	</filter>	
+		
 	<filter-mapping>
-		<filter-name>AuthRequestFilter</filter-name>
+		<filter-name>BookSectionFilter</filter-name>
 		<servlet-name>book</servlet-name>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>

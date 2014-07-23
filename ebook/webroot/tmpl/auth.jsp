@@ -14,7 +14,7 @@
 	    <c:otherwise>
 	    	<li class="dropdown user-dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<i class="fa fa-user"></i> ${sessionScope.user} <b class="caret"></b>
+					<i class="fa fa-user"></i> ${sessionScope.user.title} <b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
 				<!-- 	<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>

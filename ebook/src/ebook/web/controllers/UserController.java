@@ -9,18 +9,18 @@ public class UserController {
 
 	public final static String SessionAttributeName = "user";
 
-	public static boolean isValid(String user, String password) {
+	public static UserInfo get(String user, String password) {
 
 		List<UserInfo> users = App.srv.us().find(user);
 
 		for (UserInfo item : users) {
 
 			if (item.getOptions().password.equalsIgnoreCase(password))
-				return true;
+				return item;
 
 		}
 
-		return false;
+		return null;
 
 	}
 }

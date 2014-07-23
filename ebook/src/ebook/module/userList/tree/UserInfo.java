@@ -41,4 +41,5 @@ public class UserInfo extends TreeItemInfo {
 		else
 			return null;
 	}
+
 }

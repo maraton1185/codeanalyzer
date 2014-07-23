@@ -1,8 +1,8 @@
-package ebook.module.userList.views;
+package ebook.module.acl;
 
 import ebook.core.models.ModelObject;
 
-public class RoleViewModel extends ModelObject {
+public class ACLViewModel extends ModelObject {
 
 	private Integer id;
 
@@ -12,14 +12,14 @@ public class RoleViewModel extends ModelObject {
 
 	private String title;
 
-	public RoleViewModel(int id) {
+	public ACLViewModel(int id) {
 		this.id = id;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof RoleViewModel)
-			return ((RoleViewModel) obj).id.equals(id);
+		if (obj instanceof ACLViewModel)
+			return ((ACLViewModel) obj).id.equals(id);
 		else
 			return super.equals(obj);
 	}

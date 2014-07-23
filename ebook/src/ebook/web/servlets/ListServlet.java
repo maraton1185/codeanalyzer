@@ -30,7 +30,7 @@ public class ListServlet extends HttpServlet {
 		// RequestDispatcher error_view = request
 		// .getRequestDispatcher("/bookNotFind.jsp");
 
-		String book_id = request.getParameter("id");
+		String book_id = request.getParameter("book");
 		if (book_id == null) {
 			List<ITreeItemInfo> input = App.srv.bl().getRoot();
 			if (input.isEmpty()) {

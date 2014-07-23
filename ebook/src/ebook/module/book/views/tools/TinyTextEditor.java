@@ -1,4 +1,4 @@
-package ebook.module.book.views.section.tools;
+package ebook.module.book.views.tools;
 
 import java.io.IOException;
 import java.net.URL;

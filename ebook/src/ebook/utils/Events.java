@@ -59,6 +59,8 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_SECTION_INFO = "EVENT_UPDATE_SECTION_INFO";
 
+	public static final String EVENT_HIDE_BOOK_ROLES = "EVENT_HIDE_BOOK_ROLES";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,

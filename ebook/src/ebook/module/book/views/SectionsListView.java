@@ -31,6 +31,7 @@ import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoSelection;
 import ebook.module.bookList.tree.ListBookInfo;
+import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
@@ -39,7 +40,7 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class ContentView {
+public class SectionsListView {
 
 	private TreeViewer viewer;
 
@@ -64,13 +65,25 @@ public class ContentView {
 
 	@Inject
 	@Optional
+	public void EVENT_UPDATE_LABELS_CONTENT_VIEW(
+			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (book != data.book)
+			return;
+
+		if (data.parent == null)
+			return;
+
+		viewer.update(data.parent, null);
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
 			@UIEventTopic(Events.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data,
 			final EHandlerService hs, final ECommandService cs,
 			EModelService model, @Active MWindow bookWindow) {
-
-		// if (data.onlySectionView)
-		// return;
 
 		if (book != data.book)
 			return;
@@ -80,17 +93,6 @@ public class ContentView {
 
 		if (data.selected != null)
 			viewer.setSelection(new StructuredSelection(data.selected), true);
-		// if (data.setBook == true) {
-		// Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
-		// }
-
-		// if (data.parent == null)
-		// return;
-		//
-		// viewer.refresh(data.parent);
-		//
-		// if (data.selected != null)
-		// viewer.setSelection(new StructuredSelection(data.selected), true);
 
 	}
 
@@ -98,6 +100,8 @@ public class ContentView {
 	public void postConstruct(Composite parent, @Active final MWindow window,
 			EMenuService menuService, final EHandlerService hs,
 			final ECommandService cs) {
+
+		rolesVisible();
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
@@ -124,6 +128,8 @@ public class ContentView {
 
 				window.getContext().set(SectionInfo.class,
 						(SectionInfo) selection.getFirstElement());
+
+				App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
 			}
 		});
 
@@ -161,6 +167,20 @@ public class ContentView {
 
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.contentview.popup"));
+
+	}
+
+	private void rolesVisible() {
+		ListBookInfoOptions opt = (ListBookInfoOptions) book.getTreeItem()
+				.getOptions();
+
+		if (opt == null)
+			return;
+
+		if (opt.ACL)
+			return;
+
+		App.br.post(Events.EVENT_HIDE_BOOK_ROLES, null);
 
 	}
 

@@ -26,6 +26,7 @@ import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.book.tree.SectionSaveData;
+import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeService;
 import ebook.utils.Events;
@@ -52,6 +53,15 @@ public class BookService extends TreeService {
 		info.setGroup(rs.getBoolean(4));
 		info.setOptions(DbOptions.load(SectionInfoOptions.class,
 				rs.getString(5)));
+		info.setBookId(((BookConnection) db).getTreeItem().getId());
+
+		ListBookInfoOptions opt = (ListBookInfoOptions) ((BookConnection) db)
+				.getTreeItem().getOptions();
+		if (opt == null)
+			info.setACL();
+		else if (opt.ACL)
+			info.setACL();
+
 		return info;
 	}
 

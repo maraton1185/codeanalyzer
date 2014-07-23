@@ -2,7 +2,6 @@ package ebook.web.filters;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
@@ -110,7 +109,8 @@ public class FilterHelper {
 	}
 
 	// acl
-	public void acl(Set<AclViewModel> acl) throws IOException, ServletException {
+	public void acl(List<AclViewModel> acl) throws IOException,
+			ServletException {
 		// not restricted
 		if (acl.isEmpty()) {
 			chain.doFilter(request, response);
@@ -130,7 +130,7 @@ public class FilterHelper {
 			if (role != null && acl.contains(new AclViewModel(role.getId())))
 				chain.doFilter(request, response);
 			else {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				response.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
 			}
 

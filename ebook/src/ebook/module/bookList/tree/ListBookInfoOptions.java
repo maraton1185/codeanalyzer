@@ -13,4 +13,6 @@ public class ListBookInfoOptions extends DbOptions {
 
 	public String description = "";
 
+	public boolean ACL = false;
+
 }

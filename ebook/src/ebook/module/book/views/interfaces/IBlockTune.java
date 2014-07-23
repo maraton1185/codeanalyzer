@@ -1,4 +1,4 @@
-package ebook.module.book.views.section.interfaces;
+package ebook.module.book.views.interfaces;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;

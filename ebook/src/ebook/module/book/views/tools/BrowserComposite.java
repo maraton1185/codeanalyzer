@@ -1,4 +1,4 @@
-package ebook.module.book.views.section.tools;
+package ebook.module.book.views.tools;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;

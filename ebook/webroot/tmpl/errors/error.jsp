@@ -1,4 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,12 +30,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <c:when test="${swt == param.swt}">
-                    <a class="navbar-brand" href="#">${applicationScope.brand}</a>
-                </c:when>
-                <c:otherwise>
-                    <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
-                </c:otherwise>                
+                <c:choose>
+                    <c:when test="${swt == param.swt}">
+                        <a class="navbar-brand" href="#">${applicationScope.brand}</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
+                    </c:otherwise>                
+                </c:choose>
             </div>
 
             <!-- LINKS -->

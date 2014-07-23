@@ -1,4 +1,4 @@
-package ebook.module.book.views.section;
+package ebook.module.book.views;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.views.section.tools.BrowserComposite;
+import ebook.module.book.views.tools.BrowserComposite;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;

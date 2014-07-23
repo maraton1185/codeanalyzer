@@ -14,24 +14,20 @@ import ebook.core.models.ModelObject;
 import ebook.module.acl.ACLService.ACLResult;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.userList.tree.UserInfo;
-import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 
-public class AclRolesViewModel extends ModelObject {
+public abstract class AclRolesViewModel extends ModelObject {
 
 	protected CheckboxTableViewer rolesViewer;
 
 	List<AclViewModel> roles = new ArrayList<AclViewModel>();
 
-	private final String updateEvent;
-
 	private ITreeItemInfo info;
 
-	public AclRolesViewModel(CheckboxTableViewer rolesViewer,
-			ITreeItemInfo info, String updateEvent) {
+	public AclRolesViewModel(CheckboxTableViewer rolesViewer, ITreeItemInfo info) {
 		super();
 		this.rolesViewer = rolesViewer;
 		this.info = info;
-		this.updateEvent = updateEvent;
+
 	}
 
 	public List<AclViewModel> getRoles() {
@@ -63,7 +59,8 @@ public class AclRolesViewModel extends ModelObject {
 		firePropertyChange("roles", null, null);
 
 		ACLResult out = new ACLResult();
-		activeRoles = App.srv.acl().get(info.getId(), out);
+		loadActiveRoles(out);
+		// activeRoles = App.srv.acl().get(info.getId(), out);
 
 		firePropertyChange("activeRoles", null, null);
 
@@ -77,7 +74,7 @@ public class AclRolesViewModel extends ModelObject {
 
 	}
 
-	private Set<AclViewModel> activeRoles = new HashSet<AclViewModel>();
+	protected List<AclViewModel> activeRoles = new ArrayList<AclViewModel>();
 
 	public Set<AclViewModel> getActiveRoles() {
 		return new HashSet<AclViewModel>(activeRoles);
@@ -85,14 +82,29 @@ public class AclRolesViewModel extends ModelObject {
 
 	public void setActiveRoles(Object[] objects) {
 
-		App.srv.acl().set(info.getId(), objects);
+		saveActiveRoles(objects);
 
 		rolesViewer.getTable().setBackground(
 				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 
 		info.setACL();
 
-		App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(info, null));
+		updateList();
+
+		// App.br.post(updateEvent, new EVENT_UPDATE_TREE_DATA(info, null));
 
 	}
+
+	protected abstract void loadActiveRoles(ACLResult out);
+
+	// {
+	// activeRoles = App.srv.acl().get(info.getId(), out);
+	// }
+
+	protected abstract void saveActiveRoles(Object[] objects);
+
+	protected abstract void updateList();
+	// {
+	// App.srv.acl().set(info.getId(), objects);
+	// }
 }

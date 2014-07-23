@@ -54,13 +54,13 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <h1 class="page-header">404
-                    <small>Page Not Found</small>
+                <h1 class="page-header">403
+                    <small>Forbidden</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="${initParam.root_url}">Домашняя</a>
                     </li>
-                    <li class="active">404</li>
+                    <li class="active">403</li>
                 </ol>
             </div>
 
@@ -69,8 +69,8 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <p class="error-404">404</p>
-                <p class="lead">Запрашиваемая страница не найдена.</p>
+                <p class="error-403">403</p>
+                <p class="lead">Доступ запрещён.</p>
             </div>
 
         </div>

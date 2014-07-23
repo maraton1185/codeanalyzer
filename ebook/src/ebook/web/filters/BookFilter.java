@@ -1,7 +1,7 @@
 package ebook.web.filters;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,7 +42,7 @@ public class BookFilter implements Filter {
 
 		// get acl set
 		ACLResult out = new ACLResult();
-		Set<AclViewModel> acl = App.srv.acl().get(book, out);
+		List<AclViewModel> acl = App.srv.acl().get(book, out);
 
 		helper.acl(acl);
 	}

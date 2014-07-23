@@ -175,7 +175,8 @@ public class UserService extends TreeService {
 
 		ITreeItemInfo parent = get(user.getParent());
 
-		while (parent == null ? false : parent.getId() != ITreeService.rootId) {
+		while (parent == null ? false
+				: parent.getParent() != ITreeService.rootId) {
 
 			parent = get(parent.getParent());
 

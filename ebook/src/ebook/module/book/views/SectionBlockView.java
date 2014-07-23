@@ -1,4 +1,4 @@
-package ebook.module.book.views.section;
+package ebook.module.book.views;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -52,15 +52,15 @@ import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.book.tree.SectionSaveData;
-import ebook.module.book.views.section.interfaces.IBlockTune;
-import ebook.module.book.views.section.tools.TinyTextEditor;
+import ebook.module.book.views.interfaces.IBlockTune;
+import ebook.module.book.views.tools.TinyTextEditor;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class BlockView {
+public class SectionBlockView {
 
 	FormToolkit toolkit;
 	ScrolledForm form;
@@ -97,7 +97,7 @@ public class BlockView {
 	// Spinner columnCountSpinner;
 
 	@Inject
-	public BlockView() {
+	public SectionBlockView() {
 		// TODO Your code here
 	}
 

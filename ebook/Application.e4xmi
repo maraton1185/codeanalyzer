@@ -253,7 +253,7 @@
     </menus>
     <toolbar xmi:id="_ZtkZsKhUEeOKceOp7VW7lQ" elementId="ebook.toolbar.0"/>
   </descriptors>
-  <descriptors xmi:id="_9H_DAMt2EeOTW91tESaq8A" elementId="ebook.partdescriptor.sectionView" label="секция книги" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.book.views.section.SectionView">
+  <descriptors xmi:id="_9H_DAMt2EeOTW91tESaq8A" elementId="ebook.partdescriptor.sectionView" label="секция книги" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.book.views.SectionView">
     <handlers xmi:id="_FU_0IOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.19" contributionURI="bundleclass://ebook/ebook.module.book.handlers.GoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
     <handlers xmi:id="_DZd7kOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.18" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Add" command="_B6xfwMt7EeOTW91tESaq8A"/>
     <handlers xmi:id="_Ei7eAOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.20" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
@@ -265,7 +265,7 @@
       <children xsi:type="menu:HandledToolItem" xmi:id="_IcTJYNRKEeOFfdAek_eJEQ" elementId="ebook.handledtoolitem.14" label="Обновить" iconURI="platform:/plugin/ebook/icons/update.png" tooltip="Обновить" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="ebook.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.book.views.section.BlockView">
+  <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="ebook.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.book.views.SectionBlockView">
     <handlers xmi:id="__0SK0AEkEeSjZbjjxO5GiQ" elementId="ebook.handler.5" contributionURI="bundleclass://ebook/ebook.module.book.handlers.GoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
     <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="ebook.toolbar.3">
       <children xsi:type="menu:HandledToolItem" xmi:id="_bQsS0NXGEeOaVPXyFpV1rg" elementId="ebook.handledtoolitem.17" iconURI="platform:/plugin/ebook/icons/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
@@ -284,8 +284,8 @@
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="ebook.partsashcontainer.2" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="ebook.partstack.sections" containerData="70000"/>
       <children xsi:type="basic:PartSashContainer" xmi:id="_16w_oBJJEeSRHfCKVoiTkg" elementId="ebook.partsashcontainer.1" containerData="30000">
-        <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="ebook.partstack.BookContent" containerData="70000">
-          <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="ebook.part.BookContent" contributionURI="bundleclass://ebook/ebook.module.book.views.ContentView" label="Содержание">
+        <children xsi:type="basic:PartStack" xmi:id="_C6Ac4Kt2EeOc79QMS88vBA" elementId="ebook.partstack.BookContent" containerData="60000">
+          <children xsi:type="basic:Part" xmi:id="_wUTGAKt1EeOc79QMS88vBA" elementId="ebook.part.BookContent" contributionURI="bundleclass://ebook/ebook.module.book.views.SectionsListView" label="Содержание">
             <handlers xmi:id="_Al6O0OAlEeOuHKOpYE-s4Q" elementId="ebook.handler.13" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddGroup" command="_sPoPIK3EEeOHwvV36BHkVA"/>
             <handlers xmi:id="_A8HIUOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.14" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Delete" command="_8pkSAK3EEeOHwvV36BHkVA"/>
             <handlers xmi:id="_BVcOUOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.15" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddSubGroup" command="_sXbRULAWEeOa8OKjTLKQvw"/>
@@ -308,15 +308,14 @@
             </toolbar>
           </children>
         </children>
-        <children xsi:type="basic:PartStack" xmi:id="_4_16MBJJEeSRHfCKVoiTkg" elementId="ebook.partstack.0" containerData="30000">
-          <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="ebook.part.1" contributionURI="bundleclass://ebook/ebook.module.book.views.section.SectionRolesView" label="Роли">
-            <toolbar xmi:id="_H_LAQBJKEeSRHfCKVoiTkg" elementId="ebook.toolbar.2"/>
-          </children>
+        <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="part.SectionRolesView" containerData="40000" contributionURI="bundleclass://ebook/ebook.module.book.views.SectionRolesView" label="Роли">
+          <toolbar xmi:id="_H_LAQBJKEeSRHfCKVoiTkg" elementId="ebook.toolbar.2"/>
         </children>
       </children>
     </children>
     <handlers xmi:id="_CApugOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.17" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Show" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
     <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.21" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
+    <handlers xmi:id="_aW_iwBJjEeSRHfCKVoiTkg" elementId="ebook.handler.6" contributionURI="bundleclass://ebook/ebook.module.book.handlers.HideRoles" command="_U5MdUBJjEeSRHfCKVoiTkg"/>
     <mainMenu xmi:id="_4G-cUKtuEeOc79QMS88vBA" elementId="ebook.menu.4" visible="false">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_riaO4Kt2EeOc79QMS88vBA" elementId="ebook.handledmenuitem.0" visible="false" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
     </mainMenu>
@@ -373,6 +372,7 @@
   <commands xmi:id="_Kdc4MPxfEeOykK3iUHvgTQ" elementId="ebook.command.23" commandName="Конфигурация - Показать"/>
   <commands xmi:id="_Gp9_gPxfEeOykK3iUHvgTQ" elementId="ebook.command.ShowConf" commandName="Конфигурация - Показать (служебная команда)"/>
   <commands xmi:id="_5ZJ90PxrEeOykK3iUHvgTQ" elementId="ebook.command.OpenConf" commandName="Конфигурация - Открыть"/>
+  <commands xmi:id="_U5MdUBJjEeSRHfCKVoiTkg" elementId="command.id.EVENT_HIDE_BOOK_ROLES" commandName="command.id.EVENT_HIDE_BOOK_ROLES" description=""/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

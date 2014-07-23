@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import ebook.core.App;
 import ebook.core.pico;
@@ -61,9 +61,39 @@ public class ACLService {
 		return false;
 	}
 
-	public Set<AclViewModel> get(Integer book, ACLResult out) {
+	public boolean hasExplicit(Integer book, Integer section) {
 
-		Set<AclViewModel> result = new HashSet<AclViewModel>();
+		try {
+			Connection con = db.getConnection();
+
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "SELECT TOP 1 T.ROLE FROM " + tableName
+					+ " AS T WHERE T.BOOK=? AND T.SECTION=?";
+			prep = con.prepareStatement(SQL);
+			prep.setInt(1, book);
+			prep.setInt(2, section);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+					return true;
+				}
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public List<AclViewModel> get(Integer book, ACLResult out) {
+
+		List<AclViewModel> result = new ArrayList<AclViewModel>();
 
 		try {
 			Connection con = db.getConnection();
@@ -148,8 +178,8 @@ public class ACLService {
 		}
 	}
 
-	public Set<AclViewModel> get(Integer b_id, Integer s_id, ACLResult out) {
-		Set<AclViewModel> result = new HashSet<AclViewModel>();
+	public List<AclViewModel> get(Integer b_id, Integer s_id, ACLResult out) {
+		List<AclViewModel> result = new ArrayList<AclViewModel>();
 
 		try {
 			Connection con = db.getConnection();

@@ -1,6 +1,10 @@
 package ebook.module.book.tree;
 
+import org.eclipse.swt.graphics.Image;
+
+import ebook.core.App;
 import ebook.module.tree.TreeItemInfo;
+import ebook.utils.Utils;
 
 public class SectionInfo extends TreeItemInfo {
 
@@ -23,4 +27,26 @@ public class SectionInfo extends TreeItemInfo {
 	}
 
 	public String tag = "";
+
+	private boolean aclEmplicit = false;
+
+	private Integer book;
+
+	@Override
+	public void setACL() {
+		aclEmplicit = App.srv.acl().hasExplicit(book, getId());
+	}
+
+	@Override
+	public Image getListImage() {
+		if (aclEmplicit)
+			return Utils.getImage("lock.png");
+		else
+			return null;
+	}
+
+	public void setBookId(Integer id) {
+		book = id;
+
+	}
 }

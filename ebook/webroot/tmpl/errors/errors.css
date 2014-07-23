@@ -102,6 +102,11 @@ body {
   font-size: 8em;
 }
 
+/* 404 Page Styles */
+.error-403 {
+  font-size: 8em;
+}
+
 /* Pricing Page Styles */
 .price {
   font-size: 4em;

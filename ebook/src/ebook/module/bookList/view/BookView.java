@@ -39,6 +39,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -197,14 +198,9 @@ public class BookView {
 		IObservableValue field_model;
 
 		itemComp = toolkit.createComposite(stack);
-		// TableWrapLayout layout = new TableWrapLayout();
-		// layout.numColumns = 2;
 		itemComp.setLayout(new GridLayout(2, false));
-		// itemComp.setLayout(layout);
-		// comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2,
-		// 1));
 
-		pathField(itemComp);
+		aclField(itemComp);
 
 		Hyperlink link = toolkit.createHyperlink(itemComp, "Описание книги",
 				SWT.RIGHT);
@@ -323,11 +319,9 @@ public class BookView {
 
 	}
 
-	private void pathField(Composite parent) {
+	private void aclField(Composite parent) {
 
-		Label label;
-		GridData gd;
-		Text text;
+		Button btn;
 		Composite comp;
 
 		IObservableValue target;
@@ -342,18 +336,22 @@ public class BookView {
 		// td.grabHorizontal = false;
 		// td.grabVertical = true;
 
-		label = toolkit.createLabel(comp, "Путь:", SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1,
-				1));
+		btn = toolkit.createButton(comp, "Ограничение доступа", SWT.WRAP
+				| SWT.CHECK);
+		btn.setToolTipText("Использовать ограничение доступа для разделов книги");
+		// btn.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 2,
+		// 1));
 
-		text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
-				| SWT.READ_ONLY);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.widthHint = 30;
-		text.setLayoutData(gd);
+		GridDataFactory.fillDefaults().grab(true, true).hint(30, SWT.DEFAULT)
+				.applyTo(btn);
+		// text = toolkit.createText(comp, "", SWT.MULTI | SWT.WRAP
+		// | SWT.READ_ONLY);
+		// gd = new GridData(GridData.FILL_BOTH);
+		// gd.widthHint = 30;
+		// btn.setLayoutData(gd);
 
-		target = WidgetProperties.text().observe(text);
-		field_model = BeanProperties.value(model.getClass(), "path")
+		target = WidgetProperties.selection().observe(btn);
+		field_model = BeanProperties.value(model.getClass(), "ACL")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 

@@ -35,13 +35,13 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class BooksListView {
+public class BooksView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
 
 	@Inject
-	public BooksListView() {
+	public BooksView() {
 		// TODO Your code here
 	}
 

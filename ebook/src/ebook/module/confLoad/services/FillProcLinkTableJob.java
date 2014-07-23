@@ -1,4 +1,4 @@
-package ebook.module.conf.services;
+package ebook.module.confLoad.services;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,9 +11,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.exceptions.LinksExistsException;
-import ebook.module.conf.interfaces.ILoaderManager;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions.DbState;
+import ebook.module.confLoad.interfaces.ILoaderManager;
 import ebook.utils.Events;
 
 public class FillProcLinkTableJob extends Job {

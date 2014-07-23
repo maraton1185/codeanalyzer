@@ -2,8 +2,8 @@ package ebook.core.models;
 
 import ebook.core.interfaces.IManagerFactory;
 import ebook.module.bookList.BookListManager;
-import ebook.module.conf.ConfManager;
 import ebook.module.confList.ConfListManager;
+import ebook.module.confLoad.ConfManager;
 import ebook.module.userList.UserManager;
 
 public class ManagerFactory implements IManagerFactory {

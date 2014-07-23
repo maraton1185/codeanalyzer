@@ -52,10 +52,10 @@ import ebook.core.interfaces.IServiceFactory;
 import ebook.module.book.BookConnection;
 import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.views.SectionBlockView;
+import ebook.module.book.views.SectionTextView;
 import ebook.module.book.views.SectionView;
-import ebook.module.conf.ConfConnection;
-import ebook.module.conf.services.FillProcLinkTableJob;
+import ebook.module.confLoad.ConfConnection;
+import ebook.module.confLoad.services.FillProcLinkTableJob;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -547,7 +547,7 @@ public class App {
 
 					if (id.equals(Strings
 							.get("ebook.partdescriptor.sectionsBlockView"))) {
-						SectionBlockView view = (SectionBlockView) part.getObject();
+						SectionTextView view = (SectionTextView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
 					}

@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
 import ebook.core.App;
-import ebook.module.conf.ConfManager;
+import ebook.module.confLoad.ConfManager;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;

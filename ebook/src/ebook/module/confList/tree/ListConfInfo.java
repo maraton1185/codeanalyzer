@@ -8,9 +8,9 @@ import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
 import ebook.core.models.DbOptions;
-import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.module.confList.tree.ConfInfo.SQLConnection;
 import ebook.module.confList.tree.ListConfInfoOptions.DbState;
+import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.tree.TreeItemInfo;
 import ebook.utils.Utils;
 

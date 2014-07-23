@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ebook.core.exceptions.ProcNotFoundException;
-import ebook.module.conf.interfaces.ICfConfig;
-import ebook.module.conf.interfaces.ICfConfig.EContext;
-import ebook.module.conf.interfaces.ICfConfig.EType;
+import ebook.module.confLoad.interfaces.ICfConfig;
+import ebook.module.confLoad.interfaces.ICfConfig.EContext;
+import ebook.module.confLoad.interfaces.ICfConfig.EType;
 
 public interface ITextParser {
 

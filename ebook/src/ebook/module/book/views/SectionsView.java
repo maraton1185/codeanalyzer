@@ -40,7 +40,7 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class SectionsListView {
+public class SectionsView {
 
 	private TreeViewer viewer;
 

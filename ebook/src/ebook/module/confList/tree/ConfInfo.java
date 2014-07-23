@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 
 import org.eclipse.core.runtime.Path;
 
-import ebook.module.conf.interfaces.ILoaderManager.operationType;
+import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.utils.PreferenceSupplier;
 
 public class ConfInfo implements Serializable {

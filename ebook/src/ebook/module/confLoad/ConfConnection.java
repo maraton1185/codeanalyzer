@@ -1,4 +1,4 @@
-package ebook.module.conf;
+package ebook.module.confLoad;
 
 import java.lang.reflect.InvocationTargetException;
 

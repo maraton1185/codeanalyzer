@@ -1,4 +1,4 @@
-package ebook.module.conf;
+package ebook.module.confLoad;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -16,11 +16,11 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.core.pico;
-import ebook.module.conf.interfaces.ILoaderManager;
-import ebook.module.conf.interfaces.ILoaderManager.operationType;
-import ebook.module.conf.services.FillProcLinkTableJob;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions.DbState;
+import ebook.module.confLoad.interfaces.ILoaderManager;
+import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
+import ebook.module.confLoad.services.FillProcLinkTableJob;
 import ebook.temp.ProgressControl;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;

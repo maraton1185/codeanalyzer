@@ -1,4 +1,4 @@
-package ebook.module.conf.interfaces;
+package ebook.module.confLoad.interfaces;
 
 public interface ICfConfig {
 

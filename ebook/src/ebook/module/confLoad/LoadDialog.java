@@ -1,4 +1,4 @@
-package ebook.module.conf;
+package ebook.module.confLoad;
 
 import java.util.HashMap;
 
@@ -23,9 +23,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import ebook.core.App;
-import ebook.module.conf.interfaces.ILoaderManager.operationType;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions.DbState;
+import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 

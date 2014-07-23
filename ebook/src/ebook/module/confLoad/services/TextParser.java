@@ -1,4 +1,4 @@
-package ebook.module.conf.services;
+package ebook.module.confLoad.services;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 
 import ebook.core.exceptions.ProcNotFoundException;
 import ebook.core.interfaces.ITextParser;
-import ebook.module.conf.interfaces.ICfConfig.EContext;
-import ebook.module.conf.interfaces.ICfConfig.EType;
+import ebook.module.confLoad.interfaces.ICfConfig.EContext;
+import ebook.module.confLoad.interfaces.ICfConfig.EType;
 import ebook.utils.Const;
 import ebook.utils.Strings;
 

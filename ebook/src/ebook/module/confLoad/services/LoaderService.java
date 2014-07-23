@@ -1,4 +1,4 @@
-package ebook.module.conf.services;
+package ebook.module.confLoad.services;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +18,7 @@ import ebook.core.interfaces.ITextParser;
 import ebook.core.interfaces.ITextParser.Entity;
 import ebook.core.interfaces.ITextParser.ProcCall;
 import ebook.core.interfaces.ITextParser.procEntity;
-import ebook.module.conf.interfaces.ICfServices;
+import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.utils.Const;
 
 public class LoaderService {

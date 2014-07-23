@@ -1,4 +1,4 @@
-package ebook.module.conf;
+package ebook.module.confLoad;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -11,10 +11,10 @@ import ebook.auth.interfaces.IAuthorize;
 import ebook.core.pico;
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.LoadConfigException;
-import ebook.module.conf.interfaces.ILoaderManager;
-import ebook.module.conf.services.LoaderService;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions.DbState;
+import ebook.module.confLoad.interfaces.ILoaderManager;
+import ebook.module.confLoad.services.LoaderService;
 import ebook.utils.Const;
 import ebook.utils.Utils;
 

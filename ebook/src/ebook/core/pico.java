@@ -7,9 +7,9 @@ import org.picocontainer.MutablePicoContainer;
 import ebook.auth.SignIn;
 import ebook.core.models.ManagerFactory;
 import ebook.core.models.ServiceFactory;
-import ebook.module.conf.LoaderManager;
-import ebook.module.conf.services.CfServices;
-import ebook.module.conf.services.TextParser;
+import ebook.module.confLoad.LoaderManager;
+import ebook.module.confLoad.services.CfServices;
+import ebook.module.confLoad.services.TextParser;
 import ebook.module.db.DbConnection;
 
 public final class pico {

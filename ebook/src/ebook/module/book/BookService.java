@@ -561,4 +561,41 @@ public class BookService extends TreeService {
 		}
 
 	}
+
+	public void saveToFile(IPath p, SectionInfo section) {
+
+		// ArrayList<SectionXML> bookList = new ArrayList<SectionXML>();
+		//
+		// // create books
+		// SectionXML book1 = new SectionXML();
+		// book1.setTitle("978-0060554736");
+		// bookList.add(book1);
+		//
+		// SectionXML book2 = new SectionXML();
+		// book2.setTitle("978-3832180577");
+		// bookList.add(book2);
+		//
+		// // create bookstore, assigning book
+		// SectionXML bookstore = new SectionXML();
+		// bookstore.setTitle("Fraport Bookstore");
+		// bookstore.setChild(bookList);
+		//
+		// try {
+		// // create JAXB context and instantiate marshaller
+		// JAXBContext context = JAXBContext.newInstance(SectionXML.class);
+		// Marshaller m = context.createMarshaller();
+		//
+		// m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		//
+		// // Write to System.out
+		// m.marshal(bookstore, System.out);
+		//
+		// // Write to File
+		// m.marshal(bookstore, p.toFile());
+		//
+		// } catch (Exception e) {
+		//
+		// e.printStackTrace();
+		// }
+	}
 }

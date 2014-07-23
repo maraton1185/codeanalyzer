@@ -1,4 +1,4 @@
-package ebook.module.conf.services;
+package ebook.module.confLoad.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;

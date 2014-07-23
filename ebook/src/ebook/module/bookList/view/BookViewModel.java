@@ -6,26 +6,33 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
 import ebook.core.models.ModelObject;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
+import ebook.module.db.ACLService.ACLResult;
 import ebook.module.tree.ITreeService;
 import ebook.module.userList.tree.UserInfo;
 import ebook.module.userList.views.RoleViewModel;
+import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public class BookViewModel extends ModelObject {
 
-	public ListBookInfo data;
+	public ListBookInfo info;
 	private ListBookInfoOptions options;
 
 	// public String description = "";
 
-	public void setData(ListBookInfo data) {
-		this.data = data;
+	public void setData(ListBookInfo data, CheckboxTableViewer rolesViewer) {
+		this.info = data;
 		this.options = (ListBookInfoOptions) data.getOptions();
+		this.rolesViewer = rolesViewer;
 	}
 
 	// public BookViewModel(ListBookInfo data) {
@@ -37,24 +44,24 @@ public class BookViewModel extends ModelObject {
 	// }
 
 	public ListBookInfo getData() {
-		return data;
+		return info;
 	}
 
 	public String getPath() {
-		IPath path = data.getPath();
+		IPath path = info.getPath();
 		return path == null ? "" : path.toString();
 	}
 
 	public String getTitle() {
-		return data.getTitle();
+		return info.getTitle();
 	}
 
 	public boolean isGroup() {
-		return data.isGroup();
+		return info.isGroup();
 	}
 
 	public boolean isItem() {
-		return !data.isGroup();
+		return !info.isGroup();
 	}
 
 	public String getDescription() {
@@ -68,7 +75,7 @@ public class BookViewModel extends ModelObject {
 	}
 
 	public Image getImage() {
-		return data.getImage();
+		return info.getImage();
 	}
 
 	// public String getBookDescription() {
@@ -86,14 +93,15 @@ public class BookViewModel extends ModelObject {
 	// }
 
 	public boolean isShowRole() {
-		return data.getParent() == ITreeService.rootId;
+		return info.getParent() == ITreeService.rootId;
 	}
 
 	public Integer getId() {
-		return data.getId();
+		return info.getId();
 	}
 
 	List<RoleViewModel> roles = new ArrayList<RoleViewModel>();
+	private CheckboxTableViewer rolesViewer;
 
 	public List<RoleViewModel> getRoles() {
 
@@ -102,7 +110,7 @@ public class BookViewModel extends ModelObject {
 
 	public void setRoles() {
 
-		if (!data.isGroup()) {
+		if (!info.isGroup()) {
 
 			roles.clear();
 			activeRoles.clear();
@@ -123,9 +131,19 @@ public class BookViewModel extends ModelObject {
 		roles = result;
 		firePropertyChange("roles", null, null);
 
-		activeRoles = App.srv.acl().get(data.getId());
+		ACLResult out = new ACLResult();
+		activeRoles = App.srv.acl().get(info.getId(), out);
 
 		firePropertyChange("activeRoles", null, null);
+
+		if (out.inherited)
+			rolesViewer.getTable().setBackground(
+					Display.getCurrent().getSystemColor(
+							SWT.COLOR_WIDGET_LIGHT_SHADOW));
+		else
+			rolesViewer.getTable().setBackground(
+					Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
 	}
 
 	private Set<RoleViewModel> activeRoles = new HashSet<RoleViewModel>();
@@ -136,7 +154,15 @@ public class BookViewModel extends ModelObject {
 
 	public void setActiveRoles(Object[] objects) {
 
-		App.srv.acl().set(data.getId(), objects);
+		App.srv.acl().set(info.getId(), objects);
+
+		rolesViewer.getTable().setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
+		info.setACL();
+
+		App.br.post(Events.EVENT_UPDATE_LABELS_BOOK_LIST,
+				new EVENT_UPDATE_TREE_DATA(info, null));
 
 	}
 }

@@ -1,5 +1,7 @@
 package ebook.module.tree;
 
+import org.eclipse.swt.graphics.Image;
+
 import ebook.core.models.DbOptions;
 
 public interface ITreeItemInfo {
@@ -32,4 +34,8 @@ public interface ITreeItemInfo {
 	void setId(int value);
 
 	void setGroup(boolean value);
+
+	void setListImage(Image img);
+
+	Image getListImage();
 }

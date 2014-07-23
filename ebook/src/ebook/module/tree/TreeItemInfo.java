@@ -1,11 +1,23 @@
 package ebook.module.tree;
 
+import org.eclipse.swt.graphics.Image;
+
 import ebook.core.models.DbOptions;
 
 public abstract class TreeItemInfo implements ITreeItemInfo {
 
 	public TreeItemInfo(DbOptions options) {
 		this.options = options;
+	}
+
+	@Override
+	public Image getListImage() {
+		return null;
+	}
+
+	@Override
+	public void setListImage(Image img) {
+
 	}
 
 	@Override

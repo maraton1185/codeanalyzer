@@ -53,6 +53,8 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_PERSPECTIVE_ICON = "EVENT_UPDATE_PERSPECTIVE_ICON";
 
+	public static final String EVENT_UPDATE_LABELS_BOOK_LIST = "EVENT_UPDATE_LABELS_BOOK_LIST";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,

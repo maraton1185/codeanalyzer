@@ -16,6 +16,10 @@ import ebook.module.userList.views.RoleViewModel;
 
 public class ACLService {
 
+	public static class ACLResult {
+		public boolean inherited = false;
+	}
+
 	protected IDbConnection db;
 	private final String tableName;
 
@@ -28,7 +32,36 @@ public class ACLService {
 		// this.updateEvent = "";
 	}
 
-	public Set<RoleViewModel> get(Integer book) {
+	public boolean hasExplicit(Integer book) {
+
+		try {
+			Connection con = db.getConnection();
+
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "SELECT TOP 1 T.ROLE FROM " + tableName
+					+ " AS T WHERE T.BOOK=? AND T.SECTION IS NULL";
+			prep = con.prepareStatement(SQL);
+			prep.setInt(1, book);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+					return true;
+				}
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public Set<RoleViewModel> get(Integer book, ACLResult out) {
 
 		Set<RoleViewModel> result = new HashSet<RoleViewModel>();
 
@@ -55,13 +88,15 @@ public class ACLService {
 
 			if (result.isEmpty()) {
 
+				out.inherited = true;
+
 				ITreeItemInfo b = App.srv.bl().get(book);
 				if (b == null)
 					return result;
 
 				Integer parent = b.getParent();
 				if (parent != null)
-					result = get(parent);
+					result = get(parent, out);
 
 			}
 		} catch (Exception e) {

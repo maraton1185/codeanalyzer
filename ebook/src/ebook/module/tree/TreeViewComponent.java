@@ -44,7 +44,6 @@ public class TreeViewComponent {
 
 	private TreeViewer viewer;
 	private Tree viewerTree;
-	// private IDbService dbManager = pico.get(IDbService.class);
 	private Composite parent;
 	ITreeService service;
 	private ITreeItemInfo root;
@@ -56,26 +55,11 @@ public class TreeViewComponent {
 
 		this.service = service;
 		this.parent = parent;
-		// super(bookSectionClient, SWT.NONE);
-
-		// this.bookSectionClient = parent;
 
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
-
-		// viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-		// @Override
-		// public void selectionChanged(SelectionChangedEvent event) {
-		//
-		// IStructuredSelection selection = (IStructuredSelection) viewer
-		// .getSelection();
-		// selection.
-		// AppManager.ctx.set(BookInfo.class,
-		// (BookInfo) selection.getFirstElement());
-		// }
-		// });
 
 		viewerTree = (Tree) viewer.getControl();
 		viewerTree.addSelectionListener(new SelectionAdapter() {
@@ -190,6 +174,7 @@ public class TreeViewComponent {
 
 			cell.setText(text.toString());
 			cell.setStyleRanges(text.getStyleRanges());
+			cell.setImage(item.getListImage());
 			super.update(cell);
 
 		}

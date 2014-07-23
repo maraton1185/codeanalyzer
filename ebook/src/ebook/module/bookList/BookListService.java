@@ -208,6 +208,9 @@ public class BookListService extends TreeService {
 			ImageData imageData = new ImageData(inputStreamReader);
 			info.setImage(new Image(Display.getCurrent(), imageData));
 		}
+
+		info.setACL();
+
 		return info;
 	}
 

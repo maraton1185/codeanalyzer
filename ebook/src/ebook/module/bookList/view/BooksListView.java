@@ -76,6 +76,18 @@ public class BooksListView {
 
 	@Inject
 	@Optional
+	public void EVENT_UPDATE_LABELS_BOOK_LIST(
+			@UIEventTopic(Events.EVENT_UPDATE_LABELS_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
+
+		if (data.parent == null)
+			return;
+
+		viewer.update(data.parent, null);
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_BOOK_LIST_SETSELECTION(
 			@UIEventTopic(Events.EVENT_BOOK_LIST_SET_SELECTION) Object data) {
 

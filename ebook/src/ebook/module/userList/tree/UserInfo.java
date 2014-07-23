@@ -1,6 +1,10 @@
 package ebook.module.userList.tree;
 
+import org.eclipse.swt.graphics.Image;
+
+import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeItemInfo;
+import ebook.utils.Utils;
 
 public class UserInfo extends TreeItemInfo {
 
@@ -30,4 +34,11 @@ public class UserInfo extends TreeItemInfo {
 		return (UserInfoOptions) super.getOptions();
 	}
 
+	@Override
+	public Image getListImage() {
+		if (getParent() == ITreeService.rootId)
+			return Utils.getImage("list\\group.png");
+		else
+			return null;
+	}
 }

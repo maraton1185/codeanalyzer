@@ -112,11 +112,13 @@ public class BookView {
 
 		model = new BookViewModel();
 
-		model.setData((ListBookInfo) App.srv.bl().get(data.getId()));
+		model.setData((ListBookInfo) App.srv.bl().get(data.getId()), roles);
 		model.setRoles();
+
 		ViewerSupport.bind(roles, BeansObservables.observeList(model, "roles",
 				RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
 				"title"));
+
 		ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
 				RoleViewModel.class), BeansObservables.observeSet(model,
 				"activeRoles", RoleViewModel.class), new UpdateSetStrategy(
@@ -215,7 +217,7 @@ public class BookView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				try {
-					IPath p = model.data.getPath();
+					IPath p = model.info.getPath();
 					if (p == null)
 						return;
 					File temp = new File(p.addFileExtension("txt").toString());
@@ -405,10 +407,41 @@ public class BookView {
 		// IObservableValue field_model;
 
 		label = toolkit.createLabel(groupComp, "Доступ по ролям:", SWT.LEFT);
-		GridDataFactory.fillDefaults().span(2, 1).applyTo(label);
+		GridDataFactory.fillDefaults().applyTo(label);
 		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false,
 		// 2,
 		// 1));
+
+		Composite panel = toolkit.createComposite(groupComp);
+		panel.setLayout(new RowLayout());
+		gd = new GridData();
+		gd.horizontalAlignment = SWT.RIGHT;
+		gd.grabExcessHorizontalSpace = true;
+		panel.setLayoutData(gd);
+
+		ImageHyperlink hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+		hlink.setImage(Utils.getImage("set.png"));
+		hlink.setToolTipText("Установить флажки");
+		hlink.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				roles.setAllChecked(true);
+				model.setActiveRoles(roles.getCheckedElements());
+			}
+		});
+
+		hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+		hlink.setImage(Utils.getImage("unset.png"));
+		hlink.setToolTipText("Снять флажки");
+
+		hlink.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				roles.setAllChecked(false);
+				model.setActiveRoles(roles.getCheckedElements());
+				model.setRoles();
+			}
+		});
 
 		// Composite rolesComposite = new Composite(groupComp, SWT.NONE);
 		// toolkit.adapt(rolesComposite, true, true);
@@ -416,7 +449,7 @@ public class BookView {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.widthHint = 1;
 		gd.heightHint = 150;
-		// gd.horizontalSpan = 2;
+		gd.horizontalSpan = 2;
 		rolesComposite.setLayoutData(gd);
 		// GridDataFactory.fillDefaults().applyTo(rolesComposite);
 		TableColumnLayout rolesColumnLayout = new TableColumnLayout();
@@ -445,21 +478,6 @@ public class BookView {
 				.applyTo(roles.getTable());
 
 		toolkit.adapt(roles.getControl(), true, true);
-
-		// ViewerSupport.bind(roles, BeansObservables.observeList(model,
-		// "roles",
-		// RoleViewModel.class), BeanProperties.value(RoleViewModel.class,
-		// "title"));
-		//
-		// ctx.bindSet(ViewersObservables.observeCheckedElements(roles,
-		// RoleViewModel.class), BeansObservables.observeSet(model,
-		// "activeRoles", RoleViewModel.class));
-		// IViewerObservableValue selected = ViewerProperties.singleSelection()
-		// .observe(friendsViewer);
-		//
-		// field_model = BeanProperties.value(model.getClass(), "role",
-		// UserInfo.class).observeDetail(dataValue);
-		// ctx.bindValue(selected, field_model);
 
 		// target = WidgetProperties.enabled().observe(roles.getControl());
 		// field_model = BeanProperties.value(model.getClass(), "showRole")

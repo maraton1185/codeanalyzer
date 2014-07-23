@@ -71,7 +71,12 @@ public class LoginServlet extends HttpServlet {
 			session.setMaxInactiveInterval(PreferenceSupplier
 					.getInt(PreferenceSupplier.SESSION_TIMEOUT) * 60);
 
-		response.sendRedirect(App.getJetty().list());
+		String returnUrl = (String) session.getAttribute("returnUrl");
+		if (returnUrl == null)
+			response.sendRedirect(App.getJetty().list());
+		else
+			response.sendRedirect(returnUrl);
 
+		session.removeAttribute("returnUrl");
 	}
 }

@@ -136,6 +136,8 @@ public class FilterHelper {
 
 		} else {
 			// redirect to login page
+
+			session.setAttribute("returnURL", request.getQueryString());
 			RequestDispatcher rd = request.getRequestDispatcher(request
 					.getServletContext().getInitParameter("login_url"));
 			rd.forward(request, response);

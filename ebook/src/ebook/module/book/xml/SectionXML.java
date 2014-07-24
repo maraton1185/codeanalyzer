@@ -6,30 +6,40 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ebook.core.models.DbOptions;
+import ebook.module.tree.ITreeItemInfo;
+
 @XmlRootElement(name = "section", namespace = "ebook.module.xml")
 public class SectionXML {
 
-	ArrayList<SectionXML> child;
-	String title;
+	public static final String filename = "data";
 
-	// **********************************************
+	@XmlElementWrapper(name = "images")
+	public ArrayList<ImageXML> images;
 
-	@XmlElementWrapper(name = "wrapper")
+	@XmlElementWrapper(name = "children")
 	@XmlElement(name = "section")
-	public ArrayList<SectionXML> getChild() {
-		return child;
+	public ArrayList<SectionXML> children;
+
+	public int id;
+	// public int sort;
+	public boolean group;
+	public String title;
+	public String options;
+	public String text = "";
+
+	public SectionXML() {
+
 	}
 
-	public void setChild(ArrayList<SectionXML> child) {
-		this.child = child;
-	}
+	public SectionXML(ITreeItemInfo item) {
+		super();
+		this.id = item.getId();
+		// this.sort = item.getSort();
+		this.group = item.isGroup();
+		this.title = item.getTitle();
+		this.options = DbOptions.save(item.getOptions());
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 }

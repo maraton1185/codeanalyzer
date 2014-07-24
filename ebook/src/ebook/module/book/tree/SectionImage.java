@@ -26,20 +26,15 @@ public class SectionImage {
 	public boolean expanded;
 	public int sort;
 
+	public int getSort() {
+		return sort;
+	}
+
 	public String url;
 
 	public String getUrl() {
 		return App.getJetty().bookImage(book, id);
 	}
-
-	// public SectionImage(Image image, String title, boolean opened, Integer
-	// book) {
-	// super();
-	// this.image = image;
-	// this.title = title;
-	// this.expanded = opened;
-	// this.book = book;
-	// }
 
 	public SectionImage() {
 	}
@@ -64,4 +59,5 @@ public class SectionImage {
 		else
 			return super.equals(obj);
 	}
+
 }

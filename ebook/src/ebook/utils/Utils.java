@@ -79,7 +79,7 @@ public abstract class Utils {
 
 		// assume that the current class is called View.java
 		Bundle bundle = FrameworkUtil.getBundle(ConfigsView.class);
-		URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
+		URL url = FileLocator.find(bundle, new Path("icons/set/" + file), null);
 		ImageDescriptor image = ImageDescriptor.createFromURL(url);
 		return image.createImage();
 
@@ -128,7 +128,7 @@ public abstract class Utils {
 		return Utils.getAbsolute(path);
 	}
 
-	static IPath browseDirectory(IPath path, Shell shell) {
+	public static IPath browseDirectory(IPath path, Shell shell) {
 		DirectoryDialog dialog = new DirectoryDialog(shell);
 		dialog.setText("Выберите каталог");
 
@@ -144,6 +144,24 @@ public abstract class Utils {
 	public static IPath browseFile(IPath path, Shell shell, String title,
 			String filter_name) {
 		FileDialog dialog = new FileDialog(shell);
+		dialog.setText(title);
+		String[] filter = new String[1];
+		filter[0] = filter_name;
+		dialog.setFilterExtensions(filter);
+		// dialog.
+
+		if (path != null) {
+			dialog.setFilterPath(path.toString());
+		}
+		String result = dialog.open();
+		if (result == null)
+			return null;
+		return new Path(result);
+	}
+
+	public static IPath saveFile(IPath path, Shell shell, String title,
+			String filter_name) {
+		FileDialog dialog = new FileDialog(shell, SWT.SAVE);
 		dialog.setText(title);
 		String[] filter = new String[1];
 		filter[0] = filter_name;

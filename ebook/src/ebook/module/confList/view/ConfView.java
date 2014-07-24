@@ -83,8 +83,7 @@ public class ConfView {
 			return;
 		}
 
-		model = new ConfViewModel((ListConfInfo) App.srv.cl()
-				.get(data.getId()));
+		model = new ConfViewModel((ListConfInfo) App.srv.cl().get(data.getId()));
 
 		dataValue.setValue(model);
 
@@ -351,7 +350,7 @@ public class ConfView {
 
 		link = toolkit.createImageHyperlink(itemComp, SWT.LEFT);
 		link.setText("Загрузить");
-		link.setImage(Utils.getImage("load.png"));
+		link.setImage(Utils.getImage("import.png"));
 		link.setUnderlined(false);
 		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		link.addHyperlinkListener(new HyperlinkAdapter() {

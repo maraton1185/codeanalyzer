@@ -23,11 +23,11 @@ public class AddPicture {
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		IPath p = Utils.browseFile(book.getPath(), shell,
-				Strings.get("appTitle"), "*.bmp; *.png");
+				Strings.get("appTitle"), "*.png");
 		if (p == null)
 			return;
 
-		book.srv().add_image(section, p);
+		book.srv().add_image(section, p, null);
 	}
 
 	@CanExecute

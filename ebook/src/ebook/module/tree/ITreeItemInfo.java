@@ -40,4 +40,8 @@ public interface ITreeItemInfo {
 	Image getListImage();
 
 	void setACL();
+
+	int getSort();
+
+	void setSort(int sort);
 }

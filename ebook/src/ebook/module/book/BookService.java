@@ -5,8 +5,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,9 +17,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
@@ -26,6 +35,9 @@ import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.book.tree.SectionSaveData;
+import ebook.module.book.xml.ImageXML;
+import ebook.module.book.xml.SectionXML;
+import ebook.module.book.xml.ZipHelper;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeService;
@@ -41,6 +53,13 @@ public class BookService extends TreeService {
 	public BookService(BookConnection book) {
 
 		super(tableName, updateEvent, book);
+	}
+
+	@Override
+	protected String getItemString(String table) {
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT ";
+		s = s.replaceAll("\\$Table", "T");
+		return s;
 	}
 
 	@Override
@@ -62,6 +81,8 @@ public class BookService extends TreeService {
 		else if (opt.ACL)
 			info.setACL();
 
+		info.setSort(rs.getInt(6));
+
 		return info;
 	}
 
@@ -71,23 +92,6 @@ public class BookService extends TreeService {
 		return new EVENT_UPDATE_VIEW_DATA((BookConnection) db,
 				(SectionInfo) parent, (SectionInfo) item);
 	}
-
-	// @Override
-	// public void add(ITreeItemInfo item, ITreeItemInfo parent_item, boolean
-	// sub)
-	// throws InvocationTargetException {
-	//
-	// try {
-	// super.add(item, parent_item, sub);
-	//
-	// App.br.post(updateEvent, new EVENT_UPDATE_VIEW_DATA(
-	// (BookConnection) db, (SectionInfo) get(item.getParent()),
-	// (SectionInfo) item));
-	//
-	// } catch (Exception e) {
-	// throw new InvocationTargetException(e, e.getMessage());
-	// }
-	// }
 
 	@Override
 	public ITreeItemInfo getSelected() {
@@ -289,15 +293,6 @@ public class BookService extends TreeService {
 
 	public List<SectionImage> getImages(int section) {
 
-		// List<BookSectionImage> result = new ArrayList<BookSectionImage>();
-		//
-		// result.add(new BookSectionImage(Utils.getImage("_start.png"),
-		// "картинка 1", true));
-		// result.add(new BookSectionImage(Utils.getImage("add.png"),
-		// "картинка 2", false));
-		//
-		// return result;
-
 		List<SectionImage> result = new ArrayList<SectionImage>();
 		try {
 			Connection con = db.getConnection();
@@ -373,7 +368,7 @@ public class BookService extends TreeService {
 		return inputStreamReader;
 	}
 
-	public void add_image(SectionInfo section, IPath p) {
+	public void add_image(SectionInfo section, IPath p, String title) {
 
 		// BookSection sec = null;
 		try {
@@ -399,8 +394,10 @@ public class BookService extends TreeService {
 			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, EXPANDED, SECTION) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			String title = Strings.get("s.new_image.title");
-			title = title + " " + sort;
+			if (title == null || title.isEmpty()) {
+				title = Strings.get("s.new_image.title");
+				title = title + " " + sort;
+			}
 			prep.setString(1, title);
 			prep.setInt(3, sort);
 			prep.setBoolean(4, true);
@@ -562,40 +559,144 @@ public class BookService extends TreeService {
 
 	}
 
-	public void saveToFile(IPath p, SectionInfo section) {
+	private void writeXml(SectionXML root, IPath p) {
 
-		// ArrayList<SectionXML> bookList = new ArrayList<SectionXML>();
-		//
-		// // create books
-		// SectionXML book1 = new SectionXML();
-		// book1.setTitle("978-0060554736");
-		// bookList.add(book1);
-		//
-		// SectionXML book2 = new SectionXML();
-		// book2.setTitle("978-3832180577");
-		// bookList.add(book2);
-		//
-		// // create bookstore, assigning book
-		// SectionXML bookstore = new SectionXML();
-		// bookstore.setTitle("Fraport Bookstore");
-		// bookstore.setChild(bookList);
-		//
-		// try {
-		// // create JAXB context and instantiate marshaller
-		// JAXBContext context = JAXBContext.newInstance(SectionXML.class);
-		// Marshaller m = context.createMarshaller();
-		//
-		// m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-		//
-		// // Write to System.out
-		// m.marshal(bookstore, System.out);
-		//
-		// // Write to File
-		// m.marshal(bookstore, p.toFile());
-		//
-		// } catch (Exception e) {
-		//
-		// e.printStackTrace();
-		// }
+		List<SectionImage> _images = getImages(root.id);
+
+		ArrayList<ImageXML> images = new ArrayList<ImageXML>();
+
+		for (SectionImage image : _images) {
+			ImageXML item = new ImageXML(image);
+			images.add(item);
+
+			ImageLoader saver = new ImageLoader();
+			saver.data = new ImageData[] { image.image.getImageData() };
+
+			saver.save(p.append(ImageXML.filename + image.getId())
+					.addFileExtension("png").toString(), SWT.IMAGE_PNG);
+
+		}
+
+		root.images = images;
+
+		List<ITreeItemInfo> list = getChildren(root.id);
+
+		ArrayList<SectionXML> children = new ArrayList<SectionXML>();
+
+		for (ITreeItemInfo item : list) {
+
+			SectionXML child = new SectionXML(item);
+			writeXml(child, p);
+
+			children.add(child);
+
+		}
+
+		if (!root.group)
+			root.text = getText(root.id);
+
+		root.children = children;
+	}
+
+	public void download(IPath zipFolder, SectionInfo section, String zipName)
+			throws InvocationTargetException {
+
+		try {
+			File temp = File.createTempFile("download", "");
+			temp.delete();
+			temp.mkdir();
+			IPath t = new Path(temp.getAbsolutePath());
+
+			SectionXML root = new SectionXML(section);
+
+			writeXml(root, t);
+
+			// create JAXB context and instantiate marshaller
+			JAXBContext context = JAXBContext.newInstance(SectionXML.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+			// Write to System.out
+			// m.marshal(root, System.out);
+
+			// Write to File
+			m.marshal(root,
+					t.append(SectionXML.filename).addFileExtension("xml")
+							.toFile());
+
+			if (zipName == null || zipName.isEmpty())
+				zipName = zipFolder
+						.append(((BookConnection) db).getWindowTitle() + " ("
+								+ section.getTitle() + ")")
+						.addFileExtension("zip").toString();
+
+			ZipHelper.zip(t.toString(), zipName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new InvocationTargetException(e,
+					Strings.get("error.saveToFile") + ":\n" + zipName + "");
+		}
+	}
+
+	private void readXML(SectionXML element, ITreeItemInfo parent, IPath p)
+			throws InvocationTargetException {
+
+		SectionInfo root = (SectionInfo) SectionInfo.fromXML(element);
+		add(root, parent, true);
+		if (!root.isGroup())
+			saveText(root, element.text);
+
+		for (ImageXML image : element.images) {
+			IPath image_path = p.append(ImageXML.filename + image.id)
+					.addFileExtension("png");
+			if (!image_path.toFile().exists())
+				continue;
+			add_image(root, image_path, image.title);
+			// SectionImage img = new SectionImage();
+			// img.id = image.id;
+			// save_image_title(root, img, image.title);
+		}
+
+		for (SectionXML child : element.children) {
+
+			readXML(child, root, p);
+		}
+
+	}
+
+	public void upload(String path, SectionInfo section)
+			throws InvocationTargetException {
+
+		try {
+			File temp = File.createTempFile("upload", "");
+			temp.delete();
+			temp.mkdir();
+			IPath t = new Path(temp.getAbsolutePath());
+
+			ZipHelper.unzip(path, t.toString());
+
+			JAXBContext context = JAXBContext.newInstance(SectionXML.class);
+
+			InputStream inputStream = new FileInputStream(t
+					.append(SectionXML.filename).addFileExtension("xml")
+					.toString());
+			Reader reader = new InputStreamReader(inputStream, "UTF-8");
+
+			Unmarshaller um = context.createUnmarshaller();
+			// um.setProperty(Unmarshaller.JAXB_ENCODING, "UTF-8");
+			SectionXML root = (SectionXML) um.unmarshal(reader);
+
+			if (section.isGroup())
+				readXML(root, section, t);
+			else
+				readXML(root, get(section.getParent()), t);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new InvocationTargetException(e,
+					Strings.get("error.loadFromFile"));
+		}
+
 	}
 }

@@ -37,7 +37,7 @@ public class UserInfo extends TreeItemInfo {
 	@Override
 	public Image getListImage() {
 		if (getParent() == ITreeService.rootId && isGroup())
-			return Utils.getImage("list\\group.png");
+			return Utils.getImage("lock.png");
 		else
 			return null;
 	}

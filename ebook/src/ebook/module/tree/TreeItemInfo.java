@@ -33,6 +33,17 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 	private boolean isGroup;
 	private Integer id;
 	private int parent;
+	private int sort;
+
+	@Override
+	public int getSort() {
+		return sort;
+	}
+
+	@Override
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
 
 	@Override
 	public Integer getId() {

@@ -7,6 +7,7 @@ import org.picocontainer.MutablePicoContainer;
 import ebook.auth.SignIn;
 import ebook.core.models.ManagerFactory;
 import ebook.core.models.ServiceFactory;
+import ebook.module.book.BookClipboard;
 import ebook.module.confLoad.LoaderManager;
 import ebook.module.confLoad.services.CfServices;
 import ebook.module.confLoad.services.TextParser;
@@ -47,6 +48,8 @@ public final class pico {
 		instance.as(Characteristics.CACHE).addComponent(ManagerFactory.class);
 
 		instance.as(Characteristics.CACHE).addComponent(ebook.web.Jetty.class);
+
+		instance.as(Characteristics.CACHE).addComponent(BookClipboard.class);
 
 		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
 		// instance.as(Characteristics.CACHE).addComponent(BookService.class);

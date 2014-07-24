@@ -298,7 +298,7 @@ public class SectionTextView {
 				ImageHyperlink hlink;
 
 				hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
-				hlink.setImage(Utils.getImage("add_text.png"));
+				hlink.setImage(Utils.getImage("add.png"));
 				hlink.setText("Добавить картинку");
 				hlink.setUnderlined(false);
 				hlink.addHyperlinkListener(new HyperlinkAdapter() {
@@ -433,7 +433,7 @@ public class SectionTextView {
 							SectionImage image = (SectionImage) e.getHref();
 
 							IPath p = Utils.browseFile(book.getPath(), shell,
-									Strings.get("appTitle"), "*.bmp; *.png");
+									Strings.get("appTitle"), "*.png");
 							if (p == null)
 								return;
 

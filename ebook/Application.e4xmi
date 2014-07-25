@@ -130,11 +130,13 @@
         <children xsi:type="menu:MenuSeparator" xmi:id="_RIfvYKhWEeOKceOp7VW7lQ" elementId="ebook.menuseparator.1" visible="false"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_qCxREKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.12" visible="false" label="&amp;Сохранить" iconURI="platform:/plugin/ebook/icons/save.png" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_spYuAKhVEeOKceOp7VW7lQ" elementId="ebook.handledmenuitem.13" visible="false" label="Сохранить как" command="_mvAaQKhVEeOKceOp7VW7lQ"/>
+        <children xsi:type="menu:DirectMenuItem" xmi:id="_NKAvgBPhEeSWDO1tElAp0w" elementId="ebook.directmenuitem.7" label="Проверить обновления" contributionURI="bundleclass://ebook/ebook.handlers.UpdateProject"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_USHywKhWEeOKceOp7VW7lQ" elementId="ebook.menuseparator.2" visible="false"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_VRMTcJlKEeOhhK_cqm6rMQ" elementId="ebook.handledmenuitem.0" label="&amp;Выход" iconURI="platform:/plugin/ebook/icons/set/exit.png" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
       </children>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="ebook.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="ebook.handledmenuitem.9" label="&amp;Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_4fW2oBPmEeSWDO1tElAp0w" elementId="ebook.directmenuitem.8" label="тест" contributionURI="bundleclass://ebook/ebook.handlers.Test"/>
     </mainMenu>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="ebook.trimbar.0" side="Bottom">
       <children xsi:type="menu:ToolBar" xmi:id="_yzl20JlJEeOhhK_cqm6rMQ" elementId="ebook.statusbar">

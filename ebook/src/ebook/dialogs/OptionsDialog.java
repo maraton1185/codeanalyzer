@@ -3,6 +3,7 @@ package ebook.dialogs;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.FontFieldEditor;
@@ -88,28 +89,30 @@ public class OptionsDialog {
 		@Override
 		protected void createFieldEditors() {
 
+			FieldEditor f;
 			Composite comp;
 			Group group;
 			comp = getFieldEditorParent();
 
-			BooleanFieldEditor f11 = new BooleanFieldEditor(
-					PreferenceSupplier.MINIMIZE_TO_TRAY, "Сворачивать в трей",
-					comp);
-			addField(f11);
+			f = new BooleanFieldEditor(PreferenceSupplier.MINIMIZE_TO_TRAY,
+					"Сворачивать в трей", comp);
+			addField(f);
 
-			BooleanFieldEditor f4 = new BooleanFieldEditor(
-					PreferenceSupplier.INIT_EXECUTION,
+			f = new BooleanFieldEditor(PreferenceSupplier.INIT_EXECUTION,
 					"Подключать конфигурации при запуске", comp);
-			addField(f4);
+			addField(f);
 
 			// comp = new Composite(group, SWT.NULL);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			BooleanFieldEditor f12 = new BooleanFieldEditor(
+			f = new BooleanFieldEditor(
 					PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP,
 					"Минимизировать при запуске", comp);
-			addField(f12);
+			addField(f);
 
+			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
+					"Адрес сайта обновления", comp);
+			addField(f);
 			// BooleanFieldEditor f5 = new BooleanFieldEditor(
 			// PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
 			// "Открывать список книг при запуске", comp);
@@ -125,38 +128,34 @@ public class OptionsDialog {
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			StringFieldEditor f18 = new StringFieldEditor(
-					PreferenceSupplier.APP_BRAND, "Заголовок списка книг", comp);
-			addField(f18);
+			f = new StringFieldEditor(PreferenceSupplier.APP_BRAND,
+					"Заголовок списка книг", comp);
+			addField(f);
 
-			IntegerFieldEditor f15 = new IntegerFieldEditor(
-					PreferenceSupplier.IMAGE_WIDTH,
+			f = new IntegerFieldEditor(PreferenceSupplier.IMAGE_WIDTH,
 					"Ширина картинок (в пикселах)", comp);
-			addField(f15);
+			addField(f);
 
-			IntegerFieldEditor f19 = new IntegerFieldEditor(
-					PreferenceSupplier.SESSION_TIMEOUT,
+			f = new IntegerFieldEditor(PreferenceSupplier.SESSION_TIMEOUT,
 					"Таймаут сессии (в минутах)", comp);
-			addField(f19);
+			addField(f);
 
-			BooleanFieldEditor f14 = new BooleanFieldEditor(
-					PreferenceSupplier.START_JETTY, "Запускать web-сервер",
-					comp);
-			addField(f14);
+			f = new BooleanFieldEditor(PreferenceSupplier.START_JETTY,
+					"Запускать web-сервер", comp);
+			addField(f);
 
-			IntegerFieldEditor f13 = new IntegerFieldEditor(
-					PreferenceSupplier.REMOTE_PORT, "Порт web-сервера", comp);
-			addField(f13);
+			f = new IntegerFieldEditor(PreferenceSupplier.REMOTE_PORT,
+					"Порт web-сервера", comp);
+			addField(f);
 
-			BooleanFieldEditor f17 = new BooleanFieldEditor(
-					PreferenceSupplier.EXTERNAL_JETTY_BASE,
+			f = new BooleanFieldEditor(PreferenceSupplier.EXTERNAL_JETTY_BASE,
 					"Внешний каталог web-сервера", comp);
-			addField(f17);
+			addField(f);
 
-			DirectoryFieldEditor f16 = new DirectoryFieldEditor(
-					PreferenceSupplier.JETTY_BASE, "Каталог web-сервера", comp);
-			f16.setChangeButtonText("...");
-			addField(f16);
+			f = new DirectoryFieldEditor(PreferenceSupplier.JETTY_BASE,
+					"Каталог web-сервера", comp);
+			((DirectoryFieldEditor) f).setChangeButtonText("...");
+			addField(f);
 
 			// comp = new Composite(group, SWT.NULL);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -175,20 +174,20 @@ public class OptionsDialog {
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			DirectoryFieldEditor f2 = new DirectoryFieldEditor(
+			f = new DirectoryFieldEditor(
 					PreferenceSupplier.DEFAULT_CONF_DIRECTORY,
 					"Для конфигураций:", comp);
-			f2.setChangeButtonText("...");
-			addField(f2);
+			((DirectoryFieldEditor) f).setChangeButtonText("...");
+			addField(f);
 
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			DirectoryFieldEditor f3 = new DirectoryFieldEditor(
+			f = new DirectoryFieldEditor(
 					PreferenceSupplier.DEFAULT_BOOK_DIRECTORY, "Для книг:",
 					comp);
-			f3.setChangeButtonText("...");
-			addField(f3);
+			((DirectoryFieldEditor) f).setChangeButtonText("...");
+			addField(f);
 
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
@@ -203,30 +202,28 @@ public class OptionsDialog {
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			BooleanFieldEditor f7 = new BooleanFieldEditor(
-					PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
+			f = new BooleanFieldEditor(PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
 					"Открывать книгу при запуске", comp);
-			addField(f7);
+			addField(f);
 
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			FileFieldEditor f8 = new FileFieldEditor(
-					PreferenceSupplier.BOOK_ON_STARTUP, "Книга:", comp);
-			f8.setChangeButtonText("...");
-			addField(f8);
+			f = new FileFieldEditor(PreferenceSupplier.BOOK_ON_STARTUP,
+					"Книга:", comp);
+			((FileFieldEditor) f).setChangeButtonText("...");
+			addField(f);
 
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayout(new GridLayout(2, false));
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			FontFieldEditor f9 = new FontFieldEditor(PreferenceSupplier.FONT,
-					"Шрифт:", comp);
-			f9.setChangeButtonText("...");
-			addField(f9);
+			f = new FontFieldEditor(PreferenceSupplier.FONT, "Шрифт:", comp);
+			((FontFieldEditor) f).setChangeButtonText("...");
+			addField(f);
 
-			comp = new Composite(group, SWT.NULL);
-			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 			// comp.setLayout(new GridLayout(2, false));
 
 			// BooleanFieldEditor f10 = new BooleanFieldEditor(

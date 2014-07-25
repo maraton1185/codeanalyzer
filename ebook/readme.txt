@@ -27,3 +27,8 @@ install sublime package control https://sublime.wbond.net/installation#st2
 install package CoffeeScript, CoffeeScript build system in sublime
 in terminal:
 coffee -wc test.coffee
+
+jetty start error 
+Issues during startup	
+Check the log file in the workspace folder of your exported application to see the error messages during startup. 
+Alternatively add the "-consoleLog" parameter to the ".ini" file in folder of the exported application.

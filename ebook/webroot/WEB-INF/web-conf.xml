@@ -176,7 +176,7 @@
     
     <error-page>  
 		<error-code>400</error-code>
-        <location>/tmpl/errors/error.jsp</location>
-    </error-page>
+        <location>/tmpl/errors/400.jsp</location>
+    </error-page> 
     
 </web-app> 

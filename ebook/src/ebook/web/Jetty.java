@@ -147,8 +147,9 @@ public class Jetty implements IJetty {
 			context.setResourceBase(baseUri.toASCIIString());
 			// context.setAttribute(InstanceManager.class.getName(),
 			// new SimpleInstanceManager());
-			if (!EXTERNAL_JETTY_BASE)
-				context.setDefaultsDescriptor(WEBROOT_INDEX + "WEB-INF/web.xml");
+			// if (!EXTERNAL_JETTY_BASE)
+			context.setDefaultsDescriptor(WEBROOT_INDEX
+					+ "WEB-INF/web-conf.xml");
 			// context.setServer(server);
 
 			// ResourceHandler resource_handler = new ResourceHandler();

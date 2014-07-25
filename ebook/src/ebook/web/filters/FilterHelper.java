@@ -81,18 +81,26 @@ public class FilterHelper {
 		String section_id = request.getParameter("id");
 		if (section_id == null) {
 
-			BookConnection book = App.srv.bl().getBook(book_id.toString());
-			if (book == null) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
-				return null;
-			}
+			try {
 
-			List<ITreeItemInfo> input = book.srv().getRoot();
-			if (input.isEmpty()) {
+				BookConnection book = App.srv.bl().getBook(book_id.toString());
+				if (book == null) {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+					return null;
+				}
+
+				List<ITreeItemInfo> input = book.srv().getRoot();
+				if (input.isEmpty()) {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+					return null;
+				}
+				section_id = input.get(0).getId().toString();
+
+			} catch (Exception e) {
+				e.printStackTrace();
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return null;
 			}
-			section_id = input.get(0).getId().toString();
 		}
 
 		// parse section id

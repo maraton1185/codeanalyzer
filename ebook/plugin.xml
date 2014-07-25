@@ -20,6 +20,10 @@
                name="lifeCycleURI"
                value="bundleclass://ebook/ebook.core.App">
          </property>
+         <property
+               name="windowImages"
+               value="icons/set/favicon.png">
+         </property>
       </product>
    </extension>
    <extension

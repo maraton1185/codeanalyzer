@@ -3,28 +3,40 @@
 
 <product name="ebook" id="ebook.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
-      <programArgs>-clearPersistedState -clear</programArgs>
+      <programArgs>-clearPersistedState 
+-clear
+-consoleLog</programArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/ebook/icons/set/favicon.png"/>
 
    <splash
       location="ebook" />
    <launcher name="ebook">
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/ebook/icons/favicon/favicon16-32.bmp"
+            winSmallLow="/ebook/icons/favicon/favicon16-8.bmp"
+            winMediumHigh="/ebook/icons/favicon/favicon32-32.bmp"
+            winMediumLow="/ebook/icons/favicon/favicon32-8.bmp"
+            winLargeHigh="/ebook/icons/favicon/favicon48-32.bmp"
+            winLargeLow="/ebook/icons/favicon/favicon48-8.bmp"
+            winExtraLargeHigh="/ebook/icons/favicon/favicon256-32.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
    </vm>
+
 
    <plugins>
       <plugin id="ch.qos.logback.classic"/>

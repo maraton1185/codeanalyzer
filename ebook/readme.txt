@@ -32,3 +32,5 @@ jetty start error
 Issues during startup	
 Check the log file in the workspace folder of your exported application to see the error messages during startup. 
 Alternatively add the "-consoleLog" parameter to the ".ini" file in folder of the exported application.
+
+http://mahichir.wordpress.com/2012/08/07/eclipse-rcp-and-p2-headless-update-on-startup/

@@ -17,7 +17,9 @@ public class Const {
 	// MUST хост
 	private static final String host = "http://www.ebook.ru";
 	// private static final String host = "http://localhost:4921";
-	public static final String UPDATE_SITE = "file://d:/Marat/java/temp/update_site/";
+	// public static final String UPDATE_SITE =
+	// "file://d:/Marat/java/temp/update_site/";
+	public static final String UPDATE_SITE = "file:/d:/java/temp/update_site/";
 
 	public static final String URL_exportConf1CLinkOpen = host + "/download";
 	public static final String URL_registrationLinkOpen = host + "/profile";

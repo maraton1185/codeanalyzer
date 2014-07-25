@@ -1,4 +1,4 @@
-package ebook.handlers;
+package updatesite;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.statushandlers.StatusManager;
 
 import ebook.core.Activator;
-import ebook.utils.P2Util;
 
 /**
  * A Basic Update Job.

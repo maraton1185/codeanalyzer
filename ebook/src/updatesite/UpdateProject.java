@@ -1,4 +1,4 @@
-package ebook.handlers;
+package updatesite;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.di.UISynchronize;
@@ -10,7 +10,6 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 import ebook.core.Activator;
-import ebook.utils.P2Util;
 import ebook.utils.PreferenceSupplier;
 
 public class UpdateProject {

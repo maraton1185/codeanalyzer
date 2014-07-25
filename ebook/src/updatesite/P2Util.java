@@ -1,4 +1,4 @@
-package ebook.utils;
+package updatesite;
 
 import java.net.URI;
 

@@ -37,9 +37,10 @@ public class BrowserComposite extends Composite {
 
 		browser = new Browser(this, SWT.Resize | SWT.MOZILLA);
 		browser.setJavascriptEnabled(true);
-
 		this.url = url;
-		updateUrl("");
+		browser.setUrl(url);
+
+		// updateUrl("");
 
 	}
 

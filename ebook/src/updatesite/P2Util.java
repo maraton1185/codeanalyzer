@@ -55,8 +55,8 @@ public class P2Util {
 			IProgressMonitor monitor) throws OperationCanceledException {
 		ProvisioningSession session = new ProvisioningSession(agent);
 		UpdateOperation operation = new UpdateOperation(session);
-		SubMonitor sub = SubMonitor.convert(monitor, "Installing updates ...",
-				200);
+		SubMonitor sub = SubMonitor.convert(monitor,
+				"Установка обновления ...", 200);
 		operation.resolveModal(sub.newChild(100));
 		ProvisioningJob job = operation.getProvisioningJob(monitor);
 		return job.runModal(sub.newChild(100));

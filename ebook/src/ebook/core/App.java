@@ -19,8 +19,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.e4.ui.model.application.ui.menu.MDirectToolItem;
-import org.eclipse.e4.ui.model.application.ui.menu.MHandledToolItem;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
@@ -28,6 +26,7 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ShellAdapter;
@@ -41,10 +40,20 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import ebook.auth.interfaces.IAuthorize;
+import updatesite.P2Util;
+import updatesite.UpdateCheckJob;
+import ebook.core.GlobalEvents.EVENT_START_JETTY;
+import ebook.core.GlobalEvents.EVENT_STOP_JETTY;
+import ebook.core.GlobalEvents.EVENT_UPDATE_PERSPECTIVE_ICON;
+import ebook.core.GlobalEvents.EVENT_UPDATE_STATUS;
+import ebook.core.GlobalEvents.RESTART_WORKBENCH;
+import ebook.core.GlobalEvents.SHOW_UPDATE_AVAILABLE;
 import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IBookClipboard;
 import ebook.core.interfaces.IDbConnection;
@@ -129,6 +138,7 @@ public class App {
 	public static MApplication app;
 	public static EPartService ps;
 	public static ESelectionService ss;
+	public static IProvisioningAgent agent;
 
 	public static IServiceFactory srv = pico.get(IServiceFactory.class);
 	public static IManagerFactory mng = pico.get(IManagerFactory.class);
@@ -148,8 +158,6 @@ public class App {
 		App.sync = sync;
 		App.model = modelService;
 		App.ps = ps;
-		// App.hs = hs;
-		// App.cs = cs;
 		App.app = application;
 
 		MTrimmedWindow window = (MTrimmedWindow) modelService.find(
@@ -165,6 +173,12 @@ public class App {
 
 		br.subscribe(Events.EVENT_UPDATE_PERSPECTIVE_ICON,
 				new EVENT_UPDATE_PERSPECTIVE_ICON());
+
+		br.subscribe(Events.RESTART_WORKBENCH, new RESTART_WORKBENCH());
+
+		br.subscribe(Events.SHOW_UPDATE_AVAILABLE, new SHOW_UPDATE_AVAILABLE());
+
+		// br.subscribe(Events.INSTALL_UPDATE, new INSTALL_UPDATE());
 
 		dbInit(window);
 
@@ -225,6 +239,40 @@ public class App {
 			openBookOnStartup();
 
 			trayOptions();
+
+			checkUpdates();
+
+			showAboutOnStartup();
+		}
+
+		private void perspectiveActions() {
+
+			currentPerspective = Perspectives.get(PreferenceSupplier
+					.get(PreferenceSupplier.START_PERSPECTIVE));
+
+			showPerspective(currentPerspective,
+					ListParts.get(PreferenceSupplier
+							.get(PreferenceSupplier.SELECTED_LIST)));
+
+		}
+
+		private void openBookOnStartup() {
+
+			if (!PreferenceSupplier
+					.getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
+				return;
+
+			IPath p = new Path(
+					PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
+			if (p.isEmpty())
+				return;
+
+			jetty.setOpenBookOnStratUp();
+
+			// App.mng.blm().open(p, (Shell) window.getWidget());
+			//
+			// App.br.post(Events.EVENT_SHOW_BOOK, null);
+
 		}
 
 		private void trayOptions() {
@@ -312,22 +360,36 @@ public class App {
 
 		}
 
-		private void openBookOnStartup() {
+		private void checkUpdates() {
 
+			BundleContext bundleContext = FrameworkUtil.getBundle(
+					Activator.class).getBundleContext();
+			ServiceReference<IProvisioningAgent> serviceReference = bundleContext
+					.getServiceReference(IProvisioningAgent.class);
+			agent = bundleContext.getService(serviceReference);
+			if (agent == null) {
+				System.out.println(">> no agent loaded!");
+				return;
+			}
+			// Adding the repositories to explore
+			if (!P2Util.addRepository(agent,
+					PreferenceSupplier.get(PreferenceSupplier.UPDATE_SITE))) {
+				System.out.println(">> could no add repostory!");
+				agent = null;
+				return;
+			}
+			// scheduling job for updates
+			UpdateCheckJob job = new UpdateCheckJob();
+			job.schedule();
+
+		}
+
+		private void showAboutOnStartup() {
 			if (!PreferenceSupplier
-					.getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
+					.getBoolean(PreferenceSupplier.SHOW_ABOUT_ON_STARTUP))
 				return;
 
-			IPath p = new Path(
-					PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
-			if (p.isEmpty())
-				return;
-
-			jetty.setOpenBookOnStratUp();
-
-			// App.mng.blm().open(p, (Shell) window.getWidget());
-			//
-			// App.br.post(Events.EVENT_SHOW_BOOK, null);
+			App.br.post(Events.SHOW_ABOUT, null);
 
 		}
 
@@ -335,153 +397,6 @@ public class App {
 			this.window = window;
 		}
 
-	}
-
-	// UPADTE PERSPECTIVE ICON
-
-	private static class EVENT_UPDATE_PERSPECTIVE_ICON implements EventHandler {
-
-		@Override
-		public void handleEvent(Event event) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-
-					App.sync.asyncExec(new Runnable() {
-						@Override
-						public void run() {
-
-							MDirectToolItem data = (MDirectToolItem) model
-									.find(Strings
-											.get("ebook.directtoolitem.data"),
-											app);
-							MDirectToolItem panel = (MDirectToolItem) model
-									.find(Strings
-											.get("ebook.directtoolitem.panel"),
-											app);
-
-							switch (currentPerspective) {
-							case lists:
-								data.setSelected(true);
-								panel.setSelected(false);
-								break;
-							case main:
-								data.setSelected(false);
-								panel.setSelected(true);
-								break;
-
-							}
-
-						}
-					});
-				}
-			}).start();
-		}
-	}
-
-	// UPADTE STATUS
-
-	private static class EVENT_UPDATE_STATUS implements EventHandler {
-
-		@Override
-		public void handleEvent(Event event) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					final String status = pico.get(IAuthorize.class).getInfo()
-							.ShortMessage();
-					App.sync.asyncExec(new Runnable() {
-						@Override
-						public void run() {
-
-							// MHandledToolItem element;
-							MHandledToolItem h_element = (MHandledToolItem) App.model
-									.find(Strings.get("model_id_activate"),
-											App.app);
-							h_element.setLabel(status);
-							h_element.setVisible(true);
-
-							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
-									Strings.get("ebook.directtoolitem.1"),
-									App.app);
-							d_element.setLabel(jetty.jettyMessage());
-							d_element.setVisible(true);
-
-						}
-					});
-				}
-			}).start();
-		}
-	}
-
-	// START JETTY
-
-	private static class EVENT_START_JETTY implements EventHandler {
-
-		@Override
-		public void handleEvent(Event event) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-
-					jetty.start();
-
-					jetty.openBookOnStratUp();
-
-					App.sync.asyncExec(new Runnable() {
-						@Override
-						public void run() {
-
-							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
-									Strings.get("ebook.directtoolitem.1"),
-									App.app);
-							d_element.setLabel(jetty.jettyMessage());
-							d_element.setVisible(false);
-							d_element.setVisible(true);
-
-							// MToolBar tb = (MToolBar) App.model.find(
-							// Strings.get("ebook.toolbar.top"), App.app);
-							// ToolBar tbw = (ToolBar) tb.getWidget();
-							// tbw.layout(true);
-							// ((ToolBar));
-						}
-					});
-				}
-			}).start();
-		}
-	}
-
-	private static class EVENT_STOP_JETTY implements EventHandler {
-
-		@Override
-		public void handleEvent(Event event) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-
-					jetty.stop();
-
-					App.sync.asyncExec(new Runnable() {
-						@Override
-						public void run() {
-
-							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
-									Strings.get("ebook.directtoolitem.1"),
-									App.app);
-							d_element.setLabel(jetty.jettyMessage());
-							d_element.setVisible(false);
-							d_element.setVisible(true);
-
-							// MToolBar tb = (MToolBar) App.model.find(
-							// Strings.get("ebook.toolbar.top"), App.app);
-							// ToolBar tbw = (ToolBar) tb.getWidget();
-							// tbw.layout(true);
-							// ((ToolBar));
-						}
-					});
-				}
-			}).start();
-		}
 	}
 
 	// WINDOWS CLOSING
@@ -592,23 +507,13 @@ public class App {
 	// PERSPECTIVES
 	// ******************************************************************
 
-	public static void perspectiveActions() {
-
-		currentPerspective = Perspectives.get(PreferenceSupplier
-				.get(PreferenceSupplier.START_PERSPECTIVE));
-
-		showPerspective(currentPerspective, ListParts.get(PreferenceSupplier
-				.get(PreferenceSupplier.SELECTED_LIST)));
-
-	}
-
-	public static void togglePerspective() {
-		if (currentPerspective == Perspectives.lists)
-			currentPerspective = Perspectives.main;
-		else
-			currentPerspective = Perspectives.lists;
-		showPerspective(currentPerspective, ListParts.current);
-	}
+	// public static void togglePerspective() {
+	// if (currentPerspective == Perspectives.lists)
+	// currentPerspective = Perspectives.main;
+	// else
+	// currentPerspective = Perspectives.lists;
+	// showPerspective(currentPerspective, ListParts.current);
+	// }
 
 	public static void showPerspective(Perspectives perspType,
 			ListParts partType) {
@@ -633,4 +538,5 @@ public class App {
 	public static IJetty getJetty() {
 		return jetty;
 	}
+
 }

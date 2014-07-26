@@ -98,8 +98,9 @@ public class OptionsDialog {
 					"Сворачивать в трей", comp);
 			addField(f);
 
-			f = new BooleanFieldEditor(PreferenceSupplier.INIT_EXECUTION,
-					"Подключать конфигурации при запуске", comp);
+			f = new BooleanFieldEditor(
+					PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
+					"Показывать \"О программе\" при запуске", comp);
 			addField(f);
 
 			// comp = new Composite(group, SWT.NULL);

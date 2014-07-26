@@ -142,8 +142,8 @@ public class StartView {
 		layout.maxNumColumns = 3;
 		form.getBody().setLayout(layout);
 
-		form.setText(Strings.get("appTitle"));
-		toolkit.decorateFormHeading(form.getForm());
+		// form.setText(Strings.get("appTitle"));
+		// toolkit.decorateFormHeading(form.getForm());
 
 		mainLinks(hService, comService);
 

@@ -52,12 +52,16 @@ public abstract class PreferenceSupplier {
 	public static final String APP_BRAND = "APP_BRAND";
 	public static final String SESSION_TIMEOUT = "SESSION_TIMEOUT";
 	public static final String UPDATE_SITE = "UPDATE_SITE";
+	public static final String SHOW_ABOUT_ON_STARTUP = "SHOW_ABOUT_ON_STARTUP";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
+				true);
 
 		preferenceStore.setDefault(PreferenceSupplier.SESSION_TIMEOUT, 60);
 

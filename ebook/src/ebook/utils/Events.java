@@ -61,6 +61,14 @@ public abstract class Events {
 
 	public static final String EVENT_HIDE_BOOK_ROLES = "EVENT_HIDE_BOOK_ROLES";
 
+	public static final String RESTART_WORKBENCH = "RESTART_WORKBENCH";
+
+	// public static final String INSTALL_UPDATE = "INSTALL_UPDATE";
+
+	public static final String SHOW_UPDATE_AVAILABLE = "SHOW_UPDATE_AVAILABLE";
+
+	public static final String SHOW_ABOUT = "SHOW_ABOUT";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,

@@ -1,5 +1,6 @@
 package updatesite;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -39,7 +40,7 @@ public class P2Util {
 		ProvisioningSession session = new ProvisioningSession(agent);
 		UpdateOperation operation = new UpdateOperation(session);
 		SubMonitor sub = SubMonitor.convert(monitor,
-				"Checking for application updates...", 200);
+				"Проверка наличия обновлений...", 200);
 		return operation.resolveModal(sub.newChild(100));
 	}
 
@@ -50,15 +51,20 @@ public class P2Util {
 	 * @param monitor
 	 * @return
 	 * @throws OperationCanceledException
+	 * @throws InvocationTargetException
 	 */
 	public static IStatus installUpdates(IProvisioningAgent agent,
-			IProgressMonitor monitor) throws OperationCanceledException {
+			IProgressMonitor monitor) throws OperationCanceledException,
+			InvocationTargetException {
 		ProvisioningSession session = new ProvisioningSession(agent);
 		UpdateOperation operation = new UpdateOperation(session);
 		SubMonitor sub = SubMonitor.convert(monitor,
 				"Установка обновления ...", 200);
 		operation.resolveModal(sub.newChild(100));
 		ProvisioningJob job = operation.getProvisioningJob(monitor);
+		if (job == null)
+			throw new InvocationTargetException(null,
+					"ProvisioningJob == null (may be install update under IDE)");
 		return job.runModal(sub.newChild(100));
 	}
 

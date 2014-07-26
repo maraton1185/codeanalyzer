@@ -30,7 +30,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -587,98 +586,98 @@ public class StartView {
 
 	}
 
-	private void booksListCommands(final EHandlerService hService,
-			final ECommandService comService) {
+	// private void booksListCommands(final EHandlerService hService,
+	// final ECommandService comService) {
+	//
+	// ImageHyperlink link;
+	// GridData gd;
+	// Hyperlink _link;
+	//
+	// Composite comp = toolkit.createComposite(bookSectionClient);
+	// comp.setLayout(new RowLayout());
+	// gd = new GridData(GridData.FILL_BOTH);
+	// gd.horizontalAlignment = SWT.RIGHT;
+	// comp.setLayoutData(gd);
+	//
+	// _link = toolkit.createHyperlink(comp, "Настроить", SWT.WRAP);
+	// _link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// // App.showPerspective(Perspectives.lists);
+	// }
+	//
+	// });
+	//
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("update.png"));
+	// link.setToolTipText("Обновить список");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// Utils.executeHandler(hService, comService,
+	// Strings.get("command.id.BookListUpdate"));
+	// // super.linkActivated(e);
+	// }
+	//
+	// });
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("add.png"));
+	// link.setToolTipText("Создать книгу");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// Utils.executeHandler(hService, comService,
+	// Strings.get("command.id.AddBook"));
+	// // super.linkActivated(e);
+	// }
+	//
+	// });
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("add_section.png"));
+	// link.setToolTipText("Добавить раздел");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// Utils.executeHandler(hService, comService,
+	// Strings.get("command.id.AddBooksGroup"));
+	// }
+	//
+	// });
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("add_sub_section.png"));
+	// link.setToolTipText("Добавить подраздел");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// Utils.executeHandler(hService, comService,
+	// Strings.get("command.id.AddBooksSubGroup"));
+	// }
+	//
+	// });
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("edit.png"));
+	// link.setToolTipText("Изменить заголовок");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// Utils.executeHandler(hService, comService,
+	// Strings.get("command.id.BookEditTitle"));
+	// }
+	//
+	// });
+	// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
+	// link.setImage(Utils.getImage("delete.png"));
+	// link.setToolTipText("Удалить раздел");
+	// link.addHyperlinkListener(new HyperlinkAdapter() {
+	// @Override
+	// public void linkActivated(HyperlinkEvent e) {
+	// Utils.executeHandler(hService, comService,
+	// Strings.get("command.id.BookDelete"));
+	// }
+	//
+	// });
 
-		ImageHyperlink link;
-		GridData gd;
-		Hyperlink _link;
-
-		Composite comp = toolkit.createComposite(bookSectionClient);
-		comp.setLayout(new RowLayout());
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.horizontalAlignment = SWT.RIGHT;
-		comp.setLayoutData(gd);
-
-		_link = toolkit.createHyperlink(comp, "Настроить", SWT.WRAP);
-		_link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				// App.showPerspective(Perspectives.lists);
-			}
-
-		});
-
-		link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		link.setImage(Utils.getImage("update.png"));
-		link.setToolTipText("Обновить список");
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				Utils.executeHandler(hService, comService,
-						Strings.get("command.id.BookListUpdate"));
-				// super.linkActivated(e);
-			}
-
-		});
-		// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		// link.setImage(Utils.getImage("add.png"));
-		// link.setToolTipText("Создать книгу");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// Utils.executeHandler(hService, comService,
-		// Strings.get("command.id.AddBook"));
-		// // super.linkActivated(e);
-		// }
-		//
-		// });
-		// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		// link.setImage(Utils.getImage("add_section.png"));
-		// link.setToolTipText("Добавить раздел");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// Utils.executeHandler(hService, comService,
-		// Strings.get("command.id.AddBooksGroup"));
-		// }
-		//
-		// });
-		// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		// link.setImage(Utils.getImage("add_sub_section.png"));
-		// link.setToolTipText("Добавить подраздел");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// Utils.executeHandler(hService, comService,
-		// Strings.get("command.id.AddBooksSubGroup"));
-		// }
-		//
-		// });
-		// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		// link.setImage(Utils.getImage("edit.png"));
-		// link.setToolTipText("Изменить заголовок");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// Utils.executeHandler(hService, comService,
-		// Strings.get("command.id.BookEditTitle"));
-		// }
-		//
-		// });
-		// link = toolkit.createImageHyperlink(comp, SWT.WRAP);
-		// link.setImage(Utils.getImage("delete.png"));
-		// link.setToolTipText("Удалить раздел");
-		// link.addHyperlinkListener(new HyperlinkAdapter() {
-		// @Override
-		// public void linkActivated(HyperlinkEvent e) {
-		// Utils.executeHandler(hService, comService,
-		// Strings.get("command.id.BookDelete"));
-		// }
-		//
-		// });
-
-	}
+	// }
 
 	// public void updateLists() {
 	// confTreeComponent.setInput();

@@ -1,5 +1,6 @@
 package ebook.module.book.tree;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 
@@ -23,7 +24,7 @@ public class SectionImage {
 		return title;
 	}
 
-	public boolean expanded;
+	// public boolean expanded;
 	public int sort;
 
 	public int getSort() {
@@ -31,6 +32,8 @@ public class SectionImage {
 	}
 
 	public String url;
+
+	public String mime;
 
 	public String getUrl() {
 		return App.getJetty().bookImage(book, id);
@@ -58,6 +61,17 @@ public class SectionImage {
 			return ((SectionImage) obj).id.equals(id);
 		else
 			return super.equals(obj);
+	}
+
+	public String getMime() {
+		return mime == null ? "" : mime;
+	}
+
+	public int getFormat() {
+		if (getMime().equalsIgnoreCase("jpeg"))
+			return SWT.IMAGE_JPEG;
+		else
+			return SWT.IMAGE_PNG;
 	}
 
 }

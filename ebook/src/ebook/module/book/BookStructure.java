@@ -44,7 +44,7 @@ public class BookStructure implements IDbStructure {
 
 			stat.execute("CREATE TABLE S_IMAGES (ID INTEGER AUTO_INCREMENT, "
 					+ "SECTION INTEGER, DATA BINARY, "
-					+ "TITLE VARCHAR(500), SORT INTEGER, EXPANDED BOOLEAN, "
+					+ "TITLE VARCHAR(500), SORT INTEGER, MIME VARCHAR(5), "
 					+ "PRIMARY KEY (ID), "
 					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
@@ -96,7 +96,7 @@ public class BookStructure implements IDbStructure {
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "S_TEXT", "TEXT")
 				&& ch.checkColumns(metadata, "S_IMAGES",
-						"DATA, TITLE, SORT, EXPANDED")
+						"DATA, TITLE, SORT, MIME")
 
 		;
 

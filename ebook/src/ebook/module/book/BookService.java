@@ -23,7 +23,6 @@ import javax.xml.bind.Unmarshaller;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
@@ -296,7 +295,7 @@ public class BookService extends TreeService {
 		List<SectionImage> result = new ArrayList<SectionImage>();
 		try {
 			Connection con = db.getConnection();
-			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.EXPANDED, T.ID FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT, T.ID";
+			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.MIME, T.ID FROM S_IMAGES AS T WHERE T.SECTION=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, section);
@@ -310,7 +309,7 @@ public class BookService extends TreeService {
 					InputStream is = rs.getBinaryStream(1);
 					sec.title = rs.getString(2);
 					sec.sort = rs.getInt(3);
-					sec.expanded = rs.getBoolean(4);
+					sec.mime = rs.getString(4);
 					sec.id = rs.getInt(5);
 					sec.book = ((BookConnection) db).getTreeItem().getId();
 
@@ -391,7 +390,7 @@ public class BookService extends TreeService {
 				rs.close();
 			}
 
-			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, EXPANDED, SECTION) VALUES (?,?,?,?,?);";
+			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, MIME, SECTION) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			if (title == null || title.isEmpty()) {
@@ -400,7 +399,7 @@ public class BookService extends TreeService {
 			}
 			prep.setString(1, title);
 			prep.setInt(3, sort);
-			prep.setBoolean(4, true);
+			prep.setString(4, p.getFileExtension());
 			prep.setInt(5, section.getId());
 
 			File f = p.toFile();
@@ -452,14 +451,15 @@ public class BookService extends TreeService {
 			String SQL;
 			PreparedStatement prep;
 
-			SQL = "UPDATE S_IMAGES SET DATA=? WHERE ID=?; ";
+			SQL = "UPDATE S_IMAGES SET DATA=?, MIME=?  WHERE ID=?; ";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setInt(2, image.getId());
+			prep.setInt(3, image.getId());
 
 			File f = p.toFile();
 			FileInputStream fis = new FileInputStream(f);
 			prep.setBinaryStream(1, fis, (int) f.length());
+			prep.setString(2, p.getFileExtension());
 
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -573,7 +573,8 @@ public class BookService extends TreeService {
 			saver.data = new ImageData[] { image.image.getImageData() };
 
 			saver.save(p.append(ImageXML.filename + image.getId())
-					.addFileExtension("png").toString(), SWT.IMAGE_PNG);
+					.addFileExtension(image.getMime()).toString(),
+					image.getId());
 
 		}
 
@@ -648,14 +649,13 @@ public class BookService extends TreeService {
 			saveText(root, element.text);
 
 		for (ImageXML image : element.images) {
+
 			IPath image_path = p.append(ImageXML.filename + image.id)
-					.addFileExtension("png");
+					.addFileExtension(image.mime);
 			if (!image_path.toFile().exists())
 				continue;
 			add_image(root, image_path, image.title);
-			// SectionImage img = new SectionImage();
-			// img.id = image.id;
-			// save_image_title(root, img, image.title);
+
 		}
 
 		for (SectionXML child : element.children) {

@@ -17,10 +17,11 @@ public class ImageXML {
 		this.id = image.getId();
 		// this.sort = image.getSort();
 		this.title = image.getTitle();
+		this.mime = image.getMime();
 	}
 
 	public int id;
-	// public int sort;
+	public String mime;
 	public String title;
 
 }

@@ -1,11 +1,7 @@
 package ebook.core;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -143,34 +139,40 @@ public class Activator implements BundleActivator {
 					// System.out.println(userPrefs.toString());
 					//
 
-					Class<?> loadClass = Activator
-							.getDefault()
-							.getClass()
-							.getClassLoader()
-							.loadClass(
-									"org.eclipse.swt.browser.MozillaDelegate");
-					Method declaredMethod = loadClass
-							.getDeclaredMethod("getProfilePath");
-					declaredMethod.setAccessible(true);
-					String profilePath = (String) declaredMethod.invoke(null);
-					File userPrefs = new File(profilePath + File.separator
-							+ "prefs.js");
-
-					try (PrintWriter out = new PrintWriter(new BufferedWriter(
-							new FileWriter(userPrefs)))) {
-						out.println("user_pref(\"capability.policy.policynames\", \"allowclipboard\");");
-						out.println("user_pref(\"capability.policy.allowclipboard.Clipboard.cutcopy\", \"allAccess\");");
-						out.println("user_pref(\"capability.policy.allowclipboard.Clipboard.paste\", \"allAccess\");");
-						out.println("user_pref(\"capability.policy.allowclipboard.sites\", \"localhost\");");
-
-						// out.println("capability.policy.policynames, allowclipboard");
-						// out.println("capability.policy.allowclipboard.Clipboard.cutcopy,allAccess");
-						// out.println("capability.policy.allowclipboard.Clipboard.paste,allAccess");
-						// out.println("capability.policy.allowclipboard.sites,file://");
-
-					} catch (IOException e) {
-						// exception handling left as an exercise for the reader
-					}
+					// Class<?> loadClass = Activator
+					// .getDefault()
+					// .getClass()
+					// .getClassLoader()
+					// .loadClass(
+					// "org.eclipse.swt.browser.MozillaDelegate");
+					// Method declaredMethod = loadClass
+					// .getDeclaredMethod("getProfilePath");
+					// declaredMethod.setAccessible(true);
+					// String profilePath = (String)
+					// declaredMethod.invoke(null);
+					// File userPrefs = new File(profilePath + File.separator
+					// + "prefs.js");
+					//
+					// try (PrintWriter out = new PrintWriter(new
+					// BufferedWriter(
+					// new FileWriter(userPrefs)))) {
+					// out.println("user_pref(\"capability.policy.policynames\", \"allowclipboard\");");
+					// out.println("user_pref(\"capability.policy.allowclipboard.Clipboard.cutcopy\", \"allAccess\");");
+					// out.println("user_pref(\"capability.policy.allowclipboard.Clipboard.paste\", \"allAccess\");");
+					// out.println("user_pref(\"capability.policy.allowclipboard.sites\", \"localhost\");");
+					//
+					// //
+					// out.println("capability.policy.policynames, allowclipboard");
+					// //
+					// out.println("capability.policy.allowclipboard.Clipboard.cutcopy,allAccess");
+					// //
+					// out.println("capability.policy.allowclipboard.Clipboard.paste,allAccess");
+					// //
+					// out.println("capability.policy.allowclipboard.sites,file://");
+					//
+					// } catch (IOException e) {
+					// // exception handling left as an exercise for the reader
+					// }
 
 				} catch (IOException e) {
 					e.printStackTrace();

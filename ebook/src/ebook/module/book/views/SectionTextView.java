@@ -358,7 +358,7 @@ public class SectionTextView {
 						Composite sectionClient) {
 
 					group.setText(sectionImage.title);
-					group.setExpanded(sectionImage.expanded);
+					group.setExpanded(true);
 
 					ImageHyperlink hlink = toolkit.createImageHyperlink(
 							sectionClient, SWT.WRAP);
@@ -371,14 +371,16 @@ public class SectionTextView {
 						public void linkActivated(HyperlinkEvent e) {
 
 							try {
-								File temp = File.createTempFile("temp", ".png");
+								File temp = File.createTempFile("temp", "."
+										+ sectionImage.getMime());
 								Image image = sectionImage.image;
 
 								ImageLoader saver = new ImageLoader();
 								saver.data = new ImageData[] { image
 										.getImageData() };
+
 								saver.save(temp.getAbsolutePath(),
-										SWT.IMAGE_PNG);
+										sectionImage.getFormat());
 
 								Desktop.getDesktop().open(temp);
 							} catch (IOException e1) {

@@ -1,4 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
@@ -6,16 +7,11 @@
 <title>StyledEditor</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
-<script type="text/javascript" src="js/tinymce/tinymce.min.js"></script>
-<!-- <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script> -->
-<script type="text/javascript">
-	
-	function getHeight() {
-        return document.getElementById('content').offsetHeight;
-    };
+<script type="text/javascript" src="${initParam.root_editor}js/tinymce/tinymce.min.js"></script>
 
-</script>
-<script>
+
+
+<!--script>
 tinymce.init({
 	language : 'ru',
     selector: "textarea",
@@ -72,7 +68,7 @@ tinymce.init({
 	});
 	
 });*/
-</script>
+</script-->
 
 </head>
 <body>
@@ -81,6 +77,8 @@ tinymce.init({
 	<!-- <div id="set">
 	set content
 	</div> -->
+    <script src="${initParam.bootstrap}jquery-1.11.1.min.js"></script>
+    <script src="${initParam.root_editor}editor.js"></script>
 </body>
 </html>
 

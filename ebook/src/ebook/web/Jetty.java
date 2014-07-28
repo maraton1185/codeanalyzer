@@ -373,7 +373,7 @@ public class Jetty implements IJetty {
 	@Override
 	public String editor() {
 		// TODO Auto-generated method stub
-		return host() + "tmpl/tinyMCE/index.jsp";
+		return host() + "editor";
 	}
 
 	@Override

@@ -30,6 +30,14 @@ $ ->
 		#console.log img, src
 		return
 
+	#links in text
+	$('.picture-link').click (e)->
+		e.preventDefault()
+		id = $(this).attr('class').split(' ')[1]
+		$('#'+id).trigger('click')
+		#alert id
+		return
+
 	return
 
 changeStatusLine = (status)->

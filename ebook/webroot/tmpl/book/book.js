@@ -26,6 +26,12 @@ $(function() {
     src = $(this).find('img').attr('src');
     img.attr('src', src);
   });
+  $('.picture-link').click(function(e) {
+    var id;
+    e.preventDefault();
+    id = $(this).attr('class').split(' ')[1];
+    $('#' + id).trigger('click');
+  });
 });
 
 changeStatusLine = function(status) {

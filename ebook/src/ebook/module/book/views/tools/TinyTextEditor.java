@@ -113,4 +113,11 @@ public class TinyTextEditor extends Composite {
 		return content;
 	}
 
+	public void addLink(Integer id, String text) {
+		String link = "<a href='#' class='picture-link image$id' >$text</a>";
+		link = link.replace("$id", id.toString());
+		link = link.replace("$text", text);
+		browser.execute("tinyMCE.activeEditor.execCommand('mceInsertContent', false, \""
+				+ link + "\");");
+	}
 }

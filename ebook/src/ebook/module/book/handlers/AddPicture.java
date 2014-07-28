@@ -22,7 +22,7 @@ public class AddPicture {
 			BookConnection book,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
-		IPath p = Utils.browseFile(book.getPath(), shell,
+		IPath p = Utils.browseFile(book.getFullPath(), shell,
 				Strings.get("appTitle"), "*.png");
 		if (p == null)
 			return;

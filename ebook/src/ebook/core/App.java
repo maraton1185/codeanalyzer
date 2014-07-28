@@ -389,6 +389,11 @@ public class App {
 					.getBoolean(PreferenceSupplier.SHOW_ABOUT_ON_STARTUP))
 				return;
 
+			PreferenceSupplier.set(PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
+					false);
+			PreferenceSupplier.save();
+			// .getBoolean(PreferenceSupplier.SHOW_ABOUT_ON_STARTUP))
+
 			App.br.post(Events.SHOW_ABOUT, null);
 
 		}

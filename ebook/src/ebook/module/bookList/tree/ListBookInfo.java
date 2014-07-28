@@ -62,6 +62,7 @@ public class ListBookInfo extends TreeItemInfo {
 		return path.isEmpty() ? null : new Path(path);
 	}
 
+	@Override
 	public void setACL() {
 		aclEmplicit = App.srv.acl().hasExplicit(getId());
 	}

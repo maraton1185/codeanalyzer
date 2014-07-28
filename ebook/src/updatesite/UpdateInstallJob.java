@@ -18,6 +18,8 @@ import ebook.core.Activator;
 import ebook.core.App;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
+import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class UpdateInstallJob extends Job {
 
@@ -41,7 +43,7 @@ public class UpdateInstallJob extends Job {
 			return null;
 		result = P2Util.checkForUpdates(agent, arg0);
 		if (result.getCode() == UpdateOperation.STATUS_NOTHING_TO_UPDATE) {
-			popUpInformation("Обновление не обнаружено!");
+			Utils.popUpInformation(Strings.get("updateNotFound"));
 		} else {
 			installUpdates();
 		}
@@ -55,47 +57,33 @@ public class UpdateInstallJob extends Job {
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				// boolean install = MessageDialog.openQuestion(null, "Updates",
-				// "Updates found! install?");
-				// if (install) {
-				ProgressMonitorDialog dialog = new ProgressMonitorDialog(
-						Display.getDefault().getActiveShell());
-				try {
-					dialog.run(true, true, new IRunnableWithProgress() {
-						@Override
-						public void run(IProgressMonitor arg0)
-								throws InvocationTargetException,
-								InterruptedException {
-							P2Util.installUpdates(agent, arg0);
-							PreferenceSupplier.set(
-									PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
-									true);
-							PreferenceSupplier.save();
-							App.br.post(Events.RESTART_WORKBENCH, null);
-							// workbench.restart();
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-					result = new Status(Status.ERROR, Activator.PLUGIN_ID,
-							"Обновление не установлено!", e);
-					StatusManager.getManager().handle(result);
+				boolean install = MessageDialog.openQuestion(null,
+						Strings.get("appTitle"), Strings.get("installUpdates?"));
+				if (install) {
+					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
+							Display.getDefault().getActiveShell());
+					try {
+						dialog.run(true, true, new IRunnableWithProgress() {
+							@Override
+							public void run(IProgressMonitor arg0)
+									throws InvocationTargetException,
+									InterruptedException {
+								P2Util.installUpdates(agent, arg0);
+								PreferenceSupplier
+										.set(PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
+												true);
+								PreferenceSupplier.save();
+								App.br.post(Events.RESTART_WORKBENCH, null);
+								// workbench.restart();
+							}
+						});
+					} catch (Exception e) {
+						e.printStackTrace();
+						result = new Status(Status.ERROR, Activator.PLUGIN_ID,
+								Strings.get("updateError"), e);
+						StatusManager.getManager().handle(result);
+					}
 				}
-				// }
-			}
-		});
-	}
-
-	/**
-	 * Show a message dialog.
-	 * 
-	 * @param message
-	 */
-	private void popUpInformation(final String message) {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				MessageDialog.openInformation(null, "Updates", message);
 			}
 		});
 	}

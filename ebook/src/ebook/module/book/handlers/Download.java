@@ -23,7 +23,7 @@ public class Download {
 	public void execute(final BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
 
-		final IPath p = Utils.browseDirectory(book.getPath(), shell);
+		final IPath p = Utils.browseDirectory(book.getFullPath(), shell);
 		if (p == null)
 			return;
 

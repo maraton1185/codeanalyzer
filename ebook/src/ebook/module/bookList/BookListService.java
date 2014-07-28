@@ -280,14 +280,14 @@ public class BookListService extends TreeService {
 		return book;
 	}
 
-	public ITreeItemInfo getBookTreeItem(IPath connectionPath) {
+	public ITreeItemInfo getBookTreeItem(String name) {
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + " FROM " + tableName
 					+ " AS T " + "WHERE T.PATH=?";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setString(1, connectionPath.toString());
+			prep.setString(1, name);
 			ResultSet rs = prep.executeQuery();
 
 			try {

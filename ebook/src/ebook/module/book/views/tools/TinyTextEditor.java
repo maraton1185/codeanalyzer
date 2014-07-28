@@ -1,10 +1,5 @@
 package ebook.module.book.views.tools;
 
-import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.OpenWindowListener;
@@ -15,8 +10,6 @@ import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 import ebook.core.App;
 import ebook.module.book.tree.SectionInfo;
@@ -77,17 +70,21 @@ public class TinyTextEditor extends Composite {
 		});
 
 		// Set url pointed to editor
-		try {
-			Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
-			URL url_bundle = FileLocator.find(bundle, new Path(
-					"web/tinyMCE/index.html"), null);
-			URL url_file = FileLocator.toFileURL(url_bundle);
+		// try {
+		// String url = App.getJetty().host()
+		// + App.getJetty().section(book.getTreeItem().getId(),
+		// section.getId());
+		//
+		// Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
+		// URL url_bundle = FileLocator.find(bundle, new Path(
+		// "web/tinyMCE/index.html"), null);
+		// URL url_file = FileLocator.toFileURL(url_bundle);
 
-			browser.setUrl(url_file.toString());
+		browser.setUrl(App.getJetty().editor());
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 
 	}
 

@@ -20,7 +20,7 @@ public class Upload {
 	public void execute(final BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
 
-		final IPath p = Utils.browseFile(book.getPath(), shell,
+		final IPath p = Utils.browseFile(book.getFullPath(), shell,
 				Strings.get("appTitle"), "*.zip");
 		if (p == null)
 			return;

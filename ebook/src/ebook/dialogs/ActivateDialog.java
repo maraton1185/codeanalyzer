@@ -31,6 +31,7 @@ import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 @Creatable
 public class ActivateDialog extends Dialog {
@@ -292,6 +293,7 @@ public class ActivateDialog extends Dialog {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(Strings.get("ActivateDialogTitle"));
+		shell.setImage(Utils.getImage("favicon.png"));
 	}
 
 	/**

@@ -15,7 +15,7 @@
     
     <jsp:include page="${initParam.bootstrap}bootstrap.css.jsp"/>
     <!-- Add custom CSS here -->
-    <link href="${initParam.root_404}errors.css" rel="stylesheet">
+    <link href="${initParam.root_error}errors.css" rel="stylesheet">
     
 </head>
 
@@ -82,7 +82,7 @@
 
     <!-- JavaScript -->
     <jsp:include page="${initParam.bootstrap}bootstrap.js.jsp"/>
-    <script src="${initParam.root_404}errors.js"></script>
+    <script src="${initParam.root_error}errors.js"></script>
 
 </body>
 

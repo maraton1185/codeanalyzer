@@ -432,8 +432,8 @@ public class SectionTextView {
 						public void linkActivated(HyperlinkEvent e) {
 							SectionImage image = (SectionImage) e.getHref();
 
-							IPath p = Utils.browseFile(book.getPath(), shell,
-									Strings.get("appTitle"), "*.png");
+							IPath p = Utils.browseFile(book.getFullPath(),
+									shell, Strings.get("appTitle"), "*.png");
 							if (p == null)
 								return;
 

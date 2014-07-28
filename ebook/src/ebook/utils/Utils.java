@@ -17,10 +17,12 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -30,6 +32,16 @@ import org.osgi.framework.FrameworkUtil;
 import ebook.module.cf.views.ConfigsView;
 
 public abstract class Utils {
+
+	public static void popUpInformation(final String message) {
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				MessageDialog.openInformation(null, Strings.get("appTitle"),
+						message);
+			}
+		});
+	}
 
 	public static String getUrl(String host, Integer id) {
 		return host + "&id=" + id;
@@ -86,8 +98,9 @@ public abstract class Utils {
 	}
 
 	public static IPath getAbsolute(IPath path) {
+
 		if (!path.isAbsolute())
-			path = ResourcesPlugin.getWorkspace().getRoot().getLocation()
+			return ResourcesPlugin.getWorkspace().getRoot().getLocation()
 					.append(path);
 		return path;
 	}
@@ -207,8 +220,9 @@ public abstract class Utils {
 	// *********************************************************************
 
 	public static String getAboutBookPath() {
-		return ResourcesPlugin.getWorkspace().getRoot().getLocation()
-				.toString().concat("/about");
+		// return ResourcesPlugin.getWorkspace().getRoot().getLocation()
+		// .toString().concat("/about");
+		return "about";
 	}
 
 	// public static void fillBooks(Composite sectionClient, FormToolkit

@@ -3,10 +3,12 @@ package ebook.module.book;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.utils.PreferenceSupplier;
 
 public class BookConnection extends BaseDbPathConnection {
 
@@ -37,7 +39,7 @@ public class BookConnection extends BaseDbPathConnection {
 	public ITreeItemInfo getTreeItem() {
 
 		if (treeItem == null)
-			return App.srv.bl().getBookTreeItem(getConnectionPath());
+			return App.srv.bl().getBookTreeItem(getName());
 		else
 			return treeItem;
 	}
@@ -47,4 +49,12 @@ public class BookConnection extends BaseDbPathConnection {
 		return getTreeItem().getTitle();
 	}
 
+	@Override
+	protected IPath getBasePath() {
+
+		return new Path(
+				PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY));
+
+	}
 }

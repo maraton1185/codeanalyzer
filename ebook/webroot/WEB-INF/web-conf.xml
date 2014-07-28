@@ -68,6 +68,15 @@
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>editor</servlet-name>
+		<jsp-file>/tmpl/tinyMCE/index.jsp</jsp-file>	
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>editor</servlet-name>
+		<url-pattern>/editor</url-pattern>
+	</servlet-mapping>
+	
 <!--FILTERS-->
 	
 	<filter>
@@ -121,7 +130,12 @@
 	</context-param>
 	
 	<context-param>
-		<param-name>root_404</param-name>
+		<param-name>root_editor</param-name>
+		<param-value>/tmpl/tinyMCE/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>root_error</param-name>
 		<param-value>/tmpl/errors/</param-value>
 	</context-param>
 	

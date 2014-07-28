@@ -183,7 +183,7 @@ public abstract class GlobalEvents {
 					MDirectToolItem d_element = (MDirectToolItem) App.model
 							.find(Strings.get("ebook.directtoolitem.3"),
 									App.app);
-					d_element.setLabel(Strings.get("update available!"));
+					d_element.setLabel(Strings.get("updateAvailable"));
 					d_element.setVisible(true);
 
 				}

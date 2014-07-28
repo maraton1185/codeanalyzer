@@ -371,6 +371,12 @@ public class Jetty implements IJetty {
 	// }
 
 	@Override
+	public String editor() {
+		// TODO Auto-generated method stub
+		return host() + "tmpl/tinyMCE/index.jsp";
+	}
+
+	@Override
 	public String book(Integer book) {
 		// return host().concat("book?book=" + book.toString());
 		return "book?book=" + book.toString();

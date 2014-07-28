@@ -43,9 +43,9 @@ public class ConfListManager extends TreeManager {
 
 				ListConfInfoOptions opt = new ListConfInfoOptions();
 				ListConfInfo data = new ListConfInfo(opt);
-				data.setTitle(con.getName());
+				data.setTitle(con.getTitle());
 				data.setGroup(false);
-				data.setDbFullPath(con.getFullName());
+				data.setDbFullPath(con.getName());
 				// data.options = opt;
 				srv.add(data, parent, true);
 
@@ -80,9 +80,9 @@ public class ConfListManager extends TreeManager {
 
 						ListConfInfoOptions opt = new ListConfInfoOptions();
 						ListConfInfo data = new ListConfInfo(opt);
-						data.setTitle(con.getName());
+						data.setTitle(con.getTitle());
 						data.setGroup(false);
-						data.setDbFullPath(con.getFullName());
+						data.setDbFullPath(con.getName());
 
 						srv.add(data, parent, true);
 

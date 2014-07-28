@@ -58,9 +58,9 @@ public class BookListManager extends TreeManager {
 				// opt.path = con.getFullName();
 
 				ListBookInfo data = new ListBookInfo(opt);
-				data.setTitle(con.getName());
+				data.setTitle(con.getTitle());
 				data.setGroup(false);
-				data.setPath(con.getFullName());
+				data.setPath(con.getName());
 				srv.add(data, parent, true);
 
 			} catch (InvocationTargetException e) {
@@ -139,9 +139,9 @@ public class BookListManager extends TreeManager {
 								.getFullName()));
 
 						ListBookInfo data = new ListBookInfo(opt);
-						data.setTitle(con.getName());
+						data.setTitle(con.getTitle());
 						data.setGroup(false);
-						data.setPath(con.getFullName());
+						data.setPath(con.getName());
 						// data.setImage(readBookImage(new
 						// Path(con.getFullName())));
 						srv.add(data, parent, true);

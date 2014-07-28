@@ -39,6 +39,8 @@ public interface IJetty {
 
 	String list();
 
+	String editor();
+
 	String bookImage(Integer book, Integer id);
 
 	String listImage(Integer book);

@@ -2,12 +2,11 @@ package ebook.core.models;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.interfaces.IDbStructure;
-import ebook.utils.PreferenceSupplier;
-import ebook.utils.Utils;
 
 public class BaseDbPathConnection extends BaseDbConnection {
 
@@ -37,39 +36,59 @@ public class BaseDbPathConnection extends BaseDbConnection {
 		super(dbStructure);
 
 		this.name = name;
-		this.path = new Path(
-				PreferenceSupplier
-						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY));
+		this.path = new Path("");
+		// PreferenceSupplier
+		// .get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY));
 		create();
 	}
 
 	@Override
 	protected IPath getConnectionPath() {
-		return getPath().append(name);
+		return getFullPath().append(name);
 	}
 
 	// *****************************************************************
 
+	protected IPath getBasePath() {
+
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation();
+
+	}
+
 	private void setPath(IPath path) {
 		if (path == null)
 			return;
+
+		path = path.makeRelativeTo(getBasePath());
 		this.path = path.removeLastSegments(1);
 		this.name = path.removeFileExtension().removeFileExtension()
 				.lastSegment();
 	}
 
+	public IPath getFullPath() {
+
+		if (!path.isAbsolute())
+			return getBasePath().append(path);
+		return path;
+
+	}
+
 	public IPath getPath() {
-		return Utils.getAbsolute(path);
+		return path;
 	}
 
 	// *****************************************************************
 
 	public String getName() {
+		return getPath().append(name).toString();
+	}
+
+	public String getTitle() {
 		return name;
 	}
 
 	public String getFullName() {
-		return Utils.getAbsolute(path).append(name).toString();
+		return getFullPath().append(name).toString();
 	}
 
 	public String getWindowTitle() {

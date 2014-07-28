@@ -3,8 +3,10 @@ package ebook.module.confLoad;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 import ebook.core.models.BaseDbPathConnection;
+import ebook.utils.PreferenceSupplier;
 
 public class ConfConnection extends BaseDbPathConnection {
 
@@ -16,4 +18,12 @@ public class ConfConnection extends BaseDbPathConnection {
 		super(name, new ConfStructure());
 	}
 
+	@Override
+	protected IPath getBasePath() {
+
+		return new Path(
+				PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY));
+
+	}
 }

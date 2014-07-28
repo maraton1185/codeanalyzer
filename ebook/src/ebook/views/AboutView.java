@@ -35,8 +35,8 @@ public class AboutView {
 
 		try {
 			Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
-			URL url_bundle = FileLocator.find(bundle, new Path(
-					"web/about/index.html"), null);
+			URL url_bundle = FileLocator.find(bundle, new Path("version.txt"),
+					null);
 			URL url = FileLocator.toFileURL(url_bundle);
 			browserComposite = new BrowserComposite(body, url.toString());
 

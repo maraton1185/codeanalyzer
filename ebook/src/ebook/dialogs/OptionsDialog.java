@@ -98,10 +98,10 @@ public class OptionsDialog {
 					"Сворачивать в трей", comp);
 			addField(f);
 
-			f = new BooleanFieldEditor(
-					PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
-					"Показывать \"О программе\" при запуске", comp);
-			addField(f);
+			// f = new BooleanFieldEditor(
+			// PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
+			// "Показывать \"О программе\" при запуске", comp);
+			// addField(f);
 
 			// comp = new Composite(group, SWT.NULL);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
@@ -210,7 +210,7 @@ public class OptionsDialog {
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-			f = new FileFieldEditor(PreferenceSupplier.BOOK_ON_STARTUP,
+			f = new MyFileFieldEditor(PreferenceSupplier.BOOK_ON_STARTUP,
 					"Книга:", comp);
 			((FileFieldEditor) f).setChangeButtonText("...");
 			addField(f);

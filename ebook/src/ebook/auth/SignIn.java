@@ -19,43 +19,45 @@ import ebook.utils.Const;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class SignIn implements IAuthorize{
+public class SignIn implements IAuthorize {
 
+	@Override
 	public ActivationInfo Activate(String name, String password) {
-		
-		final class Error
-		{
+
+		final class Error {
 			public Error() {
 				super();
 				items = new ArrayList<item>();
 			}
-			final class item{
+
+			final class item {
 				boolean condition;
 				String message;
+
 				public item(boolean condition, String message) {
 					this.condition = condition;
-					this.message = message;		
-				}								
+					this.message = message;
+				}
 			}
-			ArrayList<item> items;	
-			
-			public void add(boolean condition, String message)
-			{
-				items.add(new item(condition, message));				
-			}		
+
+			ArrayList<item> items;
+
+			public void add(boolean condition, String message) {
+				items.add(new item(condition, message));
+			}
+
 			public boolean check(ActivationInfo info) {
-				
+
 				for (item element : items) {
-					if(element.condition)
-					{
+					if (element.condition) {
 						info.message = element.message;
 						return true;
-					}				
+					}
 				}
 				return false;
 			}
 		}
-		
+
 		ActivationInfo info = new ActivationInfo();
 
 		Request msg = new Request();
@@ -65,24 +67,26 @@ public class SignIn implements IAuthorize{
 		try {
 			msg.serial = ActivationInfo.getComputerSerial();
 		} catch (Exception e1) {
-			info.message = Const.MSG_ACTIVATE_FAIL + Const.MSG_GETID; 
+			info.message = Const.MSG_ACTIVATE_FAIL + Const.MSG_GETID;
 			return info;
 		}
 
 		// ******************************************
 
 		siteResponce res = askSite(msg, Const.URL_ACTIVATE);
-		
-		 
+
 		Error er = new Error();
-		er.add(!res.error.isEmpty(), 		Const.MSG_ACTIVATE_FAIL + Const.MSG_SEND_EMAIL_TO);
-		er.add(!res.response.accept, 		Const.MSG_ACTIVATE_FAIL + Const.MSG_LOGIN);
-		er.add(!res.response.pro, 			Const.MSG_ACTIVATE_FAIL + res.response.message);
-		er.add(!res.response.activated, 	Const.MSG_ACTIVATE_FAIL + res.response.message);
-		
+		er.add(!res.error.isEmpty(), Const.MSG_ACTIVATE_FAIL
+				+ Const.MSG_SEND_EMAIL_TO);
+		er.add(!res.response.accept, Const.MSG_ACTIVATE_FAIL + Const.MSG_LOGIN);
+		er.add(!res.response.pro, Const.MSG_ACTIVATE_FAIL
+				+ res.response.message);
+		er.add(!res.response.activated, Const.MSG_ACTIVATE_FAIL
+				+ res.response.message);
+
 		if (er.check(info))
 			return info;
-		
+
 		// ******************************************
 		String siteMessage = res.response.message;
 		String activationString = "";
@@ -95,61 +99,63 @@ public class SignIn implements IAuthorize{
 			info.message = Const.MSG_ACTIVATE_FAIL + e.getMessage();
 			return info;
 		}
-		
-		info.message =  Const.MSG_ACTIVATE_OK + siteMessage;
-		
+
+		info.message = Const.MSG_ACTIVATE_OK + siteMessage;
+
 		return info;
 	}
 
-	
-	public boolean check(){
-		
+	@Override
+	public boolean check() {
+
 		ActivationInfo info = getInfo();
-		
-		return info.check();				
-		
-	}
-	
-	
-	public String checkUpdates() {
-	
-		Preferences preferences = PreferenceSupplier.getScoupNode();
-		
-		Request msg = new Request();
-		msg.name = preferences.get("P_LOGIN", Strings.get("P_LOGIN"));
-		
-		// DONE сообщение о доступности новой версии при загрузке
-		// FUTURE список изменений в ответе из файла в Content/plugin/version.txt
 
-		String result = "версия от " + Const.GetVersion();
-		msg.version = Const.GetVersion();
-		// ******************************************
+		return info.check();
 
-		siteResponce res = askSite(msg, Const.URL_CHECK_UPDATE);
-		if (!res.error.isEmpty())
-			return result;
-		
-		return res.response.message.isEmpty() ? result : res.response.message;
 	}
-	
-	
+
+	// public String checkUpdates() {
+	//
+	// Preferences preferences = PreferenceSupplier.getScoupNode();
+	//
+	// Request msg = new Request();
+	// msg.name = preferences.get("P_LOGIN", Strings.get("P_LOGIN"));
+	//
+	// // DONE сообщение о доступности новой версии при загрузке
+	// // FUTURE список изменений в ответе из файла в Content/plugin/version.txt
+	//
+	// String result = "версия от " + Const.GetVersion();
+	// msg.version = Const.GetVersion();
+	// // ******************************************
+	//
+	// siteResponce res = askSite(msg, Const.URL_CHECK_UPDATE);
+	// if (!res.error.isEmpty())
+	// return result;
+	//
+	// return res.response.message.isEmpty() ? result : res.response.message;
+	// }
+
+	@Override
 	public ActivationInfo getInfo() {
-		
+
 		ActivationInfo info = new ActivationInfo();
-		
-		Preferences preferences = PreferenceSupplier.getScoupNode();				
-		String activationString = preferences.get("P_SERIAL", Strings.get("P_SERIAL"));
+
+		Preferences preferences = PreferenceSupplier.getScoupNode();
+		String activationString = preferences.get("P_SERIAL",
+				Strings.get("P_SERIAL"));
 
 		if (activationString.isEmpty())
 			info.message = Const.MSG_EMPTY_SERIAL;
 
-		if (!info.message.isEmpty()) return info;
-		
+		if (!info.message.isEmpty())
+			return info;
+
 		// ******************************************
 
 		try {
 			AesCrypt crypt = new AesCrypt();
-			Request msg = getMessageFromString(crypt.Decrypt(crypt.toByteArray(activationString)));
+			Request msg = getMessageFromString(crypt.Decrypt(crypt
+					.toByteArray(activationString)));
 			info.fill(msg);
 		} catch (Exception e) {
 			info.message = Const.MSG_INCORRECT_SERIAL;
@@ -158,21 +164,23 @@ public class SignIn implements IAuthorize{
 
 		return info;
 	}
-	
-	//****************************************************************************
-	
+
+	// ****************************************************************************
+
 	/**
 	 * класс результата запроса к сайту String error, Request response
+	 * 
 	 * @author Enikeev M.A.
-	 *
+	 * 
 	 */
 	private class siteResponce {
 		public String error = "";
 		public Request response;
 	}
-	
+
 	/**
 	 * посылает сообщение сайту и обрабатывает ошибки
+	 * 
 	 * @param msg
 	 * @param url
 	 * @return
@@ -198,12 +206,15 @@ public class SignIn implements IAuthorize{
 	}
 
 	/**
-	 * из строки вида "[свойство]=[значение]&" получает класс сообщения 
-	 * @param decript - исходная строка
+	 * из строки вида "[свойство]=[значение]&" получает класс сообщения
+	 * 
+	 * @param decript
+	 *            - исходная строка
 	 * @return класс сообщения Request
 	 * @throws RequestParseException
 	 */
-	private Request getMessageFromString(String decript) throws RequestParseException {
+	private Request getMessageFromString(String decript)
+			throws RequestParseException {
 
 		Request result = new Request();
 
@@ -236,7 +247,9 @@ public class SignIn implements IAuthorize{
 
 	/**
 	 * формирует строку из класса сообщения
-	 * @param msg - класс сообщения Request 
+	 * 
+	 * @param msg
+	 *            - класс сообщения Request
 	 * @return строку из свойств сообщения, разделенных &
 	 * @throws RequestParseException
 	 */
@@ -256,11 +269,14 @@ public class SignIn implements IAuthorize{
 
 		return result;
 	}
-	
+
 	/**
 	 * посылает сообщение сайту
-	 * @param msg - посылаемое сообщение
-	 * @param _url - url сайта
+	 * 
+	 * @param msg
+	 *            - посылаемое сообщение
+	 * @param _url
+	 *            - url сайта
 	 * @return
 	 * @throws CryptException
 	 * @throws MalformedURLException
@@ -268,9 +284,9 @@ public class SignIn implements IAuthorize{
 	 * @throws SiteCryptException
 	 * @throws RequestParseException
 	 */
-	private Request sendRequest(Request msg, String _url) throws CryptException,
-			MalformedURLException, SiteAccessException, SiteCryptException,
-			RequestParseException {
+	private Request sendRequest(Request msg, String _url)
+			throws CryptException, MalformedURLException, SiteAccessException,
+			SiteCryptException, RequestParseException {
 
 		String body = getMessageString(msg);
 
@@ -328,6 +344,5 @@ public class SignIn implements IAuthorize{
 			throw new SiteAccessException();
 		}
 	}
-
 
 }

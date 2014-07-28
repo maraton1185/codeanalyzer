@@ -29,6 +29,10 @@ a:hover{
 	text-decoration: none;
 }
 
+a.picture-link{
+	text-decoration: underline;	
+}
+
 .navbar{
 	margin-bottom: 5px;
 }

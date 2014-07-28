@@ -158,9 +158,10 @@
         <children xsi:type="menu:DirectToolItem" xmi:id="_Q5LqkABGEeSEV5F0mIcfmQ" elementId="ebook.directtoolitem.panel" label="Панель управления" contributionURI="bundleclass://ebook/ebook.handlers.MainPerspective"/>
         <children xsi:type="menu:DirectToolItem" xmi:id="_TcNA8ABGEeSEV5F0mIcfmQ" elementId="ebook.directtoolitem.data" label="Панель данных" contributionURI="bundleclass://ebook/ebook.handlers.ListPerspective"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_QQWwAABGEeSEV5F0mIcfmQ" elementId="ebook.toolbarseparator.1"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="ebook.handledtoolitem.activate" visible="false" label="Активация" command="_x0HdMJlREeOJH5GrNyMMVw">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_wbZkgJlWEeOJH5GrNyMMVw" elementId="ebook.handledtoolitem.activate" visible="false" label="Активация" tooltip="Активация" command="_x0HdMJlREeOJH5GrNyMMVw">
           <tags>status</tags>
         </children>
+        <children xsi:type="menu:ToolBarSeparator" xmi:id="_0mNSQBZAEeSeir38bqTB6g" elementId="ebook.toolbarseparator.2"/>
         <children xsi:type="menu:DirectToolItem" xmi:id="_TXjysOWFEeOaOtR2JTzg6w" elementId="ebook.directtoolitem.1" label="Web-сервер не запущен" contributionURI="bundleclass://ebook/ebook.handlers.BrowseJettyServer"/>
         <children xsi:type="menu:DirectToolItem" xmi:id="_mPU1gAaYEeS-Mpikc4Lbfw" elementId="ebook.directtoolitem.0" iconURI="platform:/plugin/ebook/icons/set/pause.png" tooltip="Остановить web-сервер" contributionURI="bundleclass://ebook/ebook.handlers.StopJetty"/>
       </children>

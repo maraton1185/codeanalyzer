@@ -401,8 +401,22 @@ public class SectionTextView {
 					panel.setLayoutData(gd);
 
 					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
-					// hlink.setImage(Utils.getImage("edit.png"));
-					hlink.setText("Изменить заголовок");
+					hlink.setImage(Utils.getImage("link.png"));
+					hlink.setText("Вставить в текст");
+					hlink.setToolTipText("Вставить ссылку в текст");
+					hlink.setHref(sectionImage);
+					hlink.addHyperlinkListener(new HyperlinkAdapter() {
+
+						@Override
+						public void linkActivated(HyperlinkEvent e) {
+							SectionImage image = (SectionImage) e.getHref();
+							tinymce.addLink(image.getId(), image.getTitle());
+						}
+					});
+
+					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+					hlink.setImage(Utils.getImage("edit.png"));
+					hlink.setToolTipText("Изменить заголовок");
 					hlink.setHref(sectionImage);
 					hlink.addHyperlinkListener(new HyperlinkAdapter() {
 
@@ -423,20 +437,7 @@ public class SectionTextView {
 					});
 
 					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
-					hlink.setImage(Utils.getImage("link.png"));
-					hlink.setToolTipText("Вставить ссылку в текст");
-					hlink.setHref(sectionImage);
-					hlink.addHyperlinkListener(new HyperlinkAdapter() {
-
-						@Override
-						public void linkActivated(HyperlinkEvent e) {
-							SectionImage image = (SectionImage) e.getHref();
-							tinymce.addLink(image.getId(), image.getTitle());
-						}
-					});
-
-					hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
-					hlink.setImage(Utils.getImage("edit.png"));
+					hlink.setImage(Utils.getImage("import.png"));
 					hlink.setToolTipText("Изменить");
 					hlink.setHref(sectionImage);
 					hlink.addHyperlinkListener(new HyperlinkAdapter() {

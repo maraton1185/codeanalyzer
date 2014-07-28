@@ -1,8 +1,5 @@
 package ebook.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Const {
 
@@ -48,15 +45,15 @@ public class Const {
 	 *            - количество дней, минусуемое от текущей версии
 	 * @return
 	 */
-	public static String GetVersion() {
-		Calendar c = Calendar.getInstance();
-		c.set(Const.versionYear, Const.versionMonth - 1, Const.versionDate, 1,
-				0, 0);
-		// c.add(Calendar.DAY_OF_MONTH, days);
-		Date d = c.getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		return sdf.format(d);
-	}
+	// public static String GetVersion() {
+	// Calendar c = Calendar.getInstance();
+	// c.set(Const.versionYear, Const.versionMonth - 1, Const.versionDate, 1,
+	// 0, 0);
+	// // c.add(Calendar.DAY_OF_MONTH, days);
+	// Date d = c.getTime();
+	// SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+	// return sdf.format(d);
+	// }
 
 	// ERRORS *******************************************************
 

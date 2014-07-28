@@ -82,7 +82,7 @@ public class Jetty implements IJetty {
 			return;
 
 		jettyPort = findFreePort();
-		jettyMessage = "Web-сервер: localhost:" + jettyPort;
+		jettyMessage = "localhost:" + jettyPort;
 
 		try {
 
@@ -325,7 +325,7 @@ public class Jetty implements IJetty {
 			port = server.getLocalPort();
 			System.err.println(port);
 		} catch (Exception e) {
-			System.err.println("unable to find a free port");
+			System.err.println("Не удается найти свободный порт");
 			return 0;
 		}
 		return port;
@@ -341,7 +341,7 @@ public class Jetty implements IJetty {
 		}
 
 		// if the program gets here, no port in the range was found
-		throw new IOException("no free port found");
+		throw new IOException("Не найден свободный порт");
 	}
 
 	@Override
@@ -450,31 +450,3 @@ public class Jetty implements IJetty {
 	}
 
 }
-
-// try {
-// Class.forName("jettycustom.ServerCustomizer");
-// } catch (ClassNotFoundException e1) {
-// // NEXT Auto-generated catch block
-// e1.printStackTrace();
-// }
-
-// Server server = new Server(jettyPort);
-//
-// String WEBAPPDIR = "_web/";
-// String CONTEXTPATH = "/admin";
-//
-// final URL warUrl = this.getClass().getClassLoader()
-// .getResource(WEBAPPDIR);
-// final String warUrlString = warUrl.toExternalForm();
-// server.setHandler(new WebAppContext(warUrlString, CONTEXTPATH));
-
-// WebAppContext webapp = new WebAppContext();
-// webapp.setContextPath("/");
-// webapp.setWar("../../jetty-distribution/target/distribution/demo-base/webapps/test.war");
-
-// Bundle bundle = FrameworkUtil.getBundle(Jetty.class);
-// URL warUrl = FileLocator.find(bundle, new Path("icons/"), null);
-// final URL warUrl = FrameworkUtil.getBundle(Jetty.class).getResource(
-// WEBAPPDIR);
-// final String warUrlString = warUrl.toExternalForm();
-// server.setHandler(new WebAppContext(warUrl.toString(), CONTEXTPATH));

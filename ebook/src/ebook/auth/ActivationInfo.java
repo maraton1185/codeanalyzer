@@ -7,8 +7,6 @@ import java.util.Date;
 
 import org.osgi.service.prefs.Preferences;
 
-import ebook.auth.interfaces.IAuthorize;
-import ebook.core.pico;
 import ebook.utils.Const;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -69,7 +67,7 @@ public class ActivationInfo {
 			result.append(Const.MSG_FREE_SHORT);
 		}
 
-		result.append(", " + pico.get(IAuthorize.class).checkUpdates());
+		// result.append(", " + pico.get(IAuthorize.class).checkUpdates());
 
 		return result.toString();
 	}

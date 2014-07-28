@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.utils.Events;
+import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 public class CheckUpdateHandler {
@@ -22,7 +23,7 @@ public class CheckUpdateHandler {
 					return;
 				IStatus result = P2Util.checkForUpdates(App.agent, null);
 				if (result.getCode() == UpdateOperation.STATUS_NOTHING_TO_UPDATE) {
-					Utils.popUpInformation("Обновление не обнаружено!");
+					Utils.popUpInformation(Strings.get("updateNotFound"));
 				} else {
 					App.br.post(Events.SHOW_UPDATE_AVAILABLE, null);
 				}

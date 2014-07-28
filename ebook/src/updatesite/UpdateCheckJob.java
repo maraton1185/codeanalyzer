@@ -8,8 +8,6 @@ import org.eclipse.equinox.p2.operations.UpdateOperation;
 
 import ebook.core.App;
 import ebook.utils.Events;
-import ebook.utils.Strings;
-import ebook.utils.Utils;
 
 public class UpdateCheckJob extends Job {
 
@@ -34,7 +32,7 @@ public class UpdateCheckJob extends Job {
 		result = P2Util.checkForUpdates(agent, arg0);
 		if (result.getCode() == UpdateOperation.STATUS_NOTHING_TO_UPDATE) {
 
-			Utils.popUpInformation(Strings.get("updateNotFound"));
+			// Utils.popUpInformation(Strings.get("updateNotFound"));
 
 		} else {
 

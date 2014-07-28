@@ -1,7 +1,11 @@
 package ebook.core;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -57,6 +61,116 @@ public class Activator implements BundleActivator {
 							"mozilla");
 					System.setProperty(
 							"org.eclipse.swt.browser.XULRunnerPath", file.getAbsolutePath()); //$NON-NLS-1$
+
+					// Mozilla mozilla = Mozilla.getInstance();
+					// org.mozilla.interfaces.nsIServiceManager serviceManager =
+					// mozilla
+					// .getServiceManager();
+					// org.mozilla.interfaces.nsIPrefBranch prefs =
+					// (org.mozilla.interfaces.nsIPrefBranch) serviceManager
+					// .getServiceByContractID(
+					// "@mozilla.org/preferences-service;1",
+					// org.mozilla.interfaces.nsIPrefBranch.NS_IPREFBRANCH_IID);
+					// prefs.setCharPref("capability.policy.policynames",
+					// "allowclipboard");
+					// prefs.setCharPref(
+					// "capability.policy.allowclipboard.Clipboard.cutcopy",
+					// "allAccess");
+					// prefs.setCharPref(
+					// "capability.policy.allowclipboard.Clipboard.paste",
+					// "allAccess");
+					// prefs.setCharPref("capability.policy.allowclipboard.sites",
+					// "file://");
+
+					// out.println("capability.policy.policynames, allowclipboard");
+					// out.println("capability.policy.allowclipboard.Clipboard.cutcopy,allAccess");
+					// out.println("capability.policy.allowclipboard.Clipboard.paste,allAccess");
+					// out.println("capability.policy.allowclipboard.sites,file://");
+
+					// int /* long */[] result = new int /* long */[1];
+					// int rc = XPCOM.NS_GetServiceManager(result);
+					// if (rc != XPCOM.NS_OK)
+					// error(rc);
+					// if (result[0] == 0)
+					// error(XPCOM.NS_NOINTERFACE);
+					// org.mozilla.xpcom.Mozilla
+					// org.eclipse.swt.internal.mozilla.
+					// nsIServiceManager serviceManager = new nsIServiceManager(
+					// result[0]);
+					//
+					// nsIServiceManager serviceManager = new nsIServiceManager(
+					// result[0]);
+					// result[0] = 0;
+					// byte[] buffer = MozillaDelegate.wcsToMbcs(null ,
+					// XPCOM.NS_OBSERVER_CONTRACTID, true);
+					// rc =
+					// serviceManager.GetService("@mozilla.org/preferences-service;1",
+					// nsIPrefService.NS_IPREFSERVICE_IID, result);
+					// if (rc != XPCOM.NS_OK)
+					// error(rc);
+					// if (result[0] == 0)
+					// error(XPCOM.NS_NOINTERFACE);
+					//
+					// serviceManager.GetServiceByContractID(
+					// "@mozilla.org/preferences-service;1",
+					// nsIPrefBranch.NS_IPREFBRANCH_IID);
+					// prefs.setBoolPref("capability.policy.policynames",
+					// "allowclipboard");
+					// org.eclipse.swt.browser.MozillaDelegate
+					// delegate = new MozillaDelegate(browser);
+					// org.eclipse.swt.internal.mozilla.init.mo mozilla.init.
+					// MozillaDelegate loadClass = Activator
+					// .getDefault()
+					// .getClass()
+					// .getClassLoader()
+					// .loadClass(
+					// "org.eclipse.swt.browser.MozillaDelegate");
+					// Method declaredMethod = loadClass
+					// .getDeclaredMethod("wcsToMbcs");
+					// declaredMethod.setAccessible(true);
+					// byte[] buffer = (byte[]) declaredMethod.invoke(
+					// "capability.policy.policynames", "allowclipboard",
+					// true);
+					// XPCOM.buffer = MozillaDelegate.wcsToMbcs(null,
+					// PREFERENCE_DISABLEWINDOWSTATUSCHANGE, true);
+					// rc = prefBranch.SetBoolPref(buffer, 0);
+					// if (rc != XPCOM.NS_OK) {
+					// browser.dispose();
+					// error(rc);
+					// }
+					// File userPrefs = new File(profilePath + File.separator
+					// + "prefs.js");
+					// System.out.println(userPrefs.toString());
+					//
+
+					Class<?> loadClass = Activator
+							.getDefault()
+							.getClass()
+							.getClassLoader()
+							.loadClass(
+									"org.eclipse.swt.browser.MozillaDelegate");
+					Method declaredMethod = loadClass
+							.getDeclaredMethod("getProfilePath");
+					declaredMethod.setAccessible(true);
+					String profilePath = (String) declaredMethod.invoke(null);
+					File userPrefs = new File(profilePath + File.separator
+							+ "prefs.js");
+
+					try (PrintWriter out = new PrintWriter(new BufferedWriter(
+							new FileWriter(userPrefs)))) {
+						out.println("user_pref(\"capability.policy.policynames\", \"allowclipboard\");");
+						out.println("user_pref(\"capability.policy.allowclipboard.Clipboard.cutcopy\", \"allAccess\");");
+						out.println("user_pref(\"capability.policy.allowclipboard.Clipboard.paste\", \"allAccess\");");
+						out.println("user_pref(\"capability.policy.allowclipboard.sites\", \"localhost\");");
+
+						// out.println("capability.policy.policynames, allowclipboard");
+						// out.println("capability.policy.allowclipboard.Clipboard.cutcopy,allAccess");
+						// out.println("capability.policy.allowclipboard.Clipboard.paste,allAccess");
+						// out.println("capability.policy.allowclipboard.sites,file://");
+
+					} catch (IOException e) {
+						// exception handling left as an exercise for the reader
+					}
 
 				} catch (IOException e) {
 					e.printStackTrace();

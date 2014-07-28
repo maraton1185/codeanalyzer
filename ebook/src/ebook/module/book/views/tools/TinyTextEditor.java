@@ -33,6 +33,9 @@ public class TinyTextEditor extends Composite {
 		browser = new Browser(this, SWT.Resize);
 		browser.setJavascriptEnabled(true);
 
+		// nsIWebBrowser webBrowser = (nsIWebBrowser) browser.getWebBrowser();
+		// webBrowser.QueryInterface(uuid, result)
+		// webBrowser.AddRef()
 		// Set content of editor after load completed
 		browser.addProgressListener(new ProgressListener() {
 			@Override

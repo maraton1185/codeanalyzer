@@ -243,6 +243,9 @@ public class App {
 			checkUpdates();
 
 			showAboutOnStartup();
+
+			window.setLabel(PreferenceSupplier
+					.get(PreferenceSupplier.APP_BRAND));
 		}
 
 		private void perspectiveActions() {

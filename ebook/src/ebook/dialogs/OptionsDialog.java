@@ -110,6 +110,10 @@ public class OptionsDialog {
 					"Минимизировать при запуске", comp);
 			addField(f);
 
+			f = new StringFieldEditor(PreferenceSupplier.APP_BRAND,
+					"Заголовок программы", comp);
+			addField(f);
+
 			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
 					"Адрес сайта обновления", comp);
 			addField(f);
@@ -127,10 +131,6 @@ public class OptionsDialog {
 
 			comp = new Composite(group, SWT.NULL);
 			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			f = new StringFieldEditor(PreferenceSupplier.APP_BRAND,
-					"Заголовок списка книг", comp);
-			addField(f);
 
 			f = new IntegerFieldEditor(PreferenceSupplier.IMAGE_WIDTH,
 					"Ширина картинок (в пикселах)", comp);

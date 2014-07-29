@@ -18,10 +18,16 @@ public class SectionImage {
 	}
 
 	public Image image;
-	public String title;
+	private String title;
+
+	public void setTitle(String title) {
+		this.title = title;
+
+	}
 
 	public String getTitle() {
-		return title;
+		return title == null || title.isEmpty() ? ebook.utils.Strings
+				.get("s.new_image.title") : title;
 	}
 
 	// public boolean expanded;
@@ -33,7 +39,15 @@ public class SectionImage {
 
 	public String url;
 
-	public String mime;
+	private String mime;
+
+	public void setMime(String mime) {
+		this.mime = mime;
+	}
+
+	public String getMime() {
+		return mime == null ? "" : mime;
+	}
 
 	public String getUrl() {
 		return App.getJetty().bookImage(book, id);
@@ -63,15 +77,14 @@ public class SectionImage {
 			return super.equals(obj);
 	}
 
-	public String getMime() {
-		return mime == null ? "" : mime;
-	}
-
 	public int getFormat() {
-		if (getMime().equalsIgnoreCase("jpeg"))
+		if (getMime().equalsIgnoreCase("jpg"))
 			return SWT.IMAGE_JPEG;
 		else
 			return SWT.IMAGE_PNG;
 	}
 
+	public static String getFilters() {
+		return "*.png;*.jpg";
+	}
 }

@@ -10,6 +10,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.BookConnection;
+import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
@@ -23,7 +24,7 @@ public class AddPicture {
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		IPath p = Utils.browseFile(book.getFullPath(), shell,
-				Strings.get("appTitle"), "*.png|*.jpeg");
+				Strings.get("appTitle"), SectionImage.getFilters());
 		if (p == null)
 			return;
 

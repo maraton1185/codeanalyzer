@@ -200,6 +200,8 @@ public class SectionTextView {
 			ctrl.dispose();
 		}
 
+		addOptionsSection();
+
 		addImageSections();
 
 		// ****************************************************************
@@ -230,8 +232,6 @@ public class SectionTextView {
 		// bookmarkTune);
 
 		// ****************************************************************
-
-		addOptionsSection();
 
 		// bo.layout(true);
 		form.reflow(true);
@@ -357,7 +357,7 @@ public class SectionTextView {
 				public void tune(FormToolkit toolkit, Section group,
 						Composite sectionClient) {
 
-					group.setText(sectionImage.title);
+					group.setText(sectionImage.getTitle());
 					group.setExpanded(true);
 
 					ImageHyperlink hlink = toolkit.createImageHyperlink(
@@ -428,9 +428,8 @@ public class SectionTextView {
 
 							InputDialog dlg = new InputDialog(shell,
 									ebook.utils.Strings.get("appTitle"),
-									"Введите заголовок картинки:",
-									ebook.utils.Strings
-											.get("s.new_image.title"), null);
+									"Введите заголовок картинки:", image
+											.getTitle(), null);
 							if (dlg.open() == Window.OK) {
 								book.srv().save_image_title(section, image,
 										dlg.getValue());
@@ -449,7 +448,8 @@ public class SectionTextView {
 							SectionImage image = (SectionImage) e.getHref();
 
 							IPath p = Utils.browseFile(book.getFullPath(),
-									shell, Strings.get("appTitle"), "*.png");
+									shell, Strings.get("appTitle"),
+									SectionImage.getFilters());
 							if (p == null)
 								return;
 

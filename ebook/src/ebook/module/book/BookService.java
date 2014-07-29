@@ -307,9 +307,9 @@ public class BookService extends TreeService {
 					SectionImage sec = new SectionImage();
 					// BookSection sec = new BookSection();
 					InputStream is = rs.getBinaryStream(1);
-					sec.title = rs.getString(2);
+					sec.setTitle(rs.getString(2));
 					sec.sort = rs.getInt(3);
-					sec.mime = rs.getString(4);
+					sec.setMime(rs.getString(4));
 					sec.id = rs.getInt(5);
 					sec.book = ((BookConnection) db).getTreeItem().getId();
 
@@ -461,6 +461,8 @@ public class BookService extends TreeService {
 			prep.setBinaryStream(1, fis, (int) f.length());
 			prep.setString(2, p.getFileExtension());
 
+			// image.setMime(p.getFileExtension());
+
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -574,7 +576,7 @@ public class BookService extends TreeService {
 
 			saver.save(p.append(ImageXML.filename + image.getId())
 					.addFileExtension(image.getMime()).toString(),
-					image.getId());
+					image.getFormat());
 
 		}
 

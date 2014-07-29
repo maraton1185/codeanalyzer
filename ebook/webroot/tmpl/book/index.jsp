@@ -196,13 +196,13 @@
 								<a id="image${image.id}" rel="group${section.id}" class="small-picture" href="#${section.id}" title="${image.title}"> <img
 									class="img-responsive portfolio-item" src="${image.url}">
 								</a>
-								<small>${image.title}</small>
 							</c:if>
 							<c:if test="${section.bigImageCSS==0}">	
 								<a id="image${image.id}" rel="group${section.id}" class="fancy" href="${image.url}&.jpg" title="${image.title}"> <img
 									class="img-responsive portfolio-item" src="${image.url}">
 								</a>
 							</c:if>
+							<small>${image.title}</small>
 						</div>
 					</c:forEach>
 

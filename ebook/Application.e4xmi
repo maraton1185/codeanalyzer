@@ -350,7 +350,7 @@
     <mainMenu xmi:id="_4G-cUKtuEeOc79QMS88vBA" elementId="ebook.menu.4" visible="false">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_riaO4Kt2EeOc79QMS88vBA" elementId="ebook.handledmenuitem.0" visible="false" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
     </mainMenu>
-    <trimBars xmi:id="_3orywM7ZEeOAhpxdCTdZUg" elementId="ebook.trimbar.1">
+    <trimBars xmi:id="_3orywM7ZEeOAhpxdCTdZUg" elementId="ebook.trimbar.1" visible="false">
       <children xsi:type="menu:ToolBar" xmi:id="_53vEQM7ZEeOAhpxdCTdZUg" elementId="ebook.toolbar.5">
         <children xsi:type="menu:HandledToolItem" xmi:id="_7vZJcM7ZEeOAhpxdCTdZUg" elementId="ebook.handledtoolitem.10" label="&amp;Выход" tooltip="Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_NRJwAM7aEeOAhpxdCTdZUg" elementId="ebook.handledtoolitem.11" visible="false" label="Сохранить" iconURI="platform:/plugin/ebook/icons/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>

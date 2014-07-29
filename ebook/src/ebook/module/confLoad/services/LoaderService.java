@@ -39,12 +39,13 @@ public class LoaderService {
 		Entity line = new Entity();
 
 		Logger LOG = Logger.getLogger(LoaderService.class.getName());
+		Handler handler = null;
 
 		BufferedReader bufferedReader = null;
 		try {
 
 			if (log) {
-				Handler handler = new FileHandler(LogFile);
+				handler = new FileHandler(LogFile);
 				handler.setFormatter(new LogFormatter());
 				// handler.setLevel(Level.FINE);
 				LOG.addHandler(handler);
@@ -140,6 +141,7 @@ public class LoaderService {
 		} finally {
 			try {
 				bufferedReader.close();
+				handler.close();
 			} catch (Exception e) {
 				LOG.log(Level.SEVERE, "Exception: ", e);
 				throw new InvocationTargetException(null,

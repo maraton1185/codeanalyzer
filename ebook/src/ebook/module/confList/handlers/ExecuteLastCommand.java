@@ -19,7 +19,7 @@ public class ExecuteLastCommand {
 		if (!MessageDialog.openConfirm(
 				shell,
 				Strings.get("appTitle"),
-				item.getName() + ": \n"
+				item.getName() + "\n"
 						+ App.mng.cm().getOperationName(item.getType()) + "?")) {
 
 			return;

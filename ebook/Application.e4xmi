@@ -114,10 +114,8 @@
               </toolbar>
             </children>
             <children xsi:type="basic:Part" xmi:id="_ehHtMOrMEeOjdt5IkPdmcg" elementId="ebook.part.conf" contributionURI="bundleclass://ebook/ebook.module.confList.view.ConfView" label="Конфигурация">
-              <handlers xmi:id="_GTqakBGjEeSauOk1TeN7ig" elementId="ebook.handler.40" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Edit" command="_Gcb3wOwiEeO98Pond6SApQ"/>
               <toolbar xmi:id="_1T_jQOsoEeOjdt5IkPdmcg" elementId="ebook.toolbar.11">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_0TVxAPxfEeOykK3iUHvgTQ" elementId="ebook.handledtoolitem.31" label="Открыть" tooltip="" command="_Kdc4MPxfEeOykK3iUHvgTQ"/>
-                <children xsi:type="menu:HandledToolItem" xmi:id="_-33-cBGiEeSauOk1TeN7ig" elementId="ebook.handledtoolitem.35" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_Gcb3wOwiEeO98Pond6SApQ"/>
                 <children xsi:type="menu:ToolBarSeparator" xmi:id="_0vzDgPxfEeOykK3iUHvgTQ" elementId="ebook.toolbarseparator.0"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_LxHOsOwoEeO98Pond6SApQ" elementId="ebook.handledtoolitem.38" iconURI="platform:/plugin/ebook/icons/set/import.png" tooltip="Загрузить" command="_5uhzAOwnEeO98Pond6SApQ"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_jjkpMOwmEeO98Pond6SApQ" elementId="ebook.handledtoolitem.37" label="" iconURI="platform:/plugin/ebook/icons/set/play.png" tooltip="Выполнить" command="_5xAxMOwlEeO98Pond6SApQ"/>

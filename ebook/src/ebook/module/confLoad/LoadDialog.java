@@ -26,6 +26,7 @@ import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.confLoad.model.DbState;
+import ebook.module.confLoad.services.LoaderService;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 
@@ -50,6 +51,7 @@ public class LoadDialog extends Dialog {
 	HashMap<operationType, Button> radioBtns = new HashMap<operationType, Button>();
 
 	private Button btnDeleteSourceFiles;
+	Button btnDoLog;
 
 	/**
 	 * Create the dialog.
@@ -79,6 +81,7 @@ public class LoadDialog extends Dialog {
 		// sql_passwordField.getText());
 		conf.setAutoName(btnCheckButton.getSelection());
 		conf.setDeleteSourceFiles(btnDeleteSourceFiles.getSelection());
+		conf.setDoLog(btnDoLog.getSelection());
 		if (dbPathModified)
 			conf.setState(DbState.notLoaded);
 	}
@@ -99,6 +102,7 @@ public class LoadDialog extends Dialog {
 		name.setEditable(!conf.getAutoName());
 
 		btnDeleteSourceFiles.setSelection(conf.getDeleteSourceFiles());
+		btnDoLog.setSelection(conf.getDoLog());
 
 		dbPathModified = false;
 	}
@@ -254,6 +258,12 @@ public class LoadDialog extends Dialog {
 				false, false, 4, 1));
 		btnDeleteSourceFiles
 				.setText("Удалять исходные файлы при загрузке/обновлении из каталога");
+
+		btnDoLog = new Button(container, SWT.CHECK);
+		btnDoLog.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
+				4, 1));
+		btnDoLog.setText("Логировать операцию в 'Каталог программы'\\workspace\\"
+				+ LoaderService.LogFile);
 
 		for (final operationType key : operationType.values()) {
 

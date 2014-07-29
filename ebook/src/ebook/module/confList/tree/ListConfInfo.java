@@ -12,7 +12,7 @@ import ebook.module.confList.tree.ConfInfo.SQLConnection;
 import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.tree.TreeItemInfo;
-import ebook.utils.Utils;
+import ebook.utils.PreferenceSupplier;
 
 public class ListConfInfo extends TreeItemInfo {
 
@@ -103,13 +103,25 @@ public class ListConfInfo extends TreeItemInfo {
 		return data.auto_name;
 	}
 
-	public void setLoadPath(String path) {
-		data.load_path = path;
+	public void setLoadPath(String _path) {
+
+		IPath path = new Path(_path);
+		// IPath rootLoc = getBasePath();
+		// if (rootLoc.isPrefixOf(path))
+		// path = path.setDevice(null).removeFirstSegments(
+		// rootLoc.segmentCount());
+		data.load_path = path.toString();
 	}
 
 	public IPath getLoadPath() {
-		return data.load_path == null ? new Path("") : Utils
-				.getAbsolute(new Path(data.load_path));
+		return data.load_path == null ? new Path("") : getAbsolute(new Path(
+				data.load_path));
+	}
+
+	private IPath getAbsolute(IPath path) {
+		if (!path.isAbsolute())
+			return getBasePath().append(path);
+		return path;
 	}
 
 	public void setName(String name) {
@@ -120,21 +132,29 @@ public class ListConfInfo extends TreeItemInfo {
 		return data.getName();
 	}
 
-	public void setDbFullPath(String path) {
-		data.db_full_path = path;
-		data.db_path = new Path(path).removeLastSegments(1).toString();
-		data.db_name = new Path(path).removeFileExtension()
-				.removeFileExtension().lastSegment();
+	public void setDbFullPath(String _path) {
+
+		IPath path = new Path(_path);
+		// IPath rootLoc = getBasePath();
+		// if (rootLoc.isPrefixOf(path))
+		// path = path.setDevice(null).removeFirstSegments(
+		// rootLoc.segmentCount());
+		data.db_full_path = path.toString();
+
+		// data.db_full_path = path;
+		data.db_path = path.removeLastSegments(1).toString();
+		data.db_name = path.removeFileExtension().removeFileExtension()
+				.lastSegment();
 	}
 
 	public IPath getDbFullPath() {
-		return data.db_full_path == null ? new Path("") : Utils
-				.getAbsolute(new Path(data.db_full_path));
+		return data.db_full_path == null ? new Path("") : getAbsolute(new Path(
+				data.db_full_path));
 	}
 
 	public String getDbPath() {
-		return data.db_path == null ? "" : Utils.getAbsolute(
-				new Path(data.db_path)).toString();
+		return data.db_path == null ? "" : getAbsolute(new Path(data.db_path))
+				.toString();
 	}
 
 	public String getDbName() {
@@ -188,5 +208,23 @@ public class ListConfInfo extends TreeItemInfo {
 
 	public void setDeleteSourceFiles(Boolean deleteSourceFiles) {
 		data.deleteSourceFiles = deleteSourceFiles;
+	}
+
+	protected IPath getBasePath() {
+
+		return new Path(
+				PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY));
+
+	}
+
+	public boolean getDoLog() {
+
+		return data.doLog;
+	}
+
+	public void setDoLog(boolean selection) {
+		data.doLog = selection;
+
 	}
 }

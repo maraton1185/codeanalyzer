@@ -15,6 +15,16 @@ import ebook.core.interfaces.IDbStructure;
 
 public abstract class BaseDbConnection implements IDbConnection {
 
+	protected Connection externalConnection;
+
+	public void setExternalConnection(Connection con) {
+		externalConnection = con;
+	}
+
+	public void resetExternalConnection() {
+		externalConnection = null;
+	}
+
 	protected IDbStructure dbStructure;
 
 	// protected Connection con;
@@ -108,6 +118,9 @@ public abstract class BaseDbConnection implements IDbConnection {
 
 	@Override
 	public Connection getConnection() throws IllegalAccessException {
+
+		if (externalConnection != null)
+			return externalConnection;
 
 		IPath path = getConnectionPath();
 		HashMap<IPath, Connection> pull = App.getJetty().pull();

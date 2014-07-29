@@ -190,4 +190,14 @@ public class CfLoadService {
 
 	}
 
+	public void clearTables(Connection con) throws SQLException {
+		String SQL;
+		PreparedStatement prep;
+
+		SQL = "DELETE FROM OBJECTS";
+		prep = con.prepareStatement(SQL);
+		prep.executeUpdate();
+
+	}
+
 }

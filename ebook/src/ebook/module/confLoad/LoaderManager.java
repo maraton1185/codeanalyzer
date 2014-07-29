@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ebook.auth.interfaces.IAuthorize;
 import ebook.core.pico;
-import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.LoadConfigException;
 import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
@@ -68,20 +67,23 @@ public class LoaderManager implements ILoaderManager {
 
 		// ЗАГРУЗКА ******************************************************
 
-		ConfConnection _con = null;
 		Connection con = null;
-		Boolean done = false;
 		try {
 
-			_con = new ConfConnection(db.getDbFullPath());
+			ConfConnection _con = new ConfConnection(db.getDbFullPath());
 
 			// con = _con.getConnection();
 			con = _con.makeConnection(true);
 
 			monitor.beginTask("Загрузка конфигурации...", length);
 
-			loadFromDirectoryDoWork(con, monitor, files);
+			loaderService.srv.load().clearTables(con);
 
+			loadFromDirectoryDoWork(con, monitor, files, db.getDoLog());
+
+			_con.setExternalConnection(con);
+			_con.srv().setState(DbState.Loaded);
+			_con.resetExternalConnection();
 			// if (!sign.check())
 			// if (!dbStructure.checkLisence(db))
 			// throw new InvocationTargetException(
@@ -89,7 +91,6 @@ public class LoaderManager implements ILoaderManager {
 			// Const.ERROR_PRO_ACCESS_LOAD);
 
 			db.setState(DbState.Loaded);
-			done = true;
 
 			if (db.getDeleteSourceFiles()) {
 				monitor.beginTask("Удаление файлов...", length);
@@ -120,8 +121,8 @@ public class LoaderManager implements ILoaderManager {
 			monitor.done();
 		}
 
-		if (_con != null && done)
-			_con.srv().setState(DbState.Loaded);
+		// if (_con != null && done)
+		// _con.srv().setState(DbState.Loaded);
 	}
 
 	@Override
@@ -145,7 +146,7 @@ public class LoaderManager implements ILoaderManager {
 			//
 			// cfStructure.checkSructure(db);
 
-			if (loaderService.linkTableFilled(con)) {
+			if (loaderService.srv.load().linkTableFilled(con)) {
 				db.setState(DbState.Loaded);
 				db.setLinkState(DbState.Loaded);
 			} else
@@ -162,8 +163,8 @@ public class LoaderManager implements ILoaderManager {
 			// } catch (InterruptedException e) {
 			// throw new InvocationTargetException(new InterruptedException(),
 			// Const.ERROR_CONFIG_INTERRUPT);
-		} catch (DbStructureException e) {
-			throw new InvocationTargetException(e, e.getMessage());
+			// } catch (DbStructureException e) {
+			// throw new InvocationTargetException(e, e.getMessage());
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		} finally {
@@ -222,15 +223,10 @@ public class LoaderManager implements ILoaderManager {
 
 			con = _con.makeConnection(true);
 
-			loaderService.clearLinkTable(con);
-			// db.initDbPath();
-			//
-			// dbStructure.createStructure(db);
-			// con = db.getConnection(false);
-
 			monitor.beginTask("Обновление конфигурации...", length);
 
-			loadFromDirectoryDoWork(con, monitor, files);
+			loaderService.srv.load().clearLinkTable(con);
+			loadFromDirectoryDoWork(con, monitor, files, db.getDoLog());
 
 			// if (!sign.check())
 			// if (!dbStructure.checkLisence(db))
@@ -301,8 +297,6 @@ public class LoaderManager implements ILoaderManager {
 
 		// ЗАГРУЗКА ******************************************************
 
-		Boolean done = false;
-		ConfConnection _con = null;
 		Connection con = null;
 		try {
 
@@ -310,11 +304,12 @@ public class LoaderManager implements ILoaderManager {
 				throw new InterruptedException();
 			}
 
-			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
-
-			_con = new ConfConnection(db.getDbFullPath());
+			ConfConnection _con = new ConfConnection(db.getDbFullPath());
 
 			con = _con.makeConnection(true);
+
+			monitor.beginTask("Удаление старых данных...", 0);
+			loaderService.srv.load().clearLinkTable(con);
 
 			loaderService.fillProcLinkTableDoWork(con, monitor);
 
@@ -325,12 +320,14 @@ public class LoaderManager implements ILoaderManager {
 			// Const.ERROR_PRO_ACCESS_LOAD);
 
 			db.setLinkState(DbState.Loaded);
-			done = true;
+			_con.setExternalConnection(con);
+			_con.srv().setLinkState(DbState.Loaded);
+			_con.resetExternalConnection();
 
 		} catch (InterruptedException e) {
 
 			try {
-				loaderService.clearLinkTable(con);
+				loaderService.srv.load().clearLinkTable(con);
 
 			} catch (Exception e1) {
 				throw new InvocationTargetException(e,
@@ -353,14 +350,15 @@ public class LoaderManager implements ILoaderManager {
 
 		}
 
-		if (_con != null && done)
-			_con.srv().setLinkState(DbState.Loaded);
+		// if (_con != null && done)
+		// _con.srv().setLinkState(DbState.Loaded);
 	}
 
 	// *********************************************************************
 
 	private void loadFromDirectoryDoWork(Connection con,
-			IProgressMonitor monitor, File[] files) throws Exception {
+			IProgressMonitor monitor, File[] files, boolean log)
+			throws Exception {
 
 		for (File f : files) {
 
@@ -374,11 +372,11 @@ public class LoaderManager implements ILoaderManager {
 				String extension = Utils.getExtension(f);
 
 				if (extension.equalsIgnoreCase("txt")) {
-					loaderService.loadTxtModuleFile(con, f);
+					loaderService.loadTxtModuleFile(con, f, log);
 				}
 
 				if (extension.equalsIgnoreCase("xml")) {
-					loaderService.loadXmlModuleFile(con, f);
+					loaderService.loadXmlModuleFile(con, f, log);
 				}
 			}
 

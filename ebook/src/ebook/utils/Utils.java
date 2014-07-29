@@ -109,10 +109,11 @@ public abstract class Utils {
 		IPath path = Utils.browseDirectory(getPath(field), shell);
 		if (path == null)
 			return;
-		IPath rootLoc = ResourcesPlugin.getWorkspace().getRoot().getLocation();
-		if (rootLoc.isPrefixOf(path))
-			path = path.setDevice(null).removeFirstSegments(
-					rootLoc.segmentCount());
+		// IPath rootLoc =
+		// ResourcesPlugin.getWorkspace().getRoot().getLocation();
+		// if (rootLoc.isPrefixOf(path))
+		// path = path.setDevice(null).removeFirstSegments(
+		// rootLoc.segmentCount());
 		field.setText(path.toString());
 	}
 

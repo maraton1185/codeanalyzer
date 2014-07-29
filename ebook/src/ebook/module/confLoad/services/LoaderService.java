@@ -10,10 +10,15 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ebook.core.pico;
+import ebook.module.confLoad.LogFormatter;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.Entity;
 import ebook.module.confLoad.model.procCall;
@@ -24,20 +29,35 @@ public class LoaderService {
 
 	// ITextParser parser = pico.get(ITextParser.class);
 
-	ICfServices srv = pico.get(ICfServices.class);
+	public static final String LogFile = "log.txt";
 
-	public void loadTxtModuleFile(Connection con, File f)
+	public ICfServices srv = pico.get(ICfServices.class);
+
+	public void loadTxtModuleFile(Connection con, File f, boolean log)
 			throws InvocationTargetException {
 
 		Entity line = new Entity();
 
+		Logger LOG = Logger.getLogger(LoaderService.class.getName());
+
 		BufferedReader bufferedReader = null;
 		try {
 
+			if (log) {
+				Handler handler = new FileHandler(LogFile);
+				handler.setFormatter(new LogFormatter());
+				// handler.setLevel(Level.FINE);
+				LOG.addHandler(handler);
+				LOG.setLevel(Level.FINE);
+			}
+
+			LOG.info("parse file: " + f.toString());
 			srv.parse().parseTxtModuleName(f, line);
 
+			LOG.fine("add object");
 			Integer object = srv.load().addObject(con, line);
 
+			LOG.fine("delete procs");
 			srv.load().deleteProcs(con, object);
 
 			Reader in = new InputStreamReader(new FileInputStream(f), "UTF-8");
@@ -50,11 +70,17 @@ public class LoaderService {
 			String source_line = null;
 			String currentSection = "";
 
+			LOG.fine("read file ---------------------------------");
+
 			while ((source_line = bufferedReader.readLine()) != null) {
+
+				LOG.fine(source_line);
 
 				buffer.add(source_line + "\n");
 
 				if (srv.parse().findProcEnd(source_line)) {
+
+					LOG.fine("find proc end: " + source_line);
 
 					procEntity proc = new procEntity(line);
 					srv.parse().getProcInfo(proc, buffer, vars, currentSection);
@@ -67,6 +93,8 @@ public class LoaderService {
 							var.text.append(string);
 						}
 						var.export = false;
+
+						LOG.fine("add proc: " + var.proc_name);
 						srv.load().addProcedure(con, var, object);
 
 					}
@@ -78,6 +106,7 @@ public class LoaderService {
 
 					// parser.findCalls(proc);
 
+					LOG.fine("add proc: " + proc.proc_name);
 					srv.load().addProcedure(con, proc, object);
 
 					currentSection = proc.section;
@@ -97,10 +126,14 @@ public class LoaderService {
 					proc.text.append(string);
 				}
 				proc.export = false;
+
+				LOG.fine("add proc: " + proc.proc_name);
 				srv.load().addProcedure(con, proc, object);
 			}
 
 		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Exception: ", e);
+
 			e.printStackTrace();
 			throw new InvocationTargetException(null,
 					Const.ERROR_CONFIG_READFILE + f.getName());
@@ -108,6 +141,7 @@ public class LoaderService {
 			try {
 				bufferedReader.close();
 			} catch (Exception e) {
+				LOG.log(Level.SEVERE, "Exception: ", e);
 				throw new InvocationTargetException(null,
 						Const.ERROR_CONFIG_READFILE + f.getName());
 			}
@@ -115,7 +149,7 @@ public class LoaderService {
 
 	}
 
-	public void loadXmlModuleFile(Connection con, File f) {
+	public void loadXmlModuleFile(Connection con, File f, boolean log) {
 		// TODO Auto-generated method stub
 
 	}
@@ -163,12 +197,17 @@ public class LoaderService {
 
 	}
 
-	public boolean linkTableFilled(Connection con) throws Exception {
-		return srv.load().linkTableFilled(con);
-	}
-
-	public void clearLinkTable(Connection con) throws Exception {
-		srv.load().clearLinkTable(con);
-
-	}
+	// public boolean linkTableFilled(Connection con) throws Exception {
+	// return srv.load().linkTableFilled(con);
+	// }
+	//
+	// public void clearLinkTable(Connection con) throws Exception {
+	// srv.load().clearLinkTable(con);
+	//
+	// }
+	//
+	// public void clearTables(Connection con) throws Exception {
+	// srv.load().clearTables(con);
+	//
+	// }
 }

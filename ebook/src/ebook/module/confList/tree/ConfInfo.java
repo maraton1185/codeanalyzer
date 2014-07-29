@@ -18,8 +18,8 @@ public class ConfInfo implements Serializable {
 	public String db_name;
 	public Boolean auto_name;
 	public Boolean deleteSourceFiles;
-
 	public SQLConnection sql;
+	public boolean doLog;
 
 	public class SQLConnection implements Serializable {
 

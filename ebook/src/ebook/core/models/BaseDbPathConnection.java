@@ -59,7 +59,10 @@ public class BaseDbPathConnection extends BaseDbConnection {
 		if (path == null)
 			return;
 
-		path = path.makeRelativeTo(getBasePath());
+		IPath rootLoc = getBasePath();
+		if (rootLoc.isPrefixOf(path))
+			path = path.setDevice(null).removeFirstSegments(
+					rootLoc.segmentCount());
 		this.path = path.removeLastSegments(1);
 		this.name = path.removeFileExtension().removeFileExtension()
 				.lastSegment();

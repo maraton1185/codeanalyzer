@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Text;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import ebook.module.cf.views.ConfigsView;
+import ebook.module.conf.views._ConfigsView;
 
 public abstract class Utils {
 
@@ -90,7 +90,7 @@ public abstract class Utils {
 	public static Image getImage(String file) {
 
 		// assume that the current class is called View.java
-		Bundle bundle = FrameworkUtil.getBundle(ConfigsView.class);
+		Bundle bundle = FrameworkUtil.getBundle(_ConfigsView.class);
 		URL url = FileLocator.find(bundle, new Path("icons/set/" + file), null);
 		ImageDescriptor image = ImageDescriptor.createFromURL(url);
 		return image.createImage();

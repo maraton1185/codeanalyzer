@@ -4,6 +4,8 @@ import ebook.module.acl.ACLService;
 import ebook.module.book.BookConnection;
 import ebook.module.book.BookService;
 import ebook.module.bookList.BookListService;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfService;
 import ebook.module.confList.ConfListService;
 import ebook.module.userList.UserService;
 
@@ -15,8 +17,10 @@ public interface IServiceFactory {
 
 	BookListService bl();
 
-	BookService bk(BookConnection bookConnection);
+	BookService bk(BookConnection con);
 
 	ConfListService cl();
+
+	ConfService cf(ConfConnection con);
 
 }

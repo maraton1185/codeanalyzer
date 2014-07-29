@@ -14,18 +14,17 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ebook.core.pico;
-import ebook.core.interfaces.ITextParser;
-import ebook.core.interfaces.ITextParser.Entity;
-import ebook.core.interfaces.ITextParser.ProcCall;
-import ebook.core.interfaces.ITextParser.procEntity;
 import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.model.Entity;
+import ebook.module.confLoad.model.procCall;
+import ebook.module.confLoad.model.procEntity;
 import ebook.utils.Const;
 
 public class LoaderService {
 
-	ITextParser parser = pico.get(ITextParser.class);
+	// ITextParser parser = pico.get(ITextParser.class);
 
-	ICfServices service = pico.get(ICfServices.class);
+	ICfServices srv = pico.get(ICfServices.class);
 
 	public void loadTxtModuleFile(Connection con, File f)
 			throws InvocationTargetException {
@@ -35,11 +34,11 @@ public class LoaderService {
 		BufferedReader bufferedReader = null;
 		try {
 
-			parser.parseTxtModuleName(f, line);
+			srv.parse().parseTxtModuleName(f, line);
 
-			Integer object = service.load().addObject(con, line);
+			Integer object = srv.load().addObject(con, line);
 
-			service.load().deleteProcs(con, object);
+			srv.load().deleteProcs(con, object);
 
 			Reader in = new InputStreamReader(new FileInputStream(f), "UTF-8");
 			bufferedReader = new BufferedReader(in);
@@ -55,10 +54,10 @@ public class LoaderService {
 
 				buffer.add(source_line + "\n");
 
-				if (parser.findProcEnd(source_line)) {
+				if (srv.parse().findProcEnd(source_line)) {
 
 					procEntity proc = new procEntity(line);
-					parser.getProcInfo(proc, buffer, vars, currentSection);
+					srv.parse().getProcInfo(proc, buffer, vars, currentSection);
 					if (!firstProcWasFound && !vars.isEmpty()) {
 						procEntity var = new procEntity(line);
 						var.proc_name = Const.STRING_VARS;
@@ -68,7 +67,7 @@ public class LoaderService {
 							var.text.append(string);
 						}
 						var.export = false;
-						service.load().addProcedure(con, var, object);
+						srv.load().addProcedure(con, var, object);
 
 					}
 
@@ -79,7 +78,7 @@ public class LoaderService {
 
 					// parser.findCalls(proc);
 
-					service.load().addProcedure(con, proc, object);
+					srv.load().addProcedure(con, proc, object);
 
 					currentSection = proc.section;
 
@@ -98,7 +97,7 @@ public class LoaderService {
 					proc.text.append(string);
 				}
 				proc.export = false;
-				service.load().addProcedure(con, proc, object);
+				srv.load().addProcedure(con, proc, object);
 			}
 
 		} catch (Exception e) {
@@ -124,10 +123,10 @@ public class LoaderService {
 	public void fillProcLinkTableDoWork(Connection con, IProgressMonitor monitor)
 			throws Exception {
 
-		monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE, service
-				.get().getProcCount(con));
+		monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE, srv.get()
+				.getProcCount(con));
 
-		List<procEntity> procs = service.get().getProcs(con);
+		List<procEntity> procs = srv.get().getProcs(con);
 
 		ArrayList<String> buffer = new ArrayList<String>();
 
@@ -139,25 +138,25 @@ public class LoaderService {
 
 			monitor.subTask(proc.group1 + "." + proc.group2);
 
-			String text = service.get().getProcText(con, proc.id);
+			String text = srv.get().getProcText(con, proc.id);
 			buffer = new ArrayList<String>(Arrays.asList(text.split("\n")));
 
-			proc.calls = new ArrayList<ProcCall>();
+			proc.calls = new ArrayList<procCall>();
 
 			for (int line = 0; line < buffer.size(); line++) {
 
 				String source_line = buffer.get(line);
 
-				List<ProcCall> calls = parser.findProcsInString(source_line,
-						proc.proc_name);
+				List<procCall> calls = srv.parse().findProcsInString(
+						source_line, proc.proc_name);
 
-				for (ProcCall call : calls) {
+				for (procCall call : calls) {
 					proc.calls.add(call);
 				}
 
 			}
 
-			service.load().addProcCalls(con, proc, proc.id);
+			srv.load().addProcCalls(con, proc, proc.id);
 
 			monitor.worked(1);
 		}
@@ -165,11 +164,11 @@ public class LoaderService {
 	}
 
 	public boolean linkTableFilled(Connection con) throws Exception {
-		return service.load().linkTableFilled(con);
+		return srv.load().linkTableFilled(con);
 	}
 
 	public void clearLinkTable(Connection con) throws Exception {
-		service.load().clearLinkTable(con);
+		srv.load().clearLinkTable(con);
 
 	}
 }

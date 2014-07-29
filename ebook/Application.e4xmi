@@ -265,7 +265,7 @@
     </children>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <descriptors xmi:id="_Vrtt0KhUEeOKceOp7VW7lQ" elementId="ebook.partdescriptor.treeView" label="Дерево объектов" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.cf.views.TreeView">
+  <descriptors xmi:id="_Vrtt0KhUEeOKceOp7VW7lQ" elementId="ebook.partdescriptor.treeView" label="Дерево объектов" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views._TreeView">
     <menus xmi:id="_4Us0oKkQEeOctbxZaJIj4Q" elementId="ebook.menu.1">
       <tags>ViewMenu</tags>
       <children xsi:type="menu:DirectMenuItem" xmi:id="_5Kf0MKkQEeOctbxZaJIj4Q" elementId="ebook.directmenuitem.0" label="Изменить заголовок" contributionURI="bundleclass://ebook/ebook.handlers._SetTitle"/>
@@ -357,7 +357,14 @@
       </children>
     </trimBars>
   </snippets>
-  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_9E2bIP0pEeONSOVuBcgXoA" elementId="ebook.window.conf" label="Конфигурация"/>
+  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_9E2bIP0pEeONSOVuBcgXoA" elementId="ebook.window.conf" label="Конфигурация">
+    <children xsi:type="basic:PartStack" xmi:id="_JgoZgBcMEeS3ZekdeJlIhg" elementId="ebook.partstack.1">
+      <children xsi:type="basic:Part" xmi:id="_KsxcgBcMEeS3ZekdeJlIhg" elementId="ebook.part.1" contributionURI="bundleclass://ebook/ebook.module.conf.views.ContextView">
+        <menus xsi:type="menu:PopupMenu" xmi:id="_Ph6mgBcMEeS3ZekdeJlIhg" elementId="model.id.contextview.popup"/>
+        <toolbar xmi:id="_OkEeMBcMEeS3ZekdeJlIhg" elementId="ebook.toolbar.12"/>
+      </children>
+    </children>
+  </snippets>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="ebook.command.Activate" commandName="Сервис -Активация"/>
   <commands xmi:id="_irP60J6aEeORdqnZrqq27Q" elementId="ebook.command.Options" commandName="Сервис - Параметры"/>

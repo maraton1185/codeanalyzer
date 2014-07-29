@@ -13,14 +13,14 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import ebook.core.pico;
-import ebook.core.interfaces.ITextParser;
+import ebook.core.interfaces._ITextParser;
 import ebook.temp.build.BuildInfo;
 import ebook.temp.build.CompareResults;
 import ebook.utils.Const;
 
 public class _DbService {
 
-	ITextParser parser = pico.get(ITextParser.class);
+	_ITextParser parser = pico.get(_ITextParser.class);
 
 	// private BuildInfo getProc(Connection con, int index) throws SQLException
 	// {
@@ -337,10 +337,10 @@ public class _DbService {
 						String line;
 						boolean finded = false;
 						while ((line = bufferedReader.readLine()) != null) {
-							if (parser.findTextInLine(line, titleText)) {
-								finded = true;
-								break;
-							}
+							// if (parser.findTextInLine(line, titleText)) {
+							// finded = true;
+							// break;
+							// }
 						}
 						if (finded) {
 							BuildInfo item = new BuildInfo();
@@ -899,10 +899,10 @@ public class _DbService {
 						String line;
 						boolean finded = false;
 						while ((line = bufferedReader.readLine()) != null) {
-							if (parser.findCallee(line, data.name)) {
-								finded = true;
-								break;
-							}
+							// if (parser.findCallee(line, data.name)) {
+							// finded = true;
+							// break;
+							// }
 						}
 						if (finded) {
 							BuildInfo item = new BuildInfo();

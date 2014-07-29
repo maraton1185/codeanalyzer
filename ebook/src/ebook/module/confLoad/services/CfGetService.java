@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import ebook.core.interfaces.ITextParser.procEntity;
+import ebook.module.confLoad.model.procEntity;
 
 public class CfGetService {
 

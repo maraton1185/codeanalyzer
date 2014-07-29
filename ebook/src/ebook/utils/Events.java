@@ -69,6 +69,14 @@ public abstract class Events {
 
 	public static final String SHOW_ABOUT = "SHOW_ABOUT";
 
+	public static final String EVENT_UPDATE_CONF_VIEW = "EVENT_UPDATE_CONF_VIEW";
+
+	public static final String EVENT_EDIT_TITLE_CONF_VIEW = "EVENT_EDIT_TITLE_CONTEXT_VIEW";
+
+	public static final String EVENT_UPDATE_LABELS_CONF_VIEW = "EVENT_UPDATE_LABELS_CONF_VIEW";
+
+	public static final String EVENT_CONF_VIEW_SETSELECTION = "EVENT_CONF_VIEW_SETSELECTION";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,

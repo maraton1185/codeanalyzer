@@ -1,4 +1,4 @@
-package ebook.module.cf.views;
+package ebook.module.conf.views;
 
 import java.util.Collections;
 
@@ -34,7 +34,7 @@ import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class ConfigsView {
+public class _ConfigsView {
 
 	ConfManager dbMng = App.mng.cm();
 
@@ -49,7 +49,7 @@ public class ConfigsView {
 	private TableViewer viewer;
 
 	@Inject
-	public ConfigsView() {
+	public _ConfigsView() {
 		// TODO Your code here
 	}
 

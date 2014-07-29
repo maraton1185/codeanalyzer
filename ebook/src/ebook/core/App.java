@@ -64,7 +64,9 @@ import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.SectionTextView;
 import ebook.module.book.views.SectionView;
-import ebook.module.confLoad.ConfConnection;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfOptions;
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.confLoad.services.FillProcLinkTableJob;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -365,6 +367,10 @@ public class App {
 
 		private void checkUpdates() {
 
+			if (!PreferenceSupplier
+					.getBoolean(PreferenceSupplier.CHECK_UPDATE_ON_STARTUP))
+				return;
+
 			BundleContext bundleContext = FrameworkUtil.getBundle(
 					Activator.class).getBundleContext();
 			ServiceReference<IProvisioningAgent> serviceReference = bundleContext
@@ -489,7 +495,7 @@ public class App {
 
 			}
 
-			book.srv().saveBookOptions(opt);
+			book.srv().saveRootOptions(opt);
 
 			book.closeConnection();
 
@@ -504,7 +510,11 @@ public class App {
 
 			ConfConnection conf = window.getContext().get(ConfConnection.class);
 
-			// book.srv().saveBookOptions(opt);
+			ContextInfo section = window.getContext().get(ContextInfo.class);
+			ConfOptions opt = new ConfOptions();
+			if (section != null)
+				opt.selectedSection = section.getId();
+			conf.srv().saveRootOptions(opt);
 
 			conf.closeConnection();
 

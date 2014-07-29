@@ -13,9 +13,10 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfOptions;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
-import ebook.module.confLoad.ConfConnection;
 import ebook.module.confLoad.LoadDialog;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeManager;
@@ -79,6 +80,16 @@ public class ConfListManager extends TreeManager {
 						ConfConnection con = new ConfConnection(path);
 
 						ListConfInfoOptions opt = new ListConfInfoOptions();
+
+						ConfOptions _opt = (ConfOptions) con.srv()
+								.getRootOptions();
+						if (_opt != null) {
+							opt.status = _opt.status;
+							opt.status_date = _opt.status_date;
+							opt.link_status = _opt.link_status;
+							opt.link_status_date = _opt.link_status_date;
+						}
+
 						ListConfInfo data = new ListConfInfo(opt);
 						data.setTitle(con.getTitle());
 						data.setGroup(false);

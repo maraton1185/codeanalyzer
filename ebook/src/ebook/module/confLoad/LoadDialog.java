@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Text;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
+import ebook.module.confLoad.model.DbState;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 

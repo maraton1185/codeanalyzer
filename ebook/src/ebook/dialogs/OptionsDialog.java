@@ -114,6 +114,11 @@ public class OptionsDialog {
 					"Заголовок программы", comp);
 			addField(f);
 
+			f = new BooleanFieldEditor(
+					PreferenceSupplier.CHECK_UPDATE_ON_STARTUP,
+					"Проверять обновления при запуске", comp);
+			addField(f);
+
 			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
 					"Адрес сайта обновления", comp);
 			addField(f);

@@ -10,7 +10,6 @@ import ebook.core.models.ServiceFactory;
 import ebook.module.book.BookClipboard;
 import ebook.module.confLoad.LoaderManager;
 import ebook.module.confLoad.services.CfServices;
-import ebook.module.confLoad.services.TextParser;
 import ebook.module.db.DbConnection;
 
 public final class pico {
@@ -37,7 +36,7 @@ public final class pico {
 		// instance.as(Characteristics.CACHE).addComponent(ConfManager.class);
 		instance.as(Characteristics.CACHE).addComponent(CfServices.class);
 
-		instance.as(Characteristics.CACHE).addComponent(TextParser.class);
+		// instance.as(Characteristics.CACHE).addComponent(TextParser.class);
 		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
 
 		// instance.as(Characteristics.CACHE).addComponent(BookListManager.class);

@@ -5,7 +5,7 @@ import java.util.Date;
 
 import ebook.core.models.ModelObject;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfoOptions.DbState;
+import ebook.module.confLoad.model.DbState;
 
 public class ConfViewModel extends ModelObject {
 

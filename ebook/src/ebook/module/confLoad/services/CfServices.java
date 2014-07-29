@@ -6,11 +6,6 @@ public class CfServices implements ICfServices {
 
 	CfGetService dbGetService;
 
-	CfLoadService dbLoadService;
-
-	/* (non-Javadoc)
-	 * @see ebook.db.services.IDbServices#dbGetService()
-	 */
 	@Override
 	public CfGetService get() {
 
@@ -18,9 +13,8 @@ public class CfServices implements ICfServices {
 		return dbGetService;
 	}
 
-	/* (non-Javadoc)
-	 * @see ebook.db.services.IDbServices#dbLoadService()
-	 */
+	CfLoadService dbLoadService;
+
 	@Override
 	public CfLoadService load() {
 
@@ -28,4 +22,13 @@ public class CfServices implements ICfServices {
 				: dbLoadService;
 		return dbLoadService;
 	}
+
+	private TextParser parse;
+
+	@Override
+	public TextParser parse() {
+		parse = parse == null ? new TextParser() : parse;
+		return parse;
+	}
+
 }

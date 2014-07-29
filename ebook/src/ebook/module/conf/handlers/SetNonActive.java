@@ -1,4 +1,4 @@
-package ebook.module.cf.handlers;
+package ebook.module.conf.handlers;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
@@ -7,12 +7,12 @@ import org.eclipse.e4.core.di.annotations.Optional;
 
 import ebook.module.confList.tree.ListConfInfo;
 
-public class SetActive {
+public class SetNonActive {
 	@Execute
 	public void execute() {
-		// dbm.setActive(db);
+		// dbm.setNonActive(db);
 		//
-		// PreferenceSupplier.set(PreferenceSupplier.BASE_ACTIVE, db.getId());
+		// PreferenceSupplier.set(PreferenceSupplier.BASE_COMPARE, db.getId());
 		// PreferenceSupplier.save();
 
 		// br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);

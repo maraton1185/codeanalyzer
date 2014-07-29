@@ -1,16 +1,19 @@
-package ebook.module.confLoad;
+package ebook.module.conf;
 
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
+import ebook.core.models.DbOptions;
 import ebook.utils.Const;
 import ebook.utils.DbStructureChecker;
+import ebook.utils.Strings;
 
 public class ConfStructure implements IDbStructure {
 
@@ -25,6 +28,41 @@ public class ConfStructure implements IDbStructure {
 
 			// stat.execute("CREATE TABLE CONFIG_INFO (ID INTEGER AUTO_INCREMENT, "
 			// + "VERSION VARCHAR(36));");
+			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
+					+ "OPTIONS VARCHAR(1500), " + "PRIMARY KEY (ID));");
+
+			stat.execute("CREATE TABLE CONTEXT (ID INTEGER AUTO_INCREMENT, "
+
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(1500), "
+
+					+ "FOREIGN KEY(PARENT) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			// *****************************
+			String SQL;
+			PreparedStatement prep;
+			int affectedRows;
+
+			SQL = "INSERT INTO INFO (OPTIONS) VALUES (?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			ConfOptions opt = new ConfOptions();
+			prep.setString(1, DbOptions.save(opt));
+			// prep.setBoolean(3, true);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initConfContextTitle"));
+			prep.setBoolean(2, true);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
 
 			stat.execute("CREATE TABLE OBJECTS (ID INTEGER AUTO_INCREMENT, "
 					+ "GROUP1 VARCHAR(200), GROUP2 VARCHAR(200), MODULE VARCHAR(200), "
@@ -110,8 +148,9 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "PROCS_PARAMETERS", "KEY, VALUE")
 				&& ch.checkColumns(metadata, "OBJECT_TABLE",
 						"OBJECT, MODULE, KEY, TYPE")
-
-		;
+				&& ch.checkColumns(metadata, "INFO", "OPTIONS")
+				&& ch.checkColumns(metadata, "CONTEXT",
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
 
 		if (!haveStructure)
 			throw new DbStructureException();

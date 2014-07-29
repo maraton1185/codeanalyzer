@@ -7,15 +7,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ebook.core.exceptions.ProcNotFoundException;
-import ebook.core.interfaces.ITextParser;
-import ebook.module.confLoad.interfaces.ICfConfig.EContext;
-import ebook.module.confLoad.interfaces.ICfConfig.EType;
+import ebook.module.confLoad.model.EContext;
+import ebook.module.confLoad.model.EType;
+import ebook.module.confLoad.model.Entity;
+import ebook.module.confLoad.model.procCall;
+import ebook.module.confLoad.model.procEntity;
 import ebook.utils.Const;
 import ebook.utils.Strings;
 
-public class TextParser implements ITextParser {
+public class TextParser {// implements ITextParser {
 
-	@Override
 	public void parseTxtModuleName(File f, Entity line) throws Exception {
 		String name = f.getName();
 		String s[] = name.split("\\.");
@@ -75,7 +76,6 @@ public class TextParser implements ITextParser {
 		line.type = EType.Module;
 	}
 
-	@Override
 	public boolean findProcEnd(String source_line) {
 
 		String upper_line = source_line.toUpperCase();
@@ -111,7 +111,6 @@ public class TextParser implements ITextParser {
 		return false;
 	}
 
-	@Override
 	public int getProcInfo(procEntity proc, ArrayList<String> buffer,
 			ArrayList<String> vars, String currentSection)
 			throws ProcNotFoundException {
@@ -274,7 +273,7 @@ public class TextParser implements ITextParser {
 		return lineOffset;
 	}
 
-	// @Override
+	//
 	// public void findCalls(procEntity proc) {
 	//
 	// proc.calls = new ArrayList<ProcCall>();
@@ -321,11 +320,10 @@ public class TextParser implements ITextParser {
 	// return false;
 	// }
 
-	@Override
-	public List<ProcCall> findProcsInString(String source_line,
+	public List<procCall> findProcsInString(String source_line,
 			String exclude_name) {
 
-		List<ProcCall> result = new ArrayList<ProcCall>();
+		List<procCall> result = new ArrayList<procCall>();
 
 		if (!source_line.contains("("))
 			return result;
@@ -373,7 +371,7 @@ public class TextParser implements ITextParser {
 			if (m.find())
 				continue;
 
-			ProcCall call = new ProcCall();
+			procCall call = new procCall();
 
 			// ищем модуль
 			if (procInStringResult.contains(".")) {
@@ -402,7 +400,6 @@ public class TextParser implements ITextParser {
 		return result;
 	}
 
-	@Override
 	public boolean isCommentOrDirective(String file_line) {
 
 		if (file_line.isEmpty())
@@ -420,7 +417,6 @@ public class TextParser implements ITextParser {
 		return false;
 	}
 
-	@Override
 	public boolean isSection(String file_line) {
 
 		if (file_line.isEmpty())
@@ -548,7 +544,6 @@ public class TextParser implements ITextParser {
 	//
 	// }
 
-	@Override
 	public boolean findCallee(String _line, String _calleeName) {
 
 		if (_line.isEmpty() || _calleeName.isEmpty())
@@ -570,7 +565,6 @@ public class TextParser implements ITextParser {
 		return false;
 	}
 
-	@Override
 	public boolean findProcStart(String line, String name) {
 
 		if (name == null)
@@ -604,7 +598,6 @@ public class TextParser implements ITextParser {
 		return false;
 	}
 
-	@Override
 	public String compare(String text, String text1) {
 		// String[] t1 = text.split("\n");
 		// String[] t2 = text1.split("\n");
@@ -653,7 +646,6 @@ public class TextParser implements ITextParser {
 
 	}
 
-	@Override
 	public boolean findCompareMarker(String line) {
 		String _line = line.toUpperCase();
 
@@ -674,7 +666,6 @@ public class TextParser implements ITextParser {
 		// return m.find();
 	}
 
-	@Override
 	public boolean findTextInLine(String line, String text) {
 		if (text.trim().isEmpty())
 			return false;

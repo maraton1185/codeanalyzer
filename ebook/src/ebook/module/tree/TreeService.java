@@ -13,6 +13,7 @@ import java.util.List;
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
+import ebook.module.book.BookOptions;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 
 public abstract class TreeService implements ITreeService {
@@ -489,6 +490,78 @@ public abstract class TreeService implements ITreeService {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 
+		}
+
+	}
+
+	public DbOptions getRootOptions() {
+
+		DbOptions result = null;
+
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT TOP 1 T.OPTIONS FROM INFO AS T";
+			PreparedStatement prep = con.prepareStatement(SQL);
+
+			ResultSet rs = prep.executeQuery();
+			try {
+				if (rs.next()) {
+
+					result = DbOptions.load(BookOptions.class, rs.getString(1));
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+
+	public void saveRootOptions(DbOptions opt) {
+
+		try {
+
+			Connection con = db.getConnection();
+			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
+			Statement stat = con.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+
+			try {
+
+				PreparedStatement prep;
+				if (rs.next()) {
+
+					SQL = "UPDATE INFO SET OPTIONS=? WHERE ID=?;";
+					prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+
+					prep.setString(1, DbOptions.save(opt));
+					prep.setInt(2, rs.getInt(1));
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+
+				} else {
+					SQL = "INSERT INTO INFO (OPTIONS) VALUES (?);";
+					prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+					prep.setString(1, DbOptions.save(opt));
+
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+
+				}
+
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

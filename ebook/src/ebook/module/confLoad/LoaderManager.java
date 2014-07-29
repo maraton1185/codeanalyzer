@@ -11,9 +11,10 @@ import ebook.auth.interfaces.IAuthorize;
 import ebook.core.pico;
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.LoadConfigException;
+import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.module.confLoad.interfaces.ILoaderManager;
+import ebook.module.confLoad.model.DbState;
 import ebook.module.confLoad.services.LoaderService;
 import ebook.utils.Const;
 import ebook.utils.Utils;
@@ -67,11 +68,14 @@ public class LoaderManager implements ILoaderManager {
 
 		// ЗАГРУЗКА ******************************************************
 
+		ConfConnection _con = null;
 		Connection con = null;
+		Boolean done = false;
 		try {
 
-			ConfConnection _con = new ConfConnection(db.getDbFullPath());
+			_con = new ConfConnection(db.getDbFullPath());
 
+			// con = _con.getConnection();
 			con = _con.makeConnection(true);
 
 			monitor.beginTask("Загрузка конфигурации...", length);
@@ -85,6 +89,7 @@ public class LoaderManager implements ILoaderManager {
 			// Const.ERROR_PRO_ACCESS_LOAD);
 
 			db.setState(DbState.Loaded);
+			done = true;
 
 			if (db.getDeleteSourceFiles()) {
 				monitor.beginTask("Удаление файлов...", length);
@@ -115,6 +120,8 @@ public class LoaderManager implements ILoaderManager {
 			monitor.done();
 		}
 
+		if (_con != null && done)
+			_con.srv().setState(DbState.Loaded);
 	}
 
 	@Override
@@ -294,6 +301,8 @@ public class LoaderManager implements ILoaderManager {
 
 		// ЗАГРУЗКА ******************************************************
 
+		Boolean done = false;
+		ConfConnection _con = null;
 		Connection con = null;
 		try {
 
@@ -303,7 +312,7 @@ public class LoaderManager implements ILoaderManager {
 
 			monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 
-			ConfConnection _con = new ConfConnection(db.getDbFullPath());
+			_con = new ConfConnection(db.getDbFullPath());
 
 			con = _con.makeConnection(true);
 
@@ -316,6 +325,7 @@ public class LoaderManager implements ILoaderManager {
 			// Const.ERROR_PRO_ACCESS_LOAD);
 
 			db.setLinkState(DbState.Loaded);
+			done = true;
 
 		} catch (InterruptedException e) {
 
@@ -343,6 +353,8 @@ public class LoaderManager implements ILoaderManager {
 
 		}
 
+		if (_con != null && done)
+			_con.srv().setLinkState(DbState.Loaded);
 	}
 
 	// *********************************************************************

@@ -12,8 +12,8 @@ import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.exceptions.LinksExistsException;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.confList.tree.ListConfInfoOptions.DbState;
 import ebook.module.confLoad.interfaces.ILoaderManager;
+import ebook.module.confLoad.model.DbState;
 import ebook.utils.Events;
 
 public class FillProcLinkTableJob extends Job {

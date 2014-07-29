@@ -1,4 +1,4 @@
-package ebook.module.cf.views;
+package ebook.module.conf.views;
 
 import javax.annotation.PostConstruct;
 
@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ebook.utils.Strings;
 
-public class TreeView {
+public class _TreeView {
 
 	TableViewer objectsTree;
 

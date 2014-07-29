@@ -9,15 +9,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import ebook.core.pico;
-import ebook.core.interfaces.ITextParser;
-import ebook.core.interfaces.ITextParser.Entity;
-import ebook.core.interfaces.ITextParser.ProcCall;
-import ebook.core.interfaces.ITextParser.procEntity;
+import ebook.core.interfaces._ITextParser;
+import ebook.module.confLoad.model.Entity;
+import ebook.module.confLoad.model.procCall;
+import ebook.module.confLoad.model.procEntity;
 import ebook.utils.AesCrypt;
 
 public class CfLoadService {
 
-	ITextParser parser = pico.get(ITextParser.class);
+	_ITextParser parser = pico.get(_ITextParser.class);
 
 	// ADD *****************************************************
 
@@ -108,7 +108,7 @@ public class CfLoadService {
 
 		if (line.calls != null)
 
-			for (ProcCall call : line.calls) {
+			for (procCall call : line.calls) {
 				String SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
 				PreparedStatement prep = con.prepareStatement(SQL);
 

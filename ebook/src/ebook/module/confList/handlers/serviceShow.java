@@ -21,7 +21,7 @@ import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 
 import ebook.core.App;
 import ebook.core.App.ConfWindowCloseHandler;
-import ebook.module.confLoad.ConfConnection;
+import ebook.module.conf.ConfConnection;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;

@@ -39,6 +39,7 @@ import ebook.module.book.xml.SectionXML;
 import ebook.module.book.xml.ZipHelper;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -94,87 +95,15 @@ public class BookService extends TreeService {
 
 	@Override
 	public ITreeItemInfo getSelected() {
-		BookOptions opt = getBookOptions();
+		DbOptions _opt = getRootOptions();
+		if (_opt == null)
+			return get(ITreeService.rootId);
+
+		BookOptions opt = (BookOptions) _opt;
 		return get(opt.selectedSection);
 	}
 
 	// ************************************************************************************
-
-	public BookOptions getBookOptions() {
-
-		BookOptions result = new BookOptions();
-
-		try {
-			Connection con = db.getConnection();
-			String SQL = "SELECT TOP 1 T.OPTIONS FROM INFO AS T";
-			PreparedStatement prep = con.prepareStatement(SQL);
-
-			ResultSet rs = prep.executeQuery();
-			try {
-				if (rs.next()) {
-
-					result = DbOptions.load(BookOptions.class, rs.getString(1));
-					// } else {
-					// result.description = "";
-					// result.options = new BookInfoOptions();
-					// result.options
-				}
-			} finally {
-				rs.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return result;
-
-	}
-
-	public void saveBookOptions(BookOptions opt) {
-
-		try {
-
-			Connection con = db.getConnection();
-			String SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
-			Statement stat = con.createStatement();
-			ResultSet rs = stat.executeQuery(SQL);
-
-			try {
-
-				PreparedStatement prep;
-				if (rs.next()) {
-
-					SQL = "UPDATE INFO SET OPTIONS=? WHERE ID=?;";
-					prep = con.prepareStatement(SQL,
-							Statement.CLOSE_CURRENT_RESULT);
-
-					prep.setString(1, DbOptions.save(opt));
-					prep.setInt(2, rs.getInt(1));
-					int affectedRows = prep.executeUpdate();
-					if (affectedRows == 0)
-						throw new SQLException();
-
-				} else {
-					SQL = "INSERT INTO INFO (OPTIONS) VALUES (?);";
-					prep = con.prepareStatement(SQL,
-							Statement.CLOSE_CURRENT_RESULT);
-					prep.setString(1, DbOptions.save(opt));
-
-					int affectedRows = prep.executeUpdate();
-					if (affectedRows == 0)
-						throw new SQLException();
-
-				}
-
-			} finally {
-				rs.close();
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 
 	// ************************************************************************************
 

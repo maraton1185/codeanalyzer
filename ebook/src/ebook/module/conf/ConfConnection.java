@@ -1,10 +1,11 @@
-package ebook.module.confLoad;
+package ebook.module.conf;
 
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
+import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
 import ebook.utils.PreferenceSupplier;
 
@@ -25,5 +26,14 @@ public class ConfConnection extends BaseDbPathConnection {
 				PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY));
 
+	}
+
+	ConfService service;
+
+	public ConfService srv() {
+
+		service = service == null ? App.srv.cf(this) : service;
+
+		return service;
 	}
 }

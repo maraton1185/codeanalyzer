@@ -196,7 +196,7 @@
     </bindings>
   </bindingTables>
   <bindingTables xmi:id="_Ml3x8LAbEeOa8OKjTLKQvw" elementId="ebook.bindingtable.1" bindingContext="_E5YnYLAbEeOa8OKjTLKQvw">
-    <bindings xmi:id="_OaZqoLAbEeOa8OKjTLKQvw" elementId="ebook.keybinding.4" keySequence="INSERT" command="_sPoPIK3EEeOHwvV36BHkVA">
+    <bindings xmi:id="_OaZqoLAbEeOa8OKjTLKQvw" elementId="ebook.keybinding.4" keySequence="INSERT" command="_B6xfwMt7EeOTW91tESaq8A">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_cjynMLAbEeOa8OKjTLKQvw" elementId="ebook.keybinding.5" keySequence="DELETE" command="_8pkSAK3EEeOHwvV36BHkVA">
@@ -220,6 +220,12 @@
     <bindings xmi:id="_WzWDgBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.13" keySequence="M1+X" command="_Nf0CoBMsEeSxtrXpzQMiIQ">
       <tags>type:user</tags>
     </bindings>
+    <bindings xmi:id="_-MnccBesEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.14" keySequence="M2+TAB" command="_sXbRULAWEeOa8OKjTLKQvw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_DhrcoBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.15" keySequence="TAB" command="_sPoPIK3EEeOHwvV36BHkVA">
+      <tags>type:user</tags>
+    </bindings>
   </bindingTables>
   <bindingTables xmi:id="_TEIvQN8VEeO4waw7J7j0xQ" elementId="ebook.bindingtable.2" bindingContext="_K6bdMN8VEeO4waw7J7j0xQ">
     <bindings xmi:id="_UWP3YN8VEeO4waw7J7j0xQ" elementId="ebook.keybinding.7" keySequence="INSERT" command="_NJAQcKhVEeOKceOp7VW7lQ">
@@ -229,6 +235,12 @@
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_gD80oN8VEeO4waw7J7j0xQ" elementId="ebook.keybinding.9" keySequence="F2" command="_W2YgENtrEeO08YnUrs_6Pw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_Nn9JEBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.16" keySequence="TAB" command="_fOlogNtoEeO08YnUrs_6Pw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_N8LsoBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.17" keySequence="M2+TAB" command="_-33RcNtqEeO08YnUrs_6Pw">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -242,6 +254,12 @@
     <bindings xmi:id="_nJ6yEOAjEeOuHKOpYE-s4Q" elementId="ebook.keybinding.9" keySequence="F2" command="_Gz2psOAjEeOuHKOpYE-s4Q">
       <tags>type:user</tags>
     </bindings>
+    <bindings xmi:id="_gpNzgBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.18" keySequence="M2+TAB" command="_-RWxcOLFEeOuwO28iF6Snw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_g6r-ABetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.19" keySequence="TAB" command="_BYzWQOAjEeOuHKOpYE-s4Q">
+      <tags>type:user</tags>
+    </bindings>
   </bindingTables>
   <bindingTables xmi:id="_0TqzgOrMEeOjdt5IkPdmcg" elementId="ebook.bindingtable.4" bindingContext="_nXM9EOrMEeOjdt5IkPdmcg">
     <bindings xmi:id="_1uiPAOrMEeOjdt5IkPdmcg" elementId="ebook.keybinding.7" keySequence="INSERT" command="_-GzpkOwhEeO98Pond6SApQ">
@@ -251,6 +269,12 @@
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_2xA_sOrMEeOjdt5IkPdmcg" elementId="ebook.keybinding.9" keySequence="F2" command="_Gcb3wOwiEeO98Pond6SApQ">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_hLQJkBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.20" keySequence="M2+TAB">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_hdaQkBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.21" keySequence="TAB">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>

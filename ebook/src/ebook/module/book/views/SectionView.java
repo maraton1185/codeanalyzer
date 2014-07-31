@@ -53,15 +53,15 @@ public class SectionView {
 	public void EVENT_UPDATE_SECTION_VIEW(
 			@UIEventTopic(Events.EVENT_UPDATE_SECTION_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (book != data.book)
+		if (book != data.con)
 			return;
 
 		if (!data.parent.equals(section))
 			return;
 
-		browserComposite.updateUrl(data.parent.tag);
+		browserComposite.updateUrl(((SectionInfo) data.parent).tag);
 
-		window.getContext().set(SectionInfo.class, data.selected);
+		window.getContext().set(SectionInfo.class, (SectionInfo) data.selected);
 	}
 
 	@PostConstruct

@@ -210,6 +210,13 @@ public class TreeViewComponent {
 		// TreeViewerFocusCellManager focusCellManager = new
 		// TreeViewerFocusCellManager(
 		// viewer, new FocusCellOwnerDrawHighlighter(viewer));
+		// TreeViewerFocusCellManager focusCellManager;
+		// if (editOnEnter)
+		// focusCellManager = new TreeViewerFocusCellManager(viewer,
+		// new FocusCellOwnerDrawHighlighter(viewer));
+		// else
+		// focusCellManager = null;
+
 		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(
 				viewer) {
 			@Override

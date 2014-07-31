@@ -89,8 +89,7 @@ public class BookService extends TreeService {
 	@Override
 	protected Object getUpdateEventData(ITreeItemInfo parent, ITreeItemInfo item) {
 
-		return new EVENT_UPDATE_VIEW_DATA((BookConnection) db,
-				(SectionInfo) parent, (SectionInfo) item);
+		return new EVENT_UPDATE_VIEW_DATA(db, parent, item);
 	}
 
 	@Override
@@ -128,8 +127,7 @@ public class BookService extends TreeService {
 			section.setOptions(options);
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
-							null));
+					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,8 +173,7 @@ public class BookService extends TreeService {
 
 				if (parent != null)
 					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-							new EVENT_UPDATE_VIEW_DATA((BookConnection) db,
-									parent));
+							new EVENT_UPDATE_VIEW_DATA(db, parent));
 			} finally {
 				rs.close();
 			}
@@ -340,8 +337,7 @@ public class BookService extends TreeService {
 				throw new SQLException();
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
-							null));
+					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -365,8 +361,7 @@ public class BookService extends TreeService {
 				throw new SQLException();
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
-							null));
+					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -397,8 +392,7 @@ public class BookService extends TreeService {
 				throw new SQLException();
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
-							null));
+					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -425,8 +419,7 @@ public class BookService extends TreeService {
 				throw new SQLException();
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
-							null));
+					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -457,8 +450,7 @@ public class BookService extends TreeService {
 			updateImagesOrder(items);
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA((BookConnection) db, section,
-							null));
+					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -21,7 +21,7 @@ import ebook.utils.Utils;
 public class GoToParent {
 	@Execute
 	public void execute(
-			BookConnection book,
+			@Active BookConnection book,
 			@Active MWindow window,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section,
 			ECommandService cs, EHandlerService hs) {

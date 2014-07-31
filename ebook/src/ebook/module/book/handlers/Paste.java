@@ -18,7 +18,7 @@ import ebook.utils.Strings;
 public class Paste {
 
 	@Execute
-	public void execute(final BookConnection book,
+	public void execute(final @Active BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
 
 		final File zipFile = App.clip.getZip();

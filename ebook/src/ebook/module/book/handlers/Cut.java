@@ -18,7 +18,7 @@ import ebook.utils.Strings;
 
 public class Cut {
 	@Execute
-	public void execute(final BookConnection book,
+	public void execute(final @Active BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
 
 		try {

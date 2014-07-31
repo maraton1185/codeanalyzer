@@ -21,7 +21,7 @@ public class Add {
 	@Execute
 	public void execute(
 			Shell shell,
-			BookConnection book,
+			@Active BookConnection book,
 			@Active MPart part,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 

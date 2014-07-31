@@ -13,7 +13,7 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class EditTitle {
 	@Execute
-	public void execute(BookConnection book, @Active SectionInfo section) {
+	public void execute(@Active BookConnection book, @Active SectionInfo section) {
 
 		App.br.post(Events.EVENT_EDIT_TITLE_CONTENT_VIEW,
 				new EVENT_UPDATE_VIEW_DATA(book, section, null));

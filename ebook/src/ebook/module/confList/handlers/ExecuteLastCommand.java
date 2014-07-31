@@ -20,12 +20,12 @@ public class ExecuteLastCommand {
 				shell,
 				Strings.get("appTitle"),
 				item.getName() + "\n"
-						+ App.mng.cm().getOperationName(item.getType()) + "?")) {
+						+ App.mng.lm().getOperationName(item.getType()) + "?")) {
 
 			return;
 		}
 
-		App.mng.cm().execute(item, shell);
+		App.mng.lm().execute(item, shell);
 		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
 	}
 

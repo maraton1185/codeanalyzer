@@ -60,7 +60,7 @@ public class ListConfInfo extends TreeItemInfo {
 			op = data.sql == null ? "-" : "Загрузить из " + data.sql.path;
 			break;
 		default:
-			op = App.mng.cm().getOperationName(data.type);
+			op = App.mng.lm().getOperationName(data.type);
 			break;
 		}
 		return data.name + " : " + op;

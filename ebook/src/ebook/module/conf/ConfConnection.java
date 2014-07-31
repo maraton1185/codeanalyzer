@@ -28,7 +28,7 @@ public class ConfConnection extends BaseDbPathConnection {
 
 	}
 
-	ConfService service;
+	private ConfService service;
 
 	public ConfService srv() {
 

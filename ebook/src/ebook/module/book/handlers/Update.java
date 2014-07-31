@@ -16,7 +16,7 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 public class Update {
 	@Execute
 	public void execute(
-			BookConnection book,
+			@Active BookConnection book,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 		App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
 				new EVENT_UPDATE_VIEW_DATA(book, section));

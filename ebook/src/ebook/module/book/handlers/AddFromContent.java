@@ -16,7 +16,7 @@ import ebook.utils.Strings;
 public class AddFromContent {
 	@Execute
 	public void execute(@Active SectionInfo section, Shell shell,
-			BookConnection book) {
+			@Active BookConnection book) {
 		try {
 
 			SectionInfo data = new SectionInfo();

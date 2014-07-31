@@ -12,6 +12,7 @@ import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public class ConfService extends TreeService {
 
@@ -27,6 +28,12 @@ public class ConfService extends TreeService {
 		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
+	}
+
+	@Override
+	protected Object getUpdateEventData(ITreeItemInfo parent, ITreeItemInfo item) {
+
+		return new EVENT_UPDATE_VIEW_DATA(db, parent, item);
 	}
 
 	@Override

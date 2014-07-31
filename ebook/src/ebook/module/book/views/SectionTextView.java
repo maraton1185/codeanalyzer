@@ -125,7 +125,7 @@ public class SectionTextView {
 			@UIEventTopic(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW) EVENT_UPDATE_VIEW_DATA data,
 			final EHandlerService hs, final ECommandService cs) {
 
-		if (book != data.book)
+		if (book != data.con)
 			return;
 
 		// if (!data.onlySectionView)

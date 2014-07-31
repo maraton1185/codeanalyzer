@@ -20,7 +20,7 @@ import ebook.utils.Utils;
 public class Download {
 
 	@Execute
-	public void execute(final BookConnection book,
+	public void execute(final @Active BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
 
 		final IPath p = Utils.browseDirectory(book.getFullPath(), shell);

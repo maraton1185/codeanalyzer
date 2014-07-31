@@ -28,15 +28,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-import ebook.core.App;
-import ebook.module.confLoad.ConfManager;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 public class _ConfigsView {
 
-	ConfManager dbMng = App.mng.cm();
+	// ConfManager dbMng = App.mng.lm();
 
 	private final Image ACTIVE = Utils.getImage("active.png");
 	private final Image NONACTIVE = Utils.getImage("nonactive.png");

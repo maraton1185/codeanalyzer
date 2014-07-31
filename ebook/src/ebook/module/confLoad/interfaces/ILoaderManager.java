@@ -3,8 +3,10 @@ package ebook.module.confLoad.interfaces;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.tree.ITreeItemInfo;
 
 public interface ILoaderManager {
 
@@ -25,5 +27,9 @@ public interface ILoaderManager {
 
 	void loadFromSQL(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException;
+
+	String getOperationName(operationType key);
+
+	void execute(ITreeItemInfo conf, Shell shell);
 
 }

@@ -17,8 +17,8 @@ import ebook.utils.Utils;
 
 public class ChangeBlock {
 	@Execute
-	public void execute(BookConnection book, @Active SectionInfo section,
-			EHandlerService hs, ECommandService cs) {
+	public void execute(@Active BookConnection book,
+			@Active SectionInfo section, EHandlerService hs, ECommandService cs) {
 
 		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
 		App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,

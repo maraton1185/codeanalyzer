@@ -28,6 +28,7 @@ import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
@@ -43,19 +44,25 @@ public class ContextView {
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONF_VIEW) EVENT_UPDATE_TREE_DATA data) {
+			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONF_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (data.selected == null)
+		if (con != data.con)
 			return;
 
-		viewer.editElement(data.selected, 0);
+		if (data.parent == null)
+			return;
+
+		viewer.editElement(data.parent, 0);
 
 	}
 
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW) EVENT_UPDATE_TREE_DATA data) {
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
 
 		if (data.parent == null)
 			return;

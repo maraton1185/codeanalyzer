@@ -1,9 +1,12 @@
 package ebook.core.models;
 
+import ebook.core.pico;
 import ebook.core.interfaces.IManagerFactory;
 import ebook.module.bookList.BookListManager;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfManager;
 import ebook.module.confList.ConfListManager;
-import ebook.module.confLoad.ConfManager;
+import ebook.module.confLoad.interfaces.ILoaderManager;
 import ebook.module.userList.UserManager;
 
 public class ManagerFactory implements IManagerFactory {
@@ -35,12 +38,13 @@ public class ManagerFactory implements IManagerFactory {
 		return clm;
 	}
 
-	ConfManager cm;
+	@Override
+	public ILoaderManager lm() {
+		return pico.get(ILoaderManager.class);
+	}
 
 	@Override
-	public ConfManager cm() {
-		if (cm == null)
-			cm = new ConfManager();
-		return cm;
+	public ConfManager cm(ConfConnection con) {
+		return new ConfManager(con);
 	}
 }

@@ -21,7 +21,7 @@ import ebook.utils.Strings;
 
 public class Delete {
 	@Execute
-	public void execute(Shell shell, BookConnection book,
+	public void execute(Shell shell, @Active BookConnection book,
 			@Active final SectionInfo section, SectionInfoSelection selection,
 			EPartService partService, EModelService model,
 			@Active MWindow window) {
@@ -29,9 +29,9 @@ public class Delete {
 		// "Удалить раздел?"))
 		book.srv().delete(selection);
 
-		List<MPartStack> stacks = model.findElements(window,
-				Strings.get("ebook.partstack.sections"),
-				MPartStack.class, null);
+		List<MPartStack> stacks = model
+				.findElements(window, Strings.get("ebook.partstack.sections"),
+						MPartStack.class, null);
 
 		String partID = !section.isGroup() ? Strings
 				.get("ebook.partdescriptor.sectionsBlockView") : Strings

@@ -15,7 +15,7 @@ import ebook.utils.Strings;
 
 public class AddSubGroup {
 	@Execute
-	public void execute(Shell shell, BookConnection book,
+	public void execute(Shell shell, @Active BookConnection book,
 			@Active SectionInfo section) {
 
 		try {

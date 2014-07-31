@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confLoad.interfaces.ILoaderManager;
 import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.confLoad.services.LoaderService;
@@ -33,7 +34,7 @@ import ebook.utils.Utils;
 @Creatable
 public class LoadDialog extends Dialog {
 
-	ConfManager dbManager = App.mng.cm();
+	ILoaderManager dbManager = App.mng.lm();
 
 	private Boolean dbPathModified = false;
 
@@ -267,7 +268,7 @@ public class LoadDialog extends Dialog {
 
 		for (final operationType key : operationType.values()) {
 
-			String opName = App.mng.cm().getOperationName(key);
+			String opName = App.mng.lm().getOperationName(key);
 
 			if (opName == null) {
 				continue;

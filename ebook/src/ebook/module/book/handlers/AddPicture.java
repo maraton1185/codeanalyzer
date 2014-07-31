@@ -20,7 +20,7 @@ public class AddPicture {
 	@Execute
 	public void execute(
 			Shell shell,
-			BookConnection book,
+			@Active BookConnection book,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
 		IPath p = Utils.browseFile(book.getFullPath(), shell,

@@ -46,4 +46,9 @@ public abstract class TreeManager implements ITreeManager {
 
 	}
 
+	@Override
+	public boolean save(ITreeItemInfo data, Shell shell) {
+		return false;
+	}
+
 }

@@ -17,7 +17,7 @@ import ebook.utils.Utils;
 public class Upload {
 
 	@Execute
-	public void execute(final BookConnection book,
+	public void execute(final @Active BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
 
 		final IPath p = Utils.browseFile(book.getFullPath(), shell,

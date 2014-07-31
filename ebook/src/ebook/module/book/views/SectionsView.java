@@ -46,14 +46,14 @@ public class SectionsView {
 
 	@Inject
 	@Active
-	BookConnection book;
+	BookConnection con;
 
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_CONTENT_VIEW(
 			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (book != data.book)
+		if (con != data.con)
 			return;
 
 		if (data.parent == null)
@@ -68,7 +68,7 @@ public class SectionsView {
 	public void EVENT_UPDATE_LABELS_CONTENT_VIEW(
 			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (book != data.book)
+		if (con != data.con)
 			return;
 
 		if (data.parent == null)
@@ -85,7 +85,7 @@ public class SectionsView {
 			final EHandlerService hs, final ECommandService cs,
 			EModelService model, @Active MWindow bookWindow) {
 
-		if (book != data.book)
+		if (con != data.con)
 			return;
 
 		if (data.parent != null)
@@ -107,7 +107,7 @@ public class SectionsView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				book.srv(), 3, true);
+				con.srv(), 3, true);
 
 		viewer = treeComponent.getViewer();
 
@@ -143,9 +143,9 @@ public class SectionsView {
 					Utils.executeHandler(hs, cs,
 							Strings.get("command.id.ShowSection"));
 					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-							new EVENT_UPDATE_VIEW_DATA(book, section, section));
+							new EVENT_UPDATE_VIEW_DATA(con, section, section));
 				} else {
-					SectionInfo selected = (SectionInfo) book.srv().get(
+					SectionInfo selected = (SectionInfo) con.srv().get(
 							section.getParent());
 
 					selected.tag = section.getId().toString();
@@ -156,7 +156,7 @@ public class SectionsView {
 							Strings.get("command.id.ShowSection"));
 
 					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-							new EVENT_UPDATE_VIEW_DATA(book, selected, section));
+							new EVENT_UPDATE_VIEW_DATA(con, selected, section));
 				}
 			}
 		});
@@ -171,7 +171,7 @@ public class SectionsView {
 	}
 
 	private void rolesVisible() {
-		ListBookInfoOptions opt = (ListBookInfoOptions) book.getTreeItem()
+		ListBookInfoOptions opt = (ListBookInfoOptions) con.getTreeItem()
 				.getOptions();
 
 		if (opt == null)
@@ -190,10 +190,10 @@ public class SectionsView {
 		if (!App.getJetty().isStarted())
 			return;
 
-		BookOptions opt = (BookOptions) book.srv().getRootOptions();
+		BookOptions opt = (BookOptions) con.srv().getRootOptions();
 		for (Integer i : opt.openSections) {
 
-			final SectionInfo section = (SectionInfo) book.srv().get(i);
+			final SectionInfo section = (SectionInfo) con.srv().get(i);
 			if (section == null)
 				continue;
 
@@ -204,13 +204,13 @@ public class SectionsView {
 
 		if (opt.openSections == null || opt.openSections.isEmpty()) {
 
-			List<ITreeItemInfo> input = book.srv().getRoot();
+			List<ITreeItemInfo> input = con.srv().getRoot();
 			if (input.isEmpty()) {
 				return;
 			}
 			int section_id = input.get(0).getId();
 
-			final SectionInfo section = (SectionInfo) book.srv()
+			final SectionInfo section = (SectionInfo) con.srv()
 					.get(section_id);
 			if (section == null)
 				return;

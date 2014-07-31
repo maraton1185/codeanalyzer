@@ -1,7 +1,6 @@
 package ebook.utils;
 
-import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionInfo;
+import ebook.core.interfaces.IDbConnection;
 import ebook.module.tree.ITreeItemInfo;
 
 public abstract class Events {
@@ -79,24 +78,24 @@ public abstract class Events {
 
 	public static class EVENT_UPDATE_VIEW_DATA {
 
-		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent,
-				SectionInfo selected) {
+		public EVENT_UPDATE_VIEW_DATA(IDbConnection con, ITreeItemInfo parent,
+				ITreeItemInfo selected) {
 			super();
-			this.book = book;
+			this.con = con;
 			this.parent = parent;
 			this.selected = selected;
 			// onlySectionView = false;
 		}
 
-		public EVENT_UPDATE_VIEW_DATA(BookConnection book, SectionInfo parent) {
-			this.book = book;
+		public EVENT_UPDATE_VIEW_DATA(IDbConnection con, ITreeItemInfo parent) {
+			this.con = con;
 			this.parent = parent;
 			// this.onlySectionView = onlySectionView;
 		}
 
-		public BookConnection book;
-		public SectionInfo parent;
-		public SectionInfo selected;
+		public IDbConnection con;
+		public ITreeItemInfo parent;
+		public ITreeItemInfo selected;
 		// public boolean setBook;
 		// public boolean onlySectionView;
 

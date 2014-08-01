@@ -17,4 +17,15 @@ public class ContextInfo extends TreeItemInfo {
 		return (ContextInfoOptions) super.getOptions();
 	}
 
+	private int section = 0;
+
+	public int getSection() {
+		return section;
+	}
+
+	public void setSection(int section) {
+		this.section = section;
+
+	}
+
 }

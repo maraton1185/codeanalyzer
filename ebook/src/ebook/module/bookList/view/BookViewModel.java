@@ -66,6 +66,16 @@ public class BookViewModel extends AclRolesViewModel {
 		fireIndexedPropertyChange("ACL", options.ACL, options.ACL = value);
 	}
 
+	public boolean getContext() {
+		return options.Context;
+	}
+
+	public void setContext(boolean value) {
+
+		fireIndexedPropertyChange("context", options.Context,
+				options.Context = value);
+	}
+
 	public Image getImage() {
 		return info.getImage();
 	}

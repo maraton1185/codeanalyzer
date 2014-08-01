@@ -76,7 +76,22 @@ public abstract class Events {
 
 	public static final String EVENT_CONF_VIEW_SETSELECTION = "EVENT_CONF_VIEW_SETSELECTION";
 
+	public static final String EVENT_HIDE_BOOK_PANEL = "EVENT_HIDE_BOOK_PANEL";
+
+	public static final String EVENT_HIDE_BOOK_CONTEXT = "EVENT_HIDE_BOOK_CONTEXT";
+
+	public static final String EVENT_UPDATE_SECTION_CONTEXT_VIEW = "EVENT_UPDATE_SECTION_CONTEXT_VIEW";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
+
+		public EVENT_UPDATE_VIEW_DATA(IDbConnection con, ITreeItemInfo section,
+				ITreeItemInfo parent, ITreeItemInfo selected) {
+			super();
+			this.con = con;
+			this.parent = parent;
+			this.selected = selected;
+			this.section = section;
+		}
 
 		public EVENT_UPDATE_VIEW_DATA(IDbConnection con, ITreeItemInfo parent,
 				ITreeItemInfo selected) {
@@ -96,6 +111,7 @@ public abstract class Events {
 		public IDbConnection con;
 		public ITreeItemInfo parent;
 		public ITreeItemInfo selected;
+		public ITreeItemInfo section;
 		// public boolean setBook;
 		// public boolean onlySectionView;
 

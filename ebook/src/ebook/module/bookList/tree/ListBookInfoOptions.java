@@ -15,4 +15,6 @@ public class ListBookInfoOptions extends DbOptions {
 
 	public boolean ACL = false;
 
+	public boolean Context = false;
+
 }

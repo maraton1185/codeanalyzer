@@ -49,12 +49,23 @@ public class TreeViewComponent {
 	private ITreeItemInfo root;
 	private ITreeItemInfo dragSection;
 	protected TreeItem selectedItem;
+	private boolean groupIsBold;
+	private int expandLevel;
 
 	public TreeViewComponent(Composite parent, ITreeService service,
 			int expandLevel, boolean editingSupport) {
 
+		this(parent, service, expandLevel, editingSupport, true);
+
+	}
+
+	public TreeViewComponent(Composite parent, ITreeService service,
+			int expandLevel, boolean editingSupport, boolean groupIsBold) {
+
 		this.service = service;
 		this.parent = parent;
+		this.groupIsBold = groupIsBold;
+		this.expandLevel = expandLevel;
 
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION);
@@ -69,10 +80,11 @@ public class TreeViewComponent {
 			}
 		});
 
-		List<ITreeItemInfo> input = service.getRoot();
-		root = input.size() == 0 ? null : input.get(0);
-		viewer.setAutoExpandLevel(expandLevel);
-		viewer.setInput(input);
+		updateInput();
+		// List<ITreeItemInfo> input = service.getRoot();
+		// root = input.size() == 0 ? null : input.get(0);
+		// viewer.setAutoExpandLevel(expandLevel);
+		// viewer.setInput(input);
 
 		if (editingSupport) {
 			editingSupport();
@@ -136,7 +148,8 @@ public class TreeViewComponent {
 			ITreeItemInfo item = (ITreeItemInfo) element;
 
 			if (item.getTitle() != null) {
-				if (item.isGroup()) {
+				if (item.isGroup() && groupIsBold || !groupIsBold
+						&& !item.isGroup()) {
 
 					FontData fontDatas[] = parent.getFont().getFontData();
 					FontData data = fontDatas[0];
@@ -366,6 +379,14 @@ public class TreeViewComponent {
 		ITreeItemInfo selected = service.getSelected();
 		if (selected != null)
 			viewer.setSelection(new StructuredSelection(selected), true);
+
+	}
+
+	public void updateInput() {
+		List<ITreeItemInfo> input = service.getRoot();
+		root = input.size() == 0 ? null : input.get(0);
+		viewer.setAutoExpandLevel(expandLevel);
+		viewer.setInput(input);
 
 	}
 }

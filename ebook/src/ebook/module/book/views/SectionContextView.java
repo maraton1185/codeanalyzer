@@ -1,10 +1,13 @@
-package ebook.module.conf.views;
+package ebook.module.book.views;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
@@ -22,46 +25,57 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.conf.ConfConnection;
+import ebook.module.book.BookConnection;
+import ebook.module.book.SectionContextService;
+import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
-import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class ContextView {
+public class SectionContextView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
 
 	@Inject
 	@Active
-	ConfConnection con;
+	BookConnection con;
+
+	@Inject
+	@Active
+	SectionInfo section;
+
+	private SectionContextService service;
 
 	@Inject
 	@Optional
-	public void EVENT_EDIT_TITLE_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONF_VIEW) EVENT_UPDATE_VIEW_DATA data) {
-
-		if (con != data.con)
+	public void EVENT_UPDATE_SECTION_INFO(
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) Object o,
+			@Active @Optional SectionInfo data, final EHandlerService hs,
+			final ECommandService cs) {
+		if (data == null || service == null || treeComponent == null) {
 			return;
+		}
 
-		if (data.parent == null)
-			return;
-
-		viewer.editElement(data.parent, 0);
+		service.setSection(section);
+		treeComponent.updateInput();
+		treeComponent.setSelection();
 
 	}
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_UPDATE_SECTION_CONTEXT_VIEW(
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_CONTEXT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
+			return;
+
+		if (section != data.section)
 			return;
 
 		if (data.parent == null)
@@ -76,26 +90,6 @@ public class ContextView {
 		// form.reflow(true);
 	}
 
-	@Inject
-	@Optional
-	public void EVENT_UPDATE_LABELS_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CONF_VIEW) EVENT_UPDATE_TREE_DATA data) {
-
-		if (data.parent == null)
-			return;
-
-		viewer.update(data.parent, null);
-
-	}
-
-	@Inject
-	@Optional
-	public void EVENT_CONF_VIEW_SETSELECTION(
-			@UIEventTopic(Events.EVENT_CONF_VIEW_SETSELECTION) Object data) {
-
-		treeComponent.setSelection();
-	}
-
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
 			EMenuService menuService, @Active final MWindow window) {
@@ -103,7 +97,8 @@ public class ContextView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		treeComponent = new TreeViewComponent(parent, con.srv(), 3, true, false);
+		service = con.ctxsrv(section);
+		treeComponent = new TreeViewComponent(parent, service, 3, true, false);
 
 		viewer = treeComponent.getViewer();
 
@@ -125,6 +120,15 @@ public class ContextView {
 				window.getContext().set(ContextInfo.class,
 						(ContextInfo) selection.getFirstElement());
 
+				try {
+					section.getOptions().selectedContext = ((ContextInfo) selection
+							.getFirstElement()).getId();
+
+					con.srv().saveOptions(section);
+				} catch (InvocationTargetException e) {
+
+					e.printStackTrace();
+				}
 				// App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
 			}
 		});
@@ -145,7 +149,7 @@ public class ContextView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.contextview.popup"));
+				Strings.get("model.id.sectioncontextview.popup"));
 
 	}
 

@@ -26,8 +26,6 @@ public class ConfStructure implements IDbStructure {
 		// create table
 		try {
 
-			// stat.execute("CREATE TABLE CONFIG_INFO (ID INTEGER AUTO_INCREMENT, "
-			// + "VERSION VARCHAR(36));");
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
 					+ "OPTIONS VARCHAR(1500), " + "PRIMARY KEY (ID));");
 

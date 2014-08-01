@@ -200,6 +200,8 @@ public class BookView {
 		itemComp = toolkit.createComposite(stack);
 		itemComp.setLayout(new GridLayout(2, false));
 
+		contextField(itemComp);
+
 		aclField(itemComp);
 
 		Hyperlink link = toolkit.createHyperlink(itemComp, "Описание книги",
@@ -283,6 +285,31 @@ public class BookView {
 
 		target = WidgetProperties.image().observe(label);
 		field_model = BeanProperties.value(model.getClass(), "image")
+				.observeDetail(dataValue);
+		ctx.bindValue(target, field_model);
+
+	}
+
+	private void contextField(Composite parent) {
+		Button btn;
+		Composite comp;
+
+		IObservableValue target;
+		IObservableValue field_model;
+
+		comp = toolkit.createComposite(parent);
+		comp.setLayout(new GridLayout(2, false));
+		comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2,
+				1));
+
+		btn = toolkit.createButton(comp, "Контекст 1С", SWT.WRAP | SWT.CHECK);
+		btn.setToolTipText("Использовать контекст конфигурации 1С");
+
+		GridDataFactory.fillDefaults().grab(true, true).hint(30, SWT.DEFAULT)
+				.applyTo(btn);
+
+		target = WidgetProperties.selection().observe(btn);
+		field_model = BeanProperties.value(model.getClass(), "context")
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 

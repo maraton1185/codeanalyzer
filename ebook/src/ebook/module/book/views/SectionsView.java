@@ -11,8 +11,11 @@ import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -101,7 +104,7 @@ public class SectionsView {
 			EMenuService menuService, final EHandlerService hs,
 			final ECommandService cs) {
 
-		rolesVisible();
+		panelVisible();
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
@@ -170,18 +173,83 @@ public class SectionsView {
 
 	}
 
-	private void rolesVisible() {
+	private void panelVisible() {
 		ListBookInfoOptions opt = (ListBookInfoOptions) con.getTreeItem()
 				.getOptions();
 
 		if (opt == null)
 			return;
 
-		if (opt.ACL)
+		if (!opt.ACL && !opt.Context) {
+			App.br.post(Events.EVENT_HIDE_BOOK_PANEL, null);
 			return;
+		}
 
-		App.br.post(Events.EVENT_HIDE_BOOK_ROLES, null);
+		if (!opt.ACL)
+			App.br.post(Events.EVENT_HIDE_BOOK_ROLES, null);
 
+		if (!opt.Context)
+			App.br.post(Events.EVENT_HIDE_BOOK_CONTEXT, null);
+
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_HIDE_BOOK_ROLES(
+			@UIEventTopic(Events.EVENT_HIDE_BOOK_ROLES) Object o,
+			EPartService partService, EModelService model,
+			@Active MWindow window) {
+
+		String partID = Strings.get("part.SectionRolesView");
+
+		List<MPart> parts = model.findElements(window, partID, MPart.class,
+				null);
+
+		MPart part;
+
+		if (!parts.isEmpty()) {
+			part = parts.get(0);
+			partService.hidePart(part);
+		}
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_HIDE_BOOK_CONTEXT(
+			@UIEventTopic(Events.EVENT_HIDE_BOOK_CONTEXT) Object o,
+			EPartService partService, EModelService model,
+			@Active MWindow window) {
+
+		String partID = Strings.get("part.SectionContextView");
+
+		List<MPart> parts = model.findElements(window, partID, MPart.class,
+				null);
+
+		MPart part;
+
+		if (!parts.isEmpty()) {
+			part = parts.get(0);
+			partService.hidePart(part);
+		}
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_HIDE_BOOK_PANEL(
+			@UIEventTopic(Events.EVENT_HIDE_BOOK_PANEL) Object o,
+			EPartService partService, EModelService model,
+			@Active MWindow window) {
+
+		String partID = Strings.get("part.SectionPanel");
+
+		List<MPartStack> parts = model.findElements(window, partID,
+				MPartStack.class, null);
+
+		if (!parts.isEmpty()) {
+			MPartStack part = parts.get(0);
+			part.setVisible(false);
+			// partService.hidePart(part);
+		}
 	}
 
 	private void showSections(MWindow window, EHandlerService hs,
@@ -210,8 +278,7 @@ public class SectionsView {
 			}
 			int section_id = input.get(0).getId();
 
-			final SectionInfo section = (SectionInfo) con.srv()
-					.get(section_id);
+			final SectionInfo section = (SectionInfo) con.srv().get(section_id);
 			if (section == null)
 				return;
 

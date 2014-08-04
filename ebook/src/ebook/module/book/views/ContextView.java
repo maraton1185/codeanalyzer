@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.BookConnection;
-import ebook.module.book.SectionContextService;
+import ebook.module.book.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
@@ -36,7 +36,7 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class SectionContextView {
+public class ContextView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
@@ -49,7 +49,7 @@ public class SectionContextView {
 	@Active
 	SectionInfo section;
 
-	private SectionContextService service;
+	private ContextService service;
 
 	@Inject
 	@Optional
@@ -69,8 +69,8 @@ public class SectionContextView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_SECTION_CONTEXT_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_SECTION_CONTEXT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_UPDATE_CONTEXT_VIEW(
+			@UIEventTopic(Events.EVENT_UPDATE_CONTEXT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
 			return;
@@ -111,17 +111,17 @@ public class SectionContextView {
 
 				ContextInfoSelection sel = new ContextInfoSelection();
 				@SuppressWarnings("unchecked")
-				Iterator<ContextInfo> iterator = selection.iterator();
+				Iterator<SectionInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
 					sel.add(iterator.next());
 
 				window.getContext().set(ContextInfoSelection.class, sel);
 
-				window.getContext().set(ContextInfo.class,
-						(ContextInfo) selection.getFirstElement());
+				window.getContext().set(SectionInfo.class,
+						(SectionInfo) selection.getFirstElement());
 
 				try {
-					section.getOptions().selectedContext = ((ContextInfo) selection
+					section.getOptions().selectedContext = ((SectionInfo) selection
 							.getFirstElement()).getId();
 
 					con.srv().saveOptions(section);

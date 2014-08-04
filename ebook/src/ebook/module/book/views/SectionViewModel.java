@@ -39,7 +39,7 @@ public class SectionViewModel extends AclRolesViewModel {
 
 	@Override
 	protected void updateList() {
-		App.br.post(Events.EVENT_UPDATE_LABELS_CONTENT_VIEW,
+		App.br.post(Events.EVENT_UPDATE_LABELS_CLIPBOARD,
 				new EVENT_UPDATE_VIEW_DATA(book, (SectionInfo) info));
 
 	}

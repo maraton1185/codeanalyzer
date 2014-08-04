@@ -54,7 +54,7 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_LABELS_BOOK_LIST = "EVENT_UPDATE_LABELS_BOOK_LIST";
 
-	public static final String EVENT_UPDATE_LABELS_CONTENT_VIEW = "EVENT_UPDATE_LABELS_CONTENT_VIEW";
+	public static final String EVENT_UPDATE_LABELS_CLIPBOARD = "EVENT_UPDATE_LABELS_CONTENT_VIEW";
 
 	public static final String EVENT_UPDATE_SECTION_INFO = "EVENT_UPDATE_SECTION_INFO";
 
@@ -80,7 +80,7 @@ public abstract class Events {
 
 	public static final String EVENT_HIDE_BOOK_CONTEXT = "EVENT_HIDE_BOOK_CONTEXT";
 
-	public static final String EVENT_UPDATE_SECTION_CONTEXT_VIEW = "EVENT_UPDATE_SECTION_CONTEXT_VIEW";
+	public static final String EVENT_UPDATE_CONTEXT_VIEW = "EVENT_UPDATE_SECTION_CONTEXT_VIEW";
 
 	public static class EVENT_UPDATE_VIEW_DATA {
 

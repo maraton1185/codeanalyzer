@@ -68,8 +68,8 @@ public class SectionsView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_LABELS_CONTENT_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_UPDATE_LABELS_CLIPBOARD(
+			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CLIPBOARD) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
 			return;

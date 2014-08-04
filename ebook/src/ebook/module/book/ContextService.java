@@ -18,13 +18,13 @@ import ebook.module.tree.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
-public class SectionContextService extends TreeService {
+public class ContextService extends TreeService {
 
 	final static String tableName = "CONTEXT";
-	final static String updateEvent = Events.EVENT_UPDATE_SECTION_CONTEXT_VIEW;
+	final static String updateEvent = Events.EVENT_UPDATE_CONTEXT_VIEW;
 	private SectionInfo section;
 
-	public SectionContextService(BookConnection con, SectionInfo section) {
+	public ContextService(BookConnection con, SectionInfo section) {
 		super(tableName, updateEvent, con);
 
 		this.section = section;

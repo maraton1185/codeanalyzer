@@ -37,27 +37,22 @@ public class BookConnection extends BaseDbPathConnection {
 		return service;
 	}
 
-	SectionContextService ctxsrv;
+	ContextService ctxsrv;
 
-	public SectionContextService ctxsrv(SectionInfo section) {
+	public ContextService ctxsrv(SectionInfo section) {
 
-		ctxsrv = ctxsrv == null ? new SectionContextService(this, section)
-				: ctxsrv;
+		ctxsrv = ctxsrv == null ? new ContextService(this, section) : ctxsrv;
 
 		return ctxsrv;
 	}
 
+	@Override
 	public ITreeItemInfo getTreeItem() {
 
 		if (treeItem == null)
-			return App.srv.bl().getBookTreeItem(getName());
+			return App.srv.bl().getTreeItem(getName());
 		else
 			return treeItem;
-	}
-
-	@Override
-	public String getWindowTitle() {
-		return getTreeItem().getTitle();
 	}
 
 	@Override

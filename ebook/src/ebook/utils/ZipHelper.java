@@ -1,4 +1,4 @@
-package ebook.module.book.xml;
+package ebook.utils;
 
 import java.io.File;
 import java.io.FileInputStream;

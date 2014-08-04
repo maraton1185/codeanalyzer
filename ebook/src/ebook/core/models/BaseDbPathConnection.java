@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.Path;
 
 import ebook.core.interfaces.IDbStructure;
 
-public class BaseDbPathConnection extends BaseDbConnection {
+public abstract class BaseDbPathConnection extends BaseDbConnection {
 
 	IPath path;
 	String name;
@@ -94,9 +94,13 @@ public class BaseDbPathConnection extends BaseDbConnection {
 		return getFullPath().append(name).toString();
 	}
 
-	public String getWindowTitle() {
-		// return name + (editMode ? " (Редактор)" : "");
-		return getFullName();
-	}
+	// public String getWindowTitle() {
+	// // return name + (editMode ? " (Редактор)" : "");
+	// return getFullName();
+	// }
 
+	// @Override
+	public String getWindowTitle() {
+		return getTreeItem().getTitle();
+	}
 }

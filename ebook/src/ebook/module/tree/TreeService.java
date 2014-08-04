@@ -566,4 +566,31 @@ public abstract class TreeService implements ITreeService {
 
 	}
 
+	public ITreeItemInfo getTreeItem(String name) {
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT " + getItemString("T") + " FROM " + tableName
+					+ " AS T " + "WHERE T.PATH=?";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setString(1, name);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					return getItem(rs);
+				}
+			} finally {
+				rs.close();
+			}
+
+			return null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

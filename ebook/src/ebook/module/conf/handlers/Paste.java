@@ -1,4 +1,4 @@
-package ebook.module.book.handlers;
+package ebook.module.conf.handlers;
 
 import java.io.File;
 
@@ -11,33 +11,33 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.tree.SectionInfoSelection;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.utils.Strings;
 
 public class Paste {
 
 	@Execute
-	public void execute(final @Active BookConnection book,
-			@Active final SectionInfo section, final Shell shell) {
+	public void execute(final @Active ConfConnection con,
+			@Active final ContextInfo item, final Shell shell) {
 
-		final File zipFile = App.bookClip.getZip();
+		final File zipFile = App.contextClip.getZip();
 
 		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 			@Override
 			public void run() {
 				try {
 
-					if (App.bookClip.isCut()) {
+					if (App.contextClip.isCut()) {
 
-						SectionInfoSelection sel = new SectionInfoSelection();
-						sel.add(section);
-						((BookConnection) App.bookClip.getConnection()).srv()
-								.delete(sel);
+						ContextInfoSelection sel = new ContextInfoSelection();
+						sel.add(item);
+						((ConfConnection) App.contextClip.getConnection())
+								.srv().delete(sel);
 					}
-					App.bookClip.doPaste();
-					book.srv().upload(zipFile.getAbsolutePath(), section);
+					App.contextClip.doPaste();
+					con.srv().upload(zipFile.getAbsolutePath(), item);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,8 +50,8 @@ public class Paste {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null && !App.bookClip.isEmpty();
+	public boolean canExecute(@Optional @Active ContextInfo section) {
+		return section != null && !App.contextClip.isEmpty();
 	}
 
 }

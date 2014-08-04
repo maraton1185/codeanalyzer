@@ -60,7 +60,7 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class SectionTextView {
+public class TextView {
 
 	FormToolkit toolkit;
 	ScrolledForm form;
@@ -97,7 +97,7 @@ public class SectionTextView {
 	// Spinner columnCountSpinner;
 
 	@Inject
-	public SectionTextView() {
+	public TextView() {
 		// TODO Your code here
 	}
 

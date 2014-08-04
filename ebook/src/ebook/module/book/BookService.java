@@ -36,14 +36,15 @@ import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.book.tree.SectionSaveData;
 import ebook.module.book.xml.ImageXML;
 import ebook.module.book.xml.SectionXML;
-import ebook.module.book.xml.ZipHelper;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
+import ebook.utils.ZipHelper;
 
 public class BookService extends TreeService {
 
@@ -72,7 +73,7 @@ public class BookService extends TreeService {
 		info.setGroup(rs.getBoolean(4));
 		info.setOptions(DbOptions.load(SectionInfoOptions.class,
 				rs.getString(5)));
-		info.setBookId(((BookConnection) db).getTreeItem().getId());
+		info.setBookId(db.getTreeItem().getId());
 
 		ListBookInfoOptions opt = (ListBookInfoOptions) ((BookConnection) db)
 				.getTreeItem().getOptions();
@@ -546,7 +547,7 @@ public class BookService extends TreeService {
 
 			// Write to File
 			m.marshal(root,
-					t.append(SectionXML.filename).addFileExtension("xml")
+					t.append(ITreeItemXML.filename).addFileExtension("xml")
 							.toFile());
 
 			if (zipName == null || zipName.isEmpty())

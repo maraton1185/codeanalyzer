@@ -43,7 +43,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 
-public class SectionRolesView {
+public class RolesView {
 
 	DataBindingContext ctx;
 	FormToolkit toolkit;

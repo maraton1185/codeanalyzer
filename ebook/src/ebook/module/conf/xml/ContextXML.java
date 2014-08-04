@@ -1,4 +1,4 @@
-package ebook.module.book.xml;
+package ebook.module.conf.xml;
 
 import java.util.ArrayList;
 
@@ -11,27 +11,30 @@ import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
 
 @XmlRootElement(name = "section", namespace = "ebook.module.xml")
-public class SectionXML implements ITreeItemXML {
+public class ContextXML implements ITreeItemXML {
 
-	@XmlElementWrapper(name = "images")
-	public ArrayList<ImageXML> images;
+	public static final String filename = "data";
+
+	// @XmlElementWrapper(name = "images")
+	// public ArrayList<ImageXML> images;
 
 	@XmlElementWrapper(name = "children")
 	@XmlElement(name = "section")
-	public ArrayList<SectionXML> children;
+	public ArrayList<ContextXML> children;
 
 	public int id;
 	// public int sort;
 	public boolean group;
 	public String title;
 	public String options;
-	public String text = "";
 
-	public SectionXML() {
+	// public String text = "";
+
+	public ContextXML() {
 
 	}
 
-	public SectionXML(ITreeItemInfo item) {
+	public ContextXML(ITreeItemInfo item) {
 		super();
 		this.id = item.getId();
 		// this.sort = item.getSort();

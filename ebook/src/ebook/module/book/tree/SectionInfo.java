@@ -3,7 +3,7 @@ package ebook.module.book.tree;
 import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
-import ebook.core.interfaces.IBookClipboard;
+import ebook.core.interfaces.IClipboard;
 import ebook.core.models.DbOptions;
 import ebook.module.book.xml.SectionXML;
 import ebook.module.tree.ITreeItemInfo;
@@ -49,16 +49,16 @@ public class SectionInfo extends TreeItemInfo {
 
 	@Override
 	public Image getListImage() {
-		IBookClipboard clip = App.clip;
-		Integer cBook = clip.getBookId();
-		Integer cCopy = clip.getCopyId();
-		Integer cCut = clip.getCutId();
+		IClipboard clip = App.bookClip;
+		Integer con = clip.getConnectionId();
+		Integer copy = clip.getCopyId();
+		Integer cut = clip.getCutId();
 
-		if (!clip.isEmpty() && cBook != null && cCopy != null
-				&& cBook.equals(book) && cCopy.equals(getId()))
+		if (!clip.isEmpty() && con != null && copy != null
+				&& con.equals(book) && copy.equals(getId()))
 			return Utils.getImage("copy.png");
-		else if (!clip.isEmpty() && cBook != null && cCut != null
-				&& cBook.equals(book) && cCut.equals(getId()))
+		else if (!clip.isEmpty() && con != null && cut != null
+				&& con.equals(book) && cut.equals(getId()))
 			return Utils.getImage("cut.png");
 		else if (aclEmplicit)
 			return Utils.getImage("lock.png");

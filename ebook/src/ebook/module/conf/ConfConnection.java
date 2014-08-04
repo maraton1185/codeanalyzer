@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.PreferenceSupplier;
 
 public class ConfConnection extends BaseDbPathConnection {
@@ -35,5 +36,16 @@ public class ConfConnection extends BaseDbPathConnection {
 		service = service == null ? App.srv.cf(this) : service;
 
 		return service;
+	}
+
+	ITreeItemInfo treeItem;
+
+	@Override
+	public ITreeItemInfo getTreeItem() {
+
+		if (treeItem == null)
+			return App.srv.cl().getTreeItem(getName());
+		else
+			return treeItem;
 	}
 }

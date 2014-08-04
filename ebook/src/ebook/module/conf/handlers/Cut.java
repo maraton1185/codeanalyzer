@@ -1,4 +1,4 @@
-package ebook.module.book.handlers;
+package ebook.module.conf.handlers;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,27 +12,25 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionInfo;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.tree.ContextInfo;
 import ebook.utils.Strings;
 
-public class Copy {
+public class Cut {
 	@Execute
-	public void execute(final @Active BookConnection book,
-			@Active final SectionInfo section, final Shell shell) {
+	public void execute(final @Active ConfConnection con,
+			@Active final ContextInfo item, final Shell shell) {
 
 		try {
-			final File zipFile = File.createTempFile("copy", ".zip");
+			final File zipFile = File.createTempFile("cutcontext", ".zip");
+			App.contextClip.setCut(zipFile, con, item);
 
 			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 				@Override
 				public void run() {
 					try {
-						book.srv().download(null, section,
+						con.srv().download(null, item,
 								zipFile.getAbsolutePath());
-
-						App.bookClip.setCopy(zipFile, book, section);
-
 					} catch (Exception e) {
 						e.printStackTrace();
 						MessageDialog.openError(shell, Strings.get("appTitle"),
@@ -40,17 +38,15 @@ public class Copy {
 					}
 				}
 			});
-
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null;
+	public boolean canExecute(@Optional @Active ContextInfo item) {
+		return item != null;
 	}
 
 }

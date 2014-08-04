@@ -55,19 +55,19 @@ import ebook.core.GlobalEvents.EVENT_UPDATE_STATUS;
 import ebook.core.GlobalEvents.RESTART_WORKBENCH;
 import ebook.core.GlobalEvents.SHOW_UPDATE_AVAILABLE;
 import ebook.core.exceptions.MakeConnectionException;
-import ebook.core.interfaces.IBookClipboard;
+import ebook.core.interfaces.IClipboard;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IManagerFactory;
 import ebook.core.interfaces.IServiceFactory;
 import ebook.module.book.BookConnection;
 import ebook.module.book.BookOptions;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.views.SectionTextView;
 import ebook.module.book.views.SectionView;
+import ebook.module.book.views.TextView;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
-import ebook.module.conf.tree.ContextInfo;
 import ebook.module.confLoad.services.FillProcLinkTableJob;
+import ebook.module.tree.Clipboard;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -145,7 +145,8 @@ public class App {
 	public static IServiceFactory srv = pico.get(IServiceFactory.class);
 	public static IManagerFactory mng = pico.get(IManagerFactory.class);
 
-	public static IBookClipboard clip = pico.get(IBookClipboard.class);
+	public static IClipboard bookClip = new Clipboard();
+	public static IClipboard contextClip = new Clipboard();
 
 	private static IJetty jetty = pico.get(IJetty.class);
 
@@ -479,8 +480,7 @@ public class App {
 
 					if (id.equals(Strings
 							.get("ebook.partdescriptor.sectionsBlockView"))) {
-						SectionTextView view = (SectionTextView) part
-								.getObject();
+						TextView view = (TextView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
 					}
@@ -510,7 +510,7 @@ public class App {
 
 			ConfConnection conf = window.getContext().get(ConfConnection.class);
 
-			ContextInfo section = window.getContext().get(ContextInfo.class);
+			SectionInfo section = window.getContext().get(SectionInfo.class);
 			ConfOptions opt = new ConfOptions();
 			if (section != null)
 				opt.selectedSection = section.getId();

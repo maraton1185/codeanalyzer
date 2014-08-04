@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import ebook.module.tree.ITreeItemInfo;
+
 public interface IDbConnection {
 
 	void create() throws InvocationTargetException;
@@ -16,5 +18,7 @@ public interface IDbConnection {
 	// void openConnection() throws InvocationTargetException;
 
 	Connection getConnection() throws IllegalAccessException;
+
+	ITreeItemInfo getTreeItem();
 
 }

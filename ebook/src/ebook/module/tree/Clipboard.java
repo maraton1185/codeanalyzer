@@ -17,22 +17,11 @@ public class Clipboard implements IClipboard {
 	File zipFile;
 	IDbConnection con;
 
-	@Override
-	public IDbConnection getConnection() {
-		return con;
-	}
-
 	ITreeItemInfo item;
 
 	@Override
 	public boolean isEmpty() {
 		return empty;
-	}
-
-	@Override
-	public boolean isCut() {
-		// TODO Auto-generated method stub
-		return cut;
 	}
 
 	@Override
@@ -42,12 +31,12 @@ public class Clipboard implements IClipboard {
 
 	@Override
 	public void doPaste() {
-		// if (cut) {
-		//
-		// SectionInfoSelection sel = new SectionInfoSelection();
-		// sel.add(section);
-		// book.srv().delete(sel);
-		// }
+		if (cut) {
+
+			TreeItemInfoSelection sel = new TreeItemInfoSelection();
+			sel.add(item);
+			con.srv().delete(sel);
+		}
 
 		empty = true;
 

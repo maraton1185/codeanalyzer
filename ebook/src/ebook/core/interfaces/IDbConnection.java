@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeService;
 
 public interface IDbConnection {
 
@@ -21,4 +22,5 @@ public interface IDbConnection {
 
 	ITreeItemInfo getTreeItem();
 
+	ITreeService srv();
 }

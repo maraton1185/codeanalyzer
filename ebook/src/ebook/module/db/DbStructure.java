@@ -113,6 +113,7 @@ public class DbStructure implements IDbStructure {
 			stat.execute("CREATE TABLE CONFS (ID INTEGER AUTO_INCREMENT, "
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
+					+ "PATH VARCHAR(1500), "
 					+ "OPTIONS VARCHAR(3000), "
 					+ "FOREIGN KEY(PARENT) REFERENCES CONFS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -173,7 +174,7 @@ public class DbStructure implements IDbStructure {
 					&& ch.checkColumns(metadata, "USERS",
 							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 					&& ch.checkColumns(metadata, "CONFS",
-							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH")
 					&& ch.checkColumns(metadata, "ACL", "BOOK, SECTION, ROLE");
 
 		} catch (Exception e) {

@@ -328,7 +328,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.Add"), Collections.EMPTY_MAP));
+						Strings.get("ebook.command.4"), Collections.EMPTY_MAP));
 				super.linkActivated(e);
 			}
 
@@ -342,7 +342,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.OpenConf"),
+						Strings.get("ebook.command.ConfigListAdd"),
 						Collections.EMPTY_MAP));
 				super.linkActivated(e);
 			}

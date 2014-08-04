@@ -304,7 +304,8 @@ public abstract class TreeService implements ITreeService {
 
 	}
 
-	public void delete(TreeItemInfoSelection selection) {
+	@Override
+	public void delete(ITreeItemSelection selection) {
 		int parent = selection.getParent();
 
 		Iterator<ITreeItemInfo> iterator = selection.iterator();

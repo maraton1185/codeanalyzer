@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.Path;
 
 import ebook.core.models.BaseDbConnection;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeService;
 import ebook.utils.Const;
 
 public class DbConnection extends BaseDbConnection {
@@ -20,6 +21,11 @@ public class DbConnection extends BaseDbConnection {
 
 	@Override
 	public ITreeItemInfo getTreeItem() {
+		return null;
+	}
+
+	@Override
+	public ITreeService srv() {
 		return null;
 	}
 

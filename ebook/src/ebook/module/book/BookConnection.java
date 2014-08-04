@@ -63,4 +63,5 @@ public class BookConnection extends BaseDbPathConnection {
 						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY));
 
 	}
+
 }

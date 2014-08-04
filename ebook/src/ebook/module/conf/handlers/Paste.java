@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.tree.ContextInfo;
-import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.utils.Strings;
 
 public class Paste {
@@ -29,13 +28,6 @@ public class Paste {
 			public void run() {
 				try {
 
-					if (App.contextClip.isCut()) {
-
-						ContextInfoSelection sel = new ContextInfoSelection();
-						sel.add(item);
-						((ConfConnection) App.contextClip.getConnection())
-								.srv().delete(sel);
-					}
 					App.contextClip.doPaste();
 					con.srv().upload(zipFile.getAbsolutePath(), item);
 

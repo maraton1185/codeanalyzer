@@ -227,4 +227,17 @@ public class ListConfInfo extends TreeItemInfo {
 		data.doLog = selection;
 
 	}
+
+	private String path;
+
+	public void setPath(String path) {
+		this.path = path == null ? "" : path;
+	}
+
+	public IPath getPath() {
+
+		if (path == null)
+			return null;
+		return path.isEmpty() ? null : new Path(path);
+	}
 }

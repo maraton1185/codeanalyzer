@@ -1,6 +1,7 @@
 package ebook.module.confList;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -27,6 +28,31 @@ public class ConfListService extends TreeService {
 	// *****************************************************************
 
 	@Override
+	protected String getItemString(String table) {
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.PATH ";
+		s = s.replaceAll("\\$Table", "T");
+		return s;
+	}
+
+	@Override
+	protected String additionKeysString() {
+		return ", PATH";
+	}
+
+	@Override
+	protected String additionValuesString() {
+		return ", ?";
+	}
+
+	@Override
+	protected void setAdditions(PreparedStatement prep, ITreeItemInfo data)
+			throws SQLException {
+
+		prep.setString(6, data.isGroup() ? "" : ((ListConfInfo) data).getPath()
+				.toString());
+	}
+
+	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
 		ListConfInfo info = new ListConfInfo();
@@ -36,6 +62,7 @@ public class ConfListService extends TreeService {
 		info.setGroup(rs.getBoolean(4));
 		info.setOptions(DbOptions.load(ListConfInfoOptions.class,
 				rs.getString(5)));
+		info.setPath(rs.getString(6));
 		return info;
 	}
 

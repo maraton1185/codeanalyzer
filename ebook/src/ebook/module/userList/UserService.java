@@ -13,8 +13,8 @@ import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.ITreeService;
-import ebook.module.tree.TreeItemInfoSelection;
 import ebook.module.tree.TreeService;
 import ebook.module.userList.tree.UserInfo;
 import ebook.module.userList.tree.UserInfoOptions;
@@ -95,7 +95,7 @@ public class UserService extends TreeService {
 	}
 
 	@Override
-	public void delete(TreeItemInfoSelection selection) {
+	public void delete(ITreeItemSelection selection) {
 		super.delete(selection);
 		App.br.post(Events.EVENT_UPDATE_USER_ROLES, null);
 	}

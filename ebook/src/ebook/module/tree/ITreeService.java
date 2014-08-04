@@ -24,6 +24,8 @@ public interface ITreeService {
 
 	void delete(ITreeItemInfo item);
 
+	void delete(ITreeItemSelection sel);
+
 	Boolean setParent(ITreeItemInfo item, ITreeItemInfo target);
 
 	Boolean setAfter(ITreeItemInfo item, ITreeItemInfo target);

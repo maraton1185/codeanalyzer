@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.tree.SectionInfoSelection;
 import ebook.utils.Strings;
 
 public class Paste {
@@ -29,13 +28,6 @@ public class Paste {
 			public void run() {
 				try {
 
-					if (App.bookClip.isCut()) {
-
-						SectionInfoSelection sel = new SectionInfoSelection();
-						sel.add(section);
-						((BookConnection) App.bookClip.getConnection()).srv()
-								.delete(sel);
-					}
 					App.bookClip.doPaste();
 					book.srv().upload(zipFile.getAbsolutePath(), section);
 

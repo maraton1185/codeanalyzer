@@ -8,8 +8,6 @@ public interface IClipboard {
 
 	boolean isEmpty();
 
-	boolean isCut();
-
 	File getZip();
 
 	void setCut(File zipFile, IDbConnection con, ITreeItemInfo item);
@@ -23,7 +21,5 @@ public interface IClipboard {
 	Integer getCutId();
 
 	void doPaste();
-
-	IDbConnection getConnection();
 
 }

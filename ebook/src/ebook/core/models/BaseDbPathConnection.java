@@ -98,9 +98,9 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 	// // return name + (editMode ? " (Редактор)" : "");
 	// return getFullName();
 	// }
-
 	// @Override
 	public String getWindowTitle() {
 		return getTreeItem().getTitle();
 	}
+
 }

@@ -45,7 +45,7 @@ public class ContextInfo extends TreeItemInfo {
 
 	@Override
 	public Image getListImage() {
-		IClipboard clip = App.bookClip;
+		IClipboard clip = App.contextClip;
 		Integer con = clip.getConnectionId();
 		Integer copy = clip.getCopyId();
 		Integer cut = clip.getCutId();

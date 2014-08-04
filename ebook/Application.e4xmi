@@ -388,7 +388,9 @@
         </children>
         <children xsi:type="basic:PartStack" xmi:id="_ZoF-kBl4EeSd8pr_gKmkCQ" elementId="part.SectionPanel" containerData="40000">
           <children xsi:type="basic:Part" xmi:id="_a2AjMBl4EeSd8pr_gKmkCQ" elementId="part.SectionContextView" contributionURI="bundleclass://ebook/ebook.module.book.views.ContextView" label="Контекст">
-            <toolbar xmi:id="_geKegBl4EeSd8pr_gKmkCQ" elementId="ebook.toolbar.13"/>
+            <toolbar xmi:id="_geKegBl4EeSd8pr_gKmkCQ" elementId="ebook.toolbar.13">
+              <children xsi:type="menu:DirectToolItem" xmi:id="_CQK34BvTEeSuCZqAXHJskQ" elementId="ebook.directtoolitem.4" label="Вставить" iconURI="platform:/plugin/ebook/icons/set/paste.png" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
+            </toolbar>
           </children>
           <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="part.SectionRolesView" containerData="" contributionURI="bundleclass://ebook/ebook.module.book.views.RolesView" label="Роли">
             <toolbar xmi:id="_H_LAQBJKEeSRHfCKVoiTkg" elementId="ebook.toolbar.2"/>

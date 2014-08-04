@@ -117,11 +117,11 @@ public class ContextView {
 
 				window.getContext().set(ContextInfoSelection.class, sel);
 
-				window.getContext().set(SectionInfo.class,
-						(SectionInfo) selection.getFirstElement());
+				window.getContext().set(ContextInfo.class,
+						(ContextInfo) selection.getFirstElement());
 
 				try {
-					section.getOptions().selectedContext = ((SectionInfo) selection
+					section.getOptions().selectedContext = ((ContextInfo) selection
 							.getFirstElement()).getId();
 
 					con.srv().saveOptions(section);

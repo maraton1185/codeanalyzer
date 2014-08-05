@@ -54,8 +54,8 @@ public class SectionInfo extends TreeItemInfo {
 		Integer copy = clip.getCopyId();
 		Integer cut = clip.getCutId();
 
-		if (!clip.isEmpty() && con != null && copy != null
-				&& con.equals(book) && copy.equals(getId()))
+		if (!clip.isEmpty() && con != null && copy != null && con.equals(book)
+				&& copy.equals(getId()))
 			return Utils.getImage("copy.png");
 		else if (!clip.isEmpty() && con != null && cut != null
 				&& con.equals(book) && cut.equals(getId()))
@@ -64,6 +64,11 @@ public class SectionInfo extends TreeItemInfo {
 			return Utils.getImage("lock.png");
 		else
 			return null;
+	}
+
+	@Override
+	public String getSuffix() {
+		return getOptions().hasContext ? "1C" : "";
 	}
 
 	public void setBookId(Integer id) {

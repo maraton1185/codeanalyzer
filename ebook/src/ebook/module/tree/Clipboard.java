@@ -4,7 +4,7 @@ import java.io.File;
 
 import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
-import ebook.core.interfaces.IDbConnection;
+import ebook.core.models.BaseDbPathConnection;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
@@ -15,7 +15,7 @@ public class Clipboard implements IClipboard {
 	boolean empty = true;
 
 	File zipFile;
-	IDbConnection con;
+	BaseDbPathConnection con;
 
 	ITreeItemInfo item;
 
@@ -40,33 +40,35 @@ public class Clipboard implements IClipboard {
 
 		empty = true;
 
-		App.br.post(Events.EVENT_UPDATE_LABELS_CLIPBOARD,
-				new EVENT_UPDATE_VIEW_DATA(con, item));
+		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
+				item));
 
 	}
 
 	@Override
-	public void setCut(File zipFile, IDbConnection con, ITreeItemInfo item) {
+	public void setCut(File zipFile, BaseDbPathConnection con,
+			ITreeItemInfo item) {
 		empty = false;
 		cut = true;
 		this.zipFile = zipFile;
 		this.con = con;
 		this.item = item;
 
-		App.br.post(Events.EVENT_UPDATE_LABELS_CLIPBOARD,
-				new EVENT_UPDATE_VIEW_DATA(con, item));
+		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
+				item));
 	}
 
 	@Override
-	public void setCopy(File zipFile, IDbConnection con, ITreeItemInfo item) {
+	public void setCopy(File zipFile, BaseDbPathConnection con,
+			ITreeItemInfo item) {
 		empty = false;
 		cut = false;
 		this.zipFile = zipFile;
 		this.con = con;
 		this.item = item;
 
-		App.br.post(Events.EVENT_UPDATE_LABELS_CLIPBOARD,
-				new EVENT_UPDATE_VIEW_DATA(con, item));
+		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
+				item));
 	}
 
 	@Override
@@ -77,6 +79,16 @@ public class Clipboard implements IClipboard {
 		if (con == null)
 			return null;
 		return con.getTreeItem().getId();
+	}
+
+	@Override
+	public String getConnectionName() {
+		if (empty)
+			return null;
+
+		if (con == null)
+			return null;
+		return con.getName();
 	}
 
 	@Override

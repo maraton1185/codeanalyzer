@@ -214,40 +214,6 @@ public class BookListService extends TreeService {
 		return info;
 	}
 
-	// @Override
-	// public void saveOptions(ITreeItemInfo _data)
-	// throws InvocationTargetException {
-	// ListBookInfo data = (ListBookInfo) _data;
-	// try {
-	// Connection con = db.getConnection();
-	// String SQL;
-	// PreparedStatement prep;
-	//
-	// SQL = "UPDATE " + tableName + " SET OPTIONS=? WHERE ID=?;";
-	//
-	// prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
-	//
-	// prep.setString(1, DbOptions.save(data.getOptions()));
-	// // if (data.role == null)
-	// // prep.setNull(2, java.sql.Types.INTEGER);
-	// // // prep.setInt(2, 0);
-	// // else
-	// // prep.setInt(2, data.role.getId());
-	// prep.setInt(3, data.getId());
-	// int affectedRows = prep.executeUpdate();
-	// if (affectedRows == 0)
-	// throw new SQLException();
-	//
-	// App.br.post(updateEvent,
-	// new EVENT_UPDATE_TREE_DATA(get(data.getParent()), data));
-	//
-	// } catch (Exception e) {
-	// throw new InvocationTargetException(e);
-	//
-	// }
-	//
-	// }
-
 	@Override
 	public ITreeItemInfo getSelected() {
 		int id = PreferenceSupplier.getInt(PreferenceSupplier.SELECTED_BOOK);

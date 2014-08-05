@@ -14,7 +14,9 @@ import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.book.BookOptions;
+import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
 public abstract class TreeService implements ITreeService {
 
@@ -485,8 +487,11 @@ public abstract class TreeService implements ITreeService {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			App.br.post(updateEvent,
-					getUpdateEventData(get(data.getParent()), data));
+			// App.br.post(updateEvent,
+			// getUpdateEventData(get(data.getParent()), data));
+			App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(
+					db, data));
+			// getUpdateEventData(get(data.getParent()), data));
 
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);

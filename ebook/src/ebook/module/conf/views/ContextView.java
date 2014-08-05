@@ -58,8 +58,8 @@ public class ContextView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_LABELS_CLIPBOARD(
-			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CLIPBOARD) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_UPDATE_LABELS(
+			@UIEventTopic(Events.EVENT_UPDATE_LABELS) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
 			return;

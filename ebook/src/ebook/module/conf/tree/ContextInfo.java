@@ -62,6 +62,12 @@ public class ContextInfo extends TreeItemInfo {
 			return null;
 	}
 
+	@Override
+	public String getSuffix() {
+		String tag = getOptions().conf;
+		return tag == null ? "" : tag;
+	}
+
 	public static ITreeItemInfo fromXML(ContextXML element) {
 
 		ContextInfo info = new ContextInfo();

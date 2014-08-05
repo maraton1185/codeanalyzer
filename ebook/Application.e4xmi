@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmlns:ui="http://www.eclipse.org/ui/2010/UIModel/application/ui" xmi:id="_cMG-gJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ide.application" bindingContexts="_cMG-iZlHEeOhhK_cqm6rMQ">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" elementId="ebook.trimmedwindow.main" label="Анализатор кода 1С" iconURI="platform:/plugin/ebook/icons/favicon.png" width="800" height="700">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" elementId="ebook.trimmedwindow.main" label="Анализатор кода 1С" iconURI="platform:/plugin/ebook/icons/favicon.png" width="900" height="700">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="__8s28KXSEeO-PfCALTbnPw" elementId="ebook.perspectivestack.0">
       <children xsi:type="advanced:Perspective" xmi:id="_AQqUwKXTEeO-PfCALTbnPw" elementId="ebook.perspective.default" visible="false" tooltip="Стартовая страница">
         <children xsi:type="basic:PartSashContainer" xmi:id="_7GppUJriEeOlcttaCxvpFw" elementId="ebook.partsashcontainer.0" horizontal="true">
@@ -389,7 +389,8 @@
         <children xsi:type="basic:PartStack" xmi:id="_ZoF-kBl4EeSd8pr_gKmkCQ" elementId="part.SectionPanel" containerData="40000">
           <children xsi:type="basic:Part" xmi:id="_a2AjMBl4EeSd8pr_gKmkCQ" elementId="part.SectionContextView" contributionURI="bundleclass://ebook/ebook.module.book.views.ContextView" label="Контекст">
             <toolbar xmi:id="_geKegBl4EeSd8pr_gKmkCQ" elementId="ebook.toolbar.13">
-              <children xsi:type="menu:DirectToolItem" xmi:id="_CQK34BvTEeSuCZqAXHJskQ" elementId="ebook.directtoolitem.4" label="Вставить" iconURI="platform:/plugin/ebook/icons/set/paste.png" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
+              <children xsi:type="menu:DirectToolItem" xmi:id="_CQK34BvTEeSuCZqAXHJskQ" elementId="ebook.directtoolitem.4" label="" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
+              <children xsi:type="menu:DirectToolItem" xmi:id="_7c3wIBx3EeSfIZVFxVWEbA" elementId="ebook.directtoolitem.5" label="" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext"/>
             </toolbar>
           </children>
           <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="part.SectionRolesView" containerData="" contributionURI="bundleclass://ebook/ebook.module.book.views.RolesView" label="Роли">

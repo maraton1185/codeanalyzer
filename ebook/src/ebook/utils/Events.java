@@ -54,7 +54,7 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_LABELS_BOOK_LIST = "EVENT_UPDATE_LABELS_BOOK_LIST";
 
-	public static final String EVENT_UPDATE_LABELS_CLIPBOARD = "EVENT_UPDATE_LABELS_CONTENT_VIEW";
+	public static final String EVENT_UPDATE_LABELS = "EVENT_UPDATE_LABELS_CONTENT_VIEW";
 
 	public static final String EVENT_UPDATE_SECTION_INFO = "EVENT_UPDATE_SECTION_INFO";
 

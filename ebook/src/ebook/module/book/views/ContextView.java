@@ -117,18 +117,20 @@ public class ContextView {
 
 				window.getContext().set(ContextInfoSelection.class, sel);
 
-				window.getContext().set(ContextInfo.class,
-						(ContextInfo) selection.getFirstElement());
+				ContextInfo selected = (ContextInfo) selection
+						.getFirstElement();
+				window.getContext().set(ContextInfo.class, selected);
 
-				try {
-					section.getOptions().selectedContext = ((ContextInfo) selection
-							.getFirstElement()).getId();
+				if (selected != null)
+					try {
+						section.getOptions().selectedContext = ((ContextInfo) selection
+								.getFirstElement()).getId();
 
-					con.srv().saveOptions(section);
-				} catch (InvocationTargetException e) {
+						con.srv().saveOptions(section);
+					} catch (InvocationTargetException e) {
 
-					e.printStackTrace();
-				}
+						e.printStackTrace();
+					}
 				// App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
 			}
 		});

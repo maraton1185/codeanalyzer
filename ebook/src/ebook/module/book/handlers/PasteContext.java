@@ -13,15 +13,13 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.conf.tree.ContextInfo;
 import ebook.utils.Strings;
 
 public class PasteContext {
 
 	@Execute
 	public void execute(final @Active BookConnection con,
-			@Active final SectionInfo section, @Active final ContextInfo item,
-			final Shell shell) {
+			@Active final SectionInfo section, final Shell shell) {
 
 		final File zipFile = App.contextClip.getZip();
 
@@ -30,8 +28,10 @@ public class PasteContext {
 			public void run() {
 				try {
 
+					con.ctxsrv(section).upload(zipFile.getAbsolutePath(),
+							App.contextClip.getConnectionName());
+
 					App.contextClip.doPaste();
-					con.ctxsrv(section).upload(zipFile.getAbsolutePath(), item);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,9 +44,8 @@ public class PasteContext {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active SectionInfo section,
-			@Optional @Active ContextInfo context) {
-		return section != null && context != null && !App.contextClip.isEmpty();
+	public boolean canExecute(@Optional @Active SectionInfo section) {
+		return section != null && !App.contextClip.isEmpty();
 	}
 
 }

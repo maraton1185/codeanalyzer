@@ -16,6 +16,8 @@ public class SectionInfoOptions extends DbOptions {
 
 	public int selectedContext;
 
+	public boolean hasContext;
+
 	public Integer getBigImageCSS() {
 		return bigImageCSS == null ? 0 : bigImageCSS;
 	}

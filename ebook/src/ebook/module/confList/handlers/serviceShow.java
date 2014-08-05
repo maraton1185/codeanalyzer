@@ -22,6 +22,7 @@ import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import ebook.core.App;
 import ebook.core.App.ConfWindowCloseHandler;
 import ebook.module.conf.ConfConnection;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -45,6 +46,11 @@ public class serviceShow {
 	public void execute(EPartService partService, EModelService model,
 			final @Active ConfConnection con, IEclipseContext ctx,
 			EHandlerService hs, ECommandService cs) {
+
+		// книги нет в списке
+		ITreeItemInfo item = con.getTreeItem();
+		if (item == null)
+			return;
 
 		MWindow mainWindow = App.app.getChildren().get(0);
 

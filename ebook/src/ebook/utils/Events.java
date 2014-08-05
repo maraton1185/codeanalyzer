@@ -13,7 +13,8 @@ public abstract class Events {
 	public static final String EVENT_PROGRESS_DONE = "EVENT_PROGRESS_DONE";
 	public static final String EVENT_PROGRESS_ERROR = "EVENT_PROGRESS_ERROR";
 
-	public static final String EVENT_UPDATE_CONFIG_LIST = "update_config_list";
+	// public static final String EVENT_UPDATE_CONFIG_LIST =
+	// "update_config_list";
 
 	public static final String EVENT_SHOW_BOOK = "EVENT_SHOW_BOOK";
 	public static final String EVENT_UPDATE_BOOK_INFO = "EVENT_UPDATE_BOOK_INFO";

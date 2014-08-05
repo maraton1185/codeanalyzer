@@ -30,6 +30,7 @@ public class BookConnection extends BaseDbPathConnection {
 
 	BookService service;
 
+	@Override
 	public BookService srv() {
 
 		service = service == null ? App.srv.bk(this) : service;
@@ -50,9 +51,9 @@ public class BookConnection extends BaseDbPathConnection {
 	public ITreeItemInfo getTreeItem() {
 
 		if (treeItem == null)
-			return App.srv.bl().getTreeItem(getName());
-		else
-			return treeItem;
+			treeItem = App.srv.bl().getTreeItem(getName());
+
+		return treeItem;
 	}
 
 	@Override

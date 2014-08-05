@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Strings;
 
 public class ExecuteLastCommand {
@@ -26,7 +27,8 @@ public class ExecuteLastCommand {
 		}
 
 		App.mng.lm().execute(item, shell);
-		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
+		App.br.post(Events.EVENT_UPDATE_CONF_LIST, new EVENT_UPDATE_TREE_DATA(
+				item, item));
 	}
 
 	@CanExecute

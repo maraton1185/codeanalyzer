@@ -135,7 +135,7 @@ public class ConfListView {
 						.getSelection();
 				ListConfInfo selected = (ListConfInfo) selection
 						.getFirstElement();
-				App.mng.clm().open(selected.getDbFullPath(), shell);
+				App.mng.clm().open(selected.getPath(), shell);
 			}
 		});
 

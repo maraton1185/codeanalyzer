@@ -11,7 +11,7 @@ import ebook.module.confList.tree.ListConfInfo;
 public class Show {
 	@Execute
 	public void execute(ListConfInfo item, Shell shell) {
-		App.mng.clm().open(item.getDbFullPath(), shell);
+		App.mng.clm().open(item.getPath(), shell);
 	}
 
 	@CanExecute

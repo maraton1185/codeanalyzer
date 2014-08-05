@@ -412,7 +412,7 @@
       </children>
     </trimBars>
   </snippets>
-  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_9E2bIP0pEeONSOVuBcgXoA" elementId="ebook.window.conf" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/favicon.png" bindingContexts="_zSemEBicEeSEwsGZkmCqtw">
+  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_9E2bIP0pEeONSOVuBcgXoA" elementId="ebook.window.conf" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/Datbase.png" bindingContexts="_zSemEBicEeSEwsGZkmCqtw">
     <children xsi:type="basic:PartStack" xmi:id="_JgoZgBcMEeS3ZekdeJlIhg" elementId="ebook.partstack.1">
       <children xsi:type="basic:Part" xmi:id="_KsxcgBcMEeS3ZekdeJlIhg" elementId="ebook.part.1" contributionURI="bundleclass://ebook/ebook.module.conf.views.ContextView" label="Конфигурация">
         <handlers xmi:id="_-8_scBicEeSEwsGZkmCqtw" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddGroup" command="_R8mmgBicEeSEwsGZkmCqtw"/>

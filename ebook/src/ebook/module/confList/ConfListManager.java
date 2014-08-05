@@ -47,7 +47,7 @@ public class ConfListManager extends TreeManager {
 				data.setTitle(con.getTitle());
 				data.setGroup(false);
 				data.setPath(con.getName());
-				data.setDbFullPath(con.getName());
+				// data.setDbFullPath(con.getName());
 				// data.options = opt;
 				srv.add(data, parent, true);
 
@@ -67,7 +67,7 @@ public class ConfListManager extends TreeManager {
 	public void addToList(final ITreeItemInfo parent, final Shell shell) {
 		final List<IPath> files = Utils.browseFileMulti(
 				new Path(PreferenceSupplier
-						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
+						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY)),
 				shell, Strings.get("appTitle"), "*.db");
 		if (files == null)
 			return;
@@ -95,7 +95,7 @@ public class ConfListManager extends TreeManager {
 						data.setTitle(con.getTitle());
 						data.setGroup(false);
 						data.setPath(con.getName());
-						data.setDbFullPath(con.getName());
+						// data.setDbFullPath(con.getName());
 
 						srv.add(data, parent, true);
 

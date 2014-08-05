@@ -29,6 +29,7 @@ import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.confLoad.services.LoaderService;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Utils;
 
 @Creatable
@@ -40,7 +41,7 @@ public class LoadDialog extends Dialog {
 
 	private Text name;
 	private Text load_path;
-	private Text db_full_path;
+	// private Text db_full_path;
 	// private Text sql_pathField;
 	// private Text sql_userField;
 	// private Text sql_passwordField;
@@ -77,7 +78,7 @@ public class LoadDialog extends Dialog {
 	protected void updateDb() {
 		conf.setName(name.getText());
 		conf.setLoadPath(load_path.getText());
-		conf.setDbFullPath(db_full_path.getText());
+		// conf.setDbFullPath(db_full_path.getText());
 		// db.setSQL(sql_pathField.getText(), sql_userField.getText(),
 		// sql_passwordField.getText());
 		conf.setAutoName(btnCheckButton.getSelection());
@@ -90,7 +91,7 @@ public class LoadDialog extends Dialog {
 	protected void initContents() {
 		name.setText(conf.getName());
 		load_path.setText(conf.getLoadPath().toString());
-		db_full_path.setText(conf.getDbFullPath().toString());
+		// db_full_path.setText(conf.getDbFullPath().toString());
 		btnCheckButton.setSelection(conf.getAutoName());
 		radioBtns.get(conf.getType()).setSelection(true);
 
@@ -176,27 +177,27 @@ public class LoadDialog extends Dialog {
 
 		// ************** ‘¿…À ¡¿«€ ƒ¿ÕÕ€’ ***********************
 
-		label = new Label(container, SWT.LEFT);
-		label.setText("‘‡ÈÎ ·‡Á˚ ‰‡ÌÌ˚ı:");
+		// label = new Label(container, SWT.LEFT);
+		// label.setText("‘‡ÈÎ ·‡Á˚ ‰‡ÌÌ˚ı:");
 
-		db_full_path = new Text(container, SWT.SINGLE | SWT.BORDER
-				| SWT.READ_ONLY);
-		gridData = new GridData();
-		gridData.horizontalAlignment = GridData.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.horizontalSpan = 2;
-		db_full_path.setLayoutData(gridData);
-
-		button = new Button(container, SWT.FLAT);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				browseForFile();
-				updateName();
-				dbPathModified = true;
-			}
-		});
-		button.setText("...");
+		// db_full_path = new Text(container, SWT.SINGLE | SWT.BORDER
+		// | SWT.READ_ONLY);
+		// gridData = new GridData();
+		// gridData.horizontalAlignment = GridData.FILL;
+		// gridData.grabExcessHorizontalSpace = true;
+		// gridData.horizontalSpan = 2;
+		// db_full_path.setLayoutData(gridData);
+		//
+		// button = new Button(container, SWT.FLAT);
+		// button.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// browseForFile();
+		// updateName();
+		// dbPathModified = true;
+		// }
+		// });
+		// button.setText("...");
 
 		// ************** œ”“‹   SQL ***********************
 
@@ -319,9 +320,9 @@ public class LoadDialog extends Dialog {
 		// sql_passwordField.setText(sql.password);
 	}
 
-	protected void browseForFile() {
-		Utils.browseForFile(db_full_path, getShell());
-	}
+	// protected void browseForFile() {
+	// Utils.browseForFile(db_full_path, getShell());
+	// }
 
 	protected void browseForPath() {
 		Utils.browseForPath(load_path, getShell());
@@ -335,7 +336,8 @@ public class LoadDialog extends Dialog {
 		dbManager.execute(conf, getShell());
 
 		// initContents();
-		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
+		App.br.post(Events.EVENT_UPDATE_CONF_LIST, new EVENT_UPDATE_TREE_DATA(
+				conf, conf));
 
 		super.okPressed();
 
@@ -351,7 +353,8 @@ public class LoadDialog extends Dialog {
 	public boolean close() {
 		updateDb();
 		App.mng.clm().save(conf, getShell());
-		App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
+		App.br.post(Events.EVENT_UPDATE_CONF_LIST, new EVENT_UPDATE_TREE_DATA(
+				conf, conf));
 		return super.close();
 	}
 }

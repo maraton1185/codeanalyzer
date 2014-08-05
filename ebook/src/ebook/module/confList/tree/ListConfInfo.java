@@ -48,7 +48,7 @@ public class ListConfInfo extends TreeItemInfo {
 		String op = "";
 		switch (data.type) {
 		case fromDb:
-			op = "Подключить " + data.db_full_path;
+			op = "Подключить " + data.db_name;
 			break;
 		case fromDirectory:
 			op = "Загрузить из " + data.load_path;
@@ -132,33 +132,66 @@ public class ListConfInfo extends TreeItemInfo {
 		return data.getName();
 	}
 
-	public void setDbFullPath(String _path) {
+	// public void setDbFullPath(String _path) {
+	//
+	// IPath path = new Path(_path);
+	// // IPath rootLoc = getBasePath();
+	// // if (rootLoc.isPrefixOf(path))
+	// // path = path.setDevice(null).removeFirstSegments(
+	// // rootLoc.segmentCount());
+	// data.db_full_path = path.toString();
+	//
+	// // data.db_full_path = path;
+	// data.db_path = path.removeLastSegments(1).toString();
+	// data.db_name = path.removeFileExtension().removeFileExtension()
+	// .lastSegment();
+	// }
 
-		IPath path = new Path(_path);
-		// IPath rootLoc = getBasePath();
-		// if (rootLoc.isPrefixOf(path))
-		// path = path.setDevice(null).removeFirstSegments(
-		// rootLoc.segmentCount());
-		data.db_full_path = path.toString();
-
-		// data.db_full_path = path;
-		data.db_path = path.removeLastSegments(1).toString();
-		data.db_name = path.removeFileExtension().removeFileExtension()
-				.lastSegment();
-	}
-
-	public IPath getDbFullPath() {
-		return data.db_full_path == null ? new Path("") : getAbsolute(new Path(
-				data.db_full_path));
-	}
+	// public IPath getDbFullPath() {
+	// return data.db_full_path == null ? new Path("") : getAbsolute(new Path(
+	// data.db_full_path));
+	// }
 
 	public String getDbPath() {
 		return data.db_path == null ? "" : getAbsolute(new Path(data.db_path))
 				.toString();
 	}
 
+	//
 	public String getDbName() {
 		return data == null || data.db_name == null ? "" : data.db_name;
+	}
+
+	private String path;
+
+	public IPath getPath() {
+
+		if (path == null)
+			return null;
+		return path.isEmpty() ? null : new Path(path);
+	}
+
+	public IPath getAbsolutePath() {
+
+		if (path == null)
+			return null;
+		return path.isEmpty() ? null : getAbsolute(new Path(path));
+	}
+
+	public void setPath(String _path) {
+
+		if (_path == null)
+			return;
+		IPath path = new Path(_path);
+		IPath rootLoc = getBasePath();
+		if (rootLoc.isPrefixOf(path))
+			path = path.setDevice(null).removeFirstSegments(
+					rootLoc.segmentCount());
+
+		data.db_path = path.removeLastSegments(1).toString();
+		data.db_name = path.removeFileExtension().removeFileExtension()
+				.lastSegment();
+		this.path = _path == null ? "" : _path;
 	}
 
 	public void setState(DbState status) {
@@ -226,18 +259,5 @@ public class ListConfInfo extends TreeItemInfo {
 	public void setDoLog(boolean selection) {
 		data.doLog = selection;
 
-	}
-
-	private String path;
-
-	public void setPath(String path) {
-		this.path = path == null ? "" : path;
-	}
-
-	public IPath getPath() {
-
-		if (path == null)
-			return null;
-		return path.isEmpty() ? null : new Path(path);
 	}
 }

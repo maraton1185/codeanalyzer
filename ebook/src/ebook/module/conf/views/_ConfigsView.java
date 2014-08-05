@@ -9,7 +9,6 @@ import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -28,7 +27,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -58,11 +56,10 @@ public class _ConfigsView {
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_CONFIG_LIST(
-			@UIEventTopic(Events.EVENT_UPDATE_CONFIG_LIST) Object o) {
-		viewer.refresh();
-	}
-
+	// public void EVENT_UPDATE_CONFIG_LIST(
+	// @UIEventTopic(Events.EVENT_UPDATE_CONFIG_LIST) Object o) {
+	// viewer.refresh();
+	// }
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService,
 			final EHandlerService hService, final ECommandService comService) {

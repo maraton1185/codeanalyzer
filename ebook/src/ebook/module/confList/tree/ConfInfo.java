@@ -13,7 +13,7 @@ public class ConfInfo implements Serializable {
 	public String name;
 	public operationType type;
 	public String load_path;
-	public String db_full_path;
+	// public String db_full_path;
 	public String db_path;
 	public String db_name;
 	public Boolean auto_name;
@@ -79,15 +79,18 @@ public class ConfInfo implements Serializable {
 		switch (type) {
 		case update:
 
-			result = new helper(3).getName(db_full_path);
+			result = new helper(3).getName(load_path);
 			break;
 
 		case fromDb:
 
-			result = new helper(3).getName(db_full_path);
+			result = db_name;// new helper(3).getName(load_path);
 			break;
 		case fromSQL:
 			result = sql == null ? "Новая конфигурация" : sql.path;
+			break;
+		case fillProcLinkTable:
+			result = db_name;
 			break;
 		default:
 			result = new helper(2).getName(load_path);
@@ -115,7 +118,7 @@ public class ConfInfo implements Serializable {
 
 		auto_name = true;
 		load_path = defaultPath;
-		db_full_path = defaultPath;
+		// db_full_path = defaultPath;
 		type = operationType.fromDirectory;
 
 	}

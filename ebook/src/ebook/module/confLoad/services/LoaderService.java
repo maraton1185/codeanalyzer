@@ -141,7 +141,8 @@ public class LoaderService {
 		} finally {
 			try {
 				bufferedReader.close();
-				handler.close();
+				if (log)
+					handler.close();
 			} catch (Exception e) {
 				LOG.log(Level.SEVERE, "Exception: ", e);
 				throw new InvocationTargetException(null,

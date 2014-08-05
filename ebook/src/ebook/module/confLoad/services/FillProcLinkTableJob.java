@@ -57,7 +57,7 @@ public class FillProcLinkTableJob extends Job {
 		try {
 
 			loaderManager.fillProcLinkTable(db, monitor);
-			App.br.post(Events.EVENT_UPDATE_CONFIG_LIST, null);
+			App.br.post(Events.EVENT_UPDATE_CONF_INFO, null);
 
 			return Status.OK_STATUS;
 

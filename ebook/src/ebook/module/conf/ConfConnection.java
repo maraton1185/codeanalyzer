@@ -31,6 +31,7 @@ public class ConfConnection extends BaseDbPathConnection {
 
 	private ConfService service;
 
+	@Override
 	public ConfService srv() {
 
 		service = service == null ? App.srv.cf(this) : service;
@@ -42,11 +43,15 @@ public class ConfConnection extends BaseDbPathConnection {
 
 	@Override
 	public ITreeItemInfo getTreeItem() {
-
 		if (treeItem == null)
-			return App.srv.cl().getTreeItem(getName());
-		else
-			return treeItem;
+			treeItem = App.srv.cl().getTreeItem(getName());
+
+		return treeItem;
 	}
+
+	// @Override
+	// public String getWindowTitle() {
+	// return getName();
+	// }
 
 }

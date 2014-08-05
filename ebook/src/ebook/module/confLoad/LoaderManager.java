@@ -85,7 +85,7 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
-			ConfConnection _con = new ConfConnection(db.getDbFullPath());
+			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
 			// con = _con.getConnection();
 			con = _con.makeConnection(true);
@@ -145,7 +145,7 @@ public class LoaderManager implements ILoaderManager {
 
 		// œ–Œ¬≈– » ******************************************************
 
-		File folder = db.getDbFullPath().toFile();
+		File folder = db.getAbsolutePath().toFile();
 		if (!folder.exists())
 			throw new InvocationTargetException(new LoadConfigException(),
 					Const.ERROR_CONFIG_PATH);
@@ -155,7 +155,7 @@ public class LoaderManager implements ILoaderManager {
 		try {
 
 			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
-			ConfConnection _con = new ConfConnection(db.getDbFullPath());
+			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 			con = _con.makeConnection(true);
 			// con = db.getConnection(true);
 			//
@@ -234,7 +234,7 @@ public class LoaderManager implements ILoaderManager {
 		Connection con = null;
 		try {
 
-			ConfConnection _con = new ConfConnection(db.getDbFullPath());
+			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
 			con = _con.makeConnection(true);
 
@@ -319,7 +319,7 @@ public class LoaderManager implements ILoaderManager {
 				throw new InterruptedException();
 			}
 
-			ConfConnection _con = new ConfConnection(db.getDbFullPath());
+			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
 			con = _con.makeConnection(true);
 

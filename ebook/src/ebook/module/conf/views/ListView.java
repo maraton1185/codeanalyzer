@@ -1,6 +1,7 @@
 package ebook.module.conf.views;
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -29,6 +30,7 @@ import ebook.module.conf.ConfOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -169,6 +171,24 @@ public class ListView {
 			window.getContext().set(ListInfo.class, section);
 
 			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+		}
+
+		if (opt.openSections == null || opt.openSections.isEmpty()) {
+
+			List<ITreeItemInfo> input = con.lsrv().getRoot();
+			if (input.isEmpty()) {
+				return;
+			}
+			int section_id = input.get(0).getId();
+
+			final ListInfo section = (ListInfo) con.lsrv().get(section_id);
+			if (section == null)
+				return;
+
+			window.getContext().set(ListInfo.class, section);
+
+			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+
 		}
 
 	}

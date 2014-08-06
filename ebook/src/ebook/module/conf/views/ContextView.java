@@ -111,49 +111,6 @@ public class ContextView {
 
 	}
 
-	// @Inject
-	// @Optional
-	// public void EVENT_UPDATE_CONF_CONTEXT_PART(
-	// @UIEventTopic(Events.EVENT_UPDATE_CONF_CONTEXT_PART)
-	// EVENT_UPDATE_VIEW_DATA data,
-	// @Active final MPart part) {
-	//
-	// if (con != data.con)
-	// return;
-	//
-	// if (list != data.parent)
-	// return;
-	//
-	// if (data.parent == null)
-	// return;
-	// // if (!data.parent.equals(section))
-	// // return;
-	// part.setLabel(data.parent.getTitle());
-	// // window.getContext().set(SectionInfo.class, (SectionInfo)
-	// // data.selected);
-	// }
-
-	// @Inject
-	// @Optional
-	// public void EVENT_UPDATE_LABELS_CONF_VIEW(
-	// @UIEventTopic(Events.EVENT_UPDATE_LABELS_CONF_VIEW)
-	// EVENT_UPDATE_TREE_DATA data) {
-	//
-	// if (data.parent == null)
-	// return;
-	//
-	// viewer.update(data.parent, null);
-	//
-	// }
-
-	// @Inject
-	// @Optional
-	// public void EVENT_CONF_VIEW_SETSELECTION(
-	// @UIEventTopic(Events.EVENT_CONF_VIEW_SETSELECTION) Object data) {
-	//
-	// treeComponent.setSelection();
-	// }
-
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
 			EMenuService menuService, @Active final MWindow window,

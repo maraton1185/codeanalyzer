@@ -157,6 +157,11 @@ public abstract class BaseDbConnection implements IDbConnection {
 		}
 	}
 
+	@Override
+	public String getName() {
+		return "";
+	}
+
 	// @Override
 	// protected void finalize() {
 	// closeConnection();

@@ -66,6 +66,7 @@ import ebook.module.book.views.SectionView;
 import ebook.module.book.views.TextView;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
+import ebook.module.conf.views.ContextView;
 import ebook.module.confLoad.services.FillProcLinkTableJob;
 import ebook.module.tree.Clipboard;
 import ebook.utils.Events;
@@ -449,7 +450,7 @@ public class App {
 			BookConnection book = window.getContext().get(BookConnection.class);
 
 			SectionInfo section = window.getContext().get(SectionInfo.class);
-			BookOptions opt = new BookOptions();
+			BookOptions opt = book.srv().getRootOptions(BookOptions.class);
 			if (section != null)
 				opt.selectedSection = section.getId();
 
@@ -510,11 +511,41 @@ public class App {
 
 			ConfConnection conf = window.getContext().get(ConfConnection.class);
 
-			SectionInfo section = window.getContext().get(SectionInfo.class);
-			ConfOptions opt = new ConfOptions();
-			if (section != null)
-				opt.selectedSection = section.getId();
-			conf.srv().saveRootOptions(opt);
+			// ContextInfo section = window.getContext().get(ContextInfo.class);
+
+			ConfOptions opt = conf.srv(null).getRootOptions(ConfOptions.class);
+			// if (section != null)
+			// opt.selectedSection = section.getId();
+
+			List<MPartStack> stacks = model
+					.findElements(App.app, Strings.get("ebook.partstack.conf"),
+							MPartStack.class, null);
+
+			if (!stacks.isEmpty()) {
+
+				opt.openSections = new ArrayList<Integer>();
+				for (MStackElement _part : stacks.get(0).getChildren()) {
+
+					if (!(_part instanceof MPart))
+						continue;
+
+					MPart part = (MPart) _part;
+
+					if (!part.isVisible())
+						continue;
+					String id = part.getElementId();
+
+					if (id.equals(Strings.get("ebook.partdescriptor.0"))) {
+						ContextView view = (ContextView) part.getObject();
+						if (view != null)
+							opt.openSections.add(view.getId());
+					}
+
+				}
+
+			}
+
+			conf.srv(null).saveRootOptions(opt);
 
 			conf.closeConnection();
 

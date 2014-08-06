@@ -1,14 +1,19 @@
 package ebook.module.conf.views;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -23,11 +28,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
+import ebook.module.conf.tree.ListInfo;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
-import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -39,7 +46,13 @@ public class ContextView {
 
 	@Inject
 	@Active
+	MWindow window;
+
+	@Inject
+	@Active
 	ConfConnection con;
+
+	ListInfo list;
 
 	@Inject
 	@Optional
@@ -47,6 +60,9 @@ public class ContextView {
 			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONF_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
+			return;
+
+		if (list != data.section)
 			return;
 
 		if (data.parent == null)
@@ -64,6 +80,9 @@ public class ContextView {
 		if (con != data.con)
 			return;
 
+		// if (list != data.section)
+		// return;
+
 		if (data.parent == null)
 			return;
 
@@ -79,46 +98,74 @@ public class ContextView {
 		if (con != data.con)
 			return;
 
+		if (list != data.section)
+			return;
+
 		if (data.parent == null)
 			return;
 
-		// if (data.parent != null)
 		viewer.refresh(data.parent);
 
 		if (data.selected != null)
 			viewer.setSelection(new StructuredSelection(data.selected), true);
 
-		// form.reflow(true);
 	}
 
-	@Inject
-	@Optional
-	public void EVENT_UPDATE_LABELS_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_LABELS_CONF_VIEW) EVENT_UPDATE_TREE_DATA data) {
+	// @Inject
+	// @Optional
+	// public void EVENT_UPDATE_CONF_CONTEXT_PART(
+	// @UIEventTopic(Events.EVENT_UPDATE_CONF_CONTEXT_PART)
+	// EVENT_UPDATE_VIEW_DATA data,
+	// @Active final MPart part) {
+	//
+	// if (con != data.con)
+	// return;
+	//
+	// if (list != data.parent)
+	// return;
+	//
+	// if (data.parent == null)
+	// return;
+	// // if (!data.parent.equals(section))
+	// // return;
+	// part.setLabel(data.parent.getTitle());
+	// // window.getContext().set(SectionInfo.class, (SectionInfo)
+	// // data.selected);
+	// }
 
-		if (data.parent == null)
-			return;
+	// @Inject
+	// @Optional
+	// public void EVENT_UPDATE_LABELS_CONF_VIEW(
+	// @UIEventTopic(Events.EVENT_UPDATE_LABELS_CONF_VIEW)
+	// EVENT_UPDATE_TREE_DATA data) {
+	//
+	// if (data.parent == null)
+	// return;
+	//
+	// viewer.update(data.parent, null);
+	//
+	// }
 
-		viewer.update(data.parent, null);
-
-	}
-
-	@Inject
-	@Optional
-	public void EVENT_CONF_VIEW_SETSELECTION(
-			@UIEventTopic(Events.EVENT_CONF_VIEW_SETSELECTION) Object data) {
-
-		treeComponent.setSelection();
-	}
+	// @Inject
+	// @Optional
+	// public void EVENT_CONF_VIEW_SETSELECTION(
+	// @UIEventTopic(Events.EVENT_CONF_VIEW_SETSELECTION) Object data) {
+	//
+	// treeComponent.setSelection();
+	// }
 
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
-			EMenuService menuService, @Active final MWindow window) {
+			EMenuService menuService, @Active final MWindow window,
+			@Active @Optional final ListInfo list) {
+
+		this.list = list;
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		treeComponent = new TreeViewComponent(parent, con.srv(), 3, true, false);
+		treeComponent = new TreeViewComponent(parent, con.srv(list), 3, true,
+				false);
 
 		viewer = treeComponent.getViewer();
 
@@ -137,9 +184,30 @@ public class ContextView {
 
 				window.getContext().set(ContextInfoSelection.class, sel);
 
-				window.getContext().set(ContextInfo.class,
-						(ContextInfo) selection.getFirstElement());
+				ContextInfo selected = (ContextInfo) selection
+						.getFirstElement();
+				window.getContext().set(ContextInfo.class, selected);
 
+				if (selected != null)
+					try {
+						if (list != null) {
+							list.getOptions().selectedContext = selected
+									.getId();
+							con.lsrv().saveOptions(list);
+						} else {
+							ConfOptions opt = con.srv(null).getRootOptions(
+									ConfOptions.class);
+
+							if (opt.selectedSection != selected.getId()) {
+								opt.selectedSection = selected.getId();
+								con.srv(null).saveRootOptions(opt);
+							}
+						}
+
+					} catch (InvocationTargetException e) {
+
+						e.printStackTrace();
+					}
 				// App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
 			}
 		});
@@ -162,6 +230,32 @@ public class ContextView {
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.contextview.popup"));
 
+		window.getContext().set(Events.CONTEXT_ACTIVE_LIST, list);
+	}
+
+	@Focus
+	public void OnFocus(@Named(Events.CONTEXT_ACTIVE_LIST) ListInfo _list,
+			EPartService partService, MPart part) {
+		if (list == _list)
+			return;
+
+		window.getContext().set(Events.CONTEXT_ACTIVE_LIST, list);
+
+		if (list != null) {
+			ITreeItemInfo item = con.lsrv().get(list.getId());
+			if (item == null) {
+				partService.hidePart(part);
+				return;
+			}
+		}
+
+		IStructuredSelection selection = (IStructuredSelection) viewer
+				.getSelection();
+		viewer.setSelection(selection, true);
+	}
+
+	public Integer getId() {
+		return list == null ? 0 : list.getId();
 	}
 
 }

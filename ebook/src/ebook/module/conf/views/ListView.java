@@ -1,6 +1,5 @@
-package ebook.module.book.views;
+package ebook.module.conf.views;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
@@ -25,80 +24,94 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.book.BookConnection;
-import ebook.module.book.ContextService;
-import ebook.module.book.tree.SectionInfo;
+import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfOptions;
 import ebook.module.conf.tree.ContextInfo;
-import ebook.module.conf.tree.ContextInfoSelection;
+import ebook.module.conf.tree.ListInfo;
+import ebook.module.conf.tree.ListInfoSelection;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
+import ebook.utils.Utils;
 
-public class ContextView {
+public class ListView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
 
 	@Inject
 	@Active
-	BookConnection con;
+	MWindow window;
+	@Inject
+	EHandlerService hs;
+	@Inject
+	ECommandService cs;
 
 	@Inject
 	@Active
-	SectionInfo section;
-
-	private ContextService service;
+	ConfConnection con;
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_SECTION_INFO(
-			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) Object o,
-			@Active @Optional SectionInfo data, final EHandlerService hs,
-			final ECommandService cs) {
-		if (data == null || service == null || treeComponent == null) {
-			return;
-		}
-
-		service.setSection(section);
-		treeComponent.updateInput();
-		treeComponent.setSelection();
-
-	}
-
-	@Inject
-	@Optional
-	public void EVENT_UPDATE_CONTEXT_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_CONTEXT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_EDIT_TITLE_LIST_VIEW(
+			@UIEventTopic(Events.EVENT_EDIT_TITLE_LIST_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
-			return;
-
-		if (section != data.section)
 			return;
 
 		if (data.parent == null)
 			return;
 
-		// if (data.parent != null)
+		viewer.editElement(data.parent, 0);
+
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_LABELS(
+			@UIEventTopic(Events.EVENT_UPDATE_LABELS) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
+
+		if (data.parent == null)
+			return;
+
+		viewer.update(data.parent, null);
+
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_LIST_VIEW(
+			@UIEventTopic(Events.EVENT_UPDATE_LIST_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
+
+		if (data.parent == null)
+			return;
+
 		viewer.refresh(data.parent);
 
 		if (data.selected != null)
 			viewer.setSelection(new StructuredSelection(data.selected), true);
 
-		// form.reflow(true);
 	}
 
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
-			EMenuService menuService, @Active final MWindow window) {
+			EMenuService menuService, @Active final MWindow window,
+			@Active @Optional ListInfo list) {
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		service = con.ctxsrv(section);
-		treeComponent = new TreeViewComponent(parent, service, 3, true, false);
+		treeComponent = new TreeViewComponent(parent, con.lsrv(), 3, true,
+				false);
+		// con.srv().setList(list);
 
 		viewer = treeComponent.getViewer();
 
@@ -109,28 +122,17 @@ public class ContextView {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 
-				ContextInfoSelection sel = new ContextInfoSelection();
+				ListInfoSelection sel = new ListInfoSelection();
 				@SuppressWarnings("unchecked")
-				Iterator<SectionInfo> iterator = selection.iterator();
+				Iterator<ContextInfo> iterator = selection.iterator();
 				while (iterator.hasNext())
 					sel.add(iterator.next());
 
-				window.getContext().set(ContextInfoSelection.class, sel);
+				window.getContext().set(ListInfoSelection.class, sel);
 
-				ContextInfo selected = (ContextInfo) selection
-						.getFirstElement();
-				window.getContext().set(ContextInfo.class, selected);
+				window.getContext().set(ListInfo.class,
+						(ListInfo) selection.getFirstElement());
 
-				if (selected != null)
-					try {
-						section.getOptions().selectedContext = selected.getId();
-
-						con.srv().saveOptions(section);
-					} catch (InvocationTargetException e) {
-
-						e.printStackTrace();
-					}
-				// App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
 			}
 		});
 
@@ -138,19 +140,36 @@ public class ContextView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 
-				// IStructuredSelection selection = (IStructuredSelection)
-				// viewer
-				// .getSelection();
-				// ListBookInfo selected = (ListBookInfo) selection
-				// .getFirstElement();
-				// App.mng.blm().open(selected.getPath(), shell);
+				// ListInfo list = window.getContext().get(ListInfo.class);
+
+				Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+				// App.br.post(Events.EVENT_UPDATE_CONF_CONTEXT_PART,
+				// new EVENT_UPDATE_VIEW_DATA(con, list));
+
 			}
 		});
 
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.sectioncontextview.popup"));
+				Strings.get("model.id.listview.popup"));
+
+		showSections();
+	}
+
+	private void showSections() {
+
+		ConfOptions opt = con.srv(null).getRootOptions(ConfOptions.class);
+		for (Integer i : opt.openSections) {
+
+			final ListInfo section = (ListInfo) con.lsrv().get(i);
+			if (section == null)
+				continue;
+
+			window.getContext().set(ListInfo.class, section);
+
+			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+		}
 
 	}
 

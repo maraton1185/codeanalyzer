@@ -82,8 +82,8 @@ public class ConfListManager extends TreeManager {
 
 						ListConfInfoOptions opt = new ListConfInfoOptions();
 
-						ConfOptions _opt = (ConfOptions) con.srv()
-								.getRootOptions();
+						ConfOptions _opt = con.srv(null).getRootOptions(
+								ConfOptions.class);
 						if (_opt != null) {
 							opt.status = _opt.status;
 							opt.status_date = _opt.status_date;

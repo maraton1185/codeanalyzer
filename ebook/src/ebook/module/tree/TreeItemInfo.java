@@ -112,4 +112,14 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 		return false;
 	}
 
+	@Override
+	public boolean isRoot() {
+		return getId() == ITreeService.rootId;
+	}
+
+	@Override
+	public void setRoot() {
+
+	}
+
 }

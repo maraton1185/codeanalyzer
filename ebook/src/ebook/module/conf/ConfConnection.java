@@ -1,12 +1,14 @@
 package ebook.module.conf;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
 import ebook.core.models.BaseDbPathConnection;
+import ebook.module.conf.tree.ListInfo;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.PreferenceSupplier;
 
@@ -29,14 +31,30 @@ public class ConfConnection extends BaseDbPathConnection {
 
 	}
 
-	private ConfService service;
+	HashMap<ListInfo, ConfService> srv_map = new HashMap<ListInfo, ConfService>();
 
-	@Override
-	public ConfService srv() {
+	public void remove(ListInfo list) {
+		srv_map.remove(list);
+	}
 
-		service = service == null ? App.srv.cf(this) : service;
+	public ConfService srv(ListInfo list) {
+
+		ConfService srv = srv_map.get(list);
+		if (srv == null) {
+			srv = new ConfService(this, list);
+			srv_map.put(list, srv);
+		}
+		return srv;
+	}
+
+	private ListService service;
+
+	public ListService lsrv() {
+
+		service = service == null ? new ListService(this) : service;
 
 		return service;
+
 	}
 
 	ITreeItemInfo treeItem;

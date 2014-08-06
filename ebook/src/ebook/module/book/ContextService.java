@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -78,33 +77,13 @@ public class ContextService extends TreeService {
 	}
 
 	@Override
-	public List<ITreeItemInfo> getRoot() {
-		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
+	protected void setAdditionRoot(PreparedStatement prep) throws SQLException {
+		prep.setInt(1, section.getId());
+	}
 
-		try {
-			Connection con = db.getConnection();
-			String SQL = "SELECT "
-					+ getItemString("T")
-					+ "FROM "
-					+ tableName
-					+ " AS T WHERE T.PARENT IS NULL AND T.SECTION=? ORDER BY T.SORT, T.ID";
-			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, section.getId());
-
-			ResultSet rs = prep.executeQuery();
-			try {
-				if (rs.next()) {
-
-					result.add(getItem(rs));
-				}
-			} finally {
-				rs.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return result;
+	@Override
+	protected String additionRootWHEREString() {
+		return "AND T.SECTION=?";
 	}
 
 	@Override

@@ -93,12 +93,12 @@ public class TreeViewComponent {
 		}
 	}
 
-	public void setInput() {
-		List<ITreeItemInfo> input = service.getRoot();
-		root = input.size() == 0 ? null : input.get(0);
-		// viewer.setAutoExpandLevel(expandLevel);
-		viewer.setInput(input);
-	}
+	// public void setInput() {
+	// List<ITreeItemInfo> input = service.getRoot();
+	// root = input.size() == 0 ? null : input.get(0);
+	// // viewer.setAutoExpandLevel(expandLevel);
+	// viewer.setInput(input);
+	// }
 
 	public void setLabelProvider(StyledCellLabelProvider prov) {
 		viewer.setLabelProvider(prov);

@@ -13,7 +13,6 @@ import java.util.List;
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
-import ebook.module.book.BookOptions;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -53,8 +52,9 @@ public abstract class TreeService implements ITreeService {
 
 		if (parent == null)
 			data.setParent(ITreeService.rootId);
-		else if (parent.getId() == ITreeService.rootId)
-			data.setParent(ITreeService.rootId);
+		else if (parent.isRoot())
+			// data.setParent(ITreeService.rootId);
+			data.setParent(parent.getId());
 		else if (parent.isGroup())
 			data.setParent(sub ? parent.getId() : parent.getParent());
 		else
@@ -148,14 +148,17 @@ public abstract class TreeService implements ITreeService {
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.PARENT IS NULL ORDER BY T.SORT, T.ID";
+					+ " AS T WHERE T.PARENT IS NULL "
+					+ additionRootWHEREString() + " ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
-
+			setAdditionRoot(prep);
 			ResultSet rs = prep.executeQuery();
 			try {
 				if (rs.next()) {
 
-					result.add(getItem(rs));
+					ITreeItemInfo root = getItem(rs);
+					root.setRoot();
+					result.add(root);
 				}
 			} finally {
 				rs.close();
@@ -165,6 +168,14 @@ public abstract class TreeService implements ITreeService {
 		}
 
 		return result;
+	}
+
+	protected void setAdditionRoot(PreparedStatement prep) throws SQLException {
+
+	}
+
+	protected String additionRootWHEREString() {
+		return "";
 	}
 
 	@Override
@@ -500,9 +511,9 @@ public abstract class TreeService implements ITreeService {
 
 	}
 
-	public DbOptions getRootOptions() {
+	public <T> T getRootOptions(Class<T> clazz) {
 
-		DbOptions result = null;
+		T result = null;
 
 		try {
 			Connection con = db.getConnection();
@@ -513,7 +524,7 @@ public abstract class TreeService implements ITreeService {
 			try {
 				if (rs.next()) {
 
-					result = DbOptions.load(BookOptions.class, rs.getString(1));
+					result = DbOptions.load(clazz, rs.getString(1));
 				}
 			} finally {
 				rs.close();

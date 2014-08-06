@@ -258,7 +258,7 @@ public class SectionsView {
 		if (!App.getJetty().isStarted())
 			return;
 
-		BookOptions opt = (BookOptions) con.srv().getRootOptions();
+		BookOptions opt = con.srv().getRootOptions(BookOptions.class);
 		for (Integer i : opt.openSections) {
 
 			final SectionInfo section = (SectionInfo) con.srv().get(i);

@@ -82,6 +82,7 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 
 	// *****************************************************************
 
+	@Override
 	public String getName() {
 		return getPath().append(name).toString();
 	}

@@ -36,10 +36,33 @@ public class ContextInfo extends TreeItemInfo {
 
 	}
 
+	private boolean root = false;
+
+	@Override
+	public boolean isRoot() {
+		return root;
+	}
+
+	@Override
+	public void setRoot() {
+		root = true;
+	}
+
 	private Integer conf;
 
 	public void setConfId(Integer id) {
 		conf = id;
+
+	}
+
+	private int list = 0;
+
+	public int getList() {
+		return list;
+	}
+
+	public void setList(int list) {
+		this.list = list;
 
 	}
 

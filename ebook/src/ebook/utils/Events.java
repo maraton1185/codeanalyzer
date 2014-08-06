@@ -83,6 +83,15 @@ public abstract class Events {
 
 	public static final String EVENT_UPDATE_CONTEXT_VIEW = "EVENT_UPDATE_SECTION_CONTEXT_VIEW";
 
+	public static final String EVENT_UPDATE_LIST_VIEW = "EVENT_UPDATE_LIST_VIEW";
+
+	public static final String EVENT_EDIT_TITLE_LIST_VIEW = "EVENT_EDIT_TITLE_LIST_VIEW";
+
+	public static final String CONTEXT_ACTIVE_LIST = "CONTEXT_ACTIVE_LIST";
+
+	// public static final String EVENT_UPDATE_CONF_CONTEXT_PART =
+	// "EVENT_UPDATE_CONF_CONTEXT_PART";
+
 	public static class EVENT_UPDATE_VIEW_DATA {
 
 		public EVENT_UPDATE_VIEW_DATA(IDbConnection con, ITreeItemInfo section,

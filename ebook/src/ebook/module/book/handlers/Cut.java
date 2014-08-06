@@ -23,7 +23,7 @@ public class Cut {
 
 		try {
 			final File zipFile = File.createTempFile("cut", ".zip");
-			App.bookClip.setCut(zipFile, book, section);
+			App.bookClip.setCut(zipFile, book, book.srv(), section);
 
 			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 				@Override

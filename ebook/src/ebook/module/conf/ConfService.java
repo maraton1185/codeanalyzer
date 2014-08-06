@@ -6,8 +6,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,8 @@ import ebook.core.models.BaseDbPathConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
+import ebook.module.conf.tree.ListInfo;
+import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.tree.ITreeItemInfo;
@@ -38,14 +43,17 @@ public class ConfService extends TreeService {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONF_VIEW;
+	private ListInfo list;
 
-	public ConfService(ConfConnection con) {
+	public ConfService(ConfConnection con, ListInfo list) {
 		super(tableName, updateEvent, con);
+		this.list = list;
+
 	}
 
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT, $Table.LIST ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -53,7 +61,90 @@ public class ConfService extends TreeService {
 	@Override
 	protected Object getUpdateEventData(ITreeItemInfo parent, ITreeItemInfo item) {
 
-		return new EVENT_UPDATE_VIEW_DATA(db, parent, item);
+		return new EVENT_UPDATE_VIEW_DATA(db, list, parent, item);
+		// return new EVENT_UPDATE_VIEW_DATA(db, parent, item);
+	}
+
+	@Override
+	protected String additionKeysString() {
+		return ", LIST";
+	}
+
+	@Override
+	protected String additionValuesString() {
+		return ", ?";
+	}
+
+	@Override
+	public List<ITreeItemInfo> getRoot() {
+		List<ITreeItemInfo> result = super.getRoot();
+		if (result.isEmpty())
+			return createRoot();
+
+		return result;
+	}
+
+	private List<ITreeItemInfo> createRoot() {
+
+		try {
+			Connection con = db.getConnection();
+
+			String SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, LIST) VALUES (?,?,?);";
+			PreparedStatement prep = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initContextTitle"));
+			prep.setBoolean(2, true);
+			if (list == null)
+				prep.setNull(3, java.sql.Types.INTEGER);
+			else
+				prep.setInt(3, list.getId());
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			List<ITreeItemInfo> input = getRoot();
+			if (input.isEmpty())
+				return null;
+
+			if (list != null) {
+				list.getOptions().selectedContext = input.get(0).getId();
+
+				((ConfConnection) db).lsrv().saveOptions(list);
+			}
+
+			return input;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	protected void setAdditions(PreparedStatement prep, ITreeItemInfo data)
+			throws SQLException {
+
+		if (list == null)
+			prep.setNull(6, java.sql.Types.INTEGER);
+		else
+			prep.setInt(6, list.getId());
+	}
+
+	@Override
+	protected void setAdditionRoot(PreparedStatement prep) throws SQLException {
+		if (list != null)
+			prep.setInt(1, list.getId());
+	}
+
+	@Override
+	protected String additionRootWHEREString() {
+		if (list != null)
+			return "AND T.LIST=?";
+		else
+			return "AND T.LIST IS NULL";
 	}
 
 	@Override
@@ -68,12 +159,21 @@ public class ConfService extends TreeService {
 				rs.getString(5)));
 		info.setSort(rs.getInt(6));
 		info.setConfId(db.getTreeItem().getId());
+		info.setList(rs.getInt(7));
 		return info;
 	}
 
 	@Override
 	public ITreeItemInfo getSelected() {
-		DbOptions _opt = getRootOptions();
+
+		if (list != null) {
+			ListInfoOptions opt = list.getOptions();
+			if (opt == null)
+				return get(ITreeService.rootId);
+			return get(opt.selectedContext);
+		}
+
+		DbOptions _opt = getRootOptions(ConfOptions.class);
 		if (_opt == null)
 			return get(ITreeService.rootId);
 
@@ -83,7 +183,7 @@ public class ConfService extends TreeService {
 
 	public void setState(DbState status) {
 
-		ConfOptions opt = (ConfOptions) getRootOptions();
+		ConfOptions opt = getRootOptions(ConfOptions.class);
 		if (opt == null)
 			opt = new ConfOptions();
 
@@ -100,7 +200,7 @@ public class ConfService extends TreeService {
 
 	public void setLinkState(DbState status) {
 
-		ConfOptions opt = (ConfOptions) getRootOptions();
+		ConfOptions opt = getRootOptions(ConfOptions.class);
 		if (opt == null)
 			opt = new ConfOptions();
 
@@ -157,25 +257,6 @@ public class ConfService extends TreeService {
 
 	private void writeXml(ContextXML root, IPath p) {
 
-		// List<SectionImage> _images = getImages(root.id);
-
-		// ArrayList<ImageXML> images = new ArrayList<ImageXML>();
-		//
-		// for (SectionImage image : _images) {
-		// ImageXML item = new ImageXML(image);
-		// images.add(item);
-		//
-		// ImageLoader saver = new ImageLoader();
-		// saver.data = new ImageData[] { image.image.getImageData() };
-		//
-		// saver.save(p.append(ImageXML.filename + image.getId())
-		// .addFileExtension(image.getMime()).toString(),
-		// image.getFormat());
-		//
-		// }
-		//
-		// root.images = images;
-
 		List<ITreeItemInfo> list = getChildren(root.id);
 
 		ArrayList<ContextXML> children = new ArrayList<ContextXML>();
@@ -188,9 +269,6 @@ public class ConfService extends TreeService {
 			children.add(child);
 
 		}
-
-		// if (!root.group)
-		// root.text = getText(root.id);
 
 		root.children = children;
 	}
@@ -235,18 +313,6 @@ public class ConfService extends TreeService {
 
 		ContextInfo root = (ContextInfo) ContextInfo.fromXML(element);
 		add(root, parent, true);
-		// if (!root.isGroup())
-		// saveText(root, element.text);
-
-		// for (ImageXML image : element.images) {
-		//
-		// IPath image_path = p.append(ImageXML.filename + image.id)
-		// .addFileExtension(image.mime);
-		// if (!image_path.toFile().exists())
-		// continue;
-		// add_image(root, image_path, image.title);
-		//
-		// }
 
 		for (ContextXML child : element.children) {
 

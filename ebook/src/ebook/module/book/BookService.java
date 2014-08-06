@@ -95,7 +95,7 @@ public class BookService extends TreeService {
 
 	@Override
 	public ITreeItemInfo getSelected() {
-		DbOptions _opt = getRootOptions();
+		DbOptions _opt = getRootOptions(BookOptions.class);
 		if (_opt == null)
 			return get(ITreeService.rootId);
 

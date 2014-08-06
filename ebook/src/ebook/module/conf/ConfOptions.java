@@ -1,6 +1,8 @@
 package ebook.module.conf;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ebook.core.models.DbOptions;
 import ebook.module.confLoad.model.DbState;
@@ -13,6 +15,7 @@ public class ConfOptions extends DbOptions {
 	// public List<Integer> openSections = new ArrayList<Integer>();
 
 	public Integer selectedSection = ITreeService.rootId;
+	public List<Integer> openSections = new ArrayList<Integer>();
 
 	public DbState status = DbState.notLoaded;
 	public Date status_date;

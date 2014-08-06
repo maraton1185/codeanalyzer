@@ -4,7 +4,7 @@ import java.io.File;
 
 import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
-import ebook.core.models.BaseDbPathConnection;
+import ebook.core.interfaces.IDbConnection;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
@@ -15,9 +15,11 @@ public class Clipboard implements IClipboard {
 	boolean empty = true;
 
 	File zipFile;
-	BaseDbPathConnection con;
+	IDbConnection con;
 
 	ITreeItemInfo item;
+
+	private ITreeService srv;
 
 	@Override
 	public boolean isEmpty() {
@@ -31,11 +33,11 @@ public class Clipboard implements IClipboard {
 
 	@Override
 	public void doPaste() {
-		if (cut) {
+		if (cut && srv != null) {
 
 			TreeItemInfoSelection sel = new TreeItemInfoSelection();
 			sel.add(item);
-			con.srv().delete(sel);
+			srv.delete(sel);
 		}
 
 		empty = true;
@@ -46,12 +48,13 @@ public class Clipboard implements IClipboard {
 	}
 
 	@Override
-	public void setCut(File zipFile, BaseDbPathConnection con,
+	public void setCut(File zipFile, IDbConnection con, ITreeService srv,
 			ITreeItemInfo item) {
 		empty = false;
 		cut = true;
 		this.zipFile = zipFile;
 		this.con = con;
+		this.srv = srv;
 		this.item = item;
 
 		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
@@ -59,8 +62,7 @@ public class Clipboard implements IClipboard {
 	}
 
 	@Override
-	public void setCopy(File zipFile, BaseDbPathConnection con,
-			ITreeItemInfo item) {
+	public void setCopy(File zipFile, IDbConnection con, ITreeItemInfo item) {
 		empty = false;
 		cut = false;
 		this.zipFile = zipFile;

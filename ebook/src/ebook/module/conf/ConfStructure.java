@@ -29,12 +29,23 @@ public class ConfStructure implements IDbStructure {
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
 					+ "OPTIONS VARCHAR(1500), " + "PRIMARY KEY (ID));");
 
-			stat.execute("CREATE TABLE CONTEXT (ID INTEGER AUTO_INCREMENT, "
+			stat.execute("CREATE TABLE LISTS (ID INTEGER AUTO_INCREMENT, "
 
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(1500), "
 
+					+ "FOREIGN KEY(PARENT) REFERENCES LISTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
+			stat.execute("CREATE TABLE CONTEXT (ID INTEGER AUTO_INCREMENT, "
+
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(1500), "
+					+ "LIST INTEGER, "
+
+					+ "FOREIGN KEY(LIST) REFERENCES LISTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "FOREIGN KEY(PARENT) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
@@ -53,11 +64,22 @@ public class ConfStructure implements IDbStructure {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP) VALUES (?,?);";
+			SQL = "INSERT INTO LISTS (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.get("initConfListTitle"));
+			prep.setBoolean(2, false);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, LIST) VALUES (?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.get("initConfContextTitle"));
 			prep.setBoolean(2, true);
+			// prep.setInt(3, 1);
+			prep.setNull(3, java.sql.Types.INTEGER);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -148,6 +170,8 @@ public class ConfStructure implements IDbStructure {
 						"OBJECT, MODULE, KEY, TYPE")
 				&& ch.checkColumns(metadata, "INFO", "OPTIONS")
 				&& ch.checkColumns(metadata, "CONTEXT",
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, LIST")
+				&& ch.checkColumns(metadata, "LISTS",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
 
 		if (!haveStructure)

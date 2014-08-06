@@ -1,20 +1,24 @@
 package ebook.module.conf;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.TreeManager;
 import ebook.utils.Strings;
 
-public class ConfManager extends TreeManager {
+public class ListManager extends TreeManager {
 
-	public ConfManager(ConfConnection con, ListInfo list) {
-		super(con.srv(list));
+	private ConfConnection con;
+
+	public ListManager(ConfConnection con) {
+		super(con.lsrv());
+		this.con = con;
 
 	}
 
@@ -22,8 +26,8 @@ public class ConfManager extends TreeManager {
 	public void addGroup(ITreeItemInfo parent, Shell shell) {
 		try {
 
-			ContextInfo data = new ContextInfo();
-			data.setTitle(Strings.get("s.newsection.title"));
+			ListInfo data = new ListInfo();
+			data.setTitle(Strings.get("s.newlist.title"));
 			data.setGroup(true);
 			srv.add(data, parent, false);
 
@@ -38,8 +42,8 @@ public class ConfManager extends TreeManager {
 	public void addSubGroup(ITreeItemInfo parent, Shell shell) {
 		try {
 
-			ContextInfo data = new ContextInfo();
-			data.setTitle(Strings.get("s.newsection.title"));
+			ListInfo data = new ListInfo();
+			data.setTitle(Strings.get("s.newlist.title"));
 			data.setGroup(true);
 			srv.add(data, parent, true);
 
@@ -48,6 +52,16 @@ public class ConfManager extends TreeManager {
 					"Ошибка создания подраздела.");
 		}
 
+	}
+
+	@Override
+	public void delete(ITreeItemSelection selection, Shell shell) {
+
+		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext())
+			con.remove((ListInfo) iterator.next());
+
+		super.delete(selection, shell);
 	}
 
 }

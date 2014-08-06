@@ -97,7 +97,7 @@ public class LoaderManager implements ILoaderManager {
 			loadFromDirectoryDoWork(con, monitor, files, db.getDoLog());
 
 			_con.setExternalConnection(con);
-			_con.srv().setState(DbState.Loaded);
+			_con.srv(null).setState(DbState.Loaded);
 			_con.resetExternalConnection();
 			// if (!sign.check())
 			// if (!dbStructure.checkLisence(db))
@@ -336,7 +336,7 @@ public class LoaderManager implements ILoaderManager {
 
 			db.setLinkState(DbState.Loaded);
 			_con.setExternalConnection(con);
-			_con.srv().setLinkState(DbState.Loaded);
+			_con.srv(null).setLinkState(DbState.Loaded);
 			_con.resetExternalConnection();
 
 		} catch (InterruptedException e) {

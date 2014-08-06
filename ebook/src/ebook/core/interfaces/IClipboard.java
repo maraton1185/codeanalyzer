@@ -2,8 +2,8 @@ package ebook.core.interfaces;
 
 import java.io.File;
 
-import ebook.core.models.BaseDbPathConnection;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeService;
 
 public interface IClipboard {
 
@@ -11,9 +11,10 @@ public interface IClipboard {
 
 	File getZip();
 
-	void setCut(File zipFile, BaseDbPathConnection con, ITreeItemInfo item);
+	void setCut(File zipFile, IDbConnection con, ITreeService srv,
+			ITreeItemInfo item);
 
-	void setCopy(File zipFile, BaseDbPathConnection con, ITreeItemInfo item);
+	void setCopy(File zipFile, IDbConnection con, ITreeItemInfo item);
 
 	Integer getConnectionId();
 

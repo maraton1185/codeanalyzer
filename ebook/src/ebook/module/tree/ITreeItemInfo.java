@@ -44,4 +44,8 @@ public interface ITreeItemInfo {
 	int getSort();
 
 	void setSort(int sort);
+
+	boolean isRoot();
+
+	void setRoot();
 }

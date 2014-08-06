@@ -30,7 +30,6 @@ public class BookConnection extends BaseDbPathConnection {
 
 	BookService service;
 
-	@Override
 	public BookService srv() {
 
 		service = service == null ? App.srv.bk(this) : service;

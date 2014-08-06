@@ -5,6 +5,8 @@ import ebook.core.interfaces.IManagerFactory;
 import ebook.module.bookList.BookListManager;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfManager;
+import ebook.module.conf.ListManager;
+import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.ConfListManager;
 import ebook.module.confLoad.interfaces.ILoaderManager;
 import ebook.module.userList.UserManager;
@@ -44,7 +46,12 @@ public class ManagerFactory implements IManagerFactory {
 	}
 
 	@Override
-	public ConfManager cm(ConfConnection con) {
-		return new ConfManager(con);
+	public ConfManager cm(ConfConnection con, ListInfo list) {
+		return new ConfManager(con, list);
+	}
+
+	@Override
+	public ListManager clm(ConfConnection con) {
+		return new ListManager(con);
 	}
 }

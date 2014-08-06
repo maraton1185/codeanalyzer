@@ -1,32 +1,27 @@
 package ebook.module.conf.handlers;
 
-import javax.inject.Named;
-
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
-public class AddGroup {
+public class ListEditTitle {
 
 	@Execute
-	public void execute(Shell shell, @Optional ContextInfo item,
-			@Active ConfConnection con,
-			@Active @Named(Events.CONTEXT_ACTIVE_LIST) ListInfo list) {
+	public void execute(ListInfo item, @Active ConfConnection con) {
 
-		App.mng.cm(con, list).addGroup(item, shell);
-
+		App.br.post(Events.EVENT_EDIT_TITLE_LIST_VIEW,
+				new EVENT_UPDATE_VIEW_DATA(con, item, null));
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active ContextInfo item) {
+	public boolean canExecute(@Optional @Active ListInfo item) {
 		return item != null;
 	}
 }

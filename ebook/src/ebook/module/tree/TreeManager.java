@@ -15,6 +15,9 @@ public abstract class TreeManager implements ITreeManager {
 
 	@Override
 	public void delete(ITreeItemSelection selection, Shell shell) {
+
+		// srv.delete(selection);
+
 		int parent = selection.getParent();
 
 		Iterator<ITreeItemInfo> iterator = selection.iterator();

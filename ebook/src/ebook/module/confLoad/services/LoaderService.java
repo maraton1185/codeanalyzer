@@ -56,10 +56,10 @@ public class LoaderService {
 			srv.parse().parseTxtModuleName(f, line);
 
 			LOG.fine("add object");
-			Integer object = srv.load().addObject(con, line);
+			Integer module = srv.load().addEntity(con, line);
 
 			LOG.fine("delete procs");
-			srv.load().deleteProcs(con, object);
+			srv.load().deleteProcs(con, module);
 
 			Reader in = new InputStreamReader(new FileInputStream(f), "UTF-8");
 			bufferedReader = new BufferedReader(in);
@@ -96,7 +96,7 @@ public class LoaderService {
 						var.export = false;
 
 						LOG.fine("add proc: " + var.proc_name);
-						srv.load().addProcedure(con, var, object);
+						srv.load().addProcedure(con, var, module);
 
 					}
 
@@ -108,7 +108,7 @@ public class LoaderService {
 					// parser.findCalls(proc);
 
 					LOG.fine("add proc: " + proc.proc_name);
-					srv.load().addProcedure(con, proc, object);
+					srv.load().addProcedure(con, proc, module);
 
 					currentSection = proc.section;
 
@@ -129,7 +129,7 @@ public class LoaderService {
 				proc.export = false;
 
 				LOG.fine("add proc: " + proc.proc_name);
-				srv.load().addProcedure(con, proc, object);
+				srv.load().addProcedure(con, proc, module);
 			}
 
 		} catch (Exception e) {

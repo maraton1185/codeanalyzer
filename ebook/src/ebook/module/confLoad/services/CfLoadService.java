@@ -10,6 +10,9 @@ import java.sql.Statement;
 
 import ebook.core.pico;
 import ebook.core.interfaces._ITextParser;
+import ebook.core.models.DbOptions;
+import ebook.module.confLoad.model.ELevel;
+import ebook.module.confLoad.model.EOptions;
 import ebook.module.confLoad.model.Entity;
 import ebook.module.confLoad.model.procCall;
 import ebook.module.confLoad.model.procEntity;
@@ -21,67 +24,95 @@ public class CfLoadService {
 
 	// ADD *****************************************************
 
-	public Integer addObject(Connection con, Entity line) throws SQLException {
+	public Integer addEntity(Connection con, Entity line) throws SQLException {
 
-		Integer index = 0;
+		Integer group1 = addObject(con, line.group1, ELevel.group1.getInt(), 0);
+		Integer group2 = addObject(con, line.group2, ELevel.group2.getInt(),
+				group1);
+		Integer module = addObject(con, line.module, ELevel.module.getInt(),
+				group2);
 
-		String SQL = "Select ID from OBJECTS WHERE GROUP1=? AND GROUP2=?";
-		PreparedStatement prep = con.prepareStatement(SQL);
-		prep.setString(1, line.group1);
-		prep.setString(2, line.group2);
-		ResultSet rs = prep.executeQuery();
+		return module;
+	}
+
+	public Integer addObject(Connection con, String title, Integer level,
+			Integer parent) throws SQLException {
+
+		Integer result = null;
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		SQL = "Select ID from OBJECTS WHERE LEVEL=? AND PARENT=? AND TITLE=?";
+		prep = con.prepareStatement(SQL);
+
+		prep.setInt(1, level);
+		prep.setInt(2, parent);
+		prep.setString(3, title);
+
+		rs = prep.executeQuery();
 		try {
 			if (rs.next())
-				return rs.getInt(1);
+				result = rs.getInt(1);
 		} finally {
 			rs.close();
 		}
 
-		SQL = "INSERT INTO OBJECTS (GROUP1, GROUP2, MODULE, TYPE) VALUES (?,?,?,?)";
-		prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+		if (result == null) {
+			SQL = "INSERT INTO OBJECTS (LEVEL, PARENT, TITLE) VALUES (?,?,?)";
+			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-		prep.setString(1, line.group1);
-		prep.setString(2, line.group2);
-		prep.setString(3, line.module);
-		prep.setInt(4, line.type.getInt());
+			prep.setInt(1, level);
+			prep.setInt(2, parent);
+			prep.setString(3, title);
 
-		ResultSet generatedKeys = null;
-		try {
-			int affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
+			ResultSet generatedKeys = null;
+			try {
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
 
-			generatedKeys = prep.getGeneratedKeys();
-			if (generatedKeys.next())
-				index = generatedKeys.getInt(1);
-			else
-				throw new SQLException();
-		} finally {
-			generatedKeys.close();
+				generatedKeys = prep.getGeneratedKeys();
+				if (generatedKeys.next())
+					result = generatedKeys.getInt(1);
+				else
+					throw new SQLException();
+			} finally {
+				generatedKeys.close();
+			}
 		}
-		return index;
+
+		return result;
+
 	}
 
-	public void addProcedure(Connection con, procEntity line, Integer object)
+	public void addProcedure(Connection con, procEntity line, Integer module)
 			throws SQLException {
 
-		String SQL = "INSERT INTO PROCS (OBJECT, GROUP1, GROUP2, MODULE, NAME, TITLE, EXPORT, CONTEXT, SECTION) VALUES (?,?,?,?,?,?,?,?,?)";
-		PreparedStatement prep = con.prepareStatement(SQL,
-				Statement.RETURN_GENERATED_KEYS);
+		String SQL;
+		PreparedStatement prep;
+		// ResultSet rs;
 
-		prep.setInt(1, object);
-		prep.setString(2, line.group1);
-		prep.setString(3, line.group2);
-		prep.setString(4, line.module);
-		prep.setString(5, line.proc_name.toUpperCase());
-		prep.setString(6, line.proc_title);
-		prep.setBoolean(7, line.export);
-		prep.setInt(8, line.context.getInt());
+		SQL = "INSERT INTO OBJECTS (LEVEL, PARENT, TITLE, OPTIONS) VALUES (?,?,?,?)";
+		prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+		prep.setInt(1, ELevel.proc.getInt());
+		prep.setInt(2, module);
+		prep.setString(3, line.proc_name.toUpperCase());
+
+		EOptions opt = new EOptions();
+		opt.title = line.proc_title;
+
 		if (line.section.length() != 0)
-			prep.setString(9, line.section.substring(0,
-					line.section.length() > 199 ? 199 : line.section.length()));
+			opt.section = line.section.substring(0,
+					line.section.length() > 199 ? 199 : line.section.length());
 		else
-			prep.setString(9, line.section);
+			opt.section = line.section;
+
+		opt.export = line.export;
+
+		opt.context = line.context.getInt();
+
+		prep.setString(4, DbOptions.save(opt));
 
 		int affectedRows = prep.executeUpdate();
 		if (affectedRows == 0)
@@ -109,7 +140,7 @@ public class CfLoadService {
 		if (line.calls != null)
 
 			for (procCall call : line.calls) {
-				String SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
+				String SQL = "INSERT INTO LINKS (OBJECT, CONTEXT, NAME) VALUES (?,?,?)";
 				PreparedStatement prep = con.prepareStatement(SQL);
 
 				prep.setInt(1, index);
@@ -125,7 +156,7 @@ public class CfLoadService {
 	private void addProcInfo(Connection con, procEntity line, Integer index)
 			throws SQLException {
 
-		String SQL = "INSERT INTO PROCS_TEXT (PROC, TEXT, HASH) VALUES (?,?,?)";
+		String SQL = "INSERT INTO PROCS_TEXT (OBJECT, TEXT, HASH) VALUES (?,?,?)";
 		PreparedStatement prep = con.prepareStatement(SQL);
 
 		prep.setInt(1, index);
@@ -140,11 +171,14 @@ public class CfLoadService {
 		if (line.params != null)
 
 			for (String parameter : line.params) {
-				SQL = "INSERT INTO PROCS_PARAMETERS (PROC, KEY) VALUES (?,?)";
-				prep = con.prepareStatement(SQL);
 
-				prep.setInt(1, index);
-				prep.setString(2, parameter.trim());
+				SQL = "INSERT INTO OBJECTS (LEVEL, PARENT, TITLE) VALUES (?,?,?)";
+				prep = con.prepareStatement(SQL,
+						Statement.RETURN_GENERATED_KEYS);
+
+				prep.setInt(1, ELevel.other.getInt());
+				prep.setInt(2, index);
+				prep.setString(3, parameter.trim());
 
 				affectedRows = prep.executeUpdate();
 				if (affectedRows == 0)
@@ -155,12 +189,12 @@ public class CfLoadService {
 
 	// DELETE *****************************************************
 
-	public int deleteProcs(Connection con, Integer object) throws SQLException {
+	public int deleteProcs(Connection con, Integer module) throws SQLException {
 
-		String SQL = "DELETE FROM PROCS WHERE OBJECT=?";
+		String SQL = "DELETE FROM OBJECTS WHERE PARENT=?";
 		PreparedStatement prep = con.prepareStatement(SQL);
 
-		prep.setInt(1, object);
+		prep.setInt(1, module);
 
 		return prep.executeUpdate();
 

@@ -25,6 +25,8 @@ public interface ITreeItemInfo {
 
 	DbOptions getOptions();
 
+	// <T> T getOptions(Class<T> clazz);
+
 	void setOptions(DbOptions options);
 
 	// void setOptions(DbOptions value);
@@ -48,4 +50,5 @@ public interface ITreeItemInfo {
 	boolean isRoot();
 
 	void setRoot();
+
 }

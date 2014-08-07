@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.tree.SectionInfoOptions;
 import ebook.utils.Strings;
 
 public class PasteContext {
@@ -21,6 +22,15 @@ public class PasteContext {
 	public void execute(final @Active BookConnection con,
 			@Active final SectionInfo section, final Shell shell) {
 
+		SectionInfoOptions opt = section.getOptions();
+		if (opt.hasContext()
+				&& !App.contextClip.getConnectionName().equalsIgnoreCase(
+						opt.getContextName())) {
+			MessageDialog.openError(shell, Strings.get("appTitle"),
+					"context is not applicable");
+			return;
+
+		}
 		final File zipFile = App.contextClip.getZip();
 
 		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
@@ -46,6 +56,7 @@ public class PasteContext {
 	@CanExecute
 	public boolean canExecute(@Optional @Active SectionInfo section) {
 		return section != null && !App.contextClip.isEmpty();
+
 	}
 
 }

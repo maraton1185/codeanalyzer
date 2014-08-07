@@ -1,7 +1,10 @@
 package ebook.module.conf.handlers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
@@ -16,43 +19,48 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Strings;
 
 public class ListDelete {
 
+	@Inject
+	@Active
+	MWindow window;
+	@Inject
+	EPartService partService;
+	@Inject
+	EModelService model;
+
 	@Execute
 	public void execute(Shell shell, @Active ConfConnection con,
-			@Active final ListInfo section,
-			@Optional ListInfoSelection selection, EPartService partService,
-			EModelService model, @Active MWindow window) {
-
-		// }
-		// @Execute
-		// public void execute(Shell shell, @Optional ListInfoSelection
-		// selection,
-		// @Active ConfConnection con) {
-
-		App.mng.clm(con).delete(selection, shell);
+			@Optional ListInfoSelection selection) {
 
 		List<MPartStack> stacks = model.findElements(window,
 				Strings.get("ebook.partstack.conf"), MPartStack.class, null);
 
 		String partID = Strings.get("ebook.partdescriptor.0");
 
-		@SuppressWarnings("serial")
-		List<MPart> parts = model.findElements(stacks.get(0), partID,
-				MPart.class, new ArrayList<String>() {
-					{
-						add(section.getId().toString());
-					}
-				});
+		final Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext()) {
+			final ITreeItemInfo section = iterator.next();
+			if (section.isRoot())
+				continue;
+			@SuppressWarnings("serial")
+			List<MPart> parts = model.findElements(stacks.get(0), partID,
+					MPart.class, new ArrayList<String>() {
+						{
+							add(section.getId().toString());
+						}
+					});
 
-		if (!parts.isEmpty()) {
-			MPart part = parts.get(0);
-			partService.hidePart(part, true);
+			if (!parts.isEmpty()) {
+				MPart part = parts.get(0);
+				partService.hidePart(part, true);
+			}
 		}
+		App.mng.clm(con).delete(selection, shell);
 	}
 
 	@CanExecute

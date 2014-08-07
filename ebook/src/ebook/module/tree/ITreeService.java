@@ -3,6 +3,8 @@ package ebook.module.tree;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
+
 public interface ITreeService {
 
 	int rootId = 1;
@@ -37,4 +39,10 @@ public interface ITreeService {
 	void saveTitle(ITreeItemInfo object);
 
 	ITreeItemInfo getSelected();
+
+	void download(IPath zipFolder, ITreeItemInfo item, String zipName)
+			throws InvocationTargetException;
+
+	void upload(String path, ITreeItemInfo item)
+			throws InvocationTargetException;
 }

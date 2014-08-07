@@ -185,7 +185,7 @@ public class ContextView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.contextview.popup"));
+				Strings.get("ebook.listView.popup"));
 
 		window.getContext().set(Events.CONTEXT_ACTIVE_LIST, list);
 	}

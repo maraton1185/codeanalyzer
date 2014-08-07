@@ -4,17 +4,18 @@ import ebook.module.tree.TreeItemInfo;
 
 public class ListInfo extends TreeItemInfo {
 
-	public ListInfo(ContextInfoOptions options) {
+	public ListInfo(ListInfoOptions options) {
 		super(options);
-	}
-
-	public ListInfo() {
-		super(null);
 	}
 
 	@Override
 	public ListInfoOptions getOptions() {
+
 		return (ListInfoOptions) super.getOptions();
+	}
+
+	public ListInfo() {
+		super(null);
 	}
 
 	@Override

@@ -214,7 +214,8 @@ public class ConfService extends TreeService {
 
 	}
 
-	public void download(IPath zipFolder, ContextInfo item, String zipName)
+	@Override
+	public void download(IPath zipFolder, ITreeItemInfo item, String zipName)
 			throws InvocationTargetException {
 
 		try {
@@ -273,7 +274,8 @@ public class ConfService extends TreeService {
 		root.children = children;
 	}
 
-	public void upload(String path, ContextInfo item)
+	@Override
+	public void upload(String path, ITreeItemInfo item)
 			throws InvocationTargetException {
 
 		try {

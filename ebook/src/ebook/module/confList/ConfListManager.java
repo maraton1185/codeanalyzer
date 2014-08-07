@@ -13,8 +13,11 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
+import ebook.module.book.ContextService;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
+import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
 import ebook.module.confLoad.LoadDialog;
@@ -199,5 +202,32 @@ public class ConfListManager extends TreeManager {
 				MessageDialog.openError(shell, Strings.get("appTitle"),
 						"Ошибка открытия конфигурации.");
 		}
+	}
+
+	public void openWithContext(ContextService contextService, IPath path,
+			ContextInfo item, Shell shell) {
+		if (path == null)
+			return;
+
+		try {
+
+			ConfConnection con = new ConfConnection(path);
+
+			ListInfo newList = App.mng.clm(con).openInNewList(contextService,
+					item, shell);
+
+			App.ctx.set(ConfConnection.class, con);
+			App.ctx.set(ListInfo.class, newList);
+			App.br.post(Events.EVENT_SHOW_CONF, null);
+
+		} catch (Exception e) {
+
+			App.ctx.set(BookConnection.class, null);
+			App.ctx.set(ListInfo.class, null);
+			if (shell != null)
+				MessageDialog.openError(shell, Strings.get("appTitle"),
+						"Ошибка открытия конфигурации.");
+		}
+
 	}
 }

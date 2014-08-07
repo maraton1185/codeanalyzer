@@ -68,7 +68,7 @@ public class SectionInfo extends TreeItemInfo {
 
 	@Override
 	public String getSuffix() {
-		return getOptions().hasContext ? "1C" : "";
+		return getOptions().getContextName();
 	}
 
 	public void setBookId(Integer id) {

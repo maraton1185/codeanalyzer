@@ -1,7 +1,6 @@
 package ebook.module.conf.views;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -26,11 +25,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.ConfOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
-import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -60,7 +57,7 @@ public class ListView {
 	public void EVENT_EDIT_TITLE_LIST_VIEW(
 			@UIEventTopic(Events.EVENT_EDIT_TITLE_LIST_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (con != data.con)
+		if (!con.equals(data.con))
 			return;
 
 		if (data.parent == null)
@@ -75,7 +72,7 @@ public class ListView {
 	public void EVENT_UPDATE_LABELS(
 			@UIEventTopic(Events.EVENT_UPDATE_LABELS) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (con != data.con)
+		if (!con.equals(data.con))
 			return;
 
 		if (data.parent == null)
@@ -90,7 +87,7 @@ public class ListView {
 	public void EVENT_UPDATE_LIST_VIEW(
 			@UIEventTopic(Events.EVENT_UPDATE_LIST_VIEW) EVENT_UPDATE_VIEW_DATA data) {
 
-		if (con != data.con)
+		if (!con.equals(data.con))
 			return;
 
 		if (data.parent == null)
@@ -156,41 +153,7 @@ public class ListView {
 		menuService.registerContextMenu(viewer.getControl(),
 				Strings.get("model.id.listview.popup"));
 
-		showSections();
-	}
-
-	private void showSections() {
-
-		ConfOptions opt = con.srv(null).getRootOptions(ConfOptions.class);
-		for (Integer i : opt.openSections) {
-
-			final ListInfo section = (ListInfo) con.lsrv().get(i);
-			if (section == null)
-				continue;
-
-			window.getContext().set(ListInfo.class, section);
-
-			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
-		}
-
-		if (opt.openSections == null || opt.openSections.isEmpty()) {
-
-			List<ITreeItemInfo> input = con.lsrv().getRoot();
-			if (input.isEmpty()) {
-				return;
-			}
-			int section_id = input.get(0).getId();
-
-			final ListInfo section = (ListInfo) con.lsrv().get(section_id);
-			if (section == null)
-				return;
-
-			window.getContext().set(ListInfo.class, section);
-
-			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
-
-		}
-
+		// showSections();
 	}
 
 }

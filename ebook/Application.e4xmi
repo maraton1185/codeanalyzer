@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmlns:ui="http://www.eclipse.org/ui/2010/UIModel/application/ui" xmi:id="_cMG-gJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ide.application" bindingContexts="_cMG-iZlHEeOhhK_cqm6rMQ">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" elementId="ebook.trimmedwindow.main" label="Анализатор кода 1С" iconURI="platform:/plugin/ebook/icons/favicon.png" width="900" height="700">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_cMG-gZlHEeOhhK_cqm6rMQ" elementId="ebook.trimmedwindow.main" label="Анализатор кода 1С" iconURI="platform:/plugin/ebook/icons/favicon.png" width="1000" height="700">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="__8s28KXSEeO-PfCALTbnPw" elementId="ebook.perspectivestack.0">
       <children xsi:type="advanced:Perspective" xmi:id="_AQqUwKXTEeO-PfCALTbnPw" elementId="ebook.perspective.default" visible="false" tooltip="Стартовая страница">
         <children xsi:type="basic:PartSashContainer" xmi:id="_7GppUJriEeOlcttaCxvpFw" elementId="ebook.partsashcontainer.0" horizontal="true">
@@ -369,7 +369,9 @@
     <handlers xmi:id="_bN-GAB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Copy" command="_JxxqoBMsEeSxtrXpzQMiIQ"/>
     <handlers xmi:id="_cBplsB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Paste" command="_NMcasBMsEeSxtrXpzQMiIQ"/>
     <handlers xmi:id="_cfKBEB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Cut" command="_Nf0CoBMsEeSxtrXpzQMiIQ"/>
-    <menus xsi:type="menu:PopupMenu" xmi:id="_UORwAB1DEeS8Ob_mPIL9rg" elementId="model.id.contextview.popup">
+    <menus xsi:type="menu:PopupMenu" xmi:id="_UORwAB1DEeS8Ob_mPIL9rg" elementId="ebook.listView.popup">
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_5NbSYB3-EeSWnfW9xuDLLA" elementId="ebook.directmenuitem.8" label="Open in new list" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Open in new list" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.OpenInNewList"/>
+      <children xsi:type="menu:MenuSeparator" xmi:id="_393H8B3-EeSWnfW9xuDLLA" elementId="ebook.menuseparator.6"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_Wct9gB1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="_R8mmgBicEeSEwsGZkmCqtw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_XDnlcB1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.2" label="Добавить подраздел" iconURI="platform:/plugin/ebook/icons/set/addSubFolder.png" tooltip="Добавить подраздел" command="_WxNlABicEeSEwsGZkmCqtw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_XcQH4B1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.14" label="Изменить заголовок" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить заголовок" command="_bFGcEBicEeSEwsGZkmCqtw"/>
@@ -380,10 +382,16 @@
       <children xsi:type="menu:HandledMenuItem" xmi:id="_ZBiDoB1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.7" label="Вырезать" iconURI="platform:/plugin/ebook/icons/set/cut.png" command="_bxHD4BvFEeSuCZqAXHJskQ"/>
     </menus>
     <toolbar xmi:id="_KKc6oB1DEeS8Ob_mPIL9rg" elementId="ebook.toolbar.15">
+      <children xsi:type="menu:DirectToolItem" xmi:id="_r7lB0B3-EeSWnfW9xuDLLA" elementId="ebook.directtoolitem.5" label="" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Open in new list" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.OpenInNewList"/>
+      <children xsi:type="menu:ToolBarSeparator" xmi:id="_tBdr0B3-EeSWnfW9xuDLLA" elementId="ebook.toolbarseparator.4"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_SXi34B1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="_R8mmgBicEeSEwsGZkmCqtw"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_TElkEB1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.7" label="Добавить подраздел" iconURI="platform:/plugin/ebook/icons/set/addSubFolder.png" tooltip="Добавить подраздел" command="_WxNlABicEeSEwsGZkmCqtw"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_TWjd0B1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.8" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_bFGcEBicEeSEwsGZkmCqtw"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_Tp7FwB1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.6" label="" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить раздел" command="_Zg_lABicEeSEwsGZkmCqtw"/>
+      <children xsi:type="menu:ToolBarSeparator" xmi:id="_Ye7b4B3-EeSWnfW9xuDLLA" elementId="ebook.toolbarseparator.3"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_ZfSssB3-EeSWnfW9xuDLLA" elementId="ebook.handledtoolitem.7" label="Копировать" iconURI="platform:/plugin/ebook/icons/set/copy.png" tooltip="Копировать" command="_aVgokBvFEeSuCZqAXHJskQ"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_ZlkT0B3-EeSWnfW9xuDLLA" elementId="ebook.handledtoolitem.7" label="Вставить" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить" command="_bKMN0BvFEeSuCZqAXHJskQ"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_ZpcHMB3-EeSWnfW9xuDLLA" elementId="ebook.handledtoolitem.7" label="Вырезать" iconURI="platform:/plugin/ebook/icons/set/cut.png" tooltip="Вырезать" command="_bxHD4BvFEeSuCZqAXHJskQ"/>
     </toolbar>
   </descriptors>
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="ebook.window.book" label="Книга" iconURI="platform:/plugin/ebook/icons/set/book.png" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
@@ -428,9 +436,14 @@
         </children>
         <children xsi:type="basic:PartStack" xmi:id="_ZoF-kBl4EeSd8pr_gKmkCQ" elementId="part.SectionPanel" containerData="40000">
           <children xsi:type="basic:Part" xmi:id="_a2AjMBl4EeSd8pr_gKmkCQ" elementId="part.SectionContextView" contributionURI="bundleclass://ebook/ebook.module.book.views.ContextView" label="Контекст">
+            <menus xsi:type="menu:PopupMenu" xmi:id="_yLCg0B4WEeSWnfW9xuDLLA" elementId="ebook.popupmenu.bookcontext">
+              <children xsi:type="menu:DirectMenuItem" xmi:id="__E69UB4WEeSWnfW9xuDLLA" elementId="ebook.directmenuitem.10" label="Открыть в конфигурации" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext"/>
+              <children xsi:type="menu:DirectMenuItem" xmi:id="_-wUmUB4WEeSWnfW9xuDLLA" elementId="ebook.directmenuitem.9" label="Вставить контекст" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
+            </menus>
             <toolbar xmi:id="_geKegBl4EeSd8pr_gKmkCQ" elementId="ebook.toolbar.13">
               <children xsi:type="menu:DirectToolItem" xmi:id="_CQK34BvTEeSuCZqAXHJskQ" elementId="ebook.directtoolitem.4" label="" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
               <children xsi:type="menu:DirectToolItem" xmi:id="_7c3wIBx3EeSfIZVFxVWEbA" elementId="ebook.directtoolitem.5" label="" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext"/>
+              <children xsi:type="menu:DirectToolItem" xmi:id="_hW5jUB4YEeSWnfW9xuDLLA" elementId="ebook.directtoolitem.6" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить " contributionURI="bundleclass://ebook/ebook.module.book.handlers.DeleteContext"/>
             </toolbar>
           </children>
           <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="part.SectionRolesView" containerData="" contributionURI="bundleclass://ebook/ebook.module.book.views.RolesView" label="Роли">
@@ -442,6 +455,7 @@
     <handlers xmi:id="_CApugOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.17" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Show" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
     <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.21" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
     <handlers xmi:id="_aW_iwBJjEeSRHfCKVoiTkg" elementId="ebook.handler.6" contributionURI="bundleclass://ebook/ebook.module.book.handlers.HideRoles" command="_U5MdUBJjEeSRHfCKVoiTkg"/>
+    <handlers xmi:id="_zQzvsB4OEeSWnfW9xuDLLA" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Show" command="_hhcMAB0_EeS8Ob_mPIL9rg"/>
     <mainMenu xmi:id="_4G-cUKtuEeOc79QMS88vBA" elementId="ebook.menu.4" visible="false">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_riaO4Kt2EeOc79QMS88vBA" elementId="ebook.handledmenuitem.0" visible="false" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
     </mainMenu>
@@ -455,13 +469,13 @@
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_9E2bIP0pEeONSOVuBcgXoA" elementId="ebook.window.conf" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/Datbase.png">
     <children xsi:type="basic:PartSashContainer" xmi:id="_yRzHoB07EeS8Ob_mPIL9rg" elementId="ebook.partsashcontainer.4" containerData="" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_JgoZgBcMEeS3ZekdeJlIhg" elementId="ebook.partstack.conf" containerData="70000"/>
-      <children xsi:type="basic:PartStack" xmi:id="_2HnioB07EeS8Ob_mPIL9rg" elementId="ebook.partstack.2" containerData="30000">
+      <children xsi:type="basic:PartStack" xmi:id="_2HnioB07EeS8Ob_mPIL9rg" elementId="ebook.partstack.lists" visible="false" containerData="30000" selectedElement="_26aRgB07EeS8Ob_mPIL9rg">
+        <tags>Minimized</tags>
         <children xsi:type="basic:Part" xmi:id="_26aRgB07EeS8Ob_mPIL9rg" elementId="ebook.part.2" contributionURI="bundleclass://ebook/ebook.module.conf.views.ListView" label="Lists" bindingContexts="_7M6MAB08EeS8Ob_mPIL9rg">
           <handlers xmi:id="_if44oB08EeS8Ob_mPIL9rg" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListAddGroup" command="_OBSGcB08EeS8Ob_mPIL9rg"/>
           <handlers xmi:id="_jDZOUB08EeS8Ob_mPIL9rg" elementId="ebook.handler.50" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListAddSubGroup" command="_SP2YoB08EeS8Ob_mPIL9rg"/>
           <handlers xmi:id="_jY1S0B08EeS8Ob_mPIL9rg" elementId="ebook.handler.51" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListEditTitle" command="_SYHj0B08EeS8Ob_mPIL9rg"/>
           <handlers xmi:id="_jsmjYB08EeS8Ob_mPIL9rg" elementId="ebook.handler.52" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListDelete" command="_SbdywB08EeS8Ob_mPIL9rg"/>
-          <handlers xmi:id="_luKrIB0_EeS8Ob_mPIL9rg" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Show" command="_hhcMAB0_EeS8Ob_mPIL9rg"/>
           <menus xsi:type="menu:PopupMenu" xmi:id="_CvebAB08EeS8Ob_mPIL9rg" elementId="model.id.listview.popup">
             <children xsi:type="menu:HandledMenuItem" xmi:id="_JSjGcB08EeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="_OBSGcB08EeS8Ob_mPIL9rg"/>
             <children xsi:type="menu:HandledMenuItem" xmi:id="_J1BhYB08EeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.2" label="Добавить подраздел" iconURI="platform:/plugin/ebook/icons/set/addSubFolder.png" tooltip="Добавить подраздел" command="_SP2YoB08EeS8Ob_mPIL9rg"/>
@@ -477,6 +491,17 @@
         </children>
       </children>
     </children>
+    <handlers xmi:id="_JXc3sB4EEeSWnfW9xuDLLA" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Show" command="_hhcMAB0_EeS8Ob_mPIL9rg"/>
+    <trimBars xmi:id="_272VgB33EeSWnfW9xuDLLA" elementId="ebook.trimbar.2">
+      <children xsi:type="menu:ToolBar" xmi:id="_3sAAEB33EeSWnfW9xuDLLA" elementId="ebook.toolbar.12"/>
+    </trimBars>
+    <trimBars xmi:id="_Fo_0gB36EeSWnfW9xuDLLA" elementId="ebook.trimbar.3" side="Right">
+      <children xsi:type="menu:ToolControl" xmi:id="_HY_ygB36EeSWnfW9xuDLLA" elementId="ebook.partstack.lists(minimized)" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
+        <persistedState key="XSize" value="270"/>
+        <persistedState key="YSize" value="400 "/>
+        <tags>TrimStack</tags>
+      </children>
+    </trimBars>
   </snippets>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="ebook.command.Activate" commandName="Сервис -Активация"/>

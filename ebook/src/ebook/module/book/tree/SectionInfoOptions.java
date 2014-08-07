@@ -16,7 +16,23 @@ public class SectionInfoOptions extends DbOptions {
 
 	public int selectedContext;
 
-	public boolean hasContext;
+	public boolean hasContext() {
+		return contextName == null ? false : !contextName.isEmpty();
+	}
+
+	public void resetContext() {
+		contextName = "";
+	}
+
+	String contextName = "";
+
+	public String getContextName() {
+		return contextName == null ? "" : contextName;
+	}
+
+	public void setContextName(String contextName) {
+		this.contextName = contextName;
+	}
 
 	public Integer getBigImageCSS() {
 		return bigImageCSS == null ? 0 : bigImageCSS;

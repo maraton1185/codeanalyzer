@@ -11,15 +11,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
+import ebook.core.models.BaseDbPathConnection;
 import ebook.core.models.DbOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
@@ -27,6 +31,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;
@@ -117,7 +122,99 @@ public class ContextService extends TreeService {
 		return get(opt.selectedContext);
 	}
 
+	@Override
+	protected boolean canDeleteRoot() {
+
+		return true;
+	}
+
+	@Override
+	public void delete(ITreeItemSelection selection) {
+		int parent = selection.getParent();
+
+		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext()) {
+			ITreeItemInfo item = iterator.next();
+			if (item.isRoot()) {
+				try {
+					section.getOptions().resetContext();
+					((BookConnection) db).srv().saveOptions(section);
+					App.br.post(Events.EVENT_UPDATE_LABELS,
+							new EVENT_UPDATE_VIEW_DATA(db, section));
+					App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
+					delete(item);
+					break;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			delete(item);
+		}
+
+		if (parent != 0)
+			selectLast(parent);
+	}
+
 	String conf = "";
+
+	@Override
+	public void download(IPath zipFolder, ITreeItemInfo item, String zipName)
+			throws InvocationTargetException {
+		try {
+			File temp = File.createTempFile("downloadConf", "");
+			temp.delete();
+			temp.mkdir();
+			IPath t = new Path(temp.getAbsolutePath());
+
+			ContextXML root = new ContextXML(item, false);
+
+			writeXml(root, t);
+
+			// create JAXB context and instantiate marshaller
+			JAXBContext context = JAXBContext.newInstance(ContextXML.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+			// Write to System.out
+			// m.marshal(root, System.out);
+
+			// Write to File
+			m.marshal(root,
+					t.append(ITreeItemXML.filename).addFileExtension("xml")
+							.toFile());
+
+			if (zipName == null || zipName.isEmpty())
+				zipName = zipFolder
+						.append(((BaseDbPathConnection) db).getWindowTitle()
+								+ " (" + item.getTitle() + ")")
+						.addFileExtension("zip").toString();
+
+			ZipHelper.zip(t.toString(), zipName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new InvocationTargetException(e,
+					Strings.get("error.saveToFile") + ":\n" + zipName + "");
+		}
+	}
+
+	private void writeXml(ContextXML root, IPath p) {
+
+		List<ITreeItemInfo> list = getChildren(root.id);
+
+		ArrayList<ContextXML> children = new ArrayList<ContextXML>();
+
+		for (ITreeItemInfo item : list) {
+
+			ContextXML child = new ContextXML(item, false);
+			writeXml(child, p);
+
+			children.add(child);
+
+		}
+
+		root.children = children;
+	}
 
 	public void upload(String path, String conf)
 			throws InvocationTargetException {
@@ -188,7 +285,7 @@ public class ContextService extends TreeService {
 				return null;
 
 			section.getOptions().selectedContext = input.get(0).getId();
-			section.getOptions().hasContext = true;
+			section.getOptions().setContextName(conf);
 			((BookConnection) db).srv().saveOptions(section);
 			App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(
 					db, section));
@@ -208,7 +305,7 @@ public class ContextService extends TreeService {
 			throws InvocationTargetException {
 
 		ContextInfo root = (ContextInfo) ContextInfo.fromXML(element);
-		root.getOptions().conf = conf;
+		// root.getOptions().conf = conf;
 
 		add(root, parent, true);
 

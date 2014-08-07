@@ -67,6 +67,13 @@ public class ConfConnection extends BaseDbPathConnection {
 		return treeItem;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ConfConnection)
+			return ((ConfConnection) obj).getName().equals(getName());
+		else
+			return super.equals(obj);
+	}
 	// @Override
 	// public String getWindowTitle() {
 	// return getName();

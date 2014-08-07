@@ -150,7 +150,7 @@ public class ContextView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.sectioncontextview.popup"));
+				Strings.get("ebook.popupmenu.bookcontext"));
 
 	}
 

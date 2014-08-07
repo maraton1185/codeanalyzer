@@ -22,12 +22,25 @@ import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import ebook.core.App;
 import ebook.core.App.ConfWindowCloseHandler;
 import ebook.module.conf.ConfConnection;
+import ebook.module.conf.ConfOptions;
+import ebook.module.conf.tree.ListInfo;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 public class serviceShow {
+
+	@Inject
+	EPartService partService;
+	@Inject
+	EModelService model;
+	@Inject
+	EHandlerService hs;
+	@Inject
+	ECommandService cs;
+	@Inject
+	IEclipseContext ctx;
 
 	@Inject
 	@Optional
@@ -43,9 +56,8 @@ public class serviceShow {
 	}
 
 	@Execute
-	public void execute(EPartService partService, EModelService model,
-			final @Active ConfConnection con, IEclipseContext ctx,
-			EHandlerService hs, ECommandService cs) {
+	public void execute(final @Active ConfConnection con,
+			@Optional ListInfo list) {
 
 		// книги нет в списке
 		ITreeItemInfo item = con.getTreeItem();
@@ -62,20 +74,23 @@ public class serviceShow {
 					}
 				});
 
+		MWindow w;
 		if (windows.isEmpty())
 
-			createWindow(mainWindow, con, model, ctx, partService, hs, cs);
+			w = createWindow(mainWindow, con);
 
 		else {
-			MWindow w = windows.get(0);
+			w = windows.get(0);
 			w.setVisible(true);
 			App.app.setSelectedElement(w);
 		}
+
+		showSections(con, w, list);
+
+		App.ctx.set(ListInfo.class, null);
 	}
 
-	private void createWindow(MWindow mainWindow, ConfConnection con,
-			EModelService model, IEclipseContext ctx, EPartService partService,
-			EHandlerService hs, ECommandService cs) {
+	private MWindow createWindow(MWindow mainWindow, ConfConnection con) {
 
 		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
 				Strings.get("ebook.window.conf"), null);
@@ -103,5 +118,82 @@ public class serviceShow {
 		// .getBoolean(PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW))
 		// part.setVisible(false);
 		// }
+		return newWindow;
 	}
+
+	private void showSections(ConfConnection con, MWindow window, ListInfo list) {
+
+		ConfOptions opt = con.srv(null).getRootOptions(ConfOptions.class);
+
+		if (list != null && !opt.openSections.contains(list.getId())) {
+			opt.openSections.add(list.getId());
+		}
+
+		for (Integer i : opt.openSections) {
+
+			final ListInfo section = (ListInfo) con.lsrv().get(i);
+			if (section == null)
+				continue;
+
+			window.getContext().set(ListInfo.class, section);
+
+			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+			// show(window, section);
+		}
+
+		if (opt.openSections == null || opt.openSections.isEmpty()) {
+
+			List<ITreeItemInfo> input = con.lsrv().getRoot();
+			if (input.isEmpty()) {
+				return;
+			}
+			int section_id = input.get(0).getId();
+
+			final ListInfo section = (ListInfo) con.lsrv().get(section_id);
+			if (section == null)
+				return;
+
+			window.getContext().set(ListInfo.class, section);
+
+			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+			// show(window, section);
+
+		}
+
+	}
+
+	// private void show(MWindow window, final ListInfo list) {
+	// List<MPartStack> stacks = model.findElements(window,
+	// Strings.get("ebook.partstack.conf"), MPartStack.class, null);
+	//
+	// String partID = Strings.get("ebook.partdescriptor.0");
+	//
+	// stacks.get(0).setVisible(true);
+	//
+	// @SuppressWarnings("serial")
+	// List<MPart> parts = model.findElements(stacks.get(0), partID,
+	// MPart.class, new ArrayList<String>() {
+	// {
+	// add(list.getId().toString());
+	// }
+	// });
+	//
+	// MPart part;
+	//
+	// if (parts.isEmpty()) {
+	// part = partService.createPart(partID);
+	//
+	// part.setLabel(list.getTitle());
+	// part.getTags().add(list.getId().toString());
+	// stacks.get(0).getChildren().add(part);
+	// } else {
+	// part = parts.get(0);
+	// part.setLabel(list.getTitle());
+	// }
+	//
+	// partService.showPart(part, PartState.VISIBLE);
+	// // partService.
+	//
+	// // stacks.get(0).
+	// }
 }

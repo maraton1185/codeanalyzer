@@ -523,7 +523,8 @@ public class BookService extends TreeService {
 		root.children = children;
 	}
 
-	public void download(IPath zipFolder, SectionInfo section, String zipName)
+	@Override
+	public void download(IPath zipFolder, ITreeItemInfo section, String zipName)
 			throws InvocationTargetException {
 
 		try {
@@ -589,7 +590,8 @@ public class BookService extends TreeService {
 
 	}
 
-	public void upload(String path, SectionInfo section)
+	@Override
+	public void upload(String path, ITreeItemInfo section)
 			throws InvocationTargetException {
 
 		try {

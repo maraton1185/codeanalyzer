@@ -35,12 +35,17 @@ public class ContextXML implements ITreeItemXML {
 	}
 
 	public ContextXML(ITreeItemInfo item) {
+		this(item, true);
+	}
+
+	public ContextXML(ITreeItemInfo item, boolean options) {
 		super();
 		this.id = item.getId();
 		// this.sort = item.getSort();
 		this.group = item.isGroup();
 		this.title = item.getTitle();
-		this.options = DbOptions.save(item.getOptions());
+		if (options)
+			this.options = DbOptions.save(item.getOptions());
 
 	}
 

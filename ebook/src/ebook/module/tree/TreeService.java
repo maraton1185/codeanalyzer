@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
+
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
@@ -87,8 +89,9 @@ public abstract class TreeService implements ITreeService {
 					+ additionValuesString() + ");";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-			prep.setString(1, data.isTitleIncrement() ? data.getTitle() + " "
-					+ Integer.toString(sort) : data.getTitle());
+			String title = data.isTitleIncrement() ? data.getTitle() + " "
+					+ Integer.toString(sort) : data.getTitle();
+			prep.setString(1, title);
 			if (data.getParent() == 0)
 				prep.setNull(2, java.sql.Types.INTEGER);
 			else
@@ -109,6 +112,7 @@ public abstract class TreeService implements ITreeService {
 				if (generatedKeys.next()) {
 					// added = new BookInfo();
 					data.setId(generatedKeys.getInt(1));
+					data.setTitle(title);
 					// added.parent = data
 				} else
 					throw new SQLException();
@@ -294,7 +298,8 @@ public abstract class TreeService implements ITreeService {
 	@Override
 	public void delete(ITreeItemInfo item) {
 		ITreeItemInfo parent = get(item.getParent());
-		if (parent == null)
+
+		if (parent == null && !canDeleteRoot())
 			return;
 
 		try {
@@ -307,9 +312,10 @@ public abstract class TreeService implements ITreeService {
 
 			prep.setInt(1, item.getId());
 
-			int affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
+			prep.executeUpdate();
+			// int affectedRows = prep.executeUpdate();
+			// if (affectedRows == 0)
+			// throw new SQLException();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -317,14 +323,21 @@ public abstract class TreeService implements ITreeService {
 
 	}
 
+	protected boolean canDeleteRoot() {
+		return false;
+	}
+
 	@Override
 	public void delete(ITreeItemSelection selection) {
 		int parent = selection.getParent();
 
 		Iterator<ITreeItemInfo> iterator = selection.iterator();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
+			ITreeItemInfo item = iterator.next();
 			delete(iterator.next());
-
+			if (item.isRoot() && canDeleteRoot())
+				break;
+		}
 		if (parent != 0)
 			selectLast(parent);
 	}
@@ -608,6 +621,18 @@ public abstract class TreeService implements ITreeService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void download(IPath zipFolder, ITreeItemInfo item, String zipName)
+			throws InvocationTargetException {
+
+	}
+
+	@Override
+	public void upload(String path, ITreeItemInfo item)
+			throws InvocationTargetException {
+
 	}
 
 }

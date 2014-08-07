@@ -18,6 +18,11 @@ public class ConfConnection extends BaseDbPathConnection {
 		super(path, new ConfStructure(), true);
 	}
 
+	public ConfConnection(IPath path, boolean check)
+			throws InvocationTargetException {
+		super(path, new ConfStructure(), check);
+	}
+
 	public ConfConnection(String name) throws InvocationTargetException {
 		super(name, new ConfStructure());
 	}

@@ -493,7 +493,11 @@
     </children>
     <handlers xmi:id="_JXc3sB4EEeSWnfW9xuDLLA" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Show" command="_hhcMAB0_EeS8Ob_mPIL9rg"/>
     <trimBars xmi:id="_272VgB33EeSWnfW9xuDLLA" elementId="ebook.trimbar.2">
-      <children xsi:type="menu:ToolBar" xmi:id="_3sAAEB33EeSWnfW9xuDLLA" elementId="ebook.toolbar.12"/>
+      <children xsi:type="menu:ToolBar" xmi:id="_3sAAEB33EeSWnfW9xuDLLA" elementId="ebook.toolbar.12">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_LS8b8B5wEeSGjqYC0MlkVQ" elementId="ebook.handledtoolitem.37" label="Загрузить" iconURI="platform:/plugin/ebook/icons/set/play.png" tooltip="Загрузить" command="_5xAxMOwlEeO98Pond6SApQ">
+          <tags>FORCE_TEXT</tags>
+        </children>
+      </children>
     </trimBars>
     <trimBars xmi:id="_Fo_0gB36EeSWnfW9xuDLLA" elementId="ebook.trimbar.3" side="Right">
       <children xsi:type="menu:ToolControl" xmi:id="_HY_ygB36EeSWnfW9xuDLLA" elementId="ebook.partstack.lists(minimized)" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">

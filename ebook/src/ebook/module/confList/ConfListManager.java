@@ -1,6 +1,7 @@
 package ebook.module.confList;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -22,6 +23,7 @@ import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
 import ebook.module.confLoad.LoadDialog;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.TreeManager;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -230,4 +232,21 @@ public class ConfListManager extends TreeManager {
 		}
 
 	}
+
+	@Override
+	public void delete(ITreeItemSelection selection, Shell shell) {
+		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext()) {
+			try {
+				ConfConnection con = new ConfConnection(
+						((ListConfInfo) iterator.next()).getPath(), false);
+				con.closeConnection();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+
+		}
+		super.delete(selection, shell);
+	}
+
 }

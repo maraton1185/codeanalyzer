@@ -24,6 +24,7 @@ import ebook.core.App.ConfWindowCloseHandler;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
 import ebook.module.conf.tree.ListInfo;
+import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
@@ -85,6 +86,7 @@ public class serviceShow {
 			App.app.setSelectedElement(w);
 		}
 
+		w.getContext().set(ListConfInfo.class, (ListConfInfo) item);
 		showSections(con, w, list);
 
 		App.ctx.set(ListInfo.class, null);

@@ -11,18 +11,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import ebook.module.confLoad.model.ELevel;
 import ebook.module.confLoad.model.procEntity;
 
 public class CfGetService {
 
 	public int getProcCount(Connection con) throws SQLException {
 
-		String SQL = "Select COUNT(ID) from OBJECT WHERE LEVEL=?";
-		PreparedStatement prep = con.prepareStatement(SQL,
-				Statement.CLOSE_CURRENT_RESULT);
-		prep.setInt(1, ELevel.proc.getInt());
-		ResultSet rs = prep.executeQuery();
+		String SQL = "Select COUNT(ID) from PROCS";
+		Statement stat = con.createStatement();
+		ResultSet rs = stat.executeQuery(SQL);
 
 		try {
 			if (rs.next())
@@ -38,11 +35,9 @@ public class CfGetService {
 
 		List<procEntity> list = new ArrayList<procEntity>();
 
-		String SQL = "SELECT T.ID, T.TITLE FROM OBJECT WHERE LEVEL=?";
+		String SQL = "SELECT T.ID, T.NAME FROM PROCS AS T";
 
-		PreparedStatement prep = con.prepareStatement(SQL,
-				Statement.CLOSE_CURRENT_RESULT);
-		prep.setInt(1, ELevel.proc.getInt());
+		PreparedStatement prep = con.prepareStatement(SQL);
 		ResultSet rs = prep.executeQuery();
 
 		try {
@@ -67,7 +62,7 @@ public class CfGetService {
 
 		StringBuilder result = new StringBuilder();
 
-		String SQL = "Select TEXT from PROCS_TEXT WHERE OBJECT=?";
+		String SQL = "Select TEXT from PROCS_TEXT WHERE ID=?";
 		PreparedStatement prep = con.prepareStatement(SQL);
 		prep.setInt(1, id);
 		ResultSet rs = prep.executeQuery();

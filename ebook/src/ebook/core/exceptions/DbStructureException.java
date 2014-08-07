@@ -6,7 +6,7 @@ public class DbStructureException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "Ошибка структуры данных. \nНеобходима повторная загрузка конфигурации.";
+		return "Ошибка структуры данных. \nНеобходимо пересоздать файл конфигурации.";
 	}
 
 }

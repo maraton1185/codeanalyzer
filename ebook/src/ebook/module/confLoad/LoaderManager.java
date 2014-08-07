@@ -88,7 +88,7 @@ public class LoaderManager implements ILoaderManager {
 			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
 			// con = _con.getConnection();
-			con = _con.makeConnection(true);
+			con = _con.getConnection();// makeConnection(true);
 
 			monitor.beginTask("Загрузка конфигурации...", length);
 
@@ -127,12 +127,12 @@ public class LoaderManager implements ILoaderManager {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		} finally {
-			try {
-				con.close();
-			} catch (Exception e) {
-				throw new InvocationTargetException(e,
-						Const.ERROR_CONFIG_CREATE_DATABASE);
-			}
+			// try {
+			// con.close();
+			// } catch (Exception e) {
+			// throw new InvocationTargetException(e,
+			// Const.ERROR_CONFIG_CREATE_DATABASE);
+			// }
 			monitor.done();
 		}
 
@@ -156,7 +156,7 @@ public class LoaderManager implements ILoaderManager {
 
 			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
-			con = _con.makeConnection(true);
+			con = _con.getConnection(); // makeConnection(true);
 			// con = db.getConnection(true);
 			//
 			// cfStructure.checkSructure(db);
@@ -183,12 +183,12 @@ public class LoaderManager implements ILoaderManager {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		} finally {
-			try {
-				con.close();
-			} catch (Exception e) {
-				throw new InvocationTargetException(e,
-						Const.ERROR_CONFIG_OPEN_DATABASE);
-			}
+			// try {
+			// con.close();
+			// } catch (Exception e) {
+			// throw new InvocationTargetException(e,
+			// Const.ERROR_CONFIG_OPEN_DATABASE);
+			// }
 			// monitor.done();
 
 		}
@@ -236,7 +236,7 @@ public class LoaderManager implements ILoaderManager {
 
 			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
-			con = _con.makeConnection(true);
+			con = _con.getConnection(); // makeConnection(true);
 
 			monitor.beginTask("Обновление конфигурации...", length);
 
@@ -271,12 +271,12 @@ public class LoaderManager implements ILoaderManager {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		} finally {
-			try {
-				con.close();
-			} catch (Exception e) {
-				throw new InvocationTargetException(e,
-						Const.ERROR_CONFIG_CREATE_DATABASE);
-			}
+			// try {
+			// con.close();
+			// } catch (Exception e) {
+			// throw new InvocationTargetException(e,
+			// Const.ERROR_CONFIG_CREATE_DATABASE);
+			// }
 			monitor.done();
 		}
 
@@ -321,7 +321,7 @@ public class LoaderManager implements ILoaderManager {
 
 			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
-			con = _con.makeConnection(true);
+			con = _con.getConnection(); // makeConnection(true);
 
 			monitor.beginTask("Удаление старых данных...", 0);
 			loaderService.srv.load().clearLinkTable(con);
@@ -355,12 +355,13 @@ public class LoaderManager implements ILoaderManager {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());
 		} finally {
-			try {
-				con.close();
-			} catch (Exception e) {
-				throw new InvocationTargetException(e,
-						Const.ERROR_CONFIG_OPEN_DATABASE);
-			}
+			// try {
+			//
+			// con.close();
+			// } catch (Exception e) {
+			// throw new InvocationTargetException(e,
+			// Const.ERROR_CONFIG_OPEN_DATABASE);
+			// }
 			monitor.done();
 
 		}

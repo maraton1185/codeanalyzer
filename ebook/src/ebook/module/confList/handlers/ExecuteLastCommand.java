@@ -16,7 +16,7 @@ import ebook.utils.Strings;
 public class ExecuteLastCommand {
 
 	@Execute
-	public void execute(ListConfInfo item, Shell shell) {
+	public void execute(@Active ListConfInfo item, Shell shell) {
 		if (!MessageDialog.openConfirm(
 				shell,
 				Strings.get("appTitle"),

@@ -361,7 +361,7 @@
       </children>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ListView part" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ContextView">
+  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ListView part" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
     <handlers xmi:id="_ZUvTgB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddGroup" command="_R8mmgBicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_Z811UB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.50" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddSubGroup" command="_WxNlABicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_aTW34B1DEeS8Ob_mPIL9rg" elementId="ebook.handler.51" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Delete" command="_Zg_lABicEeSEwsGZkmCqtw"/>

@@ -3,6 +3,7 @@ package ebook.module.tree;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
@@ -51,21 +52,31 @@ public class TreeViewComponent {
 	protected TreeItem selectedItem;
 	private boolean groupIsBold;
 	private int expandLevel;
+	private IContentProposalProvider contentProposalProvider;
 
 	public TreeViewComponent(Composite parent, ITreeService service,
 			int expandLevel, boolean editingSupport) {
 
-		this(parent, service, expandLevel, editingSupport, true);
+		this(parent, service, expandLevel, editingSupport, true, null);
 
 	}
 
 	public TreeViewComponent(Composite parent, ITreeService service,
 			int expandLevel, boolean editingSupport, boolean groupIsBold) {
 
+		this(parent, service, expandLevel, editingSupport, groupIsBold, null);
+
+	}
+
+	public TreeViewComponent(Composite parent, ITreeService service,
+			int expandLevel, boolean editingSupport, boolean groupIsBold,
+			IContentProposalProvider contentProposalProvider) {
+
 		this.service = service;
 		this.parent = parent;
 		this.groupIsBold = groupIsBold;
 		this.expandLevel = expandLevel;
+		this.contentProposalProvider = contentProposalProvider;
 
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION);
@@ -217,8 +228,12 @@ public class TreeViewComponent {
 
 		});
 		viewer.setColumnProperties(new String[] { "column1" });
-		viewer.setCellEditors(new CellEditor[] { new TextCellEditor(viewer
-				.getTree()) });
+		if (contentProposalProvider != null)
+			viewer.setCellEditors(new CellEditor[] { new EbookTextCellEditor(
+					contentProposalProvider, viewer.getTree()) });
+		else
+			viewer.setCellEditors(new CellEditor[] { new TextCellEditor(viewer
+					.getTree()) });
 
 		// TreeViewerFocusCellManager focusCellManager = new
 		// TreeViewerFocusCellManager(

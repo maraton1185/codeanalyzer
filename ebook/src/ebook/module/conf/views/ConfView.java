@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
+import ebook.module.conf.tree.ContentProposalProvider;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
@@ -39,7 +40,7 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class ContextView {
+public class ConfView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
@@ -122,7 +123,7 @@ public class ContextView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		treeComponent = new TreeViewComponent(parent, con.srv(list), 3, true,
-				false);
+				false, new ContentProposalProvider(con, window));
 
 		viewer = treeComponent.getViewer();
 

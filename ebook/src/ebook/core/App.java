@@ -66,7 +66,7 @@ import ebook.module.book.views.SectionView;
 import ebook.module.book.views.TextView;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
-import ebook.module.conf.views.ContextView;
+import ebook.module.conf.views.ConfView;
 import ebook.module.confLoad.services.FillProcLinkTableJob;
 import ebook.module.tree.Clipboard;
 import ebook.utils.Events;
@@ -536,7 +536,7 @@ public class App {
 					String id = part.getElementId();
 
 					if (id.equals(Strings.get("ebook.partdescriptor.0"))) {
-						ContextView view = (ContextView) part.getObject();
+						ConfView view = (ConfView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
 					}

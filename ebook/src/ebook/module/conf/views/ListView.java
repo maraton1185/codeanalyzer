@@ -78,6 +78,9 @@ public class ListView {
 		if (data.parent == null)
 			return;
 
+		if (!(data.parent instanceof ListInfo))
+			return;
+
 		viewer.update(data.parent, null);
 
 	}
@@ -140,7 +143,7 @@ public class ListView {
 			public void doubleClick(DoubleClickEvent event) {
 
 				// ListInfo list = window.getContext().get(ListInfo.class);
-
+				// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
 				Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
 				// App.br.post(Events.EVENT_UPDATE_CONF_CONTEXT_PART,
 				// new EVENT_UPDATE_VIEW_DATA(con, list));

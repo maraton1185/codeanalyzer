@@ -17,7 +17,7 @@ public enum ELevel {
 		index++;
 	}
 
-	public int getInt() {
+	public int toInt() {
 		return value;
 	}
 }

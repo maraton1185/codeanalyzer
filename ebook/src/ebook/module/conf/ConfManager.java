@@ -50,4 +50,9 @@ public class ConfManager extends TreeManager {
 
 	}
 
+	public void build(ContextInfo item, Shell shell) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

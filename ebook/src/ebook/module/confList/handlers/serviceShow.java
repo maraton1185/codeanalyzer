@@ -139,6 +139,7 @@ public class serviceShow {
 
 			window.getContext().set(ListInfo.class, section);
 
+			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
 			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
 			// show(window, section);
 		}
@@ -157,6 +158,7 @@ public class serviceShow {
 
 			window.getContext().set(ListInfo.class, section);
 
+			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
 			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
 			// show(window, section);
 

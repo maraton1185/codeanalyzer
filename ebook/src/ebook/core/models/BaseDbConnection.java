@@ -55,11 +55,11 @@ public abstract class BaseDbConnection implements IDbConnection {
 		try {
 			Connection con = null;
 			try {
-				con = getConnection();// makeConnection(true);
+				con = makeConnection(false);
 				dbStructure.createStructure(con);
 
 			} finally {
-				// con.close();
+				con.close();
 			}
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
@@ -107,14 +107,14 @@ public abstract class BaseDbConnection implements IDbConnection {
 	// }
 	// }
 
-	// @Override
-	// public Connection makeConnection(boolean exist)
-	// throws InstantiationException, IllegalAccessException,
-	// ClassNotFoundException, SQLException {
-	//
-	// return connect(exist, false, getConnectionPath());
-	//
-	// }
+	@Override
+	public Connection makeConnection(boolean exist)
+			throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException, SQLException {
+
+		return connect(exist, false, getConnectionPath());
+
+	}
 
 	@Override
 	public Connection getConnection() throws IllegalAccessException {

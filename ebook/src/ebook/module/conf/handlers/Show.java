@@ -19,6 +19,7 @@ import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Strings;
 
 public class Show {
+
 	@Execute
 	public void execute(@Active final ListInfo list, Shell shell,
 			EPartService partService, EModelService model,

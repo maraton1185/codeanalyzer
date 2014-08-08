@@ -7,9 +7,17 @@ import org.eclipse.swt.widgets.Text;
 public class EbookTextContentAdapter extends TextContentAdapter {
 
 	@Override
-	public void insertControlContents(Control control, String text,
+	public void insertControlContents(Control control, String contents,
 			int cursorPosition) {
-		// Point selection = ((Text) control).getSelection();
+
+		String text = ((Text) control).getText();
+		int i = text.lastIndexOf(".");
+		if (i >= 0) {
+			text = text.substring(0, i);
+			text = text + "." + contents;
+		} else
+			text = contents;
+
 		((Text) control).setText(text);
 		((Text) control).setSelection(text.length());
 		// Insert will leave the cursor at the end of the inserted text. If this

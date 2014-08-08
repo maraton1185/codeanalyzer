@@ -77,6 +77,9 @@ public class SectionsView {
 		if (data.parent == null)
 			return;
 
+		if (!(data.parent instanceof SectionInfo))
+			return;
+
 		viewer.update(data.parent, null);
 
 	}

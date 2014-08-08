@@ -81,10 +81,10 @@ public class ConfView {
 		if (con != data.con)
 			return;
 
-		// if (list != data.section)
-		// return;
-
 		if (data.parent == null)
+			return;
+
+		if (!(data.parent instanceof ContextInfo))
 			return;
 
 		viewer.update(data.parent, null);
@@ -123,7 +123,7 @@ public class ConfView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		treeComponent = new TreeViewComponent(parent, con.srv(list), 3, true,
-				false, new ContentProposalProvider(con, window));
+				false, new ContentProposalProvider(con.srv(list), window));
 
 		viewer = treeComponent.getViewer();
 

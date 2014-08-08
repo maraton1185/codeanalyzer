@@ -322,4 +322,8 @@ public class ConfService extends TreeService {
 		}
 
 	}
+
+	public Connection getConnection() throws IllegalAccessException {
+		return db.getConnection();
+	}
 }

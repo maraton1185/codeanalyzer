@@ -38,6 +38,7 @@ public class OpenInNewList {
 
 		if (newList != null) {
 			window.getContext().set(ListInfo.class, newList);
+			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
 			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
 		}
 

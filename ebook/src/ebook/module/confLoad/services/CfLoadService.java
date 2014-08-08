@@ -24,11 +24,11 @@ public class CfLoadService {
 
 	public Integer addEntity(Connection con, Entity line) throws SQLException {
 
-		Integer group1 = addObject(con, line.group1, ELevel.group1.getInt(),
+		Integer group1 = addObject(con, line.group1, ELevel.group1.toInt(),
 				null);
-		Integer group2 = addObject(con, line.group2, ELevel.group2.getInt(),
+		Integer group2 = addObject(con, line.group2, ELevel.group2.toInt(),
 				group1);
-		Integer module = addObject(con, line.module, ELevel.module.getInt(),
+		Integer module = addObject(con, line.module, ELevel.module.toInt(),
 				group2);
 
 		return module;

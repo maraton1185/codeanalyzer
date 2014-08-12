@@ -27,7 +27,9 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
+import ebook.core.pico;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 import ebook.web.servlets.WebDefaultServlet;
@@ -92,6 +94,10 @@ public class Jetty implements IJetty {
 			server = new Server();
 			ServerConnector connector = new ServerConnector(server);
 			connector.setPort(jettyPort);
+
+			if (!pico.get(IAuthorize.class).check())
+				connector.setHost("localhost");
+
 			server.addConnector(connector);
 
 			boolean EXTERNAL_JETTY_BASE = PreferenceSupplier

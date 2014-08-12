@@ -9,6 +9,7 @@ public class Const {
 	// public static final int versionDate = 07;
 
 	public static final int FREE_TREE_ITEMS_COUNT = 2;
+	// @password_hash SA test
 	public static final String FREE_DB_PASSWORD = "dbf4a948663dd9ec9ac53849305cefcf7b50dfe696dbd88fd7e7bc1bdeecc8dc";
 
 	// HOST ***********************************************************

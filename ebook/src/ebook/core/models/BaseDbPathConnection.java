@@ -14,7 +14,7 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 	String name;
 
 	public BaseDbPathConnection(IPath path, IDbStructure dbStructure,
-			boolean check) throws InvocationTargetException {
+			boolean check, boolean license) throws InvocationTargetException {
 
 		super(dbStructure);
 
@@ -23,6 +23,8 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 
 		if (!path.isValidPath(path.toString()))
 			throw new InvocationTargetException(null);
+
+		this.license = license;
 
 		setPath(path);
 

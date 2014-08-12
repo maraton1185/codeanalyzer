@@ -121,21 +121,21 @@ public class ActivationInfo {
 
 		// if (!this.withoutExpirationDate) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-
-		try {
-			Date ExpirationDate = formatter.parse(this.ExpirationDate);
-			Date currentDate = new java.util.Date();
-
-			// Date currentDate = NtpMessage.getDate();
-			if (!ExpirationDate.after(currentDate)) {
-				check_message = Const.MSG_EXPIRED;
-				return false;
-			}
-		} catch (Exception e) {
-			check_message = Const.MSG_NTP;
-			return false;
-		}
+		// SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		//
+		// try {
+		// Date ExpirationDate = formatter.parse(this.ExpirationDate);
+		// Date currentDate = new java.util.Date();
+		//
+		// // Date currentDate = NtpMessage.getDate();
+		// if (!ExpirationDate.after(currentDate)) {
+		// check_message = Const.MSG_EXPIRED;
+		// return false;
+		// }
+		// } catch (Exception e) {
+		// check_message = Const.MSG_NTP;
+		// return false;
+		// }
 		// }
 
 		return true;

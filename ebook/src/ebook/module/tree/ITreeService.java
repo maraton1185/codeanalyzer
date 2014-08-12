@@ -9,6 +9,8 @@ public interface ITreeService {
 
 	int rootId = 1;
 
+	boolean check();
+
 	List<ITreeItemInfo> getRoot();
 
 	List<ITreeItemInfo> getChildren(int parent);

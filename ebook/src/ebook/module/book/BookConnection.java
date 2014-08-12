@@ -18,7 +18,7 @@ public class BookConnection extends BaseDbPathConnection {
 	public BookConnection(IPath path, boolean check)
 			throws InvocationTargetException {
 
-		super(path, new BookStructure(), check);
+		super(path, new BookStructure(), check, false);
 
 	}
 

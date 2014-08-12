@@ -324,6 +324,62 @@ public class ConfService extends TreeService {
 	}
 
 	public Connection getConnection() throws IllegalAccessException {
-		return db.getConnection();
+		try {
+			return db.getConnection();
+		} catch (Exception e) {
+			throw new IllegalAccessException();
+		}
+	}
+
+	public void setPassword(String value) {
+		try {
+
+			Connection con = db.getConnection();
+
+			String SQL = "ALTER USER SA SET PASSWORD ?;";
+			PreparedStatement prep1 = con.prepareStatement(SQL,
+					Statement.CLOSE_CURRENT_RESULT);
+			prep1.setString(1, value);
+			prep1.execute();
+
+			SQL = "SELECT TOP 1 T.ID FROM INFO AS T;";
+			Statement stat = con.createStatement();
+			ResultSet rs = stat.executeQuery(SQL);
+
+			try {
+
+				PreparedStatement prep;
+
+				if (rs.next()) {
+
+					SQL = "UPDATE INFO SET CANLOAD=? WHERE ID=?;";
+					prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+
+					prep.setBoolean(1, false);
+					prep.setInt(2, rs.getInt(1));
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+
+				} else {
+					SQL = "INSERT INTO INFO (CANLOAD) VALUES (?);";
+					prep = con.prepareStatement(SQL,
+							Statement.CLOSE_CURRENT_RESULT);
+					prep.setBoolean(1, false);
+
+					int affectedRows = prep.executeUpdate();
+					if (affectedRows == 0)
+						throw new SQLException();
+
+				}
+
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

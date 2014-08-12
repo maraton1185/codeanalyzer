@@ -1,13 +1,15 @@
 package ebook.utils;
 
-
 public class Const {
 
 	// VERSION *******************************************************
 	// MUST не забываем ставить версию!
-	public static final int versionYear = 2013;
-	public static final int versionMonth = 10;
-	public static final int versionDate = 07;
+	// public static final int versionYear = 2013;
+	// public static final int versionMonth = 10;
+	// public static final int versionDate = 07;
+
+	public static final int FREE_TREE_ITEMS_COUNT = 2;
+	public static final String FREE_DB_PASSWORD = "dbf4a948663dd9ec9ac53849305cefcf7b50dfe696dbd88fd7e7bc1bdeecc8dc";
 
 	// HOST ***********************************************************
 

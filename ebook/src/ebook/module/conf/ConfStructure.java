@@ -27,7 +27,8 @@ public class ConfStructure implements IDbStructure {
 		try {
 
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
-					+ "OPTIONS VARCHAR(1500), " + "PRIMARY KEY (ID));");
+					+ "CANLOAD BOOLEAN, OPTIONS VARCHAR(1500), "
+					+ "PRIMARY KEY (ID));");
 
 			stat.execute("CREATE TABLE LISTS (ID INTEGER AUTO_INCREMENT, "
 
@@ -54,11 +55,12 @@ public class ConfStructure implements IDbStructure {
 			PreparedStatement prep;
 			int affectedRows;
 
-			SQL = "INSERT INTO INFO (OPTIONS) VALUES (?);";
+			SQL = "INSERT INTO INFO (CANLOAD, OPTIONS) VALUES (?, ?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
+			prep.setBoolean(1, true);
 			ConfOptions opt = new ConfOptions();
-			prep.setString(1, DbOptions.save(opt));
+			prep.setString(2, DbOptions.save(opt));
 			// prep.setBoolean(3, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -215,7 +217,7 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "PROCS_TEXT", "PROC, TEXT, HASH")
 				&& ch.checkColumns(metadata, "LINKS", "PROC, CONTEXT, NAME")
 
-				&& ch.checkColumns(metadata, "INFO", "OPTIONS")
+				&& ch.checkColumns(metadata, "INFO", "CANLOAD, OPTIONS")
 				&& ch.checkColumns(metadata, "CONTEXT",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, LIST")
 				&& ch.checkColumns(metadata, "LISTS",

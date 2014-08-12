@@ -13,6 +13,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
+import ebook.core.exceptions.DbLicenseException;
 import ebook.module.book.BookConnection;
 import ebook.module.book.ContextService;
 import ebook.module.conf.ConfConnection;
@@ -104,7 +105,7 @@ public class ConfListManager extends TreeManager {
 
 						srv.add(data, parent, true);
 
-					} catch (InvocationTargetException e) {
+					} catch (Exception e) {
 
 						if (files.size() > 1
 								&& !MessageDialog.openConfirm(
@@ -185,6 +186,22 @@ public class ConfListManager extends TreeManager {
 		return true;
 	}
 
+	@Override
+	public void delete(ITreeItemSelection selection, Shell shell) {
+		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext()) {
+			try {
+				ConfConnection con = new ConfConnection(
+						((ListConfInfo) iterator.next()).getPath(), false);
+				con.closeConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		super.delete(selection, shell);
+	}
+
 	public void open(IPath path, Shell shell) {
 
 		if (path == null)
@@ -192,17 +209,22 @@ public class ConfListManager extends TreeManager {
 
 		try {
 
-			ConfConnection con = new ConfConnection(path);
+			ConfConnection con = new ConfConnection(path, true, true);
 			// con.openConnection();
 			App.ctx.set(ConfConnection.class, con);
 			App.br.post(Events.EVENT_SHOW_CONF, null);
 
-		} catch (Exception e) {
+		} catch (InvocationTargetException e) {
 
 			App.ctx.set(BookConnection.class, null);
+
 			if (shell != null)
-				MessageDialog.openError(shell, Strings.get("appTitle"),
-						"Ошибка открытия конфигурации.");
+				if (e.getTargetException() instanceof DbLicenseException)
+					MessageDialog.openError(shell, Strings.get("appTitle"),
+							"Ошибка открытия конфигурации. (Лицензия)");
+				else
+					MessageDialog.openError(shell, Strings.get("appTitle"),
+							"Ошибка открытия конфигурации.");
 		}
 	}
 
@@ -213,7 +235,7 @@ public class ConfListManager extends TreeManager {
 
 		try {
 
-			ConfConnection con = new ConfConnection(path);
+			ConfConnection con = new ConfConnection(path, true, true);
 
 			ListInfo newList = App.mng.clm(con).openInNewList(contextService,
 					item, shell);
@@ -222,31 +244,20 @@ public class ConfListManager extends TreeManager {
 			App.ctx.set(ListInfo.class, newList);
 			App.br.post(Events.EVENT_SHOW_CONF, null);
 
-		} catch (Exception e) {
+		} catch (InvocationTargetException e) {
 
 			App.ctx.set(BookConnection.class, null);
 			App.ctx.set(ListInfo.class, null);
+
 			if (shell != null)
-				MessageDialog.openError(shell, Strings.get("appTitle"),
-						"Ошибка открытия конфигурации.");
+				if (e.getTargetException() instanceof DbLicenseException)
+					MessageDialog.openError(shell, Strings.get("appTitle"),
+							"Ошибка открытия конфигурации. (Лицензия)");
+				else
+					MessageDialog.openError(shell, Strings.get("appTitle"),
+							"Ошибка открытия конфигурации.");
 		}
 
-	}
-
-	@Override
-	public void delete(ITreeItemSelection selection, Shell shell) {
-		Iterator<ITreeItemInfo> iterator = selection.iterator();
-		while (iterator.hasNext()) {
-			try {
-				ConfConnection con = new ConfConnection(
-						((ListConfInfo) iterator.next()).getPath(), false);
-				con.closeConnection();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-
-		}
-		super.delete(selection, shell);
 	}
 
 }

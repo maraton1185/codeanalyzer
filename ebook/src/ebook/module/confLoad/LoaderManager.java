@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
 import ebook.core.pico;
+import ebook.core.exceptions.DbCantLoadException;
 import ebook.core.exceptions.LoadConfigException;
 import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
@@ -90,6 +91,9 @@ public class LoaderManager implements ILoaderManager {
 			// con = _con.getConnection();
 			con = _con.getConnection();// makeConnection(true);
 
+			if (!loaderService.srv.load().canLoad(con))
+				throw new DbCantLoadException();
+
 			monitor.beginTask("Загрузка конфигурации...", length);
 
 			loaderService.srv.load().clearTables(con);
@@ -121,6 +125,7 @@ public class LoaderManager implements ILoaderManager {
 					monitor.worked(1);
 				}
 			}
+
 		} catch (InterruptedException e) {
 			throw new InvocationTargetException(new InterruptedException(),
 					Const.ERROR_CONFIG_INTERRUPT);
@@ -238,6 +243,9 @@ public class LoaderManager implements ILoaderManager {
 
 			con = _con.getConnection(); // makeConnection(true);
 
+			if (!loaderService.srv.load().canLoad(con))
+				throw new DbCantLoadException();
+
 			monitor.beginTask("Обновление конфигурации...", length);
 
 			loaderService.srv.load().clearLinkTable(con);
@@ -322,6 +330,9 @@ public class LoaderManager implements ILoaderManager {
 			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
 
 			con = _con.getConnection(); // makeConnection(true);
+
+			if (!loaderService.srv.load().canLoad(con))
+				throw new DbCantLoadException();
 
 			monitor.beginTask("Удаление старых данных...", 0);
 			loaderService.srv.load().clearLinkTable(con);

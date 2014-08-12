@@ -276,4 +276,25 @@ public class CfLoadService {
 
 	}
 
+	public boolean canLoad(Connection con) throws SQLException {
+
+		boolean result = false;
+
+		String SQL = "SELECT TOP 1 T.CANLOAD FROM INFO AS T";
+		PreparedStatement prep = con.prepareStatement(SQL);
+
+		ResultSet rs = prep.executeQuery();
+		try {
+			if (rs.next()) {
+
+				result = rs.getBoolean(1);
+			}
+		} finally {
+			rs.close();
+		}
+
+		return result;
+
+	}
+
 }

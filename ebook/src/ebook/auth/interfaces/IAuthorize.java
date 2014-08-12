@@ -1,5 +1,7 @@
 package ebook.auth.interfaces;
 
+import org.eclipse.swt.widgets.Shell;
+
 import ebook.auth.ActivationInfo;
 
 public interface IAuthorize {
@@ -34,8 +36,14 @@ public interface IAuthorize {
 	/**
 	 * проверка обновлений
 	 * 
+	 * @param shell
+	 * 
 	 * @return строка сообщения о наличии обновлений
 	 */
 	// public String checkUpdates();
+
+	boolean checkBooksCount(Shell shell);
+
+	public boolean checkUsersCount(Shell shell);
 
 }

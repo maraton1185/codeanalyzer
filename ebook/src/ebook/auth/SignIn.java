@@ -7,9 +7,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.prefs.Preferences;
 
 import ebook.auth.interfaces.IAuthorize;
+import ebook.core.App;
 import ebook.core.exceptions.CryptException;
 import ebook.core.exceptions.RequestParseException;
 import ebook.core.exceptions.SiteAccessException;
@@ -343,6 +346,28 @@ public class SignIn implements IAuthorize {
 		} catch (Exception e) {
 			throw new SiteAccessException();
 		}
+	}
+
+	@Override
+	public boolean checkBooksCount(Shell shell) {
+		if (!check() && !App.srv.bl().check()) {
+			MessageDialog.openError(shell, Strings.get("appTitle"),
+					"Для free-версии в списке может находиться не более "
+							+ Const.FREE_TREE_ITEMS_COUNT + " книг.");
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean checkUsersCount(Shell shell) {
+		if (!check() && !App.srv.us().check()) {
+			MessageDialog.openError(shell, Strings.get("appTitle"),
+					"Для free-версии доступно не более "
+							+ Const.FREE_TREE_ITEMS_COUNT + " пользователей.");
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IPath;
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.models.DbOptions;
+import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -636,6 +637,34 @@ public abstract class TreeService implements ITreeService {
 	public void upload(String path, ITreeItemInfo item)
 			throws InvocationTargetException {
 
+	}
+
+	@Override
+	public boolean check() {
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT COUNT(T.ID) FROM " + tableName + " AS T "
+					+ "WHERE T.ISGROUP=?";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setBoolean(1, false);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					int i = rs.getInt(1);
+					return i < Const.FREE_TREE_ITEMS_COUNT;
+				}
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 }

@@ -15,12 +15,17 @@ import ebook.utils.PreferenceSupplier;
 public class ConfConnection extends BaseDbPathConnection {
 
 	public ConfConnection(IPath path) throws InvocationTargetException {
-		super(path, new ConfStructure(), true);
+		super(path, new ConfStructure(), true, false);
 	}
 
 	public ConfConnection(IPath path, boolean check)
 			throws InvocationTargetException {
-		super(path, new ConfStructure(), check);
+		super(path, new ConfStructure(), check, false);
+	}
+
+	public ConfConnection(IPath path, boolean check, boolean license)
+			throws InvocationTargetException {
+		super(path, new ConfStructure(), check, license);
 	}
 
 	public ConfConnection(String name) throws InvocationTargetException {

@@ -187,4 +187,10 @@ public class DbStructure implements IDbStructure {
 			throw new DbStructureException();
 
 	}
+
+	@Override
+	public void updateSructure(Connection con) throws SQLException {
+
+	}
+
 }

@@ -10,12 +10,25 @@ import java.sql.Statement;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 import ebook.utils.Const;
 import ebook.utils.DbStructureChecker;
 import ebook.utils.Strings;
 
 public class ConfStructure implements IDbStructure {
+
+	@Override
+	public void updateSructure(Connection con) throws SQLException {
+
+		// Statement stat = con.createStatement();
+		// try {
+		//
+		// stat.execute("ALTER TABLE TEST ADD CREATEDATE TIMESTAMP;");
+		//
+		// } catch (Exception e) {
+		// throw new SQLException();
+		// }
+	}
 
 	@Override
 	public void createStructure(Connection con) throws InstantiationException,

@@ -1,4 +1,4 @@
-package ebook.core.models;
+package ebook.module.db;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -13,6 +13,7 @@ import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.exceptions.DbLicenseException;
+import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IDbStructure;
@@ -49,7 +50,8 @@ public abstract class BaseDbConnection implements IDbConnection {
 		Class.forName("org.h2.Driver").newInstance();
 		String ifExist = exist ? ";IFEXISTS=TRUE" : "";
 
-		String mode = !editMode ? ";FILE_LOCK=SERIALIZED" : "";
+		String mode = ";AUTO_SERVER=TRUE";// !editMode ? ";FILE_LOCK=SERIALIZED"
+											// : "";
 
 		if (license) {
 
@@ -119,15 +121,18 @@ public abstract class BaseDbConnection implements IDbConnection {
 			} catch (DbLicenseException e) {
 				throw new DbLicenseException();
 			} catch (Exception e) {
-				if (con != null)
-					con.close();
+				// if (con != null)
+				// con.close();
 				throw new MakeConnectionException();
 			}
 
 			try {
 				dbStructure.checkSructure(con);
-			} finally {
-				// con.close();
+			} catch (DbStructureException e) {
+
+				dbStructure.updateSructure(con);
+				dbStructure.checkSructure(con);
+
 			}
 		} catch (Exception e) {
 			throw new InvocationTargetException(e, e.getMessage());

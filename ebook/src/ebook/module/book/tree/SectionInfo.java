@@ -4,8 +4,8 @@ import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
-import ebook.core.models.DbOptions;
 import ebook.module.book.xml.SectionXML;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeItemInfo;
 import ebook.utils.Utils;

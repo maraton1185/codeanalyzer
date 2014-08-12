@@ -3,7 +3,7 @@ package ebook.module.book;
 import java.util.ArrayList;
 import java.util.List;
 
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeService;
 
 public class BookOptions extends DbOptions {

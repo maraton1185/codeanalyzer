@@ -13,4 +13,6 @@ public interface IDbStructure {
 	void checkSructure(Connection con) throws DbStructureException,
 			SQLException;
 
+	void updateSructure(Connection con) throws SQLException;
+
 }

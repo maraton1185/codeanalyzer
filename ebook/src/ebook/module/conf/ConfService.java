@@ -22,14 +22,14 @@ import javax.xml.bind.Unmarshaller;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
-import ebook.core.models.BaseDbPathConnection;
-import ebook.core.models.DbOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.confLoad.model.DbState;
+import ebook.module.db.BaseDbPathConnection;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;

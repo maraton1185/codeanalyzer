@@ -2,7 +2,7 @@ package ebook.module.tree;
 
 import org.eclipse.swt.graphics.Image;
 
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 
 public abstract class TreeItemInfo implements ITreeItemInfo {
 

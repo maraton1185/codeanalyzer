@@ -6,8 +6,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
-import ebook.core.models.BaseDbPathConnection;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.db.BaseDbPathConnection;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.PreferenceSupplier;
 

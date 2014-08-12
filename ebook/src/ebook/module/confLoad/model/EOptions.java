@@ -1,6 +1,6 @@
 package ebook.module.confLoad.model;
 
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 
 public class EOptions extends DbOptions {
 

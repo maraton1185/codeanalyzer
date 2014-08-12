@@ -3,9 +3,9 @@ package ebook.module.conf;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ebook.core.models.DbOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;

@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
-import ebook.core.models.DbOptions;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeService;
 import ebook.utils.Events;

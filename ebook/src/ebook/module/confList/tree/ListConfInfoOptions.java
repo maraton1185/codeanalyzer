@@ -2,8 +2,8 @@ package ebook.module.confList.tree;
 
 import java.util.Date;
 
-import ebook.core.models.DbOptions;
 import ebook.module.confLoad.model.DbState;
+import ebook.module.db.DbOptions;
 
 public class ListConfInfoOptions extends DbOptions {
 

@@ -1,4 +1,4 @@
-package ebook.core.models;
+package ebook.module.db;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

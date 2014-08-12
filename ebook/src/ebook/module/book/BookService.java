@@ -29,7 +29,6 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
-import ebook.core.models.DbOptions;
 import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
@@ -39,6 +38,7 @@ import ebook.module.book.xml.SectionXML;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.xml.ContextXML;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;

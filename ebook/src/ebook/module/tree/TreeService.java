@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IPath;
 
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;

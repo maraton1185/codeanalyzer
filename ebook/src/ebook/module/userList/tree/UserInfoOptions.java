@@ -1,6 +1,6 @@
 package ebook.module.userList.tree;
 
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 
 public class UserInfoOptions extends DbOptions {
 

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ebook.core.models.DbOptions;
 import ebook.module.confLoad.model.DbState;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeService;
 
 public class ConfOptions extends DbOptions {

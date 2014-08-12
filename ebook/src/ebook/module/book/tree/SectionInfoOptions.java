@@ -1,6 +1,6 @@
 package ebook.module.book.tree;
 
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 
 public class SectionInfoOptions extends DbOptions {
 

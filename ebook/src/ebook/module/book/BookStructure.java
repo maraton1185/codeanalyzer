@@ -8,11 +8,16 @@ import java.sql.Statement;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 import ebook.utils.DbStructureChecker;
 import ebook.utils.Strings;
 
 public class BookStructure implements IDbStructure {
+
+	@Override
+	public void updateSructure(Connection con) throws SQLException {
+
+	}
 
 	@Override
 	public void createStructure(Connection con) throws InstantiationException,

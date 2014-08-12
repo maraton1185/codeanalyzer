@@ -11,7 +11,7 @@ import java.util.List;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.ITreeService;

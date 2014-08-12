@@ -1,6 +1,6 @@
 package ebook.module.conf.tree;
 
-import ebook.core.models.DbOptions;
+import ebook.module.db.DbOptions;
 
 public class ContextInfoOptions extends DbOptions {
 

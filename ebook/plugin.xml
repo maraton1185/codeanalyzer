@@ -24,6 +24,10 @@
                name="windowImages"
                value="icons/set/favicon.png">
          </property>
+         <property
+        		name="rendererFactoryUri"
+        		value="bundleclass://ebook/ebook.core.renderer.MyRendererFactory">
+       	 </property>
       </product>
    </extension>
    <extension

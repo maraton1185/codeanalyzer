@@ -26,4 +26,9 @@ public class TreeItemInfoSelection implements ITreeItemSelection {
 
 		return list.get(0).getParent();
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return list.isEmpty();
+	}
 }

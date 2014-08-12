@@ -96,6 +96,8 @@ public class ContextInfo extends TreeItemInfo {
 		ContextInfo info = new ContextInfo();
 		info.setTitle(element.title);
 		info.setGroup(element.group);
+		if (element.root)
+			info.setRoot();
 		info.setOptions(DbOptions.load(ContextInfoOptions.class,
 				element.options));
 		// info.setTitleIncrement(false);

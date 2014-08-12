@@ -89,6 +89,8 @@ public abstract class Events {
 
 	public static final String CONTEXT_ACTIVE_LIST = "CONTEXT_ACTIVE_LIST";
 
+	public static final String EVENT_EDIT_TITLE_CONTEXT_VIEW = "EVENT_EDIT_TITLE_CONTEXT_VIEW";
+
 	// public static final String EVENT_SHOW_CONF_LIST = "EVENT_SHOW_CONF_LIST";
 
 	// public static final String EVENT_UPDATE_CONF_CONTEXT_PART =

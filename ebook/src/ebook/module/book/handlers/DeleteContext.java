@@ -19,7 +19,7 @@ public class DeleteContext {
 	@CanExecute
 	public boolean canExecute(@Optional @Active ContextInfoSelection item,
 			@Optional @Active SectionInfo section) {
-		return item != null && section != null;
+		return item != null && !item.isEmpty() && section != null;
 	}
 
 }

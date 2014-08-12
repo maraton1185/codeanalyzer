@@ -22,7 +22,7 @@ public class Delete {
 	@CanExecute
 	public boolean canExecute(
 			@Optional @Active @Named("userListSelection") ITreeItemSelection selection) {
-		return selection != null;
+		return selection != null && !selection.isEmpty();
 	}
 
 }

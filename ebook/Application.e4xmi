@@ -306,7 +306,7 @@
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
-  <bindingTables xmi:id="_AuPGkB09EeS8Ob_mPIL9rg" elementId="ebook.bindingtable.6" bindingContext="_7M6MAB08EeS8Ob_mPIL9rg">
+  <bindingTables xmi:id="_AuPGkB09EeS8Ob_mPIL9rg" elementId="ebook.bindingtable.7" bindingContext="_7M6MAB08EeS8Ob_mPIL9rg">
     <bindings xmi:id="_AuPGkR09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.15" keySequence="TAB" command="_OBSGcB08EeS8Ob_mPIL9rg">
       <tags>type:user</tags>
     </bindings>
@@ -320,6 +320,23 @@
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
+  <bindingTables xmi:id="_Op6-ICH6EeSSjvNQ5dYbAw" elementId="ebook.bindingtable.8" bindingContext="_LcnUoCH6EeSSjvNQ5dYbAw">
+    <bindings xmi:id="_QZbz8CH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.15" keySequence="TAB" command="__qP50CH5EeSSjvNQ5dYbAw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_QowpYCH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.14" keySequence="M2+TAB" command="_CU3F8CH6EeSSjvNQ5dYbAw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_Q0UZICH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.5" keySequence="DELETE" command="_FQzSoCH6EeSSjvNQ5dYbAw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_Q9nfECH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.6" keySequence="F2" command="_FFT0UCH6EeSSjvNQ5dYbAw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_13dE4CILEeSSjvNQ5dYbAw" elementId="ebook.keybinding.12" keySequence="M1+V" command="_veQHICILEeSSjvNQ5dYbAw">
+      <tags>type:user</tags>
+    </bindings>
+  </bindingTables>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows">
       <children xmi:id="_E5YnYLAbEeOa8OKjTLKQvw" elementId="ebook.bindingcontext.bookWindow" name="book window"/>
@@ -329,6 +346,7 @@
       <children xmi:id="_5u66gBibEeSEwsGZkmCqtw" elementId="ebook.bindingcontext.bookContentPart" name="book content part"/>
       <children xmi:id="_zSemEBicEeSEwsGZkmCqtw" elementId="ebook.bindingcontext.0" name="conf part"/>
       <children xmi:id="_7M6MAB08EeS8Ob_mPIL9rg" elementId="ebook.bindingcontext.1" name="conf list part"/>
+      <children xmi:id="_LcnUoCH6EeSSjvNQ5dYbAw" elementId="ebook.bindingcontext.contextPart" name="context part"/>
     </children>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
@@ -441,15 +459,26 @@
           </children>
         </children>
         <children xsi:type="basic:PartStack" xmi:id="_ZoF-kBl4EeSd8pr_gKmkCQ" elementId="part.SectionPanel" containerData="40000">
-          <children xsi:type="basic:Part" xmi:id="_a2AjMBl4EeSd8pr_gKmkCQ" elementId="part.SectionContextView" contributionURI="bundleclass://ebook/ebook.module.book.views.ContextView" label="Контекст">
+          <children xsi:type="basic:Part" xmi:id="_a2AjMBl4EeSd8pr_gKmkCQ" elementId="part.SectionContextView" contributionURI="bundleclass://ebook/ebook.module.book.views.ContextView" label="Контекст" bindingContexts="_LcnUoCH6EeSSjvNQ5dYbAw">
+            <handlers xmi:id="_dUCCICH6EeSSjvNQ5dYbAw" elementId="ebook.handler.53" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddGroupContext" command="__qP50CH5EeSSjvNQ5dYbAw"/>
+            <handlers xmi:id="_elm-wCH6EeSSjvNQ5dYbAw" elementId="ebook.handler.53" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddSubGroupContext" command="_CU3F8CH6EeSSjvNQ5dYbAw"/>
+            <handlers xmi:id="_eslJcCH6EeSSjvNQ5dYbAw" elementId="ebook.handler.53" contributionURI="bundleclass://ebook/ebook.module.book.handlers.EditContext" command="_FFT0UCH6EeSSjvNQ5dYbAw"/>
+            <handlers xmi:id="_e0rVgCH6EeSSjvNQ5dYbAw" elementId="ebook.handler.53" contributionURI="bundleclass://ebook/ebook.module.book.handlers.DeleteContext" command="_FQzSoCH6EeSSjvNQ5dYbAw"/>
+            <handlers xmi:id="_B__kACIMEeSSjvNQ5dYbAw" elementId="ebook.handler.54" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext" command="_veQHICILEeSSjvNQ5dYbAw"/>
+            <handlers xmi:id="_wMw9gCIMEeSSjvNQ5dYbAw" elementId="ebook.handler.55" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext" command="_nl2LACIMEeSSjvNQ5dYbAw"/>
             <menus xsi:type="menu:PopupMenu" xmi:id="_yLCg0B4WEeSWnfW9xuDLLA" elementId="ebook.popupmenu.bookcontext">
               <children xsi:type="menu:DirectMenuItem" xmi:id="__E69UB4WEeSWnfW9xuDLLA" elementId="ebook.directmenuitem.10" label="Открыть в конфигурации" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext"/>
               <children xsi:type="menu:DirectMenuItem" xmi:id="_-wUmUB4WEeSWnfW9xuDLLA" elementId="ebook.directmenuitem.9" label="Вставить контекст" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
             </menus>
             <toolbar xmi:id="_geKegBl4EeSd8pr_gKmkCQ" elementId="ebook.toolbar.13">
-              <children xsi:type="menu:DirectToolItem" xmi:id="_CQK34BvTEeSuCZqAXHJskQ" elementId="ebook.directtoolitem.4" label="" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
-              <children xsi:type="menu:DirectToolItem" xmi:id="_7c3wIBx3EeSfIZVFxVWEbA" elementId="ebook.directtoolitem.5" label="" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext"/>
-              <children xsi:type="menu:DirectToolItem" xmi:id="_hW5jUB4YEeSWnfW9xuDLLA" elementId="ebook.directtoolitem.6" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить " contributionURI="bundleclass://ebook/ebook.module.book.handlers.DeleteContext"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_5WA2cCILEeSSjvNQ5dYbAw" elementId="ebook.handledtoolitem.2" label="Вставить контекст" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" command="_veQHICILEeSSjvNQ5dYbAw">
+                <tags>FORCE_TEXT</tags>
+              </children>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_roeS8CIMEeSSjvNQ5dYbAw" elementId="ebook.handledtoolitem.3" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" command="_nl2LACIMEeSSjvNQ5dYbAw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_zy-J0CH5EeSSjvNQ5dYbAw" elementId="ebook.handledtoolitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="__qP50CH5EeSSjvNQ5dYbAw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_0L3yACH5EeSSjvNQ5dYbAw" elementId="ebook.handledtoolitem.7" label="Добавить подраздел" iconURI="platform:/plugin/ebook/icons/set/addSubFolder.png" tooltip="Добавить подраздел" command="_CU3F8CH6EeSSjvNQ5dYbAw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_0YppwCH5EeSSjvNQ5dYbAw" elementId="ebook.handledtoolitem.8" label="Изменить заголовок" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить заголовок" command="_FFT0UCH6EeSSjvNQ5dYbAw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_VxZXICH6EeSSjvNQ5dYbAw" elementId="ebook.handledtoolitem.6" label="" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить раздел" command="_FQzSoCH6EeSSjvNQ5dYbAw"/>
             </toolbar>
           </children>
           <children xsi:type="basic:Part" xmi:id="_5ZESgBJJEeSRHfCKVoiTkg" elementId="part.SectionRolesView" containerData="" contributionURI="bundleclass://ebook/ebook.module.book.views.RolesView" label="Роли">
@@ -577,6 +606,12 @@
   <commands xmi:id="_SbdywB08EeS8Ob_mPIL9rg" elementId="ListView.delete" commandName="ListView - delete" category="_g9SXcBicEeSEwsGZkmCqtw"/>
   <commands xmi:id="_hhcMAB0_EeS8Ob_mPIL9rg" elementId="ListView.show" commandName="ListView - show"/>
   <commands xmi:id="_TgXnkB74EeSy8KLEUiC4ow" elementId="ebook.command.18" commandName="ConfView - build"/>
+  <commands xmi:id="__qP50CH5EeSSjvNQ5dYbAw" elementId="ContextView.addgroup" commandName="ContextView - add group"/>
+  <commands xmi:id="_CU3F8CH6EeSSjvNQ5dYbAw" elementId="ContextView.addsubgroup" commandName="ContextView - add sub group"/>
+  <commands xmi:id="_FFT0UCH6EeSSjvNQ5dYbAw" elementId="ContextView.edit" commandName="ContextView - edit"/>
+  <commands xmi:id="_FQzSoCH6EeSSjvNQ5dYbAw" elementId="ContextView.delete" commandName="ContextView - delete"/>
+  <commands xmi:id="_veQHICILEeSSjvNQ5dYbAw" elementId="ContextView - past context" commandName="ContextView - past context"/>
+  <commands xmi:id="_nl2LACIMEeSSjvNQ5dYbAw" elementId="ContextView - open context" commandName="ContextView - open context"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

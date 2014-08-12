@@ -10,4 +10,6 @@ public interface ITreeItemSelection {
 
 	Iterator<ITreeItemInfo> iterator();
 
+	boolean isEmpty();
+
 }

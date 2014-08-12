@@ -27,6 +27,6 @@ public class Delete {
 
 	@CanExecute
 	public boolean canExecute(@Optional @Active ContextInfoSelection selection) {
-		return selection != null;
+		return selection != null && !selection.isEmpty();
 	}
 }

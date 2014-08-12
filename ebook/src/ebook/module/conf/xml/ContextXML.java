@@ -10,7 +10,7 @@ import ebook.core.models.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
 
-@XmlRootElement(name = "section", namespace = "ebook.module.xml")
+@XmlRootElement(name = "context", namespace = "ebook.module.xml")
 public class ContextXML implements ITreeItemXML {
 
 	public static final String filename = "data";
@@ -19,7 +19,7 @@ public class ContextXML implements ITreeItemXML {
 	// public ArrayList<ImageXML> images;
 
 	@XmlElementWrapper(name = "children")
-	@XmlElement(name = "section")
+	@XmlElement(name = "context")
 	public ArrayList<ContextXML> children;
 
 	public int id;
@@ -27,6 +27,7 @@ public class ContextXML implements ITreeItemXML {
 	public boolean group;
 	public String title;
 	public String options;
+	public boolean root = false;
 
 	// public String text = "";
 
@@ -44,6 +45,7 @@ public class ContextXML implements ITreeItemXML {
 		// this.sort = item.getSort();
 		this.group = item.isGroup();
 		this.title = item.getTitle();
+		this.root = item.isRoot();
 		if (options)
 			this.options = DbOptions.save(item.getOptions());
 

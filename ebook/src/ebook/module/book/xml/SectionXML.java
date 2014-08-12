@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ebook.core.models.DbOptions;
+import ebook.module.conf.xml.ContextXML;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
 
@@ -19,6 +20,10 @@ public class SectionXML implements ITreeItemXML {
 	@XmlElementWrapper(name = "children")
 	@XmlElement(name = "section")
 	public ArrayList<SectionXML> children;
+
+	// @XmlElementWrapper(name = "contexts")
+	@XmlElement(name = "context")
+	public ContextXML context;
 
 	public int id;
 	// public int sort;

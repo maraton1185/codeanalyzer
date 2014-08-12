@@ -122,8 +122,11 @@ public abstract class TreeService implements ITreeService {
 				generatedKeys.close();
 			}
 
-			App.br.post(updateEvent,
-					getUpdateEventData(get(data.getParent()), data));
+			ITreeItemInfo _parent = get(data.getParent());
+			if (_parent != null && parent.isRoot())
+				_parent.setRoot();
+			App.br.post(updateEvent, getUpdateEventData(_parent, data));
+			// getUpdateEventData(get(data.getParent()), data));
 
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
@@ -334,7 +337,7 @@ public abstract class TreeService implements ITreeService {
 		Iterator<ITreeItemInfo> iterator = selection.iterator();
 		while (iterator.hasNext()) {
 			ITreeItemInfo item = iterator.next();
-			delete(iterator.next());
+			delete(item);
 			if (item.isRoot() && canDeleteRoot())
 				break;
 		}

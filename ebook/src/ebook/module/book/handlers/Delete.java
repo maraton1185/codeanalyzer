@@ -18,7 +18,6 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoSelection;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Strings;
@@ -70,8 +69,8 @@ public class Delete {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null;
+	public boolean canExecute(@Optional @Active SectionInfoSelection item) {
+		return item != null && !item.isEmpty();
 	}
 
 }

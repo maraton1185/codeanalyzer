@@ -41,7 +41,12 @@ public class BookConnection extends BaseDbPathConnection {
 
 	public ContextService ctxsrv(SectionInfo section) {
 
-		ctxsrv = ctxsrv == null ? new ContextService(this, section) : ctxsrv;
+		if (ctxsrv != null) {
+			ctxsrv = ctxsrv.getSection().equals(section) ? ctxsrv
+					: new ContextService(this, section);
+		} else
+			ctxsrv = new ContextService(this, section);
+		// ctxsrv = ctxsrv == null ? new ContextService(this, section) : ctxsrv;
 
 		return ctxsrv;
 	}

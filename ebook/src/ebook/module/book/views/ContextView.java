@@ -47,9 +47,28 @@ public class ContextView {
 
 	@Inject
 	@Active
+	@Optional
 	SectionInfo section;
 
 	private ContextService service;
+
+	@Inject
+	@Optional
+	public void EVENT_EDIT_TITLE_CONTEXT_VIEW(
+			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONTEXT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
+
+		if (!section.equals(data.section))
+			return;
+
+		if (data.parent == null)
+			return;
+
+		viewer.editElement(data.parent, 0);
+
+	}
 
 	@Inject
 	@Optional
@@ -75,7 +94,7 @@ public class ContextView {
 		if (con != data.con)
 			return;
 
-		if (section != data.section)
+		if (!section.equals(data.section))
 			return;
 
 		if (data.parent == null)
@@ -97,6 +116,10 @@ public class ContextView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
+		if (section == null) {
+			section = new SectionInfo();
+			section.setId(0);
+		}
 		service = con.ctxsrv(section);
 		treeComponent = new TreeViewComponent(parent, service, 3, true, false);
 

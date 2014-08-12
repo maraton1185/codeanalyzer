@@ -37,6 +37,8 @@ import ebook.module.book.tree.SectionSaveData;
 import ebook.module.book.xml.ImageXML;
 import ebook.module.book.xml.SectionXML;
 import ebook.module.bookList.tree.ListBookInfoOptions;
+import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.xml.ContextXML;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;
@@ -483,46 +485,6 @@ public class BookService extends TreeService {
 
 	}
 
-	private void writeXml(SectionXML root, IPath p) {
-
-		List<SectionImage> _images = getImages(root.id);
-
-		ArrayList<ImageXML> images = new ArrayList<ImageXML>();
-
-		for (SectionImage image : _images) {
-			ImageXML item = new ImageXML(image);
-			images.add(item);
-
-			ImageLoader saver = new ImageLoader();
-			saver.data = new ImageData[] { image.image.getImageData() };
-
-			saver.save(p.append(ImageXML.filename + image.getId())
-					.addFileExtension(image.getMime()).toString(),
-					image.getFormat());
-
-		}
-
-		root.images = images;
-
-		List<ITreeItemInfo> list = getChildren(root.id);
-
-		ArrayList<SectionXML> children = new ArrayList<SectionXML>();
-
-		for (ITreeItemInfo item : list) {
-
-			SectionXML child = new SectionXML(item);
-			writeXml(child, p);
-
-			children.add(child);
-
-		}
-
-		if (!root.group)
-			root.text = getText(root.id);
-
-		root.children = children;
-	}
-
 	@Override
 	public void download(IPath zipFolder, ITreeItemInfo section, String zipName)
 			throws InvocationTargetException {
@@ -535,7 +497,7 @@ public class BookService extends TreeService {
 
 			SectionXML root = new SectionXML(section);
 
-			writeXml(root, t);
+			writeXml(root, t, section);
 
 			// create JAXB context and instantiate marshaller
 			JAXBContext context = JAXBContext.newInstance(SectionXML.class);
@@ -565,29 +527,54 @@ public class BookService extends TreeService {
 		}
 	}
 
-	private void readXML(SectionXML element, ITreeItemInfo parent, IPath p)
-			throws InvocationTargetException {
+	private void writeXml(SectionXML root, IPath p, ITreeItemInfo section) {
 
-		SectionInfo root = (SectionInfo) SectionInfo.fromXML(element);
-		add(root, parent, true);
-		if (!root.isGroup())
-			saveText(root, element.text);
+		ContextService srv = ((BookConnection) db)
+				.ctxsrv((SectionInfo) section);
 
-		for (ImageXML image : element.images) {
+		List<ITreeItemInfo> c_root_item = srv.getRoot();
+		if (!c_root_item.isEmpty()) {
+			ContextXML c_root = new ContextXML(c_root_item.get(0), true);
+			srv.writeXml(c_root);
+			root.context = c_root;
+		}
 
-			IPath image_path = p.append(ImageXML.filename + image.id)
-					.addFileExtension(image.mime);
-			if (!image_path.toFile().exists())
-				continue;
-			add_image(root, image_path, image.title);
+		List<SectionImage> _images = getImages(root.id);
+
+		ArrayList<ImageXML> images = new ArrayList<ImageXML>();
+
+		for (SectionImage image : _images) {
+			ImageXML item = new ImageXML(image);
+			images.add(item);
+
+			ImageLoader saver = new ImageLoader();
+			saver.data = new ImageData[] { image.image.getImageData() };
+
+			saver.save(p.append(ImageXML.filename + image.getId())
+					.addFileExtension(image.getMime()).toString(),
+					image.getFormat());
 
 		}
 
-		for (SectionXML child : element.children) {
+		root.images = images;
 
-			readXML(child, root, p);
+		List<ITreeItemInfo> list = getChildren(root.id);
+
+		ArrayList<SectionXML> children = new ArrayList<SectionXML>();
+
+		for (ITreeItemInfo item : list) {
+
+			SectionXML child = new SectionXML(item);
+			writeXml(child, p, item);
+
+			children.add(child);
+
 		}
 
+		if (!root.group)
+			root.text = getText(root.id);
+
+		root.children = children;
 	}
 
 	@Override
@@ -622,6 +609,40 @@ public class BookService extends TreeService {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
 					Strings.get("error.loadFromFile"));
+		}
+
+	}
+
+	private void readXML(SectionXML element, ITreeItemInfo parent, IPath p)
+			throws InvocationTargetException {
+
+		SectionInfo root = (SectionInfo) SectionInfo.fromXML(element);
+		add(root, parent, true);
+		if (!root.isGroup())
+			saveText(root, element.text);
+
+		for (ImageXML image : element.images) {
+
+			IPath image_path = p.append(ImageXML.filename + image.id)
+					.addFileExtension(image.mime);
+			if (!image_path.toFile().exists())
+				continue;
+			add_image(root, image_path, image.title);
+
+		}
+
+		if (element.context != null) {
+			ContextService srv = ((BookConnection) db).ctxsrv(root);
+			// srv.setSection(root);
+			ContextInfo info = new ContextInfo();
+			info.setRoot();
+			info.setId(0);
+			srv.readXML(element.context, info);
+		}
+
+		for (SectionXML child : element.children) {
+
+			readXML(child, root, p);
 		}
 
 	}

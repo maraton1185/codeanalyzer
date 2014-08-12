@@ -54,7 +54,10 @@ public class ContextService extends TreeService {
 
 	public void setSection(SectionInfo section) {
 		this.section = section;
+	}
 
+	public SectionInfo getSection() {
+		return section;
 	}
 
 	@Override
@@ -168,7 +171,7 @@ public class ContextService extends TreeService {
 
 			ContextXML root = new ContextXML(item, false);
 
-			writeXml(root, t);
+			writeXml(root);
 
 			// create JAXB context and instantiate marshaller
 			JAXBContext context = JAXBContext.newInstance(ContextXML.class);
@@ -198,7 +201,7 @@ public class ContextService extends TreeService {
 		}
 	}
 
-	private void writeXml(ContextXML root, IPath p) {
+	public void writeXml(ContextXML root) {
 
 		List<ITreeItemInfo> list = getChildren(root.id);
 
@@ -207,7 +210,7 @@ public class ContextService extends TreeService {
 		for (ITreeItemInfo item : list) {
 
 			ContextXML child = new ContextXML(item, false);
-			writeXml(child, p);
+			writeXml(child);
 
 			children.add(child);
 
@@ -240,12 +243,41 @@ public class ContextService extends TreeService {
 			// um.setProperty(Unmarshaller.JAXB_ENCODING, "UTF-8");
 			ContextXML root = (ContextXML) um.unmarshal(reader);
 
-			readXML(root, getUploadRoot(), t);
+			readXML(root, getUploadRoot());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
 					Strings.get("error.loadFromFile"));
+		}
+
+	}
+
+	public void readXML(ContextXML element, ITreeItemInfo parent)
+			throws InvocationTargetException {
+
+		ContextInfo root = (ContextInfo) ContextInfo.fromXML(element);
+		// root.getOptions().conf = conf;
+
+		add(root, parent, true);
+
+		if (element.root) {
+			List<ITreeItemInfo> input = getRoot();
+			if (!input.isEmpty()) {
+				section.getOptions().selectedContext = input.get(0).getId();
+				ContextInfoOptions opt = (ContextInfoOptions) input.get(0)
+						.getOptions();
+				section.getOptions().setContextName(opt.conf);
+				((BookConnection) db).srv().saveOptions(section);
+				App.br.post(Events.EVENT_UPDATE_LABELS,
+						new EVENT_UPDATE_VIEW_DATA(db, section));
+
+			}
+		}
+
+		for (ContextXML child : element.children) {
+
+			readXML(child, root);
 		}
 
 	}
@@ -299,21 +331,6 @@ public class ContextService extends TreeService {
 		}
 
 		return null;
-	}
-
-	private void readXML(ContextXML element, ITreeItemInfo parent, IPath p)
-			throws InvocationTargetException {
-
-		ContextInfo root = (ContextInfo) ContextInfo.fromXML(element);
-		// root.getOptions().conf = conf;
-
-		add(root, parent, true);
-
-		for (ContextXML child : element.children) {
-
-			readXML(child, root, p);
-		}
-
 	}
 
 }

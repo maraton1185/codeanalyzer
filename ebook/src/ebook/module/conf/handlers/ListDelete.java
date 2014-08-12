@@ -65,6 +65,6 @@ public class ListDelete {
 
 	@CanExecute
 	public boolean canExecute(@Optional @Active ListInfoSelection selection) {
-		return selection != null;
+		return selection != null && !selection.isEmpty();
 	}
 }

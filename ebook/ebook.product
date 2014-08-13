@@ -184,8 +184,9 @@
    </plugins>
 
    <features>
-      <feature id="ebookFeature" version="1.0.0.qualifier"/>
       <feature id="org.eclipse.equinox.p2.rcp.feature" version="1.2.0.v20130828-0031"/>
+      <feature id="ebookBaseFeature" version="1.0.0.qualifier"/>
+      <feature id="ebookFeature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>

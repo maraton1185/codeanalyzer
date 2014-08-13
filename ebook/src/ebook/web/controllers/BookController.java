@@ -109,7 +109,7 @@ public class BookController {
 		model.url = App.getJetty().list(bookItem.getParent());
 		model.title = bookItem.getTitle();
 
-		model.activeSection = "Результат поиска";
+		model.activeSection = "Результат поиска \"" + search + "\"";
 		// model.section = new Section();
 		//
 		// model.section.id = treeItem.getId();

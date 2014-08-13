@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="ebookFeature"
-      label="EbookFeature"
+      id="ebookBaseFeature"
+      label="ebookBaseFeature"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -620,13 +620,6 @@
 
    <plugin
          id="org.eclipse.core.databinding.property"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ebook"
          download-size="0"
          install-size="0"
          version="0.0.0"

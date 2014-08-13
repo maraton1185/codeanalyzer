@@ -29,6 +29,8 @@ import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
@@ -304,20 +306,26 @@ public class App {
 					item.setToolTipText(Strings.get("appTitle"));
 					item.setImage(image);
 
-					item.addListener(SWT.DefaultSelection, new Listener() {
+					item.addSelectionListener(new SelectionListener() {
 
 						@Override
-						public void handleEvent(
-								org.eclipse.swt.widgets.Event event) {
+						public void widgetSelected(SelectionEvent e) {
 
 							window.setVisible(true);
 
 							shell.setMinimized(false);
 
 							shell.forceActive();
+
 						}
 
+						@Override
+						public void widgetDefaultSelected(SelectionEvent e) {
+							// TODO Auto-generated method stub
+
+						}
 					});
+					// item.addListener(SWT.DefaultSelection, handler);
 
 					item.addListener(SWT.MenuDetect, new Listener() {
 						@Override
@@ -422,6 +430,13 @@ public class App {
 		@Override
 		public boolean close(MWindow window) {
 
+			if (PreferenceSupplier
+					.getBoolean(PreferenceSupplier.MINIMIZE_TO_TRAY)) {
+
+				Shell shell = ((Shell) window.getWidget());
+				shell.setMinimized(true);
+				return false;
+			}
 			PreferenceSupplier.set(PreferenceSupplier.START_PERSPECTIVE,
 					currentPerspective.toString());
 			PreferenceSupplier.save();

@@ -145,25 +145,25 @@ public class SectionsView {
 
 				SectionInfo section = window.getContext()
 						.get(SectionInfo.class);
-				if (section.isGroup()) {
-					Utils.executeHandler(hs, cs,
-							Strings.get("command.id.ShowSection"));
-					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-							new EVENT_UPDATE_VIEW_DATA(con, section, section));
-				} else {
-					SectionInfo selected = (SectionInfo) con.srv().get(
-							section.getParent());
-
-					selected.tag = section.getId().toString();
-
-					window.getContext().set(SectionInfo.class, selected);
-
-					Utils.executeHandler(hs, cs,
-							Strings.get("command.id.ShowSection"));
-
-					App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-							new EVENT_UPDATE_VIEW_DATA(con, selected, section));
-				}
+				// if (section.isGroup()) {
+				Utils.executeHandler(hs, cs,
+						Strings.get("command.id.ShowSection"));
+				App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
+						new EVENT_UPDATE_VIEW_DATA(con, section, section));
+				// } else {
+				// SectionInfo selected = (SectionInfo) con.srv().get(
+				// section.getParent());
+				//
+				// selected.tag = section.getId().toString();
+				//
+				// window.getContext().set(SectionInfo.class, selected);
+				//
+				// Utils.executeHandler(hs, cs,
+				// Strings.get("command.id.ShowSection"));
+				//
+				// App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
+				// new EVENT_UPDATE_VIEW_DATA(con, selected, section));
+				// }
 			}
 		});
 

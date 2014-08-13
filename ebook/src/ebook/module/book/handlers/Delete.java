@@ -15,6 +15,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.BookConnection;
@@ -35,8 +36,10 @@ public class Delete {
 	@Execute
 	public void execute(Shell shell, @Active BookConnection book,
 			@Active SectionInfoSelection selection) {
-		// if (MessageDialog.openConfirm(shell, Strings.get("appTitle"),
-		// "Удалить раздел?"))
+
+		if (!MessageDialog.openConfirm(shell, Strings.get("appTitle"),
+				"Удалить раздел?"))
+			return;
 
 		List<MPartStack> stacks = model
 				.findElements(window, Strings.get("ebook.partstack.sections"),

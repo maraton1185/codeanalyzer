@@ -18,6 +18,8 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.core.App.ConfWindowCloseHandler;
@@ -33,6 +35,9 @@ import ebook.utils.Utils;
 public class serviceShow {
 
 	@Inject
+	@Optional
+	Shell shell;
+	@Inject
 	EPartService partService;
 	@Inject
 	EModelService model;
@@ -45,8 +50,7 @@ public class serviceShow {
 
 	@Inject
 	@Optional
-	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_CONF) Object o,
-			final EHandlerService hs, final ECommandService cs) {
+	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_CONF) Object o) {
 
 		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowConf"));
 	}
@@ -62,8 +66,12 @@ public class serviceShow {
 
 		// книги нет в списке
 		ITreeItemInfo item = con.getTreeItem();
-		if (item == null)
+		if (item == null) {
+			if (shell != null)
+				MessageDialog.openError(shell, Strings.get("appTitle"),
+						Strings.get("error.conf is not in list"));
 			return;
+		}
 
 		MWindow mainWindow = App.app.getChildren().get(0);
 

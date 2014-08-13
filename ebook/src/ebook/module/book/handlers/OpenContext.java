@@ -23,7 +23,7 @@ public class OpenContext {
 		if (!opt.hasContext())
 			return;
 		ListConfInfo info = (ListConfInfo) App.srv.cl().getTreeItem(
-				opt.getContextName());
+				opt.getContextName(), "");
 		if (info == null)
 			return;
 

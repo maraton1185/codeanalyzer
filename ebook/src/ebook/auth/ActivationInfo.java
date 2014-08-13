@@ -1,9 +1,6 @@
 package ebook.auth;
 
 import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.osgi.service.prefs.Preferences;
 
@@ -53,16 +50,17 @@ public class ActivationInfo {
 
 		if (check()) {
 			result.append(Const.MSG_PRO_SHORT);
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-			try {
-				Date ExpirationDate = formatter.parse(this.ExpirationDate);
-				result.append(withoutExpirationDate ? "без ограничени€"
-						: " до "
-								+ new SimpleDateFormat("dd.MM.yyyy")
-										.format(ExpirationDate));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			// SimpleDateFormat formatter = new
+			// SimpleDateFormat("yyyyMMddHHmmss");
+			// try {
+			// Date ExpirationDate = formatter.parse(this.ExpirationDate);
+			// result.append(withoutExpirationDate ? "без ограничени€"
+			// : " до "
+			// + new SimpleDateFormat("dd.MM.yyyy")
+			// .format(ExpirationDate));
+			// } catch (ParseException e) {
+			// e.printStackTrace();
+			// }
 		} else {
 			result.append(Const.MSG_FREE_SHORT);
 		}
@@ -77,17 +75,18 @@ public class ActivationInfo {
 
 		if (check()) {
 			result.append(Const.MSG_PRO);
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-
-			try {
-				Date ExpirationDate = formatter.parse(this.ExpirationDate);
-				result.append("ƒата окончани€: "
-						+ (withoutExpirationDate ? "без ограничени€"
-								: new SimpleDateFormat("dd.MM.yyyy")
-										.format(ExpirationDate)) + "\n");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			// SimpleDateFormat formatter = new
+			// SimpleDateFormat("yyyyMMddHHmmss");
+			//
+			// try {
+			// Date ExpirationDate = formatter.parse(this.ExpirationDate);
+			// result.append("ƒата окончани€: "
+			// + (withoutExpirationDate ? "без ограничени€"
+			// : new SimpleDateFormat("dd.MM.yyyy")
+			// .format(ExpirationDate)) + "\n");
+			// } catch (ParseException e) {
+			// e.printStackTrace();
+			// }
 			result.append("UUID: " + serial);
 		} else {
 			result.append(Const.MSG_FREE);
@@ -149,8 +148,9 @@ public class ActivationInfo {
 	 * @throws Exception
 	 */
 	public static String getComputerSerial() throws Exception {
-		return jWMI.getWMIValue("SELECT UUID FROM Win32_ComputerSystemProduct",
-				"UUID");
+		return jWMI
+				.getWMIValue("SELECT UUID FROM Win32_ComputerSystemProduct",
+						"UUID").replace("\n", "").replace("\r", "");
 	}
 
 	public void fill(Request msg) {

@@ -18,6 +18,8 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.core.App.BookWindowCloseHandler;
@@ -31,8 +33,21 @@ public class serviceShow {
 
 	@Inject
 	@Optional
-	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_BOOK) Object o,
-			final EHandlerService hs, final ECommandService cs) {
+	Shell shell;
+	@Inject
+	EPartService partService;
+	@Inject
+	EModelService model;
+	@Inject
+	EHandlerService hs;
+	@Inject
+	ECommandService cs;
+	@Inject
+	IEclipseContext ctx;
+
+	@Inject
+	@Optional
+	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_BOOK) Object o) {
 
 		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowBook"));
 	}
@@ -43,14 +58,16 @@ public class serviceShow {
 	}
 
 	@Execute
-	public void execute(EPartService partService, EModelService model,
-			final @Active BookConnection con, IEclipseContext ctx,
-			EHandlerService hs, ECommandService cs) {
+	public void execute(final @Active BookConnection con) {
 
 		// книги нет в списке
 		ITreeItemInfo item = con.getTreeItem();
-		if (item == null)
+		if (item == null) {
+			if (shell != null)
+				MessageDialog.openError(shell, Strings.get("appTitle"),
+						Strings.get("error.book is not in list"));
 			return;
+		}
 
 		MWindow mainWindow = App.app.getChildren().get(0);
 
@@ -64,7 +81,7 @@ public class serviceShow {
 
 		if (windows.isEmpty())
 
-			createWindow(mainWindow, con, model, ctx, partService, hs, cs);
+			createWindow(mainWindow, con);
 
 		else {
 			MWindow w = windows.get(0);
@@ -73,9 +90,7 @@ public class serviceShow {
 		}
 	}
 
-	private void createWindow(MWindow mainWindow, BookConnection con,
-			EModelService model, IEclipseContext ctx, EPartService partService,
-			EHandlerService hs, ECommandService cs) {
+	private void createWindow(MWindow mainWindow, BookConnection con) {
 
 		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
 				Strings.get("model.id.book.window"), null);

@@ -21,10 +21,15 @@ $(function() {
   		return
    */
   $('.small-picture').click(function(e) {
-    var img, src;
-    img = $(this).parents('.container').find('.big-picture');
-    src = $(this).find('img').attr('src');
-    img.attr('src', src);
+    var big, fancy, small, src, title;
+    big = $(this).parents('.container').find('.big-picture');
+    small = $(this).find('img');
+    src = small.attr('src');
+    title = small.parent().attr('title');
+    big.attr('src', src);
+    fancy = big.parent();
+    fancy.attr('href', src + '&.jpg');
+    fancy.attr('title', title);
   });
   $('.picture-link').click(function(e) {
     var id;

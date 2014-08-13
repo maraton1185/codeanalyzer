@@ -24,9 +24,15 @@ $ ->
 	#click on small images cause load it into big image
 	$('.small-picture').click (e)->
 		#e.preventDefault()
-		img = $(this).parents('.container').find('.big-picture')
-		src = $(this).find('img').attr 'src'
-		img.attr 'src', src
+		big = $(this).parents('.container').find('.big-picture')
+		small = $(this).find('img')
+		src = small.attr 'src'
+		title = small.parent().attr 'title'
+		
+		big.attr 'src', src
+		fancy = big.parent()
+		fancy.attr 'href', src+'&.jpg'
+		fancy.attr 'title', title
 		#console.log img, src
 		return
 

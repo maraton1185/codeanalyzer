@@ -55,7 +55,7 @@ public class BookConnection extends BaseDbPathConnection {
 	public ITreeItemInfo getTreeItem() {
 
 		if (treeItem == null)
-			treeItem = App.srv.bl().getTreeItem(getName());
+			treeItem = App.srv.bl().getTreeItem(getName(), getFullName());
 
 		return treeItem;
 	}

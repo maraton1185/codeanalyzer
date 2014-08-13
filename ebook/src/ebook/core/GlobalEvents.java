@@ -71,13 +71,13 @@ public abstract class GlobalEvents {
 									.find(Strings.get("model_id_activate"),
 											App.app);
 							h_element.setLabel(status);
-							h_element.setVisible(true);
+							// h_element.setVisible(true);
 
 							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
 									Strings.get("ebook.directtoolitem.1"),
 									App.app);
 							d_element.setLabel(App.getJetty().jettyMessage());
-							d_element.setVisible(true);
+							// d_element.setVisible(true);
 
 						}
 					});

@@ -72,7 +72,7 @@ public class ConfConnection extends BaseDbPathConnection {
 	@Override
 	public ITreeItemInfo getTreeItem() {
 		if (treeItem == null)
-			treeItem = App.srv.cl().getTreeItem(getName());
+			treeItem = App.srv.cl().getTreeItem(getName(), getFullName());
 
 		return treeItem;
 	}

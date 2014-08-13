@@ -54,6 +54,7 @@ public abstract class PreferenceSupplier {
 	public static final String UPDATE_SITE = "UPDATE_SITE";
 	public static final String SHOW_ABOUT_ON_STARTUP = "SHOW_ABOUT_ON_STARTUP";
 	public static final String CHECK_UPDATE_ON_STARTUP = "CHECK_UPDATE_ON_STARTUP";
+	public static final String DEFAULT_IMAGE_DIRECTORY = "DEFAULT_IMAGE_DIRECTORY";
 
 	// ******************************************************************
 
@@ -106,6 +107,10 @@ public abstract class PreferenceSupplier {
 						.toString());
 
 		preferenceStore.setDefault(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY,
+				ResourcesPlugin.getWorkspace().getRoot().getLocation()
+						.toString());
+
+		preferenceStore.setDefault(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY,
 				ResourcesPlugin.getWorkspace().getRoot().getLocation()
 						.toString());
 

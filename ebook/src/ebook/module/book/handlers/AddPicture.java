@@ -3,6 +3,7 @@ package ebook.module.book.handlers;
 import javax.inject.Named;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
@@ -13,6 +14,7 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
+import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -23,8 +25,10 @@ public class AddPicture {
 			@Active BookConnection book,
 			@Active @Named(Events.CONTEXT_ACTIVE_VIEW_SECTION) SectionInfo section) {
 
-		IPath p = Utils.browseFile(book.getFullPath(), shell,
-				Strings.get("appTitle"), SectionImage.getFilters());
+		IPath p = Utils.browseFile(
+				new Path(PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
+				shell, Strings.get("appTitle"), SectionImage.getFilters());
 		if (p == null)
 			return;
 

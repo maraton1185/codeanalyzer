@@ -194,6 +194,15 @@ public class OptionsDialog {
 			((DirectoryFieldEditor) f).setChangeButtonText("...");
 			addField(f);
 
+			comp = new Composite(group, SWT.NULL);
+			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			f = new DirectoryFieldEditor(
+					PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY,
+					"Выбор картинок:", comp);
+			((DirectoryFieldEditor) f).setChangeButtonText("...");
+			addField(f);
+
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
 			group.setLayout(new GridLayout(1, false));

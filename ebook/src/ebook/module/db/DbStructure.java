@@ -190,7 +190,14 @@ public class DbStructure implements IDbStructure {
 
 	@Override
 	public void updateSructure(Connection con) throws SQLException {
-
+		// Statement stat = con.createStatement();
+		// try {
+		//
+		// stat.execute("ALTER TABLE ACL ADD TEST INTEGER;");
+		//
+		// } catch (Exception e) {
+		// throw new SQLException();
+		// }
 	}
 
 }

@@ -49,15 +49,31 @@
 				
 			</div>
 
-			<!-- LINKS -->
+			
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<!-- LINKS -->
 				<ul class="nav navbar-nav">
 					<c:forEach var="section" items="${model.sections}">
 						<li><a href="#${section.id}">${section.title}</a></li>
 					</c:forEach>
 				</ul>
 
+				<!-- AUTH -->
 				<jsp:include page="/tmpl/auth.jsp"/>
+
+				<!-- SEARCH -->
+				<c:if test="${empty param.swt}">
+	    			
+		        		
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+					    	<input type="hidden" name="book" value="${param.book}"</>
+					    	<input type="text" class="form-control" placeholder="Поиск" name="search" value="${param.search}">
+					    </div>					    
+					</form>
+		        	
+	            </c:if>
+		
 			</div>
 			
 		</div>
@@ -81,7 +97,7 @@
 	                		</c:choose>
 	                	</li>            		
 	            	</c:forEach>
-	            	<li class="active">${model.section.title}</li>
+	            	<li class="active">${model.activeSection}</li>
 	            </ol>
 			</div>
 		</div>

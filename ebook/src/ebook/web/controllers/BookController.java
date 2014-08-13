@@ -48,13 +48,14 @@ public class BookController {
 		model.url = App.getJetty().list(bookItem.getParent());
 		model.title = bookItem.getTitle();
 
-		model.section = new Section();
-
-		model.section.id = treeItem.getId();
-		model.section.title = treeItem.getTitle();
-		model.section.group = treeItem.isGroup();
-		model.section.text = srv.getText(id);
-		model.section.url = Utils.getUrl(host, model.section.id);
+		model.activeSection = treeItem.getTitle();
+		// model.section = new Section();
+		//
+		// model.section.id = treeItem.getId();
+		// model.section.title = treeItem.getTitle();
+		// model.section.group = treeItem.isGroup();
+		// model.section.text = srv.getText(id);
+		// model.section.url = Utils.getUrl(host, model.section.id);
 
 		model.sections = new ArrayList<Section>();
 
@@ -93,6 +94,67 @@ public class BookController {
 			ITreeItemInfo current = parent;
 			parent = srv.get(current.getParent());
 		}
+
+		return model;
+	}
+
+	public BookModel getSearchModel(String search) {
+		BookModel model = new BookModel();
+
+		ITreeItemInfo bookItem = book.getTreeItem();
+		if (bookItem == null)
+			return null;
+
+		String host = App.getJetty().book(bookItem.getId());
+		model.url = App.getJetty().list(bookItem.getParent());
+		model.title = bookItem.getTitle();
+
+		model.activeSection = "Результат поиска";
+		// model.section = new Section();
+		//
+		// model.section.id = treeItem.getId();
+		// model.section.title = treeItem.getTitle();
+		// model.section.group = treeItem.isGroup();
+		// model.section.text = srv.getText(id);
+		// model.section.url = Utils.getUrl(host, model.section.id);
+
+		model.sections = new ArrayList<Section>();
+
+		List<ITreeItemInfo> list = srv.findSections(search);
+
+		for (ITreeItemInfo item : list) {
+
+			Section section = new Section();
+
+			section.id = item.getId();
+			section.title = item.getTitle();
+			section.group = item.isGroup();
+			section.text = srv.getText(item.getId());
+			section.images = srv.getImages(item.getId());
+			Integer bigImageCSS = ((SectionInfoOptions) item.getOptions())
+					.getBigImageCSS();
+			section.bigImageCSS = bigImageCSS;
+			section.textCSS = SectionInfoOptions.gridLength - bigImageCSS;
+
+			section.url = Utils.getUrl(host, section.id);
+
+			model.sections.add(section);
+		}
+
+		// model.parents = new ArrayList<ModelItem>();
+		// ITreeItemInfo parent = srv.get(treeItem.getParent());
+		// while (parent != null) {
+		//
+		// ModelItem item = new ModelItem();
+		// item.title = parent.getTitle();
+		// item.url = Utils.getUrl(host, parent.getId());
+		// item.id = parent.getId();
+		//
+		// model.parents.add(0, item);
+		//
+		// ITreeItemInfo current = parent;
+		// parent = srv.get(current.getParent());
+		// }
 
 		return model;
 	}

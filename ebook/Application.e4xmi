@@ -365,7 +365,6 @@
     <toolbar xmi:id="_9l8KUMt2EeOTW91tESaq8A" elementId="ebook.toolbar.4">
       <children xsi:type="menu:HandledToolItem" xmi:id="_MY2wQNQjEeOFfdAek_eJEQ" elementId="ebook.handledtoolitem.12" label="" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Перейти к родителю" command="_dea_gNQiEeOFfdAek_eJEQ">
         <tags>FORCE_TEXT</tags>
-        <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_qYbJENQoEeOFfdAek_eJEQ" coreExpressionId="ebook.expressions.onContentSelected"/>
       </children>
       <children xsi:type="menu:HandledToolItem" xmi:id="_mfKo4MxvEeOlmZeD0alUsw" elementId="ebook.handledtoolitem.9" label="Добавить текст" iconURI="platform:/plugin/ebook/icons/set/add.png" tooltip="Добавить блок текста" command="_B6xfwMt7EeOTW91tESaq8A">
         <tags>FORCE_TEXT</tags>

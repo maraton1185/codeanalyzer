@@ -43,8 +43,13 @@ public class BookServlet extends HttpServlet {
 			return;
 		}
 
+		String search = request.getParameter("search");
+		boolean srch = false;
+		if (search != null && !search.isEmpty())
+			srch = true;
+
 		String section_id = request.getParameter("id");
-		if (section_id == null) {
+		if (section_id == null && !srch) {
 
 			List<ITreeItemInfo> input = book.srv().getRoot();
 			if (input.isEmpty()) {
@@ -54,17 +59,15 @@ public class BookServlet extends HttpServlet {
 			section_id = input.get(0).getId().toString();
 		}
 
-		BookModel model = new BookController(book).getModel(section_id);
+		BookModel model = srch ? new BookController(book)
+				.getSearchModel(search) : new BookController(book)
+				.getModel(section_id);
+
 		if (model == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
 
-		// String isSwt = request.getParameter("swt");
-		// if (isSwt != null) {
-		// request.setAttribute("swtMode", App.getJetty().swt());
-		// }
-		// model.id = id;
 		request.setAttribute("model", model);
 
 		RequestDispatcher view = request

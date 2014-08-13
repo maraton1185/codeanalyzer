@@ -4,10 +4,16 @@ import java.util.List;
 
 public class BookModel {
 
-	public Section section;
+	// public Section section;
+	//
+	// public Section getSection() {
+	// return section;
+	// }
 
-	public Section getSection() {
-		return section;
+	public String activeSection;
+
+	public String getActiveSection() {
+		return activeSection;
 	}
 
 	public List<Section> sections;

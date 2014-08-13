@@ -646,4 +646,33 @@ public class BookService extends TreeService {
 		}
 
 	}
+
+	public List<ITreeItemInfo> findSections(String search) {
+		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
+		// Connection con = null;
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT "
+					+ getItemString("T")
+					+ "FROM "
+					+ tableName
+					+ " AS T WHERE UPPER(T.TITLE) REGEXP UPPER(?) ORDER BY T.SORT, T.ID";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setString(1, search);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					result.add(getItem(rs));
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

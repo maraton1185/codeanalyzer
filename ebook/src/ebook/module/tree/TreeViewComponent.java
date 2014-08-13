@@ -3,14 +3,18 @@ package ebook.module.tree;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.e4.ui.workbench.swt.internal.copy.FilteredTree;
+import org.eclipse.e4.ui.workbench.swt.internal.copy.PatternFilter;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -35,6 +39,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -78,8 +83,15 @@ public class TreeViewComponent {
 		this.expandLevel = expandLevel;
 		this.contentProposalProvider = contentProposalProvider;
 
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.FULL_SELECTION);
+		PatternFilter filter = new PatternFilter();
+		FilteredTree tree = new FilteredTree(parent, SWT.MULTI | SWT.H_SCROLL
+				| SWT.V_SCROLL | SWT.FULL_SELECTION, filter, true);
+		// tree.setQuickSelectionMode(true);
+		tree.setInitialText("текст для поиска");
+		viewer = tree.getViewer();
+		// viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL |
+		// SWT.V_SCROLL
+		// | SWT.FULL_SELECTION);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 
@@ -151,7 +163,16 @@ public class TreeViewComponent {
 		}
 	}
 
-	class ViewLabelProvider extends StyledCellLabelProvider {
+	class TreeLabelProvider extends LabelProvider {
+		@Override
+		public String getText(Object element) {
+			String name = (String) element;
+			return name;
+		}
+	}
+
+	class ViewLabelProvider extends StyledCellLabelProvider implements
+			ILabelProvider {
 		@Override
 		public void update(ViewerCell cell) {
 			Object element = cell.getElement();
@@ -201,6 +222,18 @@ public class TreeViewComponent {
 			cell.setImage(item.getListImage());
 			super.update(cell);
 
+		}
+
+		@Override
+		public Image getImage(Object element) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getText(Object element) {
+			ITreeItemInfo item = (ITreeItemInfo) element;
+			return item.getTitle();
 		}
 	}
 

@@ -28,7 +28,7 @@ public class UserManager extends TreeManager {
 			return;
 
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите имя пользователя:", "", null);
 		if (dlg.open() == Window.OK) {
 
@@ -45,7 +45,7 @@ public class UserManager extends TreeManager {
 				MessageDialog
 						.openError(
 								shell,
-								Strings.get("appTitle"),
+								Strings.title("appTitle"),
 								"Ошибка создания пользователя. \nВозможно, пользователь с таким именем уже существует.");
 			}
 
@@ -60,7 +60,7 @@ public class UserManager extends TreeManager {
 			MessageDialog
 					.openError(
 							shell,
-							Strings.get("appTitle"),
+							Strings.title("appTitle"),
 							"Ошибка сохранения пользователя. \nВозможно, пользователь с таким именем уже существует.");
 
 			return false;
@@ -72,8 +72,8 @@ public class UserManager extends TreeManager {
 	@Override
 	public void addGroup(ITreeItemInfo parent, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"), "Введите название роли:",
-				"", null);
+				ebook.utils.Strings.title("appTitle"),
+				"Введите название роли:", "", null);
 		if (dlg.open() == Window.OK)
 
 		{
@@ -87,7 +87,7 @@ public class UserManager extends TreeManager {
 			} catch (InvocationTargetException e) {
 
 				MessageDialog
-						.openError(shell, Strings.get("appTitle"),
+						.openError(shell, Strings.title("appTitle"),
 								"Ошибка создания роли. \nВозможно, роль с таким именем уже существует.");
 			}
 			// bm.add((ITreeItemInfo) data);
@@ -98,8 +98,8 @@ public class UserManager extends TreeManager {
 	@Override
 	public void addSubGroup(ITreeItemInfo parent, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"), "Введите название роли:",
-				"", null);
+				ebook.utils.Strings.title("appTitle"),
+				"Введите название роли:", "", null);
 		if (dlg.open() == Window.OK)
 
 		{
@@ -113,7 +113,7 @@ public class UserManager extends TreeManager {
 			} catch (InvocationTargetException e) {
 
 				MessageDialog
-						.openError(shell, Strings.get("appTitle"),
+						.openError(shell, Strings.title("appTitle"),
 								"Ошибка создания роли. \nВозможно, роль с таким именем уже существует.");
 			}
 		}

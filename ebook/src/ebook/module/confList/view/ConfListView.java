@@ -142,7 +142,7 @@ public class ConfListView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("ebook.popupmenu.conflist"));
+				Strings.model("ebook.popupmenu.conflist"));
 
 	}
 

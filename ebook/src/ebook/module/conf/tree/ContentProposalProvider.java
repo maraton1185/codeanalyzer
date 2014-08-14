@@ -12,6 +12,7 @@ import org.eclipse.jface.fieldassist.IContentProposalProvider;
 
 import ebook.core.pico;
 import ebook.module.conf.ConfService;
+import ebook.module.conf.model.BuildInfo;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.ELevel;
 
@@ -30,7 +31,7 @@ public class ContentProposalProvider implements IContentProposalProvider {
 
 	private boolean filterProposals = true;
 	private IContentProposal[] contentProposals;
-	private List<String> proposals = new ArrayList<String>();
+	private List<BuildInfo> proposals = new ArrayList<BuildInfo>();
 
 	@Override
 	public IContentProposal[] getProposals(String contents, int position) {
@@ -48,40 +49,36 @@ public class ContentProposalProvider implements IContentProposalProvider {
 			if (contents.endsWith("."))
 				str = ArrayUtil.addToArray(str, "", String.class);
 
+			cf.build().setConnection(tree.getConnection());
+
 			switch (str.length) {
 			case 1:
 
 				title = contents.replaceAll("\\.", "");
-				cf.build().get(tree.getConnection(), ELevel.group1, title,
-						null, proposals);
-				// proposals = cf.build().getLevel(tree.getConnection(),
+				cf.build().get(ELevel.group1, title, null, proposals);
+				// proposals = cf.build().getLevel(
 				// ELevel.group1, title, null);
 				break;
 
 			case 2:
 
-				gr1 = cf.build().get(tree.getConnection(), ELevel.group1,
-						str[0], null, null);
+				gr1 = cf.build().get(ELevel.group1, str[0], null, null);
 
 				if (gr1 != null)
-					cf.build().get(tree.getConnection(), ELevel.group2, str[1],
-							gr1, proposals);
+					cf.build().get(ELevel.group2, str[1], gr1, proposals);
 
 				filter = str[1];
 
 				break;
 			case 3:
 
-				gr1 = cf.build().get(tree.getConnection(), ELevel.group1,
-						str[0], null, null);
+				gr1 = cf.build().get(ELevel.group1, str[0], null, null);
 
 				if (gr1 != null)
-					gr2 = cf.build().get(tree.getConnection(), ELevel.group2,
-							str[1], gr1, null);
+					gr2 = cf.build().get(ELevel.group2, str[1], gr1, null);
 
 				if (gr2 != null)
-					cf.build().get(tree.getConnection(), ELevel.module, str[2],
-							gr2, proposals);
+					cf.build().get(ELevel.module, str[2], gr2, proposals);
 
 				filter = str[2];
 
@@ -100,10 +97,10 @@ public class ContentProposalProvider implements IContentProposalProvider {
 		if (filterProposals) {
 			ArrayList<IContentProposal> list = new ArrayList<IContentProposal>();
 			for (int i = 0; i < proposals.size(); i++) {
-				if (proposals.get(i).length() >= filter.length()
-						&& proposals.get(i).substring(0, filter.length())
+				if (proposals.get(i).title.length() >= filter.length()
+						&& proposals.get(i).title.substring(0, filter.length())
 								.equalsIgnoreCase(filter)) {
-					list.add(new ContentProposal(proposals.get(i)));
+					list.add(new ContentProposal(proposals.get(i).title));
 				}
 			}
 			return list.toArray(new IContentProposal[list.size()]);
@@ -111,7 +108,8 @@ public class ContentProposalProvider implements IContentProposalProvider {
 		if (contentProposals == null) {
 			contentProposals = new IContentProposal[proposals.size()];
 			for (int i = 0; i < proposals.size(); i++) {
-				contentProposals[i] = new ContentProposal(proposals.get(i));
+				contentProposals[i] = new ContentProposal(
+						proposals.get(i).title);
 			}
 		}
 		return contentProposals;

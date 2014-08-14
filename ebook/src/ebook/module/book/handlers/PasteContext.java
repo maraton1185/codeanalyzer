@@ -26,7 +26,7 @@ public class PasteContext {
 		if (opt.hasContext()
 				&& !App.contextClip.getConnectionName().equalsIgnoreCase(
 						opt.getContextName())) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"context is not applicable");
 			return;
 
@@ -45,7 +45,7 @@ public class PasteContext {
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							e.getMessage());
 				}
 			}

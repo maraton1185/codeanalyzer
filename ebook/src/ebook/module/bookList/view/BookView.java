@@ -256,7 +256,7 @@ public class BookView {
 				final IPath p = Utils.browseFile(
 						new Path(PreferenceSupplier
 								.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
-						itemComp.getShell(), Strings.get("appTitle"),
+						itemComp.getShell(), Strings.title("appTitle"),
 						"*.png;*.bmp");
 				if (p == null)
 					return;

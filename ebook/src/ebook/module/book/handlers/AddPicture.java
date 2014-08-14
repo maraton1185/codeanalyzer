@@ -28,7 +28,7 @@ public class AddPicture {
 		IPath p = Utils.browseFile(
 				new Path(PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
-				shell, Strings.get("appTitle"), SectionImage.getFilters());
+				shell, Strings.title("appTitle"), SectionImage.getFilters());
 		if (p == null)
 			return;
 

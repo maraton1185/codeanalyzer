@@ -52,9 +52,9 @@ public class BookListManager extends TreeManager {
 			return;
 
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите имя файла книги:",
-				ebook.utils.Strings.get("bookFileName"), null);
+				ebook.utils.Strings.value("bookFileName"), null);
 		if (dlg.open() == Window.OK) {
 			try {
 
@@ -71,7 +71,7 @@ public class BookListManager extends TreeManager {
 
 			} catch (InvocationTargetException e) {
 				MessageDialog
-						.openError(shell, Strings.get("appTitle"),
+						.openError(shell, Strings.title("appTitle"),
 								"Ошибка создании книги. \nВозможно, книга с таким названием уже существует.");
 			}
 		}
@@ -82,7 +82,7 @@ public class BookListManager extends TreeManager {
 	public void addGroup(ITreeItemInfo parent, Shell shell) {
 
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите название группы:", "", null);
 		if (dlg.open() == Window.OK)
 			try {
@@ -93,7 +93,7 @@ public class BookListManager extends TreeManager {
 				srv.add(data, parent, false);
 
 			} catch (InvocationTargetException e) {
-				MessageDialog.openError(shell, Strings.get("appTitle"),
+				MessageDialog.openError(shell, Strings.title("appTitle"),
 						"Ошибка создания группы.");
 			}
 
@@ -103,7 +103,7 @@ public class BookListManager extends TreeManager {
 	public void addSubGroup(ITreeItemInfo parent, Shell shell) {
 
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите название подгруппы:", "", null);
 		if (dlg.open() == Window.OK)
 			try {
@@ -117,7 +117,7 @@ public class BookListManager extends TreeManager {
 
 				// bm.addBooksGroup(dlg.getValue(), book, true);
 			} catch (InvocationTargetException e) {
-				MessageDialog.openError(shell, Strings.get("appTitle"),
+				MessageDialog.openError(shell, Strings.title("appTitle"),
 						"Ошибка создания подгруппы.");
 			}
 
@@ -132,7 +132,7 @@ public class BookListManager extends TreeManager {
 		final List<IPath> files = Utils.browseFileMulti(
 				new Path(PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
-				shell, Strings.get("appTitle"), "*.db");
+				shell, Strings.title("appTitle"), "*.db");
 		if (files == null)
 			return;
 
@@ -160,7 +160,7 @@ public class BookListManager extends TreeManager {
 						if (files.size() > 1
 								&& !MessageDialog.openConfirm(
 										shell,
-										Strings.get("appTitle"),
+										Strings.title("appTitle"),
 										"Ошибка открытия книги: "
 												+ path
 												+ "\nВозможно, структура книги не соответствует ожидаемой."
@@ -169,7 +169,7 @@ public class BookListManager extends TreeManager {
 						else
 							MessageDialog.openError(
 									shell,
-									Strings.get("appTitle"),
+									Strings.title("appTitle"),
 									"Ошибка открытия книги: "
 											+ path
 											+ "\nВозможно, структура книги не соответствует ожидаемой.");
@@ -221,7 +221,7 @@ public class BookListManager extends TreeManager {
 			// }
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка сохранения книги.");
 
 			return false;
@@ -246,7 +246,7 @@ public class BookListManager extends TreeManager {
 
 			App.ctx.set(BookConnection.class, null);
 			if (shell != null)
-				MessageDialog.openError(shell, Strings.get("appTitle"),
+				MessageDialog.openError(shell, Strings.title("appTitle"),
 						"Ошибка открытия книги.");
 		}
 	}

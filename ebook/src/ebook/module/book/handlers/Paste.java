@@ -33,7 +33,7 @@ public class Paste {
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							e.getMessage());
 				}
 			}

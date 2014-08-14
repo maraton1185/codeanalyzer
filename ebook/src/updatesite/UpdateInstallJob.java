@@ -43,7 +43,7 @@ public class UpdateInstallJob extends Job {
 			return null;
 		result = P2Util.checkForUpdates(agent, arg0);
 		if (result.getCode() == UpdateOperation.STATUS_NOTHING_TO_UPDATE) {
-			Utils.popUpInformation(Strings.get("updateNotFound"));
+			Utils.popUpInformation(Strings.msg("updateNotFound"));
 		} else {
 			installUpdates();
 		}
@@ -58,7 +58,8 @@ public class UpdateInstallJob extends Job {
 			@Override
 			public void run() {
 				boolean install = MessageDialog.openQuestion(null,
-						Strings.get("appTitle"), Strings.get("installUpdates?"));
+						Strings.title("appTitle"),
+						Strings.msg("installUpdates?"));
 				if (install) {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							Display.getDefault().getActiveShell());
@@ -80,7 +81,7 @@ public class UpdateInstallJob extends Job {
 					} catch (Exception e) {
 						e.printStackTrace();
 						result = new Status(Status.ERROR, Activator.PLUGIN_ID,
-								Strings.get("updateError"), e);
+								Strings.msg("updateError"), e);
 						StatusManager.getManager().handle(result);
 					}
 				}

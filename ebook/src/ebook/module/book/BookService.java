@@ -207,7 +207,7 @@ public class BookService extends TreeService {
 						result.append(line + "\n");
 					}
 				} else
-					result.append(Strings.get("s.newblocktext"));
+					result.append(Strings.value("blocktext"));
 			} finally {
 				rs.close();
 			}
@@ -323,7 +323,7 @@ public class BookService extends TreeService {
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			if (title == null || title.isEmpty()) {
-				title = Strings.get("s.new_image.title");
+				title = Strings.value("image");
 				title = title + " " + sort;
 			}
 			prep.setString(1, title);
@@ -523,7 +523,7 @@ public class BookService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
-					Strings.get("error.saveToFile") + ":\n" + zipName + "");
+					Strings.msg("SaveToFile.error") + ":\n" + zipName + "");
 		}
 	}
 
@@ -608,7 +608,7 @@ public class BookService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
-					Strings.get("error.loadFromFile"));
+					Strings.msg("loadFromFile.error"));
 		}
 
 	}

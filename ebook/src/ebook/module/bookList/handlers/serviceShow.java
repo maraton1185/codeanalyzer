@@ -49,7 +49,7 @@ public class serviceShow {
 	@Optional
 	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_BOOK) Object o) {
 
-		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowBook"));
+		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowBook"));
 	}
 
 	@CanExecute
@@ -64,8 +64,8 @@ public class serviceShow {
 		ITreeItemInfo item = con.getTreeItem();
 		if (item == null) {
 			if (shell != null)
-				MessageDialog.openError(shell, Strings.get("appTitle"),
-						Strings.get("error.book is not in list"));
+				MessageDialog.openError(shell, Strings.title("appTitle"),
+						Strings.msg("error.book_not_in_list"));
 			return;
 		}
 
@@ -93,7 +93,7 @@ public class serviceShow {
 	private void createWindow(MWindow mainWindow, BookConnection con) {
 
 		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
-				Strings.get("model.id.book.window"), null);
+				Strings.model("model.id.book.window"), null);
 
 		newWindow
 				.setLabel(con.getWindowTitle()

@@ -36,7 +36,7 @@ public class OptionsDialog {
 		@Override
 		protected void configureShell(Shell newShell) {
 			super.configureShell(newShell);
-			newShell.setText(Strings.get("appTitle"));
+			newShell.setText(Strings.title("appTitle"));
 			newShell.setImage(Utils.getImage("favicon.png"));
 		}
 

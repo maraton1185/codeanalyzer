@@ -38,7 +38,7 @@ public class OpenBlockParent {
 
 		window.getContext().set(SectionInfo.class, selected);
 
-		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowSection"));
 
 		App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
 				new EVENT_UPDATE_VIEW_DATA(book, selected, section));

@@ -27,7 +27,7 @@ public class SectionImage {
 
 	public String getTitle() {
 		return title == null || title.isEmpty() ? ebook.utils.Strings
-				.get("s.new_image.title") : title;
+				.value("image") : title;
 	}
 
 	// public boolean expanded;

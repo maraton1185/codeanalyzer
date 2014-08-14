@@ -33,11 +33,11 @@ public class Download {
 				try {
 					book.srv().download(p, section, null);
 					MessageDialog.openInformation(shell,
-							Strings.get("appTitle"),
-							Strings.get("message.SaveToFile.sucsess"));
+							Strings.title("appTitle"),
+							Strings.msg("SaveToFile.sucsess"));
 				} catch (Exception e) {
 					e.printStackTrace();
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							e.getMessage());
 				}
 			}

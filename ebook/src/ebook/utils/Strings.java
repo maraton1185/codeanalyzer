@@ -5,11 +5,72 @@ import java.util.ResourceBundle;
 
 public class Strings {
 
-	static ResourceBundle resourceStrings = ResourceBundle.getBundle("strings");
+	// static ResourceBundle resourceStrings =
+	// ResourceBundle.getBundle("strings");
+	//
+	// public static String _get(String key) {
+	// try {
+	// return resourceStrings.getString(key);
+	// } catch (MissingResourceException e) {
+	// return key;
+	// } catch (NullPointerException e) {
+	//			return "!" + key + "!"; //$NON-NLS-1$ //$NON-NLS-2$
+	// }
+	// }
 
-	public static String get(String key) {
+	static ResourceBundle modelStrings = ResourceBundle.getBundle("model");
+
+	public static String model(String key) {
 		try {
-			return resourceStrings.getString(key);
+			return modelStrings.getString(key);
+		} catch (MissingResourceException e) {
+			return key;
+		} catch (NullPointerException e) {
+			return "!" + key + "!"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	static ResourceBundle messageStrings = ResourceBundle.getBundle("message");
+
+	public static String msg(String key) {
+		try {
+			return messageStrings.getString(key);
+		} catch (MissingResourceException e) {
+			return key;
+		} catch (NullPointerException e) {
+			return "!" + key + "!"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	static ResourceBundle valueStrings = ResourceBundle.getBundle("value");
+
+	public static String value(String key) {
+		try {
+			return valueStrings.getString(key);
+		} catch (MissingResourceException e) {
+			return key;
+		} catch (NullPointerException e) {
+			return "!" + key + "!"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	static ResourceBundle prefStrings = ResourceBundle.getBundle("pref");
+
+	public static String pref(String key) {
+		try {
+			return prefStrings.getString(key);
+		} catch (MissingResourceException e) {
+			return key;
+		} catch (NullPointerException e) {
+			return "!" + key + "!"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+	}
+
+	static ResourceBundle titleStrings = ResourceBundle.getBundle("title");
+
+	public static String title(String key) {
+		try {
+			return titleStrings.getString(key);
 		} catch (MissingResourceException e) {
 			return key;
 		} catch (NullPointerException e) {

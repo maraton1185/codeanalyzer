@@ -10,6 +10,7 @@ import ebook.core.exceptions.ProcNotFoundException;
 import ebook.module.confLoad.model.EContext;
 import ebook.module.confLoad.model.EType;
 import ebook.module.confLoad.model.Entity;
+import ebook.module.confLoad.model.ObjectSortMap;
 import ebook.module.confLoad.model.procCall;
 import ebook.module.confLoad.model.procEntity;
 import ebook.utils.Const;
@@ -23,14 +24,18 @@ public class TextParser {// implements ITextParser {
 		if (s.length < 3)
 			throw new Exception();
 
+		line.sort = ObjectSortMap.getInstance().get(s[0].toLowerCase());
+
 		switch (s[0].toLowerCase()) {
 		case "конфигурация":
 
 			line.group1 = "Конфигурация";
 			line.group2 = "МодулиКонфигурации";
 			line.module = s[1];
+			// line.group1 = "МодулиКонфигурации";
+			// line.group2 = "s[1]";
+			// line.module = "";
 			line.context = EContext.Config;
-
 			break;
 
 		default:

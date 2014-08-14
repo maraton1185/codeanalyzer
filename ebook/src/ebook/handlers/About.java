@@ -26,7 +26,7 @@ public class About {
 	public void SHOW_ABOUT(@UIEventTopic(Events.SHOW_ABOUT) Object o,
 			final EHandlerService hs, final ECommandService cs) {
 
-		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowAbout"));
+		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowAbout"));
 	}
 	//
 	// @Execute

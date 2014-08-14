@@ -157,7 +157,7 @@ public class BooksView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.booklistview.popup"));
+				Strings.model("model.id.booklistview.popup"));
 
 	}
 

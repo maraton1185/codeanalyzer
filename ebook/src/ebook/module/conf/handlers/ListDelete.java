@@ -38,9 +38,9 @@ public class ListDelete {
 			@Optional ListInfoSelection selection) {
 
 		List<MPartStack> stacks = model.findElements(window,
-				Strings.get("ebook.partstack.conf"), MPartStack.class, null);
+				Strings.model("ebook.partstack.conf"), MPartStack.class, null);
 
-		String partID = Strings.get("ebook.partdescriptor.0");
+		String partID = Strings.model("ebook.partdescriptor.0");
 
 		final Iterator<ITreeItemInfo> iterator = selection.iterator();
 		while (iterator.hasNext()) {

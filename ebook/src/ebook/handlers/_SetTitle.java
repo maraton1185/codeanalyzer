@@ -10,7 +10,7 @@ public class _SetTitle {
 	@Execute
 	public void execute(MPart activePart, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"¬ведите название области:", activePart.getLabel(), null);
 		if (dlg.open() == Window.OK) {
 			activePart.setLabel(dlg.getValue());

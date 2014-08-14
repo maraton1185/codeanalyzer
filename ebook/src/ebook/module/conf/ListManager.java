@@ -40,7 +40,7 @@ public class ListManager extends TreeManager {
 
 			ListInfoOptions opt = new ListInfoOptions();
 			ListInfo new_list = new ListInfo(opt);
-			new_list.setTitle(Strings.get("s.newlist.title"));
+			new_list.setTitle(Strings.value("list"));
 			new_list.setGroup(true);
 			srv.add(new_list, lroot, false);
 
@@ -62,8 +62,8 @@ public class ListManager extends TreeManager {
 			return new_list;
 
 		} catch (Exception e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
-					"Error open new list.");
+			MessageDialog.openError(shell, Strings.title("appTitle"),
+					"Ошибка открытия нового листа.");
 		}
 		return null;
 
@@ -74,12 +74,12 @@ public class ListManager extends TreeManager {
 		try {
 
 			ListInfo data = new ListInfo();
-			data.setTitle(Strings.get("s.newlist.title"));
+			data.setTitle(Strings.value("list"));
 			data.setGroup(true);
 			srv.add(data, parent, false);
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка создания раздела.");
 		}
 
@@ -90,12 +90,12 @@ public class ListManager extends TreeManager {
 		try {
 
 			ListInfo data = new ListInfo();
-			data.setTitle(Strings.get("s.newlist.title"));
+			data.setTitle(Strings.value("list"));
 			data.setGroup(true);
 			srv.add(data, parent, true);
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка создания подраздела.");
 		}
 

@@ -28,7 +28,7 @@ public class HideRoles {
 	public void execute(Shell shell, EPartService partService,
 			EModelService model, @Active MWindow window) {
 
-		String partID = Strings.get("part.SectionRolesView");
+		String partID = Strings.model("part.SectionRolesView");
 
 		List<MPart> parts = model.findElements(window, partID, MPart.class,
 				null);

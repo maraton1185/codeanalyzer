@@ -13,8 +13,8 @@ public class LineInfo{
 		
 		for (Field f : this.getClass().getDeclaredFields()) {				
 			try {
-				if (f.getType().isAssignableFrom(BuildInfo.class))
-					f.set(this, new BuildInfo((BuildInfo)f.get(info)));
+				if (f.getType().isAssignableFrom(_BuildInfo.class))
+					f.set(this, new _BuildInfo((_BuildInfo)f.get(info)));
 				else
 					f.set(this, f.get(info));
 			} catch (Exception e) {
@@ -28,7 +28,7 @@ public class LineInfo{
 	public String name;
 	public Boolean export;
 	
-	public BuildInfo data;
+	public _BuildInfo data;
 	
 	public LineInfo parent;
 	

@@ -42,8 +42,8 @@ public class Copy {
 						// Strings.get("message.SaveToFile.sucsess"));
 					} catch (Exception e) {
 						e.printStackTrace();
-						MessageDialog.openError(shell, Strings.get("appTitle"),
-								e.getMessage());
+						MessageDialog.openError(shell,
+								Strings.title("appTitle"), e.getMessage());
 					}
 				}
 			});

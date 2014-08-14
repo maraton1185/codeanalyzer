@@ -36,7 +36,7 @@ public class GoToParent {
 			selected.tag = section.getId().toString();
 
 		window.getContext().set(SectionInfo.class, selected);
-		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowSection"));
 		// window.getContext().set(BookSection.class, current_section);
 		App.br.post(Events.EVENT_UPDATE_CONTENT_VIEW,
 				new EVENT_UPDATE_VIEW_DATA(book, null, selected));

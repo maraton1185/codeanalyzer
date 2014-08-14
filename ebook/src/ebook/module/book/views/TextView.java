@@ -259,8 +259,8 @@ public class TextView {
 
 				group.setExpanded(true);
 
-				toolkit.createLabel(sectionClient, Strings
-						.get("s.sectionBlockComposite.scaledImageWidthSlider"));
+				toolkit.createLabel(sectionClient,
+						Strings.value("scaledImageWidthSlider"));
 
 				scaledImageWidthSlider = new Scale(sectionClient,
 						SWT.HORIZONTAL);
@@ -305,7 +305,7 @@ public class TextView {
 					@Override
 					public void linkActivated(HyperlinkEvent e) {
 						Utils.executeHandler(hService, comService,
-								Strings.get("ebook.command.2"));
+								Strings.model("ebook.command.2"));
 					}
 				});
 
@@ -317,7 +317,7 @@ public class TextView {
 					@Override
 					public void linkActivated(HyperlinkEvent e) {
 						Utils.executeHandler(hService, comService,
-								Strings.get("ebook.command.Save"));
+								Strings.model("ebook.command.Save"));
 					}
 				});
 				// columnCountSpinner = new Spinner(sectionClient, SWT.BORDER);
@@ -341,7 +341,7 @@ public class TextView {
 			}
 		};
 
-		addSection(Strings.get("s.sectionBlockComposite.options"), optionsTune);
+		addSection(Strings.value("options"), optionsTune);
 
 	}
 
@@ -427,7 +427,7 @@ public class TextView {
 							SectionImage image = (SectionImage) e.getHref();
 
 							InputDialog dlg = new InputDialog(shell,
-									ebook.utils.Strings.get("appTitle"),
+									ebook.utils.Strings.title("appTitle"),
 									"Введите заголовок картинки:", image
 											.getTitle(), null);
 							if (dlg.open() == Window.OK) {
@@ -448,7 +448,7 @@ public class TextView {
 							SectionImage image = (SectionImage) e.getHref();
 
 							IPath p = Utils.browseFile(book.getFullPath(),
-									shell, Strings.get("appTitle"),
+									shell, Strings.title("appTitle"),
 									SectionImage.getFilters());
 							if (p == null)
 								return;
@@ -494,8 +494,7 @@ public class TextView {
 					});
 				}
 			};
-			addSection(Strings.get("s.sectionBlockComposite.picture"),
-					pictureTune);
+			addSection(Strings.value("picture"), pictureTune);
 		}
 	}
 

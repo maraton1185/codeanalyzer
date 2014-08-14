@@ -147,7 +147,7 @@ public class SectionsView {
 						.get(SectionInfo.class);
 				// if (section.isGroup()) {
 				Utils.executeHandler(hs, cs,
-						Strings.get("command.id.ShowSection"));
+						Strings.model("command.id.ShowSection"));
 				App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
 						new EVENT_UPDATE_VIEW_DATA(con, section, section));
 				// } else {
@@ -172,7 +172,7 @@ public class SectionsView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.contentview.popup"));
+				Strings.model("model.id.contentview.popup"));
 
 	}
 
@@ -203,7 +203,7 @@ public class SectionsView {
 			EPartService partService, EModelService model,
 			@Active MWindow window) {
 
-		String partID = Strings.get("part.SectionRolesView");
+		String partID = Strings.model("part.SectionRolesView");
 
 		List<MPart> parts = model.findElements(window, partID, MPart.class,
 				null);
@@ -223,7 +223,7 @@ public class SectionsView {
 			EPartService partService, EModelService model,
 			@Active MWindow window) {
 
-		String partID = Strings.get("part.SectionContextView");
+		String partID = Strings.model("part.SectionContextView");
 
 		List<MPart> parts = model.findElements(window, partID, MPart.class,
 				null);
@@ -243,7 +243,7 @@ public class SectionsView {
 			EPartService partService, EModelService model,
 			@Active MWindow window) {
 
-		String partID = Strings.get("part.SectionPanel");
+		String partID = Strings.model("part.SectionPanel");
 
 		List<MPartStack> parts = model.findElements(window, partID,
 				MPartStack.class, null);
@@ -270,7 +270,8 @@ public class SectionsView {
 
 			window.getContext().set(SectionInfo.class, section);
 
-			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+			Utils.executeHandler(hs, cs,
+					Strings.model("command.id.ShowSection"));
 		}
 
 		if (opt.openSections == null || opt.openSections.isEmpty()) {
@@ -287,7 +288,8 @@ public class SectionsView {
 
 			window.getContext().set(SectionInfo.class, section);
 
-			Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+			Utils.executeHandler(hs, cs,
+					Strings.model("command.id.ShowSection"));
 
 		}
 

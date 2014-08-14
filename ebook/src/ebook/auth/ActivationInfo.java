@@ -99,9 +99,9 @@ public class ActivationInfo {
 	public boolean check() {
 
 		Preferences preferences = PreferenceSupplier.getScoupNode();
-		String name = preferences.get("P_LOGIN", Strings.get("P_LOGIN"));
+		String name = preferences.get("P_LOGIN", Strings.pref("P_LOGIN"));
 		String password = preferences.get("P_PASSWORD",
-				Strings.get("P_PASSWORD"));
+				Strings.pref("P_PASSWORD"));
 
 		String serial;
 		try {

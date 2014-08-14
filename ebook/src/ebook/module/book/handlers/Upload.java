@@ -21,7 +21,7 @@ public class Upload {
 			@Active final SectionInfo section, final Shell shell) {
 
 		final IPath p = Utils.browseFile(book.getFullPath(), shell,
-				Strings.get("appTitle"), "*.zip");
+				Strings.title("appTitle"), "*.zip");
 		if (p == null)
 			return;
 
@@ -35,7 +35,7 @@ public class Upload {
 					book.srv().upload(p.toString(), section);
 				} catch (Exception e) {
 					e.printStackTrace();
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							e.getMessage());
 				}
 			}

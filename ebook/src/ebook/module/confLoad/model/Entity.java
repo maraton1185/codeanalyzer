@@ -6,4 +6,5 @@ public class Entity {
 	public String module;
 	public EType type;
 	public EContext context;
+	public int sort;
 }

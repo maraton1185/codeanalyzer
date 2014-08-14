@@ -41,9 +41,9 @@ public class ConfListManager extends TreeManager {
 	@Override
 	public void add(ITreeItemInfo parent, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите имя файла конфигурации:",
-				ebook.utils.Strings.get("confFileName"), null);
+				ebook.utils.Strings.value("confFileName"), null);
 		if (dlg.open() == Window.OK) {
 			try {
 				ConfConnection con = new ConfConnection(dlg.getValue());
@@ -63,7 +63,7 @@ public class ConfListManager extends TreeManager {
 				MessageDialog
 						.openError(
 								shell,
-								Strings.get("appTitle"),
+								Strings.title("appTitle"),
 								"Ошибка создания конфигурации. \nВозможно, в каталоге конфигураций уже существует файл с таким именем.");
 			}
 		}
@@ -74,7 +74,7 @@ public class ConfListManager extends TreeManager {
 		final List<IPath> files = Utils.browseFileMulti(
 				new Path(PreferenceSupplier
 						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY)),
-				shell, Strings.get("appTitle"), "*.db");
+				shell, Strings.title("appTitle"), "*.db");
 		if (files == null)
 			return;
 
@@ -110,7 +110,7 @@ public class ConfListManager extends TreeManager {
 						if (files.size() > 1
 								&& !MessageDialog.openConfirm(
 										shell,
-										Strings.get("appTitle"),
+										Strings.title("appTitle"),
 										"Ошибка открытия конфигурации: "
 												+ path
 												+ "\nВозможно, структура конфигурации не соответствует ожидаемой."
@@ -120,7 +120,7 @@ public class ConfListManager extends TreeManager {
 						else
 							MessageDialog.openError(
 									shell,
-									Strings.get("appTitle"),
+									Strings.title("appTitle"),
 									"Ошибка открытия конфигурации: "
 											+ path
 											+ "\nВозможно, структура конфигурации не соответствует ожидаемой.");
@@ -133,7 +133,7 @@ public class ConfListManager extends TreeManager {
 	@Override
 	public void addGroup(ITreeItemInfo parent, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите название группы:", "", null);
 		if (dlg.open() == Window.OK)
 			try {
@@ -146,7 +146,7 @@ public class ConfListManager extends TreeManager {
 				// bm.add((ITreeItemInfo) data);
 
 			} catch (InvocationTargetException e) {
-				MessageDialog.openError(shell, Strings.get("appTitle"),
+				MessageDialog.openError(shell, Strings.title("appTitle"),
 						"Ошибка создании группы.");
 			}
 	}
@@ -154,7 +154,7 @@ public class ConfListManager extends TreeManager {
 	@Override
 	public void addSubGroup(ITreeItemInfo parent, Shell shell) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"),
+				ebook.utils.Strings.title("appTitle"),
 				"Введите название подгруппы:", "", null);
 		if (dlg.open() == Window.OK)
 			try {
@@ -165,7 +165,7 @@ public class ConfListManager extends TreeManager {
 				srv.add(data, parent, true);
 
 			} catch (InvocationTargetException e) {
-				MessageDialog.openError(shell, Strings.get("appTitle"),
+				MessageDialog.openError(shell, Strings.title("appTitle"),
 						"Ошибка создания подгруппы.");
 			}
 	}
@@ -177,7 +177,7 @@ public class ConfListManager extends TreeManager {
 			srv.saveOptions(data);
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка сохранения данных конфигурации.");
 
 			return false;
@@ -220,10 +220,10 @@ public class ConfListManager extends TreeManager {
 
 			if (shell != null)
 				if (e.getTargetException() instanceof DbLicenseException)
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							"Ошибка открытия конфигурации. (Лицензия)");
 				else
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							"Ошибка открытия конфигурации.");
 		}
 	}
@@ -251,10 +251,10 @@ public class ConfListManager extends TreeManager {
 
 			if (shell != null)
 				if (e.getTargetException() instanceof DbLicenseException)
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							"Ошибка открытия конфигурации. (Лицензия)");
 				else
-					MessageDialog.openError(shell, Strings.get("appTitle"),
+					MessageDialog.openError(shell, Strings.title("appTitle"),
 							"Ошибка открытия конфигурации.");
 		}
 

@@ -37,7 +37,7 @@ public abstract class Utils {
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				MessageDialog.openInformation(null, Strings.get("appTitle"),
+				MessageDialog.openInformation(null, Strings.title("appTitle"),
 						message);
 			}
 		});
@@ -49,12 +49,12 @@ public abstract class Utils {
 
 	public static void togglePart(MWindow window, EModelService model,
 			String partId, String stackId) {
-		List<MPart> parts = model.findElements(window, Strings.get(partId),
+		List<MPart> parts = model.findElements(window, Strings.model(partId),
 				MPart.class, null);
 		parts.get(0).setVisible(true);
 
 		List<MPartStack> stacks = model.findElements(window,
-				Strings.get(stackId), MPartStack.class, null);
+				Strings.model(stackId), MPartStack.class, null);
 
 		// String partID = Strings.get("ebook.part.book");
 

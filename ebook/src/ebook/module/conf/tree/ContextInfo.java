@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
+import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -81,8 +82,23 @@ public class ContextInfo extends TreeItemInfo {
 			return Utils.getImage("cut.png");
 		// else if (aclEmplicit)
 		// return Utils.getImage("lock.png");
-		else
+
+		ContextInfoOptions opt = getOptions();
+		if (opt.type == null)
 			return null;
+		switch (opt.type) {
+		case text:
+			return Utils.getImage("text.png");
+		case object:
+			return Utils.getImage("object.png");
+		case proc:
+			return Utils.getImage("proc.png");
+		case root:
+			return Utils.getImage("root.png");
+		default:
+			return null;
+		}
+
 	}
 
 	@Override
@@ -101,6 +117,21 @@ public class ContextInfo extends TreeItemInfo {
 		info.setOptions(DbOptions.load(ContextInfoOptions.class,
 				element.options));
 		// info.setTitleIncrement(false);
+
+		return info;
+
+	}
+
+	public static ITreeItemInfo fromBuild(BuildInfo element) {
+
+		ContextInfo info = new ContextInfo();
+		info.setTitle(element.title);
+		info.setGroup(element.group);
+		// if (element.root)
+		// info.setRoot();
+		// info.setOptions(DbOptions.load(ContextInfoOptions.class,
+		// element.options));
+		// // info.setTitleIncrement(false);
 
 		return info;
 

@@ -19,11 +19,11 @@ public class Unlock {
 		try {
 			BookConnection con = new BookConnection(item.getPath(), false);
 			con.closeConnection();
-			MessageDialog.openInformation(shell, Strings.get("appTitle"),
+			MessageDialog.openInformation(shell, Strings.title("appTitle"),
 					"Файл книги разблокирован.");
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка операции. Перезайдите в программу.");
 		}
 	}

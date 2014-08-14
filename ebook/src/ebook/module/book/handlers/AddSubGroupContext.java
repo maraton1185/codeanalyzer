@@ -27,12 +27,12 @@ public class AddSubGroupContext {
 		try {
 
 			ContextInfo data = new ContextInfo();
-			data.setTitle(Strings.get("newcontext"));
+			data.setTitle(Strings.value("context"));
 			data.setGroup(true);
 			book.ctxsrv(section).add(data, item, true);
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка создания раздела.");
 		}
 

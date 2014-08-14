@@ -37,13 +37,13 @@ public class Delete {
 	public void execute(Shell shell, @Active BookConnection book,
 			@Active SectionInfoSelection selection) {
 
-		if (!MessageDialog.openConfirm(shell, Strings.get("appTitle"),
+		if (!MessageDialog.openConfirm(shell, Strings.title("appTitle"),
 				"Удалить раздел?"))
 			return;
 
-		List<MPartStack> stacks = model
-				.findElements(window, Strings.get("ebook.partstack.sections"),
-						MPartStack.class, null);
+		List<MPartStack> stacks = model.findElements(window,
+				Strings.model("ebook.partstack.sections"), MPartStack.class,
+				null);
 
 		final Iterator<ITreeItemInfo> iterator = selection.iterator();
 		while (iterator.hasNext()) {
@@ -51,8 +51,8 @@ public class Delete {
 			if (section.isRoot())
 				continue;
 			String partID = !section.isGroup() ? Strings
-					.get("ebook.partdescriptor.sectionsBlockView") : Strings
-					.get("ebook.partdescriptor.sectionView");
+					.model("ebook.partdescriptor.sectionsBlockView") : Strings
+					.model("ebook.partdescriptor.sectionView");
 
 			@SuppressWarnings("serial")
 			List<MPart> parts = model.findElements(stacks.get(0), partID,

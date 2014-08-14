@@ -28,9 +28,10 @@ public abstract class GlobalEvents {
 				public void run() {
 
 					MDirectToolItem data = (MDirectToolItem) App.model.find(
-							Strings.get("ebook.directtoolitem.data"), App.app);
+							Strings.model("ebook.directtoolitem.data"), App.app);
 					MDirectToolItem panel = (MDirectToolItem) App.model.find(
-							Strings.get("ebook.directtoolitem.panel"), App.app);
+							Strings.model("ebook.directtoolitem.panel"),
+							App.app);
 
 					switch (App.currentPerspective) {
 					case lists:
@@ -68,14 +69,15 @@ public abstract class GlobalEvents {
 
 							// MHandledToolItem element;
 							MHandledToolItem h_element = (MHandledToolItem) App.model
-									.find(Strings.get("model_id_activate"),
+									.find(Strings.model("model_id_activate"),
 											App.app);
 							h_element.setLabel(status);
 							// h_element.setVisible(true);
 
-							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
-									Strings.get("ebook.directtoolitem.1"),
-									App.app);
+							MDirectToolItem d_element = (MDirectToolItem) App.model
+									.find(Strings
+											.model("ebook.directtoolitem.1"),
+											App.app);
 							d_element.setLabel(App.getJetty().jettyMessage());
 							// d_element.setVisible(true);
 
@@ -104,9 +106,10 @@ public abstract class GlobalEvents {
 						@Override
 						public void run() {
 
-							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
-									Strings.get("ebook.directtoolitem.1"),
-									App.app);
+							MDirectToolItem d_element = (MDirectToolItem) App.model
+									.find(Strings
+											.model("ebook.directtoolitem.1"),
+											App.app);
 							d_element.setLabel(App.getJetty().jettyMessage());
 							d_element.setVisible(false);
 							d_element.setVisible(true);
@@ -132,9 +135,10 @@ public abstract class GlobalEvents {
 						@Override
 						public void run() {
 
-							MDirectToolItem d_element = (MDirectToolItem) App.model.find(
-									Strings.get("ebook.directtoolitem.1"),
-									App.app);
+							MDirectToolItem d_element = (MDirectToolItem) App.model
+									.find(Strings
+											.model("ebook.directtoolitem.1"),
+											App.app);
 							d_element.setLabel(App.getJetty().jettyMessage());
 							d_element.setVisible(false);
 							d_element.setVisible(true);
@@ -159,7 +163,7 @@ public abstract class GlobalEvents {
 				public void run() {
 
 					boolean restart = MessageDialog.openQuestion(shell,
-							Strings.get("appTitle"),
+							Strings.title("appTitle"),
 							"Обновление установлено. Перезапустить приложение?");
 					if (restart)
 
@@ -181,9 +185,9 @@ public abstract class GlobalEvents {
 				public void run() {
 
 					MDirectToolItem d_element = (MDirectToolItem) App.model
-							.find(Strings.get("ebook.directtoolitem.3"),
+							.find(Strings.model("ebook.directtoolitem.3"),
 									App.app);
-					d_element.setLabel(Strings.get("updateAvailable"));
+					d_element.setLabel(Strings.msg("updateAvailable"));
 					d_element.setVisible(true);
 
 				}

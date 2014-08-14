@@ -145,7 +145,7 @@ public class SignIn implements IAuthorize {
 
 		Preferences preferences = PreferenceSupplier.getScoupNode();
 		String activationString = preferences.get("P_SERIAL",
-				Strings.get("P_SERIAL"));
+				Strings.pref("P_SERIAL"));
 
 		if (activationString.isEmpty())
 			info.message = Const.MSG_EMPTY_SERIAL;
@@ -351,7 +351,7 @@ public class SignIn implements IAuthorize {
 	@Override
 	public boolean checkBooksCount(Shell shell) {
 		if (!check() && !App.srv.bl().check()) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Для free-версии в списке может находиться не более "
 							+ Const.FREE_TREE_ITEMS_COUNT + " книг.");
 			return false;
@@ -362,7 +362,7 @@ public class SignIn implements IAuthorize {
 	@Override
 	public boolean checkUsersCount(Shell shell) {
 		if (!check() && !App.srv.us().check()) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Для free-версии доступно не более "
 							+ Const.FREE_TREE_ITEMS_COUNT + " пользователей.");
 			return false;

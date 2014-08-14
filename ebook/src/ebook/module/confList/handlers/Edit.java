@@ -21,7 +21,7 @@ public class Edit {
 
 		if (!item.isGroup())
 			Utils.executeHandler(hService, comService,
-					Strings.get("command.id.LoadConfiguration"));
+					Strings.model("command.id.LoadConfiguration"));
 		else
 			App.br.post(Events.EVENT_EDIT_TITLE_CONF_LIST,
 					new EVENT_UPDATE_TREE_DATA(null, item));

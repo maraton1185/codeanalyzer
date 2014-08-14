@@ -144,7 +144,7 @@ public class ListView {
 
 				// ListInfo list = window.getContext().get(ListInfo.class);
 				// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
-				Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+				Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
 				// App.br.post(Events.EVENT_UPDATE_CONF_CONTEXT_PART,
 				// new EVENT_UPDATE_VIEW_DATA(con, list));
 
@@ -154,7 +154,7 @@ public class ListView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.listview.popup"));
+				Strings.model("model.id.listview.popup"));
 
 		// showSections();
 	}

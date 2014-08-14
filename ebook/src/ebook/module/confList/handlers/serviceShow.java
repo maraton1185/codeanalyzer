@@ -52,7 +52,7 @@ public class serviceShow {
 	@Optional
 	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_CONF) Object o) {
 
-		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowConf"));
+		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowConf"));
 	}
 
 	@CanExecute
@@ -68,8 +68,8 @@ public class serviceShow {
 		ITreeItemInfo item = con.getTreeItem();
 		if (item == null) {
 			if (shell != null)
-				MessageDialog.openError(shell, Strings.get("appTitle"),
-						Strings.get("error.conf is not in list"));
+				MessageDialog.openError(shell, Strings.title("appTitle"),
+						Strings.msg("error.conf_not_in_list"));
 			return;
 		}
 
@@ -103,7 +103,7 @@ public class serviceShow {
 	private MWindow createWindow(MWindow mainWindow, ConfConnection con) {
 
 		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
-				Strings.get("ebook.window.conf"), null);
+				Strings.model("ebook.window.conf"), null);
 
 		newWindow.setLabel(con.getWindowTitle());
 		newWindow.setX(mainWindow.getX() + 20);
@@ -148,7 +148,7 @@ public class serviceShow {
 			window.getContext().set(ListInfo.class, section);
 
 			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
-			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+			Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
 			// show(window, section);
 		}
 
@@ -167,7 +167,7 @@ public class serviceShow {
 			window.getContext().set(ListInfo.class, section);
 
 			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
-			Utils.executeHandler(hs, cs, Strings.get("ListView.show"));
+			Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
 			// show(window, section);
 
 		}

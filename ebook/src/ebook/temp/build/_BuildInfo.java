@@ -14,13 +14,13 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 @SuppressWarnings("restriction")
-public class BuildInfo implements Serializable {
+public class _BuildInfo implements Serializable {
 
-	public BuildInfo() {
+	public _BuildInfo() {
 		super();
 	}
 	
-	public BuildInfo(BuildInfo info) {
+	public _BuildInfo(_BuildInfo info) {
 		super();
 		
 		for (Field f : this.getClass().getDeclaredFields()) {				
@@ -33,9 +33,9 @@ public class BuildInfo implements Serializable {
 
 	private static final long serialVersionUID = 47969974452366435L;
 	
-	public static BuildInfo readExtension(String value) {
+	public static _BuildInfo readExtension(String value) {
 		
-		BuildInfo result = null;
+		_BuildInfo result = null;
 		
 		ObjectInputStream ois = null;
 		try {
@@ -44,7 +44,7 @@ public class BuildInfo implements Serializable {
 			ois = new ObjectInputStream(
 					new ByteArrayInputStream(data));
 
-			result = (BuildInfo) ois.readObject();
+			result = (_BuildInfo) ois.readObject();
 			
 		} catch (Exception e) {
 			
@@ -76,11 +76,11 @@ public class BuildInfo implements Serializable {
 		return value;
 	}
 	
-	public static ArrayList<LineInfo> toLineInfo(List<BuildInfo> source, LineInfo parent){
+	public static ArrayList<LineInfo> toLineInfo(List<_BuildInfo> source, LineInfo parent){
 	
 		ArrayList<LineInfo> result = new ArrayList<LineInfo>();
 		
-		for (BuildInfo buildInfo : source) {
+		for (_BuildInfo buildInfo : source) {
 			LineInfo item = new LineInfo(); 
 			item.data = buildInfo;
 			item.name = buildInfo.name;
@@ -93,8 +93,8 @@ public class BuildInfo implements Serializable {
 		return result;
 	}
 	
-	public static BuildInfo fromLineInfo(LineInfo parentElement) {
-		BuildInfo info = new BuildInfo(parentElement.data);
+	public static _BuildInfo fromLineInfo(LineInfo parentElement) {
+		_BuildInfo info = new _BuildInfo(parentElement.data);
 		info.id = 0;
 		info.title = parentElement.title.replace(" Ёкспорт", "");
 		info.name = parentElement.name;

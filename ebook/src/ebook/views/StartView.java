@@ -227,7 +227,7 @@ public class StartView {
 		section.setClient(confSectionClient);
 
 		menuService.registerContextMenu(confViewer.getControl(),
-				Strings.get("ebook.popupmenu.0"));
+				Strings.model("ebook.popupmenu.0"));
 
 	}
 
@@ -299,7 +299,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				Utils.executeHandler(hService, comService,
-						Strings.get("command.id.AddBook"));
+						Strings.model("command.id.AddBook"));
 				super.linkActivated(e);
 			}
 
@@ -313,7 +313,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				Utils.executeHandler(hService, comService,
-						Strings.get("command.id.OpenBook"));
+						Strings.model("command.id.OpenBook"));
 
 				super.linkActivated(e);
 			}
@@ -328,7 +328,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				hService.executeHandler(comService.createCommand(
-						Strings.get("ebook.command.4"), Collections.EMPTY_MAP));
+						Strings.model("ebook.command.4"), Collections.EMPTY_MAP));
 				super.linkActivated(e);
 			}
 
@@ -342,7 +342,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				hService.executeHandler(comService.createCommand(
-						Strings.get("ebook.command.ConfigListAdd"),
+						Strings.model("ebook.command.ConfigListAdd"),
 						Collections.EMPTY_MAP));
 				super.linkActivated(e);
 			}
@@ -468,7 +468,7 @@ public class StartView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.Options"),
+						Strings.model("command.id.Options"),
 						Collections.EMPTY_MAP));
 				super.linkActivated(e);
 			}
@@ -582,7 +582,7 @@ public class StartView {
 		bookSection.setClient(bookSectionClient);
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("ebook.popupmenu.1"));
+				Strings.model("ebook.popupmenu.1"));
 
 	}
 

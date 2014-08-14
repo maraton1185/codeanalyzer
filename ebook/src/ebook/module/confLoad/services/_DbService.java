@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import ebook.core.pico;
 import ebook.core.interfaces._ITextParser;
-import ebook.temp.build.BuildInfo;
+import ebook.temp.build._BuildInfo;
 import ebook.temp.build.CompareResults;
 import ebook.utils.Const;
 
@@ -209,7 +209,7 @@ public class _DbService {
 
 	}
 
-	private int findModule(Connection con, BuildInfo data) throws SQLException {
+	private int findModule(Connection con, _BuildInfo data) throws SQLException {
 
 		String SQL;
 		PreparedStatement prep;
@@ -239,7 +239,7 @@ public class _DbService {
 
 	// SEARCH *************************************************************
 
-	public void getTextSearchList(List<BuildInfo> list, Connection con,
+	public void getTextSearchList(List<_BuildInfo> list, Connection con,
 			String titleText, IProgressMonitor monitor) throws SQLException {
 		// DONE глобальный поиск: SELECT * FROM PROCS_TEXT where UPPER(TEXT)
 		// regexp UPPER('РегисТРСВЕДЕНИЙ.ЦеныНоменклатуры')
@@ -343,7 +343,7 @@ public class _DbService {
 							// }
 						}
 						if (finded) {
-							BuildInfo item = new BuildInfo();
+							_BuildInfo item = new _BuildInfo();
 
 							item.object = rs.getInt(1);
 							item.group1 = rs.getString(2);
@@ -382,7 +382,7 @@ public class _DbService {
 
 	}
 
-	public void getObjectSearchList(List<BuildInfo> result, Connection con,
+	public void getObjectSearchList(List<_BuildInfo> result, Connection con,
 			String titleText) throws SQLException {
 
 		// String version = getVersion(con);
@@ -399,7 +399,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -433,7 +433,7 @@ public class _DbService {
 
 	}
 
-	public void getProcsSearchList(List<BuildInfo> result, Connection con,
+	public void getProcsSearchList(List<_BuildInfo> result, Connection con,
 			String titleText) throws SQLException {
 
 		// String version = getVersion(con);
@@ -451,7 +451,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -487,7 +487,7 @@ public class _DbService {
 
 	// BUILD *************************************************************
 
-	public void getObjectList(List<BuildInfo> list, Connection con,
+	public void getObjectList(List<_BuildInfo> list, Connection con,
 			String titleText, boolean exact) throws SQLException {
 
 		// String version = getVersion(con);
@@ -508,7 +508,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -523,7 +523,7 @@ public class _DbService {
 
 	}
 
-	public void getConcreteObjectList(List<BuildInfo> list, Connection con,
+	public void getConcreteObjectList(List<_BuildInfo> list, Connection con,
 			String parentText, String topicText, boolean exact)
 			throws SQLException {
 
@@ -547,7 +547,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -574,7 +574,7 @@ public class _DbService {
 
 	}
 
-	public void getRootList(List<BuildInfo> list, Connection con)
+	public void getRootList(List<_BuildInfo> list, Connection con)
 			throws SQLException {
 
 		// String version = getVersion(con);
@@ -589,7 +589,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -604,8 +604,8 @@ public class _DbService {
 
 	}
 
-	public void getModuleList(List<BuildInfo> list, Connection con,
-			BuildInfo data) throws SQLException {
+	public void getModuleList(List<_BuildInfo> list, Connection con,
+			_BuildInfo data) throws SQLException {
 
 		int module = findModule(con, data);
 		if (module == 0)
@@ -627,7 +627,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -659,7 +659,7 @@ public class _DbService {
 	}
 
 	public void getParamsList(List<String> paramsList, Connection con,
-			BuildInfo data) throws SQLException {
+			_BuildInfo data) throws SQLException {
 
 		int module = findModule(con, data);
 		if (module == 0)
@@ -702,7 +702,7 @@ public class _DbService {
 	//
 	// }
 
-	public String getModuleText(Connection con, BuildInfo data)
+	public String getModuleText(Connection con, _BuildInfo data)
 			throws SQLException, IOException {
 
 		int module = findModule(con, data);
@@ -739,7 +739,7 @@ public class _DbService {
 	}
 
 	@SuppressWarnings("unused")
-	private String getObjectText(Connection con, BuildInfo data)
+	private String getObjectText(Connection con, _BuildInfo data)
 			throws SQLException, IOException {
 
 		StringBuilder result = new StringBuilder();
@@ -775,7 +775,7 @@ public class _DbService {
 
 	// HIERARCHY *************************************************************
 
-	public void getCalls(List<BuildInfo> list, Connection con, BuildInfo data,
+	public void getCalls(List<_BuildInfo> list, Connection con, _BuildInfo data,
 			boolean callsInObject, IProgressMonitor monitor)
 			throws SQLException {
 
@@ -819,7 +819,7 @@ public class _DbService {
 		try {
 			while (rs.next()) {
 
-				BuildInfo item = new BuildInfo();
+				_BuildInfo item = new _BuildInfo();
 				// item.version = version;
 
 				item.object = rs.getInt(1);
@@ -851,8 +851,8 @@ public class _DbService {
 		// return list;
 	}
 
-	private void getCallsExport(List<BuildInfo> list, Connection con,
-			BuildInfo data, IProgressMonitor monitor) throws SQLException {
+	private void getCallsExport(List<_BuildInfo> list, Connection con,
+			_BuildInfo data, IProgressMonitor monitor) throws SQLException {
 
 		String SQL = "SELECT count(T.ID) FROM " + "OBJECTS AS T";
 		PreparedStatement prep = con.prepareStatement(SQL);
@@ -905,7 +905,7 @@ public class _DbService {
 							// }
 						}
 						if (finded) {
-							BuildInfo item = new BuildInfo();
+							_BuildInfo item = new _BuildInfo();
 
 							item.object = rs.getInt(1);
 							item.group1 = rs.getString(2);
@@ -1034,25 +1034,25 @@ public class _DbService {
 	// COMPARE *************************************************************
 
 	public void compareModules(CompareResults compareResults, Connection con1,
-			Connection con2, BuildInfo data, IProgressMonitor monitor)
+			Connection con2, _BuildInfo data, IProgressMonitor monitor)
 			throws SQLException, IOException, InterruptedException {
 
 		// String version1 = getVersion(con1);
 		// if (version1==null) return;
 
-		List<BuildInfo> list1 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list1 = new ArrayList<_BuildInfo>();
 		getModuleList(list1, con1, data);
 
-		List<BuildInfo> list2 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list2 = new ArrayList<_BuildInfo>();
 		getModuleList(list2, con2, data);
 
-		List<BuildInfo> _list2 = new ArrayList<BuildInfo>(list2);
+		List<_BuildInfo> _list2 = new ArrayList<_BuildInfo>(list2);
 
 		// monitor.beginTask(Const.COMPARE_WORK, list1.size());
 
 		monitor.beginTask(Const.COMPARE_WORK, list1.size());
 
-		for (BuildInfo item : list1) {
+		for (_BuildInfo item : list1) {
 
 			monitor.subTask(item.title);
 
@@ -1061,7 +1061,7 @@ public class _DbService {
 			boolean added = true;
 			boolean changed = false;
 
-			for (BuildInfo item2 : list2) {
+			for (_BuildInfo item2 : list2) {
 
 				if (item.name.equalsIgnoreCase(item2.name)) {
 
@@ -1095,12 +1095,12 @@ public class _DbService {
 
 		monitor.beginTask(Const.COMPARE_WORK, _list2.size());
 
-		for (BuildInfo item2 : _list2) {
+		for (_BuildInfo item2 : _list2) {
 
 			monitor.subTask(item2.title);
 
 			boolean removed = true;
-			for (BuildInfo item1 : list1) {
+			for (_BuildInfo item1 : list1) {
 				if (item2.name.equalsIgnoreCase(item1.name)) {
 					removed = false;
 					list1.remove(item1);
@@ -1124,17 +1124,17 @@ public class _DbService {
 			IProgressMonitor monitor) throws SQLException, IOException,
 			InterruptedException {
 
-		List<BuildInfo> list1 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list1 = new ArrayList<_BuildInfo>();
 		getConcreteObjectList(list1, con1, parentText, topicText, true);
 
-		List<BuildInfo> list2 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list2 = new ArrayList<_BuildInfo>();
 		getConcreteObjectList(list2, con2, parentText, topicText, true);
 
-		List<BuildInfo> _list2 = new ArrayList<BuildInfo>(list2);
+		List<_BuildInfo> _list2 = new ArrayList<_BuildInfo>(list2);
 
 		monitor.beginTask(Const.COMPARE_WORK_ACTIVE, list1.size());
 
-		for (BuildInfo item : list1) {
+		for (_BuildInfo item : list1) {
 
 			monitor.subTask(item.group1 + "." + item.group2);
 
@@ -1143,7 +1143,7 @@ public class _DbService {
 			boolean added = true;
 			boolean changed = false;
 
-			for (BuildInfo item2 : list2) {
+			for (_BuildInfo item2 : list2) {
 
 				if (item.object_title.equalsIgnoreCase(item2.object_title)) {
 
@@ -1176,12 +1176,12 @@ public class _DbService {
 
 		monitor.beginTask(Const.COMPARE_WORK_NON_ACTIVE, _list2.size());
 
-		for (BuildInfo item2 : _list2) {
+		for (_BuildInfo item2 : _list2) {
 
 			monitor.subTask(item2.group1 + "." + item2.group2);
 
 			boolean removed = true;
-			for (BuildInfo item1 : list1) {
+			for (_BuildInfo item1 : list1) {
 				if (item2.object_title.equalsIgnoreCase(item1.object_title)) {
 					removed = false;
 					list1.remove(item1);
@@ -1204,17 +1204,17 @@ public class _DbService {
 			Connection con2, String titleText, IProgressMonitor monitor)
 			throws SQLException, IOException, InterruptedException {
 
-		List<BuildInfo> list1 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list1 = new ArrayList<_BuildInfo>();
 		getObjectList(list1, con1, titleText, true);
 
-		List<BuildInfo> list2 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list2 = new ArrayList<_BuildInfo>();
 		getObjectList(list2, con2, titleText, true);
 
-		List<BuildInfo> _list2 = new ArrayList<BuildInfo>(list2);
+		List<_BuildInfo> _list2 = new ArrayList<_BuildInfo>(list2);
 
 		monitor.beginTask(Const.COMPARE_WORK_ACTIVE, list1.size());
 
-		for (BuildInfo item : list1) {
+		for (_BuildInfo item : list1) {
 
 			monitor.subTask(item.group1 + "." + item.group2);
 
@@ -1223,7 +1223,7 @@ public class _DbService {
 			boolean added = true;
 			boolean changed = false;
 
-			for (BuildInfo item2 : list2) {
+			for (_BuildInfo item2 : list2) {
 
 				if (item.group1.equalsIgnoreCase(item2.group1)
 						&& item.group2.equalsIgnoreCase(item2.group2)) {
@@ -1257,12 +1257,12 @@ public class _DbService {
 
 		monitor.beginTask(Const.COMPARE_WORK_NON_ACTIVE, _list2.size());
 
-		for (BuildInfo item2 : _list2) {
+		for (_BuildInfo item2 : _list2) {
 
 			monitor.subTask(item2.group1 + "." + item2.group2);
 
 			boolean removed = true;
-			for (BuildInfo item1 : list1) {
+			for (_BuildInfo item1 : list1) {
 				if (item2.group1.equalsIgnoreCase(item1.group1)
 						&& item2.group2.equalsIgnoreCase(item1.group2)) {
 					removed = false;
@@ -1286,17 +1286,17 @@ public class _DbService {
 			Connection con2, IProgressMonitor monitor) throws SQLException,
 			IOException, InterruptedException {
 
-		List<BuildInfo> list1 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list1 = new ArrayList<_BuildInfo>();
 		getRootList(list1, con1);
 
-		List<BuildInfo> list2 = new ArrayList<BuildInfo>();
+		List<_BuildInfo> list2 = new ArrayList<_BuildInfo>();
 		getRootList(list2, con2);
 
-		List<BuildInfo> _list2 = new ArrayList<BuildInfo>(list2);
+		List<_BuildInfo> _list2 = new ArrayList<_BuildInfo>(list2);
 
 		monitor.beginTask(Const.COMPARE_WORK_ACTIVE, list1.size());
 
-		for (BuildInfo item : list1) {
+		for (_BuildInfo item : list1) {
 
 			monitor.subTask(item.group1 + "." + item.group2);
 
@@ -1305,7 +1305,7 @@ public class _DbService {
 			boolean added = true;
 			boolean changed = false;
 
-			for (BuildInfo item2 : list2) {
+			for (_BuildInfo item2 : list2) {
 
 				if (item.group1.equalsIgnoreCase(item2.group1)
 						&& item.group2.equalsIgnoreCase(item2.group2)) {
@@ -1339,12 +1339,12 @@ public class _DbService {
 
 		monitor.beginTask(Const.COMPARE_WORK_NON_ACTIVE, _list2.size());
 
-		for (BuildInfo item2 : _list2) {
+		for (_BuildInfo item2 : _list2) {
 
 			monitor.subTask(item2.group1 + "." + item2.group2);
 
 			boolean removed = true;
-			for (BuildInfo item1 : list1) {
+			for (_BuildInfo item1 : list1) {
 				if (item2.group1.equalsIgnoreCase(item1.group1)
 						&& item2.group2.equalsIgnoreCase(item1.group2)) {
 					removed = false;
@@ -1364,7 +1364,7 @@ public class _DbService {
 
 	}
 
-	private String getObjectHash(Connection con, BuildInfo data)
+	private String getObjectHash(Connection con, _BuildInfo data)
 			throws SQLException, IOException {
 		StringBuilder result = new StringBuilder();
 
@@ -1391,7 +1391,7 @@ public class _DbService {
 		return result.toString();
 	}
 
-	private String getModuleHash(Connection con, BuildInfo data)
+	private String getModuleHash(Connection con, _BuildInfo data)
 			throws SQLException {
 		int module = findModule(con, data);
 		if (module == 0)

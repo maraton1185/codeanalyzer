@@ -38,8 +38,8 @@ public class Cut {
 								zipFile.getAbsolutePath());
 					} catch (Exception e) {
 						e.printStackTrace();
-						MessageDialog.openError(shell, Strings.get("appTitle"),
-								e.getMessage());
+						MessageDialog.openError(shell,
+								Strings.title("appTitle"), e.getMessage());
 					}
 				}
 			});

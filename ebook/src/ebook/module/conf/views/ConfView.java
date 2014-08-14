@@ -112,6 +112,29 @@ public class ConfView {
 
 	}
 
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_CONF_VIEW_EXPAND(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW + "_EXPAND") EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
+
+		if (list != data.section)
+			return;
+
+		if (data.parent == null)
+			return;
+
+		viewer.refresh(data.parent);
+
+		viewer.expandToLevel(data.parent, 1);
+
+		// if (data.selected != null)
+		// viewer.setSelection(new StructuredSelection(data.selected), true);
+
+	}
+
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
 			EMenuService menuService, @Active final MWindow window,
@@ -186,7 +209,7 @@ public class ConfView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("ebook.listView.popup"));
+				Strings.model("ebook.listView.popup"));
 
 		window.getContext().set(Events.CONTEXT_ACTIVE_LIST, list);
 	}

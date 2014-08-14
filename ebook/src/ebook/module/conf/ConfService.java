@@ -22,6 +22,7 @@ import javax.xml.bind.Unmarshaller;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
+import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
@@ -89,16 +90,20 @@ public class ConfService extends TreeService {
 		try {
 			Connection con = db.getConnection();
 
-			String SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, LIST) VALUES (?,?,?);";
+			String SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, LIST, OPTIONS) VALUES (?,?,?,?);";
 			PreparedStatement prep = con.prepareStatement(SQL,
 					Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, Strings.get("initContextTitle"));
+			prep.setString(1, Strings.value("contextRoot"));
 			prep.setBoolean(2, true);
 			if (list == null)
 				prep.setNull(3, java.sql.Types.INTEGER);
 			else
 				prep.setInt(3, list.getId());
+
+			ContextInfoOptions opt = new ContextInfoOptions();
+			opt.type = BuildType.root;
+			prep.setString(4, DbOptions.save(opt));
 
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -252,7 +257,7 @@ public class ConfService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
-					Strings.get("error.saveToFile") + ":\n" + zipName + "");
+					Strings.msg("SaveToFile.error") + ":\n" + zipName + "");
 		}
 	}
 
@@ -305,7 +310,7 @@ public class ConfService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
-					Strings.get("error.loadFromFile"));
+					Strings.msg("loadFromFile.error"));
 		}
 
 	}
@@ -321,14 +326,6 @@ public class ConfService extends TreeService {
 			readXML(child, root, p);
 		}
 
-	}
-
-	public Connection getConnection() throws IllegalAccessException {
-		try {
-			return db.getConnection();
-		} catch (Exception e) {
-			throw new IllegalAccessException();
-		}
 	}
 
 	public void setPassword(String value) {

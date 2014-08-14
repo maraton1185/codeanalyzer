@@ -86,16 +86,16 @@ public class App {
 		public String toString() {
 			switch (this) {
 			case lists:
-				return Strings.get("model.id.perspective.books");
+				return Strings.model("model.id.perspective.books");
 			default:
-				return Strings.get("model.id.perspective.default");
+				return Strings.model("model.id.perspective.default");
 			}
 		}
 
 		public static Perspectives get(String string) {
 
 			if (string.equalsIgnoreCase(Strings
-					.get("model.id.perspective.books")))
+					.model("model.id.perspective.books")))
 				return lists;
 			else
 				return main;
@@ -110,11 +110,11 @@ public class App {
 		public String toString() {
 			switch (this) {
 			case books:
-				return Strings.get("ebook.part.0");
+				return Strings.model("ebook.part.0");
 			case users:
-				return Strings.get("ebook.part.4");
+				return Strings.model("ebook.part.4");
 			case confs:
-				return Strings.get("ebook.part.confList");
+				return Strings.model("ebook.part.confList");
 			default:
 				return "current";
 			}
@@ -209,15 +209,15 @@ public class App {
 
 		} catch (Exception e) {
 			Shell shell = (Shell) window.getWidget();
-			if (MessageDialog.openQuestion(shell, Strings.get("appTitle"),
-					Strings.get("error.initDb"))) {
+			if (MessageDialog.openQuestion(shell, Strings.title("appTitle"),
+					Strings.msg("error.initDb"))) {
 				try {
 					db.create();
 					// db.openConnection();
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					MessageDialog.openError(shell, Strings.get("appTitle"),
-							Strings.get("error.start"));
+					MessageDialog.openError(shell, Strings.title("appTitle"),
+							Strings.msg("error.start"));
 					IWorkbench workbench = window.getContext().get(
 							IWorkbench.class);
 					workbench.close();
@@ -303,7 +303,7 @@ public class App {
 					if (tray.getItemCount() != 0)
 						return;
 					final TrayItem item = new TrayItem(tray, SWT.NONE);
-					item.setToolTipText(Strings.get("appTitle"));
+					item.setToolTipText(Strings.title("appTitle"));
 					item.setImage(image);
 
 					item.addSelectionListener(new SelectionListener() {
@@ -470,8 +470,8 @@ public class App {
 				opt.selectedSection = section.getId();
 
 			List<MPartStack> stacks = model.findElements(App.app,
-					Strings.get("ebook.partstack.sections"), MPartStack.class,
-					null);
+					Strings.model("ebook.partstack.sections"),
+					MPartStack.class, null);
 
 			if (!stacks.isEmpty()) {
 
@@ -488,14 +488,14 @@ public class App {
 					String id = part.getElementId();
 
 					if (id.equals(Strings
-							.get("ebook.partdescriptor.sectionView"))) {
+							.model("ebook.partdescriptor.sectionView"))) {
 						SectionView view = (SectionView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
 					}
 
 					if (id.equals(Strings
-							.get("ebook.partdescriptor.sectionsBlockView"))) {
+							.model("ebook.partdescriptor.sectionsBlockView"))) {
 						TextView view = (TextView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
@@ -532,9 +532,9 @@ public class App {
 			// if (section != null)
 			// opt.selectedSection = section.getId();
 
-			List<MPartStack> stacks = model
-					.findElements(App.app, Strings.get("ebook.partstack.conf"),
-							MPartStack.class, null);
+			List<MPartStack> stacks = model.findElements(App.app,
+					Strings.model("ebook.partstack.conf"), MPartStack.class,
+					null);
 
 			if (!stacks.isEmpty()) {
 
@@ -550,7 +550,7 @@ public class App {
 						continue;
 					String id = part.getElementId();
 
-					if (id.equals(Strings.get("ebook.partdescriptor.0"))) {
+					if (id.equals(Strings.model("ebook.partdescriptor.0"))) {
 						ConfView view = (ConfView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());

@@ -23,7 +23,7 @@ public class CheckUpdateHandler {
 					return;
 				IStatus result = P2Util.checkForUpdates(App.agent, null);
 				if (result.getCode() == UpdateOperation.STATUS_NOTHING_TO_UPDATE) {
-					Utils.popUpInformation(Strings.get("updateNotFound"));
+					Utils.popUpInformation(Strings.msg("updateNotFound"));
 				} else {
 					App.br.post(Events.SHOW_UPDATE_AVAILABLE, null);
 				}

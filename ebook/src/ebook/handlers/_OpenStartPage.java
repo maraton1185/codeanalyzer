@@ -12,7 +12,7 @@ public class _OpenStartPage {
 	@Execute
 	public void execute(EPartService ps, EModelService model, MApplication app) {
 		MPerspective persp = (MPerspective) model.find(
-				Strings.get("model.id.perspective.default"), app);
+				Strings.model("model.id.perspective.default"), app);
 		persp.setVisible(true);
 		ps.switchPerspective(persp);
 

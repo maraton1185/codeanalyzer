@@ -19,7 +19,7 @@ public class ExecuteLastCommand {
 	public void execute(@Active ListConfInfo item, Shell shell) {
 		if (!MessageDialog.openConfirm(
 				shell,
-				Strings.get("appTitle"),
+				Strings.title("appTitle"),
 				item.getName() + "\n"
 						+ App.mng.lm().getOperationName(item.getType()) + "?")) {
 

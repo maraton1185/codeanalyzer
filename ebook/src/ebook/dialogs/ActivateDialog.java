@@ -255,11 +255,11 @@ public class ActivateDialog extends Dialog {
 
 	protected void initContents() {
 		Preferences preferences = PreferenceSupplier.getScoupNode();
-		loginField.setText(preferences.get("P_LOGIN", Strings.get("P_LOGIN")));
+		loginField.setText(preferences.get("P_LOGIN", Strings.pref("P_LOGIN")));
 		passwordField.setText(preferences.get("P_PASSWORD",
-				Strings.get("P_PASSWORD")));
-		serialField
-				.setText(preferences.get("P_SERIAL", Strings.get("P_SERIAL")));
+				Strings.pref("P_PASSWORD")));
+		serialField.setText(preferences.get("P_SERIAL",
+				Strings.pref("P_SERIAL")));
 
 		// ntpField.setText(PreferenceSupplier.get(PreferenceSupplier.NTPSERVER));
 
@@ -292,7 +292,7 @@ public class ActivateDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Strings.get("ActivateDialogTitle"));
+		shell.setText(Strings.title("ActivateDialogTitle"));
 		shell.setImage(Utils.getImage("favicon.png"));
 	}
 

@@ -59,7 +59,7 @@ public class AboutDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Strings.get("AboutDialogTitle"));
+		shell.setText(Strings.title("AboutDialogTitle"));
 		shell.setImage(Utils.getImage("favicon.png"));
 	}
 

@@ -173,7 +173,7 @@ public class ContextView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("ebook.popupmenu.bookcontext"));
+				Strings.model("ebook.popupmenu.bookcontext"));
 
 	}
 

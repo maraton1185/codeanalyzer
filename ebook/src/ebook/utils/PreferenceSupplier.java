@@ -17,7 +17,7 @@ import ebook.core.App.Perspectives;
 public abstract class PreferenceSupplier {
 
 	private static PreferenceStore preferenceStore;
-	private static final String prefFileName = Strings.get("P_FILE_NAME");
+	private static final String prefFileName = Strings.pref("P_FILE_NAME");
 
 	// ******************************************************************
 
@@ -189,7 +189,7 @@ public abstract class PreferenceSupplier {
 	}
 
 	public static Preferences getScoupNode() {
-		return ConfigurationScope.INSTANCE.getNode(Strings.get("P_NODE"));
+		return ConfigurationScope.INSTANCE.getNode(Strings.pref("P_NODE"));
 	}
 
 }

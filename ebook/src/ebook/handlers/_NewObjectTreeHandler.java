@@ -20,7 +20,7 @@ public class _NewObjectTreeHandler {
 			EModelService model) {
 
 		MPart part = partService.createPart(Strings
-				.get("ebook.partdescriptor.treeView"));
+				.model("ebook.partdescriptor.treeView"));
 
 		if (db != null)
 			part.setLabel(db.getName());
@@ -28,7 +28,8 @@ public class _NewObjectTreeHandler {
 		// part.setLabel(db.getName());
 
 		List<MPartStack> stacks = model.findElements(App.app,
-				Strings.get("model.id.partstack.tree"), MPartStack.class, null);
+				Strings.model("model.id.partstack.tree"), MPartStack.class,
+				null);
 		stacks.get(0).getChildren().add(part);
 
 		partService.showPart(part, PartState.ACTIVATE);

@@ -357,7 +357,7 @@ public class ConfView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				Utils.executeHandler(hService, comService,
-						Strings.get("command.id.LoadConfiguration"));
+						Strings.model("command.id.LoadConfiguration"));
 			}
 		});
 

@@ -25,6 +25,7 @@ public abstract class TreeService implements ITreeService {
 	protected IDbConnection db;
 	private final String tableName;
 	private final String updateEvent;
+	private boolean stopUpdate = false;
 
 	protected TreeService(String tableName, String EVENT_UPDATE_TREE_NAME,
 			IDbConnection db) {
@@ -123,12 +124,13 @@ public abstract class TreeService implements ITreeService {
 				generatedKeys.close();
 			}
 
-			ITreeItemInfo _parent = get(data.getParent());
-			if (_parent != null && parent.isRoot())
-				_parent.setRoot();
-			App.br.post(updateEvent, getUpdateEventData(_parent, data));
-			// getUpdateEventData(get(data.getParent()), data));
-
+			if (!stopUpdate) {
+				ITreeItemInfo _parent = get(data.getParent());
+				if (_parent != null && parent.isRoot())
+					_parent.setRoot();
+				App.br.post(updateEvent, getUpdateEventData(_parent, data));
+				// getUpdateEventData(get(data.getParent()), data));
+			}
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 
@@ -237,6 +239,30 @@ public abstract class TreeService implements ITreeService {
 
 		}
 		return false;
+	}
+
+	public void deleteChildren(ITreeItemInfo item) {
+
+		try {
+			Connection con = db.getConnection();
+
+			String SQL = "DELETE FROM " + tableName + " WHERE PARENT=?;";
+			PreparedStatement prep;
+
+			prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, item.getId());
+
+			prep.executeUpdate();
+			// int affectedRows = prep.executeUpdate();
+			// if (affectedRows == 0)
+			// throw new SQLException();
+			App.br.post(updateEvent, getUpdateEventData(item, item));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -354,6 +380,11 @@ public abstract class TreeService implements ITreeService {
 			selected = parent;
 
 		App.br.post(updateEvent, getUpdateEventData(parent, selected));
+	}
+
+	public void expand(ITreeItemInfo item) {
+
+		App.br.post(updateEvent + "_EXPAND", getUpdateEventData(item, item));
 	}
 
 	@Override
@@ -668,4 +699,21 @@ public abstract class TreeService implements ITreeService {
 		return false;
 	}
 
+	public Connection getConnection() throws IllegalAccessException {
+		try {
+			return db.getConnection();
+		} catch (Exception e) {
+			throw new IllegalAccessException();
+		}
+	}
+
+	public void stopUpdate() {
+		this.stopUpdate = true;
+
+	}
+
+	public void startUpdate() {
+		this.stopUpdate = false;
+
+	}
 }

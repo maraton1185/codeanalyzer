@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import ebook.core.pico;
-import ebook.core.interfaces._ITextParser;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.confLoad.model.Entity;
 import ebook.module.confLoad.model.procCall;
@@ -18,24 +16,25 @@ import ebook.utils.AesCrypt;
 
 public class CfLoadService {
 
-	_ITextParser parser = pico.get(_ITextParser.class);
+	// _ITextParser parser = pico.get(_ITextParser.class);
 
 	// ADD *****************************************************
 
 	public Integer addEntity(Connection con, Entity line) throws SQLException {
 
 		Integer group1 = addObject(con, line.group1, ELevel.group1.toInt(),
-				null);
+				null, line.sort);
 		Integer group2 = addObject(con, line.group2, ELevel.group2.toInt(),
-				group1);
+				group1, line.sort);
+
 		Integer module = addObject(con, line.module, ELevel.module.toInt(),
-				group2);
+				group2, line.sort);
 
 		return module;
 	}
 
 	public Integer addObject(Connection con, String title, Integer level,
-			Integer parent) throws SQLException {
+			Integer parent, Integer sort) throws SQLException {
 
 		Integer result = null;
 		String SQL;
@@ -63,7 +62,7 @@ public class CfLoadService {
 		}
 
 		if (result == null) {
-			SQL = "INSERT INTO OBJECTS (LEVEL, PARENT, TITLE) VALUES (?,?,?)";
+			SQL = "INSERT INTO OBJECTS (LEVEL, PARENT, TITLE, SORT) VALUES (?,?,?,?)";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			prep.setInt(1, level);
@@ -73,6 +72,7 @@ public class CfLoadService {
 				prep.setInt(2, parent);
 
 			prep.setString(3, title);
+			prep.setInt(4, sort);
 
 			ResultSet generatedKeys = null;
 			try {

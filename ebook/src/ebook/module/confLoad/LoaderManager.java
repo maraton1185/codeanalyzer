@@ -418,15 +418,15 @@ public class LoaderManager implements ILoaderManager {
 	public LoaderManager() {
 
 		operationNames.put(operationType.fromDirectory,
-				Strings.get("operationType.fromDirectory"));
+				Strings.value("operationType.fromDirectory"));
 		operationNames.put(operationType.update,
-				Strings.get("operationType.update"));
+				Strings.value("operationType.update"));
 		// operationNames.put(operationType.fromDb,
 		// Strings.get("operationType.fromDb"));
 		// operationNames.put(operationType.fromSQL,
 		// Strings.get("operationType.fromSQL"));
 		operationNames.put(operationType.fillProcLinkTable,
-				Strings.get("operationType.fillProcLinkTable"));
+				Strings.value("operationType.fillProcLinkTable"));
 
 	}
 
@@ -497,7 +497,7 @@ public class LoaderManager implements ILoaderManager {
 			ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
 			pmd.open();
 			Shell pShell = pmd.getShell();
-			pShell.setText(Strings.get("ProgressMonitorTitle"));
+			pShell.setText(Strings.title("ProgressMonitorTitle"));
 			pShell.update();
 			pmd.run(true, true, runnable);
 			pShell.dispose();
@@ -523,7 +523,7 @@ public class LoaderManager implements ILoaderManager {
 
 		// ToolItem has the ID "statusbar" in the model
 		MToolControl element = (MToolControl) App.model.find(
-				Strings.get("model.id.statustool"), App.app);
+				Strings.model("model.id.statustool"), App.app);
 
 		Object widget = element.getObject();
 		((ProgressControl) widget).setDb(db);

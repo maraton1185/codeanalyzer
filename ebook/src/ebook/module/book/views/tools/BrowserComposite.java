@@ -94,7 +94,7 @@ public class BrowserComposite extends Composite {
 			return;
 
 		window.getContext().set(SectionInfo.class, info);
-		Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
+		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowSection"));
 
 	}
 

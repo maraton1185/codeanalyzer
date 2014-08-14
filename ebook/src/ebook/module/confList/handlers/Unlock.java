@@ -19,11 +19,11 @@ public class Unlock {
 		try {
 			ConfConnection con = new ConfConnection(item.getPath(), false);
 			con.closeConnection();
-			MessageDialog.openInformation(shell, Strings.get("appTitle"),
+			MessageDialog.openInformation(shell, Strings.title("appTitle"),
 					"Файл конфигурации разблокирован.");
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка операции. Перезайдите в программу.");
 		}
 	}

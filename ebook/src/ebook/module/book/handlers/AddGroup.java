@@ -21,12 +21,12 @@ public class AddGroup {
 		try {
 
 			SectionInfo data = new SectionInfo();
-			data.setTitle(Strings.get("s.newsection.title"));
+			data.setTitle(Strings.value("section"));
 			data.setGroup(true);
 			book.srv().add(data, section, false);
 
 		} catch (InvocationTargetException e) {
-			MessageDialog.openError(shell, Strings.get("appTitle"),
+			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Ошибка создания раздела.");
 		}
 	}

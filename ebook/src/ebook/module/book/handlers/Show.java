@@ -26,12 +26,12 @@ public class Show {
 			@Active MWindow window) {
 
 		List<MPartStack> stacks = model.findElements(window,
-				Strings.get("model.id.partstack.sections"), MPartStack.class,
+				Strings.model("model.id.partstack.sections"), MPartStack.class,
 				null);
 
 		String partID = !section.isGroup() ? Strings
-				.get("ebook.partdescriptor.sectionsBlockView") : Strings
-				.get("ebook.partdescriptor.sectionView");
+				.model("ebook.partdescriptor.sectionsBlockView") : Strings
+				.model("ebook.partdescriptor.sectionView");
 
 		stacks.get(0).setVisible(true);
 

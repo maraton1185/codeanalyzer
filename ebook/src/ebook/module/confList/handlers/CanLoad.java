@@ -24,7 +24,7 @@ public class CanLoad {
 	@Execute
 	public void execute(ListConfInfo item) {
 		InputDialog dlg = new InputDialog(shell,
-				ebook.utils.Strings.get("appTitle"), "¬ведите пароль:", null,
+				ebook.utils.Strings.title("appTitle"), "¬ведите пароль:", null,
 				null);
 		if (dlg.open() == Window.OK) {
 			try {
@@ -33,7 +33,7 @@ public class CanLoad {
 				con.srv(null).setPassword(dlg.getValue());
 
 			} catch (InvocationTargetException e) {
-				MessageDialog.openError(shell, Strings.get("appTitle"),
+				MessageDialog.openError(shell, Strings.title("appTitle"),
 						e.getMessage());
 			}
 		}

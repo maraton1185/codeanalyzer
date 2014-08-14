@@ -47,7 +47,7 @@ public class DbStructure implements IDbStructure {
 			SQL = "INSERT INTO USERS (TITLE, ISGROUP) VALUES (?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, Strings.get("initUserTitle"));
+			prep.setString(1, Strings.value("userRoot"));
 			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -71,7 +71,7 @@ public class DbStructure implements IDbStructure {
 			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP, PATH) VALUES (?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-			prep.setString(1, Strings.get("initBookTitle"));
+			prep.setString(1, Strings.value("bookListRoot"));
 			prep.setBoolean(2, true);
 			prep.setString(3, "");
 			affectedRows = prep.executeUpdate();
@@ -88,7 +88,7 @@ public class DbStructure implements IDbStructure {
 			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP, PATH, PARENT, IMAGE) VALUES (?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, Strings.get("aboutBookTitle"));
+			prep.setString(1, Strings.value("aboutBookTitle"));
 			prep.setBoolean(2, false);
 			prep.setString(3, Utils.getAboutBookPath());
 			prep.setInt(4, id);
@@ -121,7 +121,7 @@ public class DbStructure implements IDbStructure {
 			SQL = "INSERT INTO CONFS (TITLE, ISGROUP) VALUES (?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, Strings.get("initConfTitle"));
+			prep.setString(1, Strings.value("confListRoot"));
 			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)

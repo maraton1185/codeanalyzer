@@ -83,7 +83,7 @@ public class BookStructure implements IDbStructure {
 			SQL = "INSERT INTO SECTIONS (TITLE, ISGROUP) VALUES (?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, Strings.get("initBookSectionTitle"));
+			prep.setString(1, Strings.value("bookRoot"));
 			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)

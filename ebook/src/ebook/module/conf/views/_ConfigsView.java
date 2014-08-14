@@ -79,7 +79,7 @@ public class _ConfigsView {
 		table.setLinesVisible(true);
 
 		menuService.registerContextMenu(table,
-				Strings.get("model.id.configList.popup"));
+				Strings.model("model.id.configList.popup"));
 
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
 
@@ -104,7 +104,7 @@ public class _ConfigsView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				hService.executeHandler(comService.createCommand(
-						Strings.get("command.id.ConfigListSetActive"),
+						Strings.model("command.id.ConfigListSetActive"),
 						Collections.EMPTY_MAP));
 			}
 		});

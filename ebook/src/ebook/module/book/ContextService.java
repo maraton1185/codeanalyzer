@@ -197,7 +197,7 @@ public class ContextService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
-					Strings.get("error.saveToFile") + ":\n" + zipName + "");
+					Strings.msg("SaveToFile.error") + ":\n" + zipName + "");
 		}
 	}
 
@@ -248,7 +248,7 @@ public class ContextService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
-					Strings.get("error.loadFromFile"));
+					Strings.msg("loadFromFile.error"));
 		}
 
 	}
@@ -300,7 +300,7 @@ public class ContextService extends TreeService {
 			PreparedStatement prep = con.prepareStatement(SQL,
 					Statement.CLOSE_CURRENT_RESULT);
 
-			prep.setString(1, Strings.get("initContextTitle"));
+			prep.setString(1, Strings.value("contextRoot"));
 			prep.setBoolean(2, true);
 			prep.setInt(3, section.getId());
 

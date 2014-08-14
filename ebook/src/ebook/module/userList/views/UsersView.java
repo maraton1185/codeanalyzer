@@ -126,7 +126,7 @@ public class UsersView {
 		treeComponent.setSelection();
 
 		menuService.registerContextMenu(viewer.getControl(),
-				Strings.get("model.id.userlistview.popup"));
+				Strings.model("model.id.userlistview.popup"));
 
 	}
 

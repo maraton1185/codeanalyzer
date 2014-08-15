@@ -12,6 +12,7 @@ public class BuildInfo {
 	public BuildType type;
 	public Integer parent;
 	public Integer id;
+	public Integer sort = 0;
 
 	// @Override
 	// public boolean equals(Object obj) {

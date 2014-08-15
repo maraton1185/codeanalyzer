@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -246,17 +247,27 @@ public class CfBuildService {
 		path.add(item.getTitle());
 		path.add(null);
 
+		int index_search_by_text = 0;
+
+		if (info.searchByText)
+			index_search_by_text = path.indexOf(item.getTitle());
+
 		gr = get(levels.get(0), path.get(0), null, proposals);
 
 		for (int i = 1; i < path.size(); i++) {
+
+			if (i == index_search_by_text)
+				break;
 
 			if (levels.size() <= i)
 				break;
 
 			if (levels.get(i) == ELevel.proc && gr != null) {
 				gr = getProcs(path.get(i), gr, proposals);
-				if (gr != null)
+				if (gr != null) {
+					info.getProc = true;
 					System.out.println("find proc");
+				}
 				continue;
 			}
 
@@ -269,13 +280,110 @@ public class CfBuildService {
 
 		}
 
-		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2) {
+		if (info.searchByText && !info.getProc) {
+
+			buildWithTextSearch(proposals, gr, item.getTitle());
+
+			fillParents(proposals);
+		}
+
+		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2
+				&& !info.searchByText) {
 			info.searchByGroup2 = true;
 			buildWithPath(proposals, path_items, item, info);
 
 			fillParents(proposals);
 		}
 
+	}
+
+	private void buildWithTextSearch(List<BuildInfo> proposals, Integer gr,
+			String title) throws SQLException {
+
+		if (con == null)
+			return;
+
+		if (proposals != null)
+			proposals.clear();
+
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		List<Integer> children = new ArrayList<Integer>();
+		getChildren(children, gr);
+		children.add(gr);
+
+		SQL = "Select T.TITLE, T.OBJECT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
+		SQL = SQL
+				.concat(" WHERE T.OBJECT IN(?) AND UPPER(T1.TEXT) REGEXP UPPER(?)");
+		SQL = SQL.concat(" ORDER BY TITLE");
+
+		prep = con.prepareStatement(SQL);
+		prep.setObject(1, children.toArray());
+		prep.setString(2, title);
+
+		rs = prep.executeQuery();
+		try {
+			while (rs.next()) {
+
+				BuildInfo info = new BuildInfo();
+				info.title = rs.getString(1);
+				info.parent = rs.getInt(2);
+
+				proposals.add(info);
+
+			}
+
+		} finally {
+			rs.close();
+		}
+
+	}
+
+	int[] toIntArray(List<Integer> list) {
+		int[] ret = new int[list.size()];
+		int i = 0;
+		for (Integer e : list)
+			ret[i++] = e.intValue();
+		return ret;
+	}
+
+	private void getChildren(List<Integer> result, Integer gr)
+			throws SQLException {
+
+		if (con == null)
+			return;
+
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		SQL = "Select ID from OBJECTS AS T WHERE PARENT=?";
+
+		prep = con.prepareStatement(SQL);
+
+		prep.setInt(1, gr);
+
+		rs = prep.executeQuery();
+
+		List<Integer> list = new ArrayList<Integer>();
+
+		try {
+			while (rs.next()) {
+
+				int id = rs.getInt(1);
+				result.add(id);
+				list.add(id);
+			}
+
+		} finally {
+			rs.close();
+		}
+
+		for (Integer s : list) {
+			getChildren(result, s);
+		}
 	}
 
 	private void fillParents(List<BuildInfo> proposals) throws SQLException {
@@ -317,6 +425,7 @@ public class CfBuildService {
 			if (fromMap == null) {
 				map.put(root.id, root);
 				proposals.add(root);
+				root.type = BuildType.object;
 			} else
 				root = fromMap;
 
@@ -324,20 +433,32 @@ public class CfBuildService {
 
 				BuildInfo item = value.get(i);
 
-				BuildInfo list = map.get(root.id);
-				if (list == null) {
+				BuildInfo parent = map.get(root.id);
+				if (parent == null) {
 					map.put(root.id, root);
-				} else {
-					list.children.add(item);
+					root.children.add(0, item);
 				}
 
-				root = item;
+				BuildInfo current = map.get(item.id);
+				if (current == null) {
+					map.put(item.id, item);
+					root.children.add(0, item);
+				}
+
+				root = map.get(item.id);
 
 			}
 
-			root.children.add(key);
+			root.children.add(0, key);
 
 		}
+
+		java.util.Collections.sort(proposals, new Comparator<BuildInfo>() {
+			@Override
+			public int compare(BuildInfo o1, BuildInfo o2) {
+				return o1.sort - o2.sort;
+			}
+		});
 
 	}
 
@@ -350,7 +471,7 @@ public class CfBuildService {
 		PreparedStatement prep;
 		ResultSet rs;
 
-		SQL = "Select TITLE, ID, PARENT from OBJECTS WHERE ID = ?";
+		SQL = "Select TITLE, ID, PARENT, SORT, LEVEL from OBJECTS WHERE ID = ?";
 
 		prep = con.prepareStatement(SQL);
 
@@ -365,6 +486,10 @@ public class CfBuildService {
 				info.title = rs.getString(1);
 				info.id = rs.getInt(2);
 				info.parent = rs.getInt(3);
+				info.sort = rs.getInt(4);
+
+				if (rs.getInt(5) == ELevel.module.toInt())
+					info.type = BuildType.module;
 
 			}
 

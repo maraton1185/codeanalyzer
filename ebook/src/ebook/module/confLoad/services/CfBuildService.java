@@ -209,7 +209,7 @@ public class CfBuildService {
 						info1.title = rs1.getString(1);
 						info1.group = true;
 
-						info.children.add(info1);
+						info.children.insertSorted(info1);
 					}
 				} finally {
 					rs1.close();
@@ -247,7 +247,7 @@ public class CfBuildService {
 		path.add(item.getTitle());
 		path.add(null);
 
-		int index_search_by_text = 0;
+		int index_search_by_text = 1000;
 
 		if (info.searchByText)
 			index_search_by_text = path.indexOf(item.getTitle());
@@ -256,7 +256,7 @@ public class CfBuildService {
 
 		for (int i = 1; i < path.size(); i++) {
 
-			if (i == index_search_by_text)
+			if (i >= index_search_by_text)
 				break;
 
 			if (levels.size() <= i)
@@ -310,19 +310,22 @@ public class CfBuildService {
 		PreparedStatement prep;
 		ResultSet rs;
 
-		List<Integer> children = new ArrayList<Integer>();
-		getChildren(children, gr);
-		children.add(gr);
-
 		SQL = "Select T.TITLE, T.OBJECT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
-		SQL = SQL
-				.concat(" WHERE T.OBJECT IN(?) AND UPPER(T1.TEXT) REGEXP UPPER(?)");
+		SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
+
+		if (gr != null)
+			SQL = SQL
+					.concat(" AND (T.GROUP1 = ? OR T.GROUP2 = ? OR T.MODULE = ?)");
+
 		SQL = SQL.concat(" ORDER BY TITLE");
 
 		prep = con.prepareStatement(SQL);
-		prep.setObject(1, children.toArray());
-		prep.setString(2, title);
-
+		prep.setString(1, title);
+		if (gr != null) {
+			prep.setInt(2, gr);
+			prep.setInt(3, gr);
+			prep.setInt(4, gr);
+		}
 		rs = prep.executeQuery();
 		try {
 			while (rs.next()) {
@@ -339,51 +342,6 @@ public class CfBuildService {
 			rs.close();
 		}
 
-	}
-
-	int[] toIntArray(List<Integer> list) {
-		int[] ret = new int[list.size()];
-		int i = 0;
-		for (Integer e : list)
-			ret[i++] = e.intValue();
-		return ret;
-	}
-
-	private void getChildren(List<Integer> result, Integer gr)
-			throws SQLException {
-
-		if (con == null)
-			return;
-
-		String SQL;
-		PreparedStatement prep;
-		ResultSet rs;
-
-		SQL = "Select ID from OBJECTS AS T WHERE PARENT=?";
-
-		prep = con.prepareStatement(SQL);
-
-		prep.setInt(1, gr);
-
-		rs = prep.executeQuery();
-
-		List<Integer> list = new ArrayList<Integer>();
-
-		try {
-			while (rs.next()) {
-
-				int id = rs.getInt(1);
-				result.add(id);
-				list.add(id);
-			}
-
-		} finally {
-			rs.close();
-		}
-
-		for (Integer s : list) {
-			getChildren(result, s);
-		}
 	}
 
 	private void fillParents(List<BuildInfo> proposals) throws SQLException {
@@ -436,20 +394,20 @@ public class CfBuildService {
 				BuildInfo parent = map.get(root.id);
 				if (parent == null) {
 					map.put(root.id, root);
-					root.children.add(0, item);
+					root.children.insertSorted(item);
 				}
 
 				BuildInfo current = map.get(item.id);
 				if (current == null) {
 					map.put(item.id, item);
-					root.children.add(0, item);
+					root.children.insertSorted(item);
 				}
 
 				root = map.get(item.id);
 
 			}
 
-			root.children.add(0, key);
+			root.children.insertSorted(key);
 
 		}
 

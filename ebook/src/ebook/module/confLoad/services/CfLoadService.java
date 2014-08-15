@@ -24,12 +24,13 @@ public class CfLoadService {
 
 		Integer group1 = addObject(con, line.group1, ELevel.group1.toInt(),
 				null, line.sort);
+		line._group1 = group1;
 		Integer group2 = addObject(con, line.group2, ELevel.group2.toInt(),
 				group1, line.sort);
-
+		line._group2 = group2;
 		Integer module = addObject(con, line.module, ELevel.module.toInt(),
 				group2, line.sort);
-
+		line._module = module;
 		return module;
 	}
 
@@ -97,14 +98,11 @@ public class CfLoadService {
 	public void addProcedure(Connection con, procEntity line, Integer module)
 			throws SQLException {
 
-		String SQL = "INSERT INTO PROCS (OBJECT, NAME, TITLE, EXPORT, CONTEXT, SECTION) VALUES (?,?,?,?,?,?)";
+		String SQL = "INSERT INTO PROCS (OBJECT, NAME, TITLE, EXPORT, CONTEXT, SECTION, GROUP1, GROUP2, MODULE) VALUES (?,?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = con.prepareStatement(SQL,
 				Statement.RETURN_GENERATED_KEYS);
 
 		prep.setInt(1, module);
-		// prep.setString(2, line.group1);
-		// prep.setString(3, line.group2);
-		// prep.setString(4, line.module);
 		prep.setString(2, line.proc_name.toUpperCase());
 		prep.setString(3, line.proc_title);
 		prep.setBoolean(4, line.export);
@@ -114,6 +112,10 @@ public class CfLoadService {
 					line.section.length() > 199 ? 199 : line.section.length()));
 		else
 			prep.setString(6, line.section);
+
+		prep.setInt(7, line._group1);
+		prep.setInt(8, line._group2);
+		prep.setInt(9, line._module);
 
 		int affectedRows = prep.executeUpdate();
 		if (affectedRows == 0)

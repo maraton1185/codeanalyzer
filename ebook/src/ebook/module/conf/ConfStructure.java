@@ -24,11 +24,13 @@ public class ConfStructure implements IDbStructure {
 
 		Statement stat = con.createStatement();
 		try {
-
 			stat.execute("ALTER TABLE OBJECTS ADD SORT INTEGER;");
+			stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
+			stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
+			stat.execute("ALTER TABLE PROCS ADD MODULE INTEGER;");
 
 		} catch (Exception e) {
-			throw new SQLException();
+			throw new SQLException("Ошибка обновления структуры базы данных.");
 		}
 	}
 
@@ -125,6 +127,8 @@ public class ConfStructure implements IDbStructure {
 					+ "OBJECT INTEGER, "
 					+ "NAME VARCHAR(200), TITLE VARCHAR(500), EXPORT BOOL, CONTEXT INTEGER, SECTION VARCHAR(200), "
 
+					+ "GROUP1 INTEGER, GROUP2 INTEGER, MODULE INTEGER, "
+
 					+ "FOREIGN KEY(OBJECT) REFERENCES OBJECTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 
 					+ "PRIMARY KEY (ID));"
@@ -170,7 +174,7 @@ public class ConfStructure implements IDbStructure {
 				"PARENT, TITLE, OPTIONS, SORT")
 
 				&& ch.checkColumns(metadata, "PROCS",
-						"OBJECT, NAME, TITLE, EXPORT, CONTEXT, SECTION")
+						"OBJECT, NAME, TITLE, EXPORT, CONTEXT, SECTION, GROUP1, GROUP2, MODULE")
 
 				&& ch.checkColumns(metadata, "PROCS_PARAMETERS", "KEY, VALUE")
 

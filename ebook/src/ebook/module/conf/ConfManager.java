@@ -133,7 +133,7 @@ public class ConfManager extends TreeManager {
 
 		AdditionalInfo info = new AdditionalInfo();
 		info.type = BuildType.object;
-		info.searchByText = opt.type == BuildType.text;
+		info.setSearchByText(opt.type == BuildType.text);
 		if (root != null) {
 			// get root without type between
 			info.type = null;

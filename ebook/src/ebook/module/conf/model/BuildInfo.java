@@ -1,11 +1,9 @@
 package ebook.module.conf.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class BuildInfo {
+public class BuildInfo implements Comparable<BuildInfo> {
 
-	public List<BuildInfo> children = new ArrayList<BuildInfo>();
+	public SortedArrayList<BuildInfo> children = new SortedArrayList<BuildInfo>();
 
 	public boolean group = true;
 	public String title;
@@ -14,11 +12,11 @@ public class BuildInfo {
 	public Integer id;
 	public Integer sort = 0;
 
-	// @Override
-	// public boolean equals(Object obj) {
-	// if (obj instanceof BuildInfo)
-	// return ((BuildInfo) obj).id.equals(id);
-	// else
-	// return super.equals(obj);
-	// }
+	@Override
+	public int compareTo(BuildInfo o) {
+		if (sort != 0)
+			return sort - o.sort;
+		return title.compareTo(o.title);
+	}
+
 }

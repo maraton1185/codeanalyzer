@@ -7,4 +7,8 @@ public class Entity {
 	public EType type;
 	public EContext context;
 	public int sort;
+
+	public int _group1;
+	public int _group2;
+	public int _module;
 }

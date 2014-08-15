@@ -302,10 +302,15 @@ public class ConfService extends TreeService {
 			// um.setProperty(Unmarshaller.JAXB_ENCODING, "UTF-8");
 			ContextXML root = (ContextXML) um.unmarshal(reader);
 
+			stopUpdate();
+			ContextInfo res;
 			if (item.isGroup())
-				readXML(root, item, t);
+				res = readXML(root, item, t);
 			else
-				readXML(root, get(item.getParent()), t);
+				res = readXML(root, get(item.getParent()), t);
+
+			startUpdate();
+			selectLast(res.getParent());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -315,8 +320,8 @@ public class ConfService extends TreeService {
 
 	}
 
-	private void readXML(ContextXML element, ITreeItemInfo parent, IPath p)
-			throws InvocationTargetException {
+	private ContextInfo readXML(ContextXML element, ITreeItemInfo parent,
+			IPath p) throws InvocationTargetException {
 
 		ContextInfo root = (ContextInfo) ContextInfo.fromXML(element);
 		add(root, parent, true);
@@ -326,6 +331,7 @@ public class ConfService extends TreeService {
 			readXML(child, root, p);
 		}
 
+		return root;
 	}
 
 	public void setPassword(String value) {

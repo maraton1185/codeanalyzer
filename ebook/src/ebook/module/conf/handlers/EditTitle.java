@@ -20,7 +20,7 @@ public class EditTitle {
 	public void execute(@Active ContextInfo item, @Active ConfConnection con,
 			@Active @Named(Events.CONTEXT_ACTIVE_LIST) ListInfo list) {
 
-		App.br.post(Events.EVENT_EDIT_TITLE_CONF_VIEW,
+		App.br.post(Events.EVENT_UPDATE_CONF_VIEW_EDIT_TITLE,
 				new EVENT_UPDATE_VIEW_DATA(con, list, item, null));
 	}
 

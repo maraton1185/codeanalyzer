@@ -1,6 +1,7 @@
 package ebook.module.conf;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class ConfManager extends TreeManager {
 			data.setTitle(Strings.value("section"));
 			data.setGroup(true);
 			srv.add(data, parent, false);
+			srv.edit(data);
 
 		} catch (InvocationTargetException e) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),
@@ -52,6 +54,7 @@ public class ConfManager extends TreeManager {
 			data.setTitle(Strings.value("section"));
 			data.setGroup(true);
 			srv.add(data, parent, true);
+			srv.edit(data);
 
 		} catch (InvocationTargetException e) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),
@@ -76,48 +79,8 @@ public class ConfManager extends TreeManager {
 			// root
 			if (opt.type == BuildType.root)
 				list = cf.build().buildRoot();
-
-			// type is null
-			if (opt.type == null) {
-
-				ITreeItemInfo parent = item;
-				List<ITreeItemInfo> path = new ArrayList<ITreeItemInfo>();
-
-				while (parent == null ? false : !parent.isRoot()) {
-
-					parent = srv.get(parent.getParent());
-
-					ContextInfoOptions opt1 = (ContextInfoOptions) parent
-							.getOptions();
-
-					// have root
-					if (opt1.type == BuildType.root)
-						break;
-
-					if (opt1.type != BuildType.object)
-						path.add(0, parent);
-
-					// have type before root
-					// if (opt1.type != null) {
-					// parent = null;
-					// break;
-					// }
-				}
-
-				AdditionalInfo info = new AdditionalInfo();
-				info.type = BuildType.object;
-				if (parent != null) {
-					// get root without type between
-					info.type = null;
-					list = cf.build().buildWithRootPath(path, item, info);
-				}
-
-				if (info.type != null) {
-					// set type object
-					opt.type = info.type;
-					srv.saveOptions(item);
-				}
-			}
+			else
+				buildPath(list, item);
 
 			// **************************************
 
@@ -129,6 +92,63 @@ public class ConfManager extends TreeManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void buildPath(List<BuildInfo> list, ContextInfo item)
+			throws SQLException, InvocationTargetException {
+
+		ContextInfoOptions opt = item.getOptions();
+
+		List<ITreeItemInfo> path = new ArrayList<ITreeItemInfo>();
+		ITreeItemInfo root = item;
+		boolean getPath = opt.type != BuildType.object;
+		while (getPath && root != null) {
+
+			root = srv.get(root.getParent());
+
+			if (root == null)
+				break;
+
+			ContextInfoOptions opt1 = (ContextInfoOptions) root.getOptions();
+
+			// have root
+			if (opt1.type == BuildType.root)
+				break;
+
+			if (opt1.type == BuildType.proposal)
+				continue;
+
+			path.add(0, root);
+
+			if (opt1.type == BuildType.object)
+				break;
+
+			// have type before root
+			if (opt1.type != null && opt1.type != BuildType.module) {
+				root = null;
+				break;
+			}
+
+		}
+
+		AdditionalInfo info = new AdditionalInfo();
+		info.type = BuildType.object;
+		if (root != null) {
+			// get root without type between
+			info.type = null;
+			cf.build().buildWithPath(list, path, item, info);
+		}
+
+		if (info.type != null) {
+			// set type object
+			opt.type = info.type;
+			srv.saveOptions(item);
+		}
+
+		if (info.type == BuildType.object) {
+			buildPath(list, item);
+		}
+
 	}
 
 	private void addBuild(List<BuildInfo> list, ITreeItemInfo parent) {
@@ -160,9 +180,17 @@ public class ConfManager extends TreeManager {
 	}
 
 	public void buildDelete(ContextInfo item, Shell shell) {
+		try {
+			srv.deleteChildren(item);
 
-		srv.deleteChildren(item);
-
+			ContextInfoOptions opt = item.getOptions();
+			if (opt.type == BuildType.proposal) {
+				opt.type = null;
+				srv.saveOptions(item);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

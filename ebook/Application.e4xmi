@@ -212,10 +212,10 @@
     <bindings xmi:id="_hekNEAv6EeS7_vESrMQ_jw" elementId="ebook.keybinding.10" keySequence="F6" command="_dea_gNQiEeOFfdAek_eJEQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_-MnccBesEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.14" keySequence="M2+TAB" command="_sXbRULAWEeOa8OKjTLKQvw">
+    <bindings xmi:id="_-MnccBesEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.14" keySequence="TAB" command="_sXbRULAWEeOa8OKjTLKQvw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_DhrcoBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.15" keySequence="TAB" command="_sPoPIK3EEeOHwvV36BHkVA">
+    <bindings xmi:id="_DhrcoBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.15" keySequence="M2+TAB" command="_sPoPIK3EEeOHwvV36BHkVA">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -229,10 +229,10 @@
     <bindings xmi:id="_gD80oN8VEeO4waw7J7j0xQ" elementId="ebook.keybinding.9" keySequence="F2" command="_W2YgENtrEeO08YnUrs_6Pw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_Nn9JEBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.16" keySequence="TAB" command="_fOlogNtoEeO08YnUrs_6Pw">
+    <bindings xmi:id="_Nn9JEBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.16" keySequence="M2+TAB" command="_fOlogNtoEeO08YnUrs_6Pw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_N8LsoBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.17" keySequence="M2+TAB" command="_-33RcNtqEeO08YnUrs_6Pw">
+    <bindings xmi:id="_N8LsoBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.17" keySequence="TAB" command="_-33RcNtqEeO08YnUrs_6Pw">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -246,10 +246,10 @@
     <bindings xmi:id="_nJ6yEOAjEeOuHKOpYE-s4Q" elementId="ebook.keybinding.9" keySequence="F2" command="_Gz2psOAjEeOuHKOpYE-s4Q">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_gpNzgBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.18" keySequence="M2+TAB" command="_-RWxcOLFEeOuwO28iF6Snw">
+    <bindings xmi:id="_gpNzgBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.18" keySequence="TAB" command="_-RWxcOLFEeOuwO28iF6Snw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_g6r-ABetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.19" keySequence="TAB" command="_BYzWQOAjEeOuHKOpYE-s4Q">
+    <bindings xmi:id="_g6r-ABetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.19" keySequence="M2+TAB" command="_BYzWQOAjEeOuHKOpYE-s4Q">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -263,10 +263,10 @@
     <bindings xmi:id="_2xA_sOrMEeOjdt5IkPdmcg" elementId="ebook.keybinding.9" keySequence="F2" command="_Gcb3wOwiEeO98Pond6SApQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_hLQJkBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.20" keySequence="M2+TAB">
+    <bindings xmi:id="_hLQJkBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.20" keySequence="TAB" command="_D_91UOwiEeO98Pond6SApQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_hdaQkBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.21" keySequence="TAB">
+    <bindings xmi:id="_hdaQkBetEeSgQ_HtGq9HdQ" elementId="ebook.keybinding.21" keySequence="M2+TAB" command="_BnhXQOwiEeO98Pond6SApQ">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -282,10 +282,10 @@
     </bindings>
   </bindingTables>
   <bindingTables xmi:id="_2DZOgBicEeSEwsGZkmCqtw" elementId="ebook.bindingtable.6" bindingContext="_zSemEBicEeSEwsGZkmCqtw">
-    <bindings xmi:id="_3fyUABicEeSEwsGZkmCqtw" elementId="ebook.keybinding.15" keySequence="TAB" command="_R8mmgBicEeSEwsGZkmCqtw">
+    <bindings xmi:id="_3fyUABicEeSEwsGZkmCqtw" elementId="ebook.keybinding.15" keySequence="M2+TAB" command="_R8mmgBicEeSEwsGZkmCqtw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_3-V4QBicEeSEwsGZkmCqtw" elementId="ebook.keybinding.14" keySequence="M2+TAB" command="_WxNlABicEeSEwsGZkmCqtw">
+    <bindings xmi:id="_3-V4QBicEeSEwsGZkmCqtw" elementId="ebook.keybinding.21" keySequence="TAB" command="_WxNlABicEeSEwsGZkmCqtw">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_5UOtIBicEeSEwsGZkmCqtw" elementId="ebook.keybinding.5" keySequence="DELETE" command="_Zg_lABicEeSEwsGZkmCqtw">
@@ -312,12 +312,27 @@
     <bindings xmi:id="_xF3y0COYEeSRdYCzL9P3Gg" elementId="ebook.keybinding.11" keySequence="M2+DELETE" command="_uZXJQCOYEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
-  </bindingTables>
-  <bindingTables xmi:id="_AuPGkB09EeS8Ob_mPIL9rg" elementId="ebook.bindingtable.7" bindingContext="_7M6MAB08EeS8Ob_mPIL9rg">
-    <bindings xmi:id="_AuPGkR09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.15" keySequence="TAB" command="_OBSGcB08EeS8Ob_mPIL9rg">
+    <bindings xmi:id="_KMFPwCQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+0" command="_YKq6gCONEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_AuPGkh09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.14" keySequence="M2+TAB" command="_SP2YoB08EeS8Ob_mPIL9rg">
+    <bindings xmi:id="_KPjagCQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+1" command="_pzd10COQEeSRdYCzL9P3Gg">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_IjwnECQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+2" command="_X0LGECONEeSRdYCzL9P3Gg">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_Fy98oCRMEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+3" command="_TwRLwCONEeSRdYCzL9P3Gg">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_eL_OkCRPEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+4" command="_X9QwoCONEeSRdYCzL9P3Gg">
+      <tags>type:user</tags>
+    </bindings>
+  </bindingTables>
+  <bindingTables xmi:id="_AuPGkB09EeS8Ob_mPIL9rg" elementId="ebook.bindingtable.7" bindingContext="_7M6MAB08EeS8Ob_mPIL9rg">
+    <bindings xmi:id="_AuPGkR09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.15" keySequence="M2+TAB" command="_OBSGcB08EeS8Ob_mPIL9rg">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_AuPGkh09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.22" keySequence="TAB" command="_SP2YoB08EeS8Ob_mPIL9rg">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_AuPGkx09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.5" keySequence="DELETE" command="_SbdywB08EeS8Ob_mPIL9rg">
@@ -328,10 +343,10 @@
     </bindings>
   </bindingTables>
   <bindingTables xmi:id="_Op6-ICH6EeSSjvNQ5dYbAw" elementId="ebook.bindingtable.8" bindingContext="_LcnUoCH6EeSSjvNQ5dYbAw">
-    <bindings xmi:id="_QZbz8CH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.15" keySequence="TAB" command="__qP50CH5EeSSjvNQ5dYbAw">
+    <bindings xmi:id="_QZbz8CH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.51" keySequence="M2+TAB" command="__qP50CH5EeSSjvNQ5dYbAw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_QowpYCH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.14" keySequence="M2+TAB" command="_CU3F8CH6EeSSjvNQ5dYbAw">
+    <bindings xmi:id="_QowpYCH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.23" keySequence="TAB" command="_CU3F8CH6EeSSjvNQ5dYbAw">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_Q0UZICH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.5" keySequence="DELETE" command="_FQzSoCH6EeSSjvNQ5dYbAw">
@@ -352,7 +367,7 @@
       <children xmi:id="_nXM9EOrMEeOjdt5IkPdmcg" elementId="ebook.bindingcontext.confListPart" name="conf list part"/>
       <children xmi:id="_5u66gBibEeSEwsGZkmCqtw" elementId="ebook.bindingcontext.bookContentPart" name="book content part"/>
       <children xmi:id="_zSemEBicEeSEwsGZkmCqtw" elementId="ebook.bindingcontext.0" name="ConfView part"/>
-      <children xmi:id="_7M6MAB08EeS8Ob_mPIL9rg" elementId="ebook.bindingcontext.1" name="conf list part"/>
+      <children xmi:id="_7M6MAB08EeS8Ob_mPIL9rg" elementId="ebook.bindingcontext.1" name="ListView part"/>
       <children xmi:id="_LcnUoCH6EeSSjvNQ5dYbAw" elementId="ebook.bindingcontext.contextPart" name="context part"/>
     </children>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
@@ -408,7 +423,7 @@
     <handlers xmi:id="_cfKBEB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Cut" command="_Nf0CoBMsEeSxtrXpzQMiIQ"/>
     <handlers xmi:id="_ficZUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerText" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_gqWckCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerObject" command="_X0LGECONEeSRdYCzL9P3Gg"/>
-    <handlers xmi:id="_gxV1YCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerProc" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
+    <handlers xmi:id="_gxV1YCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerModule" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_g0_mUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerClear" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_JyL1kB75EeSy8KLEUiC4ow" elementId="ebook.handler.44" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Build" command="_TgXnkB74EeSy8KLEUiC4ow"/>
     <handlers xmi:id="_IzMvUCOPEeSRdYCzL9P3Gg" elementId="ebook.handler.57" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildText" command="_vvh2gCOOEeSRdYCzL9P3Gg"/>
@@ -417,10 +432,10 @@
     <menus xsi:type="menu:PopupMenu" xmi:id="_UORwAB1DEeS8Ob_mPIL9rg" elementId="ebook.listView.popup">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_-vKNAB74EeSy8KLEUiC4ow" elementId="ebook.handledmenuitem.11" label="Построить" iconURI="platform:/plugin/ebook/icons/set/build.png" tooltip="Построить" command="_TgXnkB74EeSy8KLEUiC4ow"/>
       <children xsi:type="menu:Menu" xmi:id="_zRQDECOJEeSRdYCzL9P3Gg" elementId="ebook.menu.7" label="Маркеры">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_64oEICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.37" label="Текст" iconURI="platform:/plugin/ebook/icons/set/text.png" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_4IiiICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.35" label="Объект" iconURI="platform:/plugin/ebook/icons/set/object.png" command="_X0LGECONEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" label="Процедура" iconURI="platform:/plugin/ebook/icons/set/proc.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_64oEICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.37" label="Текст" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/markers/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_4IiiICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.35" label="Объект" iconURI="platform:/plugin/ebook/icons/set/markers/object.png" command="_X0LGECONEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" label="Модуль" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_M0sgwCONEeSRdYCzL9P3Gg" elementId="ebook.menuseparator.8"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_LA9SQCONEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.38" label="Очистить" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
       </children>
@@ -435,7 +450,6 @@
       <children xsi:type="menu:HandledMenuItem" xmi:id="_YaIscB1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.7" label="Копировать" iconURI="platform:/plugin/ebook/icons/set/copy.png" command="_aVgokBvFEeSuCZqAXHJskQ"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_YrTU8B1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.7" label="Вставить" iconURI="platform:/plugin/ebook/icons/set/paste.png" command="_bKMN0BvFEeSuCZqAXHJskQ"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_ZBiDoB1DEeS8Ob_mPIL9rg" elementId="ebook.handledmenuitem.7" label="Вырезать" iconURI="platform:/plugin/ebook/icons/set/cut.png" command="_bxHD4BvFEeSuCZqAXHJskQ"/>
-      
     </menus>
     <toolbar xmi:id="_KKc6oB1DEeS8Ob_mPIL9rg" elementId="ebook.toolbar.15">
       <children xsi:type="menu:HandledToolItem" xmi:id="_1UvWcB73EeSy8KLEUiC4ow" elementId="ebook.handledtoolitem.0" label="Построить" iconURI="platform:/plugin/ebook/icons/set/build.png" tooltip="Построить" command="_TgXnkB74EeSy8KLEUiC4ow">
@@ -650,7 +664,7 @@
   <commands xmi:id="_nl2LACIMEeSSjvNQ5dYbAw" elementId="ContextView - open context" commandName="ContextView - open context"/>
   <commands xmi:id="_TwRLwCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.text" commandName="ConfView.markers.text"/>
   <commands xmi:id="_X0LGECONEeSRdYCzL9P3Gg" elementId="ConfView.markers.object" commandName="ConfView.markers.object"/>
-  <commands xmi:id="_X9QwoCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.proc" commandName="ConfView.markers.proc"/>
+  <commands xmi:id="_X9QwoCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.module" commandName="ConfView.markers.module"/>
   <commands xmi:id="_pzd10COQEeSRdYCzL9P3Gg" elementId="ConfView.markers.root" commandName="ConfView.markers.root"/>
   <commands xmi:id="_YKq6gCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.clear" commandName="ConfView.markers.clear"/>
   <commands xmi:id="_TgXnkB74EeSy8KLEUiC4ow" elementId="ConfView.build" commandName="ConfView.build"/>

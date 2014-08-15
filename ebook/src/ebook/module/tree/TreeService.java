@@ -129,6 +129,7 @@ public abstract class TreeService implements ITreeService {
 				if (_parent != null && parent.isRoot())
 					_parent.setRoot();
 				App.br.post(updateEvent, getUpdateEventData(_parent, data));
+
 				// getUpdateEventData(get(data.getParent()), data));
 			}
 		} catch (Exception e) {
@@ -385,6 +386,11 @@ public abstract class TreeService implements ITreeService {
 	public void expand(ITreeItemInfo item) {
 
 		App.br.post(updateEvent + "_EXPAND", getUpdateEventData(item, item));
+	}
+
+	public void edit(ITreeItemInfo item) {
+
+		App.br.post(updateEvent + "_EDIT_TITLE", getUpdateEventData(item, item));
 	}
 
 	@Override

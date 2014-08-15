@@ -190,9 +190,13 @@ public class ConfListManager extends TreeManager {
 	public void delete(ITreeItemSelection selection, Shell shell) {
 		Iterator<ITreeItemInfo> iterator = selection.iterator();
 		while (iterator.hasNext()) {
+
+			ListConfInfo item = (ListConfInfo) iterator.next();
+			if (item.isGroup())
+				continue;
+
 			try {
-				ConfConnection con = new ConfConnection(
-						((ListConfInfo) iterator.next()).getPath(), false);
+				ConfConnection con = new ConfConnection(item.getPath(), false);
 				con.closeConnection();
 			} catch (Exception e) {
 				e.printStackTrace();

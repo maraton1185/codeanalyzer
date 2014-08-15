@@ -600,10 +600,14 @@ public class BookService extends TreeService {
 			// um.setProperty(Unmarshaller.JAXB_ENCODING, "UTF-8");
 			SectionXML root = (SectionXML) um.unmarshal(reader);
 
+			stopUpdate();
+			SectionInfo res;
 			if (section.isGroup())
-				readXML(root, section, t);
+				res = readXML(root, section, t);
 			else
-				readXML(root, get(section.getParent()), t);
+				res = readXML(root, get(section.getParent()), t);
+			startUpdate();
+			selectLast(res.getParent());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -613,8 +617,8 @@ public class BookService extends TreeService {
 
 	}
 
-	private void readXML(SectionXML element, ITreeItemInfo parent, IPath p)
-			throws InvocationTargetException {
+	private SectionInfo readXML(SectionXML element, ITreeItemInfo parent,
+			IPath p) throws InvocationTargetException {
 
 		SectionInfo root = (SectionInfo) SectionInfo.fromXML(element);
 		add(root, parent, true);
@@ -645,6 +649,7 @@ public class BookService extends TreeService {
 			readXML(child, root, p);
 		}
 
+		return root;
 	}
 
 	public List<ITreeItemInfo> findSections(String search) {

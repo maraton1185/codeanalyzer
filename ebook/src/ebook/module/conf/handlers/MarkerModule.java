@@ -14,7 +14,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
 
-public class MarkerProc {
+public class MarkerModule {
 
 	@Execute
 	public void execute(Shell shell, @Optional ContextInfo item,
@@ -22,7 +22,7 @@ public class MarkerProc {
 			@Active @Named(Events.CONTEXT_ACTIVE_LIST) ListInfo list) {
 
 		try {
-			item.getOptions().type = BuildType.proc;
+			item.getOptions().type = BuildType.module;
 			con.srv(list).saveOptions(item);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -57,8 +57,8 @@ public class ConfView {
 
 	@Inject
 	@Optional
-	public void EVENT_EDIT_TITLE_CONF_VIEW(
-			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONF_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_UPDATE_CONF_VIEW_EDIT_TITLE(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW_EDIT_TITLE) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
 			return;

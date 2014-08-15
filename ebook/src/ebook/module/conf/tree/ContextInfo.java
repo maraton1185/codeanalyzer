@@ -88,13 +88,15 @@ public class ContextInfo extends TreeItemInfo {
 			return null;
 		switch (opt.type) {
 		case text:
-			return Utils.getImage("text.png");
+			return Utils.getImage("markers/text.png");
 		case object:
-			return Utils.getImage("object.png");
-		case proc:
-			return Utils.getImage("proc.png");
+			return Utils.getImage("markers/object.png");
+		case module:
+			return Utils.getImage("markers/module.png");
 		case root:
-			return Utils.getImage("root.png");
+			return Utils.getImage("markers/root.png");
+		case proposal:
+			return Utils.getImage("markers/proposal.png");
 		default:
 			return null;
 		}
@@ -127,14 +129,11 @@ public class ContextInfo extends TreeItemInfo {
 		ContextInfo info = new ContextInfo();
 		info.setTitle(element.title);
 		info.setGroup(element.group);
-		// if (element.root)
-		// info.setRoot();
-		// info.setOptions(DbOptions.load(ContextInfoOptions.class,
-		// element.options));
-		// // info.setTitleIncrement(false);
+		ContextInfoOptions opt = new ContextInfoOptions();
+		opt.type = element.type;
+		info.setOptions(opt);
 
 		return info;
 
 	}
-
 }

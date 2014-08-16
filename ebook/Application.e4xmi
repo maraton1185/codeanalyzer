@@ -324,6 +324,9 @@
     <bindings xmi:id="_Fy98oCRMEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+3" command="_pzd10COQEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
+    <bindings xmi:id="_vu5YsCUgEeSROpR0F0nnug" elementId="ebook.keybinding.11" keySequence="M1+4" command="_X9QwoCONEeSRdYCzL9P3Gg">
+      <tags>type:user</tags>
+    </bindings>
   </bindingTables>
   <bindingTables xmi:id="_AuPGkB09EeS8Ob_mPIL9rg" elementId="ebook.bindingtable.7" bindingContext="_7M6MAB08EeS8Ob_mPIL9rg">
     <bindings xmi:id="_AuPGkR09EeS8Ob_mPIL9rg" elementId="ebook.keybinding.15" keySequence="M2+TAB" command="_OBSGcB08EeS8Ob_mPIL9rg">
@@ -420,7 +423,7 @@
     <handlers xmi:id="_cfKBEB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Cut" command="_Nf0CoBMsEeSxtrXpzQMiIQ"/>
     <handlers xmi:id="_ficZUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerText" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_gqWckCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerObject" command="_X0LGECONEeSRdYCzL9P3Gg"/>
-    <handlers xmi:id="_gxV1YCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerModule" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
+    <handlers xmi:id="_gxV1YCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerProposal" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_g0_mUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerClear" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_JyL1kB75EeSy8KLEUiC4ow" elementId="ebook.handler.44" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Build" command="_TgXnkB74EeSy8KLEUiC4ow"/>
     <handlers xmi:id="_IzMvUCOPEeSRdYCzL9P3Gg" elementId="ebook.handler.57" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildText" command="_vvh2gCOOEeSRdYCzL9P3Gg"/>
@@ -432,7 +435,7 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_64oEICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.37" label="Текст" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_4IiiICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.35" label="Объект" iconURI="platform:/plugin/ebook/icons/set/markers/object.png" command="_X0LGECONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/markers/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" visible="false" label="Модуль" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" label="Поисковой запрос" iconURI="platform:/plugin/ebook/icons/set/markers/proposal.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_M0sgwCONEeSRdYCzL9P3Gg" elementId="ebook.menuseparator.8"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_LA9SQCONEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.38" label="Очистить" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
       </children>
@@ -661,7 +664,7 @@
   <commands xmi:id="_nl2LACIMEeSSjvNQ5dYbAw" elementId="ContextView - open context" commandName="ContextView - open context"/>
   <commands xmi:id="_TwRLwCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.text" commandName="ConfView.markers.text"/>
   <commands xmi:id="_X0LGECONEeSRdYCzL9P3Gg" elementId="ConfView.markers.object" commandName="ConfView.markers.object"/>
-  <commands xmi:id="_X9QwoCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.module" commandName="ConfView.markers.module"/>
+  <commands xmi:id="_X9QwoCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.proposal" commandName="ConfView.markers.proposal"/>
   <commands xmi:id="_pzd10COQEeSRdYCzL9P3Gg" elementId="ConfView.markers.root" commandName="ConfView.markers.root"/>
   <commands xmi:id="_YKq6gCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.clear" commandName="ConfView.markers.clear"/>
   <commands xmi:id="_TgXnkB74EeSy8KLEUiC4ow" elementId="ConfView.build" commandName="ConfView.build"/>

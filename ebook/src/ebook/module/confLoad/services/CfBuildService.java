@@ -16,7 +16,6 @@ import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.confLoad.model.ELevel;
-import ebook.module.tree.ITreeItemInfo;
 
 public class CfBuildService {
 
@@ -227,8 +226,8 @@ public class CfBuildService {
 	}
 
 	public void buildWithPath(List<BuildInfo> proposals,
-			List<ITreeItemInfo> path_items, ITreeItemInfo item,
-			AdditionalInfo info) throws SQLException {
+			List<String> path_items, String item, AdditionalInfo info)
+			throws SQLException {
 
 		// List<BuildInfo> proposals = new ArrayList<BuildInfo>();
 		Integer gr = null;
@@ -243,17 +242,17 @@ public class CfBuildService {
 
 		List<String> path = new ArrayList<String>();
 
-		for (ITreeItemInfo p : path_items)
-			path.add(p.getTitle());
+		for (String p : path_items)
+			path.add(p);
 
 		// add 2 items
-		path.add(item.getTitle());
+		path.add(item);
 		path.add(null);
 
 		int index_search_by_text = 1000;
 
 		if (info.searchByText)
-			index_search_by_text = path.indexOf(item.getTitle());
+			index_search_by_text = path.indexOf(item);
 
 		if (index_search_by_text != 0)
 			gr = get(levels.get(0), path.get(0), null, proposals);
@@ -290,7 +289,7 @@ public class CfBuildService {
 
 		if (info.searchByText && !info.getProc) {
 
-			buildWithTextSearch(proposals, gr, item.getTitle());
+			buildWithTextSearch(proposals, gr, item);
 
 			// remove last 2 items
 			path.remove(path.size() - 1);

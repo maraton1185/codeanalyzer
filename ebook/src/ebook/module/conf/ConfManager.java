@@ -3,6 +3,7 @@ package ebook.module.conf;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -99,8 +100,17 @@ public class ConfManager extends TreeManager {
 
 		ContextInfoOptions opt = item.getOptions();
 
-		List<ITreeItemInfo> path = new ArrayList<ITreeItemInfo>();
+		List<String> path = new ArrayList<String>();
 		ITreeItemInfo root = item;
+		String mItem = item.getTitle();
+
+		String[] str = root.getTitle().split("\\.");
+		List<String> inpath = Arrays.asList(str);
+		if (inpath.size() > 1) {
+			path.addAll(0, inpath.subList(0, inpath.size() - 1));
+			mItem = inpath.get(inpath.size() - 1);
+		}
+
 		boolean getPath = opt.type != BuildType.object;
 		while (getPath && root != null) {
 
@@ -121,7 +131,12 @@ public class ConfManager extends TreeManager {
 			if (opt1.type == BuildType.text)
 				continue;
 
-			path.add(0, root);
+			str = root.getTitle().split("\\.");
+			inpath = Arrays.asList(str);
+			// if (inpath.size() > 1)
+			path.addAll(0, inpath);
+
+			// path.add(0, root.getTitle());
 
 			if (opt1.type == BuildType.object)
 				break;
@@ -140,14 +155,14 @@ public class ConfManager extends TreeManager {
 		if (root != null) {
 			// get root without type between
 			info.type = null;
-			cf.build().buildWithPath(list, path, item, info);
+			cf.build().buildWithPath(list, path, mItem, info);
 		}
 
 		if (info.searchByText && root == null) {
 			// root search text
 			info.type = null;
 			path.clear();
-			cf.build().buildWithPath(list, path, item, info);
+			cf.build().buildWithPath(list, path, mItem, info);
 		}
 
 		if (info.type != null) {

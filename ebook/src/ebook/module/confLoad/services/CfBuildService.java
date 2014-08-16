@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -244,6 +243,7 @@ public class CfBuildService {
 		for (ITreeItemInfo p : path_items)
 			path.add(p.getTitle());
 
+		// add 2 items
 		path.add(item.getTitle());
 		path.add(null);
 
@@ -252,7 +252,8 @@ public class CfBuildService {
 		if (info.searchByText)
 			index_search_by_text = path.indexOf(item.getTitle());
 
-		gr = get(levels.get(0), path.get(0), null, proposals);
+		if (index_search_by_text != 0)
+			gr = get(levels.get(0), path.get(0), null, proposals);
 
 		for (int i = 1; i < path.size(); i++) {
 
@@ -267,6 +268,7 @@ public class CfBuildService {
 				if (gr != null) {
 					info.getProc = true;
 					System.out.println("find proc");
+					gr = null;
 				}
 				continue;
 			}
@@ -284,7 +286,10 @@ public class CfBuildService {
 
 			buildWithTextSearch(proposals, gr, item.getTitle());
 
-			fillParents(proposals);
+			// remove last 2 items
+			path.remove(path.size() - 1);
+			path.remove(path.size() - 1);
+			fillParents(proposals, path);
 		}
 
 		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2
@@ -292,7 +297,7 @@ public class CfBuildService {
 			info.searchByGroup2 = true;
 			buildWithPath(proposals, path_items, item, info);
 
-			fillParents(proposals);
+			fillParents(proposals, null);
 		}
 
 	}
@@ -344,9 +349,13 @@ public class CfBuildService {
 
 	}
 
-	private void fillParents(List<BuildInfo> proposals) throws SQLException {
+	private void fillParents(List<BuildInfo> proposals, List<String> context)
+			throws SQLException {
 		if (proposals.isEmpty())
 			return;
+
+		if (context == null)
+			context = new ArrayList<String>();
 
 		HashMap<BuildInfo, List<BuildInfo>> parents = new HashMap<BuildInfo, List<BuildInfo>>();
 		for (BuildInfo buildInfo : proposals) {
@@ -355,7 +364,9 @@ public class CfBuildService {
 
 			BuildInfo root = getObject(buildInfo.parent);
 			while (root != null) {
-				path.add(0, root);
+
+				if (!context.contains(root.title))
+					path.add(0, root);
 				root = getObject(root.parent);
 			}
 
@@ -383,7 +394,8 @@ public class CfBuildService {
 			if (fromMap == null) {
 				map.put(root.id, root);
 				proposals.add(root);
-				root.type = BuildType.object;
+				if (root.type == null && context.isEmpty())
+					root.type = BuildType.object;
 			} else
 				root = fromMap;
 
@@ -411,12 +423,7 @@ public class CfBuildService {
 
 		}
 
-		java.util.Collections.sort(proposals, new Comparator<BuildInfo>() {
-			@Override
-			public int compare(BuildInfo o1, BuildInfo o2) {
-				return o1.sort - o2.sort;
-			}
-		});
+		java.util.Collections.sort(proposals);
 
 	}
 

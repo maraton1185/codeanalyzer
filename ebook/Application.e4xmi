@@ -315,16 +315,13 @@
     <bindings xmi:id="_KMFPwCQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+0" command="_YKq6gCONEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_KPjagCQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+1" command="_pzd10COQEeSRdYCzL9P3Gg">
+    <bindings xmi:id="_KPjagCQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+1" command="_TwRLwCONEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_IjwnECQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+2" command="_X0LGECONEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_Fy98oCRMEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+3" command="_TwRLwCONEeSRdYCzL9P3Gg">
-      <tags>type:user</tags>
-    </bindings>
-    <bindings xmi:id="_eL_OkCRPEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+4" command="_X9QwoCONEeSRdYCzL9P3Gg">
+    <bindings xmi:id="_Fy98oCRMEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+3" command="_pzd10COQEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -433,9 +430,9 @@
       <children xsi:type="menu:HandledMenuItem" xmi:id="_-vKNAB74EeSy8KLEUiC4ow" elementId="ebook.handledmenuitem.11" label="Построить" iconURI="platform:/plugin/ebook/icons/set/build.png" tooltip="Построить" command="_TgXnkB74EeSy8KLEUiC4ow"/>
       <children xsi:type="menu:Menu" xmi:id="_zRQDECOJEeSRdYCzL9P3Gg" elementId="ebook.menu.7" label="Маркеры">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_64oEICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.37" label="Текст" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/markers/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_4IiiICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.35" label="Объект" iconURI="platform:/plugin/ebook/icons/set/markers/object.png" command="_X0LGECONEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" label="Модуль" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/markers/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" visible="false" label="Модуль" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_M0sgwCONEeSRdYCzL9P3Gg" elementId="ebook.menuseparator.8"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_LA9SQCONEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.38" label="Очистить" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
       </children>

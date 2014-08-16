@@ -1,6 +1,5 @@
 package ebook.module.conf.model;
 
-
 public class BuildInfo implements Comparable<BuildInfo> {
 
 	public SortedArrayList<BuildInfo> children = new SortedArrayList<BuildInfo>();
@@ -14,7 +13,7 @@ public class BuildInfo implements Comparable<BuildInfo> {
 
 	@Override
 	public int compareTo(BuildInfo o) {
-		if (sort != 0)
+		if (sort - o.sort != 0)
 			return sort - o.sort;
 		return title.compareTo(o.title);
 	}

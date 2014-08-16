@@ -118,6 +118,9 @@ public class ConfManager extends TreeManager {
 			if (opt1.type == BuildType.proposal)
 				continue;
 
+			if (opt1.type == BuildType.text)
+				continue;
+
 			path.add(0, root);
 
 			if (opt1.type == BuildType.object)
@@ -137,6 +140,13 @@ public class ConfManager extends TreeManager {
 		if (root != null) {
 			// get root without type between
 			info.type = null;
+			cf.build().buildWithPath(list, path, item, info);
+		}
+
+		if (info.searchByText && root == null) {
+			// root search text
+			info.type = null;
+			path.clear();
 			cf.build().buildWithPath(list, path, item, info);
 		}
 
@@ -174,6 +184,7 @@ public class ConfManager extends TreeManager {
 		try {
 			item.getOptions().type = BuildType.text;
 			srv.saveOptions(item);
+			build(item, shell);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

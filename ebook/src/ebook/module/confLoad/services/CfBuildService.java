@@ -1,5 +1,7 @@
 package ebook.module.confLoad.services;
 
+import java.io.BufferedReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
@@ -269,6 +272,7 @@ public class CfBuildService {
 					info.getProc = true;
 					System.out.println("find proc");
 					gr = null;
+					proposals.clear();
 				}
 				continue;
 			}
@@ -276,7 +280,9 @@ public class CfBuildService {
 			if (gr != null)
 				gr = get(levels.get(i), path.get(i), gr, proposals);
 			else {
-				info.type = BuildType.proposal;
+
+				if (!proposals.isEmpty())
+					info.type = BuildType.proposal;
 				break;
 			}
 
@@ -311,11 +317,13 @@ public class CfBuildService {
 		if (proposals != null)
 			proposals.clear();
 
+		// title = Pattern.quote(title);
+
 		String SQL;
 		PreparedStatement prep;
 		ResultSet rs;
 
-		SQL = "Select T.TITLE, T.OBJECT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
+		SQL = "Select T.TITLE, T.OBJECT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
 		SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
 
 		if (gr != null)
@@ -325,12 +333,14 @@ public class CfBuildService {
 		SQL = SQL.concat(" ORDER BY TITLE");
 
 		prep = con.prepareStatement(SQL);
-		prep.setString(1, title);
+		prep.setString(1, Pattern.quote(title));
 		if (gr != null) {
 			prep.setInt(2, gr);
 			prep.setInt(3, gr);
 			prep.setInt(4, gr);
 		}
+
+		BufferedReader bufferedReader = null;
 		rs = prep.executeQuery();
 		try {
 			while (rs.next()) {
@@ -339,10 +349,33 @@ public class CfBuildService {
 				info.title = rs.getString(1);
 				info.parent = rs.getInt(2);
 
+				// System.out.println("***************************************");
+				// System.out.println(info.title);
+				// System.out.println("***************************************");
+
+				// StringBuilder result = new StringBuilder();
+				Reader in = rs.getCharacterStream(3);
+				bufferedReader = new BufferedReader(in);
+				String line;
+				while ((line = bufferedReader.readLine()) != null) {
+
+					// System.out.println(line);
+
+					if (line.toLowerCase().contains(title.toLowerCase())) {
+						BuildInfo ch = new BuildInfo();
+						ch.title = line;
+						info.children.add(ch);
+					}
+					// result.append(line + "\n");
+				}
+				// result.append("\n");
+
 				proposals.add(info);
 
 			}
 
+		} catch (Exception e) {
+			throw new SQLException();
 		} finally {
 			rs.close();
 		}

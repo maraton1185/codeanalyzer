@@ -15,14 +15,14 @@ public class SortedArrayList<T> extends ArrayList<T> {
 			Collections.swap(this, i, i - 1);
 	}
 
-	@Override
-	public void add(int index, T element) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean add(T e) {
-		throw new UnsupportedOperationException();
-	}
+	// @Override
+	// public void add(int index, T element) {
+	// throw new UnsupportedOperationException();
+	// }
+	//
+	// @Override
+	// public boolean add(T e) {
+	// throw new UnsupportedOperationException();
+	// }
 
 }

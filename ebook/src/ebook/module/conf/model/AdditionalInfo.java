@@ -2,6 +2,8 @@ package ebook.module.conf.model;
 
 public class AdditionalInfo {
 
+	public String filter = "";
+	public String itemTitle;
 	public BuildType type;
 	public boolean searchByGroup2 = false;
 	public boolean searchByText = false;

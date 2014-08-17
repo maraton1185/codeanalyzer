@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,10 @@ import java.util.regex.Pattern;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
+import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeService;
 
 public class CfBuildService {
 
@@ -58,9 +62,12 @@ public class CfBuildService {
 
 		if (title != null)
 			if (proposals == null || exact)
+
 				SQL = SQL.concat(" AND UPPER(TITLE)=UPPER(?)");
-			else
+			else {
 				SQL = SQL.concat(" AND UPPER(TITLE) REGEXP UPPER(?)");
+				title = Pattern.quote(title);
+			}
 
 		SQL = SQL.concat(" ORDER BY TITLE");
 
@@ -139,8 +146,10 @@ public class CfBuildService {
 		if (title != null)
 			if (exact)
 				SQL = SQL.concat(" AND UPPER(TITLE)=UPPER(?)");
-			else
+			else {
 				SQL = SQL.concat(" AND UPPER(TITLE) REGEXP UPPER(?)");
+				title = Pattern.quote(title);
+			}
 
 		SQL = SQL.concat(" ORDER BY ID");
 
@@ -226,8 +235,7 @@ public class CfBuildService {
 	}
 
 	public void buildWithPath(List<BuildInfo> proposals,
-			List<String> path_items, String item, AdditionalInfo info)
-			throws SQLException {
+			List<String> path_items, AdditionalInfo info) throws SQLException {
 
 		// List<BuildInfo> proposals = new ArrayList<BuildInfo>();
 		Integer gr = null;
@@ -243,16 +251,16 @@ public class CfBuildService {
 		List<String> path = new ArrayList<String>();
 
 		for (String p : path_items)
-			path.add(p);
+			path.add(p.replace("###", "..."));
 
 		// add 2 items
-		path.add(item);
+		path.add(info.itemTitle);
 		path.add(null);
 
 		int index_search_by_text = 1000;
 
 		if (info.searchByText)
-			index_search_by_text = path.indexOf(item);
+			index_search_by_text = path.indexOf(info.itemTitle);
 
 		if (index_search_by_text != 0)
 			gr = get(levels.get(0), path.get(0), null, proposals);
@@ -289,7 +297,7 @@ public class CfBuildService {
 
 		if (info.searchByText && !info.getProc) {
 
-			buildWithTextSearch(proposals, gr, item);
+			buildWithTextSearch(proposals, gr, info.itemTitle);
 
 			// remove last 2 items
 			path.remove(path.size() - 1);
@@ -300,7 +308,7 @@ public class CfBuildService {
 		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2
 				&& !info.searchByText) {
 			info.searchByGroup2 = true;
-			buildWithPath(proposals, path_items, item, info);
+			buildWithPath(proposals, path_items, info);
 
 			fillParents(proposals, null);
 		}
@@ -362,7 +370,7 @@ public class CfBuildService {
 
 					if (line.toLowerCase().contains(title.toLowerCase())) {
 						BuildInfo ch = new BuildInfo();
-						ch.title = line;
+						ch.title = line.trim();
 						info.children.add(ch);
 					}
 					// result.append(line + "\n");
@@ -495,5 +503,68 @@ public class CfBuildService {
 		}
 
 		return info;
+	}
+
+	public ITreeItemInfo getPathRoot(ITreeService srv, ITreeItemInfo item,
+			AdditionalInfo info, ContextInfoOptions opt, List<String> path) {
+
+		ITreeItemInfo root = item;
+		// info.itemTitle = item.getTitle();
+
+		String[] str;
+		List<String> inpath;
+		if (opt.type != BuildType.text) {
+			str = info.itemTitle.replace("...", "###").split("\\.");
+			inpath = Arrays.asList(str);
+			if (!inpath.isEmpty()) {
+				path.addAll(0, inpath.subList(0, inpath.size() - 1));
+				info.itemTitle = inpath.get(inpath.size() - 1);
+			}
+			if (inpath.size() > 1) {
+				info.filter = inpath.get(inpath.size() - 1);
+			}
+		}
+		info.itemTitle = info.itemTitle.replace("###", "...");
+		info.filter = info.filter.replace("###", "...");
+
+		boolean getPath = opt.type != BuildType.object;
+		while (getPath && root != null) {
+
+			root = srv.get(root.getParent());
+
+			if (root == null)
+				break;
+
+			ContextInfoOptions opt1 = (ContextInfoOptions) root.getOptions();
+
+			// have root
+			if (opt1.type == BuildType.root)
+				break;
+
+			if (opt1.type == BuildType.proposal)
+				continue;
+
+			if (opt1.type == BuildType.text)
+				continue;
+
+			str = root.getTitle().replace("...", "###").split("\\.");
+			inpath = Arrays.asList(str);
+			// if (inpath.size() > 1)
+			path.addAll(0, inpath);
+
+			// path.add(0, root.getTitle());
+
+			if (opt1.type == BuildType.object)
+				break;
+
+			// have type before root
+			if (opt1.type != null && opt1.type != BuildType.module) {
+				root = null;
+				break;
+			}
+
+		}
+
+		return root;
 	}
 }

@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.jetty.util.ArrayUtil;
 import org.eclipse.jface.fieldassist.ContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 
 import ebook.core.pico;
 import ebook.module.conf.ConfService;
+import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
+import ebook.module.conf.model.BuildType;
 import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.confLoad.model.ELevel;
+import ebook.module.tree.ITreeItemInfo;
 
 public class ContentProposalProvider implements IContentProposalProvider {
 
@@ -32,60 +33,20 @@ public class ContentProposalProvider implements IContentProposalProvider {
 	private boolean filterProposals = true;
 	private IContentProposal[] contentProposals;
 	private List<BuildInfo> proposals = new ArrayList<BuildInfo>();
+	String filter;
 
 	@Override
 	public IContentProposal[] getProposals(String contents, int position) {
 
-		String filter = contents;
+		filter = contents;
+		// List<BuildInfo> list = new ArrayList<BuildInfo>();
 
 		try {
-			// ContextInfo info = window.getContext().get(ContextInfo.class);
-			String title;
-
-			String[] str = contents.split("\\.");
-			Integer gr1 = null;
-			Integer gr2 = null;
-
-			if (contents.endsWith("."))
-				str = ArrayUtil.addToArray(str, "", String.class);
-
+			ContextInfo item = window.getContext().get(ContextInfo.class);
 			cf.build().setConnection(tree.getConnection());
-
-			switch (str.length) {
-			case 1:
-
-				title = contents.replaceAll("\\.", "");
-				cf.build().get(ELevel.group1, title, null, proposals);
-				// proposals = cf.build().getLevel(
-				// ELevel.group1, title, null);
-				break;
-
-			case 2:
-
-				gr1 = cf.build().get(ELevel.group1, str[0], null, null);
-
-				if (gr1 != null)
-					cf.build().get(ELevel.group2, str[1], gr1, proposals);
-
-				filter = str[1];
-
-				break;
-			case 3:
-
-				gr1 = cf.build().get(ELevel.group1, str[0], null, null);
-
-				if (gr1 != null)
-					gr2 = cf.build().get(ELevel.group2, str[1], gr1, null);
-
-				if (gr2 != null)
-					cf.build().get(ELevel.module, str[2], gr2, proposals);
-
-				filter = str[2];
-
-				break;
-			default:
-				break;
-			}
+			ContextInfoOptions opt = new ContextInfoOptions();
+			opt.type = item.getOptions().type;
+			buildProposals(contents, item, opt);
 
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -113,5 +74,28 @@ public class ContentProposalProvider implements IContentProposalProvider {
 			}
 		}
 		return contentProposals;
+	}
+
+	private void buildProposals(String contents, ContextInfo item,
+			ContextInfoOptions opt) throws SQLException {
+		List<String> path = new ArrayList<String>();
+		AdditionalInfo info = new AdditionalInfo();
+		info.itemTitle = contents;
+		ITreeItemInfo root = cf.build()
+				.getPathRoot(tree, item, info, opt, path);
+		info.type = BuildType.object;
+		if (root != null) {
+			// get root without type between
+			info.type = null;
+			cf.build().buildWithPath(proposals, path, info);
+		}
+		if (info.type != null) {
+			opt.type = info.type;
+		}
+		if (info.type == BuildType.object) {
+			buildProposals(contents, item, opt);
+		}
+		filter = info.filter;
+
 	}
 }

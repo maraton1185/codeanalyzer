@@ -20,7 +20,7 @@ public class ContextXML implements ITreeItemXML {
 
 	@XmlElementWrapper(name = "children")
 	@XmlElement(name = "context")
-	public ArrayList<ContextXML> children;
+	public ArrayList<ContextXML> children = new ArrayList<ContextXML>();
 
 	public int id;
 	// public int sort;

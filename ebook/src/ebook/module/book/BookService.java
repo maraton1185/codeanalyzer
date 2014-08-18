@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -40,6 +41,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;
@@ -486,8 +488,8 @@ public class BookService extends TreeService {
 	}
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemInfo section, String zipName)
-			throws InvocationTargetException {
+	public void download(IPath zipFolder, ITreeItemSelection selection,
+			String zipName) throws InvocationTargetException {
 
 		try {
 			File temp = File.createTempFile("download", "");
@@ -495,9 +497,14 @@ public class BookService extends TreeService {
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
 
-			SectionXML root = new SectionXML(section);
-
-			writeXml(root, t, section);
+			SectionXML root = new SectionXML();
+			Iterator<ITreeItemInfo> iterator = selection.iterator();
+			while (iterator.hasNext()) {
+				ITreeItemInfo item = iterator.next();
+				SectionXML child = new SectionXML(item);
+				root.children.add(child);
+				writeXml(child, t, item);
+			}
 
 			// create JAXB context and instantiate marshaller
 			JAXBContext context = JAXBContext.newInstance(SectionXML.class);
@@ -516,7 +523,7 @@ public class BookService extends TreeService {
 			if (zipName == null || zipName.isEmpty())
 				zipName = zipFolder
 						.append(((BookConnection) db).getWindowTitle() + " ("
-								+ section.getTitle() + ")")
+								+ selection.getTitle() + ")")
 						.addFileExtension("zip").toString();
 
 			ZipHelper.zip(t.toString(), zipName);
@@ -558,6 +565,9 @@ public class BookService extends TreeService {
 
 		root.images = images;
 
+		if (!root.group)
+			root.text = getText(root.id);
+
 		List<ITreeItemInfo> list = getChildren(root.id);
 
 		ArrayList<SectionXML> children = new ArrayList<SectionXML>();
@@ -571,10 +581,8 @@ public class BookService extends TreeService {
 
 		}
 
-		if (!root.group)
-			root.text = getText(root.id);
-
 		root.children = children;
+
 	}
 
 	@Override
@@ -601,13 +609,16 @@ public class BookService extends TreeService {
 			SectionXML root = (SectionXML) um.unmarshal(reader);
 
 			stopUpdate();
-			SectionInfo res;
-			if (section.isGroup())
-				res = readXML(root, section, t);
-			else
-				res = readXML(root, get(section.getParent()), t);
+			SectionInfo res = null;
+			ITreeItemInfo parent = section.isGroup() ? section : get(section
+					.getParent());
+			for (SectionXML child : root.children) {
+				res = readXML(child, parent, t);
+			}
+
 			startUpdate();
-			selectLast(res.getParent());
+			if (res != null)
+				selectLast(res.getParent());
 
 		} catch (Exception e) {
 			e.printStackTrace();

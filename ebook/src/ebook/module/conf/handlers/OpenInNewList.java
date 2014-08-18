@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -29,12 +29,12 @@ public class OpenInNewList {
 	MWindow window;
 
 	@Execute
-	public void execute(Shell shell, @Optional ContextInfo item,
+	public void execute(Shell shell, @Optional ContextInfoSelection sel,
 			@Active ConfConnection con) {
 
-		ListInfo source_list = (ListInfo) con.lsrv().get(item.getList());
+		ListInfo source_list = (ListInfo) con.lsrv().get(sel.getList());
 		ListInfo newList = App.mng.clm(con).openInNewList(con.srv(source_list),
-				item, shell);
+				sel, shell);
 
 		if (newList != null) {
 			window.getContext().set(ListInfo.class, newList);
@@ -45,8 +45,8 @@ public class OpenInNewList {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active ContextInfo item) {
-		return item != null;
+	public boolean canExecute(@Optional @Active ContextInfoSelection sel) {
+		return sel != null && !sel.isEmpty();
 	}
 
 }

@@ -2,7 +2,7 @@ package ebook.core.interfaces;
 
 import java.io.File;
 
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.ITreeService;
 
 public interface IClipboard {
@@ -12,15 +12,19 @@ public interface IClipboard {
 	File getZip();
 
 	void setCut(File zipFile, IDbConnection con, ITreeService srv,
-			ITreeItemInfo item);
+			ITreeItemSelection sel);
 
-	void setCopy(File zipFile, IDbConnection con, ITreeItemInfo item);
+	void setCopy(File zipFile, IDbConnection con, ITreeItemSelection sel);
 
-	Integer getConnectionId();
+	boolean isCopy(Integer con, Integer item);
 
-	Integer getCopyId();
+	boolean isCut(Integer con, Integer item);
 
-	Integer getCutId();
+	// Integer getConnectionId();
+	//
+	// Integer getCopyId();
+	//
+	// Integer getCutId();
 
 	void doPaste();
 

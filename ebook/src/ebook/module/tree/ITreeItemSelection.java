@@ -12,4 +12,6 @@ public interface ITreeItemSelection {
 
 	boolean isEmpty();
 
+	String getTitle();
+
 }

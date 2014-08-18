@@ -70,18 +70,11 @@ public class ContextInfo extends TreeItemInfo {
 	@Override
 	public Image getListImage() {
 		IClipboard clip = App.contextClip;
-		Integer con = clip.getConnectionId();
-		Integer copy = clip.getCopyId();
-		Integer cut = clip.getCutId();
 
-		if (!clip.isEmpty() && con != null && copy != null && con.equals(conf)
-				&& copy.equals(getId()))
+		if (clip.isCopy(conf, getId()))
 			return Utils.getImage("copy.png");
-		else if (!clip.isEmpty() && con != null && cut != null
-				&& con.equals(conf) && cut.equals(getId()))
+		else if (clip.isCut(conf, getId()))
 			return Utils.getImage("cut.png");
-		// else if (aclEmplicit)
-		// return Utils.getImage("lock.png");
 
 		ContextInfoOptions opt = getOptions();
 		if (opt.type == null)

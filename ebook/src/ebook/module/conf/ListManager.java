@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.exceptions.GetRootException;
 import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -29,7 +30,7 @@ public class ListManager extends TreeManager {
 	}
 
 	public ListInfo openInNewList(ITreeService downloadService,
-			ContextInfo source, Shell shell) {
+			ContextInfoSelection source, Shell shell) {
 		List<ITreeItemInfo> result = srv.getRoot();
 
 		try {

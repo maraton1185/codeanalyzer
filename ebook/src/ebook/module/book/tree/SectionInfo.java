@@ -50,15 +50,10 @@ public class SectionInfo extends TreeItemInfo {
 	@Override
 	public Image getListImage() {
 		IClipboard clip = App.bookClip;
-		Integer con = clip.getConnectionId();
-		Integer copy = clip.getCopyId();
-		Integer cut = clip.getCutId();
 
-		if (!clip.isEmpty() && con != null && copy != null && con.equals(book)
-				&& copy.equals(getId()))
+		if (clip.isCopy(book, getId()))
 			return Utils.getImage("copy.png");
-		else if (!clip.isEmpty() && con != null && cut != null
-				&& con.equals(book) && cut.equals(getId()))
+		else if (clip.isCut(book, getId()))
 			return Utils.getImage("cut.png");
 		else if (aclEmplicit)
 			return Utils.getImage("lock.png");

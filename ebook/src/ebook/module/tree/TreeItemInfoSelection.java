@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TreeItemInfoSelection implements ITreeItemSelection {
 
-	private List<ITreeItemInfo> list = new ArrayList<ITreeItemInfo>();
+	protected List<ITreeItemInfo> list = new ArrayList<ITreeItemInfo>();
 
 	@Override
 	public Iterator<ITreeItemInfo> iterator() {
@@ -31,4 +31,21 @@ public class TreeItemInfoSelection implements ITreeItemSelection {
 	public boolean isEmpty() {
 		return list.isEmpty();
 	}
+
+	@Override
+	public String getTitle() {
+
+		if (isEmpty())
+			return "";
+
+		String result = "";
+		Iterator<ITreeItemInfo> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			ITreeItemInfo item = iterator.next();
+			result = result.concat(item.getTitle() + ", ");
+		}
+		// TODO Auto-generated method stub
+		return result.substring(0, result.length() - 2);
+	}
+
 }

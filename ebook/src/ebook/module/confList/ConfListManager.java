@@ -18,7 +18,7 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.ContextService;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
-import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
@@ -233,7 +233,7 @@ public class ConfListManager extends TreeManager {
 	}
 
 	public void openWithContext(ContextService contextService, IPath path,
-			ContextInfo item, Shell shell) {
+			ContextInfoSelection item, Shell shell) {
 		if (path == null)
 			return;
 

@@ -666,7 +666,7 @@ public abstract class TreeService implements ITreeService {
 	}
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemInfo item, String zipName)
+	public void download(IPath zipFolder, ITreeItemSelection sel, String zipName)
 			throws InvocationTargetException {
 
 	}

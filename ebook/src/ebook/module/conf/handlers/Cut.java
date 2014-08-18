@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
@@ -23,18 +23,18 @@ import ebook.utils.Strings;
 public class Cut {
 	@Execute
 	public void execute(final @Active ConfConnection con,
-			@Active final ContextInfo item, final Shell shell,
+			@Active final ContextInfoSelection sel, final Shell shell,
 			@Active @Named(Events.CONTEXT_ACTIVE_LIST) final ListInfo list) {
 
 		try {
 			final File zipFile = File.createTempFile("cutcontext", ".zip");
-			App.contextClip.setCut(zipFile, con, con.srv(list), item);
+			App.contextClip.setCut(zipFile, con, con.srv(list), sel);
 
 			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 				@Override
 				public void run() {
 					try {
-						con.srv(list).download(null, item,
+						con.srv(list).download(null, sel,
 								zipFile.getAbsolutePath());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -50,8 +50,8 @@ public class Cut {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active ContextInfo item) {
-		return item != null;
+	public boolean canExecute(@Optional @Active ContextInfoSelection sel) {
+		return sel != null && !sel.isEmpty();
 	}
 
 }

@@ -42,7 +42,7 @@ public interface ITreeService {
 
 	ITreeItemInfo getSelected();
 
-	void download(IPath zipFolder, ITreeItemInfo item, String zipName)
+	void download(IPath zipFolder, ITreeItemSelection selection, String zipName)
 			throws InvocationTargetException;
 
 	void upload(String path, ITreeItemInfo item)

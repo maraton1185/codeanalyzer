@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -32,6 +33,7 @@ import ebook.module.confLoad.model.DbState;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.ITreeItemSelection;
 import ebook.module.tree.ITreeItemXML;
 import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeService;
@@ -220,8 +222,8 @@ public class ConfService extends TreeService {
 	}
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemInfo item, String zipName)
-			throws InvocationTargetException {
+	public void download(IPath zipFolder, ITreeItemSelection selection,
+			String zipName) throws InvocationTargetException {
 
 		try {
 			File temp = File.createTempFile("downloadConf", "");
@@ -229,9 +231,14 @@ public class ConfService extends TreeService {
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
 
-			ContextXML root = new ContextXML(item);
-
-			writeXml(root, t);
+			ContextXML root = new ContextXML();
+			Iterator<ITreeItemInfo> iterator = selection.iterator();
+			while (iterator.hasNext()) {
+				ITreeItemInfo item = iterator.next();
+				ContextXML child = new ContextXML(item);
+				root.children.add(child);
+				writeXml(child, t);
+			}
 
 			// create JAXB context and instantiate marshaller
 			JAXBContext context = JAXBContext.newInstance(ContextXML.class);
@@ -250,7 +257,7 @@ public class ConfService extends TreeService {
 			if (zipName == null || zipName.isEmpty())
 				zipName = zipFolder
 						.append(((BaseDbPathConnection) db).getWindowTitle()
-								+ " (" + item.getTitle() + ")")
+								+ " (" + selection.getTitle() + ")")
 						.addFileExtension("zip").toString();
 
 			ZipHelper.zip(t.toString(), zipName);
@@ -303,14 +310,17 @@ public class ConfService extends TreeService {
 			ContextXML root = (ContextXML) um.unmarshal(reader);
 
 			stopUpdate();
-			ContextInfo res;
-			if (item.isGroup())
-				res = readXML(root, item, t);
-			else
-				res = readXML(root, get(item.getParent()), t);
+
+			ContextInfo res = null;
+			ITreeItemInfo parent = item.isGroup() ? item
+					: get(item.getParent());
+			for (ContextXML child : root.children) {
+				res = readXML(child, parent, t);
+			}
 
 			startUpdate();
-			selectLast(res.getParent());
+			if (res != null)
+				selectLast(res.getParent());
 
 		} catch (Exception e) {
 			e.printStackTrace();

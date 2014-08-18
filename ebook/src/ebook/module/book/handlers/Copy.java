@@ -13,13 +13,13 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.tree.SectionInfoSelection;
 import ebook.utils.Strings;
 
 public class Copy {
 	@Execute
 	public void execute(final @Active BookConnection book,
-			@Active final SectionInfo section, final Shell shell) {
+			@Active final SectionInfoSelection selection, final Shell shell) {
 
 		try {
 			final File zipFile = File.createTempFile("copy", ".zip");
@@ -28,10 +28,10 @@ public class Copy {
 				@Override
 				public void run() {
 					try {
-						book.srv().download(null, section,
+						book.srv().download(null, selection,
 								zipFile.getAbsolutePath());
 
-						App.bookClip.setCopy(zipFile, book, section);
+						App.bookClip.setCopy(zipFile, book, selection);
 
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -49,8 +49,8 @@ public class Copy {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null;
+	public boolean canExecute(@Optional @Active SectionInfoSelection selection) {
+		return selection != null && !selection.isEmpty();
 	}
 
 }

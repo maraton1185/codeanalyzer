@@ -161,17 +161,22 @@ public class ContextService extends TreeService {
 	String conf = "";
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemInfo item, String zipName)
-			throws InvocationTargetException {
+	public void download(IPath zipFolder, ITreeItemSelection selection,
+			String zipName) throws InvocationTargetException {
 		try {
 			File temp = File.createTempFile("downloadConf", "");
 			temp.delete();
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
 
-			ContextXML root = new ContextXML(item, false);
-
-			writeXml(root);
+			ContextXML root = new ContextXML();
+			Iterator<ITreeItemInfo> iterator = selection.iterator();
+			while (iterator.hasNext()) {
+				ITreeItemInfo item = iterator.next();
+				ContextXML child = new ContextXML(item, false);
+				root.children.add(child);
+				writeXml(child);
+			}
 
 			// create JAXB context and instantiate marshaller
 			JAXBContext context = JAXBContext.newInstance(ContextXML.class);
@@ -190,7 +195,7 @@ public class ContextService extends TreeService {
 			if (zipName == null || zipName.isEmpty())
 				zipName = zipFolder
 						.append(((BaseDbPathConnection) db).getWindowTitle()
-								+ " (" + item.getTitle() + ")")
+								+ " (" + selection.getTitle() + ")")
 						.addFileExtension("zip").toString();
 
 			ZipHelper.zip(t.toString(), zipName);
@@ -243,7 +248,10 @@ public class ContextService extends TreeService {
 			// um.setProperty(Unmarshaller.JAXB_ENCODING, "UTF-8");
 			ContextXML root = (ContextXML) um.unmarshal(reader);
 
-			readXML(root, getUploadRoot());
+			ContextInfo res = null;
+			for (ContextXML child : root.children) {
+				readXML(child, getUploadRoot());
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package ebook.module.tree;
 
 import java.io.File;
+import java.util.Iterator;
 
 import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
@@ -17,7 +18,7 @@ public class Clipboard implements IClipboard {
 	File zipFile;
 	IDbConnection con;
 
-	ITreeItemInfo item;
+	ITreeItemSelection sel;
 
 	private ITreeService srv;
 
@@ -35,52 +36,49 @@ public class Clipboard implements IClipboard {
 	public void doPaste() {
 		if (cut && srv != null) {
 
-			TreeItemInfoSelection sel = new TreeItemInfoSelection();
-			sel.add(item);
 			srv.delete(sel);
 		}
 
 		empty = true;
 
-		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
-				item));
+		update();
 
 	}
 
 	@Override
 	public void setCut(File zipFile, IDbConnection con, ITreeService srv,
-			ITreeItemInfo item) {
+			ITreeItemSelection sel) {
 		empty = false;
 		cut = true;
 		this.zipFile = zipFile;
 		this.con = con;
 		this.srv = srv;
-		this.item = item;
+		this.sel = sel;
 
-		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
-				item));
+		update();
+
 	}
 
 	@Override
-	public void setCopy(File zipFile, IDbConnection con, ITreeItemInfo item) {
+	public void setCopy(File zipFile, IDbConnection con, ITreeItemSelection sel) {
 		empty = false;
 		cut = false;
 		this.zipFile = zipFile;
 		this.con = con;
-		this.item = item;
+		this.sel = sel;
 
-		App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(con,
-				item));
+		update();
+
 	}
 
-	@Override
-	public Integer getConnectionId() {
-		if (empty)
-			return null;
+	private void update() {
+		Iterator<ITreeItemInfo> iterator = sel.iterator();
+		while (iterator.hasNext()) {
+			ITreeItemInfo item = iterator.next();
+			App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(
+					con, item));
+		}
 
-		if (con == null)
-			return null;
-		return con.getTreeItem().getId();
 	}
 
 	@Override
@@ -94,29 +92,47 @@ public class Clipboard implements IClipboard {
 	}
 
 	@Override
-	public Integer getCopyId() {
-		if (empty)
-			return null;
+	public boolean isCopy(Integer _con, Integer _item) {
+		if (sel == null || empty || cut)
+			return false;
+		Integer con = getConnectionId();
+		if (con != null && !con.equals(_con))
+			return false;
 
-		if (cut)
-			return null;
-
-		if (item == null)
-			return null;
-		return item.getId();
+		return itemInSelection(_item);
 	}
 
 	@Override
-	public Integer getCutId() {
+	public boolean isCut(Integer _con, Integer _item) {
+		if (sel == null || empty || !cut)
+			return false;
+
+		Integer con = getConnectionId();
+		if (con != null && !con.equals(_con))
+			return false;
+
+		return itemInSelection(_item);
+	}
+
+	private Integer getConnectionId() {
 		if (empty)
 			return null;
-		if (!cut)
-			return null;
 
-		if (item == null)
+		if (con == null)
 			return null;
+		return con.getTreeItem().getId();
+	}
 
-		return item.getId();
+	private boolean itemInSelection(Integer _item) {
+
+		Iterator<ITreeItemInfo> iterator = sel.iterator();
+		while (iterator.hasNext()) {
+			ITreeItemInfo item = iterator.next();
+			if (item.getId().equals(_item))
+				return true;
+		}
+		return false;
+
 	}
 
 }

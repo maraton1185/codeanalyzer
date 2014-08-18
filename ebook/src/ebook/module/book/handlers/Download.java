@@ -13,7 +13,7 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.BookConnection;
-import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.tree.SectionInfoSelection;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -21,7 +21,7 @@ public class Download {
 
 	@Execute
 	public void execute(final @Active BookConnection book,
-			@Active final SectionInfo section, final Shell shell) {
+			@Active final SectionInfoSelection selection, final Shell shell) {
 
 		final IPath p = Utils.browseDirectory(book.getFullPath(), shell);
 		if (p == null)
@@ -31,7 +31,7 @@ public class Download {
 			@Override
 			public void run() {
 				try {
-					book.srv().download(p, section, null);
+					book.srv().download(p, selection, null);
 					MessageDialog.openInformation(shell,
 							Strings.title("appTitle"),
 							Strings.msg("SaveToFile.sucsess"));
@@ -46,8 +46,8 @@ public class Download {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null;
+	public boolean canExecute(@Optional @Active SectionInfoSelection selection) {
+		return selection != null && !selection.isEmpty();
 	}
 
 }

@@ -19,7 +19,7 @@ public class SectionXML implements ITreeItemXML {
 
 	@XmlElementWrapper(name = "children")
 	@XmlElement(name = "section")
-	public ArrayList<SectionXML> children;
+	public ArrayList<SectionXML> children = new ArrayList<SectionXML>();
 
 	// @XmlElementWrapper(name = "contexts")
 	@XmlElement(name = "context")

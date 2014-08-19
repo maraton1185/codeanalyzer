@@ -29,7 +29,7 @@ public class Copy {
 				public void run() {
 					try {
 						book.srv().download(null, selection,
-								zipFile.getAbsolutePath());
+								zipFile.getAbsolutePath(), true);
 
 						App.bookClip.setCopy(zipFile, book, selection);
 

@@ -19,7 +19,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.StyledString.Styler;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -262,11 +261,11 @@ public class TreeViewComponent {
 		});
 		viewer.setColumnProperties(new String[] { "column1" });
 		if (contentProposalProvider != null)
-			viewer.setCellEditors(new CellEditor[] { new EbookTextCellEditor(
+			viewer.setCellEditors(new CellEditor[] { new EbookProposalTextCellEditor(
 					contentProposalProvider, viewer.getTree()) });
 		else
-			viewer.setCellEditors(new CellEditor[] { new TextCellEditor(viewer
-					.getTree()) });
+			viewer.setCellEditors(new CellEditor[] { new EbookTextCellEditor(
+					viewer.getTree()) });
 
 		// TreeViewerFocusCellManager focusCellManager = new
 		// TreeViewerFocusCellManager(

@@ -32,7 +32,7 @@ public class Upload {
 			@Override
 			public void run() {
 				try {
-					book.srv().upload(p.toString(), section);
+					book.srv().upload(p.toString(), section, false, false);
 				} catch (Exception e) {
 					e.printStackTrace();
 					MessageDialog.openError(shell, Strings.title("appTitle"),

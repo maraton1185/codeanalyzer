@@ -31,7 +31,7 @@ public class Download {
 			@Override
 			public void run() {
 				try {
-					book.srv().download(p, selection, null);
+					book.srv().download(p, selection, null, false);
 					MessageDialog.openInformation(shell,
 							Strings.title("appTitle"),
 							Strings.msg("SaveToFile.sucsess"));

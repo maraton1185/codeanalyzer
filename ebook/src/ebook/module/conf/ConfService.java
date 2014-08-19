@@ -23,12 +23,15 @@ import javax.xml.bind.Unmarshaller;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
+import ebook.core.pico;
+import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.conf.xml.ContextXML;
+import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
@@ -47,6 +50,7 @@ public class ConfService extends TreeService {
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONF_VIEW;
 	private ListInfo list;
+	ICfServices cf = pico.get(ICfServices.class);
 
 	public ConfService(ConfConnection con, ListInfo list) {
 		super(tableName, updateEvent, con);
@@ -223,19 +227,31 @@ public class ConfService extends TreeService {
 
 	@Override
 	public void download(IPath zipFolder, ITreeItemSelection selection,
-			String zipName) throws InvocationTargetException {
+			String zipName, boolean clear) throws InvocationTargetException {
 
 		try {
 			File temp = File.createTempFile("downloadConf", "");
 			temp.delete();
 			temp.mkdir();
+
 			IPath t = new Path(temp.getAbsolutePath());
 
 			ContextXML root = new ContextXML();
+
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
 			while (iterator.hasNext()) {
 				ITreeItemInfo item = iterator.next();
 				ContextXML child = new ContextXML(item);
+
+				ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+				List<String> path = new ArrayList<String>();
+				AdditionalInfo info = new AdditionalInfo();
+				info.itemTitle = item.getTitle();
+
+				if (cf.build().getPathRoot(this, item, info, opt, path) != null) {
+					child.path = path;
+				}
+
 				root.children.add(child);
 				writeXml(child, t);
 			}
@@ -250,9 +266,9 @@ public class ConfService extends TreeService {
 			// m.marshal(root, System.out);
 
 			// Write to File
-			m.marshal(root,
-					t.append(ITreeItemXML.filename).addFileExtension("xml")
-							.toFile());
+			File f = t.append(ITreeItemXML.filename).addFileExtension("xml")
+					.toFile();
+			m.marshal(root, f);
 
 			if (zipName == null || zipName.isEmpty())
 				zipName = zipFolder
@@ -261,6 +277,8 @@ public class ConfService extends TreeService {
 						.addFileExtension("zip").toString();
 
 			ZipHelper.zip(t.toString(), zipName);
+			if (clear)
+				new File(zipName).deleteOnExit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
@@ -287,13 +305,15 @@ public class ConfService extends TreeService {
 	}
 
 	@Override
-	public void upload(String path, ITreeItemInfo item)
-			throws InvocationTargetException {
+	public void upload(String path, ITreeItemInfo item, boolean clear,
+			boolean relative) throws InvocationTargetException {
 
 		try {
 			File temp = File.createTempFile("uploadConf", "");
 			temp.delete();
 			temp.mkdir();
+			if (clear)
+				new File(path).deleteOnExit();
 			IPath t = new Path(temp.getAbsolutePath());
 
 			ZipHelper.unzip(path, t.toString());

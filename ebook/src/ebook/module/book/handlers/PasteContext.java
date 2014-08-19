@@ -39,7 +39,7 @@ public class PasteContext {
 				try {
 
 					con.ctxsrv(section).upload(zipFile.getAbsolutePath(),
-							App.contextClip.getConnectionName());
+							App.contextClip.getConnectionName(), true);
 
 					App.contextClip.doPaste();
 

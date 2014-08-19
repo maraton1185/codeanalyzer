@@ -41,13 +41,15 @@ public class Clipboard implements IClipboard {
 
 		empty = true;
 
-		update();
+		update(sel);
 
 	}
 
 	@Override
 	public void setCut(File zipFile, IDbConnection con, ITreeService srv,
 			ITreeItemSelection sel) {
+
+		ITreeItemSelection old = this.sel;
 		empty = false;
 		cut = true;
 		this.zipFile = zipFile;
@@ -55,23 +57,30 @@ public class Clipboard implements IClipboard {
 		this.srv = srv;
 		this.sel = sel;
 
-		update();
+		update(old);
+		update(sel);
 
 	}
 
 	@Override
 	public void setCopy(File zipFile, IDbConnection con, ITreeItemSelection sel) {
+
+		ITreeItemSelection old = this.sel;
+
 		empty = false;
 		cut = false;
 		this.zipFile = zipFile;
 		this.con = con;
 		this.sel = sel;
 
-		update();
+		update(old);
+		update(sel);
 
 	}
 
-	private void update() {
+	private void update(ITreeItemSelection sel) {
+		if (sel == null)
+			return;
 		Iterator<ITreeItemInfo> iterator = sel.iterator();
 		while (iterator.hasNext()) {
 			ITreeItemInfo item = iterator.next();

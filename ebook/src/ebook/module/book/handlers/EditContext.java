@@ -17,7 +17,7 @@ public class EditContext {
 	public void execute(@Active BookConnection book,
 			@Active SectionInfo section, @Active ContextInfo item) {
 		// book.ctxsrv(section).delete(selection);
-		App.br.post(Events.EVENT_EDIT_TITLE_CONTEXT_VIEW,
+		App.br.post(Events.EVENT_UPDATE_CONTEXT_VIEW_EDIT_TITLE,
 				new EVENT_UPDATE_VIEW_DATA(book, section, item, null));
 	}
 

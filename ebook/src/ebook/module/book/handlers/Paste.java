@@ -29,7 +29,8 @@ public class Paste {
 				try {
 
 					App.bookClip.doPaste();
-					book.srv().upload(zipFile.getAbsolutePath(), section);
+					book.srv().upload(zipFile.getAbsolutePath(), section, true,
+							false);
 
 				} catch (Exception e) {
 					e.printStackTrace();

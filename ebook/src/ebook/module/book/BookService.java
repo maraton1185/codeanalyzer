@@ -301,6 +301,7 @@ public class BookService extends TreeService {
 	public void add_image(SectionInfo section, IPath p, String title) {
 
 		// BookSection sec = null;
+		FileInputStream fis = null;
 		try {
 			Connection con = db.getConnection();
 			String SQL;
@@ -334,7 +335,7 @@ public class BookService extends TreeService {
 			prep.setInt(5, section.getId());
 
 			File f = p.toFile();
-			FileInputStream fis = new FileInputStream(f);
+			fis = new FileInputStream(f);
 			prep.setBinaryStream(2, fis, (int) f.length());
 
 			int affectedRows = prep.executeUpdate();
@@ -346,6 +347,13 @@ public class BookService extends TreeService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (fis != null)
+					fis.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -487,14 +495,18 @@ public class BookService extends TreeService {
 
 	}
 
+	boolean clear;
+
 	@Override
 	public void download(IPath zipFolder, ITreeItemSelection selection,
-			String zipName) throws InvocationTargetException {
+			String zipName, boolean clear) throws InvocationTargetException {
 
 		try {
+			this.clear = clear;
 			File temp = File.createTempFile("download", "");
 			temp.delete();
 			temp.mkdir();
+
 			IPath t = new Path(temp.getAbsolutePath());
 
 			SectionXML root = new SectionXML();
@@ -516,17 +528,21 @@ public class BookService extends TreeService {
 			// m.marshal(root, System.out);
 
 			// Write to File
-			m.marshal(root,
-					t.append(ITreeItemXML.filename).addFileExtension("xml")
-							.toFile());
+			File f = t.append(ITreeItemXML.filename).addFileExtension("xml")
+					.toFile();
+			m.marshal(root, f);
 
-			if (zipName == null || zipName.isEmpty())
-				zipName = zipFolder
-						.append(((BookConnection) db).getWindowTitle() + " ("
-								+ selection.getTitle() + ")")
-						.addFileExtension("zip").toString();
-
+			if (zipName == null || zipName.isEmpty()) {
+				IPath p = zipFolder.append(
+						((BookConnection) db).getWindowTitle() + " ("
+								+ selection.getTitle() + ")").addFileExtension(
+						"zip");
+				zipName = p.toString();
+			}
 			ZipHelper.zip(t.toString(), zipName);
+			if (clear)
+				new File(zipName).deleteOnExit();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
@@ -557,9 +573,10 @@ public class BookService extends TreeService {
 			ImageLoader saver = new ImageLoader();
 			saver.data = new ImageData[] { image.image.getImageData() };
 
-			saver.save(p.append(ImageXML.filename + image.getId())
-					.addFileExtension(image.getMime()).toString(),
-					image.getFormat());
+			File f = p.append(ImageXML.filename + image.getId())
+					.addFileExtension(image.getMime()).toFile();
+
+			saver.save(f.getAbsolutePath(), image.getFormat());
 
 		}
 
@@ -586,14 +603,17 @@ public class BookService extends TreeService {
 	}
 
 	@Override
-	public void upload(String path, ITreeItemInfo section)
-			throws InvocationTargetException {
+	public void upload(String path, ITreeItemInfo section, boolean clear,
+			boolean relative) throws InvocationTargetException {
 
 		try {
 			File temp = File.createTempFile("upload", "");
 			temp.delete();
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
+
+			if (clear)
+				new File(path).deleteOnExit();
 
 			ZipHelper.unzip(path, t.toString());
 

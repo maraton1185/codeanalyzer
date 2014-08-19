@@ -34,7 +34,7 @@ public class Copy {
 				public void run() {
 					try {
 						con.srv(list).download(null, sel,
-								zipFile.getAbsolutePath());
+								zipFile.getAbsolutePath(), true);
 
 						App.contextClip.setCopy(zipFile, con, sel);
 						// MessageDialog.openInformation(shell,

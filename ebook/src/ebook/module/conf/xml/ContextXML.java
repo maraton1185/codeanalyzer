@@ -1,6 +1,7 @@
 package ebook.module.conf.xml;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -28,6 +29,10 @@ public class ContextXML implements ITreeItemXML {
 	public String title;
 	public String options;
 	public boolean root = false;
+
+	@XmlElementWrapper(name = "path")
+	@XmlElement(name = "item")
+	public List<String> path;
 
 	// public String text = "";
 

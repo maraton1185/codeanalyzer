@@ -41,7 +41,7 @@ public class ContextInfo extends TreeItemInfo {
 
 	@Override
 	public boolean isRoot() {
-		return root;
+		return root || getParent() == 0;
 	}
 
 	@Override
@@ -129,4 +129,5 @@ public class ContextInfo extends TreeItemInfo {
 		return info;
 
 	}
+
 }

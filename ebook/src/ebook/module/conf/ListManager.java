@@ -50,15 +50,16 @@ public class ListManager extends TreeManager {
 			// ConfService csrv = con.srv(new_list);
 			// ListInfo source_list = (ListInfo) srv.get(source.getList());
 
-			downloadService.download(null, source, zipFile.getAbsolutePath());
+			downloadService.download(null, source, zipFile.getAbsolutePath(),
+					true);
 
 			result = con.srv(new_list).getRoot();
 			if (result.isEmpty())
 				throw new GetRootException();
 
 			ContextInfo dest = (ContextInfo) result.get(0);
-
-			con.srv(new_list).upload(zipFile.getAbsolutePath(), dest);
+			con.srv(new_list).upload(zipFile.getAbsolutePath(), dest, true,
+					true);
 
 			return new_list;
 

@@ -35,7 +35,7 @@ public class Cut {
 				public void run() {
 					try {
 						con.srv(list).download(null, sel,
-								zipFile.getAbsolutePath());
+								zipFile.getAbsolutePath(), true);
 					} catch (Exception e) {
 						e.printStackTrace();
 						MessageDialog.openError(shell,

@@ -29,9 +29,10 @@ public class AddGroupContext {
 		try {
 
 			ContextInfo data = new ContextInfo();
-			data.setTitle(Strings.value("context"));
+			data.setTitle("");// Strings.value("context"));
 			data.setGroup(true);
 			book.ctxsrv(section).add(data, item, false);
+			book.ctxsrv(section).edit(data);
 
 		} catch (InvocationTargetException e) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),

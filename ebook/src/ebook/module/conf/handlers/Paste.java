@@ -34,7 +34,8 @@ public class Paste {
 				try {
 
 					App.contextClip.doPaste();
-					con.srv(list).upload(zipFile.getAbsolutePath(), item);
+					con.srv(list).upload(zipFile.getAbsolutePath(), item, true,
+							false);
 
 				} catch (Exception e) {
 					e.printStackTrace();

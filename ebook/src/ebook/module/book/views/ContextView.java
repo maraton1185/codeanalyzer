@@ -54,8 +54,8 @@ public class ContextView {
 
 	@Inject
 	@Optional
-	public void EVENT_EDIT_TITLE_CONTEXT_VIEW(
-			@UIEventTopic(Events.EVENT_EDIT_TITLE_CONTEXT_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_UPDATE_CONTEXT_VIEW_EDIT_TITLE(
+			@UIEventTopic(Events.EVENT_UPDATE_CONTEXT_VIEW_EDIT_TITLE) EVENT_UPDATE_VIEW_DATA data) {
 
 		if (con != data.con)
 			return;

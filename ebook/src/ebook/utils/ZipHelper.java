@@ -51,6 +51,7 @@ public class ZipHelper {
 			if (!folder.exists()) {
 				folder.mkdir();
 			}
+			folder.deleteOnExit();
 
 			// get the zip file content
 			ZipInputStream zis = new ZipInputStream(
@@ -62,13 +63,11 @@ public class ZipHelper {
 
 				String fileName = ze.getName();
 				File newFile = new File(FOLDER + File.separator + fileName);
-
-				// //System.out.println("file unzip : " +
-				// newFile.getAbsoluteFile());
-
 				// create all non exists folders
 				// else you will hit FileNotFoundException for compressed folder
-				new File(newFile.getParent()).mkdirs();
+				File dirs = new File(newFile.getParent());
+				dirs.mkdirs();
+				dirs.deleteOnExit();
 
 				FileOutputStream fos = new FileOutputStream(newFile);
 
@@ -78,6 +77,7 @@ public class ZipHelper {
 				}
 
 				fos.close();
+				newFile.deleteOnExit();
 				ze = zis.getNextEntry();
 			}
 
@@ -140,6 +140,7 @@ public class ZipHelper {
 	 */
 	public void generateFileList(File node) {
 
+		node.deleteOnExit();
 		// add file only
 		if (node.isFile()) {
 			fileList.add(generateZipEntry(node.getAbsoluteFile().toString()));

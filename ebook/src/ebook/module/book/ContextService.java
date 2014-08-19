@@ -162,7 +162,7 @@ public class ContextService extends TreeService {
 
 	@Override
 	public void download(IPath zipFolder, ITreeItemSelection selection,
-			String zipName) throws InvocationTargetException {
+			String zipName, boolean clear) throws InvocationTargetException {
 		try {
 			File temp = File.createTempFile("downloadConf", "");
 			temp.delete();
@@ -188,9 +188,9 @@ public class ContextService extends TreeService {
 			// m.marshal(root, System.out);
 
 			// Write to File
-			m.marshal(root,
-					t.append(ITreeItemXML.filename).addFileExtension("xml")
-							.toFile());
+			File f = t.append(ITreeItemXML.filename).addFileExtension("xml")
+					.toFile();
+			m.marshal(root, f);
 
 			if (zipName == null || zipName.isEmpty())
 				zipName = zipFolder
@@ -199,6 +199,8 @@ public class ContextService extends TreeService {
 						.addFileExtension("zip").toString();
 
 			ZipHelper.zip(t.toString(), zipName);
+			if (clear)
+				new File(zipName).deleteOnExit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
@@ -224,7 +226,7 @@ public class ContextService extends TreeService {
 		root.children = children;
 	}
 
-	public void upload(String path, String conf)
+	public void upload(String path, String conf, boolean clear)
 			throws InvocationTargetException {
 
 		try {
@@ -233,6 +235,10 @@ public class ContextService extends TreeService {
 			File temp = File.createTempFile("uploadConf", "");
 			temp.delete();
 			temp.mkdir();
+
+			if (clear)
+				new File(path).deleteOnExit();
+
 			IPath t = new Path(temp.getAbsolutePath());
 
 			ZipHelper.unzip(path, t.toString());
@@ -248,10 +254,15 @@ public class ContextService extends TreeService {
 			// um.setProperty(Unmarshaller.JAXB_ENCODING, "UTF-8");
 			ContextXML root = (ContextXML) um.unmarshal(reader);
 
+			stopUpdate();
+
 			ContextInfo res = null;
 			for (ContextXML child : root.children) {
-				readXML(child, getUploadRoot());
+				res = readXML(child, getUploadRoot());
 			}
+			startUpdate();
+			if (res != null)
+				selectLast(res.getParent());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,7 +272,7 @@ public class ContextService extends TreeService {
 
 	}
 
-	public void readXML(ContextXML element, ITreeItemInfo parent)
+	public ContextInfo readXML(ContextXML element, ITreeItemInfo parent)
 			throws InvocationTargetException {
 
 		ContextInfo root = (ContextInfo) ContextInfo.fromXML(element);
@@ -287,6 +298,8 @@ public class ContextService extends TreeService {
 
 			readXML(child, root);
 		}
+
+		return root;
 
 	}
 

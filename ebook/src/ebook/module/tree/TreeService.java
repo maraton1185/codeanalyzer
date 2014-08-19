@@ -666,14 +666,14 @@ public abstract class TreeService implements ITreeService {
 	}
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemSelection sel, String zipName)
-			throws InvocationTargetException {
+	public void download(IPath zipFolder, ITreeItemSelection sel,
+			String zipName, boolean clear) throws InvocationTargetException {
 
 	}
 
 	@Override
-	public void upload(String path, ITreeItemInfo item)
-			throws InvocationTargetException {
+	public void upload(String path, ITreeItemInfo item, boolean clear,
+			boolean relative) throws InvocationTargetException {
 
 	}
 

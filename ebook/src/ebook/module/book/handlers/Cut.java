@@ -30,7 +30,7 @@ public class Cut {
 				public void run() {
 					try {
 						book.srv().download(null, selection,
-								zipFile.getAbsolutePath());
+								zipFile.getAbsolutePath(), true);
 						// MessageDialog.openInformation(shell,
 						// Strings.get("appTitle"),
 						// Strings.get("message.SaveToFile.sucsess"));

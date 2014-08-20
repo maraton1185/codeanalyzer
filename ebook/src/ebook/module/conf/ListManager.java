@@ -58,9 +58,10 @@ public class ListManager extends TreeManager {
 				throw new GetRootException();
 
 			ContextInfo dest = (ContextInfo) result.get(0);
-			con.srv(new_list).upload(zipFile.getAbsolutePath(), dest, true,
-					true);
-
+			ITreeItemInfo res = con.srv(new_list).upload(
+					zipFile.getAbsolutePath(), dest, true, true);
+			new_list.getOptions().selectedContext = res.getId();
+			srv.saveOptions(new_list);
 			return new_list;
 
 		} catch (Exception e) {

@@ -413,7 +413,7 @@
       </children>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView part" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
+  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView part" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
     <handlers xmi:id="_ZUvTgB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddGroup" command="_R8mmgBicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_Z811UB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.50" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddSubGroup" command="_WxNlABicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_aTW34B1DEeS8Ob_mPIL9rg" elementId="ebook.handler.51" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Delete" command="_Zg_lABicEeSEwsGZkmCqtw"/>
@@ -655,7 +655,9 @@
   <commands xmi:id="_SP2YoB08EeS8Ob_mPIL9rg" elementId="ListView.AddSubGroup" commandName="ListView - add sub group" category="_g9SXcBicEeSEwsGZkmCqtw"/>
   <commands xmi:id="_SYHj0B08EeS8Ob_mPIL9rg" elementId="ListView.edit" commandName="ListView - edit" category="_g9SXcBicEeSEwsGZkmCqtw"/>
   <commands xmi:id="_SbdywB08EeS8Ob_mPIL9rg" elementId="ListView.delete" commandName="ListView - delete" category="_g9SXcBicEeSEwsGZkmCqtw"/>
-  <commands xmi:id="_hhcMAB0_EeS8Ob_mPIL9rg" elementId="ListView.show" commandName="ListView - show"/>
+  <commands xmi:id="_hhcMAB0_EeS8Ob_mPIL9rg" elementId="ListView.show" commandName="ListView - show">
+    <parameters xmi:id="_-WZLUChGEeSLRItvWZ-Eow" elementId="ebook.commandparameter.dirty" name="ebook.commandparameter.dirty"/>
+  </commands>
   <commands xmi:id="__qP50CH5EeSSjvNQ5dYbAw" elementId="ContextView.addgroup" commandName="ContextView - add group"/>
   <commands xmi:id="_CU3F8CH6EeSSjvNQ5dYbAw" elementId="ContextView.addsubgroup" commandName="ContextView - add sub group"/>
   <commands xmi:id="_FFT0UCH6EeSSjvNQ5dYbAw" elementId="ContextView.edit" commandName="ContextView - edit"/>

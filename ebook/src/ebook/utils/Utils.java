@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
@@ -72,6 +73,12 @@ public abstract class Utils {
 			ECommandService comService, String id) {
 		hService.executeHandler(comService.createCommand(id,
 				Collections.EMPTY_MAP));
+	}
+
+	public static void executeHandler(EHandlerService hService,
+			ECommandService comService, String id,
+			Map<String, String> parameters) {
+		hService.executeHandler(comService.createCommand(id, parameters));
 	}
 
 	public static String getExtension(File pathname) {

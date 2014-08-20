@@ -23,11 +23,14 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
+import ebook.core.pico;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
+import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.xml.ContextXML;
+import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -45,6 +48,7 @@ public class ContextService extends TreeService {
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONTEXT_VIEW;
 	private SectionInfo section;
+	ICfServices cf = pico.get(ICfServices.class);
 
 	public ContextService(BookConnection con, SectionInfo section) {
 		super(tableName, updateEvent, con);
@@ -161,7 +165,7 @@ public class ContextService extends TreeService {
 	String conf = "";
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemSelection selection,
+	public String download(IPath zipFolder, ITreeItemSelection selection,
 			String zipName, boolean clear) throws InvocationTargetException {
 		try {
 			File temp = File.createTempFile("downloadConf", "");
@@ -174,6 +178,18 @@ public class ContextService extends TreeService {
 			while (iterator.hasNext()) {
 				ITreeItemInfo item = iterator.next();
 				ContextXML child = new ContextXML(item, false);
+
+				ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+				List<String> path = new ArrayList<String>();
+				AdditionalInfo info = new AdditionalInfo();
+				info.itemTitle = item.getTitle();
+				cf.build().getPathRoot(this, item, info, opt, path);
+
+				if (path.size() > 1)
+					path.remove(0);
+				if (!path.isEmpty())
+					child.path = path;
+
 				root.children.add(child);
 				writeXml(child);
 			}
@@ -201,6 +217,8 @@ public class ContextService extends TreeService {
 			ZipHelper.zip(t.toString(), zipName);
 			if (clear)
 				new File(zipName).deleteOnExit();
+
+			return zipName;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
@@ -257,8 +275,13 @@ public class ContextService extends TreeService {
 			stopUpdate();
 
 			ContextInfo res = null;
+			ITreeItemInfo parent = getUploadRoot();
 			for (ContextXML child : root.children) {
-				res = readXML(child, getUploadRoot());
+				ITreeItemInfo r_parent = null;
+				if (child.path != null)
+					r_parent = makeUploadPath(child.path, parent);
+
+				res = readXML(child, r_parent == null ? parent : r_parent);
 			}
 			startUpdate();
 			if (res != null)

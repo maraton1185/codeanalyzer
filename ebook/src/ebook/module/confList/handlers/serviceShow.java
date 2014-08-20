@@ -1,7 +1,10 @@
 package ebook.module.confList.handlers;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,10 +16,13 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.internal.workbench.PartServiceSaveHandler;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.ISaveHandler;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -50,7 +56,7 @@ public class serviceShow {
 
 	@Inject
 	@Optional
-	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_CONF) Object o) {
+	public void EVENT_SHOW_CONF(@UIEventTopic(Events.EVENT_SHOW_CONF) Object o) {
 
 		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowConf"));
 	}
@@ -119,6 +125,23 @@ public class serviceShow {
 		ConfWindowCloseHandler closeHandler = new ConfWindowCloseHandler();
 		newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 
+		// ISaveHandler saveHandler = new CustomSaveHandler();
+		newWindow.getContext().set(ISaveHandler.class,
+				new PartServiceSaveHandler() {
+					@Override
+					public Save promptToSave(MPart dirtyPart) {
+						return Save.NO;
+					}
+
+					@Override
+					public Save[] promptToSave(Collection<MPart> dirtyParts) {
+						Save[] rc = new Save[dirtyParts.size()];
+						for (int i = 0; i < rc.length; i++) {
+							rc[i] = Save.NO;
+						}
+						return rc;
+					}
+				});
 		// List<MPart> parts = model.findElements(newWindow,
 		// Strings.get("model.id.part.SectionsStartView"), MPart.class,
 		// null);
@@ -139,6 +162,9 @@ public class serviceShow {
 			opt.openSections.add(list.getId());
 		}
 
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(Strings.model("ebook.commandparameter.dirty"), "true");
+
 		for (Integer i : opt.openSections) {
 
 			final ListInfo section = (ListInfo) con.lsrv().get(i);
@@ -148,7 +174,11 @@ public class serviceShow {
 			window.getContext().set(ListInfo.class, section);
 
 			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
-			Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
+			if (section.equals(list))
+				Utils.executeHandler(hs, cs, Strings.model("ListView.show"),
+						map);
+			else
+				Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
 			// show(window, section);
 		}
 

@@ -226,7 +226,7 @@ public class ConfService extends TreeService {
 	}
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemSelection selection,
+	public String download(IPath zipFolder, ITreeItemSelection selection,
 			String zipName, boolean clear) throws InvocationTargetException {
 
 		try {
@@ -279,6 +279,7 @@ public class ConfService extends TreeService {
 			ZipHelper.zip(t.toString(), zipName);
 			if (clear)
 				new File(zipName).deleteOnExit();
+			return zipName;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
@@ -305,7 +306,7 @@ public class ConfService extends TreeService {
 	}
 
 	@Override
-	public void upload(String path, ITreeItemInfo item, boolean clear,
+	public ITreeItemInfo upload(String path, ITreeItemInfo item, boolean clear,
 			boolean relative) throws InvocationTargetException {
 
 		try {
@@ -335,12 +336,18 @@ public class ConfService extends TreeService {
 			ITreeItemInfo parent = item.isGroup() ? item
 					: get(item.getParent());
 			for (ContextXML child : root.children) {
-				res = readXML(child, parent, t);
+
+				ITreeItemInfo r_parent = null;
+				if (relative && child.path != null)
+					r_parent = makeUploadPath(child.path, parent);
+
+				res = readXML(child, r_parent == null ? parent : r_parent, t);
 			}
 
 			startUpdate();
 			if (res != null)
 				selectLast(res.getParent());
+			return res;
 
 		} catch (Exception e) {
 			e.printStackTrace();

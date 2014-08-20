@@ -4,13 +4,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
@@ -33,6 +36,7 @@ import ebook.module.conf.tree.ContentProposalProvider;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
+import ebook.module.conf.tree.ListInfoSelection;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
@@ -71,6 +75,23 @@ public class ConfView {
 
 		viewer.editElement(data.parent, 0);
 
+	}
+
+	@Inject
+	MDirtyable dirty;
+
+	@Persist
+	public void save() {
+		dirty.setDirty(false);
+	}
+
+	@PreDestroy
+	public void preDestroy() {
+		if (dirty.isDirty()) {
+			ListInfoSelection sel = new ListInfoSelection();
+			sel.add(list);
+			con.lsrv().delete(sel);
+		}
 	}
 
 	@Inject

@@ -1,5 +1,8 @@
 package ebook.module.conf.handlers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.commands.ECommandService;
@@ -39,7 +42,9 @@ public class OpenInNewList {
 		if (newList != null) {
 			window.getContext().set(ListInfo.class, newList);
 			// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
-			Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
+			Map<String, String> map = new HashMap<String, String>();
+			map.put(Strings.model("ebook.commandparameter.dirty"), "true");
+			Utils.executeHandler(hs, cs, Strings.model("ListView.show"), map);
 		}
 
 	}

@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.IPath;
 
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.db.DbOptions;
 import ebook.utils.Const;
 import ebook.utils.Events;
@@ -666,15 +667,17 @@ public abstract class TreeService implements ITreeService {
 	}
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemSelection sel,
+	public String download(IPath zipFolder, ITreeItemSelection sel,
 			String zipName, boolean clear) throws InvocationTargetException {
 
+		return "";
 	}
 
 	@Override
-	public void upload(String path, ITreeItemInfo item, boolean clear,
+	public ITreeItemInfo upload(String path, ITreeItemInfo item, boolean clear,
 			boolean relative) throws InvocationTargetException {
 
+		return null;
 	}
 
 	@Override
@@ -721,5 +724,54 @@ public abstract class TreeService implements ITreeService {
 	public void startUpdate() {
 		this.stopUpdate = false;
 
+	}
+
+	public ITreeItemInfo makeUploadPath(List<String> path, ITreeItemInfo _parent)
+			throws InvocationTargetException {
+
+		ContextInfo parent = (ContextInfo) _parent;
+		ContextInfo item = parent;
+		for (String s : path) {
+			item = (ContextInfo) findInParent(s, parent.getId());
+			if (item == null) {
+				item = new ContextInfo(null);
+				item.setTitle(s);
+				item.setGroup(true);
+				add(item, parent, true);
+			}
+			parent = item;
+
+		}
+		return item;
+
+	}
+
+	private ITreeItemInfo findInParent(String title, Integer parent) {
+		ITreeItemInfo result = null;
+
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT TOP 1"
+					+ getItemString("T")
+					+ "FROM "
+					+ tableName
+					+ " AS T WHERE T.PARENT=? AND T.TITLE=? ORDER BY T.SORT, T.ID";
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, parent);
+			prep.setString(2, title);
+			ResultSet rs = prep.executeQuery();
+			try {
+				if (rs.next()) {
+
+					result = getItem(rs);
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 }

@@ -31,10 +31,12 @@ public class Download {
 			@Override
 			public void run() {
 				try {
-					book.srv().download(p, selection, null, false);
+					String name = book.srv()
+							.download(p, selection, null, false);
 					MessageDialog.openInformation(shell,
 							Strings.title("appTitle"),
-							Strings.msg("SaveToFile.sucsess"));
+							Strings.msg("SaveToFile.sucsess") + " (" + name
+									+ ")");
 				} catch (Exception e) {
 					e.printStackTrace();
 					MessageDialog.openError(shell, Strings.title("appTitle"),

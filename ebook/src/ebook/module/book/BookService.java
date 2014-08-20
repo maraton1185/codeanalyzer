@@ -498,7 +498,7 @@ public class BookService extends TreeService {
 	boolean clear;
 
 	@Override
-	public void download(IPath zipFolder, ITreeItemSelection selection,
+	public String download(IPath zipFolder, ITreeItemSelection selection,
 			String zipName, boolean clear) throws InvocationTargetException {
 
 		try {
@@ -543,6 +543,7 @@ public class BookService extends TreeService {
 			if (clear)
 				new File(zipName).deleteOnExit();
 
+			return zipName;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,
@@ -603,8 +604,8 @@ public class BookService extends TreeService {
 	}
 
 	@Override
-	public void upload(String path, ITreeItemInfo section, boolean clear,
-			boolean relative) throws InvocationTargetException {
+	public ITreeItemInfo upload(String path, ITreeItemInfo section,
+			boolean clear, boolean relative) throws InvocationTargetException {
 
 		try {
 			File temp = File.createTempFile("upload", "");
@@ -639,7 +640,7 @@ public class BookService extends TreeService {
 			startUpdate();
 			if (res != null)
 				selectLast(res.getParent());
-
+			return res;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new InvocationTargetException(e,

@@ -6,6 +6,16 @@
 
 <!--SERVLETS-->
 
+  <servlet>
+    <servlet-name>greetServlet</servlet-name>
+    <servlet-class>gwt.GreetingServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/mywebapp/greet</url-pattern>
+  </servlet-mapping>
+  
 	<servlet>
 		<servlet-name>book image</servlet-name>
 		<servlet-class>ebook.web.servlets.BookImageServlet</servlet-class>

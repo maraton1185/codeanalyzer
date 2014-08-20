@@ -34,3 +34,31 @@ Check the log file in the workspace folder of your exported application to see t
 Alternatively add the "-consoleLog" parameter to the ".ini" file in folder of the exported application.
 
 http://mahichir.wordpress.com/2012/08/07/eclipse-rcp-and-p2-headless-update-on-startup/
+
+GWT
+-------
+install jdk (window - prefs - java - installed jre - add)
+
+download and unpack gwt sdk http://www.gwtproject.org/download.html
+webAppCreator -out MyWebApp com.mycompany.mywebapp.MyWebApp
+import to eclipse
+launch in dev mode = run MyWebApp.launch
+compile = build.xml with ant (ant build - jre = jdk) 
+
+to jetty
+---
+compile
+copy war\mywebapp
+add gwt-servlet.jar to build-path (and runtime path)
+packages of rcp interface must be identical
+web.xml - path to servlet (<module rename-to='mywebapp'>)
+
+rename package
+---
+debug configuration - arguments
+build.xml
+MyWebApp.gwt.xml (<module rename-to='mywebapp'>) in same package with entrypoint
+
+
+
+

@@ -6,15 +6,25 @@
 
 <!--SERVLETS-->
 
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>gwt.GreetingServiceImpl</servlet-class>
-  </servlet>
+   	<servlet>
+    	<servlet-name>treeServlet</servlet-name>
+    	<servlet-class>ebook.web.gwt.server.TreeServiceImpl</servlet-class>
+  	</servlet>
   
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/mywebapp/greet</url-pattern>
-  </servlet-mapping>
+  	<servlet-mapping>
+    	<servlet-name>treeServlet</servlet-name>
+    	<url-pattern>/context/tree</url-pattern>
+  	</servlet-mapping>
+  
+  	<servlet>
+   	 <servlet-name>context</servlet-name>
+   	 <servlet-class>ebook.web.servlets.ContextServlet</servlet-class>
+  	</servlet>
+  
+  	<servlet-mapping>
+   	 <servlet-name>context</servlet-name>
+   	 <url-pattern>/context</url-pattern>
+  	</servlet-mapping>
   
 	<servlet>
 		<servlet-name>book image</servlet-name>
@@ -157,6 +167,11 @@
 	<context-param>
 		<param-name>root_list</param-name>
 		<param-value>/tmpl/list/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>root_context</param-name>
+		<param-value>/tmpl/context/</param-value>
 	</context-param>
 	
 	<listener>

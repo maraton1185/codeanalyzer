@@ -20,7 +20,7 @@
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
 <link href="${initParam.root_book}book.css" rel="stylesheet">
 
-<link rel="SHORTCUT ICON" href="book.png">    
+<link rel="SHORTCUT ICON" href="static/book.png">    
 
 </head>
 

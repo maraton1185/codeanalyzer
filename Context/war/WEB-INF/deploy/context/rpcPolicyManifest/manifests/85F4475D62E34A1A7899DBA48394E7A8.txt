@@ -1,0 +1,2 @@
+serviceClass: ebook.web.gwt.client.TreeService
+path: FD69632E4BEB5E7F3105D301D80F73E9.gwt.rpc

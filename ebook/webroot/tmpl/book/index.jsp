@@ -133,13 +133,30 @@
                 			<c:otherwise>
         						<a href="${section.url}">
 									<h2 class="page-header1">${section.title}</h2>
-								</a>
+								</a>								
     						</c:otherwise>
                 		</c:choose>
 
 						<!-- UP link-->
 						<div class="back-to-top">
 							<a href="#"><small>Наверх</small></a>
+
+							<c:choose>
+								<c:when test="${swt == param.swt}">
+									<c:if test="${not empty section.context }">
+										<a href="#" class="openContext"> 
+											<span class="fa fa-pencil"></span> <small>Контекст</small>
+										</a>
+									</c:if>
+								</c:when>
+                				<c:otherwise>
+                					<c:if test="${not empty section.context }">
+										<a href="${section.context}" target="_blank"> 
+											<span class="fa fa-pencil"></span> <small>Контекст</small>
+										</a>
+									</c:if>
+                				</c:otherwise>
+                			</c:choose>
 						</div>
 					</c:if>
 
@@ -151,11 +168,25 @@
 							<a href="#"><small>Наверх</small></a>
 
 							<!-- SWT edit link-->
-							<c:if test="${swt == param.swt}">
-								<a href="#" class="openSection"> <span
-									class="fa fa-pencil"></span> <small>Изменить</small>
-								</a>
-							</c:if>
+							<c:choose>
+								<c:when test="${swt == param.swt}">
+									<a href="#" class="openSection"> <span
+										class="fa fa-pencil"></span> <small>Изменить</small>
+									</a>
+									<c:if test="${not empty section.context }">
+										<a href="#" class="openContext"> 
+											<span class="fa fa-pencil"></span> <small>Контекст</small>
+										</a>
+									</c:if>
+								</c:when>
+                				<c:otherwise>
+                					<c:if test="${not empty section.context }">
+										<a href="${section.context}" target="_blank"> 
+											<span class="fa fa-pencil"></span> <small>Контекст</small>
+										</a>
+									</c:if>
+								</c:otherwise>
+                			</c:choose>
 						</div>
 
 					</c:if>

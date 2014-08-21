@@ -45,6 +45,7 @@ public class BookController {
 			return null;
 
 		String host = App.getJetty().book(bookItem.getId());
+
 		model.url = App.getJetty().list(bookItem.getParent());
 		model.title = bookItem.getTitle();
 
@@ -70,8 +71,12 @@ public class BookController {
 			section.group = item.isGroup();
 			section.text = srv.getText(item.getId());
 			section.images = srv.getImages(item.getId());
-			Integer bigImageCSS = ((SectionInfoOptions) item.getOptions())
-					.getBigImageCSS();
+			SectionInfoOptions opt = (SectionInfoOptions) item.getOptions();
+			if (!opt.getContextName().isEmpty())
+				section.context = App.getJetty().context(bookItem.getId(),
+						section.id);
+
+			Integer bigImageCSS = opt.getBigImageCSS();
 			section.bigImageCSS = bigImageCSS;
 			section.textCSS = SectionInfoOptions.gridLength - bigImageCSS;
 

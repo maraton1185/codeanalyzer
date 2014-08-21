@@ -404,6 +404,11 @@ public class Jetty implements IJetty {
 	}
 
 	@Override
+	public String context(Integer book, Integer section) {
+		return "context?book=" + book.toString() + "&id=" + section.toString();
+	}
+
+	@Override
 	public String bookImage(Integer book, Integer id) {
 		return "book_img?book=" + book.toString() + "&id=" + id.toString();
 	}

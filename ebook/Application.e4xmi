@@ -515,7 +515,6 @@
             <handlers xmi:id="_eslJcCH6EeSSjvNQ5dYbAw" elementId="ebook.handler.53" contributionURI="bundleclass://ebook/ebook.module.book.handlers.EditContext" command="_FFT0UCH6EeSSjvNQ5dYbAw"/>
             <handlers xmi:id="_e0rVgCH6EeSSjvNQ5dYbAw" elementId="ebook.handler.53" contributionURI="bundleclass://ebook/ebook.module.book.handlers.DeleteContext" command="_FQzSoCH6EeSSjvNQ5dYbAw"/>
             <handlers xmi:id="_B__kACIMEeSSjvNQ5dYbAw" elementId="ebook.handler.54" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext" command="_veQHICILEeSSjvNQ5dYbAw"/>
-            <handlers xmi:id="_wMw9gCIMEeSSjvNQ5dYbAw" elementId="ebook.handler.55" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext" command="_nl2LACIMEeSSjvNQ5dYbAw"/>
             <menus xsi:type="menu:PopupMenu" xmi:id="_yLCg0B4WEeSWnfW9xuDLLA" elementId="ebook.popupmenu.bookcontext">
               <children xsi:type="menu:DirectMenuItem" xmi:id="__E69UB4WEeSWnfW9xuDLLA" elementId="ebook.directmenuitem.10" label="Открыть в конфигурации" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в конфигурации" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext"/>
               <children xsi:type="menu:DirectMenuItem" xmi:id="_-wUmUB4WEeSWnfW9xuDLLA" elementId="ebook.directmenuitem.9" label="Вставить контекст" iconURI="platform:/plugin/ebook/icons/set/paste.png" tooltip="Вставить контекст" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PasteContext"/>
@@ -542,6 +541,7 @@
     <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.21" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddPicture" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
     <handlers xmi:id="_aW_iwBJjEeSRHfCKVoiTkg" elementId="ebook.handler.6" contributionURI="bundleclass://ebook/ebook.module.book.handlers.HideRoles" command="_U5MdUBJjEeSRHfCKVoiTkg"/>
     <handlers xmi:id="_zQzvsB4OEeSWnfW9xuDLLA" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Show" command="_hhcMAB0_EeS8Ob_mPIL9rg"/>
+    <handlers xmi:id="_wMw9gCIMEeSSjvNQ5dYbAw" elementId="ebook.handler.55" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext" command="_nl2LACIMEeSSjvNQ5dYbAw"/>
     <mainMenu xmi:id="_4G-cUKtuEeOc79QMS88vBA" elementId="ebook.menu.4" visible="false">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_riaO4Kt2EeOc79QMS88vBA" elementId="ebook.handledmenuitem.0" visible="false" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
     </mainMenu>
@@ -557,7 +557,7 @@
       <children xsi:type="basic:PartStack" xmi:id="_JgoZgBcMEeS3ZekdeJlIhg" elementId="ebook.partstack.conf" containerData="70000"/>
       <children xsi:type="basic:PartStack" xmi:id="_2HnioB07EeS8Ob_mPIL9rg" elementId="ebook.partstack.lists" visible="false" containerData="30000" selectedElement="_26aRgB07EeS8Ob_mPIL9rg">
         <tags>Minimized</tags>
-        <children xsi:type="basic:Part" xmi:id="_26aRgB07EeS8Ob_mPIL9rg" elementId="ebook.part.2" contributionURI="bundleclass://ebook/ebook.module.conf.views.ListView" label="Lists" bindingContexts="_7M6MAB08EeS8Ob_mPIL9rg">
+        <children xsi:type="basic:Part" xmi:id="_26aRgB07EeS8Ob_mPIL9rg" elementId="ebook.part.2" contributionURI="bundleclass://ebook/ebook.module.conf.views.ListView" label="Листы" bindingContexts="_7M6MAB08EeS8Ob_mPIL9rg">
           <handlers xmi:id="_if44oB08EeS8Ob_mPIL9rg" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListAddGroup" command="_OBSGcB08EeS8Ob_mPIL9rg"/>
           <handlers xmi:id="_jDZOUB08EeS8Ob_mPIL9rg" elementId="ebook.handler.50" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListAddSubGroup" command="_SP2YoB08EeS8Ob_mPIL9rg"/>
           <handlers xmi:id="_jY1S0B08EeS8Ob_mPIL9rg" elementId="ebook.handler.51" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.ListEditTitle" command="_SYHj0B08EeS8Ob_mPIL9rg"/>
@@ -663,7 +663,7 @@
   <commands xmi:id="_FFT0UCH6EeSSjvNQ5dYbAw" elementId="ContextView.edit" commandName="ContextView - edit"/>
   <commands xmi:id="_FQzSoCH6EeSSjvNQ5dYbAw" elementId="ContextView.delete" commandName="ContextView - delete"/>
   <commands xmi:id="_veQHICILEeSSjvNQ5dYbAw" elementId="ContextView - past context" commandName="ContextView - past context"/>
-  <commands xmi:id="_nl2LACIMEeSSjvNQ5dYbAw" elementId="ContextView - open context" commandName="ContextView - open context"/>
+  <commands xmi:id="_nl2LACIMEeSSjvNQ5dYbAw" elementId="ContextView.OpenContext" commandName="ContextView - open context"/>
   <commands xmi:id="_TwRLwCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.text" commandName="ConfView.markers.text"/>
   <commands xmi:id="_X0LGECONEeSRdYCzL9P3Gg" elementId="ConfView.markers.object" commandName="ConfView.markers.object"/>
   <commands xmi:id="_X9QwoCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.proposal" commandName="ConfView.markers.proposal"/>

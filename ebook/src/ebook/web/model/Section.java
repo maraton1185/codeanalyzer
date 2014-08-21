@@ -7,6 +7,7 @@ import ebook.module.book.tree.SectionImage;
 public class Section {
 
 	public Integer bigImageCSS;
+
 	public Integer getBigImageCSS() {
 		return bigImageCSS;
 	}
@@ -18,11 +19,19 @@ public class Section {
 	}
 
 	public Integer id;
+
 	public Integer getId() {
 		return id;
 	}
 
+	public String context;
+
+	public String getContext() {
+		return context;
+	}
+
 	public String text;
+
 	public String getText() {
 		return text;
 	}
@@ -40,6 +49,7 @@ public class Section {
 	}
 
 	public boolean group;
+
 	public boolean isGroup() {
 		return group;
 	}

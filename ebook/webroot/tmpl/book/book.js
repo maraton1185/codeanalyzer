@@ -11,6 +11,15 @@ $(function() {
     }
     changeStatusLine('event:openSection()=' + id);
   });
+  $('.openContext').click(function(e) {
+    var id;
+    e.preventDefault();
+    id = $(this).attr('data');
+    if (id === void 0) {
+      id = $(this).parents('.container').attr('id');
+    }
+    changeStatusLine('event:openContext()=' + id);
+  });
 
   /*click on section
   	$('.openSectionBrowse').click (e)->

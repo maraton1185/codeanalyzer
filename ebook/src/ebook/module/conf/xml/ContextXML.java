@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemXML;
@@ -51,8 +52,11 @@ public class ContextXML implements ITreeItemXML {
 		this.group = item.isGroup();
 		this.title = item.getTitle();
 		this.root = item.isRoot();
-		if (options)
-			this.options = DbOptions.save(item.getOptions());
+
+		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+		if (!options)
+			opt.conf = "";
+		this.options = DbOptions.save(opt);
 
 	}
 

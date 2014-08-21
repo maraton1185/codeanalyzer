@@ -31,6 +31,8 @@ public interface IJetty {
 
 	String host();
 
+	String context(Integer book, Integer section);
+
 	String section(Integer book, Integer section);
 
 	String book(Integer book);

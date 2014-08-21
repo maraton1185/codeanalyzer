@@ -27,6 +27,7 @@ import ebook.core.pico;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.conf.model.AdditionalInfo;
+import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.xml.ContextXML;
@@ -234,7 +235,7 @@ public class ContextService extends TreeService {
 
 		for (ITreeItemInfo item : list) {
 
-			ContextXML child = new ContextXML(item, false);
+			ContextXML child = new ContextXML(item);
 			writeXml(child);
 
 			children.add(child);
@@ -350,6 +351,7 @@ public class ContextService extends TreeService {
 
 			ContextInfoOptions opt = new ContextInfoOptions();
 			opt.conf = conf;
+			opt.type = BuildType.object;
 			prep.setString(4, DbOptions.save(opt));
 
 			int affectedRows = prep.executeUpdate();

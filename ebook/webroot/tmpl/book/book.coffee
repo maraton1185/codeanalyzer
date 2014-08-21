@@ -12,6 +12,14 @@ $ ->
 		changeStatusLine 'event:openSection()='+id
 		return
 
+	$('.openContext').click (e)->
+		e.preventDefault()
+		id = $(this).attr('data')
+		if id==undefined 
+			id = $(this).parents('.container').attr('id')
+		changeStatusLine 'event:openContext()='+id
+		return
+
 	###click on section
 	$('.openSectionBrowse').click (e)->
 		e.preventDefault()

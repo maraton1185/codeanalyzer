@@ -46,7 +46,7 @@
 <body>
 
 	<!--NAV BAR-->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -77,8 +77,6 @@
 	</noscript>
 
 	<div class="container">
-		<h1>Web Application Starter Project</h1>
-
 		<div id="root"></div>
 	</div>
 	<!-- /container -->

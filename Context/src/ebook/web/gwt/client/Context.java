@@ -137,7 +137,8 @@ public class Context implements EntryPoint {
 		 * Create the tree using the model. We specify the default value of the
 		 * hidden root node as "Item 1".
 		 */
-		CellTree tree = new CellTree(model, new ContextTreeItem());
+		ContextTreeItem item = new ContextTreeItem();
+		CellTree tree = new CellTree(model, item);
 
 		p.addWest(tree, 300);
 		p.add(new HTML(

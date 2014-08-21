@@ -27,7 +27,12 @@ public class TreeServiceImpl extends RemoteServiceServlet implements
 		// }
 
 		List<ContextTreeItem> result = new ArrayList<ContextTreeItem>();
-		result.add(new ContextTreeItem());
+		ContextTreeItem item = new ContextTreeItem();
+		if (node.getId() == null)
+			item.setTitle("Контекст");
+
+		item.setId(0);
+		result.add(item);
 		// String serverInfo = getServletContext().getServerInfo();
 		// String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 		//

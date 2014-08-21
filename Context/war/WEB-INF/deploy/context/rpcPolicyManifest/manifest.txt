@@ -1,2 +1,3 @@
 # Module context
 # RPC service class, partial path of RPC policy file
+ebook.web.gwt.client.TreeService, FD69632E4BEB5E7F3105D301D80F73E9.gwt.rpc

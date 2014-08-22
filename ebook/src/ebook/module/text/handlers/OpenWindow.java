@@ -1,4 +1,4 @@
-package ebook.module.bookList.handlers;
+package ebook.module.text.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +17,15 @@ import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
-import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.core.App.BookWindowCloseHandler;
-import ebook.module.book.BookConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.text.TextConnection;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class serviceShow {
+public class OpenWindow {
 
 	@Inject
 	@Optional
@@ -47,27 +43,21 @@ public class serviceShow {
 
 	@Inject
 	@Optional
-	public void EVENT_SHOW_BOOK(@UIEventTopic(Events.EVENT_SHOW_BOOK) Object o) {
+	public void EVENT_OPEN_TEXT(@UIEventTopic(Events.EVENT_OPEN_TEXT) Object o) {
 
-		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowBook"));
+		if (o instanceof TextConnection)
+			App.ctx.set(TextConnection.class, (TextConnection) o);
+
+		Utils.executeHandler(hs, cs, Strings.model("openTextWindow"));
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional BookConnection book) {
-		return book != null;
+	public boolean canExecute(@Optional TextConnection con) {
+		return con != null && con.isValid();
 	}
 
 	@Execute
-	public void execute(final @Active BookConnection con) {
-
-		// книги нет в списке
-		ITreeItemInfo item = con.getTreeItem();
-		if (item == null) {
-			if (shell != null)
-				MessageDialog.openError(shell, Strings.title("appTitle"),
-						Strings.msg("error.book_not_in_list"));
-			return;
-		}
+	public void execute(final @Active TextConnection con) {
 
 		MWindow mainWindow = App.app.getChildren().get(0);
 
@@ -75,7 +65,7 @@ public class serviceShow {
 		List<MTrimmedWindow> windows = model.findElements(App.app, null,
 				MTrimmedWindow.class, new ArrayList<String>() {
 					{
-						add(con.getFullName());
+						add(con.getCon().getName());
 					}
 				});
 
@@ -85,44 +75,35 @@ public class serviceShow {
 
 		else {
 			MWindow w = windows.get(0);
+			w.getContext().set(TextConnection.class, con);
 			w.setVisible(true);
 			App.app.setSelectedElement(w);
 		}
 
-		App.ctx.set(BookConnection.class, null);
+		Utils.executeHandler(hs, cs, Strings.model("TextView.show"));
+		App.ctx.set(TextConnection.class, null);
 	}
 
-	private void createWindow(MWindow mainWindow, BookConnection con) {
+	private void createWindow(MWindow mainWindow, TextConnection con) {
 
 		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
-				Strings.model("model.id.book.window"), null);
+				Strings.model("ebook.window.text"), null);
 
-		newWindow
-				.setLabel(con.getWindowTitle()
-						+ (App.getJetty().isStarted() ? ""
-								: " : Web-сервер не запущен"));
+		newWindow.setLabel(con.getCon().getWindowTitle());
+		// + (App.getJetty().isStarted() ? ""
+		// : " : Web-сервер не запущен"));
 
 		newWindow.setX(mainWindow.getX() + 20);
 		newWindow.setY(mainWindow.getY() + 20);
 		newWindow.setWidth(mainWindow.getWidth());
 		newWindow.setHeight(mainWindow.getHeight());
-		newWindow.getTags().add(con.getFullName());
+		newWindow.getTags().add(con.getCon().getName());
 
 		App.app.getChildren().add(newWindow);
-		// App.app.setSelectedElement(bookWindow);
-		newWindow.getContext().set(BookConnection.class, con);
+		newWindow.getContext().set(TextConnection.class, con);
 
-		BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
-		newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
+		// BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
+		// newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);
 
-		// List<MPart> parts = model.findElements(newWindow,
-		// Strings.get("model.id.part.SectionsStartView"), MPart.class,
-		// null);
-		// if (!parts.isEmpty()) {
-		// MPart part = parts.get(0);
-		// if (PreferenceSupplier
-		// .getBoolean(PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW))
-		// part.setVisible(false);
-		// }
 	}
 }

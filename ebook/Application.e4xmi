@@ -185,6 +185,7 @@
   <handlers xmi:id="_S2MEwPxfEeOykK3iUHvgTQ" elementId="ebook.handler.3" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.serviceShow" command="_Gp9_gPxfEeOykK3iUHvgTQ"/>
   <handlers xmi:id="_zI6eMOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.30" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.AddExisted" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
   <handlers xmi:id="_ngvn4BvSEeSuCZqAXHJskQ" elementId="ebook.handler.22" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Add" command="_-GzpkOwhEeO98Pond6SApQ"/>
+  <handlers xmi:id="_dsm58CnsEeS1QbE7vYHxhg" elementId="ebook.handler.60" contributionURI="bundleclass://ebook/ebook.module.text.handlers.OpenWindow" command="_G9YwACnsEeS1QbE7vYHxhg"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="ebook.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_1dqYYKoIEeOvm9Uu729JwA" elementId="ebook.keybinding.3" keySequence="M1+T" command="_XybQsKkaEeOctbxZaJIj4Q">
       <tags>type:user</tags>
@@ -413,7 +414,7 @@
       </children>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView part" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
+  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
     <handlers xmi:id="_ZUvTgB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddGroup" command="_R8mmgBicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_Z811UB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.50" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddSubGroup" command="_WxNlABicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_aTW34B1DEeS8Ob_mPIL9rg" elementId="ebook.handler.51" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Delete" command="_Zg_lABicEeSEwsGZkmCqtw"/>
@@ -462,6 +463,9 @@
       <children xsi:type="menu:HandledToolItem" xmi:id="_TWjd0B1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.8" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_bFGcEBicEeSEwsGZkmCqtw"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_Tp7FwB1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.6" label="" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить раздел" command="_Zg_lABicEeSEwsGZkmCqtw"/>
     </toolbar>
+  </descriptors>
+  <descriptors xmi:id="_4F0iACnvEeS1QbE7vYHxhg" elementId="ebook.partdescriptor.1" label="TextView" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.text.views.TextView">
+    <toolbar xmi:id="_C8bfMCnwEeS1QbE7vYHxhg" elementId="ebook.toolbar.16"/>
   </descriptors>
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="ebook.window.book" label="Книга" iconURI="platform:/plugin/ebook/icons/set/book.png" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="ebook.partsashcontainer.2" horizontal="true">
@@ -593,6 +597,13 @@
       </children>
     </trimBars>
   </snippets>
+  <snippets xsi:type="basic:TrimmedWindow" xmi:id="_kUmMgCnqEeS1QbE7vYHxhg" elementId="ebook.window.text" label="Исходный код" iconURI="platform:/plugin/ebook/icons/set/source.png">
+    <children xsi:type="basic:PartSashContainer" xmi:id="_q_Lb4CnvEeS1QbE7vYHxhg" elementId="ebook.partsashcontainer.5" horizontal="true">
+      <children xsi:type="basic:PartStack" xmi:id="_r8vQUCnvEeS1QbE7vYHxhg" elementId="ebook.partstack.text" containerData="70000"/>
+      <children xsi:type="basic:PartStack" xmi:id="_vnWg4CnvEeS1QbE7vYHxhg" elementId="ebook.partstack.2" containerData="30000"/>
+    </children>
+    <handlers xmi:id="_PKewcCnwEeS1QbE7vYHxhg" elementId="ebook.handler.61" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Show" command="_KDQ_ACnwEeS1QbE7vYHxhg"/>
+  </snippets>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="ebook.command.Activate" commandName="Сервис -Активация"/>
   <commands xmi:id="_irP60J6aEeORdqnZrqq27Q" elementId="ebook.command.Options" commandName="Сервис - Параметры"/>
@@ -672,6 +683,8 @@
   <commands xmi:id="_TgXnkB74EeSy8KLEUiC4ow" elementId="ConfView.build" commandName="ConfView.build"/>
   <commands xmi:id="_vvh2gCOOEeSRdYCzL9P3Gg" elementId="ConfView.build.text" commandName="ConfView.build.text"/>
   <commands xmi:id="_uZXJQCOYEeSRdYCzL9P3Gg" elementId="ConfView.build.clear" commandName="ConfView.build.clear"/>
+  <commands xmi:id="_G9YwACnsEeS1QbE7vYHxhg" elementId="openTextWindow" commandName="openTextWindow"/>
+  <commands xmi:id="_KDQ_ACnwEeS1QbE7vYHxhg" elementId="TextView.show" commandName="TextView.show"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

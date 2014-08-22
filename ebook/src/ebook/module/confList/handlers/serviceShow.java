@@ -104,6 +104,7 @@ public class serviceShow {
 		showSections(con, w, list);
 
 		App.ctx.set(ListInfo.class, null);
+		App.ctx.set(ConfConnection.class, null);
 	}
 
 	private MWindow createWindow(MWindow mainWindow, ConfConnection con) {

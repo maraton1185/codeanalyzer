@@ -17,6 +17,7 @@ import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IDbStructure;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Const;
 
 public abstract class BaseDbConnection implements IDbConnection {
@@ -212,6 +213,17 @@ public abstract class BaseDbConnection implements IDbConnection {
 
 	@Override
 	public String getName() {
+		return "";
+	}
+
+	@Override
+	public ITreeItemInfo getTreeItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getWindowTitle() {
 		return "";
 	}
 

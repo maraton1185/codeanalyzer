@@ -25,4 +25,6 @@ public interface IDbConnection {
 	ITreeItemInfo getTreeItem();
 
 	String getName();
+
+	String getWindowTitle();
 }

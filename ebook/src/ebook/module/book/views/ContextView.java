@@ -25,11 +25,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
+import ebook.module.text.TextConnection;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -162,12 +165,13 @@ public class ContextView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 
-				// IStructuredSelection selection = (IStructuredSelection)
-				// viewer
-				// .getSelection();
-				// ListBookInfo selected = (ListBookInfo) selection
-				// .getFirstElement();
-				// App.mng.blm().open(selected.getPath(), shell);
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+				ITreeItemInfo selected = (ITreeItemInfo) selection
+						.getFirstElement();
+				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
+						selected));
+
 			}
 		});
 

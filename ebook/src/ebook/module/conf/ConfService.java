@@ -83,6 +83,11 @@ public class ConfService extends TreeService {
 	}
 
 	@Override
+	protected String getTextQUERY() {
+		return "SELECT TEXT FROM PROCS_TEXT WHERE PROC=?";
+	}
+
+	@Override
 	public List<ITreeItemInfo> getRoot() {
 		List<ITreeItemInfo> result = super.getRoot();
 		if (result.isEmpty())
@@ -250,6 +255,7 @@ public class ConfService extends TreeService {
 
 				if (cf.build().getPathRoot(this, item, info, opt, path) != null) {
 					child.path = path;
+					child.proc = cf.build().getProcByPath(info, path);
 				}
 
 				root.children.add(child);
@@ -287,15 +293,29 @@ public class ConfService extends TreeService {
 		}
 	}
 
-	private void writeXml(ContextXML root, IPath p) {
+	private void writeXml(ContextXML root, IPath p) throws SQLException {
+
+		if (root.proc != null)
+			root.text = getText(root.proc);
 
 		List<ITreeItemInfo> list = getChildren(root.id);
 
 		ArrayList<ContextXML> children = new ArrayList<ContextXML>();
 
+		List<String> path = new ArrayList<String>(root.path);
+		if (root.path != null) {
+			path.add(root.title);
+		}
 		for (ITreeItemInfo item : list) {
 
 			ContextXML child = new ContextXML(item);
+
+			if (root.path != null) {
+				AdditionalInfo info = new AdditionalInfo();
+				info.itemTitle = item.getTitle();
+				child.proc = cf.build().getProcByPath(info, path);
+				child.path = path;
+			}
 			writeXml(child, p);
 
 			children.add(child);

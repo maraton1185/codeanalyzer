@@ -17,6 +17,18 @@ public class BookStructure implements IDbStructure {
 	@Override
 	public void updateSructure(Connection con) throws SQLException {
 
+		Statement stat = con.createStatement();
+		try {
+			stat.execute("DROP TABLE IF EXISTS PROCS_TEXT;");
+
+			stat.execute("CREATE TABLE PROCS_TEXT (ID INTEGER AUTO_INCREMENT, "
+					+ "PROC INTEGER, TEXT CLOB, HASH VARCHAR(500), "
+					+ "PRIMARY KEY (ID), "
+					+ "FOREIGN KEY(PROC) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+		} catch (Exception e) {
+			throw new SQLException("Ошибка обновления структуры базы данных.");
+		}
 	}
 
 	@Override
@@ -102,6 +114,11 @@ public class BookStructure implements IDbStructure {
 					+ "FOREIGN KEY(PARENT) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
+			stat.execute("CREATE TABLE PROCS_TEXT (ID INTEGER AUTO_INCREMENT, "
+					+ "PROC INTEGER, TEXT CLOB, HASH VARCHAR(500), "
+					+ "PRIMARY KEY (ID), "
+					+ "FOREIGN KEY(PROC) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
 		} catch (Exception e) {
 			throw new SQLException();
 		}
@@ -125,6 +142,7 @@ public class BookStructure implements IDbStructure {
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "CONTEXT",
 						"SECTION, PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+				&& ch.checkColumns(metadata, "PROCS_TEXT", "PROC, TEXT, HASH")
 				&& ch.checkColumns(metadata, "S_TEXT", "TEXT")
 				&& ch.checkColumns(metadata, "S_IMAGES",
 						"DATA, TITLE, SORT, MIME")

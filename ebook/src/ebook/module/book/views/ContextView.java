@@ -101,10 +101,11 @@ public class ContextView {
 			return;
 
 		// if (data.parent != null)
-		viewer.refresh(data.parent);
-
-		if (data.selected != null)
+		viewer.refresh();
+		if (data.selected != null) {
+			// viewer.expandToLevel(data.selected, 0);
 			viewer.setSelection(new StructuredSelection(data.selected), true);
+		}
 
 		// form.reflow(true);
 	}

@@ -22,10 +22,12 @@
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
 <link href="${initParam.root_context}context.css" rel="stylesheet">
 
+<link rel="stylesheet" href="${initParam.root_context}highlight/styles/default.css">
+
 <!--                                           -->
 <!-- Any title is fine                         -->
 <!--                                           -->
-<title>Web Application Starter Project</title>
+<title>${applicationScope.brand}</title>
 
 <!--                                           -->
 <!-- This script loads your compiled module.   -->
@@ -36,14 +38,14 @@
 	src="context/context.nocache.js"></script>
 </head>
 <script type="text/javascript" src="${initParam.root_editor}js/tinymce/tinymce.min.js"></script>
-
+<script type="text/javascript" src="${initParam.root_context}highlight/highlight.pack.js"></script>
 
 <!--                                           -->
 <!-- The body can have arbitrary html, or      -->
 <!-- you can leave the body empty if you want  -->
 <!-- to create a completely dynamic UI.        -->
 <!--                                           -->
-<body>
+<body data_book="${param.book}" data_id="${param.id}">
 
 	<!--NAV BAR-->
 	<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -76,9 +78,9 @@
 			application to display correctly.</div>
 	</noscript>
 
-	<div class="container">
-		<div id="root"></div>
-	</div>
+	
+	<div id="root" class="container"></div>
+	
 	<!-- /container -->
 
 	<!-- Bootstrap core JavaScript

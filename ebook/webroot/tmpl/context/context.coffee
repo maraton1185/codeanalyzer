@@ -1,6 +1,10 @@
 
 document.setContent = (text) ->
 	tinymce.activeEditor.setContent(text)
+	$('pre code', window.parent.frames[2].document).each (i, block)->
+    	hljs.highlightBlock block
+    	return
+  
 	return
     
 	
@@ -9,19 +13,18 @@ document.getContent = ()->
     
 document.init = () ->
 	tinymce.init
-		language : 'ru'
+		language: 'ru'
 		setup: "s"
 		selector: "textarea"
+		readonly: 1
 		plugins: ["advlist autolink lists charmap print preview anchor",
 		"searchreplace visualblocks code",
 		"insertdatetime table contextmenu paste",
-		"textcolor","autoresize"]
-		paste_auto_cleanup_on_paste : true
-		paste_remove_styles: true
-		paste_remove_styles_if_webkit: true
-		paste_strip_class_attributes: true
-		toolbar: "insertfile undo redo | styleselect | bold italic | alignleft
-		 aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor"
+		"textcolor","autoresize"]		
+		toolbar: ""
+		toolbar: "false"
+		menubar: "false"
+		content_css: "/tmpl/context/highlight/styles/1c.css"
 		setup: (editor)->
 			return  
 	return

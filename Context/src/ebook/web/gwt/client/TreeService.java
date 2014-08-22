@@ -10,8 +10,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("tree")
 public interface TreeService extends RemoteService {
-	List<ContextTreeItem> getChild(ContextTreeItem node)
+	List<ContextTreeItem> getChild(String book, String id, ContextTreeItem node)
 			throws IllegalArgumentException;
 
-	String getText(ContextTreeItem item) throws IllegalArgumentException;
+	String getText(String book, String id, ContextTreeItem item)
+			throws IllegalArgumentException;
 }

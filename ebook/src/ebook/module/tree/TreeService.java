@@ -1,5 +1,7 @@
 package ebook.module.tree;
 
+import java.io.BufferedReader;
+import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -773,5 +775,50 @@ public abstract class TreeService implements ITreeService {
 		}
 
 		return result;
+	}
+
+	protected String getTextQUERY() {
+		return "";
+	}
+
+	protected String getInitText() {
+		return "";
+	}
+
+	public String getText(int id) {
+
+		StringBuilder result = new StringBuilder();
+
+		try {
+			Connection con = db.getConnection();
+			// String SQL = "SELECT TEXT FROM S_TEXT WHERE SECTION=?";
+			PreparedStatement prep = con.prepareStatement(getTextQUERY());
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+			BufferedReader bufferedReader = null;
+
+			try {
+				if (rs.next()) {
+
+					Reader in = rs.getCharacterStream(1);
+					bufferedReader = new BufferedReader(in);
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
+						result.append(line + "\n");
+					}
+				} else {
+					String init = getInitText();
+					if (!init.isEmpty())
+						result.append(init);
+				}
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result.toString();
 	}
 }

@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import ebook.core.App;
+import ebook.module.book.BookConnection;
+import ebook.module.book.ContextService;
+import ebook.module.book.tree.SectionInfo;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.web.gwt.client.ContextTreeItem;
 import ebook.web.gwt.client.TreeService;
 
@@ -16,57 +21,84 @@ public class TreeServiceImpl extends RemoteServiceServlet implements
 		TreeService {
 
 	@Override
-	public List<ContextTreeItem> getChild(ContextTreeItem node)
-			throws IllegalArgumentException {
-		// Verify that the input is valid.
-		// if (!input.isEmpty()) {
-		// // If the input is not valid, throw an IllegalArgumentException back
-		// // to
-		// // the client.
-		// throw new IllegalArgumentException("empty input");
-		// }
+	public List<ContextTreeItem> getChild(String book_id, String section_id,
+			ContextTreeItem node) throws IllegalArgumentException {
+
+		ContextService srv = checkArguments(book_id, section_id);
+
+		List<ITreeItemInfo> list;
+		if (node.getId() == null)
+			list = srv.getRoot();
+		else
+			list = srv.getChildren(node.getId());
 
 		List<ContextTreeItem> result = new ArrayList<ContextTreeItem>();
-		ContextTreeItem item = new ContextTreeItem();
-		if (node.getId() == null)
-			item.setTitle("Контекст раздела");
 
-		item.setId(0);
-		result.add(item);
-		// String serverInfo = getServletContext().getServerInfo();
-		// String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-		//
-		// // Escape data from the client to avoid cross-site script
-		// // vulnerabilities.
-		// input = escapeHtml(input);
-		// userAgent = escapeHtml(userAgent);
+		for (ITreeItemInfo item : list) {
 
+			ContextTreeItem treeItem = new ContextTreeItem();
+			treeItem.setId(item.getId());
+			treeItem.setTitle(item.getTitle());
+			treeItem.setLeaf(!srv.hasChildren(item.getId()));
+			result.add(treeItem);
+		}
 		return result;
 	}
 
-	@Override
-	public String getText(ContextTreeItem item) throws IllegalArgumentException {
-		return "got it";
+	private ContextService checkArguments(String book_id, String section_id)
+			throws IllegalArgumentException {
+
+		if (book_id == null) {
+			throw new IllegalArgumentException("Не задана книга.");
+		}
+
+		if (section_id == null) {
+			throw new IllegalArgumentException("Не задана секция книги.");
+		}
+
+		Integer id;
+		try {
+			id = Integer.parseInt(section_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new IllegalArgumentException("Не задана секция книги.");
+		}
+
+		BookConnection book = App.srv.bl().getBook(book_id);
+		if (book == null) {
+			throw new IllegalArgumentException("Книга не найдена.");
+		}
+		SectionInfo section = (SectionInfo) book.srv().get(id);
+		if (section == null)
+			throw new IllegalArgumentException("Не найдена секция книги.");
+
+		return book.ctxsrv(section);
+
 	}
 
-	// @Override
-	// public Boolean isGroup(String msg) throws IllegalArgumentException {
-	// return true;
-	// }
+	@Override
+	public String getText(String book_id, String section_id,
+			ContextTreeItem node) throws IllegalArgumentException {
 
-	// /**
-	// * Escape an html string. Escaping data received from the client helps to
-	// * prevent cross-site script vulnerabilities.
-	// *
-	// * @param html
-	// * the html string to escape
-	// * @return the escaped string
-	// */
-	// private String escapeHtml(String html) {
-	// if (html == null) {
-	// return null;
-	// }
-	// return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-	// .replaceAll(">", "&gt;");
-	// }
+		ContextService srv = checkArguments(book_id, section_id);
+
+		String text = srv.getText(node.getId());
+		if (!text.isEmpty())
+			return getHtml(text);
+		else
+			return "Для просмотра текста выберите процедуру";
+	}
+
+	private String getHtml(String html) {
+		if (html == null) {
+			return null;
+		}
+		html = html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
+				.replaceAll(">", "&gt;");
+
+		return "<pre><code class=\"1c\">" + html
+		// + html.replaceAll("\n", "<br>").replaceAll("\t",
+		// "<span style=\"padding: 0px 10px;\">&nbsp;</span>")
+				+ "</code><pre>";
+	}
 }

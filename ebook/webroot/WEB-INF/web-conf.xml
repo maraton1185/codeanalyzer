@@ -123,6 +123,12 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 
+	<filter-mapping>
+		<filter-name>BookSectionFilter</filter-name>
+		<servlet-name>context</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 <!--CONTEXT AND LISTENERS-->
 	<context-param>
 		<param-name>root_url</param-name>

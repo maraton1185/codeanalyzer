@@ -29,6 +29,8 @@ public class ContextXML implements ITreeItemXML {
 	public boolean group;
 	public String title;
 	public String options;
+	public Integer proc;
+	public String text = "";
 	public boolean root = false;
 
 	@XmlElementWrapper(name = "path")

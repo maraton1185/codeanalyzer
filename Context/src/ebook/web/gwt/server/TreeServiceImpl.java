@@ -16,8 +16,8 @@ public class TreeServiceImpl extends RemoteServiceServlet implements
 		TreeService {
 
 	@Override
-	public List<ContextTreeItem> getChild(ContextTreeItem node)
-			throws IllegalArgumentException {
+	public List<ContextTreeItem> getChild(String book, String id,
+			ContextTreeItem node) throws IllegalArgumentException {
 		// Verify that the input is valid.
 		// if (!input.isEmpty()) {
 		// // If the input is not valid, throw an IllegalArgumentException back
@@ -29,7 +29,7 @@ public class TreeServiceImpl extends RemoteServiceServlet implements
 		List<ContextTreeItem> result = new ArrayList<ContextTreeItem>();
 		ContextTreeItem item = new ContextTreeItem();
 		if (node.getId() == null)
-			item.setTitle("Контекст");
+			item.setTitle("Контекст " + book + " " + id);
 
 		item.setId(0);
 		result.add(item);
@@ -45,8 +45,9 @@ public class TreeServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String getText(ContextTreeItem item) throws IllegalArgumentException {
-		return "got it";
+	public String getText(String book, String id, ContextTreeItem item)
+			throws IllegalArgumentException {
+		return book + " " + id + " got it";
 	}
 
 	// @Override

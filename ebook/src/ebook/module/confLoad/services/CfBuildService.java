@@ -247,6 +247,10 @@ public class CfBuildService {
 		levels.add(ELevel.module);
 		levels.add(ELevel.proc);
 		levels.add(null);
+		// levels.add(ELevel.group2);
+		// levels.add(ELevel.module);
+		// levels.add(ELevel.proc);
+		// levels.add(null);
 
 		List<String> path = new ArrayList<String>();
 
@@ -566,5 +570,52 @@ public class CfBuildService {
 		}
 
 		return root;
+	}
+
+	public Integer getProcByPath(AdditionalInfo info, List<String> path_items)
+			throws SQLException {
+
+		Integer gr = null;
+
+		List<ELevel> levels = new ArrayList<ELevel>();
+		levels.add(ELevel.group1);
+		levels.add(ELevel.group2);
+		levels.add(ELevel.module);
+		levels.add(ELevel.proc);
+
+		List<String> path = new ArrayList<String>();
+
+		for (String p : path_items)
+			path.add(p.replace("###", "..."));
+
+		// add 2 items
+		path.add(info.itemTitle);
+		path.add(null);
+
+		List<BuildInfo> proposals = new ArrayList<BuildInfo>();
+
+		gr = get(levels.get(0), path.get(0), null, proposals);
+
+		for (int i = 1; i < path.size(); i++) {
+
+			if (levels.size() <= i)
+				break;
+
+			if (levels.get(i) == ELevel.proc && gr != null) {
+				gr = getProcs(path.get(i), gr, proposals);
+				if (gr != null) {
+					info.getProc = true;
+					return gr;
+				}
+				continue;
+			}
+
+			if (gr != null)
+				gr = get(levels.get(i), path.get(i), gr, proposals);
+
+		}
+
+		return null;
+
 	}
 }

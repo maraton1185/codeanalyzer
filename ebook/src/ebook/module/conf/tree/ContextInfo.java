@@ -77,6 +77,9 @@ public class ContextInfo extends TreeItemInfo {
 			return Utils.getImage("cut.png");
 
 		ContextInfoOptions opt = getOptions();
+		// if (opt.hasText != null && opt.hasText)
+		// return Utils.getImage("markers/text.png");
+
 		if (opt.type == null)
 			return null;
 		switch (opt.type) {

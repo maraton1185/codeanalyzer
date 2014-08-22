@@ -15,5 +15,6 @@ public class AdditionalInfo {
 	}
 
 	public boolean getProc = false;
+	public Integer procId;
 
 }

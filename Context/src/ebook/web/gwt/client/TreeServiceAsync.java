@@ -8,11 +8,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface TreeServiceAsync {
-	void getChild(ContextTreeItem input,
+	void getChild(String book, String id, ContextTreeItem input,
 			AsyncCallback<List<ContextTreeItem>> callback)
 			throws IllegalArgumentException;
 
-	void getText(ContextTreeItem item, AsyncCallback<String> asyncCallback)
+	void getText(String book, String id, ContextTreeItem item,
+			AsyncCallback<String> asyncCallback)
 			throws IllegalArgumentException;
 
 }

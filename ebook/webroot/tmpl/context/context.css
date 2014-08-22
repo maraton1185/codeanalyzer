@@ -1,5 +1,5 @@
 body {
-  /*margin-top: 50px; /* 50px is the height of the navbar - change this if the navbarn height changes */
+  margin: 0px !important;
 }
 
 /** Example rules used by the template application (remove for your app) */
@@ -34,8 +34,6 @@ h1 {
   margin: 15px 6px 6px;
 }
 #root {
-  margin: auto;
-  width: 1000px;
   height: 700px;
 }
 .gwt-Label {

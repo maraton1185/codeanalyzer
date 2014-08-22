@@ -36,6 +36,14 @@ public class Context implements EntryPoint {
 														$doc.setContent(value);
 														}-*/;
 
+	public static native String getBook()/*-{
+											return $wnd.$('body').attr('data_book');
+											}-*/;
+
+	public static native String getSection()/*-{
+											return $wnd.$('body').attr('data_id');
+											}-*/;
+
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
@@ -56,7 +64,7 @@ public class Context implements EntryPoint {
 				@Override
 				protected void onRangeChanged(
 						final HasData<ContextTreeItem> display) {
-					treeService.getChild(node,
+					treeService.getChild(getBook(), getSection(), node,
 							new AsyncCallback<List<ContextTreeItem>>() {
 								@Override
 								public void onFailure(Throwable caught) {
@@ -71,6 +79,8 @@ public class Context implements EntryPoint {
 											.getStart();
 									updateRowData(display, start, result);
 
+									tree.getRootTreeNode()
+											.setChildOpen(0, true);
 								}
 							});
 
@@ -95,6 +105,8 @@ public class Context implements EntryPoint {
 
 	}
 
+	CellTree tree;
+
 	/**
 	 * This is the entry point method.
 	 */
@@ -118,17 +130,18 @@ public class Context implements EntryPoint {
 						if (item == null)
 							return;
 
-						treeService.getText(item, new AsyncCallback<String>() {
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert(caught.toString());
-							}
+						treeService.getText(getBook(), getSection(), item,
+								new AsyncCallback<String>() {
+									@Override
+									public void onFailure(Throwable caught) {
+										Window.alert(caught.toString());
+									}
 
-							@Override
-							public void onSuccess(String result) {
-								setContent(result);
-							}
-						});
+									@Override
+									public void onSuccess(String result) {
+										setContent(result);
+									}
+								});
 
 					}
 				});
@@ -138,9 +151,8 @@ public class Context implements EntryPoint {
 		 * hidden root node as "Item 1".
 		 */
 		ContextTreeItem item = new ContextTreeItem();
-		CellTree tree = new CellTree(model, item);
-
-		p.addWest(tree, 300);
+		tree = new CellTree(model, item);
+		p.addWest(tree, 500);
 		p.add(new HTML(
 				"<textarea id=\"content\" name=\"content\" style=\"width:100%; height:100% !important\"></textarea>"));
 

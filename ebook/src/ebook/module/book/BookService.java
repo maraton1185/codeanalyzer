@@ -98,6 +98,16 @@ public class BookService extends TreeService {
 	}
 
 	@Override
+	protected String getTextQUERY() {
+		return "SELECT TEXT FROM S_TEXT WHERE SECTION=?";
+	}
+
+	@Override
+	protected String getInitText() {
+		return Strings.value("blocktext");
+	}
+
+	@Override
 	public ITreeItemInfo getSelected() {
 		DbOptions _opt = getRootOptions(BookOptions.class);
 		if (_opt == null)
@@ -185,40 +195,6 @@ public class BookService extends TreeService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String getText(int section) {
-
-		StringBuilder result = new StringBuilder();
-
-		try {
-			Connection con = db.getConnection();
-			String SQL = "SELECT TEXT FROM S_TEXT WHERE SECTION=?";
-			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, section);
-			ResultSet rs = prep.executeQuery();
-			BufferedReader bufferedReader = null;
-
-			try {
-				if (rs.next()) {
-
-					Reader in = rs.getCharacterStream(1);
-					bufferedReader = new BufferedReader(in);
-					String line;
-					while ((line = bufferedReader.readLine()) != null) {
-						result.append(line + "\n");
-					}
-				} else
-					result.append(Strings.value("blocktext"));
-			} finally {
-				rs.close();
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return result.toString();
 	}
 
 	public List<SectionImage> getImages(int section) {

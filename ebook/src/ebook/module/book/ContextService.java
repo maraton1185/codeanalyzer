@@ -191,7 +191,8 @@ public class ContextService extends TreeService {
 				List<String> path = new ArrayList<String>();
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
-				cf.build().getPathRoot(this, item, info, opt, path);
+				cf.build(getConnection()).getPathRoot(this, item, info, opt,
+						path);
 
 				if (path.size() > 1)
 					path.remove(0);

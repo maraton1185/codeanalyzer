@@ -248,15 +248,11 @@ public class ConfService extends TreeService {
 				ITreeItemInfo item = iterator.next();
 				ContextXML child = new ContextXML(item);
 
-				ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
 				List<String> path = new ArrayList<String>();
-				AdditionalInfo info = new AdditionalInfo();
-				info.itemTitle = item.getTitle();
-
-				if (cf.build().getPathRoot(this, item, info, opt, path) != null) {
+				child.proc = cf.build(getConnection()).getProcId(this,
+						(ContextInfo) item, path);
+				if (child.proc != null)
 					child.path = path;
-					child.proc = cf.build().getProcByPath(info, path);
-				}
 
 				root.children.add(child);
 				writeXml(child, t);
@@ -293,7 +289,8 @@ public class ConfService extends TreeService {
 		}
 	}
 
-	private void writeXml(ContextXML root, IPath p) throws SQLException {
+	private void writeXml(ContextXML root, IPath p) throws SQLException,
+			IllegalAccessException {
 
 		if (root.proc != null)
 			root.text = getText(root.proc);
@@ -311,9 +308,11 @@ public class ConfService extends TreeService {
 			ContextXML child = new ContextXML(item);
 
 			if (root.path != null) {
+
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
-				child.proc = cf.build().getProcByPath(info, path);
+				child.proc = cf.build(getConnection())
+						.getProcByPath(info, path);
 				child.path = path;
 			}
 			writeXml(child, p);

@@ -10,6 +10,7 @@ import ebook.core.models.ServiceFactory;
 import ebook.module.confLoad.LoaderManager;
 import ebook.module.confLoad.services.CfServices;
 import ebook.module.db.DbConnection;
+import ebook.module.text.model.ColorManager;
 import ebook.module.tree.Clipboard;
 
 public final class pico {
@@ -32,16 +33,9 @@ public final class pico {
 
 		instance.as(Characteristics.CACHE).addComponent(DbConnection.class);
 
-		// instance.addComponent(Cf.class);
-		// instance.as(Characteristics.CACHE).addComponent(ConfManager.class);
 		instance.as(Characteristics.CACHE).addComponent(CfServices.class);
 
-		// instance.as(Characteristics.CACHE).addComponent(TextParser.class);
 		instance.as(Characteristics.CACHE).addComponent(LoaderManager.class);
-
-		// instance.as(Characteristics.CACHE).addComponent(BookListManager.class);
-		// instance.as(Characteristics.CACHE).addComponent(UserManager.class);
-		// instance.as(Characteristics.CACHE).addComponent(ConfManager.class);
 
 		instance.as(Characteristics.CACHE).addComponent(ServiceFactory.class);
 		instance.as(Characteristics.CACHE).addComponent(ManagerFactory.class);
@@ -50,18 +44,7 @@ public final class pico {
 
 		instance.as(Characteristics.CACHE).addComponent(Clipboard.class);
 
-		// instance.as(Characteristics.CACHE).addComponent(BookServices.class);
-		// instance.as(Characteristics.CACHE).addComponent(BookService.class);
-		// instance.as(Characteristics.CACHE).addComponent(Events.class);
-		// instance.as(Characteristics.CACHE).addComponent(EditorFactory.class);
-		// instance.as(Characteristics.CACHE).addComponent(History.class);
-		//
-
-		// // instance.addComponent(TextParser.class);
-		// instance.as(Characteristics.CACHE).addComponent(ColorManager.class);
-		// instance.addComponent(CData.class);
-		// instance.addComponent(ColorManager.class);
-		// instance.addComponent(NotUsedSectionComposite.class);
+		instance.as(Characteristics.CACHE).addComponent(ColorManager.class);
 
 	}
 

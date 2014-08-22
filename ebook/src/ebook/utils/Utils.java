@@ -20,6 +20,8 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.rules.EndOfLineRule;
+import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -30,6 +32,9 @@ import org.eclipse.swt.widgets.Text;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import ebook.core.pico;
+import ebook.core.interfaces.IColorManager;
+import ebook.core.interfaces.IColorManager.TOKENS;
 import ebook.module.conf.views._ConfigsView;
 
 public abstract class Utils {
@@ -233,20 +238,26 @@ public abstract class Utils {
 		return "about";
 	}
 
-	// public static void fillBooks(Composite sectionClient, FormToolkit
-	// toolkit,
-	// final Shell shell, HyperlinkAdapter handler) {
-	// List<CurrentBookInfo> bl = pico.get(IBookManager.class).getBooks();
-	// for (CurrentBookInfo book : bl) {
-	// ImageHyperlink link = toolkit.createImageHyperlink(sectionClient,
-	// SWT.WRAP);
-	// link.setUnderlined(false);
-	// link.setImage(book.getImage());
-	// link.setText(book.getName());
-	// link.setHref(book);
-	// link.addHyperlinkListener(handler);
-	//
-	// }
-	//
-	// }
+	public static void addCompareRules(List<IRule> rules) {
+
+		IColorManager provider = pico.get(IColorManager.class);
+		// rules.add(new SingleLineRule(Const.COMPARE_ADDED_MARKER,
+		// Const.COMPARE_ADDED_MARKER,
+		// provider.getToken(TOKENS.COMPARE_ADDED)));
+		// rules.add(new SingleLineRule(Const.COMPARE_CHANGED_MARKER,
+		// Const.COMPARE_CHANGED_MARKER,
+		// provider.getToken(TOKENS.COMPARE_CHANGED)));
+		// rules.add(new SingleLineRule(Const.COMPARE_REMOVED_MARKER,
+		// Const.COMPARE_REMOVED_MARKER,
+		// provider.getToken(TOKENS.COMPARE_REMOVED)));
+
+		rules.add(new EndOfLineRule(Const.COMPARE_ADDED_MARKER, provider
+				.getToken(TOKENS.COMPARE_ADDED)));
+		rules.add(new EndOfLineRule(Const.COMPARE_CHANGED_MARKER, provider
+				.getToken(TOKENS.COMPARE_CHANGED)));
+		rules.add(new EndOfLineRule(Const.COMPARE_REMOVED_MARKER, provider
+				.getToken(TOKENS.COMPARE_REMOVED)));
+
+	}
+
 }

@@ -225,7 +225,7 @@ public class ConfView {
 				ITreeItemInfo selected = (ITreeItemInfo) selection
 						.getFirstElement();
 				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-						selected));
+						selected, con.srv(list)));
 			}
 		});
 

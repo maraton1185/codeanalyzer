@@ -13,9 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import ebook.module.conf.ConfService;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.tree.ITreeItemInfo;
@@ -570,6 +572,19 @@ public class CfBuildService {
 		}
 
 		return root;
+	}
+
+	public Integer getProcId(ConfService srv, ContextInfo item,
+			List<String> path) throws SQLException {
+
+		ContextInfoOptions opt = item.getOptions();
+		AdditionalInfo info = new AdditionalInfo();
+		info.itemTitle = item.getTitle();
+
+		if (getPathRoot(srv, item, info, opt, path) != null) {
+			return getProcByPath(info, path);
+		}
+		return null;
 	}
 
 	public Integer getProcByPath(AdditionalInfo info, List<String> path_items)

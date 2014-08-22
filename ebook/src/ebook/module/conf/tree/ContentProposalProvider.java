@@ -43,7 +43,6 @@ public class ContentProposalProvider implements IContentProposalProvider {
 
 		try {
 			ContextInfo item = window.getContext().get(ContextInfo.class);
-			cf.build().setConnection(tree.getConnection());
 			ContextInfoOptions opt = new ContextInfoOptions();
 			opt.type = item.getOptions().type;
 			buildProposals(contents, item, opt);
@@ -77,17 +76,17 @@ public class ContentProposalProvider implements IContentProposalProvider {
 	}
 
 	private void buildProposals(String contents, ContextInfo item,
-			ContextInfoOptions opt) throws SQLException {
+			ContextInfoOptions opt) throws SQLException, IllegalAccessException {
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = contents;
-		ITreeItemInfo root = cf.build()
-				.getPathRoot(tree, item, info, opt, path);
+		ITreeItemInfo root = cf.build(tree.getConnection()).getPathRoot(tree,
+				item, info, opt, path);
 		info.type = BuildType.object;
 		if (root != null) {
 			// get root without type between
 			info.type = null;
-			cf.build().buildWithPath(proposals, path, info);
+			cf.build(tree.getConnection()).buildWithPath(proposals, path, info);
 		}
 		if (info.type != null) {
 			opt.type = info.type;

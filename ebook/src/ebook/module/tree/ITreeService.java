@@ -1,6 +1,7 @@
 package ebook.module.tree;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -18,6 +19,10 @@ public interface ITreeService {
 	boolean hasChildren(int parent);
 
 	ITreeItemInfo get(int item);
+
+	String getText(int id);
+
+	Connection getConnection() throws IllegalAccessException;
 
 	// ITreeItemInfo getParent(int item);
 

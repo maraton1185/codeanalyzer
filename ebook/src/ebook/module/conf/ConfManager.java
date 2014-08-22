@@ -71,14 +71,11 @@ public class ConfManager extends TreeManager {
 			// delete children
 			srv.deleteChildren(item);
 
-			// set connection to build
-			cf.build().setConnection(srv.getConnection());
-
 			List<BuildInfo> list = new ArrayList<BuildInfo>();
 
 			// root
 			if (opt.type == BuildType.root)
-				list = cf.build().buildRoot();
+				list = cf.build(srv.getConnection()).buildRoot();
 			else
 				buildPath(list, item);
 
@@ -95,13 +92,15 @@ public class ConfManager extends TreeManager {
 	}
 
 	private void buildPath(List<BuildInfo> list, ContextInfo item)
-			throws SQLException, InvocationTargetException {
+			throws SQLException, InvocationTargetException,
+			IllegalAccessException {
 
 		ContextInfoOptions opt = item.getOptions();
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = item.getTitle();
-		ITreeItemInfo root = cf.build().getPathRoot(srv, item, info, opt, path);
+		ITreeItemInfo root = cf.build(srv.getConnection()).getPathRoot(srv,
+				item, info, opt, path);
 
 		// AdditionalInfo info = new AdditionalInfo();
 		info.type = BuildType.object;
@@ -109,14 +108,14 @@ public class ConfManager extends TreeManager {
 		if (root != null) {
 			// get root without type between
 			info.type = null;
-			cf.build().buildWithPath(list, path, info);
+			cf.build(srv.getConnection()).buildWithPath(list, path, info);
 		}
 
 		if (info.searchByText && root == null) {
 			// root search text
 			info.type = null;
 			path.clear();
-			cf.build().buildWithPath(list, path, info);
+			cf.build(srv.getConnection()).buildWithPath(list, path, info);
 		}
 
 		if (info.type != null) {

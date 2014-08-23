@@ -31,6 +31,15 @@ public class CfBuildService {
 		this.con = con;
 	}
 
+	public List<ELevel> getLevels() {
+		List<ELevel> levels = new ArrayList<ELevel>();
+		levels.add(ELevel.group1);
+		levels.add(ELevel.group2);
+		levels.add(ELevel.module);
+		levels.add(ELevel.proc);
+		return levels;
+	}
+
 	public Integer get(ELevel level, String title, Integer parent,
 			List<BuildInfo> proposals) throws SQLException {
 		Integer gr = get(level, title, parent, proposals, true);
@@ -120,11 +129,11 @@ public class CfBuildService {
 
 	}
 
-	private Integer getProcs(String title, Integer object,
+	public Integer getProcs(String title, Integer object,
 			List<BuildInfo> proposals) throws SQLException {
 
 		Integer gr = getProcs(title, object, proposals, true);
-		if (gr == null)
+		if (gr == null && title != null)
 			gr = getProcs(title, object, proposals, false);
 		return gr;
 
@@ -172,10 +181,10 @@ public class CfBuildService {
 				BuildInfo info = new BuildInfo();
 				info.title = rs.getString(1);
 				info.parent = object;
-				info.id = null;
+				info.id = rs.getInt(2);
 				proposals.add(info);
 
-				index = rs.getInt(2);
+				index = info.id;
 				count++;
 			}
 
@@ -574,20 +583,22 @@ public class CfBuildService {
 		return root;
 	}
 
-	public Integer getProcId(ConfService srv, ContextInfo item,
+	public Integer getItemId(ConfService srv, ContextInfo item, ELevel level,
 			List<String> path) throws SQLException {
 
 		ContextInfoOptions opt = item.getOptions();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = item.getTitle();
+		info.level = level;
 
 		if (getPathRoot(srv, item, info, opt, path) != null) {
-			return getProcByPath(info, path);
+			return getItemByPath(info, path);
 		}
+		path.clear();
 		return null;
 	}
 
-	public Integer getProcByPath(AdditionalInfo info, List<String> path_items)
+	public Integer getItemByPath(AdditionalInfo info, List<String> path_items)
 			throws SQLException {
 
 		Integer gr = null;
@@ -628,6 +639,8 @@ public class CfBuildService {
 			if (gr != null)
 				gr = get(levels.get(i), path.get(i), gr, proposals);
 
+			if (info.level == levels.get(i) && gr != null)
+				return gr;
 		}
 
 		return null;

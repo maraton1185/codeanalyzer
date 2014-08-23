@@ -1,4 +1,4 @@
-package ebook.module.text.model;
+package ebook.module.text.strategy;
 
 import org.eclipse.jface.text.DefaultTextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextViewer;

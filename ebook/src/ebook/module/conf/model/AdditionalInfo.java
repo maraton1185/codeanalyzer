@@ -1,5 +1,7 @@
 package ebook.module.conf.model;
 
+import ebook.module.confLoad.model.ELevel;
+
 public class AdditionalInfo {
 
 	public String filter = "";
@@ -15,6 +17,6 @@ public class AdditionalInfo {
 	}
 
 	public boolean getProc = false;
-	public Integer procId;
+	public ELevel level;
 
 }

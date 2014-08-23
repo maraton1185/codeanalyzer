@@ -1,4 +1,4 @@
-package ebook.module.text.model;
+package ebook.module.text.strategy;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

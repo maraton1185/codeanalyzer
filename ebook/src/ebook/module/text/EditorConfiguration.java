@@ -15,12 +15,12 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import ebook.core.pico;
 import ebook.core.interfaces.IColorManager;
 import ebook.core.interfaces.IColorManager.TOKENS;
-import ebook.module.text.model.DocumentPartitionScanner;
-import ebook.module.text.model.ReconcilingStrategy;
-import ebook.module.text.model.ScannerCode;
-import ebook.module.text.model.ScannerComment;
-import ebook.module.text.model.ScannerString;
-import ebook.module.text.model.TextDoubleClickStrategy;
+import ebook.module.text.scanner.DocumentPartitionScanner;
+import ebook.module.text.scanner.ScannerCode;
+import ebook.module.text.scanner.ScannerComment;
+import ebook.module.text.scanner.ScannerString;
+import ebook.module.text.strategy.ReconcilingStrategy;
+import ebook.module.text.strategy.TextDoubleClickStrategy;
 
 public class EditorConfiguration extends SourceViewerConfiguration {
 	private RuleBasedScanner scanner;

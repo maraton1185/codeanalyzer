@@ -17,13 +17,19 @@ import org.eclipse.swt.widgets.Composite;
 
 import ebook.core.pico;
 import ebook.module.conf.ConfService;
+import ebook.module.conf.model.BuildInfo;
+import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.model.ELevel;
+import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.text.EditorConfiguration;
 import ebook.module.text.TextConnection;
-import ebook.module.text.model.DocumentPartitionScanner;
+import ebook.module.text.scanner.DocumentPartitionScanner;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
+import ebook.utils.Strings;
 
 public class TextView {
 
@@ -56,30 +62,98 @@ public class TextView {
 						DocumentPartitionScanner.COMMENT });
 		partitioner.connect(document);
 		document.setDocumentPartitioner(partitioner);
-		document.set(getItemText());
+		String text = getItemText();
+		if (text == null)
+			text = Strings.msg("TextView.errorGetText");
+		document.set(text);
 		viewer.setDocument(document);
 
 	}
 
 	private String getItemText() {
 
-		// String text = "";
-		Integer id = null;
-		if (con.isConf()) {
+		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+		if (opt.type == BuildType.module)
+			if (con.isConf())
+				return getConfModuleText();
+			else
+				return getBookModuleText();
+		else
 
-			try {
+		if (con.isConf())
+			return getConfText();
+		else
+			return srv.getText(item.getId());
 
-				List<String> path = new ArrayList<String>();
-				id = cf.build(srv.getConnection()).getProcId((ConfService) srv,
-						(ContextInfo) item, path);
+	}
 
-			} catch (Exception e) {
-				return e.getMessage();
-			}
-		} else {
-			id = item.getId();
+	private String getBookModuleText() {
+		List<ITreeItemInfo> list = srv.getChildren(item.getId());
+
+		StringBuilder result = new StringBuilder();
+
+		for (ITreeItemInfo info : list) {
+
+			String text = srv.getText(info.getId());
+
+			result.append(text);
 		}
 
-		return id == null ? "" : srv.getText(id);
+		return result.toString();
+
 	}
+
+	private String getConfModuleText() {
+		Integer id = null;
+		try {
+
+			CfBuildService build = cf.build(srv.getConnection());
+			List<String> path = new ArrayList<String>();
+
+			id = build.getItemId((ConfService) srv, (ContextInfo) item,
+					ELevel.module, path);
+
+			if (id == null)
+				return null;
+
+			List<BuildInfo> proposals = new ArrayList<BuildInfo>();
+			build.getProcs(null, id, proposals);
+
+			if (proposals.isEmpty())
+				return null;
+
+			StringBuilder result = new StringBuilder();
+
+			for (BuildInfo buildInfo : proposals) {
+
+				String text = srv.getText(buildInfo.id);
+
+				result.append(text);
+			}
+
+			return result.toString();
+
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		// return null;
+	}
+
+	private String getConfText() {
+
+		Integer id = null;
+		try {
+
+			CfBuildService build = cf.build(srv.getConnection());
+			List<String> path = new ArrayList<String>();
+
+			id = build.getItemId((ConfService) srv, (ContextInfo) item,
+					ELevel.proc, path);
+
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		return id == null ? null : srv.getText(id);
+	}
+
 }

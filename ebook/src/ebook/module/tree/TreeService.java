@@ -16,7 +16,10 @@ import org.eclipse.core.runtime.IPath;
 
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoOptions;
+import ebook.module.confLoad.model.ELevel;
 import ebook.module.db.DbOptions;
 import ebook.utils.Const;
 import ebook.utils.Events;
@@ -710,6 +713,7 @@ public abstract class TreeService implements ITreeService {
 		return false;
 	}
 
+	@Override
 	public Connection getConnection() throws IllegalAccessException {
 		try {
 			return db.getConnection();
@@ -733,10 +737,16 @@ public abstract class TreeService implements ITreeService {
 
 		ContextInfo parent = (ContextInfo) _parent;
 		ContextInfo item = parent;
+		int index = -1;
 		for (String s : path) {
+			index++;
 			item = (ContextInfo) findInParent(s, parent.getId());
 			if (item == null) {
-				item = new ContextInfo(null);
+				ContextInfoOptions opt = new ContextInfoOptions();
+				if (index == ELevel.module.toInt())
+					opt.type = BuildType.module;
+
+				item = new ContextInfo(opt);
 				item.setTitle(s);
 				item.setGroup(true);
 				add(item, parent, true);

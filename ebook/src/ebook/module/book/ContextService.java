@@ -34,6 +34,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -181,6 +182,8 @@ public class ContextService extends TreeService {
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
 
+			CfBuildService build = cf.build(getConnection());
+
 			ContextXML root = new ContextXML();
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
 			while (iterator.hasNext()) {
@@ -191,8 +194,7 @@ public class ContextService extends TreeService {
 				List<String> path = new ArrayList<String>();
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
-				cf.build(getConnection()).getPathRoot(this, item, info, opt,
-						path);
+				build.getPathRoot(this, item, info, opt, path);
 
 				if (path.size() > 1)
 					path.remove(0);

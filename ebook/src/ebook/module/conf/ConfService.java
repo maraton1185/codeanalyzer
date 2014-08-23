@@ -33,6 +33,7 @@ import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.DbState;
+import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -241,6 +242,7 @@ public class ConfService extends TreeService {
 
 			IPath t = new Path(temp.getAbsolutePath());
 
+			CfBuildService build = cf.build(getConnection());
 			ContextXML root = new ContextXML();
 
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
@@ -249,10 +251,9 @@ public class ConfService extends TreeService {
 				ContextXML child = new ContextXML(item);
 
 				List<String> path = new ArrayList<String>();
-				child.proc = cf.build(getConnection()).getProcId(this,
-						(ContextInfo) item, path);
-				if (child.proc != null)
-					child.path = path;
+				child.proc = build.getItemId(this, (ContextInfo) item, null,
+						path);
+				child.path = path;
 
 				root.children.add(child);
 				writeXml(child, t);
@@ -299,20 +300,21 @@ public class ConfService extends TreeService {
 
 		ArrayList<ContextXML> children = new ArrayList<ContextXML>();
 
-		List<String> path = new ArrayList<String>(root.path);
+		List<String> path = null;
 		if (root.path != null) {
+			path = new ArrayList<String>(root.path);
 			path.add(root.title);
 		}
 		for (ITreeItemInfo item : list) {
 
 			ContextXML child = new ContextXML(item);
 
-			if (root.path != null) {
+			if (path != null) {
 
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
 				child.proc = cf.build(getConnection())
-						.getProcByPath(info, path);
+						.getItemByPath(info, path);
 				child.path = path;
 			}
 			writeXml(child, p);

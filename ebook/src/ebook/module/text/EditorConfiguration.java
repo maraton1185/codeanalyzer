@@ -11,6 +11,7 @@ import org.eclipse.jface.text.rules.ITokenScanner;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.jface.text.source.projection.ProjectionViewer;
 
 import ebook.core.pico;
 import ebook.core.interfaces.IColorManager;
@@ -27,6 +28,11 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 	private RuleBasedScanner string_scanner;
 	private RuleBasedScanner comment_scanner;
 	IColorManager provider = pico.get(IColorManager.class);
+	private ProjectionViewer viewer;
+
+	public EditorConfiguration(ProjectionViewer viewer) {
+		this.viewer = viewer;
+	}
 
 	@Override
 	public String getConfiguredDocumentPartitioning(ISourceViewer sourceViewer) {
@@ -111,6 +117,6 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 		((ScannerString) getStringScanner()).setScannerRules(text);
 		((ScannerComment) getCommentScanner()).setScannerRules(text);
 
-		// getPresentationReconciler(null).install(editor.getViewer());
+		getPresentationReconciler(null).install(viewer);
 	}
 }

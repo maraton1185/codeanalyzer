@@ -3,6 +3,9 @@ package ebook.module.text.strategy;
 import org.eclipse.jface.text.DefaultTextDoubleClickStrategy;
 import org.eclipse.jface.text.ITextViewer;
 
+import ebook.core.App;
+import ebook.utils.Events;
+
 public class TextDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
 	@Override
@@ -10,6 +13,7 @@ public class TextDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
 		super.doubleClicked(text);
 
+		App.br.post(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK, null);
 		// if(text instanceof TextSourceViewer)
 		// ((TextSourceViewer)text).doubleClicked();
 

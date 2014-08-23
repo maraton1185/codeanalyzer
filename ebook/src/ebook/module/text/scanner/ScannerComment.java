@@ -56,7 +56,7 @@ public class ScannerComment extends RuleBasedScanner {
 
 	private void addWordRules(List<IRule> rules, String word) {
 		WordRule wordRule = new WordRule(wordDetector,
-				provider.getToken(TOKENS.STRING));
+				provider.getToken(TOKENS.COMMENT));
 
 		if (!word.isEmpty())
 			wordRule.addWord(word, provider.getToken(TOKENS.COMPARE));

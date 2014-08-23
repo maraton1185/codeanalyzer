@@ -7,8 +7,12 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
@@ -29,6 +33,7 @@ import ebook.module.text.TextConnection;
 import ebook.module.text.scanner.DocumentPartitionScanner;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
+import ebook.utils.Events;
 import ebook.utils.Strings;
 
 public class TextView {
@@ -41,20 +46,43 @@ public class TextView {
 	@Active
 	TextConnection con;
 
+	ProjectionViewer viewer;
+	Document document;
+	EditorConfiguration viewerConfiguration;
+
+	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_DOUBLE_CLICK(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK) Object o) {
+
+		ITextSelection textSelection = (ITextSelection) viewer
+				.getSelectionProvider().getSelection();
+		String _line;
+		try {
+			_line = document.get(textSelection.getOffset(),
+					textSelection.getLength());
+			viewerConfiguration.lightWord(_line);
+		} catch (BadLocationException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
 	@PostConstruct
 	public void postConstruct(Composite parent) {
 		item = con.getItem();
 		srv = con.getSrv();
 
-		ProjectionViewer viewer = new ProjectionViewer(parent, null, null,
-				true, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+		viewer = new ProjectionViewer(parent, null, null, true, SWT.MULTI
+				| SWT.V_SCROLL | SWT.H_SCROLL);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		EditorConfiguration viewerConfiguration = new EditorConfiguration();
+		viewerConfiguration = new EditorConfiguration(viewer);
 
 		viewer.configure(viewerConfiguration);
 
-		Document document = new Document();
+		document = new Document();
 
 		IDocumentPartitioner partitioner = new FastPartitioner(
 				new DocumentPartitionScanner(), new String[] {

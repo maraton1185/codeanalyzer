@@ -34,6 +34,7 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.confLoad.services.CfBuildService;
+import ebook.module.text.AnnotationSupport;
 import ebook.module.text.EditorConfiguration;
 import ebook.module.text.TextConnection;
 import ebook.module.text.scanner.DocumentPartitionScanner;
@@ -59,6 +60,9 @@ public class TextView {
 	ProjectionViewer viewer;
 	Document document;
 	EditorConfiguration viewerConfiguration;
+
+	// private IVerticalRuler fVerticalRuler;
+	// protected static final int VERTICAL_RULER_WIDTH = 12;
 
 	@Inject
 	@Optional
@@ -99,11 +103,18 @@ public class TextView {
 		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
 		int style = opt.type == BuildType.module ? SWT.READ_ONLY : SWT.NONE;
 
-		viewer = new ProjectionViewer(parent, null, null, true, SWT.MULTI
-				| SWT.V_SCROLL | SWT.H_SCROLL | style);
+		AnnotationSupport annSupport = new AnnotationSupport();
+
+		// fVerticalRuler = createVerticalRuler();
+
+		viewer = new ProjectionViewer(parent, annSupport.getCompositeRuler(),
+				annSupport.getOverviewRuler(), true, SWT.MULTI | SWT.V_SCROLL
+						| SWT.H_SCROLL | style);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		viewerConfiguration = new EditorConfiguration(viewer);
+		annSupport.init(viewer);
+
+		viewerConfiguration = new EditorConfiguration(viewer, annSupport);
 
 		viewer.configure(viewerConfiguration);
 
@@ -131,8 +142,14 @@ public class TextView {
 
 	}
 
+	// private IVerticalRuler createVerticalRuler() {
+	//
+	// return new VerticalRuler(VERTICAL_RULER_WIDTH);
+	//
+	// }
+
 	@Focus
-	public void OnFocus(@Active ITreeItemInfo parent) {
+	public void OnFocus(@Active @Optional ITreeItemInfo parent) {
 		if (parent == parentItem)
 			return;
 

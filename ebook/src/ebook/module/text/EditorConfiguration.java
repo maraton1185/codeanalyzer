@@ -9,6 +9,7 @@ import org.eclipse.jface.text.reconciler.MonoReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.ITokenScanner;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
@@ -29,9 +30,12 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 	private RuleBasedScanner comment_scanner;
 	IColorManager provider = pico.get(IColorManager.class);
 	private ProjectionViewer viewer;
+	private AnnotationSupport annSupport;
 
-	public EditorConfiguration(ProjectionViewer viewer) {
+	public EditorConfiguration(ProjectionViewer viewer,
+			AnnotationSupport annSupport) {
 		this.viewer = viewer;
+		this.annSupport = annSupport;
 	}
 
 	@Override
@@ -118,5 +122,10 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 		((ScannerComment) getCommentScanner()).setScannerRules(text);
 
 		getPresentationReconciler(null).install(viewer);
+	}
+
+	@Override
+	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
+		return annSupport.new AnnotationHover();
 	}
 }

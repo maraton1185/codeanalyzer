@@ -9,6 +9,11 @@ public class TextConnection {
 
 	IDbConnection con;
 	ITreeItemInfo item;
+
+	public void setItem(ITreeItemInfo item) {
+		this.item = item;
+	}
+
 	ITreeService srv;
 
 	public boolean isConf() {

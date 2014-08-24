@@ -22,6 +22,8 @@ public interface ITreeService {
 
 	String getText(int id);
 
+	void saveText(int id, String text);
+
 	Connection getConnection() throws IllegalAccessException;
 
 	// ITreeItemInfo getParent(int item);

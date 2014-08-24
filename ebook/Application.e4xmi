@@ -470,7 +470,15 @@
     </toolbar>
   </descriptors>
   <descriptors xmi:id="_4F0iACnvEeS1QbE7vYHxhg" elementId="ebook.partdescriptor.1" label="TextView" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.text.views.TextView">
-    <toolbar xmi:id="_C8bfMCnwEeS1QbE7vYHxhg" elementId="ebook.toolbar.16"/>
+    <handlers xmi:id="_70LKICtPEeSROpR0F0nnug" elementId="ebook.handler.63" contributionURI="bundleclass://ebook/ebook.module.text.handlers.GoToModule" command="_tYsYACtPEeSROpR0F0nnug"/>
+    <toolbar xmi:id="_C8bfMCnwEeS1QbE7vYHxhg" elementId="ebook.toolbar.16">
+      <children xsi:type="menu:HandledToolItem" xmi:id="_cWTOACtPEeSROpR0F0nnug" elementId="ebook.handledtoolitem.17" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ">
+        <tags>FORCE_TEXT</tags>
+      </children>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_d1MN4CtPEeSROpR0F0nnug" elementId="ebook.handledtoolitem.13" label="" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" tooltip="Перейти в модуль" command="_tYsYACtPEeSROpR0F0nnug">
+        <tags>FORCE_TEXT</tags>
+      </children>
+    </toolbar>
   </descriptors>
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="ebook.window.book" label="Книга" iconURI="platform:/plugin/ebook/icons/set/book.png" bindingContexts="_E5YnYLAbEeOa8OKjTLKQvw">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="ebook.partsashcontainer.2" horizontal="true">
@@ -691,6 +699,7 @@
   <commands xmi:id="_uZXJQCOYEeSRdYCzL9P3Gg" elementId="ConfView.build.clear" commandName="ConfView.build.clear"/>
   <commands xmi:id="_G9YwACnsEeS1QbE7vYHxhg" elementId="openTextWindow" commandName="openTextWindow"/>
   <commands xmi:id="_KDQ_ACnwEeS1QbE7vYHxhg" elementId="TextView.show" commandName="TextView.show"/>
+  <commands xmi:id="_tYsYACtPEeSROpR0F0nnug" elementId="TextView.goToModule" commandName="TextView.goToModule"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

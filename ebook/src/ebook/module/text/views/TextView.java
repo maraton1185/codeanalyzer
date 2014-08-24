@@ -8,11 +8,17 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
+import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.TextEvent;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
@@ -44,6 +50,10 @@ public class TextView {
 
 	@Inject
 	@Active
+	MWindow window;
+
+	@Inject
+	@Active
 	TextConnection con;
 
 	ProjectionViewer viewer;
@@ -69,13 +79,28 @@ public class TextView {
 
 	}
 
+	@Inject
+	MDirtyable dirty;
+	private ITreeItemInfo parentItem;
+
+	@Persist
+	public void save() {
+		saveItemText();
+		dirty.setDirty(false);
+	}
+
 	@PostConstruct
 	public void postConstruct(Composite parent) {
 		item = con.getItem();
 		srv = con.getSrv();
 
+		parentItem = srv.get(item.getParent());
+
+		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+		int style = opt.type == BuildType.module ? SWT.READ_ONLY : SWT.NONE;
+
 		viewer = new ProjectionViewer(parent, null, null, true, SWT.MULTI
-				| SWT.V_SCROLL | SWT.H_SCROLL);
+				| SWT.V_SCROLL | SWT.H_SCROLL | style);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		viewerConfiguration = new EditorConfiguration(viewer);
@@ -96,6 +121,56 @@ public class TextView {
 		document.set(text);
 		viewer.setDocument(document);
 
+		viewer.addTextListener(new ITextListener() {
+			@Override
+			public void textChanged(TextEvent event) {
+				dirty.setDirty(true);
+
+			}
+		});
+
+	}
+
+	@Focus
+	public void OnFocus(@Active ITreeItemInfo parent) {
+		if (parent == parentItem)
+			return;
+
+		parentItem = srv.get(item.getParent());
+		if (parentItem != null) {
+			ContextInfoOptions opt1 = (ContextInfoOptions) parentItem
+					.getOptions();
+			if (opt1.type == BuildType.module)
+				window.getContext().set(ITreeItemInfo.class, parentItem);
+			else
+				window.getContext().set(ITreeItemInfo.class, null);
+		} else
+			window.getContext().set(ITreeItemInfo.class, null);
+
+	}
+
+	private void saveItemText() {
+		if (con.isConf())
+			saveConfText();
+		else
+			srv.saveText(item.getId(), document.get());
+
+	}
+
+	private void saveConfText() {
+
+		try {
+
+			CfBuildService build = cf.build(srv.getConnection());
+			List<String> path = new ArrayList<String>();
+
+			Integer id = build.getItemId((ConfService) srv, (ContextInfo) item,
+					ELevel.proc, path);
+
+			srv.saveText(id, document.get());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private String getItemText() {

@@ -1,5 +1,7 @@
 package ebook.module.text.views;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -48,6 +50,7 @@ public class TextView implements ITextOperationTarget {
 	ProjectionViewer viewer;
 	Document document;
 	ViewerConfiguration viewerConfiguration;
+	ViewerSupport support;
 
 	// private IVerticalRuler fVerticalRuler;
 	// protected static final int VERTICAL_RULER_WIDTH = 12;
@@ -72,6 +75,26 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_UPDATE_FOLDING(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_UPDATE_FOLDING) List<Position> fPositions) {
+
+		support.removeFolding();
+		for (Position position : fPositions) {
+			ProjectionAnnotation annotation = new ProjectionAnnotation(false);
+			// annotation.setText(item);
+			support.addProjection(annotation, position);
+		}
+		// for (String item : fPositions.keySet()) {
+		// ProjectionAnnotation annotation = new ProjectionAnnotation(false);
+		// annotation.setText(item);
+		// support.addProjection(annotation, fPositions.get(item));
+		//
+		// }
+
+	}
+
+	@Inject
 	MDirtyable dirty;
 	private ITreeItemInfo parentItem;
 
@@ -91,7 +114,7 @@ public class TextView implements ITextOperationTarget {
 		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
 		int style = opt.type == BuildType.module ? SWT.READ_ONLY : SWT.NONE;
 
-		ViewerSupport support = new ViewerSupport();
+		support = new ViewerSupport();
 		viewer = support.getViewer(parent, style);
 
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -129,8 +152,8 @@ public class TextView implements ITextOperationTarget {
 		//
 		// support.addAnnotation(infoAnnotation, new Position(240, 5));
 
-		ProjectionAnnotation annotation = new ProjectionAnnotation(false);
-		support.addProjection(annotation, new Position(0, 400));
+		// ProjectionAnnotation annotation = new ProjectionAnnotation(false);
+		// support.addProjection(annotation, new Position(0, 400));
 
 	}
 

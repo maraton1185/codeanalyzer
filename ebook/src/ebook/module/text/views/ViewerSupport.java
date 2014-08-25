@@ -7,8 +7,6 @@ import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationBarHoverManager;
 import org.eclipse.jface.text.source.AnnotationPainter;
-import org.eclipse.jface.text.source.AnnotationPainter.IDrawingStrategy;
-import org.eclipse.jface.text.source.AnnotationPainter.ITextStyleStrategy;
 import org.eclipse.jface.text.source.AnnotationRulerColumn;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IAnnotationAccess;
@@ -25,6 +23,7 @@ import org.eclipse.swt.widgets.Display;
 import ebook.module.text.annotations.AnnotationConfiguration;
 import ebook.module.text.annotations.AnnotationHover;
 import ebook.module.text.annotations.AnnotationMarkerAccess;
+import ebook.module.text.annotations.AnnotationStyles;
 import ebook.module.text.annotations.ColorCache;
 import ebook.module.text.annotations.ErrorAnnotation;
 import ebook.module.text.annotations.IAnnotation;
@@ -32,25 +31,6 @@ import ebook.module.text.annotations.InfoAnnotation;
 import ebook.module.text.scanner.DocumentPartitionScanner;
 
 public class ViewerSupport {
-
-	final String STYLE_NONE = "NONE"; //$NON-NLS-1$
-	final String STYLE_SQUIGGLES = "SQUIGGLES"; //$NON-NLS-1$
-	final String STYLE_PROBLEM_UNDERLINE = "PROBLEM_UNDERLINE"; //$NON-NLS-1$
-	final String STYLE_BOX = "BOX"; //$NON-NLS-1$
-	final String STYLE_DASHED_BOX = "DASHED_BOX"; //$NON-NLS-1$
-	final String STYLE_UNDERLINE = "UNDERLINE"; //$NON-NLS-1$
-
-	ITextStyleStrategy fgBoxStrategy = new AnnotationPainter.BoxStrategy(
-			SWT.BORDER_SOLID);
-	ITextStyleStrategy fgDashedBoxStrategy = new AnnotationPainter.BoxStrategy(
-			SWT.BORDER_DASH);
-	IDrawingStrategy fgNullStrategy = new AnnotationPainter.NullStrategy();
-	ITextStyleStrategy fgUnderlineStrategy = new AnnotationPainter.UnderlineStrategy(
-			SWT.UNDERLINE_SINGLE);
-	ITextStyleStrategy fgSquigglesStrategy = new AnnotationPainter.UnderlineStrategy(
-			SWT.UNDERLINE_SQUIGGLE);
-	ITextStyleStrategy fgProblemUnderlineStrategy = new AnnotationPainter.UnderlineStrategy(
-			SWT.UNDERLINE_ERROR);
 
 	IAnnotationModel fAnnotationModel;
 	CompositeRuler fCompositeRuler;
@@ -111,18 +91,25 @@ public class ViewerSupport {
 		AnnotationPainter painter = new AnnotationPainter(viewer,
 				fAnnotationAccess);
 
-		painter.addDrawingStrategy(STYLE_NONE, fgNullStrategy);
+		painter.addDrawingStrategy(AnnotationStyles.STYLE_NONE,
+				AnnotationStyles.fgNullStrategy);
 
-		painter.addTextStyleStrategy(STYLE_SQUIGGLES, fgSquigglesStrategy);
-		painter.addTextStyleStrategy(STYLE_PROBLEM_UNDERLINE,
-				fgProblemUnderlineStrategy);
-		painter.addTextStyleStrategy(STYLE_BOX, fgBoxStrategy);
-		painter.addTextStyleStrategy(STYLE_DASHED_BOX, fgDashedBoxStrategy);
-		painter.addTextStyleStrategy(STYLE_UNDERLINE, fgUnderlineStrategy);
+		painter.addTextStyleStrategy(AnnotationStyles.STYLE_SQUIGGLES,
+				AnnotationStyles.fgSquigglesStrategy);
+		painter.addTextStyleStrategy(AnnotationStyles.STYLE_PROBLEM_UNDERLINE,
+				AnnotationStyles.fgProblemUnderlineStrategy);
+		painter.addTextStyleStrategy(AnnotationStyles.STYLE_BOX,
+				AnnotationStyles.fgBoxStrategy);
+		painter.addTextStyleStrategy(AnnotationStyles.STYLE_DASHED_BOX,
+				AnnotationStyles.fgDashedBoxStrategy);
+		painter.addTextStyleStrategy(AnnotationStyles.STYLE_UNDERLINE,
+				AnnotationStyles.fgUnderlineStrategy);
 
 		for (IAnnotation an : annotations) {
-			painter.addAnnotationType(an.getType(), STYLE_PROBLEM_UNDERLINE);
-			painter.addAnnotationType(an.getType(), STYLE_UNDERLINE);
+			painter.addAnnotationType(an.getType(),
+					AnnotationStyles.STYLE_PROBLEM_UNDERLINE);
+			painter.addAnnotationType(an.getType(),
+					AnnotationStyles.STYLE_UNDERLINE);
 
 			painter.setAnnotationTypeColor(an.getType(),
 					new Color(Display.getDefault(), an.getColor()));
@@ -158,13 +145,17 @@ public class ViewerSupport {
 	public void addProjection(Annotation annotation, Position position) {
 		viewer.getProjectionAnnotationModel().addAnnotation(annotation,
 				position);
-		// fAnnotationModel.addAnnotation(annotation, position);
 
 	}
 
 	public void addAnnotation(Annotation annotation, Position position) {
 
 		fAnnotationModel.addAnnotation(annotation, position);
+
+	}
+
+	public void removeFolding() {
+		viewer.getProjectionAnnotationModel().removeAllAnnotations();
 
 	}
 }

@@ -95,6 +95,8 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_DOUBLE_CLICK = "EVENT_TEXT_VIEW_DOUBLE_CLICK";
 
+	public static final String EVENT_TEXT_VIEW_UPDATE_FOLDING = "EVENT_TEXT_VIEW_UPDATE_FOLDING";
+
 	// public static final String EVENT_SHOW_CONF_LIST = "EVENT_SHOW_CONF_LIST";
 
 	// public static final String EVENT_UPDATE_CONF_CONTEXT_PART =

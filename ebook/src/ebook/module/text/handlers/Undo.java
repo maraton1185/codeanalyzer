@@ -22,7 +22,7 @@ public class Undo {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Active final MPart part) {
+	public boolean canExecute(@Active MPart part) {
 		final ITextOperationTarget opTarget = _adapter.adapt(part.getObject(),
 				ITextOperationTarget.class);
 		if (opTarget == null)

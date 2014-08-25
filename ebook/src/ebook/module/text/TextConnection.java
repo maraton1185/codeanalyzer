@@ -43,4 +43,14 @@ public class TextConnection {
 	public boolean isValid() {
 		return con != null && item != null && srv != null;
 	}
+
+	TextService service;
+
+	public TextService srv() {
+
+		service = service == null ? new TextService(this) : service;
+
+		return service;
+
+	}
 }

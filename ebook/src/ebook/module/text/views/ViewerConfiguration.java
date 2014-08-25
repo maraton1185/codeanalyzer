@@ -1,4 +1,4 @@
-package ebook.module.text;
+package ebook.module.text.views;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;
@@ -26,7 +26,7 @@ import ebook.module.text.scanner.ScannerString;
 import ebook.module.text.strategy.ReconcilingStrategy;
 import ebook.module.text.strategy.TextDoubleClickStrategy;
 
-public class EditorConfiguration extends SourceViewerConfiguration {
+public class ViewerConfiguration extends SourceViewerConfiguration {
 	private RuleBasedScanner scanner;
 	private RuleBasedScanner string_scanner;
 	private RuleBasedScanner comment_scanner;
@@ -34,7 +34,7 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 	private ProjectionViewer viewer;
 	private IAnnotationModel annotationModel;
 
-	public EditorConfiguration(ProjectionViewer viewer,
+	public ViewerConfiguration(ProjectionViewer viewer,
 			IAnnotationModel annotationModel) {
 		this.viewer = viewer;
 		this.annotationModel = annotationModel;

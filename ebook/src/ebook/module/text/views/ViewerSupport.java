@@ -1,4 +1,4 @@
-package ebook.module.text;
+package ebook.module.text.views;
 
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocumentPartitioner;
@@ -14,7 +14,6 @@ import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IAnnotationAccess;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.OverviewRuler;
-import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
@@ -148,8 +147,8 @@ public class ViewerSupport {
 
 		// fAnnotationModel = viewer.getVisualAnnotationModel();
 		projectionSupport = new ProjectionSupport(viewer, fAnnotationAccess, cc);
-		projectionSupport
-				.addSummarizableAnnotationType(ProjectionAnnotation.TYPE);
+		// projectionSupport
+		// .addSummarizableAnnotationType(ProjectionAnnotation.TYPE);
 		projectionSupport.install();
 		viewer.enableProjection();
 

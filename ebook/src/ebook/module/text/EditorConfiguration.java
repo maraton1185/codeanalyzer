@@ -10,6 +10,7 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.ITokenScanner;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.source.IAnnotationHover;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
@@ -17,6 +18,7 @@ import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import ebook.core.pico;
 import ebook.core.interfaces.IColorManager;
 import ebook.core.interfaces.IColorManager.TOKENS;
+import ebook.module.text.annotations.AnnotationHover;
 import ebook.module.text.scanner.DocumentPartitionScanner;
 import ebook.module.text.scanner.ScannerCode;
 import ebook.module.text.scanner.ScannerComment;
@@ -30,12 +32,12 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 	private RuleBasedScanner comment_scanner;
 	IColorManager provider = pico.get(IColorManager.class);
 	private ProjectionViewer viewer;
-	private AnnotationSupport annSupport;
+	private IAnnotationModel annotationModel;
 
 	public EditorConfiguration(ProjectionViewer viewer,
-			AnnotationSupport annSupport) {
+			IAnnotationModel annotationModel) {
 		this.viewer = viewer;
-		this.annSupport = annSupport;
+		this.annotationModel = annotationModel;
 	}
 
 	@Override
@@ -126,6 +128,7 @@ public class EditorConfiguration extends SourceViewerConfiguration {
 
 	@Override
 	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
-		return annSupport.new AnnotationHover();
+		return new AnnotationHover(annotationModel);
 	}
+
 }

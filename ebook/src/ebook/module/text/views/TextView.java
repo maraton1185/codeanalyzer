@@ -15,11 +15,12 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocumentPartitioner;
-import org.eclipse.jface.text.ITextListener;
+import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.text.TextEvent;
-import org.eclipse.jface.text.rules.FastPartitioner;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -34,16 +35,16 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.confLoad.services.CfBuildService;
-import ebook.module.text.AnnotationSupport;
 import ebook.module.text.EditorConfiguration;
 import ebook.module.text.TextConnection;
-import ebook.module.text.scanner.DocumentPartitionScanner;
+import ebook.module.text.ViewerSupport;
+import ebook.module.text.annotations.ErrorAnnotation;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 
-public class TextView {
+public class TextView implements ITextOperationTarget {
 
 	ICfServices cf = pico.get(ICfServices.class);
 	ITreeItemInfo item;
@@ -103,50 +104,48 @@ public class TextView {
 		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
 		int style = opt.type == BuildType.module ? SWT.READ_ONLY : SWT.NONE;
 
-		AnnotationSupport annSupport = new AnnotationSupport();
+		ViewerSupport support = new ViewerSupport();
+		viewer = support.getViewer(parent, style);
 
-		// fVerticalRuler = createVerticalRuler();
-
-		viewer = new ProjectionViewer(parent, annSupport.getCompositeRuler(),
-				annSupport.getOverviewRuler(), true, SWT.MULTI | SWT.V_SCROLL
-						| SWT.H_SCROLL | style);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		annSupport.init(viewer);
+		document = support.getDocument();
 
-		viewerConfiguration = new EditorConfiguration(viewer, annSupport);
-
-		viewer.configure(viewerConfiguration);
-
-		document = new Document();
-
-		IDocumentPartitioner partitioner = new FastPartitioner(
-				new DocumentPartitionScanner(), new String[] {
-						DocumentPartitionScanner.STRING,
-						DocumentPartitionScanner.COMMENT });
-		partitioner.connect(document);
-		document.setDocumentPartitioner(partitioner);
 		String text = getItemText();
 		if (text == null)
 			text = Strings.msg("TextView.errorGetText");
 		document.set(text);
-		viewer.setDocument(document);
 
-		viewer.addTextListener(new ITextListener() {
+		document.addDocumentListener(new IDocumentListener() {
 			@Override
-			public void textChanged(TextEvent event) {
+			public void documentChanged(DocumentEvent event) {
 				dirty.setDirty(true);
+			}
 
+			@Override
+			public void documentAboutToBeChanged(DocumentEvent event) {
 			}
 		});
 
-	}
+		viewerConfiguration = new EditorConfiguration(viewer,
+				support.getAnnotationModel());
 
-	// private IVerticalRuler createVerticalRuler() {
-	//
-	// return new VerticalRuler(VERTICAL_RULER_WIDTH);
-	//
-	// }
+		viewer.configure(viewerConfiguration);
+
+		ErrorAnnotation errorAnnotation = new ErrorAnnotation(
+				"Learn how to spell \"text!\"");
+
+		support.addAnnotation(errorAnnotation, new Position(120, 5));
+		//
+		// InfoAnnotation infoAnnotation = new InfoAnnotation(
+		// "Learn how to spell \"text!\"");
+		//
+		// support.addAnnotation(infoAnnotation, new Position(240, 5));
+
+		ProjectionAnnotation annotation = new ProjectionAnnotation(true);
+		support.addProjection(annotation, new Position(0, 400));
+
+	}
 
 	@Focus
 	public void OnFocus(@Active @Optional ITreeItemInfo parent) {
@@ -274,6 +273,17 @@ public class TextView {
 			return e.getMessage();
 		}
 		return id == null ? null : srv.getText(id);
+	}
+
+	@Override
+	public boolean canDoOperation(int operation) {
+		return viewer.canDoOperation(operation);
+	}
+
+	@Override
+	public void doOperation(int operation) {
+		viewer.doOperation(operation);
+
 	}
 
 }

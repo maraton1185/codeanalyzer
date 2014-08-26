@@ -1,6 +1,12 @@
 package ebook.utils;
 
+import java.util.ArrayList;
+
+import org.eclipse.jface.text.IDocument;
+
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.text.TextConnection;
+import ebook.module.text.model.LineInfo;
 import ebook.module.tree.ITreeItemInfo;
 
 public abstract class Events {
@@ -95,7 +101,37 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_DOUBLE_CLICK = "EVENT_TEXT_VIEW_DOUBLE_CLICK";
 
-	public static final String EVENT_TEXT_VIEW_UPDATE_FOLDING = "EVENT_TEXT_VIEW_UPDATE_FOLDING";
+	public static final String EVENT_UPDATE_TEXT_MODEL = "EVENT_UPDATE_TEXT_MODEL";
+
+	public static final String EVENT_TEXT_VIEW_OUTLINE_SELECTED = "EVENT_TEXT_VIEW_OUTLINE_SELECTED";
+
+	public static final String EVENT_UPDATE_OUTLINE_VIEW = "EVENT_UPDATE_OUTLINE_VIEW";
+
+	public static final String EVENT_OUTLINE_VIEW_SET_CURRENT = "EVENT_OUTLINE_VIEW_SET_CURRENT";
+
+	public static final String TEXT_VIEW_ACTIVE_PROCEDURE = "TEXT_VIEW_ACTIVE_PROCEDURE";
+
+	public static class EVENT_TEXT_DATA {
+		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
+				ArrayList<LineInfo> model) {
+			this.con = con;
+			this.document = fDocument;
+			this.model = model;
+
+		}
+
+		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
+				LineInfo selected) {
+			this.con = con;
+			this.document = fDocument;
+			this.selected = selected;
+		}
+
+		public IDocument document;
+		public ArrayList<LineInfo> model;
+		public TextConnection con;
+		public LineInfo selected;
+	}
 
 	// public static final String EVENT_SHOW_CONF_LIST = "EVENT_SHOW_CONF_LIST";
 

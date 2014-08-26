@@ -482,6 +482,10 @@
     <handlers xmi:id="_70LKICtPEeSROpR0F0nnug" elementId="ebook.handler.63" contributionURI="bundleclass://ebook/ebook.module.text.handlers.GoToModule" command="_tYsYACtPEeSROpR0F0nnug"/>
     <handlers xmi:id="_GxssICxXEeSr9IpwfkxB-w" elementId="ebook.handler.64" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Undo" command="_xELPwCxWEeSr9IpwfkxB-w"/>
     <handlers xmi:id="_HtwEsCxXEeSr9IpwfkxB-w" elementId="ebook.handler.65" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Redo" command="_1FSUwCxWEeSr9IpwfkxB-w"/>
+    <menus xsi:type="menu:PopupMenu" xmi:id="_oBCdQC0EEeSqAs8koC8OJg" elementId="ebook.popupmenu.TextView">
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_rOtTIC0EEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.42" label="Перейти в модуль" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" tooltip="" command="_tYsYACtPEeSROpR0F0nnug"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_rGti0C0GEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.43" label="Перейти к процедуре" iconURI="platform:/plugin/ebook/icons/set/treeedit.png" command="_shHEQC0GEeSqAs8koC8OJg"/>
+    </menus>
     <toolbar xmi:id="_C8bfMCnwEeS1QbE7vYHxhg" elementId="ebook.toolbar.16">
       <children xsi:type="menu:HandledToolItem" xmi:id="_cWTOACtPEeSROpR0F0nnug" elementId="ebook.handledtoolitem.17" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ">
         <tags>FORCE_TEXT</tags>
@@ -624,9 +628,21 @@
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_kUmMgCnqEeS1QbE7vYHxhg" elementId="ebook.window.text" label="Исходный код" iconURI="platform:/plugin/ebook/icons/set/source.png">
     <children xsi:type="basic:PartSashContainer" xmi:id="_q_Lb4CnvEeS1QbE7vYHxhg" elementId="ebook.partsashcontainer.5" horizontal="true">
       <children xsi:type="basic:PartStack" xmi:id="_r8vQUCnvEeS1QbE7vYHxhg" elementId="ebook.partstack.text" containerData="70000"/>
-      <children xsi:type="basic:PartStack" xmi:id="_vnWg4CnvEeS1QbE7vYHxhg" elementId="ebook.partstack.2" containerData="30000"/>
+      <children xsi:type="basic:PartSashContainer" xmi:id="_HLW_gCzqEeSqAs8koC8OJg" elementId="ebook.partsashcontainer.6" containerData="30000">
+        <children xsi:type="basic:PartStack" xmi:id="_H5epwCzqEeSqAs8koC8OJg" elementId="ebook.partstack.1" containerData="70000">
+          <children xsi:type="basic:Part" xmi:id="_Mph4YCzqEeSqAs8koC8OJg" elementId="ebook.part.OutlineView" contributionURI="bundleclass://ebook/ebook.module.text.views.OutlineView" label="Обзор модуля">
+            <toolbar xmi:id="_VySzsCzqEeSqAs8koC8OJg" elementId="ebook.toolbar.17"/>
+          </children>
+        </children>
+        <children xsi:type="basic:PartStack" xmi:id="_vnWg4CnvEeS1QbE7vYHxhg" elementId="ebook.partstack.2" containerData="30000">
+          <children xsi:type="basic:Part" xmi:id="_P7gmgCzqEeSqAs8koC8OJg" elementId="ebook.part.BookmarkView" contributionURI="bundleclass://ebook/ebook.module.text.views.BookmarkView" label="Список закладок">
+            <toolbar xmi:id="_aYLZsCzqEeSqAs8koC8OJg" elementId="ebook.toolbar.18"/>
+          </children>
+        </children>
+      </children>
     </children>
     <handlers xmi:id="_PKewcCnwEeS1QbE7vYHxhg" elementId="ebook.handler.61" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Show" command="_KDQ_ACnwEeS1QbE7vYHxhg"/>
+    <handlers xmi:id="_MUvsoC0VEeSqAs8koC8OJg" elementId="ebook.handler.66" contributionURI="bundleclass://ebook/ebook.module.text.handlers.GoToProc" command="_shHEQC0GEeSqAs8koC8OJg"/>
   </snippets>
   <commands xmi:id="_lMKiYJlKEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.file.exit" commandName="Файл - Выход"/>
   <commands xmi:id="_x0HdMJlREeOJH5GrNyMMVw" elementId="ebook.command.Activate" commandName="Сервис -Активация"/>
@@ -713,6 +729,7 @@
   <commands xmi:id="_tYsYACtPEeSROpR0F0nnug" elementId="TextView.goToModule" commandName="TextView.goToModule"/>
   <commands xmi:id="_xELPwCxWEeSr9IpwfkxB-w" elementId="TextView.undo" commandName="TextView.undo"/>
   <commands xmi:id="_1FSUwCxWEeSr9IpwfkxB-w" elementId="TextView.redo" commandName="TextView.redo"/>
+  <commands xmi:id="_shHEQC0GEeSqAs8koC8OJg" elementId="TextView.goToProc" commandName="TextView.goToProc"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

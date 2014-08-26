@@ -3,9 +3,11 @@ package ebook.temp.build;
 import java.util.ArrayList;
 import java.util.List;
 
+import ebook.module.text.model.LineInfo;
+
 public class CompareResults {
-	public List<_BuildInfo> equals = new ArrayList<_BuildInfo>();
-	public List<_BuildInfo> added = new ArrayList<_BuildInfo>();
-	public List<_BuildInfo> removed = new ArrayList<_BuildInfo>();
-	public List<_BuildInfo> changed = new ArrayList<_BuildInfo>();
+	public List<LineInfo> equals = new ArrayList<LineInfo>();
+	public List<LineInfo> added = new ArrayList<LineInfo>();
+	public List<LineInfo> removed = new ArrayList<LineInfo>();
+	public List<LineInfo> changed = new ArrayList<LineInfo>();
 }

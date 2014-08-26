@@ -43,12 +43,12 @@ public class OpenWindow {
 
 	@Inject
 	@Optional
-	public void EVENT_OPEN_TEXT(@UIEventTopic(Events.EVENT_OPEN_TEXT) Object o) {
+	public void EVENT_OPEN_TEXT(@UIEventTopic(Events.EVENT_OPEN_TEXT) Object con) {
 
-		if (o instanceof TextConnection)
-			App.ctx.set(TextConnection.class, (TextConnection) o);
-
+		if (con instanceof TextConnection)
+			App.ctx.set(TextConnection.class, (TextConnection) con);
 		Utils.executeHandler(hs, cs, Strings.model("openTextWindow"));
+
 	}
 
 	@CanExecute

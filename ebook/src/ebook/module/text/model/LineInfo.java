@@ -1,37 +1,39 @@
 package ebook.module.text.model;
 
-import java.lang.reflect.Field;
+import org.eclipse.jface.text.Position;
 
-import ebook.module.conf.model.BuildInfo;
+import ebook.module.tree.TreeItemInfo;
 
-public class LineInfo {
+public class LineInfo extends TreeItemInfo {
 
-	public LineInfo() {
-		super();
+	public LineInfo(String title) {
+		this();
+		setTitle(title);
+
 	}
 
-	public LineInfo(LineInfo info) {
-		super();
+	public LineInfo() {
+		super(null);
+		setId(0);
+		setGroup(false);
+	}
 
-		for (Field f : this.getClass().getDeclaredFields()) {
-			try {
-				// if (f.getType().isAssignableFrom(BuildInfo.class))
-				// f.set(this, new BuildInfo((BuildInfo) f.get(info)));
-				// else
-				f.set(this, f.get(info));
-			} catch (Exception e) {
-			}
-		}
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof LineInfo)
+			return ((LineInfo) obj).getTitle().equalsIgnoreCase(getTitle());
+		else
+			return super.equals(obj);
 	}
 
 	public int line;
 	public int offset;
-	public String title;
 	public String name;
 	public Boolean export;
-
-	public BuildInfo data;
-
-	public LineInfo parent;
+	// public String title;
+	// public BuildInfo data;
+	// public LineInfo parent;
+	public Position projection;
+	public Integer length;
 
 }

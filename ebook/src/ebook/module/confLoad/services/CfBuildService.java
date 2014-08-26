@@ -139,7 +139,7 @@ public class CfBuildService {
 
 	}
 
-	private Integer getProcs(String title, Integer object,
+	public Integer getProcs(String title, Integer object,
 			List<BuildInfo> proposals, boolean exact) throws SQLException {
 
 		if (con == null)

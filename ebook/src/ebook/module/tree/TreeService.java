@@ -759,7 +759,8 @@ public abstract class TreeService implements ITreeService {
 
 	}
 
-	private ITreeItemInfo findInParent(String title, Integer parent) {
+	@Override
+	public ITreeItemInfo findInParent(String title, Integer parent) {
 		ITreeItemInfo result = null;
 
 		try {

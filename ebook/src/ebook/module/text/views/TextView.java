@@ -1,6 +1,6 @@
 package ebook.module.text.views;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -12,26 +12,29 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CaretEvent;
+import org.eclipse.swt.custom.CaretListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
+import ebook.core.App;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.text.TextConnection;
-import ebook.module.text.annotations.ErrorAnnotation;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeService;
+import ebook.module.text.model.LineInfo;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.Strings;
 
 public class TextView implements ITextOperationTarget {
@@ -44,16 +47,15 @@ public class TextView implements ITextOperationTarget {
 	@Active
 	TextConnection con;
 
-	ITreeItemInfo item;
-	ITreeService srv;
+	ContextInfo item;
+	// ITreeService srv;
 
 	ProjectionViewer viewer;
 	Document document;
 	ViewerConfiguration viewerConfiguration;
 	ViewerSupport support;
 
-	// private IVerticalRuler fVerticalRuler;
-	// protected static final int VERTICAL_RULER_WIDTH = 12;
+	private ArrayList<LineInfo> model;
 
 	@Inject
 	@Optional
@@ -76,27 +78,45 @@ public class TextView implements ITextOperationTarget {
 
 	@Inject
 	@Optional
-	public void EVENT_TEXT_VIEW_UPDATE_FOLDING(
-			@UIEventTopic(Events.EVENT_TEXT_VIEW_UPDATE_FOLDING) List<Position> fPositions) {
+	public void EVENT_UPDATE_TEXT_MODEL(
+			@UIEventTopic(Events.EVENT_UPDATE_TEXT_MODEL) EVENT_TEXT_DATA data) {
+
+		if (data.document != document)
+			return;
 
 		support.removeFolding();
-		for (Position position : fPositions) {
-			ProjectionAnnotation annotation = new ProjectionAnnotation(false);
-			// annotation.setText(item);
-			support.addProjection(annotation, position);
-		}
-		// for (String item : fPositions.keySet()) {
-		// ProjectionAnnotation annotation = new ProjectionAnnotation(false);
-		// annotation.setText(item);
-		// support.addProjection(annotation, fPositions.get(item));
-		//
-		// }
+		for (LineInfo info : data.model) {
 
+			if (info.projection == null)
+				continue;
+
+			ProjectionAnnotation annotation = new ProjectionAnnotation(false);
+			annotation.setText(info.getTitle() + ":" + info.length.toString());
+			support.addProjection(annotation, info.projection);
+
+		}
+		this.model = data.model;
+
+		App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(con,
+				document, model));
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_OUTLINE_SELECTED(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_OUTLINE_SELECTED) EVENT_TEXT_DATA data) {
+
+		if (data.document != document)
+			return;
+		if (data.selected == null)
+			return;
+
+		support.setSelection(data.selected);
 	}
 
 	@Inject
 	MDirtyable dirty;
-	private ITreeItemInfo parentItem;
+	private ContextInfo parentItem;
 
 	@Persist
 	public void save() {
@@ -105,19 +125,35 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent) {
+	public void postConstruct(Composite parent, EMenuService menuService) {
 		item = con.getItem();
-		srv = con.getSrv();
+		con.srv().copyItemPath();
 
-		parentItem = srv.get(item.getParent());
+		parentItem = con.srv().get(item.getParent());
 
-		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
-		int style = opt.type == BuildType.module ? SWT.READ_ONLY : SWT.NONE;
+		ContextInfoOptions opt = item.getOptions();
+		final boolean readOnly = opt != null && opt.type == BuildType.module;
+		int style = readOnly ? SWT.READ_ONLY : SWT.NONE;
 
+		// int style = SWT.NONE;
 		support = new ViewerSupport();
 		viewer = support.getViewer(parent, style);
 
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.getTextWidget().addCaretListener(new CaretListener() {
+			@Override
+			public void caretMoved(CaretEvent event) {
+
+				int offset = event.caretOffset;
+				LineInfo selected = support.getCurrentProjectionName(offset);
+
+				window.getContext().set(Events.TEXT_VIEW_ACTIVE_PROCEDURE,
+						readOnly ? selected : null);
+				App.br.post(Events.EVENT_OUTLINE_VIEW_SET_CURRENT,
+						new EVENT_TEXT_DATA(con, document, selected));
+
+			}
+		});
 
 		document = support.getDocument();
 
@@ -142,10 +178,13 @@ public class TextView implements ITextOperationTarget {
 
 		viewer.configure(viewerConfiguration);
 
-		ErrorAnnotation errorAnnotation = new ErrorAnnotation(
-				"Learn how to spell \"text!\"");
+		menuService.registerContextMenu(viewer.getTextWidget(),
+				Strings.model("ebook.popupmenu.TextView"));
 
-		support.addAnnotation(errorAnnotation, new Position(120, 5));
+		// ErrorAnnotation errorAnnotation = new ErrorAnnotation(
+		// "Learn how to spell \"text!\"");
+		//
+		// support.addAnnotation(errorAnnotation, new Position(120, 5));
 		//
 		// InfoAnnotation infoAnnotation = new InfoAnnotation(
 		// "Learn how to spell \"text!\"");
@@ -158,20 +197,25 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	@Focus
-	public void OnFocus(@Active @Optional ITreeItemInfo parent) {
-		if (parent == parentItem)
+	public void OnFocus() {
+		if (con.getParent() == parentItem)
 			return;
 
-		parentItem = srv.get(item.getParent());
+		if (model != null)
+			App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(
+					con, document, model));
+
+		con.setItem(item);
+
+		parentItem = con.srv().get(item.getParent());
 		if (parentItem != null) {
-			ContextInfoOptions opt1 = (ContextInfoOptions) parentItem
-					.getOptions();
+			ContextInfoOptions opt1 = parentItem.getOptions();
 			if (opt1.type == BuildType.module)
-				window.getContext().set(ITreeItemInfo.class, parentItem);
+				con.setParent(parentItem);
 			else
-				window.getContext().set(ITreeItemInfo.class, null);
+				con.setParent(null);
 		} else
-			window.getContext().set(ITreeItemInfo.class, null);
+			con.setParent(null);
 
 	}
 

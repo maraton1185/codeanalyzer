@@ -1,8 +1,15 @@
 package ebook.module.text.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationBarHoverManager;
@@ -11,23 +18,28 @@ import org.eclipse.jface.text.source.AnnotationRulerColumn;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IAnnotationAccess;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.OverviewRuler;
+import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
+import ebook.core.pico;
+import ebook.core.interfaces.IColorManager;
 import ebook.module.text.annotations.AnnotationConfiguration;
 import ebook.module.text.annotations.AnnotationHover;
 import ebook.module.text.annotations.AnnotationMarkerAccess;
 import ebook.module.text.annotations.AnnotationStyles;
-import ebook.module.text.annotations.ColorCache;
 import ebook.module.text.annotations.ErrorAnnotation;
 import ebook.module.text.annotations.IAnnotation;
 import ebook.module.text.annotations.InfoAnnotation;
+import ebook.module.text.model.LineInfo;
 import ebook.module.text.scanner.DocumentPartitionScanner;
 
 public class ViewerSupport {
@@ -37,12 +49,15 @@ public class ViewerSupport {
 	OverviewRuler fOverviewRuler;
 	AnnotationRulerColumn annotationRuler;
 	IAnnotationAccess fAnnotationAccess;
-	ProjectionViewer viewer;
+	ProjectionViewer fSourceViewer;
+	Document document;
 	ProjectionSupport projectionSupport;
-	ColorCache cc;
+	IColorManager cc = pico.get(IColorManager.class);
 
 	IAnnotation[] annotations = new IAnnotation[] { new ErrorAnnotation(),
 			new InfoAnnotation() };
+
+	List<ProjectionAnnotation> projections = new ArrayList<ProjectionAnnotation>();
 
 	public ViewerSupport() {
 
@@ -50,7 +65,7 @@ public class ViewerSupport {
 
 		fAnnotationAccess = new AnnotationMarkerAccess();
 
-		cc = new ColorCache();
+		// cc = new ColorCache();
 
 		// rulers
 		fCompositeRuler = new CompositeRuler();
@@ -80,15 +95,16 @@ public class ViewerSupport {
 	}
 
 	public ProjectionViewer getViewer(Composite parent, int style) {
-		viewer = new ProjectionViewer(parent, fCompositeRuler, fOverviewRuler,
-				true, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | style);
+		fSourceViewer = new ProjectionViewer(parent, fCompositeRuler,
+				fOverviewRuler, true, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL
+						| style);
 
 		AnnotationBarHoverManager fAnnotationHoverManager = new AnnotationBarHoverManager(
-				fCompositeRuler, viewer, new AnnotationHover(fAnnotationModel),
-				new AnnotationConfiguration());
+				fCompositeRuler, fSourceViewer, new AnnotationHover(
+						fAnnotationModel), new AnnotationConfiguration());
 		fAnnotationHoverManager.install(annotationRuler.getControl());
 
-		AnnotationPainter painter = new AnnotationPainter(viewer,
+		AnnotationPainter painter = new AnnotationPainter(fSourceViewer,
 				fAnnotationAccess);
 
 		painter.addDrawingStrategy(AnnotationStyles.STYLE_NONE,
@@ -114,14 +130,14 @@ public class ViewerSupport {
 			painter.setAnnotationTypeColor(an.getType(),
 					new Color(Display.getDefault(), an.getColor()));
 		}
-		viewer.addPainter(painter);
-		viewer.addTextPresentationListener(painter);
+		fSourceViewer.addPainter(painter);
+		fSourceViewer.addTextPresentationListener(painter);
 
-		return viewer;
+		return fSourceViewer;
 	}
 
 	public Document getDocument() {
-		Document document = new Document();
+		document = new Document();
 
 		IDocumentPartitioner partitioner = new FastPartitioner(
 				new DocumentPartitionScanner(), new String[] {
@@ -130,22 +146,23 @@ public class ViewerSupport {
 		partitioner.connect(document);
 		document.setDocumentPartitioner(partitioner);
 
-		viewer.setDocument(document, fAnnotationModel);
+		fSourceViewer.setDocument(document, fAnnotationModel);
 
 		// fAnnotationModel = viewer.getVisualAnnotationModel();
-		projectionSupport = new ProjectionSupport(viewer, fAnnotationAccess, cc);
+		projectionSupport = new ProjectionSupport(fSourceViewer,
+				fAnnotationAccess, cc);
 		// projectionSupport
 		// .addSummarizableAnnotationType(ProjectionAnnotation.TYPE);
 		projectionSupport.install();
-		viewer.enableProjection();
+		fSourceViewer.enableProjection();
 
 		return document;
 	}
 
-	public void addProjection(Annotation annotation, Position position) {
-		viewer.getProjectionAnnotationModel().addAnnotation(annotation,
+	public void addProjection(ProjectionAnnotation annotation, Position position) {
+		fSourceViewer.getProjectionAnnotationModel().addAnnotation(annotation,
 				position);
-
+		projections.add(annotation);
 	}
 
 	public void addAnnotation(Annotation annotation, Position position) {
@@ -155,7 +172,89 @@ public class ViewerSupport {
 	}
 
 	public void removeFolding() {
-		viewer.getProjectionAnnotationModel().removeAllAnnotations();
+		fSourceViewer.getProjectionAnnotationModel().removeAllAnnotations();
+		projections.clear();
+	}
 
+	public void setSelection(LineInfo info) {
+		StyledText widget = fSourceViewer.getTextWidget();
+		widget.setRedraw(false);
+		{
+			try {
+				IRegion region = document.getLineInformation(info.line);
+
+				int revealStart = region.getOffset();
+				int revealLength = region.getLength();
+				// selection = new TextSelection(document, region.getOffset(),
+				// region.getLength());
+
+				adjustHighlightRange(revealStart, revealLength);
+				fSourceViewer.revealRange(revealStart, revealLength);
+
+				fSourceViewer.setSelectedRange(revealStart, revealLength);
+
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		widget.setRedraw(true);
+
+	}
+
+	protected void adjustHighlightRange(int offset, int length) {
+		if (fSourceViewer == null)
+			return;
+
+		if (fSourceViewer instanceof ITextViewerExtension5) {
+			ITextViewerExtension5 extension = fSourceViewer;
+			extension.exposeModelRange(new Region(offset, length));
+		} else if (!isVisible(fSourceViewer, offset, length)) {
+			fSourceViewer.resetVisibleRegion();
+		}
+	}
+
+	protected static final boolean isVisible(ISourceViewer viewer, int offset,
+			int length) {
+		if (viewer instanceof ITextViewerExtension5) {
+			ITextViewerExtension5 extension = (ITextViewerExtension5) viewer;
+			IRegion overlap = extension.modelRange2WidgetRange(new Region(
+					offset, length));
+			return overlap != null;
+		}
+		return viewer.overlapsWithVisibleRegion(offset, length);
+	}
+
+	public LineInfo getCurrentProjectionName(int offset) {
+		int h = 0;
+
+		// System.out.println(" - " + offset);
+
+		for (ProjectionAnnotation item : projections) {
+			Position p = fSourceViewer.getProjectionAnnotationModel()
+					.getPosition(item);
+
+			if (p == null)
+				continue;
+
+			String[] data = item.getText().split(":");
+			int l = Integer.parseInt(data[1]);
+			if (item.isCollapsed())
+				h += (p.length - l - 1);
+
+			// System.out.println(p.offset + ":" + p.length + ":" + h + ":"
+			// + data[0]);
+
+			if (offset + h < p.offset) {
+				// System.out.println(data[0]);
+				return new LineInfo(data[0]);
+			}
+			if ((offset + h) > p.offset && (offset + h < p.offset + p.length)) {
+				// System.out.println(data[0]);
+				return new LineInfo(data[0]);
+			}
+		}
+
+		return null;
 	}
 }

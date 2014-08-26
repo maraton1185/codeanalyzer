@@ -10,6 +10,17 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 		this.options = options;
 	}
 
+	// public TreeItemInfo(DbOptions options, TreeItemInfo info) {
+	// this.options = options;
+	// for (Field f : this.getClass().getDeclaredFields()) {
+	// try {
+	// f.set(this, f.get(info));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+
 	@Override
 	public Image getListImage() {
 		return null;

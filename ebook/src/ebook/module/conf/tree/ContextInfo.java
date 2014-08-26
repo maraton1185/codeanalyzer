@@ -21,6 +21,17 @@ public class ContextInfo extends TreeItemInfo {
 		super(null);
 	}
 
+	public ContextInfo(ContextInfo info) {
+		super(info.getOptions());
+
+		setList(info.getList());
+		setId(info.getId());
+		setParent(info.getParent());
+		setTitle(info.getTitle());
+		setSection(info.getSection());
+
+	}
+
 	@Override
 	public ContextInfoOptions getOptions() {
 		return (ContextInfoOptions) super.getOptions();

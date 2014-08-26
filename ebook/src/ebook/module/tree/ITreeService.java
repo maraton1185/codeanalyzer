@@ -47,6 +47,8 @@ public interface ITreeService {
 
 	void saveTitle(ITreeItemInfo object);
 
+	ITreeItemInfo findInParent(String title, Integer parent);
+
 	ITreeItemInfo getSelected();
 
 	String download(IPath zipFolder, ITreeItemSelection selection,

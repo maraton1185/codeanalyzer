@@ -1,8 +1,6 @@
 package ebook.module.text.strategy;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -19,21 +17,24 @@ import ebook.core.exceptions.ProcNotFoundException;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.procEntity;
 import ebook.module.confLoad.services.TextParser;
-import ebook.temp.build.LineInfo;
+import ebook.module.text.model.LineInfo;
 import ebook.utils.Const;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_TEXT_DATA;
 
 public class ReconcilingStrategy implements IReconcilingStrategy,
 		IReconcilingStrategyExtension {
 
-	final LinkedHashMap<String, LineInfo> model = new LinkedHashMap<String, LineInfo>();
+	// final LinkedHashMap<String, LineInfo> model = new LinkedHashMap<String,
+	// LineInfo>();
 
 	TextParser parser = pico.get(ICfServices.class).parse();
 
 	IDocument fDocument;
 
+	ArrayList<LineInfo> model = new ArrayList<LineInfo>();
 	// final Map<String, Position> fPositions = new HashMap<String, Position>();
-	final ArrayList<Position> fMarkers = new ArrayList<Position>();
+	ArrayList<Position> fMarkers = new ArrayList<Position>();
 
 	public ReconcilingStrategy() {
 	}
@@ -42,56 +43,16 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 	public void initialReconcile() {
 
 		try {
-			fillFoldingStructure();
+			fillModel();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		// Display.getDefault().asyncExec(new Runnable() {
-		// @Override
-		// public void run() {
-		// // editor.updateFoldingStructure(fPositions);
-		// // LineInfo line = getLineInfo();
-		// // if (line!=null)
-		// // editor.highlightLine(line.line);
-		// // if (outlineView != null)
-		// // outlineView.update(editor, model);
-		// }
-		// });
-		//
-		// updateCurrentLine();
 	}
 
-	// LineInfo getLineInfo() {
-	// BuildInfo data = ((EditorInput) editor.getEditorInput()).getData();
-	// return model.get(data.name);
-	// }
+	private void fillModel() throws BadLocationException, ProcNotFoundException {
 
-	// public void updateCurrentLine() {
-
-	// BuildInfo data = ((EditorInput) editor.getEditorInput()).getData();
-	//
-	// fMarkers.clear();
-	// if ((!data.getCalleeName().isEmpty()) || data.compare
-	// || (!data.getSearch().isEmpty())) {
-	// fillMarkers();
-	// }
-	//
-	// Display.getDefault().asyncExec(new Runnable() {
-	// @Override
-	// public void run() {
-	// editor.updateMarkers(fMarkers);
-	// LineInfo line = getLineInfo();
-	// if (line != null)
-	// editor.highlightLine(line.line);
-	// }
-	// });
-	// }
-
-	private void fillFoldingStructure() throws BadLocationException,
-			ProcNotFoundException {
-
-		List<Position> fPositions = new ArrayList<Position>();
+		// List<Position> fPositions = new ArrayList<Position>();
 		model.clear();
 		//
 		int startLine = 0;
@@ -118,11 +79,11 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 					LineInfo lineInfo = new LineInfo();
 					lineInfo.line = 0;
 					lineInfo.offset = 0;
-					lineInfo.title = Const.STRING_VARS_TITLE;
+					lineInfo.setTitle(Const.STRING_VARS_TITLE);
 					lineInfo.name = Const.STRING_VARS;
 					lineInfo.export = false;
 					// lineInfo.data = data;
-					model.put(lineInfo.name, lineInfo);
+					model.add(lineInfo);
 
 				}
 
@@ -136,32 +97,34 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 				LineInfo lineInfo = new LineInfo();
 				lineInfo.line = startLine;
 				lineInfo.offset = reg.getOffset();
-				lineInfo.title = proc.proc_title;
+				lineInfo.setTitle(proc.proc_title);
 				lineInfo.name = proc.proc_name;
 				lineInfo.export = proc.export;
-				// lineInfo.data = data;
-				model.put(proc.proc_name, lineInfo);
+				lineInfo.length = reg.getLength();
+				lineInfo.projection = new Position(reg.getOffset(),
+						r.getOffset() - reg.getOffset() + r.getLength() + 1);
+				model.add(lineInfo);
 
-				fPositions.add(new Position(reg.getOffset(), r.getOffset()
-						- reg.getOffset() + r.getLength() + 1));
+				// fPositions.add();
 
 				startLine = index + 1;
 			}
+		}
+		if (!buffer.isEmpty()) {
+			IRegion reg = fDocument.getLineInformation(startLine);
+			LineInfo lineInfo = new LineInfo();
+			lineInfo.line = startLine;
+			lineInfo.offset = reg.getOffset();
+			lineInfo.setTitle(Const.STRING_INIT_TITLE);
+			lineInfo.name = Const.STRING_INIT;
+			lineInfo.export = false;
+			// lineInfo.data = data;
+			model.add(lineInfo);
 
-			if (!buffer.isEmpty()) {
-				IRegion reg = fDocument.getLineInformation(startLine);
-				LineInfo lineInfo = new LineInfo();
-				lineInfo.line = startLine;
-				lineInfo.offset = reg.getOffset();
-				lineInfo.title = Const.STRING_INIT_TITLE;
-				lineInfo.name = Const.STRING_INIT;
-				lineInfo.export = false;
-				// lineInfo.data = data;
-				model.put(lineInfo.name, lineInfo);
-			}
 		}
 
-		App.br.post(Events.EVENT_TEXT_VIEW_UPDATE_FOLDING, fPositions);
+		App.br.post(Events.EVENT_UPDATE_TEXT_MODEL, new EVENT_TEXT_DATA(null,
+				fDocument, model));
 	}
 
 	private void fillMarkers() {

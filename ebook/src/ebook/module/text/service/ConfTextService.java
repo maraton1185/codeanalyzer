@@ -129,7 +129,10 @@ public class ConfTextService extends TextService {
 			ContextInfo result = new ContextInfo(opt);
 			result.setId(id);
 			result.setTitle(selected.getTitle());
+			item.getPath().add(item.getTitle());
+
 			result.setPath(item.getPath());
+
 			// result.setParent(item.getId());
 
 			return result;

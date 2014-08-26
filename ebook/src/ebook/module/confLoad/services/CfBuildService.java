@@ -526,7 +526,7 @@ public class CfBuildService {
 		ITreeItemInfo root = item;
 
 		if (item.hasPath()) {
-			path = item.getPath();
+			path.addAll(item.getPath());
 			return root;
 		}
 		// info.itemTitle = item.getTitle();

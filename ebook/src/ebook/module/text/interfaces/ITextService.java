@@ -15,6 +15,6 @@ public interface ITextService {
 
 	ContextInfo get(Integer parent);
 
-	void copyItemPath();
+	void getItemPath();
 
 }

@@ -520,10 +520,15 @@ public class CfBuildService {
 		return info;
 	}
 
-	public ITreeItemInfo getPathRoot(ITreeService srv, ITreeItemInfo item,
+	public ITreeItemInfo getPathRoot(ITreeService srv, ContextInfo item,
 			AdditionalInfo info, ContextInfoOptions opt, List<String> path) {
 
 		ITreeItemInfo root = item;
+
+		if (item.hasPath()) {
+			path = item.getPath();
+			return root;
+		}
 		// info.itemTitle = item.getTitle();
 
 		String[] str;

@@ -28,8 +28,8 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			Integer id = build.getItemId((ConfService) srv, (ContextInfo) item,
-					ELevel.proc, path);
+			Integer id = build.getItemId((ConfService) srv, item, ELevel.proc,
+					path);
 
 			if (id != null)
 				srv.saveText(id, text);
@@ -42,8 +42,8 @@ public class ConfTextService extends TextService {
 	@Override
 	public String getItemText() {
 
-		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
-		if (opt.type == BuildType.module || opt.type == BuildType.object)
+		ContextInfoOptions opt = item.getOptions();
+		if (opt.type == BuildType.module)
 
 			return getModuleText();
 
@@ -60,8 +60,7 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			id = build.getItemId((ConfService) srv, (ContextInfo) item,
-					ELevel.module, path);
+			id = build.getItemId((ConfService) srv, item, ELevel.module, path);
 
 			if (id == null)
 				return null;
@@ -97,8 +96,7 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			id = build.getItemId((ConfService) srv, (ContextInfo) item,
-					ELevel.proc, path);
+			id = build.getItemId((ConfService) srv, item, ELevel.proc, path);
 
 		} catch (Exception e) {
 			return e.getMessage();
@@ -115,8 +113,7 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			id = build.getItemId((ConfService) srv, (ContextInfo) item,
-					ELevel.module, path);
+			id = build.getItemId((ConfService) srv, item, ELevel.module, path);
 
 			if (id == null)
 				return null;
@@ -128,11 +125,12 @@ public class ConfTextService extends TextService {
 				return null;
 
 			ContextInfoOptions opt = new ContextInfoOptions();
-
+			opt.type = BuildType.object;
 			ContextInfo result = new ContextInfo(opt);
 			result.setId(id);
 			result.setTitle(selected.getTitle());
-			result.setParent(item.getId());
+			result.setPath(item.getPath());
+			// result.setParent(item.getId());
 
 			return result;
 
@@ -143,27 +141,26 @@ public class ConfTextService extends TextService {
 	}
 
 	@Override
-	public void copyItemPath() {
+	public void getItemPath() {
 
-		Integer id = null;
+		if (item.hasPath())
+			return;
+
 		List<String> path = new ArrayList<String>();
 		try {
 
 			CfBuildService build = cf.build(srv.getConnection());
-			// List<String> path = new ArrayList<String>();
-
-			ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
-			opt.type = null;
+			ContextInfoOptions opt = item.getOptions();
 			AdditionalInfo info = new AdditionalInfo();
 			info.itemTitle = item.getTitle();
-			// info.level = level;
 			String newTitle = "";
 			if (build.getPathRoot(srv, item, info, opt, path) != null) {
-				for (String p : path) {
-					newTitle = newTitle + p + ".";
-				}
-				item.setTitle(newTitle + item.getTitle());
-				opt.type = BuildType.object;
+				// for (String p : path) {
+				// newTitle = newTitle + p + ".";
+				// }
+				item.setPath(path);
+				// item.setTitle(newTitle + item.getTitle());
+				// opt.type = BuildType.object;
 			}
 
 		} catch (Exception e) {

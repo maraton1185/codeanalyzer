@@ -5,14 +5,13 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.TextConnection;
 import ebook.module.text.interfaces.ITextService;
-import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
 
 public abstract class TextService implements ITextService {
 
 	// private TextConnection con;
 	protected ICfServices cf = pico.get(ICfServices.class);
-	protected ITreeItemInfo item;
+	protected ContextInfo item;
 	protected ITreeService srv;
 
 	public TextService(TextConnection con) {
@@ -31,7 +30,7 @@ public abstract class TextService implements ITextService {
 	}
 
 	@Override
-	public void copyItemPath() {
+	public void getItemPath() {
 
 	}
 

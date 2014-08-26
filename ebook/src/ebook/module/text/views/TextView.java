@@ -127,13 +127,14 @@ public class TextView implements ITextOperationTarget {
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService) {
 		item = con.getItem();
-		con.srv().copyItemPath();
 
 		parentItem = con.srv().get(item.getParent());
 
 		ContextInfoOptions opt = item.getOptions();
 		final boolean readOnly = opt != null && opt.type == BuildType.module;
 		int style = readOnly ? SWT.READ_ONLY : SWT.NONE;
+
+		con.srv().getItemPath();
 
 		// int style = SWT.NONE;
 		support = new ViewerSupport();

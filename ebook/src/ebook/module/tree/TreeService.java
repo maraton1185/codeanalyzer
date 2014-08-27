@@ -22,12 +22,13 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.db.DbOptions;
+import ebook.module.text.interfaces.ITextTreeService;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
-public abstract class TreeService implements ITreeService {
+public abstract class TreeService implements ITreeService, ITextTreeService {
 
 	protected IDbConnection db;
 	private final String tableName;

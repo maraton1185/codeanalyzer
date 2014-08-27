@@ -1,7 +1,5 @@
 package ebook.module.conf.tree;
 
-import java.util.List;
-
 import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
@@ -41,19 +39,29 @@ public class ContextInfo extends TreeItemInfo {
 		return (ContextInfoOptions) super.getOptions();
 	}
 
-	private List<String> path;
+	private boolean proc = false;
 
-	public List<String> getPath() {
-		return path;
+	public boolean isProc() {
+		return proc;
 	}
 
-	public boolean hasPath() {
-		return path != null && !path.isEmpty();
+	public void setProc() {
+		this.proc = true;
 	}
 
-	public void setPath(List<String> path) {
-		this.path = path;
-	}
+	// private List<String> path;
+	//
+	// public List<String> getPath() {
+	// return path;
+	// }
+	//
+	// public boolean hasPath() {
+	// return path != null && !path.isEmpty();
+	// }
+	//
+	// public void setPath(List<String> path) {
+	// this.path = path;
+	// }
 
 	private int section = 0;
 

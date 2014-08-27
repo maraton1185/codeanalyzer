@@ -164,8 +164,6 @@ public class TextView implements ITextOperationTarget {
 		activated = new Object();
 		support.setSelection(support.getProjectionByName(con.getLine()));
 
-		con.srv().getItemPath(item);
-
 		final boolean readOnly = con.srv().readOnly(item);
 
 		int style = readOnly ? SWT.READ_ONLY : SWT.NONE;

@@ -20,10 +20,11 @@ import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
+import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeService;
 
-public class CfBuildService {
+public class CfBuildService implements ITextTreeService {
 
 	private Connection con;
 
@@ -542,12 +543,6 @@ public class CfBuildService {
 
 		ITreeItemInfo root = item;
 
-		if (item.hasPath()) {
-			path.addAll(item.getPath());
-			return root;
-		}
-		// info.itemTitle = item.getTitle();
-
 		String[] str;
 		List<String> inpath;
 		if (opt.type != BuildType.text) {
@@ -655,5 +650,41 @@ public class CfBuildService {
 
 		return null;
 
+	}
+
+	@Override
+	public void saveText(int id, String text) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<ITreeItemInfo> getChildren(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getText(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ITreeItemInfo findInParent(String title, Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ITreeItemInfo get(int parent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Connection getConnection() throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

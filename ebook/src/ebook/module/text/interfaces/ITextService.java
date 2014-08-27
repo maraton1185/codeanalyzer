@@ -13,14 +13,10 @@ public interface ITextService {
 
 	ContextInfo getItemByTitle(LineInfo selected);
 
-	// ContextInfo get(Integer parent);
-
-	void getItemPath(ContextInfo item);
-
 	ContextInfo getParent(ContextInfo item);
 
 	boolean readOnly(ContextInfo item);
 
-	void setItemId(ContextInfo item);
+	boolean setItemId(ContextInfo item);
 
 }

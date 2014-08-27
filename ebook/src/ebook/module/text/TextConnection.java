@@ -1,20 +1,22 @@
 package ebook.module.text;
 
+import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.conf.ConfService;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
+import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.interfaces.ITextService;
+import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.service.ConfTextService;
 import ebook.module.text.service.ContextTextService;
-import ebook.module.tree.ITreeService;
 
 public class TextConnection {
 
 	IDbConnection con;
-	ITreeService srv;
+	ITextTreeService srv;
 
 	ContextInfo item;
 	ContextInfo parent;
@@ -23,13 +25,24 @@ public class TextConnection {
 
 	LineInfo line;
 
-	public TextConnection(IDbConnection con, ContextInfo item, ITreeService srv) {
+	boolean canOpen = true;
+
+	public TextConnection(IDbConnection con, ContextInfo item,
+			ITextTreeService srv) {
 		super();
 		this.con = con;
 		this.srv = srv;
 
+		if (isConf())
+			try {
+				srv = pico.get(ICfServices.class).build(srv.getConnection());
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				srv = null;
+			}
 		this.item = new ContextInfo(item);
-		srv().setItemId(item);
+		if (!srv().setItemId(item))
+			canOpen = false;
 
 	}
 
@@ -75,7 +88,7 @@ public class TextConnection {
 		return srv instanceof ConfService;
 	}
 
-	public ITreeService getSrv() {
+	public ITextTreeService getSrv() {
 		return srv;
 	}
 
@@ -88,7 +101,7 @@ public class TextConnection {
 	}
 
 	public boolean isValid() {
-		return con != null && item != null && srv != null;
+		return con != null && item != null && srv != null && canOpen;
 	}
 
 	ConfTextService cnf;

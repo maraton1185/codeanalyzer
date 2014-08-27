@@ -881,4 +881,10 @@ public abstract class TreeService implements ITreeService, ITextTreeService {
 		}
 
 	}
+
+	@Override
+	public ITreeItemInfo getSelected() {
+
+		return null;
+	}
 }

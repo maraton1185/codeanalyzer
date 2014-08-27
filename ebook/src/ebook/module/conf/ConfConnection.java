@@ -57,6 +57,17 @@ public class ConfConnection extends BaseDbPathConnection {
 		return srv;
 	}
 
+	private ConfTreeService conf_service;
+
+	public ConfTreeService conf() {
+
+		conf_service = conf_service == null ? new ConfTreeService(this)
+				: conf_service;
+
+		return conf_service;
+
+	}
+
 	private ListService service;
 
 	public ListService lsrv() {

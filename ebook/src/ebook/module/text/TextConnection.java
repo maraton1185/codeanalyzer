@@ -1,12 +1,10 @@
 package ebook.module.text;
 
-import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.conf.ConfService;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
-import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.interfaces.ITextService;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
@@ -33,13 +31,6 @@ public class TextConnection {
 		this.con = con;
 		this.srv = srv;
 
-		if (isConf())
-			try {
-				srv = pico.get(ICfServices.class).build(srv.getConnection());
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				srv = null;
-			}
 		this.item = new ContextInfo(item);
 		if (!srv().setItemId(item))
 			canOpen = false;

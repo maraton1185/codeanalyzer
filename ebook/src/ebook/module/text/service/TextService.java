@@ -24,13 +24,13 @@ public abstract class TextService implements ITextService {
 		this.item = item;
 	}
 
-	@Override
-	public ContextInfo get(Integer parent) {
-		return (ContextInfo) srv.get(parent);
-	}
+	// @Override
+	// public ContextInfo get(Integer parent) {
+	// return (ContextInfo) srv.get(parent);
+	// }
 
 	@Override
-	public void getItemPath() {
+	public void getItemPath(ContextInfo item) {
 
 	}
 

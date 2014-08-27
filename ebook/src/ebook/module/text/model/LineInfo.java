@@ -1,6 +1,7 @@
 package ebook.module.text.model;
 
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 
 import ebook.module.tree.TreeItemInfo;
 
@@ -35,5 +36,6 @@ public class LineInfo extends TreeItemInfo {
 	// public LineInfo parent;
 	public Position projection;
 	public Integer length;
+	public ProjectionAnnotation annotation;
 
 }

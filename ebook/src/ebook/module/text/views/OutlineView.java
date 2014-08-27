@@ -80,6 +80,9 @@ public class OutlineView {
 
 		if (data.con != con)
 			return;
+
+		if (data.document != document)
+			return;
 		if (service == null || treeComponent == null || data.selected == null) {
 			return;
 		}

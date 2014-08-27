@@ -23,19 +23,19 @@ public class ContextTextService extends TextService {
 	}
 
 	@Override
-	public String getItemText() {
+	public String getItemText(ContextInfo item) {
 
-		ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+		ContextInfoOptions opt = item.getOptions();
 		if (opt.type == BuildType.module)
 
-			return getModuleText();
+			return getModuleText(item);
 		else
 
 			return srv.getText(item.getId());
 
 	}
 
-	private String getModuleText() {
+	private String getModuleText(ContextInfo item) {
 		List<ITreeItemInfo> list = srv.getChildren(item.getId());
 
 		StringBuilder result = new StringBuilder();
@@ -57,6 +57,22 @@ public class ContextTextService extends TextService {
 				.findInParent(selected.getTitle(), item.getId());
 
 		return (ContextInfo) info;
+	}
+
+	@Override
+	public ContextInfo getParent(ContextInfo item) {
+		return (ContextInfo) srv.get(item.getParent());
+	}
+
+	@Override
+	public boolean readOnly(ContextInfo item) {
+		ContextInfoOptions opt = item.getOptions();
+		return opt != null && opt.type == BuildType.module;
+	}
+
+	@Override
+	public void setItemId(ContextInfo item) {
+
 	}
 
 }

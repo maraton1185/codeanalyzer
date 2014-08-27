@@ -111,16 +111,20 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 			}
 		}
 		if (!buffer.isEmpty()) {
-			IRegion reg = fDocument.getLineInformation(startLine);
-			LineInfo lineInfo = new LineInfo();
-			lineInfo.line = startLine;
-			lineInfo.offset = reg.getOffset();
-			lineInfo.setTitle(Const.STRING_INIT_TITLE);
-			lineInfo.name = Const.STRING_INIT;
-			lineInfo.export = false;
-			// lineInfo.data = data;
-			model.add(lineInfo);
-
+			String listString = "";
+			for (String s : buffer)
+				listString += s;
+			if (!listString.trim().isEmpty()) {
+				IRegion reg = fDocument.getLineInformation(startLine);
+				LineInfo lineInfo = new LineInfo();
+				lineInfo.line = startLine;
+				lineInfo.offset = reg.getOffset();
+				lineInfo.setTitle(Const.STRING_INIT_TITLE);
+				lineInfo.name = Const.STRING_INIT;
+				lineInfo.export = false;
+				// lineInfo.data = data;
+				model.add(lineInfo);
+			}
 		}
 
 		App.br.post(Events.EVENT_UPDATE_TEXT_MODEL, new EVENT_TEXT_DATA(null,

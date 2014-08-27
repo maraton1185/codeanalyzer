@@ -41,6 +41,7 @@ import ebook.module.text.annotations.IAnnotation;
 import ebook.module.text.annotations.InfoAnnotation;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.scanner.DocumentPartitionScanner;
+import ebook.utils.Const;
 
 public class ViewerSupport {
 
@@ -177,11 +178,15 @@ public class ViewerSupport {
 	}
 
 	public void setSelection(LineInfo info) {
+
+		if (info == null)
+			return;
 		StyledText widget = fSourceViewer.getTextWidget();
 		widget.setRedraw(false);
 		{
 			try {
-				IRegion region = document.getLineInformation(info.line);
+				IRegion region = document
+						.getLineInformationOfOffset(info.offset);
 
 				int revealStart = region.getOffset();
 				int revealLength = region.getLength();
@@ -229,6 +234,49 @@ public class ViewerSupport {
 		int h = 0;
 
 		// System.out.println(" - " + offset);
+		if (projections.isEmpty())
+			return new LineInfo(Const.STRING_VARS_TITLE);
+
+		Position p = fSourceViewer.getProjectionAnnotationModel().getPosition(
+				projections.get(0));
+		if (offset < p.offset)
+			return new LineInfo(Const.STRING_VARS_TITLE);
+
+		for (ProjectionAnnotation item : projections) {
+			p = fSourceViewer.getProjectionAnnotationModel().getPosition(item);
+
+			if (p == null)
+				continue;
+
+			String[] data = item.getText().split(":");
+			int l = Integer.parseInt(data[1]);
+
+			LineInfo result = new LineInfo(data[0]);
+			result.annotation = item;
+
+			if (item.isCollapsed())
+				h += (p.length - l - 1);
+
+			// System.out.println(p.offset + ":" + p.length + ":" + h + ":"
+			// + data[0]);
+
+			if (offset + h < p.offset) {
+				// System.out.println(data[0]);
+				return result;
+			}
+			if ((offset + h) > p.offset && (offset + h < p.offset + p.length)) {
+				// System.out.println(data[0]);
+				return result;
+			}
+		}
+
+		return null;
+	}
+
+	public LineInfo getProjectionByName(LineInfo lineInfo) {
+
+		if (lineInfo == null)
+			return null;
 
 		for (ProjectionAnnotation item : projections) {
 			Position p = fSourceViewer.getProjectionAnnotationModel()
@@ -238,21 +286,12 @@ public class ViewerSupport {
 				continue;
 
 			String[] data = item.getText().split(":");
-			int l = Integer.parseInt(data[1]);
-			if (item.isCollapsed())
-				h += (p.length - l - 1);
-
-			// System.out.println(p.offset + ":" + p.length + ":" + h + ":"
-			// + data[0]);
-
-			if (offset + h < p.offset) {
-				// System.out.println(data[0]);
-				return new LineInfo(data[0]);
+			if (data[0].equalsIgnoreCase(lineInfo.getTitle())) {
+				LineInfo result = new LineInfo(lineInfo.getTitle());
+				result.offset = p.offset;
+				return result;
 			}
-			if ((offset + h) > p.offset && (offset + h < p.offset + p.length)) {
-				// System.out.println(data[0]);
-				return new LineInfo(data[0]);
-			}
+
 		}
 
 		return null;

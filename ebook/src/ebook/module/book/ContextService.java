@@ -192,7 +192,7 @@ public class ContextService extends TreeService {
 				List<String> path = new ArrayList<String>();
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
-				build.getPathRoot(this, (ContextInfo) item, info, opt, path);
+				build.getPath(this, (ContextInfo) item, info, opt, path);
 
 				if (path.size() > 1)
 					path.remove(0);

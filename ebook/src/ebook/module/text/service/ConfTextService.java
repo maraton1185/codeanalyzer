@@ -28,8 +28,8 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			Integer id = build.getItemId((ConfService) srv, item, ELevel.proc,
-					path);
+			Integer id = build
+					.getId((ConfService) srv, item, ELevel.proc, path);
 
 			if (id != null)
 				srv.saveText(id, text);
@@ -40,7 +40,7 @@ public class ConfTextService extends TextService {
 	}
 
 	@Override
-	public String getItemText() {
+	public String getItemText(ContextInfo item) {
 
 		ContextInfoOptions opt = item.getOptions();
 		if (opt.type == BuildType.module)
@@ -60,7 +60,7 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			id = build.getItemId((ConfService) srv, item, ELevel.module, path);
+			id = build.getId((ConfService) srv, item, ELevel.module, path);
 
 			if (id == null)
 				return null;
@@ -96,7 +96,7 @@ public class ConfTextService extends TextService {
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
 
-			id = build.getItemId((ConfService) srv, item, ELevel.proc, path);
+			id = build.getId((ConfService) srv, item, ELevel.proc, path);
 
 		} catch (Exception e) {
 			return e.getMessage();
@@ -112,8 +112,9 @@ public class ConfTextService extends TextService {
 
 			CfBuildService build = cf.build(srv.getConnection());
 			List<String> path = new ArrayList<String>();
+			// item.setPath(path);
 
-			id = build.getItemId((ConfService) srv, item, ELevel.module, path);
+			id = build.getId((ConfService) srv, item, ELevel.module, path);
 
 			if (id == null)
 				return null;
@@ -129,10 +130,9 @@ public class ConfTextService extends TextService {
 			ContextInfo result = new ContextInfo(opt);
 			result.setId(id);
 			result.setTitle(selected.getTitle());
-			item.getPath().add(item.getTitle());
 
 			result.setPath(item.getPath());
-
+			result.getPath().add(item.getTitle());
 			// result.setParent(item.getId());
 
 			return result;
@@ -144,7 +144,7 @@ public class ConfTextService extends TextService {
 	}
 
 	@Override
-	public void getItemPath() {
+	public void getItemPath(ContextInfo item) {
 
 		if (item.hasPath())
 			return;
@@ -156,20 +156,91 @@ public class ConfTextService extends TextService {
 			ContextInfoOptions opt = item.getOptions();
 			AdditionalInfo info = new AdditionalInfo();
 			info.itemTitle = item.getTitle();
-			String newTitle = "";
-			if (build.getPathRoot(srv, item, info, opt, path) != null) {
-				// for (String p : path) {
-				// newTitle = newTitle + p + ".";
-				// }
+			if (build.getPath(srv, item, info, opt, path) != null)
 				item.setPath(path);
-				// item.setTitle(newTitle + item.getTitle());
-				// opt.type = BuildType.object;
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
+	}
+
+	@Override
+	public ContextInfo getParent(ContextInfo item) {
+		Integer id = null;
+		try {
+			CfBuildService build = cf.build(srv.getConnection());
+			List<String> path = new ArrayList<String>();
+
+			id = build.getId((ConfService) srv, item, ELevel.proc, path);
+
+			if (id == null)
+				return null;
+
+			id = build.getId((ConfService) srv, item, ELevel.module, path);
+
+			if (id == null)
+				return null;
+
+			if (path.isEmpty())
+				return null;
+
+			ContextInfoOptions opt = new ContextInfoOptions();
+			opt.type = BuildType.module;
+			ContextInfo result = new ContextInfo(opt);
+			result.setId(id);
+			result.setTitle(path.get(path.size() - 1));
+			path.remove(path.size() - 1);
+			result.setPath(path);
+			return result;
+			// result.setTitle(selected.getTitle());
+			// item.getPath().add(item.getTitle());
+			// result.setPath(item.getPath());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public boolean readOnly(ContextInfo item) {
+		Integer id = null;
+		try {
+			CfBuildService build = cf.build(srv.getConnection());
+			List<String> path = new ArrayList<String>();
+
+			id = build.getId((ConfService) srv, item, ELevel.proc, path);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return id == null;
+	}
+
+	@Override
+	public void setItemId(ContextInfo item) {
+		Integer id = null;
+		try {
+			CfBuildService build = cf.build(srv.getConnection());
+			List<String> path = new ArrayList<String>();
+
+			id = build.getId((ConfService) srv, item, null, path);
+
+			if (id != null)
+				item.setId(id);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		// return id == null;
+
 	}
 
 }

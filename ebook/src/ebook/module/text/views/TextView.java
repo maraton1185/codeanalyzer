@@ -28,9 +28,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import ebook.core.App;
-import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
-import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
 import ebook.utils.Events;
@@ -48,6 +46,7 @@ public class TextView implements ITextOperationTarget {
 	TextConnection con;
 
 	ContextInfo item;
+	Object activated;
 	// ITreeService srv;
 
 	ProjectionViewer viewer;
@@ -56,6 +55,8 @@ public class TextView implements ITextOperationTarget {
 	ViewerSupport support;
 
 	private ArrayList<LineInfo> model;
+	private boolean updateActiveProcedure = true;
+	private boolean updateSelected = false;
 
 	@Inject
 	@Optional
@@ -96,7 +97,13 @@ public class TextView implements ITextOperationTarget {
 
 		}
 		this.model = data.model;
+		if (updateSelected)
+			support.setSelection(support.getProjectionByName(con.getLine()));
 
+		updateSelected = false;
+
+		if (!con.getItem().equals(item))
+			return;
 		App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(con,
 				document, model));
 	}
@@ -115,29 +122,53 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_UPDATE(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_UPDATE) EVENT_TEXT_DATA data) {
+
+		if (!data.parent.equals(item))
+			return;
+		updateText();
+	}
+
+	public void updateText() {
+
+		String text = con.srv().getItemText(item);
+		if (text == null)
+			text = Strings.msg("TextView.errorGetText");
+		updateActiveProcedure = false;
+		document.set(text);
+		updateActiveProcedure = true;
+		dirty.setDirty(false);
+	}
+
+	@Inject
 	MDirtyable dirty;
-	private ContextInfo parentItem;
+
+	// private ContextInfo parentItem;
 
 	@Persist
 	public void save() {
 		con.srv().saveItemText(document.get());
 		dirty.setDirty(false);
+		App.br.post(Events.EVENT_TEXT_VIEW_UPDATE,
+				new EVENT_TEXT_DATA(con.getParent()));
 	}
 
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService) {
-		item = con.getItem();
 
-		parentItem = con.srv().get(item.getParent());
-
-		ContextInfoOptions opt = item.getOptions();
-		final boolean readOnly = opt != null && opt.type == BuildType.module;
-		int style = readOnly ? SWT.READ_ONLY : SWT.NONE;
-
-		con.srv().getItemPath();
-
-		// int style = SWT.NONE;
 		support = new ViewerSupport();
+
+		item = con.getItem();
+		activated = new Object();
+		support.setSelection(support.getProjectionByName(con.getLine()));
+
+		con.srv().getItemPath(item);
+
+		final boolean readOnly = con.srv().readOnly(item);
+
+		int style = readOnly ? SWT.READ_ONLY : SWT.NONE;
 		viewer = support.getViewer(parent, style);
 
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -145,11 +176,13 @@ public class TextView implements ITextOperationTarget {
 			@Override
 			public void caretMoved(CaretEvent event) {
 
+				if (!updateActiveProcedure)
+					return;
 				int offset = event.caretOffset;
 				LineInfo selected = support.getCurrentProjectionName(offset);
 
 				window.getContext().set(Events.TEXT_VIEW_ACTIVE_PROCEDURE,
-						readOnly ? selected : null);
+						selected);
 				App.br.post(Events.EVENT_OUTLINE_VIEW_SET_CURRENT,
 						new EVENT_TEXT_DATA(con, document, selected));
 
@@ -158,10 +191,12 @@ public class TextView implements ITextOperationTarget {
 
 		document = support.getDocument();
 
-		String text = con.srv().getItemText();
-		if (text == null)
-			text = Strings.msg("TextView.errorGetText");
-		document.set(text);
+		String text = con.srv().getItemText(item);
+		// if (text == null)
+		// text = ""Strings.msg("TextView.errorGetText");
+		updateActiveProcedure = false;
+		document.set(text == null ? "" : text);
+		updateActiveProcedure = true;
 
 		document.addDocumentListener(new IDocumentListener() {
 			@Override
@@ -199,24 +234,19 @@ public class TextView implements ITextOperationTarget {
 
 	@Focus
 	public void OnFocus() {
-		if (con.getParent() == parentItem)
+
+		if (con.getActivated().equals(activated))
 			return;
+
+		con.setItem(item);
+		con.setActivated(activated);
+
+		updateSelected = true;
+		support.setSelection(support.getProjectionByName(con.getLine()));
 
 		if (model != null)
 			App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(
 					con, document, model));
-
-		con.setItem(item);
-
-		parentItem = con.srv().get(item.getParent());
-		if (parentItem != null) {
-			ContextInfoOptions opt1 = parentItem.getOptions();
-			if (opt1.type == BuildType.module)
-				con.setParent(parentItem);
-			else
-				con.setParent(null);
-		} else
-			con.setParent(null);
 
 	}
 
@@ -228,6 +258,33 @@ public class TextView implements ITextOperationTarget {
 	@Override
 	public void doOperation(int operation) {
 		viewer.doOperation(operation);
+
+	}
+
+	public void CollapseAll() {
+		viewer.getProjectionAnnotationModel().collapseAll(0,
+				document.getLength());
+	}
+
+	public void Collapse() {
+		LineInfo selected = (LineInfo) window.getContext().get(
+				Events.TEXT_VIEW_ACTIVE_PROCEDURE);
+		if (selected != null)
+			viewer.getProjectionAnnotationModel().collapse(selected.annotation);
+
+	}
+
+	public void ExpandAll() {
+		viewer.getProjectionAnnotationModel()
+				.expandAll(0, document.getLength());
+
+	}
+
+	public void Expand() {
+		LineInfo selected = (LineInfo) window.getContext().get(
+				Events.TEXT_VIEW_ACTIVE_PROCEDURE);
+		if (selected != null)
+			viewer.getProjectionAnnotationModel().expand(selected.annotation);
 
 	}
 

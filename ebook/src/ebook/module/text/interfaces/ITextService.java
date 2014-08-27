@@ -9,12 +9,18 @@ public interface ITextService {
 
 	void saveItemText(String string);
 
-	String getItemText();
+	String getItemText(ContextInfo item);
 
 	ContextInfo getItemByTitle(LineInfo selected);
 
-	ContextInfo get(Integer parent);
+	// ContextInfo get(Integer parent);
 
-	void getItemPath();
+	void getItemPath(ContextInfo item);
+
+	ContextInfo getParent(ContextInfo item);
+
+	boolean readOnly(ContextInfo item);
+
+	void setItemId(ContextInfo item);
 
 }

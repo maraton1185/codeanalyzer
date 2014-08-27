@@ -520,8 +520,25 @@ public class CfBuildService {
 		return info;
 	}
 
-	public ITreeItemInfo getPathRoot(ITreeService srv, ContextInfo item,
+	public Integer getId(ConfService srv, ContextInfo item, ELevel level,
+			List<String> path) throws SQLException {
+
+		ContextInfoOptions opt = item.getOptions();
+		AdditionalInfo info = new AdditionalInfo();
+		info.itemTitle = item.getTitle();
+		info.level = level;
+
+		if (getPath(srv, item, info, opt, path) != null) {
+			return getItemByPath(info, path);
+		}
+		path.clear();
+		return null;
+	}
+
+	public ITreeItemInfo getPath(ITreeService srv, ContextInfo item,
 			AdditionalInfo info, ContextInfoOptions opt, List<String> path) {
+
+		path.clear();
 
 		ITreeItemInfo root = item;
 
@@ -588,21 +605,6 @@ public class CfBuildService {
 		return root;
 	}
 
-	public Integer getItemId(ConfService srv, ContextInfo item, ELevel level,
-			List<String> path) throws SQLException {
-
-		ContextInfoOptions opt = item.getOptions();
-		AdditionalInfo info = new AdditionalInfo();
-		info.itemTitle = item.getTitle();
-		info.level = level;
-
-		if (getPathRoot(srv, item, info, opt, path) != null) {
-			return getItemByPath(info, path);
-		}
-		path.clear();
-		return null;
-	}
-
 	public Integer getItemByPath(AdditionalInfo info, List<String> path_items)
 			throws SQLException {
 
@@ -631,6 +633,9 @@ public class CfBuildService {
 
 			if (levels.size() <= i)
 				break;
+
+			if (info.level == null && path.get(i) == null && gr != null)
+				return gr;
 
 			if (levels.get(i) == ELevel.proc && gr != null) {
 				gr = getProcs(path.get(i), gr, proposals);

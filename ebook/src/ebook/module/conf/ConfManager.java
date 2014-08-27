@@ -99,7 +99,7 @@ public class ConfManager extends TreeManager {
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = item.getTitle();
-		ITreeItemInfo root = cf.build(srv.getConnection()).getPathRoot(srv,
+		ITreeItemInfo root = cf.build(srv.getConnection()).getPath(srv,
 				item, info, opt, path);
 
 		// AdditionalInfo info = new AdditionalInfo();

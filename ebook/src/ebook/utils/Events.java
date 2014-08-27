@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.jface.text.IDocument;
 
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
 import ebook.module.tree.ITreeItemInfo;
@@ -111,6 +112,10 @@ public abstract class Events {
 
 	public static final String TEXT_VIEW_ACTIVE_PROCEDURE = "TEXT_VIEW_ACTIVE_PROCEDURE";
 
+	public static final String EVENT_TEXT_VIEW_UPDATE = "EVENT_TEXT_VIEW_UPDATE";
+
+	public static final String EVENT_SHOW_TEXT = "EVENT_SHOW_TEXT";
+
 	public static class EVENT_TEXT_DATA {
 		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
 				ArrayList<LineInfo> model) {
@@ -127,10 +132,15 @@ public abstract class Events {
 			this.selected = selected;
 		}
 
+		public EVENT_TEXT_DATA(ContextInfo parent) {
+			this.parent = parent;
+		}
+
 		public IDocument document;
 		public ArrayList<LineInfo> model;
 		public TextConnection con;
 		public LineInfo selected;
+		public ContextInfo parent;
 	}
 
 	// public static final String EVENT_SHOW_CONF_LIST = "EVENT_SHOW_CONF_LIST";

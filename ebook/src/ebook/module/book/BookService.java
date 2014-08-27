@@ -2,13 +2,18 @@ package ebook.module.book;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -472,6 +477,52 @@ public class BookService extends TreeService {
 	}
 
 	boolean clear;
+
+	public String SaveToHtml(IPath zipFolder, ITreeItemSelection selection)
+			throws IOException {
+
+		// TODO save to html
+
+		int section = 0;
+		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		while (iterator.hasNext()) {
+			ITreeItemInfo item = iterator.next();
+			section = item.getId();
+		}
+
+		int book = ((BookConnection) db).getTreeItem().getId();
+		String url = App.getJetty().host()
+				.concat(App.getJetty().section(book, section));
+		URL hp;
+		URLConnection hpCon;
+		// String url =
+		// "http://localhost/MISApp/servlet/TestServlet?msg=MAHAANNA";
+		StringBuffer contHTML = new StringBuffer(); // to hold the contents of
+													// html file
+		String readLine = "";
+		hp = new URL(url);
+		hpCon = hp.openConnection();
+		int len = hpCon.getContentLength();
+		// if (len>0){
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				hpCon.getInputStream()));
+		while ((readLine = br.readLine()) != null) {
+			System.out.println(readLine);
+			contHTML.append(readLine);
+		}
+
+		IPath p = zipFolder.append(
+				((BookConnection) db).getWindowTitle() + " ("
+						+ selection.getTitle() + ")").addFileExtension("html");
+		String zipName = p.toString();
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(zipName));
+		out.write(contHTML.toString());
+		out.flush();
+		out.close();
+
+		return zipName;
+	}
 
 	@Override
 	public String download(IPath zipFolder, ITreeItemSelection selection,

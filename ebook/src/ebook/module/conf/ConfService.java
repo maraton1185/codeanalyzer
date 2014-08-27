@@ -251,7 +251,7 @@ public class ConfService extends TreeService {
 				ContextXML child = new ContextXML(item);
 
 				List<String> path = new ArrayList<String>();
-				child.proc = build.getItemId(this, (ContextInfo) item, null,
+				child.proc = build.getId(this, (ContextInfo) item, null,
 						path);
 				child.path = path;
 

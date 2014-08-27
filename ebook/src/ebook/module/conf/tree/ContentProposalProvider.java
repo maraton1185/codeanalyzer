@@ -80,7 +80,7 @@ public class ContentProposalProvider implements IContentProposalProvider {
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = contents;
-		ITreeItemInfo root = cf.build(tree.getConnection()).getPathRoot(tree,
+		ITreeItemInfo root = cf.build(tree.getConnection()).getPath(tree,
 				item, info, opt, path);
 		info.type = BuildType.object;
 		if (root != null) {

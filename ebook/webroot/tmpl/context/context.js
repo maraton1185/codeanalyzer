@@ -15,12 +15,15 @@ document.init = function() {
     setup: "s",
     selector: "textarea",
     readonly: 1,
-    height: 700,
-    plugins: ["advlist autolink lists charmap print preview anchor", "searchreplace visualblocks code", "insertdatetime table contextmenu paste", "textcolor"],
+    plugins: ["advlist autolink lists charmap print preview anchor", "searchreplace visualblocks code", "insertdatetime table contextmenu paste", "textcolor", "autoresize"],
     toolbar: "",
     toolbar: "false",
     menubar: "false",
     content_css: "/tmpl/context/highlight/styles/1c.css",
-    setup: function(editor) {}
+    setup: function(editor) {
+      editor.on('init', function(ed, e) {
+        $('.gwt-SplitLayoutPanel>div').last().css('overflow', "auto");
+      });
+    }
   });
 };

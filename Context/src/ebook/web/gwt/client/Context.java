@@ -116,6 +116,7 @@ public class Context implements EntryPoint {
 		SplitLayoutPanel p = new SplitLayoutPanel();
 		p.setSize("100%", "100%");
 
+		// StyleInjector.inject(css);
 		// Create a model for the tree.
 		TreeViewModel model = new ContextTreeModel();
 

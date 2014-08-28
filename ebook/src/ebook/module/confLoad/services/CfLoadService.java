@@ -98,7 +98,7 @@ public class CfLoadService {
 	public void addProcedure(Connection con, procEntity line, Integer module)
 			throws SQLException {
 
-		String SQL = "INSERT INTO PROCS (OBJECT, NAME, TITLE, EXPORT, CONTEXT, SECTION, GROUP1, GROUP2, MODULE) VALUES (?,?,?,?,?,?,?,?,?)";
+		String SQL = "INSERT INTO PROCS (PARENT, NAME, TITLE, EXPORT, CONTEXT, SECTION, GROUP1, GROUP2, MODULE) VALUES (?,?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = con.prepareStatement(SQL,
 				Statement.RETURN_GENERATED_KEYS);
 
@@ -235,7 +235,7 @@ public class CfLoadService {
 
 	public int deleteProcs(Connection con, Integer module) throws SQLException {
 
-		String SQL = "DELETE FROM PROCS WHERE OBJECT=?";
+		String SQL = "DELETE FROM PROCS WHERE PARENT=?";
 		PreparedStatement prep = con.prepareStatement(SQL);
 
 		prep.setInt(1, module);

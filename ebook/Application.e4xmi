@@ -295,13 +295,13 @@
     <bindings xmi:id="_5lqbYBicEeSEwsGZkmCqtw" elementId="ebook.keybinding.6" keySequence="F2" command="_bFGcEBicEeSEwsGZkmCqtw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_gRdCkBvFEeSuCZqAXHJskQ" elementId="ebook.keybinding.11" keySequence="M1+C" command="_aVgokBvFEeSuCZqAXHJskQ">
+    <bindings xmi:id="_gRdCkBvFEeSuCZqAXHJskQ" elementId="ebook.keybinding.11" keySequence="M1+M2+C" command="_aVgokBvFEeSuCZqAXHJskQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_glxswBvFEeSuCZqAXHJskQ" elementId="ebook.keybinding.12" keySequence="M1+V" command="_bKMN0BvFEeSuCZqAXHJskQ">
+    <bindings xmi:id="_glxswBvFEeSuCZqAXHJskQ" elementId="ebook.keybinding.12" keySequence="M1+M2+V" command="_bKMN0BvFEeSuCZqAXHJskQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_gw6lwBvFEeSuCZqAXHJskQ" elementId="ebook.keybinding.13" keySequence="M1+X" command="_bxHD4BvFEeSuCZqAXHJskQ">
+    <bindings xmi:id="_gw6lwBvFEeSuCZqAXHJskQ" elementId="ebook.keybinding.13" keySequence="M1+M2+X" command="_bxHD4BvFEeSuCZqAXHJskQ">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_ZpoE0B74EeSy8KLEUiC4ow" elementId="ebook.keybinding.6" keySequence="F1" command="_TgXnkB74EeSy8KLEUiC4ow">
@@ -359,7 +359,7 @@
     <bindings xmi:id="_Q9nfECH6EeSSjvNQ5dYbAw" elementId="ebook.keybinding.6" keySequence="F2" command="_FFT0UCH6EeSSjvNQ5dYbAw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_13dE4CILEeSSjvNQ5dYbAw" elementId="ebook.keybinding.12" keySequence="M1+V" command="_veQHICILEeSSjvNQ5dYbAw">
+    <bindings xmi:id="_13dE4CILEeSSjvNQ5dYbAw" elementId="ebook.keybinding.12" keySequence="M1+M2+V" command="_veQHICILEeSSjvNQ5dYbAw">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>

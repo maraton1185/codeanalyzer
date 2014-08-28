@@ -63,7 +63,7 @@ public class ConfManager extends TreeManager {
 
 	}
 
-	public void build(ContextInfo item, Shell shell) {
+	public void build(ContextInfo item) {
 
 		try {
 			ContextInfoOptions opt = item.getOptions();
@@ -99,8 +99,8 @@ public class ConfManager extends TreeManager {
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = item.getTitle();
-		ITreeItemInfo root = cf.build(srv.getConnection()).getPath(srv,
-				item, info, opt, path);
+		ITreeItemInfo root = cf.build(srv.getConnection()).getPath(srv, item,
+				info, opt, path);
 
 		// AdditionalInfo info = new AdditionalInfo();
 		info.type = BuildType.object;
@@ -148,18 +148,18 @@ public class ConfManager extends TreeManager {
 
 	}
 
-	public void buildText(ContextInfo item, Shell shell) {
+	public void buildText(ContextInfo item) {
 		try {
 			item.getOptions().type = BuildType.text;
 			srv.saveOptions(item);
-			build(item, shell);
+			build(item);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void buildDelete(ContextInfo item, Shell shell) {
+	public void buildDelete(ContextInfo item) {
 		try {
 			srv.deleteChildren(item);
 

@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
+import ebook.core.pico;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
 import ebook.module.conf.tree.ContentProposalProvider;
@@ -38,6 +39,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
+import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.TextConnection;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
@@ -224,8 +226,20 @@ public class ConfView {
 						.getSelection();
 				ITreeItemInfo selected = (ITreeItemInfo) selection
 						.getFirstElement();
-				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-						(ContextInfo) selected, con.conf()));
+
+				try {
+					ContextInfo item = pico
+							.get(ICfServices.class)
+							.build(con.srv(list).getConnection())
+							.adapt(con.conf(), con.srv(list),
+									(ContextInfo) selected);
+					App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
+							item, con.conf()));
+				} catch (IllegalAccessException e) {
+
+					e.printStackTrace();
+				}
+
 			}
 		});
 

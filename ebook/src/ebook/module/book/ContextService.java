@@ -394,4 +394,27 @@ public class ContextService extends TreeService {
 		return null;
 	}
 
+	@Override
+	public ITreeItemInfo getParent(ITreeItemInfo _item) {
+		ITreeItemInfo item = get(_item.getParent());
+
+		if (item != null) {
+			ContextInfo parent = (ContextInfo) get(item.getParent());
+			if (parent != null)
+				item.setTitle(parent.getTitle() + "." + item.getTitle());
+		}
+		return item;
+
+	}
+
+	public ContextInfo adapt(ContextInfo _item) {
+		ContextInfo item = new ContextInfo(_item);
+		if (item != null) {
+			ContextInfo parent = (ContextInfo) get(item.getParent());
+			if (parent != null && parent.getOptions().type != BuildType.module)
+				item.setTitle(parent.getTitle() + "." + item.getTitle());
+		}
+		return item;
+	}
+
 }

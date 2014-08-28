@@ -32,7 +32,6 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.text.TextConnection;
-import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -167,10 +166,13 @@ public class ContextView {
 
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				ITreeItemInfo selected = (ITreeItemInfo) selection
+				ContextInfo selected = (ContextInfo) selection
 						.getFirstElement();
+
+				ContextInfo item = service.adapt(selected);
+
 				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-						(ContextInfo) selected, service));
+						item, service));
 
 			}
 		});

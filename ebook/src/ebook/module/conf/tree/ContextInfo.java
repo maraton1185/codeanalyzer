@@ -31,6 +31,8 @@ public class ContextInfo extends TreeItemInfo {
 		setParent(info.getParent());
 		setTitle(info.getTitle());
 		setSection(info.getSection());
+		canOpen = info.canOpen;
+		proc = info.isProc();
 
 	}
 
@@ -39,14 +41,16 @@ public class ContextInfo extends TreeItemInfo {
 		return (ContextInfoOptions) super.getOptions();
 	}
 
+	public boolean canOpen = true;
+
 	private boolean proc = false;
 
 	public boolean isProc() {
 		return proc;
 	}
 
-	public void setProc() {
-		this.proc = true;
+	public void setProc(boolean proc) {
+		this.proc = proc;
 	}
 
 	// private List<String> path;

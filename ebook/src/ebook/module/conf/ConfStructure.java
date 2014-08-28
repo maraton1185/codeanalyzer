@@ -24,10 +24,11 @@ public class ConfStructure implements IDbStructure {
 
 		Statement stat = con.createStatement();
 		try {
-			stat.execute("ALTER TABLE OBJECTS ADD SORT INTEGER;");
-			stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
-			stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
-			stat.execute("ALTER TABLE PROCS ADD MODULE INTEGER;");
+			// stat.execute("ALTER TABLE OBJECTS ADD SORT INTEGER;");
+			// stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
+			// stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
+			stat.execute("ALTER TABLE PROCS ADD SORT INTEGER;");
+			stat.execute("ALTER TABLE PROCS ALTER COLUMN OBJECT RENAME TO PARENT;");
 
 		} catch (Exception e) {
 			throw new SQLException("Ошибка обновления структуры базы данных.");
@@ -124,12 +125,13 @@ public class ConfStructure implements IDbStructure {
 					+ "CREATE INDEX IDX_TITLE ON OBJECTS(TITLE);");
 
 			stat.execute("CREATE TABLE PROCS (ID INTEGER AUTO_INCREMENT, "
-					+ "OBJECT INTEGER, "
+					+ "PARENT INTEGER, "
+					+ "SORT INTEGER, "
 					+ "NAME VARCHAR(200), TITLE VARCHAR(500), EXPORT BOOL, CONTEXT INTEGER, SECTION VARCHAR(200), "
 
 					+ "GROUP1 INTEGER, GROUP2 INTEGER, MODULE INTEGER, "
 
-					+ "FOREIGN KEY(OBJECT) REFERENCES OBJECTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "FOREIGN KEY(PARENT) REFERENCES OBJECTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 
 					+ "PRIMARY KEY (ID));"
 					+ "CREATE INDEX IDX_NAME ON PROCS(NAME);");
@@ -174,7 +176,7 @@ public class ConfStructure implements IDbStructure {
 				"PARENT, TITLE, OPTIONS, SORT")
 
 				&& ch.checkColumns(metadata, "PROCS",
-						"OBJECT, NAME, TITLE, EXPORT, CONTEXT, SECTION, GROUP1, GROUP2, MODULE")
+						"PARENT, NAME, TITLE, EXPORT, CONTEXT, SECTION, GROUP1, GROUP2, MODULE, SORT")
 
 				&& ch.checkColumns(metadata, "PROCS_PARAMETERS", "KEY, VALUE")
 

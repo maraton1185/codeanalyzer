@@ -26,5 +26,7 @@ public interface IDbConnection {
 
 	String getName();
 
+	String getFullName();
+
 	String getWindowTitle();
 }

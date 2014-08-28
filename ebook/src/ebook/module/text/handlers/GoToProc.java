@@ -10,12 +10,13 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 
-import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
+import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class GoToProc {
 
@@ -32,8 +33,9 @@ public class GoToProc {
 		if (selected == null)
 			return;
 		con.setItem(selected);
-		// Utils.executeHandler(hs, cs, Strings.model("TextView.show"));
-		App.br.post(Events.EVENT_SHOW_TEXT, null);
+		con.setLine(null);
+		Utils.executeHandler(hs, cs, Strings.model("TextView.show"));
+		// App.br.post(Events.EVENT_SHOW_TEXT, null);
 	}
 
 	@CanExecute

@@ -9,6 +9,9 @@ import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.ContextService;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.conf.model.BuildType;
+import ebook.module.conf.tree.ContextInfo;
+import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.web.gwt.client.ContextTreeItem;
 import ebook.web.gwt.client.TreeService;
@@ -82,11 +85,31 @@ public class TreeServiceImpl extends RemoteServiceServlet implements
 
 		ContextService srv = checkArguments(book_id, section_id);
 
-		String text = srv.getText(node.getId());
+		String text = "";
+
+		ContextInfo item = (ContextInfo) srv.get(node.getId());
+
+		ContextInfoOptions opt = item.getOptions();
+		if (opt.type == BuildType.module) {
+			List<ITreeItemInfo> list = srv.getChildren(item.getId());
+
+			StringBuilder result = new StringBuilder();
+
+			for (ITreeItemInfo info : list) {
+
+				String _text = srv.getText(info.getId());
+
+				result.append(_text);
+			}
+			text = result.toString();
+		} else
+
+			text = srv.getText(node.getId());
+
 		if (!text.isEmpty())
 			return getHtml(text);
 		else
-			return "Для просмотра текста выберите процедуру";
+			return "";
 	}
 
 	private String getHtml(String html) {

@@ -2,21 +2,16 @@ package ebook.module.text.service;
 
 import java.util.List;
 
-import ebook.core.pico;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
-import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.TextConnection;
-import ebook.module.text.interfaces.ITextService;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.tree.ITreeItemInfo;
 
-public abstract class TextService implements ITextService {
+public class TextService {
 
-	// private TextConnection con;
-	protected ICfServices cf = pico.get(ICfServices.class);
 	protected ContextInfo item;
 	protected ITextTreeService srv;
 
@@ -25,33 +20,35 @@ public abstract class TextService implements ITextService {
 		srv = con.getSrv();
 	}
 
-	@Override
 	public void setItem(ContextInfo item) {
 		this.item = item;
 	}
 
-	@Override
+	public boolean readOnly(ContextInfo item) {
+		ContextInfoOptions opt = item.getOptions();
+		return opt != null && opt.type == BuildType.module;
+	}
+
 	public void saveItemText(String text) {
 
 		srv.saveText(item.getId(), text);
 
 	}
 
-	@Override
 	public String getItemText(ContextInfo item) {
 
 		ContextInfoOptions opt = item.getOptions();
 		if (opt.type == BuildType.module)
 
-			return getModuleText();
+			return getModuleText(item);
 
 		else
 
-			return getText();
+			return getText(item);
 
 	}
 
-	protected String getModuleText() {
+	protected String getModuleText(ContextInfo item) {
 		List<ITreeItemInfo> list = srv.getChildren(item.getId());
 
 		StringBuilder result = new StringBuilder();
@@ -67,12 +64,11 @@ public abstract class TextService implements ITextService {
 
 	}
 
-	protected String getText() {
+	protected String getText(ContextInfo item) {
 
 		return srv.getText(item.getId());
 	}
 
-	@Override
 	public ContextInfo getItemByTitle(LineInfo selected) {
 		ITreeItemInfo info = srv
 				.findInParent(selected.getTitle(), item.getId());
@@ -80,9 +76,8 @@ public abstract class TextService implements ITextService {
 		return (ContextInfo) info;
 	}
 
-	@Override
 	public ContextInfo getParent(ContextInfo item) {
-		return (ContextInfo) srv.get(item.getParent());
+		return (ContextInfo) srv.getParent(item);
 	}
 
 }

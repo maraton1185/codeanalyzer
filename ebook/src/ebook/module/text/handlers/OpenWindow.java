@@ -45,9 +45,10 @@ public class OpenWindow {
 	@Optional
 	public void EVENT_OPEN_TEXT(@UIEventTopic(Events.EVENT_OPEN_TEXT) Object con) {
 
-		if (con instanceof TextConnection)
+		if (con instanceof TextConnection && ((TextConnection) con).isValid()) {
 			App.ctx.set(TextConnection.class, (TextConnection) con);
-		Utils.executeHandler(hs, cs, Strings.model("openTextWindow"));
+			Utils.executeHandler(hs, cs, Strings.model("openTextWindow"));
+		}
 
 	}
 
@@ -65,7 +66,7 @@ public class OpenWindow {
 		List<MTrimmedWindow> windows = model.findElements(App.app, null,
 				MTrimmedWindow.class, new ArrayList<String>() {
 					{
-						add(con.getCon().getName());
+						add(con.getCon().getFullName() + "_text");
 					}
 				});
 
@@ -97,7 +98,7 @@ public class OpenWindow {
 		newWindow.setY(mainWindow.getY() + 20);
 		newWindow.setWidth(mainWindow.getWidth());
 		newWindow.setHeight(mainWindow.getHeight());
-		newWindow.getTags().add(con.getCon().getName());
+		newWindow.getTags().add(con.getCon().getFullName() + "_text");
 
 		App.app.getChildren().add(newWindow);
 		newWindow.getContext().set(TextConnection.class, con);

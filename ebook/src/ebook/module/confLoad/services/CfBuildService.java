@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import ebook.module.conf.ConfService;
+import ebook.module.conf.ConfTreeService;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
@@ -153,7 +154,7 @@ public class CfBuildService {
 		PreparedStatement prep;
 		ResultSet rs;
 
-		SQL = "Select TITLE, ID from PROCS WHERE OBJECT = ?";
+		SQL = "Select TITLE, ID from PROCS WHERE PARENT = ?";
 		if (title != null)
 			if (exact)
 				SQL = SQL.concat(" AND UPPER(TITLE)=UPPER(?)");
@@ -345,7 +346,7 @@ public class CfBuildService {
 		PreparedStatement prep;
 		ResultSet rs;
 
-		SQL = "Select T.TITLE, T.OBJECT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
+		SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
 		SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
 
 		if (gr != null)
@@ -617,7 +618,7 @@ public class CfBuildService {
 
 		// add 2 items
 		path.add(info.itemTitle);
-		path.add(null);
+		// path.add(null);
 
 		List<BuildInfo> proposals = new ArrayList<BuildInfo>();
 
@@ -649,6 +650,45 @@ public class CfBuildService {
 
 		return null;
 
+	}
+
+	public ContextInfo adapt(ConfTreeService conf, ConfService srv,
+			ContextInfo selected) {
+
+		ContextInfo result = new ContextInfo(selected);
+		Integer id;
+		try {
+
+			List<String> path = new ArrayList<String>();
+
+			id = getId(srv, result, ELevel.proc, path);
+
+			if (id != null) {
+				ContextInfo proc = (ContextInfo) conf.get(id);
+				result.setParent(-1);
+				if (proc != null)
+					result.setParent(proc.getParent());
+				result.setId(id);
+				result.setProc(true);
+				return result;
+			}
+
+			id = getId(srv, result, ELevel.module, path);
+			if (id != null) {
+				result.setParent(-1);
+				result.setId(id);
+				result.setTitle(path.get(path.size() - 1).concat(
+						"." + result.getTitle()));
+				return result;
+			}
+
+			result.canOpen = false;
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

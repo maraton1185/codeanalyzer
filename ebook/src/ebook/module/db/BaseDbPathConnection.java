@@ -93,6 +93,7 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 		return name;
 	}
 
+	@Override
 	public String getFullName() {
 		return getFullPath().append(name).toString();
 	}
@@ -102,6 +103,7 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 	// return getFullName();
 	// }
 	// @Override
+	@Override
 	public String getWindowTitle() {
 		return getTreeItem().getTitle() + " (" + getName() + ")";
 	}

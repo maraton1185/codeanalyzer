@@ -125,7 +125,8 @@ public class TextView implements ITextOperationTarget {
 	@Optional
 	public void EVENT_TEXT_VIEW_UPDATE(
 			@UIEventTopic(Events.EVENT_TEXT_VIEW_UPDATE) EVENT_TEXT_DATA data) {
-
+		if (data.parent == null)
+			return;
 		if (!data.parent.equals(item))
 			return;
 		updateText();
@@ -136,6 +137,8 @@ public class TextView implements ITextOperationTarget {
 		String text = con.srv().getItemText(item);
 		if (text == null)
 			text = Strings.msg("TextView.errorGetText");
+
+		updateSelected = true;
 		updateActiveProcedure = false;
 		document.set(text);
 		updateActiveProcedure = true;

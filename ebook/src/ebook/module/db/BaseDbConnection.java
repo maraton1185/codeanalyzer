@@ -217,6 +217,11 @@ public abstract class BaseDbConnection implements IDbConnection {
 	}
 
 	@Override
+	public String getFullName() {
+		return "";
+	}
+
+	@Override
 	public ITreeItemInfo getTreeItem() {
 		// TODO Auto-generated method stub
 		return null;

@@ -1,15 +1,12 @@
 package ebook.module.text;
 
 import ebook.core.interfaces.IDbConnection;
-import ebook.module.conf.ConfService;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
-import ebook.module.text.interfaces.ITextService;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
-import ebook.module.text.service.ConfTextService;
-import ebook.module.text.service.ContextTextService;
+import ebook.module.text.service.TextService;
 
 public class TextConnection {
 
@@ -30,10 +27,7 @@ public class TextConnection {
 		super();
 		this.con = con;
 		this.srv = srv;
-
-		this.item = new ContextInfo(item);
-		if (!srv().setItemId(item))
-			canOpen = false;
+		this.item = item;
 
 	}
 
@@ -75,10 +69,6 @@ public class TextConnection {
 		return activated;
 	}
 
-	private boolean isConf() {
-		return srv instanceof ConfService;
-	}
-
 	public ITextTreeService getSrv() {
 		return srv;
 	}
@@ -92,21 +82,16 @@ public class TextConnection {
 	}
 
 	public boolean isValid() {
-		return con != null && item != null && srv != null && canOpen;
+		return con != null && item != null && srv != null && item.canOpen;
 	}
 
-	ConfTextService cnf;
-	ContextTextService cont;
+	TextService text;
 
-	public ITextService srv() {
+	public TextService srv() {
 
-		ITextService service;
-		if (isConf())
-			service = cnf == null ? new ConfTextService(this) : cnf;
-		else
-			service = cont == null ? new ContextTextService(this) : cont;
-		service.setItem(item);
-		return service;
+		text = text == null ? new TextService(this) : text;
+		text.setItem(item);
+		return text;
 
 	}
 }

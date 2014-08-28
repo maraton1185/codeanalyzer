@@ -114,8 +114,6 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_UPDATE = "EVENT_TEXT_VIEW_UPDATE";
 
-	public static final String EVENT_SHOW_TEXT = "EVENT_SHOW_TEXT";
-
 	public static class EVENT_TEXT_DATA {
 		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
 				ArrayList<LineInfo> model) {

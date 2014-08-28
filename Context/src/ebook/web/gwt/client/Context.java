@@ -154,7 +154,7 @@ public class Context implements EntryPoint {
 		tree = new CellTree(model, item);
 		p.addWest(tree, 500);
 		p.add(new HTML(
-				"<textarea id=\"content\" name=\"content\" style=\"width:100%; height:100% !important\"></textarea>"));
+				"<div style=\"overflow: scroll; \"><textarea id=\"content\" name=\"content\" style=\"width:100%; height:100% !important; \"></textarea></div>"));
 
 		// Add it to the root panel.
 		RootPanel.get("root").add(p);

@@ -15,7 +15,9 @@ public interface ITextTreeService {
 
 	ITreeItemInfo findInParent(String title, Integer id);
 
-	ITreeItemInfo get(int parent);
+	ITreeItemInfo get(int id);
 
 	Connection getConnection() throws IllegalAccessException;
+
+	ITreeItemInfo getParent(ITreeItemInfo item);
 }

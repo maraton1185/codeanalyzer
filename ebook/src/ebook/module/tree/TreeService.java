@@ -31,7 +31,12 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 public abstract class TreeService implements ITreeService, ITextTreeService {
 
 	protected IDbConnection db;
-	private final String tableName;
+	private String tableName;
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
 	private final String updateEvent;
 	private boolean stopUpdate = false;
 
@@ -766,7 +771,7 @@ public abstract class TreeService implements ITreeService, ITextTreeService {
 
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT TOP 1"
+			String SQL = "SELECT TOP 1 "
 					+ getItemString("T")
 					+ "FROM "
 					+ tableName
@@ -887,4 +892,10 @@ public abstract class TreeService implements ITreeService, ITextTreeService {
 
 		return null;
 	}
+
+	@Override
+	public ITreeItemInfo getParent(ITreeItemInfo item) {
+		return null;
+	}
+
 }

@@ -17,6 +17,11 @@
 <!-- Bootstrap core CSS -->
  <jsp:include page="${initParam.bootstrap}bootstrap.css.jsp"/>
 
+<c:if test="${empty param.swt}">
+	<script type="text/javascript" src="${initParam.root_context}highlight/highlight.pack.js"></script>
+</c:if>
+<link href="${initParam.root_context}highlight/styles/1c.css" rel="stylesheet">
+
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
 <link href="${initParam.root_book}book.css" rel="stylesheet">
 

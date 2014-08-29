@@ -96,7 +96,7 @@ public class TinyTextEditor extends Composite {
 	}
 
 	public void setText(String text) {
-		editor_content = text == null ? "" : text.replace("\n", "").replace(
+		editor_content = text == null ? "" : text.replace("\n", "\\n").replace(
 				"'", "\\'");
 
 		if (loadCompleted)

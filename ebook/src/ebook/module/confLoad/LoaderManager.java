@@ -21,6 +21,7 @@ import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.exceptions.DbCantLoadException;
+import ebook.core.exceptions.DbLicenseException;
 import ebook.core.exceptions.LoadConfigException;
 import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
@@ -205,7 +206,10 @@ public class LoaderManager implements ILoaderManager {
 			throws InvocationTargetException {
 
 		// ПРОВЕРКИ ******************************************************
-
+		boolean free = !pico.get(IAuthorize.class).check();
+		if (free) {
+			throw new InvocationTargetException(new DbLicenseException());
+		}
 		File folder = db.getLoadPath().toFile();
 		if (!folder.exists())
 			throw new InvocationTargetException(new LoadConfigException(),
@@ -506,8 +510,11 @@ public class LoaderManager implements ILoaderManager {
 
 			db.setState(DbState.notLoaded);
 
+			String msg = e.getMessage();
+			String message = msg != null && !msg.isEmpty() ? msg : e
+					.getTargetException().getMessage();
 			MessageDialog.openError(shell, "Ошибка выполнения операции",
-					e.getMessage());
+					message);
 
 		} catch (Exception e) {
 

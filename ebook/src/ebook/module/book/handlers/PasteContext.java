@@ -24,10 +24,11 @@ public class PasteContext {
 
 		SectionInfoOptions opt = section.getOptions();
 		if (opt.hasContext()
+
 				&& !App.contextClip.getConnectionName().equalsIgnoreCase(
 						opt.getContextName())) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),
-					"context is not applicable");
+					"Контекст не применим к разделу");
 			return;
 
 		}

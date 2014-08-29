@@ -123,6 +123,7 @@ public class ContextService extends TreeService {
 				rs.getString(5)));
 		info.setSort(rs.getInt(6));
 		info.setSection(rs.getInt(7));
+		info.setConfId(db.getTreeItem().getId());
 
 		return info;
 	}
@@ -366,7 +367,7 @@ public class ContextService extends TreeService {
 
 			ContextInfoOptions opt = new ContextInfoOptions();
 			opt.conf = conf;
-			opt.type = BuildType.object;
+			opt.type = BuildType.root;
 			prep.setString(4, DbOptions.save(opt));
 
 			int affectedRows = prep.executeUpdate();

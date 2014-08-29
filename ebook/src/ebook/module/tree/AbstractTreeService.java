@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
-
 public abstract class AbstractTreeService implements ITreeService {
 
 	@Override
@@ -119,20 +117,6 @@ public abstract class AbstractTreeService implements ITreeService {
 
 	@Override
 	public ITreeItemInfo getSelected() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String download(IPath zipFolder, ITreeItemSelection selection,
-			String zipName, boolean clear) throws InvocationTargetException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ITreeItemInfo upload(String path, ITreeItemInfo item, boolean clear,
-			boolean relative) throws InvocationTargetException {
 		// TODO Auto-generated method stub
 		return null;
 	}

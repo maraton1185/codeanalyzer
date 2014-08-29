@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
+import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
@@ -24,7 +25,8 @@ public class Build {
 		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 			@Override
 			public void run() {
-				App.mng.cm(con, list).build(item);
+				AdditionalInfo info = new AdditionalInfo();
+				App.mng.cm(con, list).build(item, info);
 			}
 		});
 

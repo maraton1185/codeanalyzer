@@ -30,4 +30,6 @@ public interface IClipboard {
 
 	String getConnectionName();
 
+	void setConnectionName(String name);
+
 }

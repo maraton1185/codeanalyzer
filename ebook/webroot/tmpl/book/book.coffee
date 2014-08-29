@@ -1,4 +1,9 @@
 $ ->
+	if(window.hljs!=undefined)
+		$('pre code').each (i, block)->
+    		hljs.highlightBlock block
+    		return
+
 	#console.log 'hi'
 	#$.cookie("tinyEditor", 1);
 	$(".fancy").fancybox()

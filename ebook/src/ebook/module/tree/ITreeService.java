@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
-
 public interface ITreeService {
 
 	int rootId = 1;
@@ -51,9 +49,4 @@ public interface ITreeService {
 
 	ITreeItemInfo getSelected();
 
-	String download(IPath zipFolder, ITreeItemSelection selection,
-			String zipName, boolean clear) throws InvocationTargetException;
-
-	ITreeItemInfo upload(String path, ITreeItemInfo item, boolean clear,
-			boolean relative) throws InvocationTargetException;
 }

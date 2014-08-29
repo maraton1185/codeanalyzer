@@ -41,6 +41,8 @@ public class Clipboard implements IClipboard {
 
 		empty = true;
 
+		conName = null;
+
 		update(sel);
 
 	}
@@ -97,7 +99,16 @@ public class Clipboard implements IClipboard {
 
 		if (con == null)
 			return null;
-		return con.getName();
+
+		return conName == null ? con.getName() : conName;
+	}
+
+	String conName = null;
+
+	@Override
+	public void setConnectionName(String name) {
+		// TODO Auto-generated method stub
+		conName = name;
 	}
 
 	@Override

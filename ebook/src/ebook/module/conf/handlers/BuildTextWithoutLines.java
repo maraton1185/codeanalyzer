@@ -16,7 +16,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
 
-public class BuildText {
+public class BuildTextWithoutLines {
 	@Execute
 	public void execute(Shell shell, @Optional final ContextInfo item,
 			@Active final ConfConnection con,
@@ -26,6 +26,7 @@ public class BuildText {
 			@Override
 			public void run() {
 				AdditionalInfo info = new AdditionalInfo();
+				info.textSearchWithoutLines = true;
 				App.mng.cm(con, list).buildText(item, info);
 			}
 		});

@@ -18,5 +18,6 @@ public class AdditionalInfo {
 
 	public boolean getProc = false;
 	public ELevel level;
+	public boolean textSearchWithoutLines = false;
 
 }

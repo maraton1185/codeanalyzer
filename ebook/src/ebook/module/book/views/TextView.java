@@ -152,6 +152,8 @@ public class TextView {
 	public void postConstruct(final Composite parent, SectionInfo section,
 			@Active MWindow window) {
 
+		dirty.setDirty(false);
+
 		this.section = section;
 		this.window = window;
 

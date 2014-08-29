@@ -313,7 +313,7 @@ public class CfBuildService {
 
 		if (info.searchByText && !info.getProc) {
 
-			buildWithTextSearch(proposals, gr, info.itemTitle);
+			buildWithTextSearch(proposals, gr, info.itemTitle, info);
 
 			// remove last 2 items
 			path.remove(path.size() - 1);
@@ -332,7 +332,7 @@ public class CfBuildService {
 	}
 
 	private void buildWithTextSearch(List<BuildInfo> proposals, Integer gr,
-			String title) throws SQLException {
+			String title, AdditionalInfo build_opt) throws SQLException {
 
 		if (con == null)
 			return;
@@ -377,21 +377,22 @@ public class CfBuildService {
 				// System.out.println("***************************************");
 
 				// StringBuilder result = new StringBuilder();
-				Reader in = rs.getCharacterStream(3);
-				bufferedReader = new BufferedReader(in);
-				String line;
-				while ((line = bufferedReader.readLine()) != null) {
+				if (!build_opt.textSearchWithoutLines) {
+					Reader in = rs.getCharacterStream(3);
+					bufferedReader = new BufferedReader(in);
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
 
-					// System.out.println(line);
+						// System.out.println(line);
 
-					if (line.toLowerCase().contains(title.toLowerCase())) {
-						BuildInfo ch = new BuildInfo();
-						ch.title = line.trim();
-						info.children.add(ch);
+						if (line.toLowerCase().contains(title.toLowerCase())) {
+							BuildInfo ch = new BuildInfo();
+							ch.title = line.trim();
+							info.children.add(ch);
+						}
+						// result.append(line + "\n");
 					}
-					// result.append(line + "\n");
 				}
-				// result.append("\n");
 
 				proposals.add(info);
 

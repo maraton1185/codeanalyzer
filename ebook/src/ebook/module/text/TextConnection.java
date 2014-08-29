@@ -1,6 +1,7 @@
 package ebook.module.text;
 
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.conf.ConfService;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
@@ -83,6 +84,10 @@ public class TextConnection {
 
 	public boolean isValid() {
 		return con != null && item != null && srv != null && item.canOpen;
+	}
+
+	public boolean isConf() {
+		return srv instanceof ConfService;
 	}
 
 	TextService text;

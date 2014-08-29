@@ -1,6 +1,11 @@
 var changeStatusLine;
 
 $(function() {
+  if (window.hljs !== void 0) {
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+  }
   $(".fancy").fancybox();
   $('.openSection').click(function(e) {
     var id;

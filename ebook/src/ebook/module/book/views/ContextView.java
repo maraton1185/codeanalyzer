@@ -112,6 +112,24 @@ public class ContextView {
 		// form.reflow(true);
 	}
 
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_LABELS(
+			@UIEventTopic(Events.EVENT_UPDATE_LABELS) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
+
+		if (data.parent == null)
+			return;
+
+		if (!(data.parent instanceof ContextInfo))
+			return;
+
+		viewer.update(data.parent, null);
+
+	}
+
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
 			EMenuService menuService, @Active final MWindow window) {

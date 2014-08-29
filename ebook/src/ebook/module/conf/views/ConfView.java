@@ -170,7 +170,7 @@ public class ConfView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		treeComponent = new TreeViewComponent(parent, con.srv(list), 3, true,
+		treeComponent = new TreeViewComponent(parent, con.srv(list), 1, true,
 				false, new ContentProposalProvider(con.srv(list), window));
 
 		viewer = treeComponent.getViewer();

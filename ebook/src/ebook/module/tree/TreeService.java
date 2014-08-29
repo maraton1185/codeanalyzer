@@ -28,7 +28,8 @@ import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
-public abstract class TreeService implements ITreeService, ITextTreeService {
+public abstract class TreeService implements ITreeService, ITextTreeService,
+		IDownloadService {
 
 	protected IDbConnection db;
 	private String tableName;

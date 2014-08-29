@@ -6,7 +6,7 @@ public class DbLicenseException extends Exception {
 
 	@Override
 	public String getMessage() {
-		return "Free-лицензия не позволяет открыть конфигурацию.";
+		return "Free-лицензия не позволяет выполнить операцию.";
 	}
 
 }

@@ -63,7 +63,7 @@ public class ConfManager extends TreeManager {
 
 	}
 
-	public void build(ContextInfo item) {
+	public void build(ContextInfo item, AdditionalInfo build_options) {
 
 		try {
 			ContextInfoOptions opt = item.getOptions();
@@ -77,7 +77,7 @@ public class ConfManager extends TreeManager {
 			if (opt.type == BuildType.root)
 				list = cf.build(srv.getConnection()).buildRoot();
 			else
-				buildPath(list, item);
+				buildPath(list, item, build_options);
 
 			// **************************************
 
@@ -91,9 +91,9 @@ public class ConfManager extends TreeManager {
 		}
 	}
 
-	private void buildPath(List<BuildInfo> list, ContextInfo item)
-			throws SQLException, InvocationTargetException,
-			IllegalAccessException {
+	private void buildPath(List<BuildInfo> list, ContextInfo item,
+			AdditionalInfo build_options) throws SQLException,
+			InvocationTargetException, IllegalAccessException {
 
 		ContextInfoOptions opt = item.getOptions();
 		List<String> path = new ArrayList<String>();
@@ -102,9 +102,9 @@ public class ConfManager extends TreeManager {
 		ITreeItemInfo root = cf.build(srv.getConnection()).getPath(srv, item,
 				info, opt, path);
 
-		// AdditionalInfo info = new AdditionalInfo();
 		info.type = BuildType.object;
 		info.setSearchByText(opt.type == BuildType.text);
+		info.textSearchWithoutLines = build_options.textSearchWithoutLines;
 		if (root != null) {
 			// get root without type between
 			info.type = null;
@@ -125,7 +125,7 @@ public class ConfManager extends TreeManager {
 		}
 
 		if (info.type == BuildType.object) {
-			buildPath(list, item);
+			buildPath(list, item, build_options);
 		}
 
 	}
@@ -148,11 +148,11 @@ public class ConfManager extends TreeManager {
 
 	}
 
-	public void buildText(ContextInfo item) {
+	public void buildText(ContextInfo item, AdditionalInfo build_options) {
 		try {
 			item.getOptions().type = BuildType.text;
 			srv.saveOptions(item);
-			build(item);
+			build(item, build_options);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

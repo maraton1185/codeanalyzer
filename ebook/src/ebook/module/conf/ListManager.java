@@ -13,9 +13,9 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
+import ebook.module.tree.IDownloadService;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.ITreeItemSelection;
-import ebook.module.tree.ITreeService;
 import ebook.module.tree.TreeManager;
 import ebook.utils.Strings;
 
@@ -29,7 +29,7 @@ public class ListManager extends TreeManager {
 
 	}
 
-	public ListInfo openInNewList(ITreeService downloadService,
+	public ListInfo openInNewList(IDownloadService downloadService,
 			ContextInfoSelection source, Shell shell) {
 		List<ITreeItemInfo> result = srv.getRoot();
 

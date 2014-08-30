@@ -2,6 +2,8 @@ package ebook.module.conf;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
@@ -46,7 +48,7 @@ public class ConfTreeService extends TreeService {
 	}
 
 	@Override
-	public ITreeItemInfo getParent(ITreeItemInfo _item) {
+	public ITreeItemInfo getModule(ITreeItemInfo _item) {
 
 		ContextInfo item = (ContextInfo) _item;
 		if (!item.isProc())
@@ -64,6 +66,30 @@ public class ConfTreeService extends TreeService {
 		}
 		setTableName(tableName);
 		return item;
+	}
+
+	@Override
+	public List<ITreeItemInfo> getParents(ITreeItemInfo _item) {
+		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
+		ContextInfo item = (ContextInfo) _item;
+
+		if (!item.isProc())
+			setTableName("OBJECTS");
+
+		ContextInfo parent = (ContextInfo) get(item.getParent());
+
+		if (item.isProc())
+			setTableName("OBJECTS");
+
+		if (parent != null)
+			result.add(0, parent);
+
+		while (parent != null) {
+			parent = (ContextInfo) get(parent.getParent());
+			result.add(0, parent);
+		}
+
+		return result;
 	}
 
 }

@@ -89,8 +89,8 @@ public class TextService {
 		return (ContextInfo) info;
 	}
 
-	public ContextInfo getParent(ContextInfo item) {
-		return (ContextInfo) srv.getParent(item);
+	public ContextInfo getModule(ContextInfo item) {
+		return (ContextInfo) srv.getModule(item);
 	}
 
 	public void buildText(ContextInfo item, String line, Shell shell) {
@@ -111,6 +111,14 @@ public class TextService {
 				throw new InvocationTargetException(new GetRootException());
 
 			ContextInfo dest = (ContextInfo) result.get(0);
+
+			List<ITreeItemInfo> path = srv.getParents(item);
+
+			for (ITreeItemInfo p : path) {
+				conf.add(p, dest, true);
+				dest = (ContextInfo) p;
+			}
+
 			ContextInfoOptions opt = new ContextInfoOptions();
 			opt.type = BuildType.text;
 			ContextInfo data = new ContextInfo(opt);

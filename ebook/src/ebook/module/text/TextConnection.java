@@ -15,7 +15,7 @@ public class TextConnection {
 	ITextTreeService srv;
 
 	ContextInfo item;
-	ContextInfo parent;
+	ContextInfo module;
 
 	Object activated = new Object();
 
@@ -40,8 +40,8 @@ public class TextConnection {
 		this.line = line;
 	}
 
-	public ContextInfo getParent() {
-		return parent;
+	public ContextInfo getModule() {
+		return module;
 	}
 
 	// public void setParent(ContextInfo parent) {
@@ -51,13 +51,13 @@ public class TextConnection {
 	public void setItem(ContextInfo item) {
 		this.item = item;
 		activated = new Object();
-		ContextInfo parentItem = srv().getParent(item);
-		parent = parentItem;
+		ContextInfo moduleItem = srv().getModule(item);
+		module = moduleItem;
 
-		if (parentItem != null) {
-			ContextInfoOptions opt1 = parentItem.getOptions();
+		if (moduleItem != null) {
+			ContextInfoOptions opt1 = moduleItem.getOptions();
 			if (opt1.type != BuildType.module)
-				parent = null;
+				module = null;
 		}
 
 	}

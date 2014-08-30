@@ -396,7 +396,7 @@ public class ContextService extends TreeService {
 	}
 
 	@Override
-	public ITreeItemInfo getParent(ITreeItemInfo _item) {
+	public ITreeItemInfo getModule(ITreeItemInfo _item) {
 		ITreeItemInfo item = get(_item.getParent());
 
 		if (item != null) {

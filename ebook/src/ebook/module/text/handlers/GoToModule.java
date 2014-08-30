@@ -33,12 +33,12 @@ public class GoToModule {
 			@Active @Optional @Named(Events.TEXT_VIEW_ACTIVE_PROCEDURE) LineInfo item,
 			@Active TextConnection con, @Active MWindow window) {
 		con.setLine(item);
-		con.setItem(con.getParent());
+		con.setItem(con.getModule());
 		Show.show(window, model, partService, con);
 	}
 
 	@CanExecute
 	public boolean canExecute(@Active @Optional TextConnection con) {
-		return con != null && con.getParent() != null && con.isValid();
+		return con != null && con.getModule() != null && con.isValid();
 	}
 }

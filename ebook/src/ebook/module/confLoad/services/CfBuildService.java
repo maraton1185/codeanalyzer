@@ -667,8 +667,12 @@ public class CfBuildService {
 			if (id != null) {
 				ContextInfo proc = (ContextInfo) conf.get(id);
 				result.setParent(-1);
-				if (proc != null)
-					result.setParent(proc.getParent());
+				if (proc != null) {
+					Integer i = proc.getParent();
+					result.setParent(i);
+					result.setModule(i);
+				}
+
 				result.setId(id);
 				result.setProc(true);
 				return result;
@@ -676,7 +680,14 @@ public class CfBuildService {
 
 			id = getId(srv, result, ELevel.module, path);
 			if (id != null) {
+				ContextInfo module = (ContextInfo) conf.get(id);
 				result.setParent(-1);
+				if (module != null) {
+					Integer i = module.getParent();
+					result.setParent(i);
+					result.setModule(null);
+				}
+
 				result.setId(id);
 				result.setTitle(path.get(path.size() - 1).concat(
 						"." + result.getTitle()));

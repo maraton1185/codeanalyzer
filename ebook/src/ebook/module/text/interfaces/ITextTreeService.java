@@ -19,5 +19,7 @@ public interface ITextTreeService {
 
 	Connection getConnection() throws IllegalAccessException;
 
-	ITreeItemInfo getParent(ITreeItemInfo item);
+	ITreeItemInfo getModule(ITreeItemInfo item);
+
+	List<ITreeItemInfo> getParents(ITreeItemInfo item);
 }

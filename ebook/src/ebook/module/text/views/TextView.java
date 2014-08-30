@@ -186,7 +186,7 @@ public class TextView implements ITextOperationTarget {
 		con.srv().saveItemText(document.get());
 		dirty.setDirty(false);
 		App.br.post(Events.EVENT_TEXT_VIEW_UPDATE,
-				new EVENT_TEXT_DATA(con.getParent()));
+				new EVENT_TEXT_DATA(con.getModule()));
 	}
 
 	@PostConstruct

@@ -895,7 +895,12 @@ public abstract class TreeService implements ITreeService, ITextTreeService,
 	}
 
 	@Override
-	public ITreeItemInfo getParent(ITreeItemInfo item) {
+	public ITreeItemInfo getModule(ITreeItemInfo item) {
+		return null;
+	}
+
+	@Override
+	public List<ITreeItemInfo> getParents(ITreeItemInfo item) {
 		return null;
 	}
 

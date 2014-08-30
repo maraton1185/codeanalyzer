@@ -53,19 +53,15 @@ public class ContextInfo extends TreeItemInfo {
 		this.proc = proc;
 	}
 
-	// private List<String> path;
-	//
-	// public List<String> getPath() {
-	// return path;
-	// }
-	//
-	// public boolean hasPath() {
-	// return path != null && !path.isEmpty();
-	// }
-	//
-	// public void setPath(List<String> path) {
-	// this.path = path;
-	// }
+	Integer module;
+
+	public Integer getModule() {
+		return module;
+	}
+
+	public void setModule(Integer module) {
+		this.module = module;
+	}
 
 	private int section = 0;
 

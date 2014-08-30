@@ -13,6 +13,7 @@ import ebook.module.tree.TreeService;
 
 public class ConfTreeService extends TreeService {
 
+	final static String objectsTable = "OBJECTS";
 	final static String tableName = "PROCS";
 	final static String updateEvent = "";
 
@@ -38,6 +39,7 @@ public class ConfTreeService extends TreeService {
 		info.setParent(rs.getInt(3));
 		info.setSort(rs.getInt(4));
 		info.setProc(true);
+		info.setGroup(true);
 
 		return info;
 	}
@@ -47,6 +49,14 @@ public class ConfTreeService extends TreeService {
 		return "SELECT TEXT FROM PROCS_TEXT WHERE PROC=?";
 	}
 
+	public void setProcTable() {
+		setTableName(tableName);
+	}
+
+	public void setObjectsTable() {
+		setTableName(objectsTable);
+	}
+
 	@Override
 	public ITreeItemInfo getModule(ITreeItemInfo _item) {
 
@@ -54,7 +64,7 @@ public class ConfTreeService extends TreeService {
 		if (!item.isProc())
 			return null;
 
-		setTableName("OBJECTS");
+		setObjectsTable();
 		item = (ContextInfo) get(_item.getParent());
 		if (item != null) {
 			ContextInfo parent = (ContextInfo) get(item.getParent());
@@ -64,7 +74,7 @@ public class ConfTreeService extends TreeService {
 			item.setProc(false);
 
 		}
-		setTableName(tableName);
+		setProcTable();
 		return item;
 	}
 
@@ -74,20 +84,28 @@ public class ConfTreeService extends TreeService {
 		ContextInfo item = (ContextInfo) _item;
 
 		if (!item.isProc())
-			setTableName("OBJECTS");
+			setObjectsTable();
 
 		ContextInfo parent = (ContextInfo) get(item.getParent());
 
 		if (item.isProc())
-			setTableName("OBJECTS");
+			setObjectsTable();
 
-		if (parent != null)
-			result.add(0, parent);
+		// if (parent != null)
+		// result.add(0, parent);
 
-		while (parent != null) {
+		do {
+			if (parent != null)
+				result.add(0, parent);
 			parent = (ContextInfo) get(parent.getParent());
-			result.add(0, parent);
-		}
+
+		} while (parent != null);
+
+		// while (parent != null) {
+		// parent = (ContextInfo) get(parent.getParent());
+		// result.add(0, parent);
+		// }
+		setProcTable();
 
 		return result;
 	}

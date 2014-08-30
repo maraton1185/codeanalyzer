@@ -680,7 +680,9 @@ public class CfBuildService {
 
 			id = getId(srv, result, ELevel.module, path);
 			if (id != null) {
+				conf.setObjectsTable();
 				ContextInfo module = (ContextInfo) conf.get(id);
+				conf.setProcTable();
 				result.setParent(-1);
 				if (module != null) {
 					Integer i = module.getParent();

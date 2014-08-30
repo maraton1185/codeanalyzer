@@ -34,7 +34,7 @@ public abstract class TreeService implements ITreeService, ITextTreeService,
 	protected IDbConnection db;
 	private String tableName;
 
-	public void setTableName(String tableName) {
+	protected void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
 

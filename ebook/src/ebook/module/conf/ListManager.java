@@ -29,21 +29,40 @@ public class ListManager extends TreeManager {
 
 	}
 
-	public ListInfo openInNewList(IDownloadService downloadService,
-			ContextInfoSelection source, Shell shell) {
+	public ListInfo getNewList() throws InvocationTargetException {
 		List<ITreeItemInfo> result = srv.getRoot();
 
+		if (result.isEmpty())
+			throw new InvocationTargetException(new GetRootException());
+
+		ListInfo lroot = (ListInfo) result.get(0);
+
+		ListInfoOptions opt = new ListInfoOptions();
+		ListInfo new_list = new ListInfo(opt);
+		new_list.setTitle(Strings.value("list"));
+		new_list.setGroup(true);
+		srv.add(new_list, lroot, false);
+
+		return new_list;
+	}
+
+	public ListInfo openInNewList(IDownloadService downloadService,
+			ContextInfoSelection source, Shell shell) {
+		// List<ITreeItemInfo> result = srv.getRoot();
+
 		try {
-			if (result.isEmpty())
-				throw new GetRootException();
 
-			ListInfo lroot = (ListInfo) result.get(0);
-
-			ListInfoOptions opt = new ListInfoOptions();
-			ListInfo new_list = new ListInfo(opt);
-			new_list.setTitle(Strings.value("list"));
-			new_list.setGroup(true);
-			srv.add(new_list, lroot, false);
+			ListInfo new_list = getNewList();
+			// if (result.isEmpty())
+			// throw new GetRootException();
+			//
+			// ListInfo lroot = (ListInfo) result.get(0);
+			//
+			// ListInfoOptions opt = new ListInfoOptions();
+			// ListInfo new_list = new ListInfo(opt);
+			// new_list.setTitle(Strings.value("list"));
+			// new_list.setGroup(true);
+			// srv.add(new_list, lroot, false);
 
 			final File zipFile = File.createTempFile("copycontext", ".zip");
 
@@ -53,7 +72,7 @@ public class ListManager extends TreeManager {
 			downloadService.download(null, source, zipFile.getAbsolutePath(),
 					true);
 
-			result = con.srv(new_list).getRoot();
+			List<ITreeItemInfo> result = con.srv(new_list).getRoot();
 			if (result.isEmpty())
 				throw new GetRootException();
 

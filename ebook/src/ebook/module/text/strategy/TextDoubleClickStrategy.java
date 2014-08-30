@@ -13,7 +13,7 @@ public class TextDoubleClickStrategy extends DefaultTextDoubleClickStrategy {
 
 		super.doubleClicked(text);
 
-		App.br.post(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK, null);
+		App.br.post(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK, text);
 		// if(text instanceof TextSourceViewer)
 		// ((TextSourceViewer)text).doubleClicked();
 

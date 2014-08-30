@@ -524,7 +524,7 @@
     <menus xsi:type="menu:PopupMenu" xmi:id="_oBCdQC0EEeSqAs8koC8OJg" elementId="ebook.popupmenu.TextView">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_rOtTIC0EEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.42" label="Перейти в модуль" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="" command="_tYsYACtPEeSROpR0F0nnug"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_rGti0C0GEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.43" label="Изменить процедуру" iconURI="platform:/plugin/ebook/icons/set/treeedit.png" command="_shHEQC0GEeSqAs8koC8OJg"/>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_FzAlUC-DEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.50" label="Найти в конфигурации" iconURI="platform:/plugin/ebook/icons/set/markers/text.png"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_FzAlUC-DEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.50" label="Найти в конфигурации" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" command="_-V8W0C-CEeS1-vpnkwxs_w"/>
     </menus>
     <menus xmi:id="_3d9vIC3REeSgt6KviOm2oQ" elementId="ebook.menu.8">
       <tags>ViewMenu</tags>

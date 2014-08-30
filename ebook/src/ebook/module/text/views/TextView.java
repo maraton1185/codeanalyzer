@@ -19,6 +19,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
@@ -26,6 +27,7 @@ import org.eclipse.swt.custom.CaretEvent;
 import org.eclipse.swt.custom.CaretListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
@@ -60,8 +62,37 @@ public class TextView implements ITextOperationTarget {
 
 	@Inject
 	@Optional
+	public void EVENT_TEXT_VIEW_BUILD_TEXT(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_BUILD_TEXT) ContextInfo item,
+			Shell shell) {
+
+		if (!this.item.equals(item))
+			return;
+
+		ITextSelection textSelection = (ITextSelection) viewer
+				.getSelectionProvider().getSelection();
+		String _line;
+		try {
+			_line = document.get(textSelection.getOffset(),
+					textSelection.getLength());
+			if (_line.isEmpty())
+				return;
+			con.srv().buildText(item, _line, shell);
+			// viewerConfiguration.lightWord(_line);
+		} catch (BadLocationException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_TEXT_VIEW_DOUBLE_CLICK(
-			@UIEventTopic(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK) Object o) {
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK) ITextViewer text) {
+
+		if (text != viewer)
+			return;
 
 		ITextSelection textSelection = (ITextSelection) viewer
 				.getSelectionProvider().getSelection();

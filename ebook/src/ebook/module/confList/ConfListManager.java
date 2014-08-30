@@ -250,7 +250,7 @@ public class ConfListManager extends TreeManager {
 
 		} catch (InvocationTargetException e) {
 
-			App.ctx.set(BookConnection.class, null);
+			App.ctx.set(ConfConnection.class, null);
 			App.ctx.set(ListInfo.class, null);
 
 			if (shell != null)

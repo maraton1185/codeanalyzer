@@ -397,6 +397,9 @@
     <bindings xmi:id="_ePTdcC91EeS1-vpnkwxs_w" elementId="ebook.keybinding.12" keySequence="F6" command="_tYsYACtPEeSROpR0F0nnug">
       <tags>type:user</tags>
     </bindings>
+    <bindings xmi:id="_uxY68DDOEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="M1+F" command="_p_UTEDDOEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
   </bindingTables>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows">
@@ -521,10 +524,12 @@
     <handlers xmi:id="_4Sa80C3PEeSgt6KviOm2oQ" elementId="ebook.handler.70" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Expand" command="_so24sC3PEeSgt6KviOm2oQ"/>
     <handlers xmi:id="_4ik4sC3PEeSgt6KviOm2oQ" elementId="ebook.handler.71" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Collapse" command="_svEOYC3PEeSgt6KviOm2oQ"/>
     <handlers xmi:id="_LqFGYC-DEeS1-vpnkwxs_w" elementId="ebook.handler.75" contributionURI="bundleclass://ebook/ebook.module.text.handlers.BuildText" command="_-V8W0C-CEeS1-vpnkwxs_w"/>
+    <handlers xmi:id="_Qb674DDPEeSG8_3OwGuTcQ" elementId="ebook.handler.76" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Find" command="_p_UTEDDOEeSG8_3OwGuTcQ"/>
     <menus xsi:type="menu:PopupMenu" xmi:id="_oBCdQC0EEeSqAs8koC8OJg" elementId="ebook.popupmenu.TextView">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_rOtTIC0EEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.42" label="Перейти в модуль" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="" command="_tYsYACtPEeSROpR0F0nnug"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_rGti0C0GEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.43" label="Изменить процедуру" iconURI="platform:/plugin/ebook/icons/set/treeedit.png" command="_shHEQC0GEeSqAs8koC8OJg"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_FzAlUC-DEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.50" label="Найти в конфигурации" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" command="_-V8W0C-CEeS1-vpnkwxs_w"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_KfQJIDDPEeSG8_3OwGuTcQ" elementId="ebook.handledmenuitem.51" label="Найти ..." iconURI="platform:/plugin/ebook/icons/set/search.png" command="_p_UTEDDOEeSG8_3OwGuTcQ"/>
     </menus>
     <menus xmi:id="_3d9vIC3REeSgt6KviOm2oQ" elementId="ebook.menu.8">
       <tags>ViewMenu</tags>
@@ -795,6 +800,7 @@
   <commands xmi:id="_so24sC3PEeSgt6KviOm2oQ" elementId="TextView.expand" commandName="TextView.expand"/>
   <commands xmi:id="_svEOYC3PEeSgt6KviOm2oQ" elementId="TextView.collapse" commandName="TextView.collapse"/>
   <commands xmi:id="_-V8W0C-CEeS1-vpnkwxs_w" elementId="TextView.build.text" commandName="TextView.build.text"/>
+  <commands xmi:id="_p_UTEDDOEeSG8_3OwGuTcQ" elementId="TextView.find" commandName="TextView.find"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

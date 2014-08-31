@@ -62,6 +62,37 @@ public class TextView implements ITextOperationTarget {
 
 	@Inject
 	@Optional
+	public void EVENT_TEXT_VIEW_FIND_TEXT(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_FIND_TEXT) ContextInfo item,
+			Shell shell) {
+
+		if (!this.item.equals(item))
+			return;
+
+		ITextSelection textSelection = (ITextSelection) viewer
+				.getSelectionProvider().getSelection();
+
+		try {
+			String line = document.get(textSelection.getOffset(),
+					textSelection.getLength());
+
+			FindDialog dlg = new FindDialog(shell);
+			dlg.setText(line);
+			dlg.open();
+
+			// if (_line.isEmpty())
+			// return;
+			// con.srv().buildText(item, _line, shell);
+			// viewerConfiguration.lightWord(_line);
+		} catch (BadLocationException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_TEXT_VIEW_BUILD_TEXT(
 			@UIEventTopic(Events.EVENT_TEXT_VIEW_BUILD_TEXT) ContextInfo item,
 			Shell shell) {

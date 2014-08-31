@@ -18,6 +18,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ebook.module.conf.tree.ContextInfo;
+import ebook.module.text.TextConnection;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -27,18 +29,21 @@ public class FindDialog extends Dialog {
 	Text text;
 	Button btn1, btn2, btn3;
 	private String line = "";
+	private TextConnection con;
+	private ContextInfo item;
 
 	@Inject
-	public FindDialog(Shell parentShell) {
+	public FindDialog(Shell parentShell, TextConnection con, ContextInfo item) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
-
+		this.con = con;
+		this.item = item;
 	}
 
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		createButton(parent, IDialogConstants.OK_ID, "Найти", true);
-		createButton(parent, IDialogConstants.CANCEL_ID, "Закрыть", true);
+		createButton(parent, IDialogConstants.CANCEL_ID, "Закрыть", false);
 	}
 
 	@Override
@@ -95,13 +100,21 @@ public class FindDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 
+		if (btn1.getSelection()) {
+			con.srv().buildText(item, line, false);
+		} else if (btn2.getSelection()) {
+			con.srv().buildText(item, line, true);
+		} else if (btn3.getSelection()) {
+
+		}
+		;
+
 		super.okPressed();
 
 	}
 
 	public void setText(String line) {
 		this.line = line;
-		// btn3.setFocus();
 	}
 
 }

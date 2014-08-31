@@ -3,8 +3,6 @@ package ebook.module.text.service;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.eclipse.swt.widgets.Shell;
-
 import ebook.core.App;
 import ebook.core.exceptions.GetRootException;
 import ebook.core.interfaces.IDbConnection;
@@ -93,7 +91,7 @@ public class TextService {
 		return (ContextInfo) srv.getModule(item);
 	}
 
-	public void buildText(ContextInfo item, String line, Shell shell) {
+	public void buildText(ContextInfo item, String line, boolean withContext) {
 
 		try {
 
@@ -112,11 +110,15 @@ public class TextService {
 
 			ContextInfo dest = (ContextInfo) result.get(0);
 
-			List<ITreeItemInfo> path = srv.getParents(item);
+			if (withContext) {
+				List<ITreeItemInfo> path = srv.getParents(item);
+				for (int i = 2; i < path.size(); i++)
+					path.remove(path.size() - 1);
 
-			for (ITreeItemInfo p : path) {
-				conf.add(p, dest, true);
-				dest = (ContextInfo) p;
+				for (ITreeItemInfo p : path) {
+					conf.add(p, dest, true);
+					dest = (ContextInfo) p;
+				}
 			}
 
 			ContextInfoOptions opt = new ContextInfoOptions();

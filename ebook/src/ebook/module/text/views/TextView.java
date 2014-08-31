@@ -76,7 +76,7 @@ public class TextView implements ITextOperationTarget {
 			String line = document.get(textSelection.getOffset(),
 					textSelection.getLength());
 
-			FindDialog dlg = new FindDialog(shell);
+			FindDialog dlg = new FindDialog(shell, con, item);
 			dlg.setText(line);
 			dlg.open();
 
@@ -102,14 +102,13 @@ public class TextView implements ITextOperationTarget {
 
 		ITextSelection textSelection = (ITextSelection) viewer
 				.getSelectionProvider().getSelection();
-		String _line;
+
 		try {
-			_line = document.get(textSelection.getOffset(),
+			String line = document.get(textSelection.getOffset(),
 					textSelection.getLength());
-			if (_line.isEmpty())
+			if (line.isEmpty())
 				return;
-			con.srv().buildText(item, _line, shell);
-			// viewerConfiguration.lightWord(_line);
+			con.srv().buildText(item, line, false);
 		} catch (BadLocationException e) {
 
 			e.printStackTrace();
@@ -127,11 +126,11 @@ public class TextView implements ITextOperationTarget {
 
 		ITextSelection textSelection = (ITextSelection) viewer
 				.getSelectionProvider().getSelection();
-		String _line;
+
 		try {
-			_line = document.get(textSelection.getOffset(),
+			String line = document.get(textSelection.getOffset(),
 					textSelection.getLength());
-			viewerConfiguration.lightWord(_line);
+			viewerConfiguration.lightWord(line);
 		} catch (BadLocationException e) {
 
 			e.printStackTrace();

@@ -123,7 +123,8 @@ public class ViewerConfiguration extends SourceViewerConfiguration {
 		((ScannerString) getStringScanner()).setScannerRules(text);
 		((ScannerComment) getCommentScanner()).setScannerRules(text);
 
-		getPresentationReconciler(null).install(viewer);
+		// getPresentationReconciler(null).install(viewer);
+		// getReconciler(null).install(viewer);
 	}
 
 	@Override

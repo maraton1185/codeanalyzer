@@ -7,10 +7,6 @@ import java.sql.Connection;
 import java.util.HashMap;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobManager;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.ProgressProvider;
-import org.eclipse.e4.ui.model.application.ui.menu.MToolControl;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -18,7 +14,6 @@ import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.auth.interfaces.IAuthorize;
-import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.exceptions.DbCantLoadException;
 import ebook.core.exceptions.DbLicenseException;
@@ -27,10 +22,8 @@ import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confLoad.interfaces.ILoaderManager;
 import ebook.module.confLoad.model.DbState;
-import ebook.module.confLoad.services.FillProcLinkTableJob;
 import ebook.module.confLoad.services.LoaderService;
 import ebook.module.tree.ITreeItemInfo;
-import ebook.temp.ProgressControl;
 import ebook.utils.Const;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -157,21 +150,22 @@ public class LoaderManager implements ILoaderManager {
 					Const.ERROR_CONFIG_PATH);
 
 		// «¿√–”« ¿ ******************************************************
-		Connection con = null;
+		// Connection con = null;
 		try {
 
 			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
 			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
-			con = _con.getConnection(); // makeConnection(true);
+			@SuppressWarnings("unused")
+			Connection con = _con.getConnection(); // makeConnection(true);
 			// con = db.getConnection(true);
 			//
 			// cfStructure.checkSructure(db);
 
-			if (loaderService.srv.load().linkTableFilled(con)) {
-				db.setState(DbState.Loaded);
-				db.setLinkState(DbState.Loaded);
-			} else
-				db.setState(DbState.Loaded);
+			// if (loaderService.srv.load().linkTableFilled(con)) {
+			// db.setState(DbState.Loaded);
+			// // db.setLinkState(DbState.Loaded);
+			// } else
+			db.setState(DbState.Loaded);
 
 			// if (!sign.check())
 			// if (!checkLisence(db))
@@ -301,89 +295,89 @@ public class LoaderManager implements ILoaderManager {
 
 	}
 
-	@Override
-	public void fillProcLinkTable(ListConfInfo db, IProgressMonitor monitor)
-			throws InvocationTargetException {
-
-		// œ–Œ¬≈– » ******************************************************
-
-		if (db.getState() != DbState.Loaded)
-			throw new InvocationTargetException(new Exception(),
-					Const.ERROR_CONFIG_LOADED);
-
-		// if (db.getLinkState() == DbState.Loaded)
-		// throw new InvocationTargetException(new LinksExistsException(),
-		// Const.ERROR_LINK_LOADED);
-
-		// if (!sign.check()) {
-		// if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
-		// throw new InvocationTargetException(new LoadConfigException(),
-		// Const.ERROR_PRO_ACCESS_LOAD);
-		// }
-		// }
-
-		// «¿√–”« ¿ ******************************************************
-
-		Connection con = null;
-		try {
-
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
-
-			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
-
-			con = _con.getConnection(); // makeConnection(true);
-
-			if (!loaderService.srv.load().canLoad(con))
-				throw new DbCantLoadException();
-
-			monitor.beginTask("”‰‡ÎÂÌËÂ ÒÚ‡˚ı ‰‡ÌÌ˚ı...", 0);
-			loaderService.srv.load().clearLinkTable(con);
-
-			loaderService.fillProcLinkTableDoWork(con, monitor);
-
-			// if (!sign.check())
-			// if (!cfStructure.checkLisence(db))
-			// throw new InvocationTargetException(
-			// new InterruptedException(),
-			// Const.ERROR_PRO_ACCESS_LOAD);
-
-			db.setLinkState(DbState.Loaded);
-			_con.setExternalConnection(con);
-			_con.srv(null).setLinkState(DbState.Loaded);
-			_con.resetExternalConnection();
-
-		} catch (InterruptedException e) {
-
-			try {
-				loaderService.srv.load().clearLinkTable(con);
-
-			} catch (Exception e1) {
-				throw new InvocationTargetException(e,
-						Const.ERROR_CONFIG_OPEN_DATABASE);
-			}
-
-			throw new InvocationTargetException(new InterruptedException(),
-					Const.ERROR_CONFIG_INTERRUPT);
-
-		} catch (Exception e) {
-			throw new InvocationTargetException(e, e.getMessage());
-		} finally {
-			// try {
-			//
-			// con.close();
-			// } catch (Exception e) {
-			// throw new InvocationTargetException(e,
-			// Const.ERROR_CONFIG_OPEN_DATABASE);
-			// }
-			monitor.done();
-
-		}
-
-		// if (_con != null && done)
-		// _con.srv().setLinkState(DbState.Loaded);
-	}
+	// @Override
+	// public void fillProcLinkTable(ListConfInfo db, IProgressMonitor monitor)
+	// throws InvocationTargetException {
+	//
+	// // œ–Œ¬≈– » ******************************************************
+	//
+	// if (db.getState() != DbState.Loaded)
+	// throw new InvocationTargetException(new Exception(),
+	// Const.ERROR_CONFIG_LOADED);
+	//
+	// // if (db.getLinkState() == DbState.Loaded)
+	// // throw new InvocationTargetException(new LinksExistsException(),
+	// // Const.ERROR_LINK_LOADED);
+	//
+	// // if (!sign.check()) {
+	// // if (files.length > Const.DEFAULT_FREE_FILES_COUNT) {
+	// // throw new InvocationTargetException(new LoadConfigException(),
+	// // Const.ERROR_PRO_ACCESS_LOAD);
+	// // }
+	// // }
+	//
+	// // «¿√–”« ¿ ******************************************************
+	//
+	// Connection con = null;
+	// try {
+	//
+	// if (monitor.isCanceled()) {
+	// throw new InterruptedException();
+	// }
+	//
+	// ConfConnection _con = new ConfConnection(db.getAbsolutePath());
+	//
+	// con = _con.getConnection(); // makeConnection(true);
+	//
+	// if (!loaderService.srv.load().canLoad(con))
+	// throw new DbCantLoadException();
+	//
+	// monitor.beginTask("”‰‡ÎÂÌËÂ ÒÚ‡˚ı ‰‡ÌÌ˚ı...", 0);
+	// loaderService.srv.load().clearLinkTable(con);
+	//
+	// loaderService.fillProcLinkTableDoWork(con, monitor);
+	//
+	// // if (!sign.check())
+	// // if (!cfStructure.checkLisence(db))
+	// // throw new InvocationTargetException(
+	// // new InterruptedException(),
+	// // Const.ERROR_PRO_ACCESS_LOAD);
+	//
+	// db.setLinkState(DbState.Loaded);
+	// _con.setExternalConnection(con);
+	// _con.srv(null).setLinkState(DbState.Loaded);
+	// _con.resetExternalConnection();
+	//
+	// } catch (InterruptedException e) {
+	//
+	// try {
+	// loaderService.srv.load().clearLinkTable(con);
+	//
+	// } catch (Exception e1) {
+	// throw new InvocationTargetException(e,
+	// Const.ERROR_CONFIG_OPEN_DATABASE);
+	// }
+	//
+	// throw new InvocationTargetException(new InterruptedException(),
+	// Const.ERROR_CONFIG_INTERRUPT);
+	//
+	// } catch (Exception e) {
+	// throw new InvocationTargetException(e, e.getMessage());
+	// } finally {
+	// // try {
+	// //
+	// // con.close();
+	// // } catch (Exception e) {
+	// // throw new InvocationTargetException(e,
+	// // Const.ERROR_CONFIG_OPEN_DATABASE);
+	// // }
+	// monitor.done();
+	//
+	// }
+	//
+	// // if (_con != null && done)
+	// // _con.srv().setLinkState(DbState.Loaded);
+	// }
 
 	// *********************************************************************
 
@@ -429,8 +423,8 @@ public class LoaderManager implements ILoaderManager {
 		// Strings.get("operationType.fromDb"));
 		// operationNames.put(operationType.fromSQL,
 		// Strings.get("operationType.fromSQL"));
-		operationNames.put(operationType.fillProcLinkTable,
-				Strings.value("operationType.fillProcLinkTable"));
+		// operationNames.put(operationType.fillProcLinkTable,
+		// Strings.value("operationType.fillProcLinkTable"));
 
 	}
 
@@ -445,9 +439,9 @@ public class LoaderManager implements ILoaderManager {
 
 		final ListConfInfo db = (ListConfInfo) conf;
 		switch (db.getType()) {
-		case fillProcLinkTable:
-			sheduleFillProcLinkTableJob(db);
-			return;
+		// case fillProcLinkTable:
+		// sheduleFillProcLinkTableJob(db);
+		// return;
 		case fromDb:
 			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 
@@ -482,11 +476,11 @@ public class LoaderManager implements ILoaderManager {
 				switch (db.getType()) {
 				case fromDirectory:
 					loadFromDirectory(db, monitor);
-					sheduleFillProcLinkTableJob(db);
+					// sheduleFillProcLinkTableJob(db);
 					break;
 				case update:
 					update(db, monitor);
-					sheduleFillProcLinkTableJob(db);
+					// sheduleFillProcLinkTableJob(db);
 					break;
 				// case fromSQL:
 				// // loaderService.loadFromSQL(db, monitor);
@@ -523,31 +517,31 @@ public class LoaderManager implements ILoaderManager {
 
 	}
 
-	private void sheduleFillProcLinkTableJob(ListConfInfo db) {
-
-		// setting the progress monitor
-		IJobManager manager = Job.getJobManager();
-
-		// ToolItem has the ID "statusbar" in the model
-		MToolControl element = (MToolControl) App.model.find(
-				Strings.model("model.id.statustool"), App.app);
-
-		Object widget = element.getObject();
-		((ProgressControl) widget).setDb(db);
-		final IProgressMonitor p = (IProgressMonitor) widget;
-		ProgressProvider provider = new ProgressProvider() {
-
-			@Override
-			public IProgressMonitor createMonitor(Job job) {
-				return p;
-			}
-		};
-
-		manager.setProgressProvider(provider);
-
-		FillProcLinkTableJob job = new FillProcLinkTableJob(db);
-		job.setRule(new FillProcLinkTableJob.rule());
-		job.schedule();
-	}
+	// private void sheduleFillProcLinkTableJob(ListConfInfo db) {
+	//
+	// // setting the progress monitor
+	// IJobManager manager = Job.getJobManager();
+	//
+	// // ToolItem has the ID "statusbar" in the model
+	// MToolControl element = (MToolControl) App.model.find(
+	// Strings.model("model.id.statustool"), App.app);
+	//
+	// Object widget = element.getObject();
+	// ((ProgressControl) widget).setDb(db);
+	// final IProgressMonitor p = (IProgressMonitor) widget;
+	// ProgressProvider provider = new ProgressProvider() {
+	//
+	// @Override
+	// public IProgressMonitor createMonitor(Job job) {
+	// return p;
+	// }
+	// };
+	//
+	// manager.setProgressProvider(provider);
+	//
+	// FillProcLinkTableJob job = new FillProcLinkTableJob(db);
+	// job.setRule(new FillProcLinkTableJob.rule());
+	// job.schedule();
+	// }
 
 }

@@ -13,8 +13,8 @@ public class ListConfInfoOptions extends DbOptions {
 
 	public DbState status = DbState.notLoaded;
 	public Date status_date;
-	public DbState link_status = DbState.notLoaded;
-	public Date link_status_date;
+	// public DbState link_status = DbState.notLoaded;
+	// public Date link_status_date;
 
 	public ConfInfo info;
 

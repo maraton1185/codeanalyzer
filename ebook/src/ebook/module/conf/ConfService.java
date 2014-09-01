@@ -205,7 +205,7 @@ public class ConfService extends TreeService {
 			opt = new ConfOptions();
 
 		opt.status = status;
-		opt.link_status = DbState.notLoaded;
+		// opt.link_status = DbState.notLoaded;
 		opt.status_date = new Date();
 		try {
 			saveRootOptions(opt);
@@ -215,21 +215,21 @@ public class ConfService extends TreeService {
 
 	}
 
-	public void setLinkState(DbState status) {
-
-		ConfOptions opt = getRootOptions(ConfOptions.class);
-		if (opt == null)
-			opt = new ConfOptions();
-
-		opt.link_status = status;
-		opt.link_status_date = new Date();
-		try {
-			saveRootOptions(opt);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+	// public void setLinkState(DbState status) {
+	//
+	// ConfOptions opt = getRootOptions(ConfOptions.class);
+	// if (opt == null)
+	// opt = new ConfOptions();
+	//
+	// opt.link_status = status;
+	// opt.link_status_date = new Date();
+	// try {
+	// saveRootOptions(opt);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	@Override
 	public String download(IPath zipFolder, ITreeItemSelection selection,
@@ -251,8 +251,7 @@ public class ConfService extends TreeService {
 				ContextXML child = new ContextXML(item);
 
 				List<String> path = new ArrayList<String>();
-				child.proc = build.getId(this, (ContextInfo) item, null,
-						path);
+				child.proc = build.getId(this, (ContextInfo) item, null, path);
 				child.path = path;
 
 				root.children.add(child);

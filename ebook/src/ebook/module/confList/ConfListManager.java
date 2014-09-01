@@ -93,8 +93,8 @@ public class ConfListManager extends TreeManager {
 						if (_opt != null) {
 							opt.status = _opt.status;
 							opt.status_date = _opt.status_date;
-							opt.link_status = _opt.link_status;
-							opt.link_status_date = _opt.link_status_date;
+							// opt.link_status = _opt.link_status;
+							// opt.link_status_date = _opt.link_status_date;
 						}
 
 						ListConfInfo data = new ListConfInfo(opt);

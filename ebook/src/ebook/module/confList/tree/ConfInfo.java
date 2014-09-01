@@ -89,9 +89,9 @@ public class ConfInfo implements Serializable {
 		case fromSQL:
 			result = sql == null ? "Новая конфигурация" : sql.path;
 			break;
-		case fillProcLinkTable:
-			result = db_name;
-			break;
+		// case fillProcLinkTable:
+		// result = db_name;
+		// break;
 		default:
 			result = new helper(2).getName(load_path);
 			break;

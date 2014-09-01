@@ -70,7 +70,7 @@ import ebook.module.book.views.TextView;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
 import ebook.module.conf.views.ConfView;
-import ebook.module.confLoad.services.FillProcLinkTableJob;
+import ebook.module.confLoad.services._FillProcLinkTableJob;
 import ebook.module.text.model.History;
 import ebook.module.tree.Clipboard;
 import ebook.utils.Events;
@@ -444,9 +444,9 @@ public class App {
 			PreferenceSupplier.save();
 
 			IJobManager jobMan = Job.getJobManager();
-			jobMan.cancel(FillProcLinkTableJob.FillProcLinkTableJob_FAMILY);
+			jobMan.cancel(_FillProcLinkTableJob.FillProcLinkTableJob_FAMILY);
 			try {
-				jobMan.join(FillProcLinkTableJob.FillProcLinkTableJob_FAMILY,
+				jobMan.join(_FillProcLinkTableJob.FillProcLinkTableJob_FAMILY,
 						null);
 			} catch (OperationCanceledException e) {
 				e.printStackTrace();

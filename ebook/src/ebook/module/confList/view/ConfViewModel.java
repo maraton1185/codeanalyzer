@@ -76,25 +76,25 @@ public class ConfViewModel extends ModelObject {
 		}
 	}
 
-	public String getLinkStatus() {
-		DbState status = data.getOptions().link_status;
-		Date status_date = data.getOptions().link_status_date;
-
-		if (status == null)
-			status = DbState.notLoaded;
-
-		switch (status) {
-		case notLoaded:
-			return "Таблица вызовов не загружалась";
-		case Loaded:
-			return "Таблица вызовов загружена ("
-					+ (status_date == null ? "-" : new SimpleDateFormat(
-							"dd.MM.yyyy HH:mm").format(status_date)) + ")";
-
-		default:
-			return "-";
-		}
-	}
+	// public String getLinkStatus() {
+	// DbState status = data.getOptions().link_status;
+	// Date status_date = data.getOptions().link_status_date;
+	//
+	// if (status == null)
+	// status = DbState.notLoaded;
+	//
+	// switch (status) {
+	// case notLoaded:
+	// return "Таблица вызовов не загружалась";
+	// case Loaded:
+	// return "Таблица вызовов загружена ("
+	// + (status_date == null ? "-" : new SimpleDateFormat(
+	// "dd.MM.yyyy HH:mm").format(status_date)) + ")";
+	//
+	// default:
+	// return "-";
+	// }
+	// }
 
 	// public Image getStatusImage() {
 	// DbState status = data.getOptions().status;

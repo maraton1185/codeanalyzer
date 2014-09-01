@@ -246,20 +246,20 @@ public class CfLoadService {
 
 	// LINK *************************************************************
 
-	public boolean linkTableFilled(Connection con) throws SQLException {
-		String SQL = "Select COUNT(ID) from LINKS";
-		Statement stat = con.createStatement();
-		ResultSet rs = stat.executeQuery(SQL);
-
-		try {
-			if (rs.next())
-				return rs.getInt(1) != 0;
-			else
-				throw new SQLException();
-		} finally {
-			rs.close();
-		}
-	}
+	// public boolean linkTableFilled(Connection con) throws SQLException {
+	// String SQL = "Select COUNT(ID) from LINKS";
+	// Statement stat = con.createStatement();
+	// ResultSet rs = stat.executeQuery(SQL);
+	//
+	// try {
+	// if (rs.next())
+	// return rs.getInt(1) != 0;
+	// else
+	// throw new SQLException();
+	// } finally {
+	// rs.close();
+	// }
+	// }
 
 	public void clearLinkTable(Connection con) throws SQLException {
 		String SQL = "DELETE FROM LINKS";

@@ -1,22 +1,16 @@
 package ebook.module.confLoad.services;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 
-import ebook.core.App;
 import ebook.core.pico;
-import ebook.core.exceptions.LinksExistsException;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confLoad.interfaces.ILoaderManager;
-import ebook.module.confLoad.model.DbState;
-import ebook.utils.Events;
 
-public class FillProcLinkTableJob extends Job {
+public class _FillProcLinkTableJob extends Job {
 
 	public static final String FillProcLinkTableJob_FAMILY = "all";
 
@@ -29,7 +23,7 @@ public class FillProcLinkTableJob extends Job {
 		@Override
 		public boolean isConflicting(ISchedulingRule rule) {
 
-			if (rule.getClass().equals(FillProcLinkTableJob.rule.class))
+			if (rule.getClass().equals(_FillProcLinkTableJob.rule.class))
 				return true;
 
 			return rule == this;
@@ -44,7 +38,7 @@ public class FillProcLinkTableJob extends Job {
 
 	// private Shell shell;
 
-	public FillProcLinkTableJob(ListConfInfo db) {
+	public _FillProcLinkTableJob(ListConfInfo db) {
 		super(db.getName());
 		// this.family = family;
 		this.db = db;
@@ -54,23 +48,24 @@ public class FillProcLinkTableJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 
-		try {
-
-			loaderManager.fillProcLinkTable(db, monitor);
-			App.br.post(Events.EVENT_UPDATE_CONF_INFO, null);
-
-			return Status.OK_STATUS;
-
-		} catch (final InvocationTargetException e) {
-
-			if (!(e.getTargetException() instanceof LinksExistsException))
-				db.setLinkState(DbState.notLoaded);
-
-			if (!(e.getTargetException() instanceof InterruptedException))
-				App.br.post(Events.EVENT_PROGRESS_ERROR, e.getMessage());
-
-			return Status.CANCEL_STATUS;
-		}
+		// try {
+		//
+		// loaderManager.fillProcLinkTable(db, monitor);
+		// App.br.post(Events.EVENT_UPDATE_CONF_INFO, null);
+		//
+		// return Status.OK_STATUS;
+		//
+		// } catch (final InvocationTargetException e) {
+		//
+		// if (!(e.getTargetException() instanceof LinksExistsException))
+		// db.setLinkState(DbState.notLoaded);
+		//
+		// if (!(e.getTargetException() instanceof InterruptedException))
+		// App.br.post(Events.EVENT_PROGRESS_ERROR, e.getMessage());
+		//
+		// return Status.CANCEL_STATUS;
+		// }
+		return Status.OK_STATUS;
 
 	}
 

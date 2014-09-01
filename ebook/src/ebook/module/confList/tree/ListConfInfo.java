@@ -196,7 +196,7 @@ public class ListConfInfo extends TreeItemInfo {
 
 	public void setState(DbState status) {
 		getOptions().status = status;
-		getOptions().link_status = DbState.notLoaded;
+		// getOptions().link_status = DbState.notLoaded;
 		getOptions().status_date = new Date();
 		try {
 			App.srv.cl().saveOptions(this);
@@ -205,23 +205,23 @@ public class ListConfInfo extends TreeItemInfo {
 		}
 	}
 
-	public void setLinkState(DbState status) {
-		getOptions().link_status = status;
-		getOptions().link_status_date = new Date();
-		try {
-			App.srv.cl().saveOptions(this);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-	}
+	// public void setLinkState(DbState status) {
+	// getOptions().link_status = status;
+	// getOptions().link_status_date = new Date();
+	// try {
+	// App.srv.cl().saveOptions(this);
+	// } catch (InvocationTargetException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	public DbState getState() {
 		return getOptions().status;
 	}
 
-	public DbState getLinkState() {
-		return getOptions().link_status;
-	}
+	// public DbState getLinkState() {
+	// return getOptions().link_status;
+	// }
 
 	public void setSQL(String path, String user, String password) {
 		data.sql = data.new SQLConnection(path, user, password);

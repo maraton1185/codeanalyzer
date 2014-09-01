@@ -323,14 +323,15 @@ public class ConfView {
 				.observeDetail(dataValue);
 		ctx.bindValue(target, field_model);
 
-		label = toolkit.createLabel(comp, "", SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-				1));
-
-		target = WidgetProperties.text().observe(label);
-		field_model = BeanProperties.value(model.getClass(), "linkStatus")
-				.observeDetail(dataValue);
-		ctx.bindValue(target, field_model);
+		// label = toolkit.createLabel(comp, "", SWT.LEFT);
+		// label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+		// 1,
+		// 1));
+		//
+		// target = WidgetProperties.text().observe(label);
+		// field_model = BeanProperties.value(model.getClass(), "linkStatus")
+		// .observeDetail(dataValue);
+		// ctx.bindValue(target, field_model);
 
 	}
 

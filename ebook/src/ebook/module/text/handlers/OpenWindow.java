@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.text.TextConnection;
+import ebook.module.text.model.History;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -102,6 +103,7 @@ public class OpenWindow {
 
 		App.app.getChildren().add(newWindow);
 		newWindow.getContext().set(TextConnection.class, con);
+		newWindow.getContext().set(History.class, new History());
 
 		// BookWindowCloseHandler closeHandler = new BookWindowCloseHandler();
 		// newWindow.getContext().set(IWindowCloseHandler.class, closeHandler);

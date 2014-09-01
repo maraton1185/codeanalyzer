@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.auth.interfaces.IAuthorize;
@@ -139,61 +138,62 @@ public class LoaderManager implements ILoaderManager {
 		// _con.srv().setState(DbState.Loaded);
 	}
 
-	@Override
-	public void loadFromDb(ListConfInfo db) throws InvocationTargetException {
-
-		// ПРОВЕРКИ ******************************************************
-
-		File folder = db.getAbsolutePath().toFile();
-		if (!folder.exists())
-			throw new InvocationTargetException(new LoadConfigException(),
-					Const.ERROR_CONFIG_PATH);
-
-		// ЗАГРУЗКА ******************************************************
-		// Connection con = null;
-		try {
-
-			// monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
-			ConfConnection _con = new ConfConnection(db.getAbsolutePath());
-			@SuppressWarnings("unused")
-			Connection con = _con.getConnection(); // makeConnection(true);
-			// con = db.getConnection(true);
-			//
-			// cfStructure.checkSructure(db);
-
-			// if (loaderService.srv.load().linkTableFilled(con)) {
-			// db.setState(DbState.Loaded);
-			// // db.setLinkState(DbState.Loaded);
-			// } else
-			db.setState(DbState.Loaded);
-
-			// if (!sign.check())
-			// if (!checkLisence(db))
-			// throw new LiscenseException();
-			//
-			// db.setState(DbState.Loaded);
-
-			// } catch (LiscenseException e) {
-			// throw new InvocationTargetException(e, e.message);
-			// } catch (InterruptedException e) {
-			// throw new InvocationTargetException(new InterruptedException(),
-			// Const.ERROR_CONFIG_INTERRUPT);
-			// } catch (DbStructureException e) {
-			// throw new InvocationTargetException(e, e.getMessage());
-		} catch (Exception e) {
-			throw new InvocationTargetException(e, e.getMessage());
-		} finally {
-			// try {
-			// con.close();
-			// } catch (Exception e) {
-			// throw new InvocationTargetException(e,
-			// Const.ERROR_CONFIG_OPEN_DATABASE);
-			// }
-			// monitor.done();
-
-		}
-
-	}
+	// @Override
+	// public void loadFromDb(ListConfInfo db) throws InvocationTargetException
+	// {
+	//
+	// // ПРОВЕРКИ ******************************************************
+	//
+	// File folder = db.getAbsolutePath().toFile();
+	// if (!folder.exists())
+	// throw new InvocationTargetException(new LoadConfigException(),
+	// Const.ERROR_CONFIG_PATH);
+	//
+	// // ЗАГРУЗКА ******************************************************
+	// // Connection con = null;
+	// try {
+	//
+	// // monitor.beginTask(Const.MSG_CONFIG_CHECK, 0);
+	// ConfConnection _con = new ConfConnection(db.getAbsolutePath());
+	// @SuppressWarnings("unused")
+	// Connection con = _con.getConnection(); // makeConnection(true);
+	// // con = db.getConnection(true);
+	// //
+	// // cfStructure.checkSructure(db);
+	//
+	// // if (loaderService.srv.load().linkTableFilled(con)) {
+	// // db.setState(DbState.Loaded);
+	// // // db.setLinkState(DbState.Loaded);
+	// // } else
+	// db.setState(DbState.Loaded);
+	//
+	// // if (!sign.check())
+	// // if (!checkLisence(db))
+	// // throw new LiscenseException();
+	// //
+	// // db.setState(DbState.Loaded);
+	//
+	// // } catch (LiscenseException e) {
+	// // throw new InvocationTargetException(e, e.message);
+	// // } catch (InterruptedException e) {
+	// // throw new InvocationTargetException(new InterruptedException(),
+	// // Const.ERROR_CONFIG_INTERRUPT);
+	// // } catch (DbStructureException e) {
+	// // throw new InvocationTargetException(e, e.getMessage());
+	// } catch (Exception e) {
+	// throw new InvocationTargetException(e, e.getMessage());
+	// } finally {
+	// // try {
+	// // con.close();
+	// // } catch (Exception e) {
+	// // throw new InvocationTargetException(e,
+	// // Const.ERROR_CONFIG_OPEN_DATABASE);
+	// // }
+	// // monitor.done();
+	//
+	// }
+	//
+	// }
 
 	@Override
 	public void update(ListConfInfo db, IProgressMonitor monitor)
@@ -246,7 +246,7 @@ public class LoaderManager implements ILoaderManager {
 
 			monitor.beginTask("Обновление конфигурации...", length);
 
-			loaderService.srv.load().clearLinkTable(con);
+			// loaderService.srv.load().clearLinkTable(con);
 			loadFromDirectoryDoWork(con, monitor, files, db.getDoLog());
 
 			// if (!sign.check())
@@ -438,34 +438,34 @@ public class LoaderManager implements ILoaderManager {
 	public void execute(ITreeItemInfo conf, final Shell shell) {
 
 		final ListConfInfo db = (ListConfInfo) conf;
-		switch (db.getType()) {
-		// case fillProcLinkTable:
-		// sheduleFillProcLinkTableJob(db);
+		// switch (db.getType()) {
+		// // case fillProcLinkTable:
+		// // sheduleFillProcLinkTableJob(db);
+		// // return;
+		// case fromDb:
+		// BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// try {
+		// loadFromDb(db);
+		// } catch (InvocationTargetException e) {
+		//
+		// db.setState(DbState.notLoaded);
+		//
+		// MessageDialog.openError(shell,
+		// "Ошибка выполнения операции", e.getMessage());
+		//
+		// } catch (Exception e) {
+		//
+		// db.setState(DbState.notLoaded);
+		// }
+		// }
+		// });
 		// return;
-		case fromDb:
-			BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						loadFromDb(db);
-					} catch (InvocationTargetException e) {
-
-						db.setState(DbState.notLoaded);
-
-						MessageDialog.openError(shell,
-								"Ошибка выполнения операции", e.getMessage());
-
-					} catch (Exception e) {
-
-						db.setState(DbState.notLoaded);
-					}
-				}
-			});
-			return;
-		default:
-			break;
-		}
+		// default:
+		// break;
+		// }
 
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
 

@@ -71,7 +71,6 @@ import ebook.module.conf.ConfConnection;
 import ebook.module.conf.ConfOptions;
 import ebook.module.conf.views.ConfView;
 import ebook.module.confLoad.services._FillProcLinkTableJob;
-import ebook.module.text.model.History;
 import ebook.module.tree.Clipboard;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -607,9 +606,4 @@ public class App {
 
 	public static LinkedHashSet<String> TextFindHistory = new LinkedHashSet<String>();
 
-	static History history = new History();
-
-	public static History getHistory() {
-		return history;
-	}
 }

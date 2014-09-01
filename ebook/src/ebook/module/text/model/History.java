@@ -8,8 +8,11 @@ public class History {
 	int index = 0;
 
 	public void add(HistoryItem item) {
-		if (list.contains(item))
+		if (list.contains(item)) {
+			int i = list.indexOf(item);
+			list.get(i).line = item.line;
 			return;
+		}
 
 		int s = list.size();
 		for (int i = index; i <= s - 1; i++)

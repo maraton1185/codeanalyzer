@@ -2,35 +2,37 @@ package ebook.module.text.handlers;
 
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.commands.ECommandService;
-import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
-import ebook.core.App;
 import ebook.module.text.TextConnection;
+import ebook.module.text.model.History;
 import ebook.module.text.model.HistoryItem;
-import ebook.utils.Strings;
-import ebook.utils.Utils;
 
 public class Next {
 
 	@Inject
-	EHandlerService hs;
+	EPartService partService;
 	@Inject
-	ECommandService cs;
+	EModelService model;
+	@Inject
+	@Active
+	History history;
 
 	@Execute
-	public void execute(@Active TextConnection con) {
+	public void execute(@Active TextConnection con, @Active MWindow window) {
 
-		HistoryItem item = App.getHistory().next();
+		HistoryItem item = history.next();
 		if (item == null)
 			return;
 		con.setItem(item.getItem());
 		con.setLine(item.getLine());
-		Utils.executeHandler(hs, cs, Strings.model("TextView.show"));
+		Show.show(window, model, partService, con);
 	}
 
 	@CanExecute

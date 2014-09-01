@@ -8,20 +8,15 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-
 import ebook.core.pico;
 import ebook.module.confLoad.LogFormatter;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.Entity;
-import ebook.module.confLoad.model.procCall;
 import ebook.module.confLoad.model.procEntity;
 import ebook.utils.Const;
 
@@ -157,48 +152,49 @@ public class LoaderService {
 
 	}
 
-	public void fillProcLinkTableDoWork(Connection con, IProgressMonitor monitor)
-			throws Exception {
-
-		monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE, srv.get()
-				.getProcCount(con));
-
-		List<procEntity> procs = srv.get().getProcs(con);
-
-		ArrayList<String> buffer = new ArrayList<String>();
-
-		for (procEntity proc : procs) {
-
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
-
-			monitor.subTask(proc.group1 + "." + proc.group2);
-
-			String text = srv.get().getProcText(con, proc.id);
-			buffer = new ArrayList<String>(Arrays.asList(text.split("\n")));
-
-			proc.calls = new ArrayList<procCall>();
-
-			for (int line = 0; line < buffer.size(); line++) {
-
-				String source_line = buffer.get(line);
-
-				List<procCall> calls = srv.parse().findProcsInString(
-						source_line, proc.proc_name);
-
-				for (procCall call : calls) {
-					proc.calls.add(call);
-				}
-
-			}
-
-			srv.load().addProcCalls(con, proc, proc.id);
-
-			monitor.worked(1);
-		}
-
-	}
+	// public void fillProcLinkTableDoWork(Connection con, IProgressMonitor
+	// monitor)
+	// throws Exception {
+	//
+	// monitor.beginTask(Const.MSG_CONFIG_FILL_LINK_TABLE, srv.get()
+	// .getProcCount(con));
+	//
+	// List<procEntity> procs = srv.get().getProcs(con);
+	//
+	// ArrayList<String> buffer = new ArrayList<String>();
+	//
+	// for (procEntity proc : procs) {
+	//
+	// if (monitor.isCanceled()) {
+	// throw new InterruptedException();
+	// }
+	//
+	// monitor.subTask(proc.group1 + "." + proc.group2);
+	//
+	// String text = srv.get().getProcText(con, proc.id);
+	// buffer = new ArrayList<String>(Arrays.asList(text.split("\n")));
+	//
+	// proc.calls = new ArrayList<procCall>();
+	//
+	// for (int line = 0; line < buffer.size(); line++) {
+	//
+	// String source_line = buffer.get(line);
+	//
+	// List<procCall> calls = srv.parse().findProcsInString(
+	// source_line, proc.proc_name);
+	//
+	// for (procCall call : calls) {
+	// proc.calls.add(call);
+	// }
+	//
+	// }
+	//
+	// srv.load().addProcCalls(con, proc, proc.id);
+	//
+	// monitor.worked(1);
+	// }
+	//
+	// }
 
 	// public boolean linkTableFilled(Connection con) throws Exception {
 	// return srv.load().linkTableFilled(con);

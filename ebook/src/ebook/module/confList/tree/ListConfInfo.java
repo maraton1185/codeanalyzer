@@ -47,9 +47,9 @@ public class ListConfInfo extends TreeItemInfo {
 
 		String op = "";
 		switch (data.type) {
-		case fromDb:
-			op = "Подключить " + data.db_name;
-			break;
+		// case fromDb:
+		// op = "Подключить " + data.db_name;
+		// break;
 		case fromDirectory:
 			op = "Загрузить из " + data.load_path;
 			break;

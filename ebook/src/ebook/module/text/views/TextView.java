@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
+import ebook.module.text.model.History;
 import ebook.module.text.model.HistoryItem;
 import ebook.module.text.model.LineInfo;
 import ebook.utils.Events;
@@ -49,6 +50,9 @@ public class TextView implements ITextOperationTarget {
 	@Inject
 	@Active
 	TextConnection con;
+	@Inject
+	@Active
+	History history;
 
 	ContextInfo item;
 	Object activated;
@@ -273,8 +277,7 @@ public class TextView implements ITextOperationTarget {
 				StyledText widget = (StyledText) e.getSource();
 				int offset = widget.getCaretOffset();
 				LineInfo selected = support.getCurrentProjectionName(offset);
-				App.getHistory().add(
-						new HistoryItem(new ContextInfo(item), selected));
+				history.add(new HistoryItem(new ContextInfo(item), selected));
 			}
 
 		});

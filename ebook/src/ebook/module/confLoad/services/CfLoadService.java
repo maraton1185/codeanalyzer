@@ -10,7 +10,6 @@ import java.sql.Statement;
 
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.confLoad.model.Entity;
-import ebook.module.confLoad.model.procCall;
 import ebook.module.confLoad.model.procEntity;
 import ebook.utils.AesCrypt;
 
@@ -135,70 +134,26 @@ public class CfLoadService {
 
 		addProcInfo(con, line, index);
 
-		// String SQL;
-		// PreparedStatement prep;
-		// // ResultSet rs;
-		//
-		// SQL =
-		// "INSERT INTO OBJECTS (LEVEL, PARENT, TITLE, OPTIONS) VALUES (?,?,?,?)";
-		// prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-		// prep.setInt(1, ELevel.proc.getInt());
-		// prep.setInt(2, module);
-		// prep.setString(3, line.proc_name.toUpperCase());
-		//
-		// EOptions opt = new EOptions();
-		// opt.title = line.proc_title;
-		//
-		// if (line.section.length() != 0)
-		// opt.section = line.section.substring(0,
-		// line.section.length() > 199 ? 199 : line.section.length());
-		// else
-		// opt.section = line.section;
-		//
-		// opt.export = line.export;
-		//
-		// opt.context = line.context.getInt();
-		//
-		// prep.setString(4, DbOptions.save(opt));
-		//
-		// int affectedRows = prep.executeUpdate();
-		// if (affectedRows == 0)
-		// throw new SQLException();
-		//
-		// Integer index = 0;
-		// ResultSet generatedKeys = null;
-		// try {
-		// generatedKeys = prep.getGeneratedKeys();
-		// if (generatedKeys.next())
-		// index = generatedKeys.getInt(1);
-		// else
-		// throw new SQLException();
-		// } finally {
-		// generatedKeys.close();
-		// }
-
-		// addProcInfo(con, line, index);
-
 	}
 
-	public void addProcCalls(Connection con, procEntity line, Integer index)
-			throws SQLException {
-
-		if (line.calls != null)
-
-			for (procCall call : line.calls) {
-				String SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
-				PreparedStatement prep = con.prepareStatement(SQL);
-
-				prep.setInt(1, index);
-				prep.setString(2, call.context);
-				prep.setString(3, call.name);
-
-				int affectedRows = prep.executeUpdate();
-				if (affectedRows == 0)
-					throw new SQLException();
-			}
-	}
+	// public void addProcCalls(Connection con, procEntity line, Integer index)
+	// throws SQLException {
+	//
+	// if (line.calls != null)
+	//
+	// for (procCall call : line.calls) {
+	// String SQL = "INSERT INTO LINKS (PROC, CONTEXT, NAME) VALUES (?,?,?)";
+	// PreparedStatement prep = con.prepareStatement(SQL);
+	//
+	// prep.setInt(1, index);
+	// prep.setString(2, call.context);
+	// prep.setString(3, call.name);
+	//
+	// int affectedRows = prep.executeUpdate();
+	// if (affectedRows == 0)
+	// throw new SQLException();
+	// }
+	// }
 
 	private void addProcInfo(Connection con, procEntity line, Integer index)
 			throws SQLException {
@@ -261,12 +216,12 @@ public class CfLoadService {
 	// }
 	// }
 
-	public void clearLinkTable(Connection con) throws SQLException {
-		String SQL = "DELETE FROM LINKS";
-		PreparedStatement prep = con.prepareStatement(SQL);
-		prep.executeUpdate();
-
-	}
+	// public void clearLinkTable(Connection con) throws SQLException {
+	// String SQL = "DELETE FROM LINKS";
+	// PreparedStatement prep = con.prepareStatement(SQL);
+	// prep.executeUpdate();
+	//
+	// }
 
 	public void clearTables(Connection con) throws SQLException {
 		String SQL;

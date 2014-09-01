@@ -283,6 +283,8 @@ public class ViewerSupport {
 		widget.setRedraw(false);
 		{
 			try {
+
+				boolean setCaret = false;
 				IRegion region = fDocument
 						.getLineInformationOfOffset(info.offset);
 
@@ -297,8 +299,10 @@ public class ViewerSupport {
 				} else if (info.line != 0) {
 					revealStart = info.line;
 					revealLength = 0;
-					InfoAnnotation marker = new InfoAnnotation();
-					addAnnotation(marker, new Position(revealStart));
+					setCaret = true;
+
+					// InfoAnnotation marker = new InfoAnnotation();
+					// addAnnotation(marker, new Position(revealStart));
 				}
 				// selection = new TextSelection(document, region.getOffset(),
 				// region.getLength());
@@ -307,6 +311,10 @@ public class ViewerSupport {
 				fSourceViewer.revealRange(revealStart, revealLength);
 
 				fSourceViewer.setSelectedRange(revealStart, revealLength);
+
+				if (setCaret)
+					fSourceViewer.getTextWidget().setCaretOffset(
+							revealStart + 1);
 
 				con.setLine(null);
 			} catch (BadLocationException e) {

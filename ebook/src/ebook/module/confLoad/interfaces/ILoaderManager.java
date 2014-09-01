@@ -11,13 +11,14 @@ import ebook.module.tree.ITreeItemInfo;
 public interface ILoaderManager {
 
 	public enum operationType {
-		fromDb, fromDirectory, update, fromSQL// , fillProcLinkTable
+		// fromDb,
+		fromDirectory, update, fromSQL// , fillProcLinkTable
 	}
 
 	void loadFromDirectory(ListConfInfo db, IProgressMonitor monitor)
 			throws InvocationTargetException, InterruptedException;
 
-	void loadFromDb(ListConfInfo db) throws InvocationTargetException;
+	// void loadFromDb(ListConfInfo db) throws InvocationTargetException;
 
 	// void fillProcLinkTable(ListConfInfo db, IProgressMonitor monitor)
 	// throws InvocationTargetException;

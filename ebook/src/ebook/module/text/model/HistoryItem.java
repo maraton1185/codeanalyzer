@@ -15,7 +15,8 @@ public class HistoryItem {
 		if (obj instanceof HistoryItem) {
 			HistoryItem _obj = (HistoryItem) obj;
 			return _obj.getItem().equals(item)
-					&& _obj.getLine().line == line.line;
+					&& _obj.getLine().getTitle()
+							.equalsIgnoreCase(line.getTitle());
 		} else
 			return super.equals(obj);
 	}

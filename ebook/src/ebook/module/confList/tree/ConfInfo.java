@@ -82,10 +82,10 @@ public class ConfInfo implements Serializable {
 			result = new helper(3).getName(load_path);
 			break;
 
-		case fromDb:
-
-			result = db_name;// new helper(3).getName(load_path);
-			break;
+		// case fromDb:
+		//
+		// result = db_name;// new helper(3).getName(load_path);
+		// break;
 		case fromSQL:
 			result = sql == null ? "Новая конфигурация" : sql.path;
 			break;

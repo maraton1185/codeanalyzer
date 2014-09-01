@@ -153,10 +153,11 @@ public class ConfStructure implements IDbStructure {
 					+ "PRIMARY KEY (ID), "
 					+ "FOREIGN KEY(PROC) REFERENCES PROCS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
-			stat.execute("CREATE TABLE LINKS (ID INTEGER AUTO_INCREMENT, "
-					+ "PROC INTEGER, CONTEXT VARCHAR(200), NAME VARCHAR(200), "
-					+ "PRIMARY KEY (ID), "
-					+ "FOREIGN KEY(PROC) REFERENCES PROCS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
+			// stat.execute("CREATE TABLE LINKS (ID INTEGER AUTO_INCREMENT, "
+			// + "PROC INTEGER, CONTEXT VARCHAR(200), NAME VARCHAR(200), "
+			// + "PRIMARY KEY (ID), "
+			// +
+			// "FOREIGN KEY(PROC) REFERENCES PROCS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
 			// *****************************
 
@@ -188,7 +189,7 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "PROCS_PARAMETERS", "KEY, VALUE")
 
 				&& ch.checkColumns(metadata, "PROCS_TEXT", "PROC, TEXT, HASH")
-				&& ch.checkColumns(metadata, "LINKS", "PROC, CONTEXT, NAME")
+				// && ch.checkColumns(metadata, "LINKS", "PROC, CONTEXT, NAME")
 
 				&& ch.checkColumns(metadata, "INFO", "CANLOAD, OPTIONS")
 				&& ch.checkColumns(metadata, "CONTEXT",

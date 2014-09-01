@@ -296,7 +296,9 @@ public class ViewerSupport {
 					addAnnotation(marker, new Position(revealStart));
 				} else if (info.line != 0) {
 					revealStart = info.line;
-					revealLength = 10;
+					revealLength = 0;
+					InfoAnnotation marker = new InfoAnnotation();
+					addAnnotation(marker, new Position(revealStart));
 				}
 				// selection = new TextSelection(document, region.getOffset(),
 				// region.getLength());

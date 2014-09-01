@@ -347,12 +347,13 @@ public class CfBuildService {
 		ResultSet rs;
 
 		SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
-		SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
+		SQL = SQL.concat(" WHERE ");
 
 		if (gr != null)
 			SQL = SQL
-					.concat(" AND (T.GROUP1 = ? OR T.GROUP2 = ? OR T.MODULE = ?)");
+					.concat("(T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?) AND");
 
+		SQL = SQL.concat(" UPPER(T1.TEXT) REGEXP UPPER(?)");
 		SQL = SQL.concat(" ORDER BY TITLE");
 
 		prep = con.prepareStatement(SQL);

@@ -273,7 +273,8 @@ public class TextView implements ITextOperationTarget {
 				StyledText widget = (StyledText) e.getSource();
 				int offset = widget.getCaretOffset();
 				LineInfo selected = support.getCurrentProjectionName(offset);
-				App.getHistory().add(new HistoryItem(item, selected));
+				App.getHistory().add(
+						new HistoryItem(new ContextInfo(item), selected));
 			}
 
 		});

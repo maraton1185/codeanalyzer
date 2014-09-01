@@ -11,19 +11,19 @@ public class History {
 		if (list.contains(item))
 			return;
 
-		// int s = list.size();
-		// for (int i = index; i <= s - 1; i++)
-		// if (i >= 0)
-		// list.remove(list.size() - 1);
-		if (index == list.size())
-			list.add(item);
-		else
-			list.add(index, item);
+		int s = list.size();
+		for (int i = index; i <= s - 1; i++)
+			if (i >= 0)
+				list.remove(list.size() - 1);
+		// if (index == list.size())
+		list.add(item);
+		// else
+		// list.add(index, item);
 
-		index++;
-		// index = list.size();
+		// index++;
+		index = list.size();
 
-		System.out.println(index);
+		// System.out.println(index);
 	}
 
 	public HistoryItem previous() {

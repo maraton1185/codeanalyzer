@@ -24,6 +24,9 @@ import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CaretEvent;
 import org.eclipse.swt.custom.CaretListener;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -31,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
+import ebook.module.text.model.HistoryItem;
 import ebook.module.text.model.LineInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
@@ -75,11 +79,7 @@ public class TextView implements ITextOperationTarget {
 			String line = document.get(textSelection.getOffset(),
 					textSelection.getLength());
 
-			FindDialog dlg = con.getDlg();
-			if (dlg == null) {
-				dlg = new FindDialog(shell);
-				con.setDlg(dlg);
-			}
+			FindDialog dlg = new FindDialog(shell);
 			dlg.setData(con, item, line);
 			dlg.open();
 
@@ -237,6 +237,8 @@ public class TextView implements ITextOperationTarget {
 	@Inject
 	MDirtyable dirty;
 
+	// private boolean stopHistory = true;
+
 	// private ContextInfo parentItem;
 
 	@Persist
@@ -255,6 +257,7 @@ public class TextView implements ITextOperationTarget {
 		item = con.getItem();
 		activated = new Object();
 		updateSelected = true;
+
 		// support.setSelection(support.getProjectionByName(con.getLine()));
 
 		final boolean readOnly = con.srv().readOnly(item);
@@ -263,6 +266,17 @@ public class TextView implements ITextOperationTarget {
 		viewer = support.getViewer(parent, style);
 
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.getTextWidget().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// stopHistory = false;
+				StyledText widget = (StyledText) e.getSource();
+				int offset = widget.getCaretOffset();
+				LineInfo selected = support.getCurrentProjectionName(offset);
+				App.getHistory().add(new HistoryItem(item, selected));
+			}
+
+		});
 		viewer.getTextWidget().addCaretListener(new CaretListener() {
 			@Override
 			public void caretMoved(CaretEvent event) {
@@ -332,6 +346,7 @@ public class TextView implements ITextOperationTarget {
 		con.setItem(item);
 		con.setActivated(activated);
 
+		// stopHistory = true;
 		updateSelected = true;
 		support.setSelection(support.getSelection(con.getLine()));
 
@@ -353,11 +368,13 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	public void CollapseAll() {
+		// stopHistory = true;
 		viewer.getProjectionAnnotationModel().collapseAll(0,
 				document.getLength());
 	}
 
 	public void Collapse() {
+		// stopHistory = true;
 		LineInfo selected = (LineInfo) window.getContext().get(
 				Events.TEXT_VIEW_ACTIVE_PROCEDURE);
 		if (selected != null)
@@ -366,12 +383,14 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	public void ExpandAll() {
+		// stopHistory = true;
 		viewer.getProjectionAnnotationModel()
 				.expandAll(0, document.getLength());
 
 	}
 
 	public void Expand() {
+		// stopHistory = true;
 		LineInfo selected = (LineInfo) window.getContext().get(
 				Events.TEXT_VIEW_ACTIVE_PROCEDURE);
 		if (selected != null)

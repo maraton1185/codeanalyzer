@@ -1,7 +1,6 @@
 package ebook.module.text.views;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 
 import javax.inject.Inject;
 
@@ -40,7 +39,8 @@ public class FindDialog extends Dialog {
 	private String line = "";
 	private TextConnection con;
 	private ContextInfo item;
-	LinkedHashSet<String> history = new LinkedHashSet<String>();
+
+	// LinkedHashSet<String> history = new LinkedHashSet<String>();
 
 	@Inject
 	public FindDialog(Shell parentShell) {
@@ -97,7 +97,7 @@ public class FindDialog extends Dialog {
 		});
 
 		// history = new String[] { "Jim", "Knopf" };
-		viewer.setInput(history);
+		viewer.setInput(App.TextFindHistory);
 
 		text = (Combo) viewer.getControl();
 		// // text = new Text(cont, SWT.SINGLE | SWT.BORDER);
@@ -107,7 +107,7 @@ public class FindDialog extends Dialog {
 			text.setText(line);
 		else {
 			String value = "";
-			Iterator<String> it = history.iterator();
+			Iterator<String> it = App.TextFindHistory.iterator();
 			while (it.hasNext())
 				value = it.next();
 			text.setText(value);
@@ -147,7 +147,7 @@ public class FindDialog extends Dialog {
 			App.br.post(Events.EVENT_TEXT_VIEW_FIND_TEXT_IN_MODULE, data);
 		}
 
-		history.add(value);
+		App.TextFindHistory.add(value);
 
 		super.okPressed();
 

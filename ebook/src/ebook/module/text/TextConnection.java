@@ -8,7 +8,6 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.service.TextService;
-import ebook.module.text.views.FindDialog;
 
 public class TextConnection {
 
@@ -21,16 +20,6 @@ public class TextConnection {
 	Object activated = new Object();
 
 	LineInfo line;
-
-	FindDialog dlg;
-
-	public FindDialog getDlg() {
-		return dlg;
-	}
-
-	public void setDlg(FindDialog dlg) {
-		this.dlg = dlg;
-	}
 
 	boolean canOpen = true;
 

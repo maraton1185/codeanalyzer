@@ -54,7 +54,7 @@ public class ViewerSupport {
 	AnnotationRulerColumn annotationRuler;
 	IAnnotationAccess fAnnotationAccess;
 	ProjectionViewer fSourceViewer;
-	Document document;
+	Document fDocument;
 	ProjectionSupport projectionSupport;
 	IColorManager cc = pico.get(IColorManager.class);
 
@@ -147,16 +147,16 @@ public class ViewerSupport {
 	}
 
 	public Document getDocument() {
-		document = new Document();
+		fDocument = new Document();
 
 		IDocumentPartitioner partitioner = new FastPartitioner(
 				new DocumentPartitionScanner(), new String[] {
 						DocumentPartitionScanner.STRING,
 						DocumentPartitionScanner.COMMENT });
-		partitioner.connect(document);
-		document.setDocumentPartitioner(partitioner);
+		partitioner.connect(fDocument);
+		fDocument.setDocumentPartitioner(partitioner);
 
-		fSourceViewer.setDocument(document, fAnnotationModel);
+		fSourceViewer.setDocument(fDocument, fAnnotationModel);
 
 		// fAnnotationModel = viewer.getVisualAnnotationModel();
 		projectionSupport = new ProjectionSupport(fSourceViewer,
@@ -166,7 +166,7 @@ public class ViewerSupport {
 		projectionSupport.install();
 		fSourceViewer.enableProjection();
 
-		return document;
+		return fDocument;
 	}
 
 	private void addProjection(ProjectionAnnotation annotation,
@@ -251,16 +251,28 @@ public class ViewerSupport {
 			// + data[0]);
 
 			if (offset + h < p.offset) {
-				// System.out.println(data[0]);
+				setLine(item, result, offset + h);
 				return result;
 			}
 			if ((offset + h) > p.offset && (offset + h < p.offset + p.length)) {
-				// System.out.println(data[0]);
+				setLine(item, result, offset + h);
 				return result;
 			}
 		}
 
 		return null;
+	}
+
+	private void setLine(ProjectionAnnotation item, LineInfo result, int h) {
+		try {
+			if (!item.isCollapsed()) {
+				IRegion reg = fDocument.getLineInformationOfOffset(h);
+				result.line = reg.getOffset();
+			}
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void setSelection(LineInfo info) {
@@ -271,7 +283,7 @@ public class ViewerSupport {
 		widget.setRedraw(false);
 		{
 			try {
-				IRegion region = document
+				IRegion region = fDocument
 						.getLineInformationOfOffset(info.offset);
 
 				int revealStart = region.getOffset();
@@ -282,6 +294,9 @@ public class ViewerSupport {
 					revealLength = 0;
 					InfoAnnotation marker = new InfoAnnotation();
 					addAnnotation(marker, new Position(revealStart));
+				} else if (info.line != 0) {
+					revealStart = info.line;
+					revealLength = 10;
 				}
 				// selection = new TextSelection(document, region.getOffset(),
 				// region.getLength());
@@ -310,11 +325,13 @@ public class ViewerSupport {
 			if (info.getTitle().equalsIgnoreCase(lineInfo.getTitle())) {
 				LineInfo result = new LineInfo(lineInfo.getTitle());
 				result.offset = info.offset;
+				result.line = lineInfo.line;
 				if (lineInfo.isJump) {
 					result.start_offset = lineInfo.start_offset
 							- info.start_offset;
 					result.isJump = true;
 				}
+
 				return result;
 			}
 

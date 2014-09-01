@@ -84,7 +84,7 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 				boolean isVar = !procWasFound && !vars.isEmpty();
 				if (isVar) {
 					LineInfo lineInfo = new LineInfo();
-					lineInfo.line = 0;
+					// lineInfo.line = 0;
 					lineInfo.offset = 0;
 					lineInfo.setTitle(Const.STRING_VARS_TITLE);
 					lineInfo.name = Const.STRING_VARS;
@@ -105,7 +105,7 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 
 				LineInfo lineInfo = new LineInfo();
 				lineInfo.start_offset = reg.getOffset() - _reg.getOffset();
-				lineInfo.line = startLine;
+				// lineInfo.line = startLine;
 				lineInfo.offset = reg.getOffset();
 				lineInfo.setTitle(proc.proc_title);
 				lineInfo.name = proc.proc_name;

@@ -41,6 +41,7 @@ import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.TextConnection;
+import ebook.module.text.model.LineInfo;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
@@ -233,8 +234,13 @@ public class ConfView {
 							.build(con.srv(list).getConnection())
 							.adapt(con.conf(), con.srv(list),
 									(ContextInfo) selected);
-					App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-							item, con.conf()));
+					TextConnection text_con = new TextConnection(con, item, con
+							.conf());
+					if (item.isSearch()) {
+						LineInfo line = new LineInfo(item.getOptions());
+						text_con.setLine(line);
+					}
+					App.br.post(Events.EVENT_OPEN_TEXT, text_con);
 				} catch (IllegalAccessException e) {
 
 					e.printStackTrace();

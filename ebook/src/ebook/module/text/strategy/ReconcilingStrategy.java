@@ -80,7 +80,9 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 				procEntity proc = new procEntity(true);
 				int lineOffset = parser.getProcInfo(proc, buffer, vars,
 						currentSection);
-				if (!procWasFound && !vars.isEmpty()) {
+
+				boolean isVar = !procWasFound && !vars.isEmpty();
+				if (isVar) {
 					LineInfo lineInfo = new LineInfo();
 					lineInfo.line = 0;
 					lineInfo.offset = 0;
@@ -89,17 +91,20 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 					lineInfo.export = false;
 					// lineInfo.data = data;
 					fModel.add(lineInfo);
-
 				}
 
 				buffer.clear();
 				procWasFound = true;
+
+				IRegion _reg = fDocument.getLineInformation(isVar ? startLine
+						+ lineOffset : startLine);
 
 				startLine = startLine + lineOffset;
 
 				IRegion reg = fDocument.getLineInformation(startLine);
 
 				LineInfo lineInfo = new LineInfo();
+				lineInfo.start_offset = reg.getOffset() - _reg.getOffset();
 				lineInfo.line = startLine;
 				lineInfo.offset = reg.getOffset();
 				lineInfo.setTitle(proc.proc_title);

@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Display;
 
 import ebook.core.pico;
 import ebook.core.interfaces.IColorManager;
+import ebook.module.text.TextConnection;
 import ebook.module.text.annotations.AnnotationConfiguration;
 import ebook.module.text.annotations.AnnotationHover;
 import ebook.module.text.annotations.AnnotationMarkerAccess;
@@ -43,6 +44,7 @@ import ebook.module.text.annotations.SearchAnnotation;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.scanner.DocumentPartitionScanner;
 import ebook.utils.Const;
+import ebook.utils.Events.EVENT_TEXT_DATA;
 
 public class ViewerSupport {
 
@@ -61,8 +63,13 @@ public class ViewerSupport {
 
 	List<ProjectionAnnotation> projections = new ArrayList<ProjectionAnnotation>();
 	List<Annotation> markers = new ArrayList<Annotation>();
+	private ArrayList<LineInfo> model;
+	private ArrayList<Position> model_markers;
+	TextConnection con;
 
-	public ViewerSupport() {
+	public ViewerSupport(TextConnection con) {
+
+		this.con = con;
 
 		fAnnotationModel = new ProjectionAnnotationModel();
 
@@ -162,13 +169,14 @@ public class ViewerSupport {
 		return document;
 	}
 
-	public void addProjection(ProjectionAnnotation annotation, Position position) {
+	private void addProjection(ProjectionAnnotation annotation,
+			Position position) {
 		fSourceViewer.getProjectionAnnotationModel().addAnnotation(annotation,
 				position);
 		projections.add(annotation);
 	}
 
-	public void addAnnotation(Annotation annotation, Position position) {
+	private void addAnnotation(Annotation annotation, Position position) {
 
 		fAnnotationModel.addAnnotation(annotation, position);
 		markers.add(annotation);
@@ -182,39 +190,9 @@ public class ViewerSupport {
 		markers.clear();
 	}
 
-	public void removeFolding() {
+	private void removeFolding() {
 		fSourceViewer.getProjectionAnnotationModel().removeAllAnnotations();
 		projections.clear();
-	}
-
-	public void setSelection(LineInfo info) {
-
-		if (info == null)
-			return;
-		StyledText widget = fSourceViewer.getTextWidget();
-		widget.setRedraw(false);
-		{
-			try {
-				IRegion region = document
-						.getLineInformationOfOffset(info.offset);
-
-				int revealStart = region.getOffset();
-				int revealLength = region.getLength();
-				// selection = new TextSelection(document, region.getOffset(),
-				// region.getLength());
-
-				adjustHighlightRange(revealStart, revealLength);
-				fSourceViewer.revealRange(revealStart, revealLength);
-
-				fSourceViewer.setSelectedRange(revealStart, revealLength);
-
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		widget.setRedraw(true);
-
 	}
 
 	protected void adjustHighlightRange(int offset, int length) {
@@ -285,27 +263,114 @@ public class ViewerSupport {
 		return null;
 	}
 
-	public LineInfo getProjectionByName(LineInfo lineInfo) {
+	public void setSelection(LineInfo info) {
 
-		if (lineInfo == null)
+		if (info == null)
+			return;
+		StyledText widget = fSourceViewer.getTextWidget();
+		widget.setRedraw(false);
+		{
+			try {
+				IRegion region = document
+						.getLineInformationOfOffset(info.offset);
+
+				int revealStart = region.getOffset();
+				int revealLength = region.getLength();
+
+				if (info.isJump) {
+					revealStart = region.getOffset() + info.start_offset;
+					revealLength = 0;
+					InfoAnnotation marker = new InfoAnnotation();
+					addAnnotation(marker, new Position(revealStart));
+				}
+				// selection = new TextSelection(document, region.getOffset(),
+				// region.getLength());
+
+				adjustHighlightRange(revealStart, revealLength);
+				fSourceViewer.revealRange(revealStart, revealLength);
+
+				fSourceViewer.setSelectedRange(revealStart, revealLength);
+
+				con.setLine(null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		widget.setRedraw(true);
+
+	}
+
+	public LineInfo getSelection(LineInfo lineInfo) {
+
+		if (lineInfo == null || model == null)
 			return null;
+		for (LineInfo info : model) {
 
-		for (ProjectionAnnotation item : projections) {
-			Position p = fSourceViewer.getProjectionAnnotationModel()
-					.getPosition(item);
-
-			if (p == null)
-				continue;
-
-			String[] data = item.getText().split(":");
-			if (data[0].equalsIgnoreCase(lineInfo.getTitle())) {
+			if (info.getTitle().equalsIgnoreCase(lineInfo.getTitle())) {
 				LineInfo result = new LineInfo(lineInfo.getTitle());
-				result.offset = p.offset;
+				result.offset = info.offset;
+				if (lineInfo.isJump) {
+					result.start_offset = lineInfo.start_offset
+							- info.start_offset;
+					result.isJump = true;
+				}
 				return result;
 			}
 
 		}
+		// for (ProjectionAnnotation item : projections) {
+		// Position p = fSourceViewer.getProjectionAnnotationModel()
+		// .getPosition(item);
+		//
+		// if (p == null)
+		// continue;
+		//
+		// String[] data = item.getText().split(":");
+		// if (data[0].equalsIgnoreCase(lineInfo.getTitle())) {
+		// LineInfo result = new LineInfo(lineInfo.getTitle());
+		// result.offset = p.offset;
+		// result.start_offset = lineInfo.start_offset;
+		// return result;
+		// }
+		//
+		// }
 
 		return null;
+	}
+
+	public void setModel(EVENT_TEXT_DATA data) {
+		this.model = data.model;
+		this.model_markers = data.markers;
+	}
+
+	public void setFolding() {
+		if (model == null)
+			return;
+
+		removeFolding();
+		for (LineInfo info : model) {
+
+			if (info.projection == null)
+				continue;
+
+			ProjectionAnnotation annotation = new ProjectionAnnotation(false);
+			annotation.setText(info.getTitle() + ":" + info.length.toString());
+			addProjection(annotation, info.projection);
+
+		}
+
+	}
+
+	public void setMarkers() {
+		removeMarkers();
+
+		for (Position p : model_markers) {
+
+			SearchAnnotation info = new SearchAnnotation();
+			addAnnotation(info, p);
+
+		}
+
 	}
 }

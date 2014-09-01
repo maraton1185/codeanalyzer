@@ -23,8 +23,11 @@ public class ContextInfo extends TreeItemInfo {
 
 	public ContextInfo(ContextInfo info) {
 		super(null);
+		ContextInfoOptions _opt = info.getOptions();
 		ContextInfoOptions opt = new ContextInfoOptions();
-		opt.type = info.getOptions().type;
+		opt.type = _opt.type;
+		opt.search_line = _opt.search_line;
+		opt.proc = _opt.proc;
 		setOptions(opt);
 		setList(info.getList());
 		setId(info.getId());
@@ -164,10 +167,16 @@ public class ContextInfo extends TreeItemInfo {
 		info.setGroup(element.group);
 		ContextInfoOptions opt = new ContextInfoOptions();
 		opt.type = element.type;
+		opt.search_line = element.search_line;
+		opt.proc = element.proc;
 		info.setOptions(opt);
 
 		return info;
 
+	}
+
+	public boolean isSearch() {
+		return getOptions().search_line != null;
 	}
 
 }

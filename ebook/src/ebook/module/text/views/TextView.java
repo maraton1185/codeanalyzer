@@ -20,8 +20,6 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CaretEvent;
@@ -33,7 +31,6 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
-import ebook.module.text.annotations.SearchAnnotation;
 import ebook.module.text.model.LineInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
@@ -181,30 +178,14 @@ public class TextView implements ITextOperationTarget {
 		if (data.document != document)
 			return;
 
-		support.removeFolding();
-		for (LineInfo info : data.model) {
+		support.setModel(data);
 
-			if (info.projection == null)
-				continue;
-
-			ProjectionAnnotation annotation = new ProjectionAnnotation(false);
-			annotation.setText(info.getTitle() + ":" + info.length.toString());
-			support.addProjection(annotation, info.projection);
-
-		}
-		support.removeMarkers();
-		// if (!data.markers.isEmpty())
-		// ExpandAll();
-		for (Position p : data.markers) {
-
-			SearchAnnotation info = new SearchAnnotation();
-			support.addAnnotation(info, p);
-
-		}
+		support.setFolding();
+		support.setMarkers();
 
 		this.model = data.model;
 		if (updateSelected)
-			support.setSelection(support.getProjectionByName(con.getLine()));
+			support.setSelection(support.getSelection(con.getLine()));
 
 		updateSelected = false;
 
@@ -269,11 +250,12 @@ public class TextView implements ITextOperationTarget {
 	@PostConstruct
 	public void postConstruct(Composite parent, EMenuService menuService) {
 
-		support = new ViewerSupport();
+		support = new ViewerSupport(con);
 
 		item = con.getItem();
 		activated = new Object();
-		support.setSelection(support.getProjectionByName(con.getLine()));
+		updateSelected = true;
+		// support.setSelection(support.getProjectionByName(con.getLine()));
 
 		final boolean readOnly = con.srv().readOnly(item);
 
@@ -351,7 +333,7 @@ public class TextView implements ITextOperationTarget {
 		con.setActivated(activated);
 
 		updateSelected = true;
-		support.setSelection(support.getProjectionByName(con.getLine()));
+		support.setSelection(support.getSelection(con.getLine()));
 
 		if (model != null)
 			App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(

@@ -27,8 +27,12 @@ public class ConfStructure implements IDbStructure {
 			// stat.execute("ALTER TABLE OBJECTS ADD SORT INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
-			stat.execute("ALTER TABLE PROCS ADD SORT INTEGER;");
-			stat.execute("ALTER TABLE PROCS ALTER COLUMN OBJECT RENAME TO PARENT;");
+			// stat.execute("ALTER TABLE PROCS ADD SORT INTEGER;");
+			// stat.execute("ALTER TABLE PROCS ALTER COLUMN OBJECT RENAME TO PARENT;");
+
+			// stat.execute("CREATE INDEX IDX_GROUP1 ON PROCS(GROUP1);"
+			// + "CREATE INDEX IDX_GROUP2 ON PROCS(GROUP2);"
+			// + "CREATE INDEX IDX_MODULE ON PROCS(MODULE);");
 
 		} catch (Exception e) {
 			throw new SQLException("Ошибка обновления структуры базы данных.");
@@ -134,7 +138,10 @@ public class ConfStructure implements IDbStructure {
 					+ "FOREIGN KEY(PARENT) REFERENCES OBJECTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 
 					+ "PRIMARY KEY (ID));"
-					+ "CREATE INDEX IDX_NAME ON PROCS(NAME);");
+					+ "CREATE INDEX IDX_NAME ON PROCS(NAME);"
+					+ "CREATE INDEX IDX_GROUP1 ON PROCS(GROUP1);"
+					+ "CREATE INDEX IDX_GROUP2 ON PROCS(GROUP2);"
+					+ "CREATE INDEX IDX_MODULE ON PROCS(MODULE);");
 
 			stat.execute("CREATE TABLE PROCS_TEXT (ID INTEGER AUTO_INCREMENT, "
 					+ "PROC INTEGER, TEXT CLOB, HASH VARCHAR(500), "

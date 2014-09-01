@@ -21,6 +21,7 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.text.TextConnection;
+import ebook.module.text.views.TextView;
 import ebook.utils.Strings;
 
 public class Show {
@@ -76,6 +77,9 @@ public class Show {
 		} else {
 			part = parts.get(0);
 			part.setLabel(con.getItem().getTitle());
+			TextView obj = (TextView) part.getObject();
+			if (obj != null)
+				obj.OnFocus();
 		}
 
 		partService.showPart(part, PartState.VISIBLE);

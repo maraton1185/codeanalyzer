@@ -11,6 +11,9 @@ public class BuildInfo implements Comparable<BuildInfo> {
 	public Integer id;
 	public Integer sort = 0;
 
+	public String proc;
+	public Integer search_line;
+
 	@Override
 	public int compareTo(BuildInfo o) {
 		if (sort - o.sort != 0)

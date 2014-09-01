@@ -11,6 +11,8 @@ public class ContextInfoOptions extends DbOptions {
 
 	public BuildType type;
 
-	// public Boolean hasText = false;
+	public Integer search_line;
+
+	public String proc;
 
 }

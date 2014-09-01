@@ -381,6 +381,7 @@ public class CfBuildService {
 					Reader in = rs.getCharacterStream(3);
 					bufferedReader = new BufferedReader(in);
 					String line;
+					int index = 0;
 					while ((line = bufferedReader.readLine()) != null) {
 
 						// System.out.println(line);
@@ -388,9 +389,13 @@ public class CfBuildService {
 						if (line.toLowerCase().contains(title.toLowerCase())) {
 							BuildInfo ch = new BuildInfo();
 							ch.title = line.trim();
+							ch.search_line = index;
+							ch.proc = info.title;
 							info.children.add(ch);
+							// System.out.println(index);
 						}
 						// result.append(line + "\n");
+						index = index + (line + "\n").length();
 					}
 				}
 
@@ -662,22 +667,24 @@ public class CfBuildService {
 
 			List<String> path = new ArrayList<String>();
 
-			id = getId(srv, result, ELevel.proc, path);
+			if (!result.isSearch()) {
+				id = getId(srv, result, ELevel.proc, path);
 
-			if (id != null) {
-				ContextInfo proc = (ContextInfo) conf.get(id);
-				result.setParent(-1);
-				if (proc != null) {
-					Integer i = proc.getParent();
-					result.setParent(i);
-					result.setModule(i);
+				if (id != null) {
+					ContextInfo proc = (ContextInfo) conf.get(id);
+					result.setParent(-1);
+					if (proc != null) {
+						Integer i = proc.getParent();
+						result.setParent(i);
+						result.setModule(i);
+						result.setTitle(proc.getTitle());
+					}
+
+					result.setId(id);
+					result.setProc(true);
+					return result;
 				}
-
-				result.setId(id);
-				result.setProc(true);
-				return result;
 			}
-
 			id = getId(srv, result, ELevel.module, path);
 			if (id != null) {
 				conf.setObjectsTable();
@@ -688,6 +695,14 @@ public class CfBuildService {
 					Integer i = module.getParent();
 					result.setParent(i);
 					result.setModule(null);
+					result.setTitle(module.getTitle());
+					if (result.isSearch()) {
+						int s = path.size();
+						for (int j = 2; j < s; j++)
+							path.remove(path.size() - 1);
+
+						result.getOptions().type = BuildType.module;
+					}
 				}
 
 				result.setId(id);

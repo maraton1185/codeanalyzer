@@ -28,7 +28,7 @@ public class ErrorAnnotation extends Annotation implements IAnnotation {
 	@Override
 	public Integer getLayer() {
 
-		return 3;
+		return 30;
 	}
 
 	@Override

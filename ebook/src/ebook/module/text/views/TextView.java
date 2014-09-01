@@ -20,6 +20,7 @@ import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
@@ -32,6 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
+import ebook.module.text.annotations.SearchAnnotation;
 import ebook.module.text.model.LineInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
@@ -76,8 +78,12 @@ public class TextView implements ITextOperationTarget {
 			String line = document.get(textSelection.getOffset(),
 					textSelection.getLength());
 
-			FindDialog dlg = new FindDialog(shell, con, item);
-			dlg.setText(line);
+			FindDialog dlg = con.getDlg();
+			if (dlg == null) {
+				dlg = new FindDialog(shell);
+				con.setDlg(dlg);
+			}
+			dlg.setData(con, item, line);
 			dlg.open();
 
 			// if (_line.isEmpty())
@@ -94,8 +100,7 @@ public class TextView implements ITextOperationTarget {
 	@Inject
 	@Optional
 	public void EVENT_TEXT_VIEW_BUILD_TEXT(
-			@UIEventTopic(Events.EVENT_TEXT_VIEW_BUILD_TEXT) ContextInfo item,
-			Shell shell) {
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_BUILD_TEXT) ContextInfo item) {
 
 		if (!this.item.equals(item))
 			return;
@@ -118,6 +123,18 @@ public class TextView implements ITextOperationTarget {
 
 	@Inject
 	@Optional
+	public void EVENT_TEXT_VIEW_FIND_TEXT_IN_MODULE(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_FIND_TEXT_IN_MODULE) EVENT_TEXT_DATA data) {
+
+		if (!this.item.equals(data.item))
+			return;
+
+		viewerConfiguration.lightWord(data.search, true);
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_TEXT_VIEW_DOUBLE_CLICK(
 			@UIEventTopic(Events.EVENT_TEXT_VIEW_DOUBLE_CLICK) ITextViewer text) {
 
@@ -130,12 +147,30 @@ public class TextView implements ITextOperationTarget {
 		try {
 			String line = document.get(textSelection.getOffset(),
 					textSelection.getLength());
-			viewerConfiguration.lightWord(line);
+			viewerConfiguration.lightWord(line, false);
 		} catch (BadLocationException e) {
 
 			e.printStackTrace();
 		}
 
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_REMOVE_MARKERS(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_REMOVE_MARKERS) ITextViewer text) {
+		if (text != viewer)
+			return;
+		support.removeMarkers();
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_UPDATE_TEXT(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_UPDATE_TEXT) ITextViewer text) {
+		if (text != viewer)
+			return;
+		viewerConfiguration.update();
 	}
 
 	@Inject
@@ -157,6 +192,16 @@ public class TextView implements ITextOperationTarget {
 			support.addProjection(annotation, info.projection);
 
 		}
+		support.removeMarkers();
+		// if (!data.markers.isEmpty())
+		// ExpandAll();
+		for (Position p : data.markers) {
+
+			SearchAnnotation info = new SearchAnnotation();
+			support.addAnnotation(info, p);
+
+		}
+
 		this.model = data.model;
 		if (updateSelected)
 			support.setSelection(support.getProjectionByName(con.getLine()));
@@ -166,7 +211,9 @@ public class TextView implements ITextOperationTarget {
 		if (!con.getItem().equals(item))
 			return;
 		App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(con,
-				document, model));
+				document, model, null));
+
+		App.br.post(Events.EVENT_TEXT_VIEW_UPDATE_TEXT, viewer);
 	}
 
 	@Inject
@@ -308,7 +355,7 @@ public class TextView implements ITextOperationTarget {
 
 		if (model != null)
 			App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(
-					con, document, model));
+					con, document, model, null));
 
 	}
 

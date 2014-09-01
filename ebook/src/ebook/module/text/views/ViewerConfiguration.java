@@ -15,6 +15,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 
+import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.interfaces.IColorManager;
 import ebook.core.interfaces.IColorManager.TOKENS;
@@ -25,6 +26,7 @@ import ebook.module.text.scanner.ScannerComment;
 import ebook.module.text.scanner.ScannerString;
 import ebook.module.text.strategy.ReconcilingStrategy;
 import ebook.module.text.strategy.TextDoubleClickStrategy;
+import ebook.utils.Events;
 
 public class ViewerConfiguration extends SourceViewerConfiguration {
 	private RuleBasedScanner scanner;
@@ -33,6 +35,9 @@ public class ViewerConfiguration extends SourceViewerConfiguration {
 	IColorManager provider = pico.get(IColorManager.class);
 	private ProjectionViewer viewer;
 	private IAnnotationModel annotationModel;
+
+	IPresentationReconciler fPresentationReconciler;
+	IReconciler fReconciler;
 
 	public ViewerConfiguration(ProjectionViewer viewer,
 			IAnnotationModel annotationModel) {
@@ -56,6 +61,9 @@ public class ViewerConfiguration extends SourceViewerConfiguration {
 	@Override
 	public IPresentationReconciler getPresentationReconciler(
 			ISourceViewer sourceViewer) {
+		if (fPresentationReconciler != null)
+			return fPresentationReconciler;
+
 		PresentationReconciler reconciler = new PresentationReconciler();
 
 		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(getCodeScanner());
@@ -72,7 +80,8 @@ public class ViewerConfiguration extends SourceViewerConfiguration {
 		reconciler.setDamager(dr2, DocumentPartitionScanner.COMMENT);
 		reconciler.setRepairer(dr2, DocumentPartitionScanner.COMMENT);
 
-		return reconciler;
+		fPresentationReconciler = reconciler;
+		return fPresentationReconciler;
 	}
 
 	private ITokenScanner getCommentScanner() {
@@ -103,11 +112,14 @@ public class ViewerConfiguration extends SourceViewerConfiguration {
 
 	@Override
 	public IReconciler getReconciler(ISourceViewer sourceViewer) {
+		if (fReconciler != null)
+			return fReconciler;
+
 		ReconcilingStrategy strategy = new ReconcilingStrategy();
 
 		MonoReconciler reconciler = new MonoReconciler(strategy, false);
-
-		return reconciler;
+		fReconciler = reconciler;
+		return fReconciler;
 	}
 
 	@Override
@@ -118,13 +130,30 @@ public class ViewerConfiguration extends SourceViewerConfiguration {
 		// super.getDoubleClickStrategy(sourceViewer, contentType);
 	}
 
-	public void lightWord(String text) {
+	public void lightWord(String text, boolean markers) {
 		((ScannerCode) getCodeScanner()).setScannerRules(text);
 		((ScannerString) getStringScanner()).setScannerRules(text);
 		((ScannerComment) getCommentScanner()).setScannerRules(text);
 
-		// getPresentationReconciler(null).install(viewer);
-		// getReconciler(null).install(viewer);
+		IPresentationReconciler pr = getPresentationReconciler(null);
+		pr.uninstall();
+		pr.install(viewer);
+
+		if (markers) {
+			IReconciler rec = getReconciler(null);
+			ReconcilingStrategy str = (ReconcilingStrategy) rec
+					.getReconcilingStrategy("");
+			str.setSearchText(text);
+			rec.uninstall();
+			rec.install(viewer);
+		} else
+			App.br.post(Events.EVENT_TEXT_VIEW_REMOVE_MARKERS, viewer);
+	}
+
+	public void update() {
+		IPresentationReconciler pr = getPresentationReconciler(null);
+		pr.uninstall();
+		pr.install(viewer);
 	}
 
 	@Override

@@ -1,43 +1,58 @@
 package ebook.module.text.views;
 
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
+import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
+import ebook.utils.Events;
+import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 @Creatable
 public class FindDialog extends Dialog {
 
-	Text text;
+	Combo text;
 	Button btn1, btn2, btn3;
 	private String line = "";
 	private TextConnection con;
 	private ContextInfo item;
+	LinkedHashSet<String> history = new LinkedHashSet<String>();
 
 	@Inject
-	public FindDialog(Shell parentShell, TextConnection con, ContextInfo item) {
+	public FindDialog(Shell parentShell) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
+
+	}
+
+	public void setData(TextConnection con, ContextInfo item, String line) {
 		this.con = con;
 		this.item = item;
+		this.line = line;
 	}
 
 	@Override
@@ -70,11 +85,33 @@ public class FindDialog extends Dialog {
 		cont.setLayout(new GridLayout(2, false));
 		Label l = new Label(cont, SWT.NONE);
 		l.setImage(Utils.getImage("search.png"));
-		text = new Text(cont, SWT.SINGLE | SWT.BORDER);
-		text.setMessage("¬ведите текст дл€ поиска");
 
-		// if (!line.isEmpty())
-		text.setText(line);
+		ComboViewer viewer = new ComboViewer(cont, SWT.BORDER);
+		viewer.setContentProvider(ArrayContentProvider.getInstance());
+		viewer.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+
+				return element.toString();
+			}
+		});
+
+		// history = new String[] { "Jim", "Knopf" };
+		viewer.setInput(history);
+
+		text = (Combo) viewer.getControl();
+		// // text = new Text(cont, SWT.SINGLE | SWT.BORDER);
+		// text.setMessage("¬ведите текст дл€ поиска");
+		//
+		if (!line.isEmpty())
+			text.setText(line);
+		else {
+			String value = "";
+			Iterator<String> it = history.iterator();
+			while (it.hasNext())
+				value = it.next();
+			text.setText(value);
+		}
 
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(text);
 
@@ -100,21 +137,19 @@ public class FindDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 
+		String value = text.getText();
 		if (btn1.getSelection()) {
-			con.srv().buildText(item, line, false);
+			con.srv().buildText(item, value, false);
 		} else if (btn2.getSelection()) {
-			con.srv().buildText(item, line, true);
+			con.srv().buildText(item, value, true);
 		} else if (btn3.getSelection()) {
-
+			EVENT_TEXT_DATA data = new EVENT_TEXT_DATA(item, value);
+			App.br.post(Events.EVENT_TEXT_VIEW_FIND_TEXT_IN_MODULE, data);
 		}
-		;
+
+		history.add(value);
 
 		super.okPressed();
 
 	}
-
-	public void setText(String line) {
-		this.line = line;
-	}
-
 }

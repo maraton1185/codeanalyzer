@@ -32,9 +32,10 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 
 	IDocument fDocument;
 
-	ArrayList<LineInfo> model = new ArrayList<LineInfo>();
-	// final Map<String, Position> fPositions = new HashMap<String, Position>();
+	ArrayList<LineInfo> fModel = new ArrayList<LineInfo>();
 	ArrayList<Position> fMarkers = new ArrayList<Position>();
+
+	private String fSearch = "";
 
 	public ReconcilingStrategy() {
 	}
@@ -52,9 +53,9 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 
 	private void fillModel() throws BadLocationException, ProcNotFoundException {
 
-		// List<Position> fPositions = new ArrayList<Position>();
-		model.clear();
-		//
+		fModel.clear();
+		fMarkers.clear();
+
 		int startLine = 0;
 		ArrayList<String> buffer = new ArrayList<String>();
 		ArrayList<String> vars = new ArrayList<String>();
@@ -68,6 +69,10 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 			IRegion r = fDocument.getLineInformation(index);
 			source_line = fDocument.get(r.getOffset(), r.getLength());
 
+			if (!fSearch.isEmpty()
+					&& parser.findTextInLine(source_line, fSearch)) {
+				fMarkers.add(new Position(r.getOffset(), 0));
+			}
 			buffer.add(source_line + "\n");
 
 			if (parser.findProcEnd(source_line)) {
@@ -83,7 +88,7 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 					lineInfo.name = Const.STRING_VARS;
 					lineInfo.export = false;
 					// lineInfo.data = data;
-					model.add(lineInfo);
+					fModel.add(lineInfo);
 
 				}
 
@@ -103,7 +108,7 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 				lineInfo.length = reg.getLength();
 				lineInfo.projection = new Position(reg.getOffset(),
 						r.getOffset() - reg.getOffset() + r.getLength() + 1);
-				model.add(lineInfo);
+				fModel.add(lineInfo);
 
 				// fPositions.add();
 
@@ -123,59 +128,12 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 				lineInfo.name = Const.STRING_INIT;
 				lineInfo.export = false;
 				// lineInfo.data = data;
-				model.add(lineInfo);
+				fModel.add(lineInfo);
 			}
 		}
 
 		App.br.post(Events.EVENT_UPDATE_TEXT_MODEL, new EVENT_TEXT_DATA(null,
-				fDocument, model));
-	}
-
-	private void fillMarkers() {
-		// try {
-		//
-		// BuildInfo data = ((EditorInput) editor.getEditorInput()).getData();
-		//
-		// fMarkers.clear();
-		// boolean mProcStart = false;
-		//
-		// for (int index = 0; index < fDocument.getNumberOfLines(); index++) {
-		//
-		// IRegion r = fDocument.getLineInformation(index);
-		// String line = fDocument.get(r.getOffset(), r.getLength());
-		//
-		// if (parser.findTextInLine(line, data.getSearch())) {
-		//
-		// fMarkers.add(new Position(r.getOffset(), line.length()));
-		// }
-		//
-		// if (parser.findCompareMarker(line)) {
-		//
-		// fMarkers.add(new Position(r.getOffset(), line.length()));
-		// }
-		//
-		// if (parser.findProcStart(line, data.name)) {
-		// mProcStart = true;
-		// }
-		//
-		// if (parser.findProcEnd(line)) {
-		//
-		// mProcStart = false;
-		// }
-		//
-		// if (mProcStart)
-		// for (String callee : data.getCalleeName()) {
-		// if (parser.findCallee(line, callee)) {
-		// fMarkers.add(new Position(r.getOffset(), line
-		// .length()));
-		// }
-		// }
-		//
-		// }
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		//
-		// }
+				fDocument, fModel, fMarkers));
 	}
 
 	@Override
@@ -197,6 +155,11 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 
 	@Override
 	public void setProgressMonitor(IProgressMonitor monitor) {
+
+	}
+
+	public void setSearchText(String text) {
+		fSearch = text.trim();
 
 	}
 

@@ -3,6 +3,7 @@ package ebook.utils;
 import java.util.ArrayList;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.Position;
 
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.conf.tree.ContextInfo;
@@ -118,12 +119,19 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_FIND_TEXT = "EVENT_TEXT_VIEW_FIND_TEXT";
 
+	public static final String EVENT_TEXT_VIEW_FIND_TEXT_IN_MODULE = "EVENT_TEXT_VIEW_FIND_TEXT_IN_MODULE";
+
+	public static final String EVENT_TEXT_VIEW_REMOVE_MARKERS = "EVENT_TEXT_VIEW_REMOVE_MARKERS";
+
+	public static final String EVENT_TEXT_VIEW_UPDATE_TEXT = "EVENT_TEXT_VIEW_UPDATE_TEXT";
+
 	public static class EVENT_TEXT_DATA {
 		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
-				ArrayList<LineInfo> model) {
+				ArrayList<LineInfo> model, ArrayList<Position> markers) {
 			this.con = con;
 			this.document = fDocument;
 			this.model = model;
+			this.markers = markers;
 
 		}
 
@@ -138,11 +146,19 @@ public abstract class Events {
 			this.parent = parent;
 		}
 
+		public EVENT_TEXT_DATA(ContextInfo item, String search) {
+			this.item = item;
+			this.search = search;
+		}
+
 		public IDocument document;
 		public ArrayList<LineInfo> model;
+		public ArrayList<Position> markers;
 		public TextConnection con;
 		public LineInfo selected;
 		public ContextInfo parent;
+		public ContextInfo item;
+		public String search;
 	}
 
 	// public static final String EVENT_SHOW_CONF_LIST = "EVENT_SHOW_CONF_LIST";

@@ -6,15 +6,15 @@ import org.eclipse.swt.graphics.RGB;
 
 import ebook.utils.Utils;
 
-public class InfoAnnotation extends Annotation implements IAnnotation {
+public class SearchAnnotation extends Annotation implements IAnnotation {
 
-	static final String type = "info.type";
+	static final String type = "search.type";
 
-	public InfoAnnotation() {
+	public SearchAnnotation() {
 		super(type, true, "");
 	}
 
-	public InfoAnnotation(String text) {
+	public SearchAnnotation(String text) {
 		super(type, true, text);
 
 	}
@@ -22,23 +22,23 @@ public class InfoAnnotation extends Annotation implements IAnnotation {
 	@Override
 	public RGB getColor() {
 
-		return new RGB(0, 0, 255);
+		return new RGB(158, 158, 158);
 	}
 
 	@Override
 	public Integer getLayer() {
 
-		return 20;
+		return 10;
 	}
 
 	@Override
 	public Image getImage() {
 
-		return Utils.getImage("markers/object.png");
+		return Utils.getImage("search_result.png");
 	}
 
 	@Override
 	public String getTypeLabel() {
-		return "Информация";
+		return "Поиск текста";
 	}
 }

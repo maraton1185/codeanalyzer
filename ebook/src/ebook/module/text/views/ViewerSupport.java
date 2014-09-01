@@ -39,6 +39,7 @@ import ebook.module.text.annotations.AnnotationStyles;
 import ebook.module.text.annotations.ErrorAnnotation;
 import ebook.module.text.annotations.IAnnotation;
 import ebook.module.text.annotations.InfoAnnotation;
+import ebook.module.text.annotations.SearchAnnotation;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.scanner.DocumentPartitionScanner;
 import ebook.utils.Const;
@@ -56,9 +57,10 @@ public class ViewerSupport {
 	IColorManager cc = pico.get(IColorManager.class);
 
 	IAnnotation[] annotations = new IAnnotation[] { new ErrorAnnotation(),
-			new InfoAnnotation() };
+			new InfoAnnotation(), new SearchAnnotation() };
 
 	List<ProjectionAnnotation> projections = new ArrayList<ProjectionAnnotation>();
+	List<Annotation> markers = new ArrayList<Annotation>();
 
 	public ViewerSupport() {
 
@@ -169,7 +171,15 @@ public class ViewerSupport {
 	public void addAnnotation(Annotation annotation, Position position) {
 
 		fAnnotationModel.addAnnotation(annotation, position);
+		markers.add(annotation);
 
+	}
+
+	public void removeMarkers() {
+		for (Annotation marker : markers) {
+			fAnnotationModel.removeAnnotation(marker);
+		}
+		markers.clear();
 	}
 
 	public void removeFolding() {
@@ -239,6 +249,8 @@ public class ViewerSupport {
 
 		Position p = fSourceViewer.getProjectionAnnotationModel().getPosition(
 				projections.get(0));
+		if (p == null)
+			return null;
 		if (offset < p.offset)
 			return new LineInfo(Const.STRING_VARS_TITLE);
 

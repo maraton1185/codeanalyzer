@@ -22,7 +22,7 @@ public class ConfStructure implements IDbStructure {
 
 		Statement stat = con.createStatement();
 		try {
-			// stat.execute("ALTER TABLE OBJECTS ADD SORT INTEGER;");
+			stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD SORT INTEGER;");
@@ -31,15 +31,16 @@ public class ConfStructure implements IDbStructure {
 			// stat.execute("CREATE INDEX IDX_GROUP1 ON PROCS(GROUP1);"
 			// + "CREATE INDEX IDX_GROUP2 ON PROCS(GROUP2);"
 			// + "CREATE INDEX IDX_MODULE ON PROCS(MODULE);");
-			stat.execute("DROP TABLE IF EXISTS BOOKMARKS;");
-			stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
-
-					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
-					+ "TITLE VARCHAR(500), "
-					+ "OPTIONS VARCHAR(1500), "
-
-					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
-					+ "PRIMARY KEY (ID));");
+			// stat.execute("DROP TABLE IF EXISTS BOOKMARKS;");
+			// stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
+			//
+			// + "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+			// + "TITLE VARCHAR(500), "
+			// + "OPTIONS VARCHAR(1500), "
+			//
+			// +
+			// "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+			// + "PRIMARY KEY (ID));");
 		} catch (Exception e) {
 			throw new SQLException("Ошибка обновления структуры базы данных.");
 		}
@@ -83,6 +84,7 @@ public class ConfStructure implements IDbStructure {
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(1500), "
+					+ "ITEM INTEGER, "
 
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -129,7 +131,7 @@ public class ConfStructure implements IDbStructure {
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.value("bookmarkRoot"));
-			prep.setBoolean(2, false);
+			prep.setBoolean(2, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -221,7 +223,7 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "LISTS",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "BOOKMARKS",
-						"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ITEM");
 
 		if (!haveStructure)
 			throw new DbStructureException();

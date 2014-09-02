@@ -27,9 +27,9 @@ public class AnnotationHover implements IAnnotationHover, ITextHover {
 
 		while (ite.hasNext()) {
 			Annotation a = (Annotation) ite.next();
-			if (a instanceof ErrorAnnotation) {
-				all.add(((ErrorAnnotation) a).getText());
-			}
+			// if (a instanceof ErrorAnnotation) {
+			all.add(a.getText());
+			// }
 		}
 
 		StringBuffer total = new StringBuffer();

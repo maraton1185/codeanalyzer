@@ -37,6 +37,7 @@ import ebook.module.text.annotations.AnnotationConfiguration;
 import ebook.module.text.annotations.AnnotationHover;
 import ebook.module.text.annotations.AnnotationMarkerAccess;
 import ebook.module.text.annotations.AnnotationStyles;
+import ebook.module.text.annotations.BookmarkAnnotation;
 import ebook.module.text.annotations.ErrorAnnotation;
 import ebook.module.text.annotations.IAnnotation;
 import ebook.module.text.annotations.InfoAnnotation;
@@ -59,7 +60,8 @@ public class ViewerSupport {
 	IColorManager cc = pico.get(IColorManager.class);
 
 	IAnnotation[] annotations = new IAnnotation[] { new ErrorAnnotation(),
-			new InfoAnnotation(), new SearchAnnotation() };
+			new InfoAnnotation(), new SearchAnnotation(),
+			new BookmarkAnnotation() };
 
 	List<ProjectionAnnotation> projections = new ArrayList<ProjectionAnnotation>();
 	List<Annotation> markers = new ArrayList<Annotation>();
@@ -176,7 +178,7 @@ public class ViewerSupport {
 		projections.add(annotation);
 	}
 
-	private void addAnnotation(Annotation annotation, Position position) {
+	public void addAnnotation(Annotation annotation, Position position) {
 
 		fAnnotationModel.addAnnotation(annotation, position);
 		markers.add(annotation);
@@ -231,7 +233,7 @@ public class ViewerSupport {
 			if (info.getTitle().equalsIgnoreCase(lineInfo.getTitle())) {
 				LineInfo result = new LineInfo(lineInfo.getTitle());
 				result.offset = info.offset;
-				result.absolute_offset = lineInfo.absolute_offset;
+				// result.absolute_offset = lineInfo.absolute_offset;
 				if (lineInfo.isJump) {
 					result.start_offset = lineInfo.start_offset
 							- info.start_offset;
@@ -241,7 +243,10 @@ public class ViewerSupport {
 					result.start_offset = lineInfo.start_offset;
 					result.isBookmark = true;
 				}
-
+				if (lineInfo.isHistory) {
+					result.start_offset = lineInfo.start_offset;
+					result.isHistory = true;
+				}
 				return result;
 			}
 
@@ -285,11 +290,11 @@ public class ViewerSupport {
 			result.start_offset = (offset + h) - p.offset;
 
 			if (offset + h < p.offset) {
-				setAbsoluteOffset(item, result, offset + h);
+				// setAbsoluteOffset(item, result, offset + h);
 				return result;
 			}
 			if ((offset + h) > p.offset && (offset + h < p.offset + p.length)) {
-				setAbsoluteOffset(item, result, offset + h);
+				// setAbsoluteOffset(item, result, offset + h);
 				return result;
 			}
 		}
@@ -297,18 +302,19 @@ public class ViewerSupport {
 		return null;
 	}
 
-	private void setAbsoluteOffset(ProjectionAnnotation item, LineInfo result,
-			int h) {
-		try {
-			if (!item.isCollapsed()) {
-				IRegion reg = fDocument.getLineInformationOfOffset(h);
-				result.absolute_offset = reg.getOffset();
-			}
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-
-	}
+	// private void setAbsoluteOffset(ProjectionAnnotation item, LineInfo
+	// result,
+	// int h) {
+	// try {
+	// if (!item.isCollapsed()) {
+	// IRegion reg = fDocument.getLineInformationOfOffset(h);
+	// result.absolute_offset = reg.getOffset();
+	// }
+	// } catch (BadLocationException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	public void setSelection(LineInfo info) {
 
@@ -319,25 +325,24 @@ public class ViewerSupport {
 		{
 			try {
 
-				boolean setCaret = false;
+				// boolean setCaret = false;
 				IRegion region = fDocument
 						.getLineInformationOfOffset(info.offset);
 
 				int revealStart = region.getOffset();
 				int revealLength = region.getLength();
 
-				if (info.isJump || info.isBookmark) {
+				if (info.isJump || info.isHistory) {
 					revealStart = region.getOffset() + info.start_offset;
 					revealLength = 0;
 					InfoAnnotation marker = new InfoAnnotation(this);
 					addAnnotation(marker, new Position(revealStart));
 
-				} else if (info.isHistory) {
-					revealStart = info.absolute_offset;
+				} else if (info.isBookmark) {
+					revealStart = region.getOffset() + info.start_offset;
 					revealLength = 0;
-					setCaret = true;
-
-					InfoAnnotation marker = new InfoAnnotation(this);
+					BookmarkAnnotation marker = new BookmarkAnnotation(
+							info.info);
 					addAnnotation(marker, new Position(revealStart));
 				}
 				// selection = new TextSelection(document, region.getOffset(),
@@ -348,9 +353,9 @@ public class ViewerSupport {
 
 				fSourceViewer.setSelectedRange(revealStart, revealLength);
 
-				if (setCaret)
-					fSourceViewer.getTextWidget().setCaretOffset(
-							revealStart + 1);
+				// if (setCaret)
+				// fSourceViewer.getTextWidget().setCaretOffset(
+				// revealStart + 1);
 
 				con.setLine(null);
 			} catch (BadLocationException e) {
@@ -393,6 +398,35 @@ public class ViewerSupport {
 			SearchAnnotation info = new SearchAnnotation();
 			addAnnotation(info, p);
 
+		}
+
+	}
+
+	public void addAnnotation(String text, LineInfo info) {
+		if (info == null)
+			return;
+
+		try {
+
+			IRegion region = fDocument.getLineInformationOfOffset(info.offset);
+
+			int revealStart = region.getOffset();
+			// int revealLength = region.getLength();
+
+			if (info.isJump || info.isHistory) {
+				revealStart = region.getOffset() + info.start_offset;
+				// revealLength = 0;
+				InfoAnnotation marker = new InfoAnnotation(this);
+				addAnnotation(marker, new Position(revealStart));
+
+			} else if (info.isBookmark) {
+				revealStart = region.getOffset() + info.start_offset;
+				// revealLength = 0;
+				BookmarkAnnotation marker = new BookmarkAnnotation(text);
+				addAnnotation(marker, new Position(revealStart));
+			}
+		} catch (BadLocationException e) {
+			e.printStackTrace();
 		}
 
 	}

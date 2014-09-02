@@ -5,18 +5,18 @@ import ebook.module.conf.model.BuildType;
 import ebook.module.conf.service.ConfTreeService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
+import ebook.module.text.interfaces.IBookmarkService;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.service.TextService;
-import ebook.module.tree.ITreeService;
 
 public class TextConnection {
 
 	IDbConnection con;
 	ITextTreeService srv;
-	ITreeService bmksrv;
+	IBookmarkService bmksrv;
 
-	public ITreeService bmkSrv() {
+	public IBookmarkService bmkSrv() {
 		return bmksrv;
 	}
 
@@ -30,7 +30,7 @@ public class TextConnection {
 	boolean canOpen = true;
 
 	public TextConnection(IDbConnection con, ContextInfo item,
-			ITextTreeService srv, ITreeService bmksrv) {
+			ITextTreeService srv, IBookmarkService bmksrv) {
 		super();
 		this.con = con;
 		this.srv = srv;

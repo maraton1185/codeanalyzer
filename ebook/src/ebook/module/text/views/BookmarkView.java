@@ -33,6 +33,7 @@ import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class BookmarkView {
 	private TreeViewer viewer;
@@ -140,11 +141,7 @@ public class BookmarkView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 
-				// ListInfo list = window.getContext().get(ListInfo.class);
-				// App.br.post(Events.EVENT_SHOW_CONF_LIST, null);
-				// Utils.executeHandler(hs, cs, Strings.model("ListView.show"));
-				// App.br.post(Events.EVENT_UPDATE_CONF_CONTEXT_PART,
-				// new EVENT_UPDATE_VIEW_DATA(con, list));
+				Utils.executeHandler(hs, cs, Strings.model("BookmarkView.show"));
 
 			}
 		});

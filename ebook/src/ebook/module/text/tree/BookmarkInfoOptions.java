@@ -12,6 +12,8 @@ public class BookmarkInfoOptions extends DbOptions {
 
 	public String title;
 
-	public Integer item;
+	public String item_opt;
+	public String item_title;
+	public Integer item_id;
 
 }

@@ -35,7 +35,7 @@ public class LineInfo extends TreeItemInfo {
 	}
 
 	// смещение с начала модуля
-	public int absolute_offset;
+	// public int absolute_offset;
 	// смещение процедуры
 	public int offset;
 	// смещение от процедуры
@@ -51,4 +51,5 @@ public class LineInfo extends TreeItemInfo {
 	public boolean isHistory = false;
 	public boolean isJump = false;
 	public boolean isBookmark = false;
+	public String info = "";
 }

@@ -1,6 +1,7 @@
 package ebook.module.text.views;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CaretEvent;
@@ -36,12 +38,15 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.conf.tree.ContextInfo;
+import ebook.module.db.DbOptions;
 import ebook.module.text.TextConnection;
+import ebook.module.text.annotations.BookmarkAnnotation;
 import ebook.module.text.model.History;
 import ebook.module.text.model.HistoryItem;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.tree.BookmarkInfo;
 import ebook.module.text.tree.BookmarkInfoOptions;
+import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -72,6 +77,7 @@ public class TextView implements ITextOperationTarget {
 	private ArrayList<LineInfo> model;
 	private boolean updateActiveProcedure = true;
 	private boolean updateSelected = false;
+	private boolean fillBookmarks = false;
 
 	@Inject
 	@Optional
@@ -99,15 +105,21 @@ public class TextView implements ITextOperationTarget {
 			opt.info = part.getLabel();
 			opt.start_offset = selected.start_offset;
 			opt.title = selected.getTitle();
-			opt.item = item.getId();
+			opt.item_id = item.getId();
+			opt.item_title = item.getTitle();
+			opt.item_opt = DbOptions.save(item.getOptions());
 
 			BookmarkInfo data = new BookmarkInfo(opt);
+			data.setItemId(item.getId());
 			data.setTitle(text.substring(0, Math.min(text.length(),
 					PreferenceSupplier
 							.getInt(PreferenceSupplier.BOOKMARK_LENGTH)))
 					+ "...");
 			data.setGroup(false);
 			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
+
+			BookmarkAnnotation marker = new BookmarkAnnotation(data.getTitle());
+			support.addAnnotation(marker, new Position(reg.getOffset()));
 
 		} catch (Exception e) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),
@@ -244,6 +256,10 @@ public class TextView implements ITextOperationTarget {
 
 		if (!con.getItem().equals(item))
 			return;
+
+		if (fillBookmarks)
+			fillBookmarks();
+
 		App.br.post(Events.EVENT_UPDATE_OUTLINE_VIEW, new EVENT_TEXT_DATA(con,
 				document, model, null));
 
@@ -310,7 +326,7 @@ public class TextView implements ITextOperationTarget {
 		item = con.getItem();
 		activated = new Object();
 		updateSelected = true;
-
+		fillBookmarks = true;
 		// support.setSelection(support.getProjectionByName(con.getLine()));
 
 		final boolean readOnly = con.srv().readOnly(item);
@@ -388,6 +404,15 @@ public class TextView implements ITextOperationTarget {
 		// ProjectionAnnotation annotation = new ProjectionAnnotation(false);
 		// support.addProjection(annotation, new Position(0, 400));
 
+	}
+
+	private void fillBookmarks() {
+		List<ITreeItemInfo> list = con.bmkSrv().getBookmarks(item.getId());
+		for (ITreeItemInfo bm : list) {
+			LineInfo info = support.getSelection(((BookmarkInfo) bm).getLine());
+			support.addAnnotation(bm.getTitle(), info);
+
+		}
 	}
 
 	@Focus

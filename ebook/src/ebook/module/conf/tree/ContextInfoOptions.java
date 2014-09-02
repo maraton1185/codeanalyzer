@@ -11,7 +11,7 @@ public class ContextInfoOptions extends DbOptions {
 
 	public BuildType type;
 
-	public Integer search_line;
+	public Integer start_offset;
 
 	public String proc;
 

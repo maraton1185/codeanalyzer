@@ -10,10 +10,10 @@ import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 
 import ebook.core.pico;
-import ebook.module.conf.ConfService;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.service.ConfService;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.tree.ITreeItemInfo;
 

@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.core.pico;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.ConfOptions;
+import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ContentProposalProvider;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
@@ -235,7 +235,7 @@ public class ConfView {
 							.adapt(con.conf(), con.srv(list),
 									(ContextInfo) selected);
 					TextConnection text_con = new TextConnection(con, item, con
-							.conf());
+							.conf(), con.bmsrv());
 					if (item.isSearch()) {
 						LineInfo line = new LineInfo(item.getOptions());
 						text_con.setLine(line);

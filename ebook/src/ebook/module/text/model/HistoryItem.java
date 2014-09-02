@@ -8,6 +8,7 @@ public class HistoryItem {
 		super();
 		this.item = item;
 		this.line = line;
+		this.line.isHistory = true;
 	}
 
 	@Override

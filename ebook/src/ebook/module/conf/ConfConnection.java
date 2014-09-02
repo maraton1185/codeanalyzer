@@ -7,6 +7,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
+import ebook.module.conf.service.BookmarkService;
+import ebook.module.conf.service.ConfService;
+import ebook.module.conf.service.ConfTreeService;
+import ebook.module.conf.service.ListService;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.tree.ITreeItemInfo;
@@ -75,6 +79,16 @@ public class ConfConnection extends BaseDbPathConnection {
 		service = service == null ? new ListService(this) : service;
 
 		return service;
+
+	}
+
+	private BookmarkService bmsrv;
+
+	public BookmarkService bmsrv() {
+
+		bmsrv = bmsrv == null ? new BookmarkService(this) : bmsrv;
+
+		return bmsrv;
 
 	}
 

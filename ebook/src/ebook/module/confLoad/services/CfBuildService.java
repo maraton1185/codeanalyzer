@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import ebook.module.conf.ConfService;
-import ebook.module.conf.ConfTreeService;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.service.ConfService;
+import ebook.module.conf.service.ConfTreeService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
@@ -390,7 +390,7 @@ public class CfBuildService {
 						if (line.toLowerCase().contains(title.toLowerCase())) {
 							BuildInfo ch = new BuildInfo();
 							ch.title = line.trim();
-							ch.search_line = index;
+							ch.start_offset = index;
 							ch.proc = info.title;
 							info.children.add(ch);
 							// System.out.println(index);

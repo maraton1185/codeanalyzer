@@ -49,4 +49,8 @@ public interface ITreeService {
 
 	ITreeItemInfo getSelected();
 
+	ITreeItemInfo getUploadRoot();
+
+	void edit(ITreeItemInfo item);
+
 }

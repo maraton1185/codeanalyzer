@@ -1,8 +1,9 @@
-package ebook.module.conf;
+package ebook.module.conf.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ebook.module.conf.ConfConnection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.db.DbOptions;

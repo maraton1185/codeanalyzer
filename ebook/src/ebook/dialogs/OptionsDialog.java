@@ -10,7 +10,6 @@ import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
-import org.eclipse.jface.preference.ScaleFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -52,8 +51,8 @@ public class OptionsDialog {
 		mgr.addToRoot(p);
 		p = new PreferenceNode("", new FieldEditorPageBrowser());
 		mgr.addToRoot(p);
-		// p = new PreferenceNode("", new FieldEditorPageTwo());
-		// mgr.addToRoot(p);
+		p = new PreferenceNode("", new FieldEditorPageOthers());
+		mgr.addToRoot(p);
 
 		// Create the preferences dialog
 		PreferenceDialog dlg = new Dialog(null, mgr);
@@ -69,18 +68,9 @@ public class OptionsDialog {
 	// *************************
 	class FieldEditorPageCommon extends FieldEditorPreferencePage {
 		public FieldEditorPageCommon() {
-			// Use the "flat" layout
 			super(GRID);
 			setTitle("Общие");
 		}
-
-		// Composite fonts;
-		// List<FieldEditor> fontsFieldEditors = new ArrayList<FieldEditor>();
-		//
-		// protected FieldEditor addEditorToFontsGroup(FieldEditor editor) {
-		// fontsFieldEditors.add(editor);
-		// return editor;
-		// }
 
 		/**
 		 * Creates the field editors
@@ -119,14 +109,6 @@ public class OptionsDialog {
 					"Проверять обновления при запуске", comp);
 			addField(f);
 
-			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
-					"Адрес сайта обновления", comp);
-			addField(f);
-			// BooleanFieldEditor f5 = new BooleanFieldEditor(
-			// PreferenceSupplier.SHOW_BOOK_PERSPECTIVE,
-			// "Открывать список книг при запуске", comp);
-			// addField(f5);
-
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
 			group.setLayout(new GridLayout(1, false));
@@ -161,13 +143,6 @@ public class OptionsDialog {
 					"Каталог web-сервера", comp);
 			((DirectoryFieldEditor) f).setChangeButtonText("...");
 			addField(f);
-
-			// comp = new Composite(group, SWT.NULL);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-			//
-
-			// comp = new Composite(group, SWT.NULL);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
@@ -235,19 +210,6 @@ public class OptionsDialog {
 			f = new FontFieldEditor(PreferenceSupplier.FONT, "Шрифт:", comp);
 			((FontFieldEditor) f).setChangeButtonText("...");
 			addField(f);
-
-			// comp = new Composite(group, SWT.NULL);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-			// comp.setLayout(new GridLayout(2, false));
-
-			// BooleanFieldEditor f10 = new BooleanFieldEditor(
-			// PreferenceSupplier.NOT_OPEN_SECTION_START_VIEW,
-			// "Не открывать страницу \"Как работать с книгой\"", comp);
-			// addField(f10);
-
-			// comp = new Composite(group, SWT.BORDER);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-			// comp.setLayout(new FillLayout());
 
 		}
 	}
@@ -326,11 +288,10 @@ public class OptionsDialog {
 
 	}
 
-	class FieldEditorPageTwo extends FieldEditorPreferencePage {
-		public FieldEditorPageTwo() {
-			// Use the "grid" layout
+	class FieldEditorPageOthers extends FieldEditorPreferencePage {
+		public FieldEditorPageOthers() {
 			super(GRID);
-			setTitle("Другое");
+			setTitle("Другие");
 		}
 
 		/**
@@ -338,20 +299,20 @@ public class OptionsDialog {
 		 */
 		@Override
 		protected void createFieldEditors() {
-			// Add an integer field
-			IntegerFieldEditor ife = new IntegerFieldEditor("myInt", "Int:",
-					getFieldEditorParent());
-			addField(ife);
 
-			// Add a scale field
-			ScaleFieldEditor sfe = new ScaleFieldEditor("myScale", "Scale:",
-					getFieldEditorParent(), 0, 100, 1, 10);
-			addField(sfe);
+			FieldEditor f;
+			Composite comp;
+			// Group group;
+			comp = getFieldEditorParent();
 
-			// Add a string field
-			StringFieldEditor stringFe = new StringFieldEditor("myString",
-					"String:", getFieldEditorParent());
-			addField(stringFe);
+			f = new IntegerFieldEditor(PreferenceSupplier.BOOKMARK_LENGTH,
+					"Длина текста закладки", comp);
+			addField(f);
+
+			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
+					"Адрес сайта обновления", comp);
+			addField(f);
+
 		}
 	}
 

@@ -169,10 +169,10 @@ public class ViewerSupport {
 		return fDocument;
 	}
 
-	private void addProjection(ProjectionAnnotation annotation,
-			Position position) {
+	private void addProjection(ProjectionAnnotation annotation, LineInfo info) {
 		fSourceViewer.getProjectionAnnotationModel().addAnnotation(annotation,
-				position);
+				info.projection);
+		info.annotation = annotation;
 		projections.add(annotation);
 	}
 
@@ -183,9 +183,13 @@ public class ViewerSupport {
 
 	}
 
-	public void removeMarkers() {
+	public void removeMarkers(Object cls) {
 		for (Annotation marker : markers) {
-			fAnnotationModel.removeAnnotation(marker);
+
+			if (cls == null)
+				fAnnotationModel.removeAnnotation(marker);
+			else if (marker.getClass() == cls.getClass())
+				fAnnotationModel.removeAnnotation(marker);
 		}
 		markers.clear();
 	}
@@ -218,7 +222,36 @@ public class ViewerSupport {
 		return viewer.overlapsWithVisibleRegion(offset, length);
 	}
 
+	public LineInfo getSelection(LineInfo lineInfo) {
+
+		if (lineInfo == null || model == null)
+			return null;
+		for (LineInfo info : model) {
+
+			if (info.getTitle().equalsIgnoreCase(lineInfo.getTitle())) {
+				LineInfo result = new LineInfo(lineInfo.getTitle());
+				result.offset = info.offset;
+				result.absolute_offset = lineInfo.absolute_offset;
+				if (lineInfo.isJump) {
+					result.start_offset = lineInfo.start_offset
+							- info.start_offset;
+					result.isJump = true;
+				}
+				if (lineInfo.isBookmark) {
+					result.start_offset = lineInfo.start_offset;
+					result.isBookmark = true;
+				}
+
+				return result;
+			}
+
+		}
+
+		return null;
+	}
+
 	public LineInfo getCurrentProjectionName(int offset) {
+
 		int h = 0;
 
 		// System.out.println(" - " + offset);
@@ -249,13 +282,14 @@ public class ViewerSupport {
 
 			// System.out.println(p.offset + ":" + p.length + ":" + h + ":"
 			// + data[0]);
+			result.start_offset = (offset + h) - p.offset;
 
 			if (offset + h < p.offset) {
-				setLine(item, result, offset + h);
+				setAbsoluteOffset(item, result, offset + h);
 				return result;
 			}
 			if ((offset + h) > p.offset && (offset + h < p.offset + p.length)) {
-				setLine(item, result, offset + h);
+				setAbsoluteOffset(item, result, offset + h);
 				return result;
 			}
 		}
@@ -263,11 +297,12 @@ public class ViewerSupport {
 		return null;
 	}
 
-	private void setLine(ProjectionAnnotation item, LineInfo result, int h) {
+	private void setAbsoluteOffset(ProjectionAnnotation item, LineInfo result,
+			int h) {
 		try {
 			if (!item.isCollapsed()) {
 				IRegion reg = fDocument.getLineInformationOfOffset(h);
-				result.line = reg.getOffset();
+				result.absolute_offset = reg.getOffset();
 			}
 		} catch (BadLocationException e) {
 			e.printStackTrace();
@@ -291,18 +326,19 @@ public class ViewerSupport {
 				int revealStart = region.getOffset();
 				int revealLength = region.getLength();
 
-				if (info.isJump) {
+				if (info.isJump || info.isBookmark) {
 					revealStart = region.getOffset() + info.start_offset;
 					revealLength = 0;
-					InfoAnnotation marker = new InfoAnnotation();
+					InfoAnnotation marker = new InfoAnnotation(this);
 					addAnnotation(marker, new Position(revealStart));
-				} else if (info.line != 0) {
-					revealStart = info.line;
+
+				} else if (info.isHistory) {
+					revealStart = info.absolute_offset;
 					revealLength = 0;
 					setCaret = true;
 
-					// InfoAnnotation marker = new InfoAnnotation();
-					// addAnnotation(marker, new Position(revealStart));
+					InfoAnnotation marker = new InfoAnnotation(this);
+					addAnnotation(marker, new Position(revealStart));
 				}
 				// selection = new TextSelection(document, region.getOffset(),
 				// region.getLength());
@@ -326,46 +362,6 @@ public class ViewerSupport {
 
 	}
 
-	public LineInfo getSelection(LineInfo lineInfo) {
-
-		if (lineInfo == null || model == null)
-			return null;
-		for (LineInfo info : model) {
-
-			if (info.getTitle().equalsIgnoreCase(lineInfo.getTitle())) {
-				LineInfo result = new LineInfo(lineInfo.getTitle());
-				result.offset = info.offset;
-				result.line = lineInfo.line;
-				if (lineInfo.isJump) {
-					result.start_offset = lineInfo.start_offset
-							- info.start_offset;
-					result.isJump = true;
-				}
-
-				return result;
-			}
-
-		}
-		// for (ProjectionAnnotation item : projections) {
-		// Position p = fSourceViewer.getProjectionAnnotationModel()
-		// .getPosition(item);
-		//
-		// if (p == null)
-		// continue;
-		//
-		// String[] data = item.getText().split(":");
-		// if (data[0].equalsIgnoreCase(lineInfo.getTitle())) {
-		// LineInfo result = new LineInfo(lineInfo.getTitle());
-		// result.offset = p.offset;
-		// result.start_offset = lineInfo.start_offset;
-		// return result;
-		// }
-		//
-		// }
-
-		return null;
-	}
-
 	public void setModel(EVENT_TEXT_DATA data) {
 		this.model = data.model;
 		this.model_markers = data.markers;
@@ -383,14 +379,14 @@ public class ViewerSupport {
 
 			ProjectionAnnotation annotation = new ProjectionAnnotation(false);
 			annotation.setText(info.getTitle() + ":" + info.length.toString());
-			addProjection(annotation, info.projection);
+			addProjection(annotation, info);
 
 		}
 
 	}
 
 	public void setMarkers() {
-		removeMarkers();
+		removeMarkers(null);
 
 		for (Position p : model_markers) {
 

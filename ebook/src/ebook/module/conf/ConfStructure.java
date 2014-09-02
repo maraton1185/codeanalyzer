@@ -1,19 +1,17 @@
 package ebook.module.conf;
 
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.db.DbOptions;
-import ebook.utils.Const;
 import ebook.utils.DbStructureChecker;
 import ebook.utils.Strings;
 
@@ -33,7 +31,15 @@ public class ConfStructure implements IDbStructure {
 			// stat.execute("CREATE INDEX IDX_GROUP1 ON PROCS(GROUP1);"
 			// + "CREATE INDEX IDX_GROUP2 ON PROCS(GROUP2);"
 			// + "CREATE INDEX IDX_MODULE ON PROCS(MODULE);");
+			stat.execute("DROP TABLE IF EXISTS BOOKMARKS;");
+			stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
 
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(1500), "
+
+					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
 		} catch (Exception e) {
 			throw new SQLException("Ошибка обновления структуры базы данных.");
 		}
@@ -72,6 +78,15 @@ public class ConfStructure implements IDbStructure {
 					+ "FOREIGN KEY(PARENT) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
+			stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
+
+					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+					+ "TITLE VARCHAR(500), "
+					+ "OPTIONS VARCHAR(1500), "
+
+					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+					+ "PRIMARY KEY (ID));");
+
 			// *****************************
 			String SQL;
 			PreparedStatement prep;
@@ -106,6 +121,15 @@ public class ConfStructure implements IDbStructure {
 			opt1.type = BuildType.root;
 			prep.setString(3, DbOptions.save(opt1));
 			prep.setNull(4, java.sql.Types.INTEGER);
+			affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			SQL = "INSERT INTO BOOKMARKS (TITLE, ISGROUP) VALUES (?,?);";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			prep.setString(1, Strings.value("bookmarkRoot"));
+			prep.setBoolean(2, false);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -195,6 +219,8 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "CONTEXT",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, LIST")
 				&& ch.checkColumns(metadata, "LISTS",
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+				&& ch.checkColumns(metadata, "BOOKMARKS",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS");
 
 		if (!haveStructure)
@@ -202,26 +228,26 @@ public class ConfStructure implements IDbStructure {
 
 	}
 
-	public boolean checkLisence(Connection con) throws FileNotFoundException,
-			SQLException {
-		try {
-			ResultSet rs;
-			Statement stat = con.createStatement();
-			rs = stat.executeQuery("Select COUNT(ID) from OBJECTS");
-			try {
-				int count = 0;
-				if (rs.next())
-					count = rs.getInt(1);
-
-				return count < Const.DEFAULT_FREE_FILES_COUNT;
-
-			} finally {
-				rs.close();
-			}
-		} catch (Exception e) {
-			throw new SQLException();
-		} finally {
-			con.close();
-		}
-	}
+	// public boolean checkLisence(Connection con) throws FileNotFoundException,
+	// SQLException {
+	// try {
+	// ResultSet rs;
+	// Statement stat = con.createStatement();
+	// rs = stat.executeQuery("Select COUNT(ID) from OBJECTS");
+	// try {
+	// int count = 0;
+	// if (rs.next())
+	// count = rs.getInt(1);
+	//
+	// return count < Const.DEFAULT_FREE_FILES_COUNT;
+	//
+	// } finally {
+	// rs.close();
+	// }
+	// } catch (Exception e) {
+	// throw new SQLException();
+	// } finally {
+	// con.close();
+	// }
+	// }
 }

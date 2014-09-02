@@ -125,6 +125,12 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_UPDATE_TEXT = "EVENT_TEXT_VIEW_UPDATE_TEXT";
 
+	public static final String EVENT_UPDATE_BOOKMARK_VIEW_EDIT_TITLE = "EVENT_UPDATE_BOOKMARK_VIEW_EDIT_TITLE";
+
+	public static final String EVENT_UPDATE_BOOKMARK_VIEW = "EVENT_UPDATE_BOOKMARK_VIEW";
+
+	public static final String EVENT_TEXT_VIEW_ADD_BOOKMARK = "EVENT_TEXT_VIEW_ADD_BOOKMARK";
+
 	public static class EVENT_TEXT_DATA {
 		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
 				ArrayList<LineInfo> model, ArrayList<Position> markers) {

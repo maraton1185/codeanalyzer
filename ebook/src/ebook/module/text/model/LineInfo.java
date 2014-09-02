@@ -22,7 +22,7 @@ public class LineInfo extends TreeItemInfo {
 
 	public LineInfo(ContextInfoOptions opt) {
 		this(opt.proc);
-		start_offset = opt.search_line;
+		start_offset = opt.start_offset;
 		isJump = true;
 	}
 
@@ -34,10 +34,13 @@ public class LineInfo extends TreeItemInfo {
 			return super.equals(obj);
 	}
 
-	public int line;
+	// смещение с начала модуля
+	public int absolute_offset;
+	// смещение процедуры
 	public int offset;
+	// смещение от процедуры
 	public int start_offset;
-	public boolean isJump = false;
+
 	public String name;
 	public Boolean export;
 
@@ -45,4 +48,7 @@ public class LineInfo extends TreeItemInfo {
 	public Integer length;
 	public ProjectionAnnotation annotation;
 
+	public boolean isHistory = false;
+	public boolean isJump = false;
+	public boolean isBookmark = false;
 }

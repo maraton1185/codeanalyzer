@@ -127,7 +127,7 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 			if (!listString.trim().isEmpty()) {
 				IRegion reg = fDocument.getLineInformation(startLine);
 				LineInfo lineInfo = new LineInfo();
-				lineInfo.line = startLine;
+				// lineInfo.line = startLine;
 				lineInfo.offset = reg.getOffset();
 				lineInfo.setTitle(Const.STRING_INIT_TITLE);
 				lineInfo.name = Const.STRING_INIT;

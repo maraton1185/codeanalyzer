@@ -68,7 +68,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.SectionView;
 import ebook.module.book.views.TextView;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.ConfOptions;
+import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.views.ConfView;
 import ebook.module.confLoad.services._FillProcLinkTableJob;
 import ebook.module.tree.Clipboard;

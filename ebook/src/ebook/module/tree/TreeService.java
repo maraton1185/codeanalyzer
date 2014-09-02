@@ -22,14 +22,12 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.db.DbOptions;
-import ebook.module.text.interfaces.ITextTreeService;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
-public abstract class TreeService implements ITreeService, ITextTreeService,
-		IDownloadService {
+public abstract class TreeService extends AbstractTreeService {
 
 	protected IDbConnection db;
 	private String tableName;
@@ -901,6 +899,12 @@ public abstract class TreeService implements ITreeService, ITextTreeService,
 
 	@Override
 	public List<ITreeItemInfo> getParents(ITreeItemInfo item) {
+		return null;
+	}
+
+	@Override
+	public ITreeItemInfo getUploadRoot() {
+
 		return null;
 	}
 

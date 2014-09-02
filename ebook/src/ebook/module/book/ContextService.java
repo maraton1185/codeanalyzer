@@ -343,7 +343,8 @@ public class ContextService extends TreeService {
 
 	}
 
-	private ITreeItemInfo getUploadRoot() {
+	@Override
+	public ITreeItemInfo getUploadRoot() {
 		List<ITreeItemInfo> input = getRoot();
 		if (input.isEmpty())
 			return createRoot();

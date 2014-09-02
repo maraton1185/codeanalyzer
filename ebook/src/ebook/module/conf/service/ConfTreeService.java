@@ -1,10 +1,11 @@
-package ebook.module.conf;
+package ebook.module.conf.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;

@@ -1,4 +1,4 @@
-package ebook.module.conf;
+package ebook.module.conf.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +24,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.pico;
+import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;

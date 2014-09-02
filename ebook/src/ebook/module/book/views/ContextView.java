@@ -190,7 +190,7 @@ public class ContextView {
 				ContextInfo item = service.adapt(selected);
 
 				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-						item, service));
+						item, service, null));
 
 			}
 		});

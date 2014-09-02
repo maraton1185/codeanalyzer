@@ -4,18 +4,26 @@ import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 
+import ebook.module.text.views.ViewerSupport;
 import ebook.utils.Utils;
 
 public class InfoAnnotation extends Annotation implements IAnnotation {
 
 	static final String type = "info.type";
 
-	public InfoAnnotation() {
+	public InfoAnnotation(ViewerSupport viewerSupport) {
 		super(type, true, "");
+		viewerSupport.removeMarkers(this);
+
 	}
 
 	public InfoAnnotation(String text) {
 		super(type, true, text);
+
+	}
+
+	public InfoAnnotation() {
+		super(type, true, "");
 
 	}
 

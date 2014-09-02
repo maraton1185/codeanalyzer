@@ -1,4 +1,4 @@
-package ebook.module.conf;
+package ebook.module.conf.model;
 
 import java.util.ArrayList;
 import java.util.Date;

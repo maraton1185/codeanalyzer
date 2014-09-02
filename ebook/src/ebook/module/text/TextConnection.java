@@ -1,18 +1,24 @@
 package ebook.module.text;
 
 import ebook.core.interfaces.IDbConnection;
-import ebook.module.conf.ConfTreeService;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.service.ConfTreeService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.service.TextService;
+import ebook.module.tree.ITreeService;
 
 public class TextConnection {
 
 	IDbConnection con;
 	ITextTreeService srv;
+	ITreeService bmksrv;
+
+	public ITreeService bmkSrv() {
+		return bmksrv;
+	}
 
 	ContextInfo item;
 	ContextInfo module;
@@ -24,11 +30,12 @@ public class TextConnection {
 	boolean canOpen = true;
 
 	public TextConnection(IDbConnection con, ContextInfo item,
-			ITextTreeService srv) {
+			ITextTreeService srv, ITreeService bmksrv) {
 		super();
 		this.con = con;
 		this.srv = srv;
 		this.item = item;
+		this.bmksrv = bmksrv;
 
 	}
 

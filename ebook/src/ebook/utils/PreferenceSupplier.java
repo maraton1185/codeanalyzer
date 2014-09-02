@@ -55,12 +55,15 @@ public abstract class PreferenceSupplier {
 	public static final String SHOW_ABOUT_ON_STARTUP = "SHOW_ABOUT_ON_STARTUP";
 	public static final String CHECK_UPDATE_ON_STARTUP = "CHECK_UPDATE_ON_STARTUP";
 	public static final String DEFAULT_IMAGE_DIRECTORY = "DEFAULT_IMAGE_DIRECTORY";
+	public static final String BOOKMARK_LENGTH = "BOOKMARK_LENGTH";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.BOOKMARK_LENGTH, 40);
 
 		preferenceStore.setDefault(PreferenceSupplier.CHECK_UPDATE_ON_STARTUP,
 				true);

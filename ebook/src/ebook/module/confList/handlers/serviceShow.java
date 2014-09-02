@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.core.App.ConfWindowCloseHandler;
 import ebook.module.conf.ConfConnection;
-import ebook.module.conf.ConfOptions;
+import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.ITreeItemInfo;

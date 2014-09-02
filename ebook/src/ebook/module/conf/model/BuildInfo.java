@@ -12,7 +12,7 @@ public class BuildInfo implements Comparable<BuildInfo> {
 	public Integer sort = 0;
 
 	public String proc;
-	public Integer search_line;
+	public Integer start_offset;
 
 	@Override
 	public int compareTo(BuildInfo o) {

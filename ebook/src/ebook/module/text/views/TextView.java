@@ -11,12 +11,15 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.workbench.swt.modeling.EMenuService;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
@@ -37,8 +40,11 @@ import ebook.module.text.TextConnection;
 import ebook.module.text.model.History;
 import ebook.module.text.model.HistoryItem;
 import ebook.module.text.model.LineInfo;
+import ebook.module.text.tree.BookmarkInfo;
+import ebook.module.text.tree.BookmarkInfoOptions;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
+import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
 public class TextView implements ITextOperationTarget {
@@ -66,6 +72,49 @@ public class TextView implements ITextOperationTarget {
 	private ArrayList<LineInfo> model;
 	private boolean updateActiveProcedure = true;
 	private boolean updateSelected = false;
+
+	@Inject
+	@Optional
+	public void EVENT_TEXT_VIEW_ADD_BOOKMARK(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_ADD_BOOKMARK) ContextInfo item,
+			Shell shell, @Active MPart part) {
+
+		if (!this.item.equals(item))
+			return;
+
+		ITextSelection textSelection = (ITextSelection) viewer
+				.getSelectionProvider().getSelection();
+
+		try {
+
+			int offset = viewer.getTextWidget().getCaretOffset();
+			int line = document.getLineOfOffset(textSelection.getOffset());
+			IRegion reg = document.getLineInformation(line);
+			String text = document.get(reg.getOffset(), reg.getLength());
+			LineInfo selected = support.getCurrentProjectionName(offset);
+			selected.isBookmark = true;
+			// selected = support.getSelection(selected);
+
+			BookmarkInfoOptions opt = new BookmarkInfoOptions();
+			opt.info = part.getLabel();
+			opt.start_offset = selected.start_offset;
+			opt.title = selected.getTitle();
+			opt.item = item.getId();
+
+			BookmarkInfo data = new BookmarkInfo(opt);
+			data.setTitle(text.substring(0, Math.min(text.length(),
+					PreferenceSupplier
+							.getInt(PreferenceSupplier.BOOKMARK_LENGTH)))
+					+ "...");
+			data.setGroup(false);
+			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
+
+		} catch (Exception e) {
+			MessageDialog.openError(shell, Strings.title("appTitle"),
+					"Ошибка создания закладки.");
+		}
+
+	}
 
 	@Inject
 	@Optional
@@ -162,7 +211,7 @@ public class TextView implements ITextOperationTarget {
 			@UIEventTopic(Events.EVENT_TEXT_VIEW_REMOVE_MARKERS) ITextViewer text) {
 		if (text != viewer)
 			return;
-		support.removeMarkers();
+		support.removeMarkers(null);
 	}
 
 	@Inject

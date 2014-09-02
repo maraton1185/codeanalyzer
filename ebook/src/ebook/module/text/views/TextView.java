@@ -127,15 +127,16 @@ public class TextView implements ITextOperationTarget {
 							.getInt(PreferenceSupplier.BOOKMARK_LENGTH)))
 					+ "...");
 			data.setGroup(false);
-			if (con.bmkSrv().haveBookmark(data))
-				return;
-
-			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
 
 			if (!support.haveBookmark(offset)) {
 				BookmarkAnnotation marker = new BookmarkAnnotation();
 				support.addAnnotation(marker, new Position(offset));
 			}
+
+			if (con.bmkSrv().haveBookmark(data))
+				return;
+
+			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
 
 		} catch (Exception e) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),

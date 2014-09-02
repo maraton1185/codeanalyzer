@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IDbStructure;
+import ebook.module.book.model.BookOptions;
 import ebook.module.db.DbOptions;
 import ebook.utils.DbStructureChecker;
 import ebook.utils.Strings;
@@ -34,7 +35,8 @@ public class BookStructure implements IDbStructure {
 					+ "SECTION INTEGER, "
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
-					+ "OPTIONS VARCHAR(1500), "
+					+ "OPTIONS VARCHAR(3000), "
+					+ "ITEM INTEGER, "
 
 					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
@@ -138,7 +140,8 @@ public class BookStructure implements IDbStructure {
 					+ "SECTION INTEGER, "
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
-					+ "OPTIONS VARCHAR(1500), "
+					+ "OPTIONS VARCHAR(3000), "
+					+ "ITEM INTEGER, "
 
 					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
@@ -172,7 +175,7 @@ public class BookStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "S_IMAGES",
 						"DATA, TITLE, SORT, MIME")
 				&& ch.checkColumns(metadata, "BOOKMARKS",
-						"SECTION, PARENT, SORT, TITLE, ISGROUP, OPTIONS");
+						"SECTION, PARENT, SORT, TITLE, ISGROUP, OPTIONS, ITEM");
 
 		;
 

@@ -1,4 +1,4 @@
-package ebook.module.book;
+package ebook.module.book.service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -35,6 +35,8 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
+import ebook.module.book.BookConnection;
+import ebook.module.book.model.BookOptions;
 import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;

@@ -102,6 +102,19 @@ public class BookmarkView {
 
 	}
 
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_BOOKMARK_VIEW_FULL_UPDATE(
+			@UIEventTopic(Events.EVENT_UPDATE_BOOKMARK_VIEW_FULL_UPDATE) Object db) {
+
+		if (!con.getCon().equals(db))
+			return;
+
+		treeComponent.updateInput();
+		treeComponent.setSelection();
+
+	}
+
 	@PostConstruct
 	public void postConstruct(Composite parent, final Shell shell,
 			EMenuService menuService, @Active final MWindow window,

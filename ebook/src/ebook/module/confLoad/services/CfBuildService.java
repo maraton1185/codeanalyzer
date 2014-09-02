@@ -357,11 +357,14 @@ public class CfBuildService {
 		SQL = SQL.concat(" ORDER BY TITLE");
 
 		prep = con.prepareStatement(SQL);
-		prep.setString(1, Pattern.quote(title));
+
 		if (gr != null) {
+			prep.setInt(1, gr);
 			prep.setInt(2, gr);
 			prep.setInt(3, gr);
-			prep.setInt(4, gr);
+			prep.setString(4, Pattern.quote(title));
+		} else {
+			prep.setString(1, Pattern.quote(title));
 		}
 
 		BufferedReader bufferedReader = null;

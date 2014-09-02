@@ -5,7 +5,7 @@ import java.util.List;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.BookService;
+import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Utils;

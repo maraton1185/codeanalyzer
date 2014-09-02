@@ -1,4 +1,4 @@
-package ebook.module.book;
+package ebook.module.book.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
 import ebook.core.pico;
+import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.conf.model.AdditionalInfo;
@@ -417,6 +418,26 @@ public class ContextService extends TreeService {
 				item.setTitle(parent.getTitle() + "." + item.getTitle());
 		}
 		return item;
+	}
+
+	@Override
+	public List<ITreeItemInfo> getParents(ITreeItemInfo _item) {
+		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
+		ContextInfo item = (ContextInfo) _item;
+
+		ContextInfo parent = (ContextInfo) get(item.getParent());
+
+		do {
+			if (parent != null)
+				result.add(0, parent);
+			parent = (ContextInfo) get(parent.getParent());
+
+		} while (parent != null);
+
+		if (!result.isEmpty())
+			result.remove(0);
+
+		return result;
 	}
 
 }

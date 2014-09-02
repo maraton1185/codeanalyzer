@@ -6,6 +6,9 @@ import java.util.List;
 import ebook.core.App;
 import ebook.core.exceptions.GetRootException;
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.book.BookConnection;
+import ebook.module.book.service.ContextService;
+import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.service.ConfService;
@@ -13,6 +16,7 @@ import ebook.module.conf.service.ListService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
+import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
@@ -95,10 +99,27 @@ public class TextService {
 
 		try {
 
-			if (!(con instanceof ConfConnection))
+			ConfConnection _con = null;
+			if (con instanceof BookConnection) {
+				SectionInfoOptions opt = ((ContextService) srv).getSection()
+						.getOptions();
+				if (!opt.hasContext())
+					return;
+				ListConfInfo info = (ListConfInfo) App.srv.cl().getTreeItem(
+						opt.getContextName(), "");
+				if (info == null)
+					return;
+
+				_con = new ConfConnection(info.getPath(), true, true);
+
+				// return;
+			} else if (con instanceof ConfConnection) {
+				_con = (ConfConnection) con;
+			} else
 				return;
 
-			ConfConnection _con = (ConfConnection) con;
+			// if (!(con instanceof ConfConnection))
+			// return;
 
 			ListInfo newList = App.mng.clm(_con).getNewList();
 			ConfService conf = _con.srv(newList);
@@ -131,7 +152,7 @@ public class TextService {
 			newList.getOptions().selectedContext = data.getId();
 			lsrv.saveOptions(newList);
 
-			App.ctx.set(ConfConnection.class, (ConfConnection) con);
+			App.ctx.set(ConfConnection.class, _con);
 			App.ctx.set(ListInfo.class, newList);
 			App.br.post(Events.EVENT_SHOW_CONF, null);
 

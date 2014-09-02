@@ -7,7 +7,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.ContextService;
+import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;

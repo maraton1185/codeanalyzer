@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.ContextService;
+import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
@@ -190,7 +190,7 @@ public class ContextView {
 				ContextInfo item = service.adapt(selected);
 
 				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-						item, service, null));
+						item, service, con.bmsrv(section)));
 
 			}
 		});

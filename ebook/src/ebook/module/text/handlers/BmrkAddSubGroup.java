@@ -37,6 +37,6 @@ public class BmrkAddSubGroup {
 	@CanExecute
 	public boolean canExecute(@Optional @Active BookmarkInfo item,
 			@Active @Optional TextConnection con) {
-		return con != null && con.isValid() && con.isConf() && item != null;
+		return con != null && con.isValid() && item != null;
 	}
 }

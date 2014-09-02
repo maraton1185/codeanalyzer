@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.core.exceptions.DbLicenseException;
 import ebook.module.book.BookConnection;
-import ebook.module.book.ContextService;
+import ebook.module.book.service.ContextService;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ContextInfoSelection;

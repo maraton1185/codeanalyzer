@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.ContextService;
+import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.tree.ITreeItemInfo;

@@ -81,6 +81,15 @@ public class TextView implements ITextOperationTarget {
 
 	@Inject
 	@Optional
+	public void EVENT_TEXT_VIEW_FILL_BOOKMARKS(
+			@UIEventTopic(Events.EVENT_TEXT_VIEW_FILL_BOOKMARKS) ContextInfo item) {
+		if (!this.item.equals(item))
+			return;
+		fillBookmarks();
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_TEXT_VIEW_ADD_BOOKMARK(
 			@UIEventTopic(Events.EVENT_TEXT_VIEW_ADD_BOOKMARK) ContextInfo item,
 			Shell shell, @Active MPart part) {
@@ -407,12 +416,14 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	private void fillBookmarks() {
+		support.removeMarkers(BookmarkAnnotation.class);
 		List<ITreeItemInfo> list = con.bmkSrv().getBookmarks(item.getId());
 		for (ITreeItemInfo bm : list) {
 			LineInfo info = support.getSelection(((BookmarkInfo) bm).getLine());
 			support.addAnnotation(bm.getTitle(), info);
 
 		}
+		fillBookmarks = false;
 	}
 
 	@Focus

@@ -185,15 +185,26 @@ public class ViewerSupport {
 
 	}
 
-	public void removeMarkers(Object cls) {
+	public void removeMarkers(@SuppressWarnings("rawtypes") Class cls) {
+		List<Annotation> _markers = new ArrayList<Annotation>();
 		for (Annotation marker : markers) {
 
 			if (cls == null)
 				fAnnotationModel.removeAnnotation(marker);
-			else if (marker.getClass() == cls.getClass())
+			else if (marker.getClass() == cls) {
 				fAnnotationModel.removeAnnotation(marker);
+				_markers.add(marker);
+
+			}
 		}
-		markers.clear();
+		if (cls == null)
+			markers.clear();
+
+		for (Annotation annotation : _markers) {
+			int i = markers.indexOf(annotation);
+			if (i >= 0)
+				markers.remove(i);
+		}
 	}
 
 	private void removeFolding() {

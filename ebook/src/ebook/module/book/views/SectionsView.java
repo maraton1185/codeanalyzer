@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Display;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.BookOptions;
+import ebook.module.book.model.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoSelection;
 import ebook.module.bookList.tree.ListBookInfo;

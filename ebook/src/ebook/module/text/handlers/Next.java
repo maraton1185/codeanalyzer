@@ -37,6 +37,6 @@ public class Next {
 
 	@CanExecute
 	public boolean canExecute(@Active @Optional TextConnection con) {
-		return con != null && con.isValid() && con.isConf();
+		return con != null && con.isValid();
 	}
 }

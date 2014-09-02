@@ -13,7 +13,7 @@ public class InfoAnnotation extends Annotation implements IAnnotation {
 
 	public InfoAnnotation(ViewerSupport viewerSupport) {
 		super(type, true, "");
-		viewerSupport.removeMarkers(this);
+		viewerSupport.removeMarkers(InfoAnnotation.class);
 
 	}
 

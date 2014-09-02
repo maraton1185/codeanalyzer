@@ -63,7 +63,7 @@ import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IManagerFactory;
 import ebook.core.interfaces.IServiceFactory;
 import ebook.module.book.BookConnection;
-import ebook.module.book.BookOptions;
+import ebook.module.book.model.BookOptions;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.SectionView;
 import ebook.module.book.views.TextView;

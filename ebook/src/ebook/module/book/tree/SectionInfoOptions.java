@@ -26,6 +26,8 @@ public class SectionInfoOptions extends DbOptions {
 
 	String contextName = "";
 
+	// public int selectedBookmark;
+
 	public String getContextName() {
 		return contextName == null ? "" : contextName;
 	}

@@ -6,6 +6,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 import ebook.core.App;
+import ebook.module.book.service.BookService;
+import ebook.module.book.service.BookmarkService;
+import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.tree.ITreeItemInfo;
@@ -49,6 +52,20 @@ public class BookConnection extends BaseDbPathConnection {
 		// ctxsrv = ctxsrv == null ? new ContextService(this, section) : ctxsrv;
 
 		return ctxsrv;
+	}
+
+	private BookmarkService bmsrv;
+
+	public BookmarkService bmsrv(SectionInfo section) {
+
+		if (bmsrv != null) {
+			bmsrv = bmsrv.getSection().equals(section) ? bmsrv
+					: new BookmarkService(this, section);
+		} else
+			bmsrv = new BookmarkService(this, section);
+
+		return bmsrv;
+
 	}
 
 	@Override

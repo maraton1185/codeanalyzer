@@ -1,4 +1,4 @@
-package ebook.module.book;
+package ebook.module.book.model;
 
 import java.util.ArrayList;
 import java.util.List;

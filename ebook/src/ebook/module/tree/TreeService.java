@@ -30,7 +30,7 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 public abstract class TreeService extends AbstractTreeService {
 
 	protected IDbConnection db;
-	private String tableName;
+	protected String tableName;
 
 	protected void setTableName(String tableName) {
 		this.tableName = tableName;
@@ -400,6 +400,7 @@ public abstract class TreeService extends AbstractTreeService {
 		App.br.post(updateEvent + "_EXPAND", getUpdateEventData(item, item));
 	}
 
+	@Override
 	public void edit(ITreeItemInfo item) {
 
 		App.br.post(updateEvent + "_EDIT_TITLE", getUpdateEventData(item, item));

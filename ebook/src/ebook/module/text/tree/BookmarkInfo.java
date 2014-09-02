@@ -46,9 +46,9 @@ public class BookmarkInfo extends TreeItemInfo {
 
 	public LineInfo getLine() {
 		if (line == null) {
-			BookmarkInfoOptions opt = getOptions();
-			line = new LineInfo(opt.title);
-			line.start_offset = opt.start_offset;
+			// BookmarkInfoOptions opt = getOptions();
+			line = new LineInfo(_proc);
+			line.start_offset = _offset;
 			line.isBookmark = true;
 			// line.info = opt.info;
 		}
@@ -62,13 +62,8 @@ public class BookmarkInfo extends TreeItemInfo {
 		return tag == null ? "" : tag;
 	}
 
-	private int item_id;
+	public int _id;
+	public String _proc;
+	public int _offset;
 
-	public void setItemId(int item_id) {
-		this.item_id = item_id;
-	}
-
-	public int getItemId() {
-		return item_id;
-	}
 }

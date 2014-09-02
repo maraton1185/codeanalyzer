@@ -111,19 +111,25 @@ public class TextView implements ITextOperationTarget {
 
 			BookmarkInfoOptions opt = new BookmarkInfoOptions();
 			opt.info = part.getLabel();
-			opt.start_offset = selected.start_offset;
-			opt.title = selected.getTitle();
+			// opt.start_offset = selected.start_offset;
+			// opt.title = selected.getTitle();
 			opt.item_id = item.getId();
 			opt.item_title = item.getTitle();
 			opt.item_opt = DbOptions.save(item.getOptions());
 
 			BookmarkInfo data = new BookmarkInfo(opt);
-			data.setItemId(item.getId());
+			data._id = item.getId();
+			data._proc = selected.getTitle();
+			data._offset = selected.start_offset;
+
 			data.setTitle(text.substring(0, Math.min(text.length(),
 					PreferenceSupplier
 							.getInt(PreferenceSupplier.BOOKMARK_LENGTH)))
 					+ "...");
 			data.setGroup(false);
+			if (con.bmkSrv().haveBookmark(data))
+				return;
+
 			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
 
 			if (!support.haveBookmark(offset)) {

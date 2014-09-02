@@ -8,9 +8,9 @@ public class BookmarkInfoOptions extends DbOptions {
 
 	public String info = "";
 
-	public Integer start_offset;
-
-	public String title;
+	// public Integer start_offset;
+	//
+	// public String title;
 
 	public String item_opt;
 	public String item_title;

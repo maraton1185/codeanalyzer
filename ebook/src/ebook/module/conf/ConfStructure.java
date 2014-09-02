@@ -85,6 +85,8 @@ public class ConfStructure implements IDbStructure {
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(3000), "
 					+ "ITEM INTEGER, "
+					+ "PROC VARCHAR(500), "
+					+ "OFFSET INTEGER, "
 
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -223,7 +225,7 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "LISTS",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "BOOKMARKS",
-						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ITEM");
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ITEM, PROC, OFFSET");
 
 		if (!haveStructure)
 			throw new DbStructureException();

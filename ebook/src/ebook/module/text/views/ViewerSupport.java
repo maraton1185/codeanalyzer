@@ -334,45 +334,47 @@ public class ViewerSupport {
 		StyledText widget = fSourceViewer.getTextWidget();
 		widget.setRedraw(false);
 		{
-			try {
+			// try {
 
-				// boolean setCaret = false;
-				IRegion region = fDocument
-						.getLineInformationOfOffset(info.offset);
+			// boolean setCaret = false;
+			// IRegion region = fDocument
+			// .getLineInformationOfOffset(info.offset);
 
-				int revealStart = region.getOffset();
-				int revealLength = region.getLength();
+			List<Integer> reveals = addAnnotation(info);
+			if (reveals.isEmpty())
+				return;
+			int revealStart = reveals.get(0);
+			int revealLength = reveals.get(1);
 
-				if (info.isJump || info.isHistory) {
-					revealStart = region.getOffset() + info.start_offset;
-					revealLength = 0;
-					InfoAnnotation marker = new InfoAnnotation(this);
-					addAnnotation(marker, new Position(revealStart));
+			// int revealStart = region.getOffset();
+			// int revealLength = region.getLength();
+			//
+			// if (info.isJump || info.isHistory) {
+			// revealStart = region.getOffset() + info.start_offset;
+			// revealLength = 0;
+			// InfoAnnotation marker = new InfoAnnotation(this);
+			// addAnnotation(marker, new Position(revealStart));
+			//
+			// } else if (info.isBookmark) {
+			// revealStart = region.getOffset() + info.start_offset;
+			// revealLength = 0;
+			// BookmarkAnnotation marker = new BookmarkAnnotation();
+			// addAnnotation(marker, new Position(revealStart));
+			// }
+			// selection = new TextSelection(document, region.getOffset(),
+			// region.getLength());
 
-				} else if (info.isBookmark) {
-					revealStart = region.getOffset() + info.start_offset;
-					revealLength = 0;
-					BookmarkAnnotation marker = new BookmarkAnnotation(
-							info.info);
-					addAnnotation(marker, new Position(revealStart));
-				}
-				// selection = new TextSelection(document, region.getOffset(),
-				// region.getLength());
+			adjustHighlightRange(revealStart, revealLength);
+			fSourceViewer.revealRange(revealStart, revealLength);
 
-				adjustHighlightRange(revealStart, revealLength);
-				fSourceViewer.revealRange(revealStart, revealLength);
+			fSourceViewer.setSelectedRange(revealStart, revealLength);
 
-				fSourceViewer.setSelectedRange(revealStart, revealLength);
+			// if (setCaret)
+			// fSourceViewer.getTextWidget().setCaretOffset(
+			// revealStart + 1);
 
-				// if (setCaret)
-				// fSourceViewer.getTextWidget().setCaretOffset(
-				// revealStart + 1);
+			con.setLine(null);
 
-				con.setLine(null);
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		widget.setRedraw(true);
 
@@ -413,32 +415,53 @@ public class ViewerSupport {
 
 	}
 
-	public void addAnnotation(String text, LineInfo info) {
-		if (info == null)
-			return;
+	public List<Integer> addAnnotation(LineInfo info) {
+		List<Integer> result = new ArrayList<Integer>();
+		if (info == null) {
+			return result;
+		}
 
 		try {
 
 			IRegion region = fDocument.getLineInformationOfOffset(info.offset);
 
 			int revealStart = region.getOffset();
-			// int revealLength = region.getLength();
+			int revealLength = region.getLength();
 
 			if (info.isJump || info.isHistory) {
 				revealStart = region.getOffset() + info.start_offset;
-				// revealLength = 0;
+				revealLength = 0;
 				InfoAnnotation marker = new InfoAnnotation(this);
 				addAnnotation(marker, new Position(revealStart));
 
 			} else if (info.isBookmark) {
 				revealStart = region.getOffset() + info.start_offset;
-				// revealLength = 0;
-				BookmarkAnnotation marker = new BookmarkAnnotation(text);
+				revealLength = 0;
+				BookmarkAnnotation marker = new BookmarkAnnotation();
 				addAnnotation(marker, new Position(revealStart));
 			}
+			result.add(revealStart);
+			result.add(revealLength);
+
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+		return result;
 
+	}
+
+	public boolean haveBookmark(int offset) {
+		for (Annotation marker : markers) {
+
+			if (!(marker instanceof BookmarkAnnotation))
+				continue;
+			Position p = fAnnotationModel.getPosition(marker);
+			if (p == null)
+				continue;
+			if (p.offset == offset)
+				return true;
+
+		}
+		return false;
 	}
 }

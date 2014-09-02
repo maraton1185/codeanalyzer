@@ -102,13 +102,12 @@ public class TextView implements ITextOperationTarget {
 
 		try {
 
-			int offset = viewer.getTextWidget().getCaretOffset();
+			// int offset = viewer.getTextWidget().getCaretOffset();
 			int line = document.getLineOfOffset(textSelection.getOffset());
 			IRegion reg = document.getLineInformation(line);
+			int offset = reg.getOffset();
 			String text = document.get(reg.getOffset(), reg.getLength());
 			LineInfo selected = support.getCurrentProjectionName(offset);
-			selected.isBookmark = true;
-			// selected = support.getSelection(selected);
 
 			BookmarkInfoOptions opt = new BookmarkInfoOptions();
 			opt.info = part.getLabel();
@@ -127,8 +126,10 @@ public class TextView implements ITextOperationTarget {
 			data.setGroup(false);
 			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
 
-			BookmarkAnnotation marker = new BookmarkAnnotation(data.getTitle());
-			support.addAnnotation(marker, new Position(reg.getOffset()));
+			if (!support.haveBookmark(offset)) {
+				BookmarkAnnotation marker = new BookmarkAnnotation();
+				support.addAnnotation(marker, new Position(offset));
+			}
 
 		} catch (Exception e) {
 			MessageDialog.openError(shell, Strings.title("appTitle"),
@@ -157,10 +158,6 @@ public class TextView implements ITextOperationTarget {
 			dlg.setData(con, item, line);
 			dlg.open();
 
-			// if (_line.isEmpty())
-			// return;
-			// con.srv().buildText(item, _line, shell);
-			// viewerConfiguration.lightWord(_line);
 		} catch (BadLocationException e) {
 
 			e.printStackTrace();
@@ -420,7 +417,7 @@ public class TextView implements ITextOperationTarget {
 		List<ITreeItemInfo> list = con.bmkSrv().getBookmarks(item.getId());
 		for (ITreeItemInfo bm : list) {
 			LineInfo info = support.getSelection(((BookmarkInfo) bm).getLine());
-			support.addAnnotation(bm.getTitle(), info);
+			support.addAnnotation(info);
 
 		}
 		fillBookmarks = false;

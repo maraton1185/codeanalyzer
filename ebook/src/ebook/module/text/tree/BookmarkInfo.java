@@ -50,7 +50,7 @@ public class BookmarkInfo extends TreeItemInfo {
 			line = new LineInfo(opt.title);
 			line.start_offset = opt.start_offset;
 			line.isBookmark = true;
-			line.info = opt.info;
+			// line.info = opt.info;
 		}
 
 		return line;

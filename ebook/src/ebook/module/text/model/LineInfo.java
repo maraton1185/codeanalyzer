@@ -51,5 +51,5 @@ public class LineInfo extends TreeItemInfo {
 	public boolean isHistory = false;
 	public boolean isJump = false;
 	public boolean isBookmark = false;
-	public String info = "";
+	// public String info = "";
 }

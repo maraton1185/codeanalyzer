@@ -22,16 +22,16 @@ public abstract class AbstractBookmarkService extends TreeService implements
 	}
 
 	@Override
-	public List<ITreeItemInfo> getBookmarks(int item) {
+	public List<ITreeItemInfo> getBookmarks(String path) {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
 		// Connection con = null;
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.ITEM=? ORDER BY T.SORT, T.ID";
+					+ " AS T WHERE T.PATH=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, item);
+			prep.setString(1, path);
 			ResultSet rs = prep.executeQuery();
 
 			try {
@@ -54,9 +54,9 @@ public abstract class AbstractBookmarkService extends TreeService implements
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.ITEM=? AND T.PROC=? AND T.OFFSET=?";
+					+ " AS T WHERE T.PATH=? AND T.PROC=? AND T.OFFSET=?";
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, data._id);
+			prep.setString(1, data._path);
 			prep.setString(2, data._proc);
 			prep.setInt(3, data._offset);
 			ResultSet rs = prep.executeQuery();

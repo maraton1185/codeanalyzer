@@ -27,17 +27,19 @@ public class BookmarkInfo extends TreeItemInfo {
 		return isGroup();
 	}
 
-	ContextInfo item;
+	// ContextInfo item;
 
-	public ContextInfo getItem() {
+	public ContextInfo getItem(ContextInfo item) {
 
-		if (item == null) {
-			BookmarkInfoOptions opt = getOptions();
-			item = new ContextInfo(DbOptions.load(ContextInfoOptions.class,
-					opt.item_opt));
-			item.setId(opt.item_id);
-			item.setTitle(opt.item_title);
-		}
+		// if (item == null) {
+		BookmarkInfoOptions opt = getOptions();
+		// item = new ContextInfo(DbOptions.load(ContextInfoOptions.class,
+		// opt.item_opt));
+		// item.setId(_item.getId());
+		item.setTitle(opt.info);
+		item.setOptions(DbOptions.load(ContextInfoOptions.class, opt.item_opt));
+
+		// }
 
 		return item;
 	}
@@ -62,7 +64,7 @@ public class BookmarkInfo extends TreeItemInfo {
 		return tag == null ? "" : tag;
 	}
 
-	public int _id;
+	public String _path;
 	public String _proc;
 	public int _offset;
 

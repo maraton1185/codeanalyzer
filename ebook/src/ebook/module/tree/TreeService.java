@@ -771,14 +771,15 @@ public abstract class TreeService extends AbstractTreeService {
 
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT TOP 1 "
-					+ getItemString("T")
-					+ "FROM "
-					+ tableName
-					+ " AS T WHERE T.PARENT=? AND T.TITLE=? ORDER BY T.SORT, T.ID";
+			String SQL = "SELECT TOP 1 " + getItemString("T") + "FROM "
+					+ tableName + " AS T WHERE T.TITLE=? AND "
+					+ (parent == null ? "T.PARENT IS NULL " : "T.PARENT=? ")
+					+ " ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, parent);
-			prep.setString(2, title);
+			prep.setString(1, title);
+			if (parent != null)
+				prep.setInt(2, parent);
+
 			ResultSet rs = prep.executeQuery();
 			try {
 				if (rs.next()) {
@@ -901,6 +902,19 @@ public abstract class TreeService extends AbstractTreeService {
 	@Override
 	public List<ITreeItemInfo> getParents(ITreeItemInfo item) {
 		return null;
+	}
+
+	@Override
+	public String getPath(ContextInfo item) {
+		String result = "";
+		List<ITreeItemInfo> parents = getParents(item);
+		if (!parents.isEmpty())
+			parents.remove(parents.size() - 1);
+		for (ITreeItemInfo p : parents) {
+			result += p.getTitle() + ".";
+		}
+		// return result.substring(0, result.length() - 1);
+		return result.concat(item.getTitle());
 	}
 
 	@Override

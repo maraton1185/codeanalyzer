@@ -416,6 +416,7 @@ public class ContextService extends TreeService {
 			ContextInfo parent = (ContextInfo) get(item.getParent());
 			if (parent != null && parent.getOptions().type != BuildType.module)
 				item.setTitle(parent.getTitle() + "." + item.getTitle());
+
 		}
 		return item;
 	}
@@ -438,6 +439,26 @@ public class ContextService extends TreeService {
 			result.remove(0);
 
 		return result;
+	}
+
+	@Override
+	public ContextInfo getByPath(String path) {
+
+		List<ITreeItemInfo> root = getRoot();
+		if (root.isEmpty())
+			return null;
+		int parent = root.get(0).getId();
+		String[] data = path.replace("...", "###").split("\\.");
+		ITreeItemInfo item = null;
+		for (String s : data) {
+			s = s.replace("###", "...");
+			item = findInParent(s, parent);
+			if (item == null)
+				break;
+			parent = item.getId();
+		}
+
+		return (ContextInfo) item;
 	}
 
 }

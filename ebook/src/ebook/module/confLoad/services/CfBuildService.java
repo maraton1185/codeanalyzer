@@ -193,7 +193,7 @@ public class CfBuildService {
 			rs.close();
 		}
 
-		return count > 1 ? null : index;
+		return (!exact || count > 1) ? null : index;
 	}
 
 	public List<BuildInfo> buildRoot() throws SQLException {

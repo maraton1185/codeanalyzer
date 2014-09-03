@@ -30,6 +30,8 @@ public class DocumentPartitionScanner extends RuleBasedPartitionScanner {
 
 		IToken string = new Token(STRING);
 		rules.add(new ScannerStringRule("\"", "\"", string));
+		// rules.add(new MultiLineRule("\"", "\"", string));
+
 		IToken comment = new Token(COMMENT);
 		rules.add(new EndOfLineRule("//", comment));
 

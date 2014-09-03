@@ -3,6 +3,7 @@ package ebook.module.text.interfaces;
 import java.sql.Connection;
 import java.util.List;
 
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.tree.ITreeItemInfo;
 
 public interface ITextTreeService {
@@ -22,4 +23,8 @@ public interface ITextTreeService {
 	ITreeItemInfo getModule(ITreeItemInfo item);
 
 	List<ITreeItemInfo> getParents(ITreeItemInfo item);
+
+	String getPath(ContextInfo item);
+
+	ContextInfo getByPath(String path);
 }

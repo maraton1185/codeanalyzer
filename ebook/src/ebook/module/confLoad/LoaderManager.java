@@ -87,9 +87,11 @@ public class LoaderManager implements ILoaderManager {
 			if (!loaderService.srv.load().canLoad(con))
 				throw new DbCantLoadException();
 
-			monitor.beginTask("Загрузка конфигурации...", length);
+			monitor.beginTask("Очистка таблиц...", 0);
 
 			loaderService.srv.load().clearTables(con);
+
+			monitor.beginTask("Загрузка конфигурации...", length);
 
 			loadFromDirectoryDoWork(con, monitor, files, db.getDoLog());
 

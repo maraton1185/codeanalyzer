@@ -17,47 +17,63 @@ public class ScannerStringRule extends MultiLineRule {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static class DecreasingCharArrayLengthComparator implements Comparator {
+	private static class DecreasingCharArrayLengthComparator implements
+			Comparator {
+		@Override
 		public int compare(Object o1, Object o2) {
 			return ((char[]) o2).length - ((char[]) o1).length;
 		}
 	}
-	
+
 	private char[][] fLineDelimiters;
 	private char[][] fSortedLineDelimiters;
 	@SuppressWarnings("rawtypes")
-	private Comparator fLineDelimiterComparator= new DecreasingCharArrayLengthComparator();
-	
-
+	private Comparator fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected boolean endSequenceDetected(ICharacterScanner scanner) {
-		char[][] originalDelimiters= scanner.getLegalLineDelimiters();
-		int count= originalDelimiters.length;
+		char[][] originalDelimiters = scanner.getLegalLineDelimiters();
+		int count = originalDelimiters.length;
 		if (fLineDelimiters == null || fLineDelimiters.length != count) {
-			fSortedLineDelimiters= new char[count][];
+			fSortedLineDelimiters = new char[count][];
 		} else {
-			while (count > 0 && Arrays.equals(fLineDelimiters[count - 1], originalDelimiters[count - 1]))
+			while (count > 0
+					&& Arrays.equals(fLineDelimiters[count - 1],
+							originalDelimiters[count - 1]))
 				count--;
 		}
 		if (count != 0) {
-			fLineDelimiters= originalDelimiters;
-			System.arraycopy(fLineDelimiters, 0, fSortedLineDelimiters, 0, fLineDelimiters.length);
+			fLineDelimiters = originalDelimiters;
+			System.arraycopy(fLineDelimiters, 0, fSortedLineDelimiters, 0,
+					fLineDelimiters.length);
 			Arrays.sort(fSortedLineDelimiters, fLineDelimiterComparator);
 		}
 
-		int readCount= 1;
+		int readCount = 1;
 		int c;
-		while ((c= scanner.read()) != ICharacterScanner.EOF) {
-			if (c == fEscapeCharacter) {
+		boolean multiline = false;
+		while ((c = scanner.read()) != ICharacterScanner.EOF) {
+
+			if (!multiline) {
+				for (int i = 0; i < fSortedLineDelimiters.length; i++) {
+					if (c == fSortedLineDelimiters[i][0]
+							&& sequenceDetected(scanner,
+									fSortedLineDelimiters[i], true)) {
+						multiline = true;
+						break;
+					}
+				}
+			}
+			if (c == fEscapeCharacter && multiline) {
+
 				boolean secondSymbol = false;
 				// Skip escaped character(s)
 				if (fEscapeContinuesLine) {
 					boolean endOfLine = false;
 					while (!endOfLine) {
 						c = scanner.read();
-						
+
 						for (int i = 0; i < fSortedLineDelimiters.length; i++) {
 							if (c == fSortedLineDelimiters[i][0]
 									&& sequenceDetected(scanner,
@@ -66,12 +82,11 @@ public class ScannerStringRule extends MultiLineRule {
 								break;
 							}
 						}
-						
+
 						if (!secondSymbol)
 							if (c == fEscapeCharacter)
 								secondSymbol = true;
-							else
-							{
+							else {
 								scanner.unread();
 								break;
 							}
@@ -84,9 +99,12 @@ public class ScannerStringRule extends MultiLineRule {
 				if (sequenceDetected(scanner, fEndSequence, true))
 					return true;
 			} else if (fBreaksOnEOL) {
-				// Check for end of line since it can be used to terminate the pattern.
-				for (int i= 0; i < fSortedLineDelimiters.length; i++) {
-					if (c == fSortedLineDelimiters[i][0] && sequenceDetected(scanner, fSortedLineDelimiters[i], true))
+				// Check for end of line since it can be used to terminate the
+				// pattern.
+				for (int i = 0; i < fSortedLineDelimiters.length; i++) {
+					if (c == fSortedLineDelimiters[i][0]
+							&& sequenceDetected(scanner,
+									fSortedLineDelimiters[i], true))
 						return true;
 				}
 			}
@@ -101,7 +119,5 @@ public class ScannerStringRule extends MultiLineRule {
 
 		return false;
 	}
-
-	
 
 }

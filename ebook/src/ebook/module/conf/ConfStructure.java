@@ -23,8 +23,9 @@ public class ConfStructure implements IDbStructure {
 		Statement stat = con.createStatement();
 		try {
 			// stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
-			stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
-			stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
+			stat.execute("ALTER TABLE BOOKMARKS ADD PATH VARCHAR(500);");
+			// stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
+			// stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD SORT INTEGER;");
@@ -86,7 +87,7 @@ public class ConfStructure implements IDbStructure {
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(3000), "
-					+ "ITEM INTEGER, "
+					+ "PATH VARCHAR(500), "
 					+ "PROC VARCHAR(500), "
 					+ "OFFSET INTEGER, "
 
@@ -227,7 +228,7 @@ public class ConfStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "LISTS",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "BOOKMARKS",
-						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ITEM, PROC, OFFSET");
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, PROC, OFFSET");
 
 		if (!haveStructure)
 			throw new DbStructureException();

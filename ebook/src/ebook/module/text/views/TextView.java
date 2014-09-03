@@ -97,7 +97,12 @@ public class TextView implements ITextOperationTarget {
 
 		if (!this.item.equals(item))
 			return;
-
+		String path = con.getSrv().getPath(item);
+		if (path.contains("...")) {
+			MessageDialog.openInformation(shell, Strings.title("appTitle"),
+					"«акладки можно добавл€ть только в модул€х.");
+			return;
+		}
 		ITextSelection textSelection = (ITextSelection) viewer
 				.getSelectionProvider().getSelection();
 
@@ -111,15 +116,15 @@ public class TextView implements ITextOperationTarget {
 			LineInfo selected = support.getCurrentProjectionName(offset);
 
 			BookmarkInfoOptions opt = new BookmarkInfoOptions();
-			opt.info = part.getLabel();
+			opt.info = item.getTitle();
 			// opt.start_offset = selected.start_offset;
 			// opt.title = selected.getTitle();
-			opt.item_id = item.getId();
-			opt.item_title = item.getTitle();
+			// opt.item_id = item.getId();
+			// opt.item_title = item.getTitle();
 			opt.item_opt = DbOptions.save(item.getOptions());
 
 			BookmarkInfo data = new BookmarkInfo(opt);
-			data._id = item.getId();
+			data._path = path;
 			data._proc = selected.getTitle();
 			data._offset = selected.start_offset;
 
@@ -347,6 +352,7 @@ public class TextView implements ITextOperationTarget {
 		activated = new Object();
 		updateSelected = true;
 		fillBookmarks = true;
+		dirty.setDirty(false);
 		// support.setSelection(support.getProjectionByName(con.getLine()));
 
 		final boolean readOnly = con.srv().readOnly(item);
@@ -362,7 +368,8 @@ public class TextView implements ITextOperationTarget {
 				StyledText widget = (StyledText) e.getSource();
 				int offset = widget.getCaretOffset();
 				LineInfo selected = support.getCurrentProjectionName(offset);
-				history.add(new HistoryItem(new ContextInfo(item), selected));
+				if (selected != null)
+					history.add(new HistoryItem(new ContextInfo(item), selected));
 			}
 
 		});
@@ -427,8 +434,15 @@ public class TextView implements ITextOperationTarget {
 	}
 
 	private void fillBookmarks() {
+		String path = con.getSrv().getPath(item);
+		if (path.contains("...")) {
+			// if (item.isProc()) {
+			fillBookmarks = false;
+			return;
+		}
 		support.removeMarkers(BookmarkAnnotation.class);
-		List<ITreeItemInfo> list = con.bmkSrv().getBookmarks(item.getId());
+		List<ITreeItemInfo> list = con.bmkSrv().getBookmarks(
+				con.getSrv().getPath(item));
 		for (ITreeItemInfo bm : list) {
 			LineInfo info = support.getSelection(((BookmarkInfo) bm).getLine());
 			support.addAnnotation(info);

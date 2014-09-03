@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
+import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.interfaces.ITextTreeService;
 
 public abstract class AbstractTreeService implements ITreeService,
@@ -34,6 +35,18 @@ public abstract class AbstractTreeService implements ITreeService,
 	@Override
 	public List<ITreeItemInfo> getParents(ITreeItemInfo item) {
 
+		return null;
+	}
+
+	@Override
+	public String getPath(ContextInfo item) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ContextInfo getByPath(String path) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -22,8 +22,9 @@ public class BookStructure implements IDbStructure {
 		try {
 
 			// stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
-			stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
-			stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
+			stat.execute("ALTER TABLE BOOKMARKS ADD PATH VARCHAR(500);");
+			// stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
+			// stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
 
 			// stat.execute("DROP TABLE IF EXISTS PROCS_TEXT;");
 			//
@@ -150,7 +151,9 @@ public class BookStructure implements IDbStructure {
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(3000), "
-					+ "ITEM INTEGER, "
+					+ "PATH VARCHAR(500), "
+					+ "PROC VARCHAR(500), "
+					+ "OFFSET INTEGER, "
 
 					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
@@ -184,7 +187,7 @@ public class BookStructure implements IDbStructure {
 				&& ch.checkColumns(metadata, "S_IMAGES",
 						"DATA, TITLE, SORT, MIME")
 				&& ch.checkColumns(metadata, "BOOKMARKS",
-						"SECTION, PARENT, SORT, TITLE, ISGROUP, OPTIONS, ITEM, PROC, OFFSET");
+						"SECTION, PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, PROC, OFFSET");
 
 		;
 

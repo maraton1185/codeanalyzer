@@ -41,14 +41,14 @@ public class BookmarkService extends AbstractBookmarkService {
 
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT, $Table.ITEM, $Table.PROC, $Table.OFFSET, $Table.SECTION ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT, $Table.PATH, $Table.PROC, $Table.OFFSET, $Table.SECTION ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
 
 	@Override
 	protected String additionKeysString() {
-		return ", ITEM, PROC, OFFSET, SECTION";
+		return ", PATH, PROC, OFFSET, SECTION";
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class BookmarkService extends AbstractBookmarkService {
 	protected void setAdditions(PreparedStatement prep, ITreeItemInfo data)
 			throws SQLException {
 
-		prep.setInt(6, ((BookmarkInfo) data)._id);
+		prep.setString(6, ((BookmarkInfo) data)._path);
 		prep.setString(7, ((BookmarkInfo) data)._proc);
 		prep.setInt(8, ((BookmarkInfo) data)._offset);
 		prep.setInt(9, section.getId());
@@ -89,7 +89,7 @@ public class BookmarkService extends AbstractBookmarkService {
 		info.setOptions(DbOptions.load(BookmarkInfoOptions.class,
 				rs.getString(5)));
 		info.setSort(rs.getInt(6));
-		info._id = rs.getInt(7);
+		info._path = rs.getString(7);
 		info._proc = rs.getString(8);
 		info._offset = rs.getInt(9);
 		return info;

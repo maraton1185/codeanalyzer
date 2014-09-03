@@ -89,6 +89,9 @@ public class ConfTreeService extends TreeService {
 
 		ContextInfo parent = (ContextInfo) get(item.getParent());
 
+		if (parent == null)
+			return result;
+
 		if (item.isProc())
 			setObjectsTable();
 
@@ -109,6 +112,28 @@ public class ConfTreeService extends TreeService {
 		setProcTable();
 
 		return result;
+	}
+
+	@Override
+	public ContextInfo getByPath(String path) {
+
+		setObjectsTable();
+
+		Integer parent = null;
+		String[] data = path.split("\\.");
+		ITreeItemInfo item = null;
+		for (String s : data) {
+			item = findInParent(s, parent);
+			if (item == null)
+				break;
+			parent = item.getId();
+		}
+
+		setProcTable();
+
+		if (item != null)
+			((ContextInfo) item).setProc(false);
+		return (ContextInfo) item;
 	}
 
 }

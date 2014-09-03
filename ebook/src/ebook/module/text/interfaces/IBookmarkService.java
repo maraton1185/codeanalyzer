@@ -8,7 +8,7 @@ import ebook.module.tree.ITreeService;
 
 public interface IBookmarkService extends ITreeService {
 
-	List<ITreeItemInfo> getBookmarks(int item);
+	List<ITreeItemInfo> getBookmarks(String path);
 
 	BookmarkInfo getBookmark(BookmarkInfo data);
 

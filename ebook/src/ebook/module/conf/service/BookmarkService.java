@@ -9,7 +9,7 @@ import java.util.List;
 
 import ebook.module.conf.ConfConnection;
 import ebook.module.db.DbOptions;
-import ebook.module.text.service.BaseBookmarkService;
+import ebook.module.text.service.AbstractBookmarkService;
 import ebook.module.text.tree.BookmarkInfo;
 import ebook.module.text.tree.BookmarkInfoOptions;
 import ebook.module.tree.ITreeItemInfo;
@@ -18,7 +18,7 @@ import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
 
-public class BookmarkService extends BaseBookmarkService {
+public class BookmarkService extends AbstractBookmarkService {
 
 	final static String tableName = "BOOKMARKS";
 	final static String updateEvent = Events.EVENT_UPDATE_BOOKMARK_VIEW;

@@ -20,6 +20,11 @@ public class BookStructure implements IDbStructure {
 
 		Statement stat = con.createStatement();
 		try {
+
+			// stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
+			stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
+			stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
+
 			// stat.execute("DROP TABLE IF EXISTS PROCS_TEXT;");
 			//
 			// stat.execute("CREATE TABLE PROCS_TEXT (ID INTEGER AUTO_INCREMENT, "
@@ -28,21 +33,23 @@ public class BookStructure implements IDbStructure {
 			// +
 			// "FOREIGN KEY(PROC) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
-			stat.execute("DROP TABLE IF EXISTS BOOKMARKS;");
-
-			stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
-
-					+ "SECTION INTEGER, "
-					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
-					+ "TITLE VARCHAR(500), "
-					+ "OPTIONS VARCHAR(3000), "
-					+ "ITEM INTEGER, "
-					+ "PROC VARCHAR(500), "
-					+ "OFFSET INTEGER, "
-
-					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
-					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
-					+ "PRIMARY KEY (ID));");
+			// stat.execute("DROP TABLE IF EXISTS BOOKMARKS;");
+			//
+			// stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
+			//
+			// + "SECTION INTEGER, "
+			// + "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+			// + "TITLE VARCHAR(500), "
+			// + "OPTIONS VARCHAR(3000), "
+			// + "ITEM INTEGER, "
+			// + "PROC VARCHAR(500), "
+			// + "OFFSET INTEGER, "
+			//
+			// +
+			// "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+			// +
+			// "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+			// + "PRIMARY KEY (ID));");
 
 		} catch (Exception e) {
 			throw new SQLException("Ошибка обновления структуры базы данных.");

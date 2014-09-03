@@ -236,10 +236,10 @@ public class ConfView {
 									(ContextInfo) selected);
 					TextConnection text_con = new TextConnection(con, item, con
 							.conf(), con.bmsrv());
-					if (item.isSearch()) {
-						LineInfo line = new LineInfo(item.getOptions());
-						text_con.setLine(line);
-					}
+					// if (item.isSearch()) {
+					LineInfo line = new LineInfo(item.getOptions());
+					text_con.setLine(line);
+					// }
 					App.br.post(Events.EVENT_OPEN_TEXT, text_con);
 				} catch (IllegalAccessException e) {
 

@@ -25,6 +25,7 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CaretEvent;
@@ -128,14 +129,19 @@ public class TextView implements ITextOperationTarget {
 					+ "...");
 			data.setGroup(false);
 
-			if (!support.haveBookmark(offset)) {
+			BookmarkInfo id = con.bmkSrv().getBookmark(data);
+			if (id != null) {
+				con.bmkSrv().removeBookmark(id);
+				Annotation bmk = support.getBookmark(offset);
+				if (bmk != null)
+					support.removeBookmark(bmk);
+				return;
+			}
+
+			if (support.getBookmark(offset) == null) {
 				BookmarkAnnotation marker = new BookmarkAnnotation();
 				support.addAnnotation(marker, new Position(offset));
 			}
-
-			if (con.bmkSrv().haveBookmark(data))
-				return;
-
 			con.bmkSrv().add(data, con.bmkSrv().getUploadRoot(), true);
 
 		} catch (Exception e) {
@@ -204,6 +210,7 @@ public class TextView implements ITextOperationTarget {
 		if (!this.item.equals(data.item))
 			return;
 
+		con.setLine(null);
 		viewerConfiguration.lightWord(data.search, true);
 
 	}

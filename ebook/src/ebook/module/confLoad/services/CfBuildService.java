@@ -670,25 +670,27 @@ public class CfBuildService {
 		try {
 
 			List<String> path = new ArrayList<String>();
+			String proc_name = "";
+			// if (!result.isSearch()) {
+			id = getId(srv, result, ELevel.proc, path);
 
-			if (!result.isSearch()) {
-				id = getId(srv, result, ELevel.proc, path);
+			if (id != null) {
+				ContextInfo proc = (ContextInfo) conf.get(id);
+				// result.setParent(-1);
+				if (proc != null) {
+					proc_name = proc.getTitle();
 
-				if (id != null) {
-					ContextInfo proc = (ContextInfo) conf.get(id);
-					result.setParent(-1);
-					if (proc != null) {
-						Integer i = proc.getParent();
-						result.setParent(i);
-						result.setModule(i);
-						result.setTitle(proc.getTitle());
-					}
-
-					result.setId(id);
-					result.setProc(true);
-					return result;
+					// Integer i = proc.getParent();
+					// result.setParent(i);
+					// result.setModule(i);
+					// result.setTitle(proc.getTitle());
 				}
+
+				// result.setId(id);
+				// result.setProc(true);
+				// return result;
 			}
+			// }
 			id = getId(srv, result, ELevel.module, path);
 			if (id != null) {
 				conf.setObjectsTable();
@@ -700,13 +702,15 @@ public class CfBuildService {
 					result.setParent(i);
 					result.setModule(null);
 					result.setTitle(module.getTitle());
-					if (result.isSearch()) {
-						int s = path.size();
-						for (int j = 2; j < s; j++)
-							path.remove(path.size() - 1);
+					// if (result.isSearch()) {
+					int s = path.size();
+					for (int j = 2; j < s; j++)
+						path.remove(path.size() - 1);
 
-						result.getOptions().type = BuildType.module;
-					}
+					result.getOptions().type = BuildType.module;
+					if (!proc_name.isEmpty())
+						result.getOptions().proc = proc_name;
+					// }
 				}
 
 				result.setId(id);

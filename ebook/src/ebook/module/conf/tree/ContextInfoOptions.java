@@ -15,4 +15,8 @@ public class ContextInfoOptions extends DbOptions {
 
 	public String proc;
 
+	public boolean isSearch() {
+		return start_offset != null;
+	}
+
 }

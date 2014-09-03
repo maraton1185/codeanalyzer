@@ -9,13 +9,14 @@ import java.util.List;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.text.interfaces.IBookmarkService;
 import ebook.module.text.tree.BookmarkInfo;
+import ebook.module.text.tree.BookmarkInfoSelection;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeService;
 
-public abstract class BaseBookmarkService extends TreeService implements
+public abstract class AbstractBookmarkService extends TreeService implements
 		IBookmarkService {
 
-	protected BaseBookmarkService(String tableName,
+	protected AbstractBookmarkService(String tableName,
 			String EVENT_UPDATE_TREE_NAME, IDbConnection db) {
 		super(tableName, EVENT_UPDATE_TREE_NAME, db);
 	}
@@ -48,12 +49,12 @@ public abstract class BaseBookmarkService extends TreeService implements
 	}
 
 	@Override
-	public boolean haveBookmark(BookmarkInfo data) {
+	public BookmarkInfo getBookmark(BookmarkInfo data) {
 
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT COUNT(ID) FROM " + tableName
-					+ "  WHERE ITEM=? AND PROC=? AND OFFSET=?";
+			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
+					+ " AS T WHERE T.ITEM=? AND T.PROC=? AND T.OFFSET=?";
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setInt(1, data._id);
 			prep.setString(2, data._proc);
@@ -62,9 +63,9 @@ public abstract class BaseBookmarkService extends TreeService implements
 
 			try {
 				if (rs.next())
-					return rs.getInt(1) != 0;
+					return (BookmarkInfo) getItem(rs);
 				else
-					return false;
+					return null;
 			} finally {
 				rs.close();
 			}
@@ -73,7 +74,16 @@ public abstract class BaseBookmarkService extends TreeService implements
 			e.printStackTrace();
 
 		}
-		return false;
+		return null;
 
 	}
+
+	@Override
+	public void removeBookmark(BookmarkInfo item) {
+		BookmarkInfoSelection sel = new BookmarkInfoSelection();
+		sel.add(item);
+		delete(sel);
+
+	}
+
 }

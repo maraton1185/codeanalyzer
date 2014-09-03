@@ -175,8 +175,4 @@ public class ContextInfo extends TreeItemInfo {
 
 	}
 
-	public boolean isSearch() {
-		return getOptions().start_offset != null;
-	}
-
 }

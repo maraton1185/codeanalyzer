@@ -245,10 +245,14 @@ public class ViewerSupport {
 				LineInfo result = new LineInfo(lineInfo.getTitle());
 				result.offset = info.offset;
 				// result.absolute_offset = lineInfo.absolute_offset;
-				if (lineInfo.isJump) {
+				if (lineInfo.isSearchJump) {
 					result.start_offset = lineInfo.start_offset
 							- info.start_offset;
 					result.isJump = true;
+				}
+				if (lineInfo.isJump) {
+					result.start_offset = lineInfo.start_offset;
+					result.isSearchJump = true;
 				}
 				if (lineInfo.isBookmark) {
 					result.start_offset = lineInfo.start_offset;
@@ -334,44 +338,18 @@ public class ViewerSupport {
 		StyledText widget = fSourceViewer.getTextWidget();
 		widget.setRedraw(false);
 		{
-			// try {
-
-			// boolean setCaret = false;
-			// IRegion region = fDocument
-			// .getLineInformationOfOffset(info.offset);
-
 			List<Integer> reveals = addAnnotation(info);
 			if (reveals.isEmpty())
 				return;
 			int revealStart = reveals.get(0);
 			int revealLength = reveals.get(1);
 
-			// int revealStart = region.getOffset();
-			// int revealLength = region.getLength();
-			//
-			// if (info.isJump || info.isHistory) {
-			// revealStart = region.getOffset() + info.start_offset;
-			// revealLength = 0;
-			// InfoAnnotation marker = new InfoAnnotation(this);
-			// addAnnotation(marker, new Position(revealStart));
-			//
-			// } else if (info.isBookmark) {
-			// revealStart = region.getOffset() + info.start_offset;
-			// revealLength = 0;
-			// BookmarkAnnotation marker = new BookmarkAnnotation();
-			// addAnnotation(marker, new Position(revealStart));
-			// }
-			// selection = new TextSelection(document, region.getOffset(),
-			// region.getLength());
-
 			adjustHighlightRange(revealStart, revealLength);
 			fSourceViewer.revealRange(revealStart, revealLength);
 
 			fSourceViewer.setSelectedRange(revealStart, revealLength);
 
-			// if (setCaret)
-			// fSourceViewer.getTextWidget().setCaretOffset(
-			// revealStart + 1);
+			fSourceViewer.getTextWidget().setCaretOffset(revealStart + 1);
 
 			con.setLine(null);
 
@@ -428,7 +406,7 @@ public class ViewerSupport {
 			int revealStart = region.getOffset();
 			int revealLength = region.getLength();
 
-			if (info.isJump || info.isHistory) {
+			if (info.isJump || info.isSearchJump || info.isHistory) {
 				revealStart = region.getOffset() + info.start_offset;
 				revealLength = 0;
 				InfoAnnotation marker = new InfoAnnotation(this);
@@ -436,9 +414,12 @@ public class ViewerSupport {
 
 			} else if (info.isBookmark) {
 				revealStart = region.getOffset() + info.start_offset;
-				revealLength = 0;
-				BookmarkAnnotation marker = new BookmarkAnnotation();
-				addAnnotation(marker, new Position(revealStart));
+				revealLength = 1;
+				if (getBookmark(revealStart) == null) {
+					BookmarkAnnotation marker = new BookmarkAnnotation();
+					addAnnotation(marker, new Position(revealStart));
+				}
+
 			}
 			result.add(revealStart);
 			result.add(revealLength);
@@ -450,7 +431,7 @@ public class ViewerSupport {
 
 	}
 
-	public boolean haveBookmark(int offset) {
+	public Annotation getBookmark(int offset) {
 		for (Annotation marker : markers) {
 
 			if (!(marker instanceof BookmarkAnnotation))
@@ -459,9 +440,17 @@ public class ViewerSupport {
 			if (p == null)
 				continue;
 			if (p.offset == offset)
-				return true;
+				return marker;
 
 		}
-		return false;
+		return null;
+	}
+
+	public void removeBookmark(Annotation bmk) {
+		fAnnotationModel.removeAnnotation(bmk);
+		int i = markers.indexOf(bmk);
+		if (i >= 0)
+			markers.remove(i);
+
 	}
 }

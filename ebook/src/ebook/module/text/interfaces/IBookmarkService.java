@@ -10,6 +10,8 @@ public interface IBookmarkService extends ITreeService {
 
 	List<ITreeItemInfo> getBookmarks(int item);
 
-	boolean haveBookmark(BookmarkInfo data);
+	BookmarkInfo getBookmark(BookmarkInfo data);
+
+	void removeBookmark(BookmarkInfo item);
 
 }

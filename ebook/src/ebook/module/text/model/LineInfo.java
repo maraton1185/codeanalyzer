@@ -22,8 +22,12 @@ public class LineInfo extends TreeItemInfo {
 
 	public LineInfo(ContextInfoOptions opt) {
 		this(opt.proc);
-		start_offset = opt.start_offset;
-		isJump = true;
+		if (opt.isSearch())
+			isSearchJump = true;
+		else
+			isJump = true;
+
+		start_offset = opt.start_offset == null ? 0 : opt.start_offset;
 	}
 
 	@Override
@@ -49,6 +53,7 @@ public class LineInfo extends TreeItemInfo {
 	public ProjectionAnnotation annotation;
 
 	public boolean isHistory = false;
+	public boolean isSearchJump = false;
 	public boolean isJump = false;
 	public boolean isBookmark = false;
 	// public String info = "";

@@ -22,7 +22,9 @@ public class ConfStructure implements IDbStructure {
 
 		Statement stat = con.createStatement();
 		try {
-			stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
+			// stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
+			stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
+			stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP2 INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD SORT INTEGER;");

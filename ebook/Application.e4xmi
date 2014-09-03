@@ -750,16 +750,13 @@
               <children xsi:type="menu:HandledMenuItem" xmi:id="_aG3tYDJzEeSGe8GcmMRqKg" elementId="ebook.handledmenuitem.54" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" command="_pS9MIDJqEeSGe8GcmMRqKg"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_aJLagDJzEeSGe8GcmMRqKg" elementId="ebook.handledmenuitem.54" label="Удалить" iconURI="platform:/plugin/ebook/icons/set/delete.png" command="_jja2cDJqEeSGe8GcmMRqKg"/>
             </menus>
-            <menus xmi:id="_2RnZIDKlEeSGe8GcmMRqKg" elementId="ebook.menu.10">
-              <tags>ViewMenu</tags>
-              <children xsi:type="menu:DirectMenuItem" xmi:id="_2vb9kDKlEeSGe8GcmMRqKg" elementId="ebook.directmenuitem.9" label="Обновить" iconURI="platform:/plugin/ebook/icons/set/refresh.png" contributionURI="bundleclass://ebook/ebook.module.text.handlers.BmrkUpdate"/>
-            </menus>
             <toolbar xmi:id="_aYLZsCzqEeSqAs8koC8OJg" elementId="ebook.toolbar.18">
-              <children xsi:type="menu:HandledToolItem" xmi:id="_EtXS0DJrEeSGe8GcmMRqKg" elementId="ebook.handledtoolitem.39" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть" command="_tCDUEDJqEeSGe8GcmMRqKg"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_EtXS0DJrEeSGe8GcmMRqKg" elementId="ebook.handledtoolitem.39" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Перейти" command="_tCDUEDJqEeSGe8GcmMRqKg"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_3gsOcDJwEeSGe8GcmMRqKg" elementId="ebook.handledtoolitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="_ffsTkDJwEeSGe8GcmMRqKg"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_4GV5MDJwEeSGe8GcmMRqKg" elementId="ebook.handledtoolitem.7" label="Добавить подраздел" iconURI="platform:/plugin/ebook/icons/set/addSubFolder.png" tooltip="Добавить подраздел" command="_foPLkDJwEeSGe8GcmMRqKg"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_CUWNADJrEeSGe8GcmMRqKg" elementId="ebook.handledtoolitem.4" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_pS9MIDJqEeSGe8GcmMRqKg"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_DVaBYDJrEeSGe8GcmMRqKg" elementId="ebook.handledtoolitem.5" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить" command="_jja2cDJqEeSGe8GcmMRqKg"/>
+              <children xsi:type="menu:DirectToolItem" xmi:id="_3Cm9gDMvEeSuB71xfXpY2A" elementId="ebook.directtoolitem.4" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" contributionURI="bundleclass://ebook/ebook.module.text.handlers.BmrkUpdate"/>
             </toolbar>
           </children>
         </children>

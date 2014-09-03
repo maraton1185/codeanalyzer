@@ -47,13 +47,14 @@ import ebook.module.text.model.HistoryItem;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.tree.BookmarkInfo;
 import ebook.module.text.tree.BookmarkInfoOptions;
+import ebook.module.tree.ICollapseView;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class TextView implements ITextOperationTarget {
+public class TextView implements ITextOperationTarget, ICollapseView {
 
 	@Inject
 	@Active
@@ -481,12 +482,14 @@ public class TextView implements ITextOperationTarget {
 
 	}
 
+	@Override
 	public void CollapseAll() {
 		// stopHistory = true;
 		viewer.getProjectionAnnotationModel().collapseAll(0,
 				document.getLength());
 	}
 
+	@Override
 	public void Collapse() {
 		// stopHistory = true;
 		LineInfo selected = (LineInfo) window.getContext().get(
@@ -496,6 +499,7 @@ public class TextView implements ITextOperationTarget {
 
 	}
 
+	@Override
 	public void ExpandAll() {
 		// stopHistory = true;
 		viewer.getProjectionAnnotationModel()
@@ -503,6 +507,7 @@ public class TextView implements ITextOperationTarget {
 
 	}
 
+	@Override
 	public void Expand() {
 		// stopHistory = true;
 		LineInfo selected = (LineInfo) window.getContext().get(

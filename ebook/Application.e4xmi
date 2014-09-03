@@ -186,6 +186,10 @@
   <handlers xmi:id="_zI6eMOAkEeOuHKOpYE-s4Q" elementId="ebook.handler.30" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.AddExisted" command="_TiBpcN_3EeOuHKOpYE-s4Q"/>
   <handlers xmi:id="_ngvn4BvSEeSuCZqAXHJskQ" elementId="ebook.handler.22" contributionURI="bundleclass://ebook/ebook.module.confList.handlers.Add" command="_-GzpkOwhEeO98Pond6SApQ"/>
   <handlers xmi:id="_dsm58CnsEeS1QbE7vYHxhg" elementId="ebook.handler.60" contributionURI="bundleclass://ebook/ebook.module.text.handlers.OpenWindow" command="_G9YwACnsEeS1QbE7vYHxhg"/>
+  <handlers xmi:id="_R3nToDOJEeSG8_3OwGuTcQ" elementId="ebook.handler.86" contributionURI="bundleclass://ebook/ebook.module.tree.handlers.Expand" command="_-Jv-sDOEEeSG8_3OwGuTcQ"/>
+  <handlers xmi:id="_UHRCEDOJEeSG8_3OwGuTcQ" elementId="ebook.handler.86" contributionURI="bundleclass://ebook/ebook.module.tree.handlers.ExpandAll" command="_-RJAIDOEEeSG8_3OwGuTcQ"/>
+  <handlers xmi:id="_UMan0DOJEeSG8_3OwGuTcQ" elementId="ebook.handler.86" contributionURI="bundleclass://ebook/ebook.module.tree.handlers.Collapse" command="_-VFsADOEEeSG8_3OwGuTcQ"/>
+  <handlers xmi:id="_UQAHUDOJEeSG8_3OwGuTcQ" elementId="ebook.handler.86" contributionURI="bundleclass://ebook/ebook.module.tree.handlers.CollapseAll" command="_-YBrQDOEEeSG8_3OwGuTcQ"/>
   <bindingTables xmi:id="_sS1uwKngEeOFWZN9IXa3MA" elementId="ebook.bindingtable.0" bindingContext="_cMG-iZlHEeOhhK_cqm6rMQ">
     <bindings xmi:id="_1dqYYKoIEeOvm9Uu729JwA" elementId="ebook.keybinding.3" keySequence="M1+T" command="_XybQsKkaEeOctbxZaJIj4Q">
       <tags>type:user</tags>
@@ -382,18 +386,6 @@
     <bindings xmi:id="_BKZFYCxXEeSr9IpwfkxB-w" elementId="ebook.keybinding.12" keySequence="M1+Y" command="_1FSUwCxWEeSr9IpwfkxB-w">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_YijuQC3OEeSgt6KviOm2oQ" elementId="ebook.keybinding.24" keySequence="M1+M2+NUMPAD_SUBTRACT" command="_UecYkC3OEeSgt6KviOm2oQ">
-      <tags>type:user</tags>
-    </bindings>
-    <bindings xmi:id="_o_AdIC3PEeSgt6KviOm2oQ" elementId="ebook.keybinding.24" keySequence="M1+M2+NUMPAD_ADD" command="_qc-P8C3PEeSgt6KviOm2oQ">
-      <tags>type:user</tags>
-    </bindings>
-    <bindings xmi:id="_xrPNcC3PEeSgt6KviOm2oQ" elementId="ebook.keybinding.24" keySequence="M1+NUMPAD_ADD" command="_so24sC3PEeSgt6KviOm2oQ">
-      <tags>type:user</tags>
-    </bindings>
-    <bindings xmi:id="_xzo7gC3PEeSgt6KviOm2oQ" elementId="ebook.keybinding.24" keySequence="M1+NUMPAD_SUBTRACT" command="_svEOYC3PEeSgt6KviOm2oQ">
-      <tags>type:user</tags>
-    </bindings>
     <bindings xmi:id="_ePTdcC91EeS1-vpnkwxs_w" elementId="ebook.keybinding.12" keySequence="F6" command="_tYsYACtPEeSROpR0F0nnug">
       <tags>type:user</tags>
     </bindings>
@@ -430,6 +422,20 @@
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
+  <bindingTables xmi:id="_fQ96YDOJEeSG8_3OwGuTcQ" elementId="ebook.bindingtable.11" bindingContext="_ca7hYDOJEeSG8_3OwGuTcQ">
+    <bindings xmi:id="_gtSucDOJEeSG8_3OwGuTcQ" elementId="ebook.keybinding.24" keySequence="M1+M2+NUMPAD_SUBTRACT" command="_-YBrQDOEEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_hMek0DOJEeSG8_3OwGuTcQ" elementId="ebook.keybinding.24" keySequence="M1+M2+NUMPAD_ADD" command="_-RJAIDOEEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_hlHuUDOJEeSG8_3OwGuTcQ" elementId="ebook.keybinding.24" keySequence="M1+NUMPAD_ADD" command="_-Jv-sDOEEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_h97P4DOJEeSG8_3OwGuTcQ" elementId="ebook.keybinding.24" keySequence="M1+NUMPAD_SUBTRACT" command="_-VFsADOEEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
+  </bindingTables>
   <rootContext xmi:id="_cMG-iZlHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_cMG-iplHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.window" name="In Windows">
       <children xmi:id="_E5YnYLAbEeOa8OKjTLKQvw" elementId="ebook.bindingcontext.bookWindow" name="book window"/>
@@ -442,6 +448,7 @@
       <children xmi:id="_LcnUoCH6EeSSjvNQ5dYbAw" elementId="ebook.bindingcontext.contextPart" name="context part"/>
       <children xmi:id="_5DCjwCxWEeSr9IpwfkxB-w" elementId="ebook.bindingcontext.textview" name="textview"/>
       <children xmi:id="_xl4EkDJqEeSGe8GcmMRqKg" elementId="ebook.bindingcontext.bookmarkView" name="bookmarkView"/>
+      <children xmi:id="_ca7hYDOJEeSG8_3OwGuTcQ" elementId="ICollapseView" name="ICollapseView"/>
     </children>
     <children xmi:id="_cMG-i5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
@@ -486,7 +493,7 @@
       </children>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView" bindingContexts="_zSemEBicEeSEwsGZkmCqtw" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
+  <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView" bindingContexts="_zSemEBicEeSEwsGZkmCqtw _ca7hYDOJEeSG8_3OwGuTcQ" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">
     <handlers xmi:id="_ZUvTgB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.49" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddGroup" command="_R8mmgBicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_Z811UB1DEeS8Ob_mPIL9rg" elementId="ebook.handler.50" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.AddSubGroup" command="_WxNlABicEeSEwsGZkmCqtw"/>
     <handlers xmi:id="_aTW34B1DEeS8Ob_mPIL9rg" elementId="ebook.handler.51" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Delete" command="_Zg_lABicEeSEwsGZkmCqtw"/>
@@ -531,6 +538,11 @@
       <tags>ViewMenu</tags>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_cvzGoC-CEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.11" label="Поиск текста" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" tooltip="Поиск текста" command="_vvh2gCOOEeSRdYCzL9P3Gg"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_c135cC-CEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.11" label="Поиск текста без вывода вхождений" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" tooltip="Поиск текста без вывода вхождений" command="_7KUaQC-AEeS1-vpnkwxs_w"/>
+      <children xsi:type="menu:MenuSeparator" xmi:id="_1nMVgDOJEeSG8_3OwGuTcQ" elementId="ebook.menuseparator.11"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_2ReooDOJEeSG8_3OwGuTcQ" elementId="ebook.handledmenuitem.45" label="Свернуть всё" command="_-YBrQDOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_235vcDOJEeSG8_3OwGuTcQ" elementId="ebook.handledmenuitem.45" label="Развернуть всё" command="_-RJAIDOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_5cnu8DOJEeSG8_3OwGuTcQ" elementId="ebook.handledmenuitem.45" label="Свернуть" command="_-VFsADOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_6DkaMDOJEeSG8_3OwGuTcQ" elementId="ebook.handledmenuitem.45" label="Развернуть" command="_-Jv-sDOEEeSG8_3OwGuTcQ"/>
     </menus>
     <toolbar xmi:id="_KKc6oB1DEeS8Ob_mPIL9rg" elementId="ebook.toolbar.15">
       <children xsi:type="menu:HandledToolItem" xmi:id="_1UvWcB73EeSy8KLEUiC4ow" elementId="ebook.handledtoolitem.0" label="Построить" iconURI="platform:/plugin/ebook/icons/set/build.png" tooltip="Построить" command="_TgXnkB74EeSy8KLEUiC4ow">
@@ -547,15 +559,11 @@
       <children xsi:type="menu:HandledToolItem" xmi:id="_Tp7FwB1DEeS8Ob_mPIL9rg" elementId="ebook.handledtoolitem.6" label="" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить раздел" command="_Zg_lABicEeSEwsGZkmCqtw"/>
     </toolbar>
   </descriptors>
-  <descriptors xmi:id="_4F0iACnvEeS1QbE7vYHxhg" elementId="ebook.partdescriptor.1" label="TextView" bindingContexts="_5DCjwCxWEeSr9IpwfkxB-w" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.text.views.TextView">
+  <descriptors xmi:id="_4F0iACnvEeS1QbE7vYHxhg" elementId="ebook.partdescriptor.1" label="TextView" bindingContexts="_5DCjwCxWEeSr9IpwfkxB-w _ca7hYDOJEeSG8_3OwGuTcQ" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.text.views.TextView">
     <handlers xmi:id="_70LKICtPEeSROpR0F0nnug" elementId="ebook.handler.63" contributionURI="bundleclass://ebook/ebook.module.text.handlers.GoToModule" command="_tYsYACtPEeSROpR0F0nnug"/>
     <handlers xmi:id="_GxssICxXEeSr9IpwfkxB-w" elementId="ebook.handler.64" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Undo" command="_xELPwCxWEeSr9IpwfkxB-w"/>
     <handlers xmi:id="_HtwEsCxXEeSr9IpwfkxB-w" elementId="ebook.handler.65" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Redo" command="_1FSUwCxWEeSr9IpwfkxB-w"/>
     <handlers xmi:id="_jL6IAC3NEeSgt6KviOm2oQ" elementId="ebook.handler.61" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Show" command="_KDQ_ACnwEeS1QbE7vYHxhg"/>
-    <handlers xmi:id="_1c59sC3OEeSgt6KviOm2oQ" elementId="ebook.handler.68" contributionURI="bundleclass://ebook/ebook.module.text.handlers.CollapseAll" command="_UecYkC3OEeSgt6KviOm2oQ"/>
-    <handlers xmi:id="_4DNcIC3PEeSgt6KviOm2oQ" elementId="ebook.handler.69" contributionURI="bundleclass://ebook/ebook.module.text.handlers.ExpandAll" command="_qc-P8C3PEeSgt6KviOm2oQ"/>
-    <handlers xmi:id="_4Sa80C3PEeSgt6KviOm2oQ" elementId="ebook.handler.70" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Expand" command="_so24sC3PEeSgt6KviOm2oQ"/>
-    <handlers xmi:id="_4ik4sC3PEeSgt6KviOm2oQ" elementId="ebook.handler.71" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Collapse" command="_svEOYC3PEeSgt6KviOm2oQ"/>
     <handlers xmi:id="_LqFGYC-DEeS1-vpnkwxs_w" elementId="ebook.handler.75" contributionURI="bundleclass://ebook/ebook.module.text.handlers.BuildText" command="_-V8W0C-CEeS1-vpnkwxs_w"/>
     <handlers xmi:id="_Qb674DDPEeSG8_3OwGuTcQ" elementId="ebook.handler.76" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Find" command="_p_UTEDDOEeSG8_3OwGuTcQ"/>
     <handlers xmi:id="_S17TwDHNEeSjZrnR4NV3NQ" elementId="ebook.handler.77" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Previous" command="_9AG3ADHMEeSjZrnR4NV3NQ"/>
@@ -573,10 +581,10 @@
     </menus>
     <menus xmi:id="_3d9vIC3REeSgt6KviOm2oQ" elementId="ebook.menu.8">
       <tags>ViewMenu</tags>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_jsMNwC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Свернуть всё" command="_UecYkC3OEeSgt6KviOm2oQ"/>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_6MxewC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Разверунть всё" command="_UecYkC3OEeSgt6KviOm2oQ"/>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_6TJMgC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Свернуть" command="_UecYkC3OEeSgt6KviOm2oQ"/>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_6WHA8C3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Развернуть" command="_UecYkC3OEeSgt6KviOm2oQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_jsMNwC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Свернуть всё" command="_-YBrQDOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_6MxewC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Развернуть всё" command="_-RJAIDOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_6TJMgC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Свернуть" command="_-VFsADOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_6WHA8C3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Развернуть" command="_-Jv-sDOEEeSG8_3OwGuTcQ"/>
     </menus>
     <toolbar xmi:id="_C8bfMCnwEeS1QbE7vYHxhg" elementId="ebook.toolbar.16">
       <children xsi:type="menu:DirectToolItem" xmi:id="_sPLVwC3BEeSgt6KviOm2oQ" elementId="ebook.directtoolitem.2" label="" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Update">
@@ -849,16 +857,16 @@
   <commands xmi:id="_vvh2gCOOEeSRdYCzL9P3Gg" elementId="ConfView.build.text" commandName="ConfView.build.text"/>
   <commands xmi:id="_7KUaQC-AEeS1-vpnkwxs_w" elementId="ConfView.build.text without lines" commandName="ConfView.build.text without lines"/>
   <commands xmi:id="_uZXJQCOYEeSRdYCzL9P3Gg" elementId="ConfView.build.clear" commandName="ConfView.build.clear"/>
+  <commands xmi:id="_-Jv-sDOEEeSG8_3OwGuTcQ" elementId="ICollapseView.expand" commandName="ICollapseView.expand"/>
+  <commands xmi:id="_-RJAIDOEEeSG8_3OwGuTcQ" elementId="ICollapseView.expandAll" commandName="ICollapseView.expandAll"/>
+  <commands xmi:id="_-VFsADOEEeSG8_3OwGuTcQ" elementId="ICollapseView.collapse" commandName="ICollapseView.collapse"/>
+  <commands xmi:id="_-YBrQDOEEeSG8_3OwGuTcQ" elementId="ICollapseView.collapseAll" commandName="ICollapseView.collapseAll"/>
   <commands xmi:id="_G9YwACnsEeS1QbE7vYHxhg" elementId="openTextWindow" commandName="openTextWindow"/>
   <commands xmi:id="_KDQ_ACnwEeS1QbE7vYHxhg" elementId="TextView.show" commandName="TextView.show"/>
   <commands xmi:id="_tYsYACtPEeSROpR0F0nnug" elementId="TextView.goToModule" commandName="TextView.goToModule"/>
   <commands xmi:id="_xELPwCxWEeSr9IpwfkxB-w" elementId="TextView.undo" commandName="TextView.undo"/>
   <commands xmi:id="_1FSUwCxWEeSr9IpwfkxB-w" elementId="TextView.redo" commandName="TextView.redo"/>
   <commands xmi:id="_shHEQC0GEeSqAs8koC8OJg" elementId="TextView.goToProc" commandName="TextView.goToProc"/>
-  <commands xmi:id="_UecYkC3OEeSgt6KviOm2oQ" elementId="TextView.collapseAll" commandName="TextView.collapseAll"/>
-  <commands xmi:id="_qc-P8C3PEeSgt6KviOm2oQ" elementId="TextView.expandAll" commandName="TextView.expandAll"/>
-  <commands xmi:id="_so24sC3PEeSgt6KviOm2oQ" elementId="TextView.expand" commandName="TextView.expand"/>
-  <commands xmi:id="_svEOYC3PEeSgt6KviOm2oQ" elementId="TextView.collapse" commandName="TextView.collapse"/>
   <commands xmi:id="_-V8W0C-CEeS1-vpnkwxs_w" elementId="TextView.build.text" commandName="TextView.build.text"/>
   <commands xmi:id="_p_UTEDDOEeSG8_3OwGuTcQ" elementId="TextView.find" commandName="TextView.find"/>
   <commands xmi:id="_9AG3ADHMEeSjZrnR4NV3NQ" elementId="TextView.previous" commandName="TextView.previous"/>

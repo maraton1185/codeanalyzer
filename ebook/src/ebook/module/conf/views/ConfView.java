@@ -42,6 +42,7 @@ import ebook.module.conf.tree.ListInfoSelection;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
+import ebook.module.tree.ICollapseView;
 import ebook.module.tree.ITreeItemInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
@@ -49,7 +50,7 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
-public class ConfView {
+public class ConfView implements ICollapseView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
@@ -280,6 +281,33 @@ public class ConfView {
 
 	public Integer getId() {
 		return list == null ? 0 : list.getId();
+	}
+
+	@Override
+	public void CollapseAll() {
+		viewer.collapseAll();
+	}
+
+	@Override
+	public void ExpandAll() {
+		viewer.expandAll();
+
+	}
+
+	@Override
+	public void Expand() {
+		ContextInfo item = window.getContext().get(ContextInfo.class);
+		if (item != null)
+			viewer.expandToLevel(item, 1);
+
+	}
+
+	@Override
+	public void Collapse() {
+		ContextInfo item = window.getContext().get(ContextInfo.class);
+		if (item != null)
+			viewer.collapseToLevel(item, 0);
+
 	}
 
 }

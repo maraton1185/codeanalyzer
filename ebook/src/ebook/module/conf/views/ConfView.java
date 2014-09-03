@@ -290,7 +290,7 @@ public class ConfView implements ICollapseView {
 
 	@Override
 	public void ExpandAll() {
-		viewer.expandAll();
+		viewer.expandToLevel(4);
 
 	}
 
@@ -305,8 +305,11 @@ public class ConfView implements ICollapseView {
 	@Override
 	public void Collapse() {
 		ContextInfo item = window.getContext().get(ContextInfo.class);
-		if (item != null)
-			viewer.collapseToLevel(item, 0);
+		if (item != null) {
+			ContextInfo parent = (ContextInfo) con.srv(list).get(
+					item.getParent());
+			viewer.collapseToLevel(parent, 1);
+		}
 
 	}
 

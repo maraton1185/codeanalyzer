@@ -404,6 +404,12 @@
     <bindings xmi:id="_CUnn4DJtEeSGe8GcmMRqKg" elementId="ebook.keybinding.12" keySequence="M3+F2" command="_-mV_UDJsEeSGe8GcmMRqKg">
       <tags>type:user</tags>
     </bindings>
+    <bindings xmi:id="_42I0YDOiEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="F2" command="_cwQHwDOiEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_47Qk8DOiEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="M2+F2" command="_x_o2oDOiEeSG8_3OwGuTcQ">
+      <tags>type:user</tags>
+    </bindings>
   </bindingTables>
   <bindingTables xmi:id="_zxAfYDJqEeSGe8GcmMRqKg" elementId="ebook.bindingtable.10" bindingContext="_xl4EkDJqEeSGe8GcmMRqKg">
     <bindings xmi:id="_420ioDJqEeSGe8GcmMRqKg" elementId="ebook.keybinding.6" keySequence="F2" command="_pS9MIDJqEeSGe8GcmMRqKg">
@@ -871,6 +877,8 @@
   <commands xmi:id="_p_UTEDDOEeSG8_3OwGuTcQ" elementId="TextView.find" commandName="TextView.find"/>
   <commands xmi:id="_9AG3ADHMEeSjZrnR4NV3NQ" elementId="TextView.previous" commandName="TextView.previous"/>
   <commands xmi:id="_9L4pMDHMEeSjZrnR4NV3NQ" elementId="TextView.next" commandName="TextView.next"/>
+  <commands xmi:id="_cwQHwDOiEeSG8_3OwGuTcQ" elementId="TextView.nextMarker" commandName="TextView.nextMarker"/>
+  <commands xmi:id="_x_o2oDOiEeSG8_3OwGuTcQ" elementId="TextView.previousMarker" commandName="TextView.previousMarker"/>
   <commands xmi:id="_jja2cDJqEeSGe8GcmMRqKg" elementId="BookmarkView.delete" commandName="BookmarkView.delete"/>
   <commands xmi:id="_pS9MIDJqEeSGe8GcmMRqKg" elementId="BookmarkView.edit" commandName="BookmarkView.edit"/>
   <commands xmi:id="_tCDUEDJqEeSGe8GcmMRqKg" elementId="BookmarkView.show" commandName="BookmarkView.show"/>

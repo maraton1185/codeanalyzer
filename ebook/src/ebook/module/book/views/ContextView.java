@@ -32,6 +32,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.text.TextConnection;
+import ebook.module.text.model.LineInfo;
 import ebook.module.tree.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -189,8 +190,12 @@ public class ContextView {
 
 				ContextInfo item = service.adapt(selected);
 
-				App.br.post(Events.EVENT_OPEN_TEXT, new TextConnection(con,
-						item, service, con.bmsrv(section)));
+				TextConnection text_con = new TextConnection(con, item,
+						service, con.bmsrv(section));
+
+				LineInfo line = new LineInfo(item.getOptions());
+				text_con.setLine(line);
+				App.br.post(Events.EVENT_OPEN_TEXT, text_con);
 
 			}
 		});

@@ -414,8 +414,20 @@ public class ContextService extends TreeService {
 		ContextInfo item = new ContextInfo(_item);
 		if (item != null) {
 			ContextInfo parent = (ContextInfo) get(item.getParent());
-			if (parent != null && parent.getOptions().type != BuildType.module)
-				item.setTitle(parent.getTitle() + "." + item.getTitle());
+			if (parent != null) {
+				if (parent.getOptions().type != BuildType.module)
+					item.setTitle(parent.getTitle() + "." + item.getTitle());
+				else {
+					// item.setId(parent.getId());
+					ContextInfo _parent = (ContextInfo) get(parent.getParent());
+					if (_parent != null)
+						parent.setTitle(_parent.getTitle() + "."
+								+ parent.getTitle());
+
+					parent.getOptions().proc = item.getTitle();
+					return parent;
+				}
+			}
 
 		}
 		return item;

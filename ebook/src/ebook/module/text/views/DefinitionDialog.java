@@ -13,6 +13,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -30,10 +32,11 @@ public class DefinitionDialog extends Dialog {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
-	private ArrayTreeService service;
+	private ArrayTreeService service = new ArrayTreeService();
 
 	ITreeItemInfo selected;
-	boolean doSelection = false;
+
+	// boolean doSelection = false;
 
 	public DefinitionDialog(Shell parentShell) {
 		super(parentShell);
@@ -56,26 +59,31 @@ public class DefinitionDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(400, 200);
+		return new Point(800, 400);
 	}
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite body = (Composite) super.createDialogArea(parent);
 
-		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
+		body.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		service = new ArrayTreeService();
-		treeComponent = new TreeViewComponent(parent, service, 3, false);
+		body.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite cont;
+
+		cont = new Composite(body, SWT.NONE);
+		cont.setLayout(new GridLayout(2, false));
+
+		treeComponent = new TreeViewComponent(cont, service, 3, false, false);
 
 		viewer = treeComponent.getViewer();
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				if (!doSelection)
-					return;
+				// if (!doSelection)
+				// return;
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
 				selected = (ITreeItemInfo) selection.getFirstElement();
@@ -104,10 +112,10 @@ public class DefinitionDialog extends Dialog {
 
 	public void setData(List<ITreeItemInfo> defs) {
 		service.setModel(defs);
-		doSelection = false;
-		treeComponent.updateInput();
-		treeComponent.setSelection();
-		doSelection = true;
+		// doSelection = false;
+		// treeComponent.updateInput();
+		// treeComponent.setSelection();
+		// doSelection = true;
 	}
 
 	public ContextInfo getItem() {

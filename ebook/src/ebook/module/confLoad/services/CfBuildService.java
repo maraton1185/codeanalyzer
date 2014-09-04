@@ -273,17 +273,17 @@ public class CfBuildService {
 		path.add(info.itemTitle);
 		path.add(null);
 
-		int index_search_by_text = 1000;
+		int stop_index = 1000;
 
-		if (info.searchByText)
-			index_search_by_text = path.indexOf(info.itemTitle);
+		if (info.searchByText || info.searchByProc)
+			stop_index = path.indexOf(info.itemTitle);
 
-		if (index_search_by_text != 0)
+		if (stop_index != 0)
 			gr = get(levels.get(0), path.get(0), null, proposals);
 
 		for (int i = 1; i < path.size(); i++) {
 
-			if (i >= index_search_by_text)
+			if (i >= stop_index)
 				break;
 
 			if (levels.size() <= i)
@@ -321,12 +321,78 @@ public class CfBuildService {
 			fillParents(proposals, path);
 		}
 
+		if (info.searchByProc && !info.getProc) {
+
+			buildWithProcSearch(proposals, gr, info.itemTitle, info);
+
+			// remove last 2 items
+			path.remove(path.size() - 1);
+			path.remove(path.size() - 1);
+			fillParents(proposals, path);
+		}
+
 		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2
-				&& !info.searchByText) {
+				&& !info.searchByText && !info.searchByProc) {
 			info.searchByGroup2 = true;
 			buildWithPath(proposals, path_items, info);
 
 			fillParents(proposals, null);
+		}
+
+	}
+
+	private void buildWithProcSearch(List<BuildInfo> proposals, Integer gr,
+			String title, AdditionalInfo build_opt) throws SQLException {
+
+		if (con == null)
+			return;
+
+		if (proposals != null)
+			proposals.clear();
+
+		// title = Pattern.quote(title);
+
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		SQL = "Select T.TITLE, T.PARENT from PROCS AS T";
+		SQL = SQL.concat(" WHERE ");
+
+		if (gr != null)
+			SQL = SQL
+					.concat("(T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?) AND");
+
+		SQL = SQL.concat(" UPPER(T.NAME) REGEXP UPPER(?)");
+		SQL = SQL.concat(" ORDER BY TITLE");
+
+		prep = con.prepareStatement(SQL);
+
+		if (gr != null) {
+			prep.setInt(1, gr);
+			prep.setInt(2, gr);
+			prep.setInt(3, gr);
+			prep.setString(4, Pattern.quote(title));
+		} else {
+			prep.setString(1, Pattern.quote(title));
+		}
+
+		rs = prep.executeQuery();
+		try {
+			while (rs.next()) {
+
+				BuildInfo info = new BuildInfo();
+				info.title = rs.getString(1);
+				info.parent = rs.getInt(2);
+
+				proposals.add(info);
+
+			}
+
+		} catch (Exception e) {
+			throw new SQLException();
+		} finally {
+			rs.close();
 		}
 
 	}
@@ -693,29 +759,30 @@ public class CfBuildService {
 			// }
 			id = getId(srv, result, ELevel.module, path);
 			if (id != null) {
-				conf.setObjectsTable();
-				ContextInfo module = (ContextInfo) conf.get(id);
-				conf.setProcTable();
-				result.setParent(-1);
-				if (module != null) {
-					Integer i = module.getParent();
-					result.setParent(i);
-					result.setModule(null);
-					result.setTitle(module.getTitle());
-					// if (result.isSearch()) {
-					int s = path.size();
-					for (int j = 2; j < s; j++)
-						path.remove(path.size() - 1);
-
-					result.getOptions().type = BuildType.module;
-					if (!proc_name.isEmpty())
-						result.getOptions().proc = proc_name;
-					// }
-				}
-
-				result.setId(id);
-				result.setTitle(path.get(path.size() - 1).concat(
-						"." + result.getTitle()));
+				conf.adaptProc(result, proc_name, id, path);
+				// conf.setObjectsTable();
+				// ContextInfo module = (ContextInfo) conf.get(id);
+				// conf.setProcTable();
+				// result.setParent(-1);
+				// if (module != null) {
+				// Integer i = module.getParent();
+				// result.setParent(i);
+				// result.setModule(null);
+				// result.setTitle(module.getTitle());
+				// // if (result.isSearch()) {
+				// int s = path.size();
+				// for (int j = 2; j < s; j++)
+				// path.remove(path.size() - 1);
+				//
+				// result.getOptions().type = BuildType.module;
+				// if (!proc_name.isEmpty())
+				// result.getOptions().proc = proc_name;
+				// // }
+				// }
+				//
+				// result.setId(id);
+				// result.setTitle(path.get(path.size() - 1).concat(
+				// "." + result.getTitle()));
 				return result;
 			}
 

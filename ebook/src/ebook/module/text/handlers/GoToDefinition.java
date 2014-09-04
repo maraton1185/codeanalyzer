@@ -66,14 +66,14 @@ public class GoToDefinition {
 			DefinitionDialog dlg = new DefinitionDialog(shell);
 			dlg.setData(defs);
 			if (dlg.open() == Window.OK)
-				item = (ContextInfo) dlg.getItem();
+				item = dlg.getItem();
 		} else
 			item = (ContextInfo) defs.get(0);
 
 		if (item == null)
 			return;
 
-		LineInfo line = new LineInfo(item.getOptions().proc);
+		LineInfo line = new LineInfo(item.getOptions());
 
 		con.setLine(line);
 		con.setItem(item);

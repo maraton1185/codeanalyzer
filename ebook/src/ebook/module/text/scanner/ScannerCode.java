@@ -42,7 +42,7 @@ public class ScannerCode extends RuleBasedScanner {
 			"ОтменитьТранзакцию", "Для", "Каждого", "Из", "Пока", "Цикл",
 			"КонецЦикла", "Прервать", "Продолжить" };
 
-	boolean keyChar(char c) {
+	public static boolean keyChar(char c) {
 		return c == '/' || c == '?' || c == '(' || c == ')' || c == ';'
 				|| c == '=' || c == '>' || c == '<' || c == '*' || c == '.'
 				|| c == '+' || c == '-' || c == ',' || c == '[' || c == ']';

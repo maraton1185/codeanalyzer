@@ -105,6 +105,7 @@ public class ConfManager extends TreeManager {
 		info.type = BuildType.object;
 		info.setSearchByText(opt.type == BuildType.text);
 		info.textSearchWithoutLines = build_options.textSearchWithoutLines;
+		info.setSearchByProc(opt.type == BuildType.proc);
 		if (root != null) {
 			// get root without type between
 			info.type = null;
@@ -113,6 +114,13 @@ public class ConfManager extends TreeManager {
 
 		if (info.searchByText && root == null) {
 			// root search text
+			info.type = null;
+			path.clear();
+			cf.build(srv.getConnection()).buildWithPath(list, path, info);
+		}
+
+		if (info.searchByProc && root == null) {
+			// root search proc
 			info.type = null;
 			path.clear();
 			cf.build(srv.getConnection()).buildWithPath(list, path, info);

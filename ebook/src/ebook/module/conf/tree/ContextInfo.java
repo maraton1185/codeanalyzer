@@ -133,6 +133,8 @@ public class ContextInfo extends TreeItemInfo {
 			return Utils.getImage("markers/root.png");
 		case proposal:
 			return Utils.getImage("markers/proposal.png");
+		case proc:
+			return Utils.getImage("source.png");
 		default:
 			return null;
 		}

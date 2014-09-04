@@ -449,13 +449,17 @@ public class ContextService extends TreeService implements ITextTreeService,
 		ContextInfo item = (ContextInfo) _item;
 
 		ContextInfo parent = (ContextInfo) get(item.getParent());
-
-		do {
-			if (parent != null)
-				result.add(0, parent);
+		while (parent != null) {
+			result.add(0, parent);
 			parent = (ContextInfo) get(parent.getParent());
+		}
 
-		} while (parent != null);
+		// do {
+		// if (parent != null)
+		// result.add(0, parent);
+		// parent = (ContextInfo) get(parent.getParent());
+		//
+		// } while (parent != null);
 
 		if (!result.isEmpty())
 			result.remove(0);
@@ -485,14 +489,23 @@ public class ContextService extends TreeService implements ITextTreeService,
 
 	@Override
 	public String getPath(ContextInfo item) {
+		return getPath(item, null);
+	}
+
+	@Override
+	public String getPath(ContextInfo item, List<String> path) {
+
 		String result = "";
 		List<ITreeItemInfo> parents = getParents(item);
 		if (!parents.isEmpty())
 			parents.remove(parents.size() - 1);
 		for (ITreeItemInfo p : parents) {
 			result += p.getTitle() + ".";
+			if (path != null)
+				path.add(p.getTitle());
 		}
-		// return result.substring(0, result.length() - 1);
+		if (path != null)
+			path.add(item.getTitle());
 		return result.concat(item.getTitle());
 	}
 

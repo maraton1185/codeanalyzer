@@ -93,31 +93,16 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
 		ContextInfo item = (ContextInfo) _item;
 
-		if (!item.isProc())
-			setObjectsTable();
+		setObjectsTable();
 
 		ContextInfo parent = (ContextInfo) get(item.getParent());
 
-		if (parent == null)
-			return result;
-
-		if (item.isProc())
-			setObjectsTable();
-
-		// if (parent != null)
-		// result.add(0, parent);
-
-		do {
-			if (parent != null)
-				result.add(0, parent);
+		while (parent != null) {
+			// if (parent != null)
+			result.add(0, parent);
 			parent = (ContextInfo) get(parent.getParent());
+		}
 
-		} while (parent != null);
-
-		// while (parent != null) {
-		// parent = (ContextInfo) get(parent.getParent());
-		// result.add(0, parent);
-		// }
 		setProcTable();
 
 		return result;
@@ -125,12 +110,29 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 
 	@Override
 	public String getPath(ContextInfo item) {
+		return getPath(item, null);
+	}
+
+	@Override
+	public String getPath(ContextInfo item, List<String> path) {
+
 		String result = "";
 		List<ITreeItemInfo> parents = getParents(item);
-		if (!parents.isEmpty())
+		String last = null;
+		if (!parents.isEmpty()) {
+			last = parents.get(parents.size() - 1).getTitle();
 			parents.remove(parents.size() - 1);
+		}
 		for (ITreeItemInfo p : parents) {
 			result += p.getTitle() + ".";
+			if (path != null)
+				path.add(p.getTitle());
+		}
+
+		if (path != null) {
+			if (last != null)
+				path.add(last);
+			path.add(item.getTitle());
 		}
 		return result.concat(item.getTitle());
 	}
@@ -141,9 +143,12 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		setObjectsTable();
 
 		Integer parent = null;
-		String[] data = path.split("\\.");
+
+		String[] data = path.replace("...", "###").split("\\.");
 		ITreeItemInfo item = null;
 		for (String s : data) {
+			s = s.replace("###", "...");
+
 			item = findInParent(s, parent);
 			if (item == null)
 				break;
@@ -169,22 +174,27 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		return list;
 	}
 
-	private List<ITreeItemInfo> getProcs(String title) {
+	private List<ITreeItemInfo> getProcs(String name) {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
 		// Connection con = null;
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.TITLE=? ORDER BY T.SORT, T.ID";
+					+ " AS T WHERE T.NAME=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setString(1, title);
+			prep.setString(1, name);
 			ResultSet rs = prep.executeQuery();
 
 			try {
 				while (rs.next()) {
 
-					result.add(getItem(rs));
+					ITreeItemInfo item = getItem(rs);
+					List<String> path = new ArrayList<String>();
+					getPath((ContextInfo) item, path);
+					adaptProc(item, item.getTitle(), item.getParent(), path);
+
+					result.add(item);
 				}
 			} finally {
 				rs.close();
@@ -193,6 +203,33 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public void adaptProc(ITreeItemInfo _item, String proc_name, int id,
+			List<String> path) {
+		ContextInfo item = (ContextInfo) _item;
+		setObjectsTable();
+		ContextInfo module = (ContextInfo) get(id);
+		setProcTable();
+		item.setParent(-1);
+		if (module != null) {
+			Integer i = module.getParent();
+			item.setParent(i);
+			item.setModule(null);
+			item.setTitle(module.getTitle());
+
+			int s = path.size();
+			for (int j = 2; j < s; j++)
+				path.remove(path.size() - 1);
+
+			item.getOptions().type = BuildType.module;
+			item.getOptions().proc = proc_name;
+
+		}
+
+		item.setId(id);
+		item.setTitle(path.get(path.size() - 1).concat("." + item.getTitle()));
+
 	}
 
 }

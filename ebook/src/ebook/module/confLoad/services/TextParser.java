@@ -13,6 +13,7 @@ import ebook.module.confLoad.model.Entity;
 import ebook.module.confLoad.model.ObjectSortMap;
 import ebook.module.confLoad.model.procCall;
 import ebook.module.confLoad.model.procEntity;
+import ebook.module.text.scanner.ScannerCode;
 import ebook.utils.Const;
 import ebook.utils.Strings;
 
@@ -690,8 +691,21 @@ public class TextParser {// implements ITextParser {
 		if (index < 0)
 			return null;
 		String t = text.substring(0, index);
-		throw new UnsupportedOperationException();
-		// return null;
+		String r = new StringBuilder(t).reverse().toString();
+		t = "";
+		for (char c : r.toCharArray()) {
+
+			if (ScannerCode.keyChar(c))
+				break;
+			if (c == ' ')
+				break;
+
+			t += c;
+		}
+		r = new StringBuilder(t).reverse().toString().trim();
+
+		// throw new UnsupportedOperationException();
+		return r.toUpperCase();
 	}
 
 	// *****************************************************

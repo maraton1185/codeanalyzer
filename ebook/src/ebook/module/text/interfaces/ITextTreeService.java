@@ -27,6 +27,8 @@ public interface ITextTreeService {
 
 	String getPath(ContextInfo item);
 
+	String getPath(ContextInfo item, List<String> path);
+
 	ContextInfo getByPath(String path);
 
 	List<ITreeItemInfo> getDefinitions(GotoDefinitionData data);

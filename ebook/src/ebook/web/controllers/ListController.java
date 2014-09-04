@@ -7,7 +7,7 @@ import ebook.core.App;
 import ebook.module.bookList.BookListService;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.web.model.Book;
 import ebook.web.model.ListModel;
 import ebook.web.model.ModelItem;

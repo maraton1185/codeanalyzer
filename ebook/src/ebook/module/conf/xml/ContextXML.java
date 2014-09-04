@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeItemXML;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemXML;
 
 @XmlRootElement(name = "context", namespace = "ebook.module.xml")
 public class ContextXML implements ITreeItemXML {

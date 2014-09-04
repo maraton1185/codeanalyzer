@@ -1,8 +1,12 @@
-package ebook.module.tree;
+package ebook.module.tree.manager;
 
 import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Shell;
+
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.service.TreeService;
 
 public abstract class TreeManager implements ITreeManager {
 

@@ -6,6 +6,9 @@ import java.util.Iterator;
 import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
 import ebook.core.interfaces.IDbConnection;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.service.ITreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 

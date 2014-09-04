@@ -7,9 +7,9 @@ import ebook.module.conf.ConfConnection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeService;
-import ebook.module.tree.TreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.ITreeService;
+import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 

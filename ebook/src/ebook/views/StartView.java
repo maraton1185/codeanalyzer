@@ -51,7 +51,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import ebook.core.App;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.tree.TreeViewComponent;
+import ebook.module.tree.view.TreeViewComponent;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;

@@ -36,17 +36,21 @@ import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeItemSelection;
-import ebook.module.tree.ITreeItemXML;
-import ebook.module.tree.ITreeService;
-import ebook.module.tree.TreeService;
+import ebook.module.text.interfaces.ITextTreeService;
+import ebook.module.text.model.GotoDefinitionData;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.item.ITreeItemXML;
+import ebook.module.tree.service.IDownloadService;
+import ebook.module.tree.service.ITreeService;
+import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
-public class ContextService extends TreeService {
+public class ContextService extends TreeService implements ITextTreeService,
+		IDownloadService {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONTEXT_VIEW;
@@ -255,6 +259,12 @@ public class ContextService extends TreeService {
 		}
 
 		root.children = children;
+	}
+
+	@Override
+	public ITreeItemInfo upload(String path, ITreeItemInfo item, boolean clear,
+			boolean relative) throws InvocationTargetException {
+		return null;
 	}
 
 	public void upload(String path, String conf, boolean clear)
@@ -471,6 +481,25 @@ public class ContextService extends TreeService {
 		}
 
 		return (ContextInfo) item;
+	}
+
+	@Override
+	public String getPath(ContextInfo item) {
+		String result = "";
+		List<ITreeItemInfo> parents = getParents(item);
+		if (!parents.isEmpty())
+			parents.remove(parents.size() - 1);
+		for (ITreeItemInfo p : parents) {
+			result += p.getTitle() + ".";
+		}
+		// return result.substring(0, result.length() - 1);
+		return result.concat(item.getTitle());
+	}
+
+	@Override
+	public List<ITreeItemInfo> getDefinitions(GotoDefinitionData data) {
+
+		throw new UnsupportedOperationException();
 	}
 
 }

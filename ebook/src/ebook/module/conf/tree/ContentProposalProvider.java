@@ -15,7 +15,7 @@ import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.service.ConfService;
 import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 
 public class ContentProposalProvider implements IContentProposalProvider {
 

@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.module.tree.TreeItemInfoSelection;
-import ebook.module.tree.TreeViewComponent;
+import ebook.module.tree.item.TreeItemInfoSelection;
+import ebook.module.tree.view.TreeViewComponent;
 import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;

@@ -2,9 +2,6 @@ package ebook.module.text.views;
 
 import java.util.Iterator;
 
-import javax.inject.Inject;
-
-import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -31,7 +28,6 @@ import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-@Creatable
 public class FindDialog extends Dialog {
 
 	Combo text;
@@ -40,12 +36,9 @@ public class FindDialog extends Dialog {
 	private TextConnection con;
 	private ContextInfo item;
 
-	// LinkedHashSet<String> history = new LinkedHashSet<String>();
-
-	@Inject
 	public FindDialog(Shell parentShell) {
 		super(parentShell);
-		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
+		setShellStyle(SWT.BORDER | SWT.CLOSE);
 
 	}
 

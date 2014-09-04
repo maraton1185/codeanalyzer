@@ -3,7 +3,7 @@ package ebook.module.db;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Const;
 
 public class DbConnection extends BaseDbConnection {

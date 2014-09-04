@@ -18,6 +18,7 @@ import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.procEntity;
 import ebook.module.confLoad.services.TextParser;
 import ebook.module.text.model.LineInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
@@ -32,7 +33,7 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 
 	IDocument fDocument;
 
-	ArrayList<LineInfo> fModel = new ArrayList<LineInfo>();
+	ArrayList<ITreeItemInfo> fModel = new ArrayList<ITreeItemInfo>();
 	ArrayList<Position> fMarkers = new ArrayList<Position>();
 
 	private String fSearch = "";

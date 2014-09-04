@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.tree.ITreeItemSelection;
+import ebook.module.tree.item.ITreeItemSelection;
 
 public class Delete {
 	@Execute

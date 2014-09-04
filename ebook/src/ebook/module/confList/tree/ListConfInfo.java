@@ -11,7 +11,7 @@ import ebook.module.confList.tree.ConfInfo.SQLConnection;
 import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 import ebook.utils.PreferenceSupplier;
 
 public class ListConfInfo extends TreeItemInfo {

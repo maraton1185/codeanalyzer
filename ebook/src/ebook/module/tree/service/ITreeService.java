@@ -1,22 +1,17 @@
-package ebook.module.tree;
+package ebook.module.tree.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.List;
 
-public interface ITreeService {
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+
+public interface ITreeService extends ITreeService2 {
 
 	int rootId = 1;
 
 	boolean check();
-
-	List<ITreeItemInfo> getRoot();
-
-	List<ITreeItemInfo> getChildren(int parent);
-
-	boolean hasChildren(int parent);
-
-	ITreeItemInfo get(int item);
 
 	String getText(int id);
 
@@ -35,19 +30,9 @@ public interface ITreeService {
 
 	void delete(ITreeItemSelection sel);
 
-	Boolean setParent(ITreeItemInfo item, ITreeItemInfo target);
-
-	Boolean setAfter(ITreeItemInfo item, ITreeItemInfo target);
-
-	Boolean setBefore(ITreeItemInfo item, ITreeItemInfo target);
-
 	void updateOrder(List<ITreeItemInfo> items);
 
-	void saveTitle(ITreeItemInfo object);
-
 	ITreeItemInfo findInParent(String title, Integer parent);
-
-	ITreeItemInfo getSelected();
 
 	ITreeItemInfo getUploadRoot();
 

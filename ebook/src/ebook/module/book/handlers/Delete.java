@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfoSelection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Strings;
 
 public class Delete {

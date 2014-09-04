@@ -8,7 +8,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.services.adapter.Adapter;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 
-import ebook.module.tree.ICollapseView;
+import ebook.module.tree.view.ICollapseView;
 
 public class Expand {
 	@Inject

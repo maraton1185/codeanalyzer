@@ -12,7 +12,7 @@ import ebook.core.App;
 import ebook.core.pico;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.book.BookConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 
 public class ACLService {
 

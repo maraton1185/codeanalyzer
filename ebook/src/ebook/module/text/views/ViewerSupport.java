@@ -47,6 +47,7 @@ import ebook.module.text.annotations.InfoAnnotation;
 import ebook.module.text.annotations.SearchAnnotation;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.scanner.DocumentPartitionScanner;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Const;
 import ebook.utils.Events.EVENT_TEXT_DATA;
 
@@ -68,7 +69,7 @@ public class ViewerSupport {
 
 	List<ProjectionAnnotation> projections = new ArrayList<ProjectionAnnotation>();
 	List<Annotation> markers = new ArrayList<Annotation>();
-	private ArrayList<LineInfo> model;
+	private ArrayList<ITreeItemInfo> model;
 	private ArrayList<Position> model_markers;
 	TextConnection con;
 
@@ -242,8 +243,8 @@ public class ViewerSupport {
 
 		if (lineInfo == null || model == null)
 			return null;
-		for (LineInfo info : model) {
-
+		for (ITreeItemInfo _info : model) {
+			LineInfo info = (LineInfo) _info;
 			if (info.getTitle().equalsIgnoreCase(lineInfo.getTitle())) {
 				LineInfo result = new LineInfo(lineInfo.getTitle());
 				result.offset = info.offset;
@@ -398,8 +399,8 @@ public class ViewerSupport {
 			return;
 
 		removeFolding();
-		for (LineInfo info : model) {
-
+		for (ITreeItemInfo _info : model) {
+			LineInfo info = (LineInfo) _info;
 			if (info.projection == null)
 				continue;
 

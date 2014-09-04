@@ -1,4 +1,4 @@
-package ebook.module.tree;
+package ebook.module.tree.view;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,12 +45,17 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import ebook.module.tree.EbookProposalTextCellEditor;
+import ebook.module.tree.EbookTextCellEditor;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.ITreeService2;
+
 public class TreeViewComponent {
 
 	private TreeViewer viewer;
 	private Tree viewerTree;
 	private Composite parent;
-	ITreeService service;
+	ITreeService2 service;
 	private ITreeItemInfo root;
 	private ITreeItemInfo dragSection;
 	protected TreeItem selectedItem;
@@ -58,21 +63,21 @@ public class TreeViewComponent {
 	private int expandLevel;
 	private IContentProposalProvider contentProposalProvider;
 
-	public TreeViewComponent(Composite parent, ITreeService service,
+	public TreeViewComponent(Composite parent, ITreeService2 service,
 			int expandLevel, boolean editingSupport) {
 
 		this(parent, service, expandLevel, editingSupport, true, null);
 
 	}
 
-	public TreeViewComponent(Composite parent, ITreeService service,
+	public TreeViewComponent(Composite parent, ITreeService2 service,
 			int expandLevel, boolean editingSupport, boolean groupIsBold) {
 
 		this(parent, service, expandLevel, editingSupport, groupIsBold, null);
 
 	}
 
-	public TreeViewComponent(Composite parent, ITreeService service,
+	public TreeViewComponent(Composite parent, ITreeService2 service,
 			int expandLevel, boolean editingSupport, boolean groupIsBold,
 			IContentProposalProvider contentProposalProvider) {
 

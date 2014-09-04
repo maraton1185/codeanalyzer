@@ -1,6 +1,6 @@
 package ebook.web.model;
 
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 
 public class User {
 

@@ -1,8 +1,9 @@
-package ebook.module.tree;
+package ebook.module.tree.item;
 
 import org.eclipse.swt.graphics.Image;
 
 import ebook.module.db.DbOptions;
+import ebook.module.tree.service.ITreeService;
 
 public abstract class TreeItemInfo implements ITreeItemInfo {
 

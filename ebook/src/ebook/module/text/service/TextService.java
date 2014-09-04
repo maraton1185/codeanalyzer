@@ -20,7 +20,7 @@ import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
 
 public class TextService {

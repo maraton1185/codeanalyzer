@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.core.App.BookWindowCloseHandler;
 import ebook.module.book.BookConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;

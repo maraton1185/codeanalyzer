@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeService;
+import ebook.module.tree.service.ITreeService;
 
 public class BookOptions extends DbOptions {
 

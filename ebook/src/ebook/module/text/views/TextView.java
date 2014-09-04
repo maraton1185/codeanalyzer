@@ -42,13 +42,14 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.db.DbOptions;
 import ebook.module.text.TextConnection;
 import ebook.module.text.annotations.BookmarkAnnotation;
+import ebook.module.text.model.GotoDefinitionData;
 import ebook.module.text.model.History;
 import ebook.module.text.model.HistoryItem;
 import ebook.module.text.model.LineInfo;
 import ebook.module.text.tree.BookmarkInfo;
 import ebook.module.text.tree.BookmarkInfoOptions;
-import ebook.module.tree.ICollapseView;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.view.ICollapseView;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -76,7 +77,7 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 	ViewerConfiguration viewerConfiguration;
 	ViewerSupport support;
 
-	private ArrayList<LineInfo> model;
+	private ArrayList<ITreeItemInfo> model;
 	private boolean updateActiveProcedure = true;
 	private boolean updateSelected = false;
 	private boolean fillBookmarks = false;
@@ -529,4 +530,24 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 	}
 
+	public GotoDefinitionData getDefinitionData() {
+
+		try {
+			ITextSelection textSelection = (ITextSelection) viewer
+					.getSelectionProvider().getSelection();
+
+			int line = document.getLineOfOffset(textSelection.getOffset());
+			IRegion reg = document.getLineInformation(line);
+			int offset = reg.getOffset();
+			String text = document.get(offset, reg.getLength());
+
+			int position = textSelection.getOffset() - offset;
+
+			return new GotoDefinitionData(item, text, position);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

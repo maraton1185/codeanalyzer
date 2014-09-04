@@ -28,7 +28,7 @@ import ebook.module.conf.tree.ListInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.tree.BookmarkInfo;
 import ebook.module.text.tree.BookmarkInfoSelection;
-import ebook.module.tree.TreeViewComponent;
+import ebook.module.tree.view.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;

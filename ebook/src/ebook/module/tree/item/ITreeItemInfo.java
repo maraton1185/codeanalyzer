@@ -1,4 +1,4 @@
-package ebook.module.tree;
+package ebook.module.tree.item;
 
 import org.eclipse.swt.graphics.Image;
 

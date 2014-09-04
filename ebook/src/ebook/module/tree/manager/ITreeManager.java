@@ -1,6 +1,9 @@
-package ebook.module.tree;
+package ebook.module.tree.manager;
 
 import org.eclipse.swt.widgets.Shell;
+
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
 
 public interface ITreeManager {
 

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import ebook.core.App;
 import ebook.module.acl.AclViewModel;
 import ebook.module.book.BookConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.userList.tree.UserInfo;
 import ebook.web.controllers.UserController;
 

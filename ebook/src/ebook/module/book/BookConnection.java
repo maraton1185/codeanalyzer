@@ -11,7 +11,7 @@ import ebook.module.book.service.BookmarkService;
 import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.db.BaseDbPathConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.PreferenceSupplier;
 
 public class BookConnection extends BaseDbPathConnection {

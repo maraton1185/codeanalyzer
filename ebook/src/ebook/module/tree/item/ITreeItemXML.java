@@ -1,4 +1,4 @@
-package ebook.module.tree;
+package ebook.module.tree.item;
 
 public interface ITreeItemXML {
 

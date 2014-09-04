@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 import ebook.utils.Utils;
 
 public class ListBookInfo extends TreeItemInfo {

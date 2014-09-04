@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.web.controllers.BookController;
 import ebook.web.model.BookModel;
 

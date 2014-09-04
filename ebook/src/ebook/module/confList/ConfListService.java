@@ -10,8 +10,8 @@ import ebook.core.interfaces.IDbConnection;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confList.tree.ListConfInfoOptions;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 

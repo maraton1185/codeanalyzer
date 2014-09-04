@@ -6,8 +6,8 @@ import ebook.core.App;
 import ebook.core.interfaces.IClipboard;
 import ebook.module.book.xml.SectionXML;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 import ebook.utils.Utils;
 
 public class SectionInfo extends TreeItemInfo {

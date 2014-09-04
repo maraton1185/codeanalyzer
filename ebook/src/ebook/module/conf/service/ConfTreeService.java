@@ -1,18 +1,27 @@
 package ebook.module.conf.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ebook.core.pico;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeService;
+import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.services.TextParser;
+import ebook.module.text.interfaces.ITextTreeService;
+import ebook.module.text.model.GotoDefinitionData;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.TreeService;
 
-public class ConfTreeService extends TreeService {
+public class ConfTreeService extends TreeService implements ITextTreeService {
+
+	TextParser parser = pico.get(ICfServices.class).parse();
 
 	final static String objectsTable = "OBJECTS";
 	final static String tableName = "PROCS";
@@ -115,6 +124,18 @@ public class ConfTreeService extends TreeService {
 	}
 
 	@Override
+	public String getPath(ContextInfo item) {
+		String result = "";
+		List<ITreeItemInfo> parents = getParents(item);
+		if (!parents.isEmpty())
+			parents.remove(parents.size() - 1);
+		for (ITreeItemInfo p : parents) {
+			result += p.getTitle() + ".";
+		}
+		return result.concat(item.getTitle());
+	}
+
+	@Override
 	public ContextInfo getByPath(String path) {
 
 		setObjectsTable();
@@ -134,6 +155,44 @@ public class ConfTreeService extends TreeService {
 		if (item != null)
 			((ContextInfo) item).setProc(false);
 		return (ContextInfo) item;
+	}
+
+	@Override
+	public List<ITreeItemInfo> getDefinitions(GotoDefinitionData data) {
+		String proc = data.getProcInPosition();
+
+		if (proc == null)
+			return null;
+
+		List<ITreeItemInfo> list = getProcs(proc);
+
+		return list;
+	}
+
+	private List<ITreeItemInfo> getProcs(String title) {
+		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
+		// Connection con = null;
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
+					+ " AS T WHERE T.TITLE=? ORDER BY T.SORT, T.ID";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setString(1, title);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					result.add(getItem(rs));
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

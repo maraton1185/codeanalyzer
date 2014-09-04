@@ -38,17 +38,18 @@ import ebook.module.confLoad.model.DbState;
 import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeItemSelection;
-import ebook.module.tree.ITreeItemXML;
-import ebook.module.tree.ITreeService;
-import ebook.module.tree.TreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.item.ITreeItemXML;
+import ebook.module.tree.service.IDownloadService;
+import ebook.module.tree.service.ITreeService;
+import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
-public class ConfService extends TreeService {
+public class ConfService extends TreeService implements IDownloadService {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONF_VIEW;

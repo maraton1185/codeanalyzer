@@ -33,7 +33,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
-import ebook.module.tree.TreeViewComponent;
+import ebook.module.tree.view.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;

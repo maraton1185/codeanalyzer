@@ -1,4 +1,4 @@
-package ebook.module.tree;
+package ebook.module.tree.service;
 
 import java.io.BufferedReader;
 import java.io.Reader;
@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
-
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.conf.model.BuildType;
@@ -22,12 +20,14 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.db.DbOptions;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 
-public abstract class TreeService extends AbstractTreeService {
+public abstract class TreeService implements ITreeService {
 
 	protected IDbConnection db;
 	protected String tableName;
@@ -679,20 +679,6 @@ public abstract class TreeService extends AbstractTreeService {
 	}
 
 	@Override
-	public String download(IPath zipFolder, ITreeItemSelection sel,
-			String zipName, boolean clear) throws InvocationTargetException {
-
-		return "";
-	}
-
-	@Override
-	public ITreeItemInfo upload(String path, ITreeItemInfo item, boolean clear,
-			boolean relative) throws InvocationTargetException {
-
-		return null;
-	}
-
-	@Override
 	public boolean check() {
 		try {
 			Connection con = db.getConnection();
@@ -892,29 +878,6 @@ public abstract class TreeService extends AbstractTreeService {
 	public ITreeItemInfo getSelected() {
 
 		return null;
-	}
-
-	@Override
-	public ITreeItemInfo getModule(ITreeItemInfo item) {
-		return null;
-	}
-
-	@Override
-	public List<ITreeItemInfo> getParents(ITreeItemInfo item) {
-		return null;
-	}
-
-	@Override
-	public String getPath(ContextInfo item) {
-		String result = "";
-		List<ITreeItemInfo> parents = getParents(item);
-		if (!parents.isEmpty())
-			parents.remove(parents.size() - 1);
-		for (ITreeItemInfo p : parents) {
-			result += p.getTitle() + ".";
-		}
-		// return result.substring(0, result.length() - 1);
-		return result.concat(item.getTitle());
 	}
 
 	@Override

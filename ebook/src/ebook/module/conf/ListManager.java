@@ -13,10 +13,10 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
-import ebook.module.tree.IDownloadService;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeItemSelection;
-import ebook.module.tree.TreeManager;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.manager.TreeManager;
+import ebook.module.tree.service.IDownloadService;
 import ebook.utils.Strings;
 
 public class ListManager extends TreeManager {

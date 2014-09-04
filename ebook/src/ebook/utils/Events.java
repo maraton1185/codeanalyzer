@@ -9,7 +9,7 @@ import ebook.core.interfaces.IDbConnection;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 
 public abstract class Events {
 
@@ -135,9 +135,12 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_FILL_BOOKMARKS = "EVENT_TEXT_VIEW_FILL_BOOKMARKS";
 
+	// public static final String EVENT_TEXT_VIEW_GOTO_DEFINITION =
+	// "EVENT_TEXT_VIEW_GOTO_DEFINITION";
+
 	public static class EVENT_TEXT_DATA {
 		public EVENT_TEXT_DATA(TextConnection con, IDocument fDocument,
-				ArrayList<LineInfo> model, ArrayList<Position> markers) {
+				ArrayList<ITreeItemInfo> model, ArrayList<Position> markers) {
 			this.con = con;
 			this.document = fDocument;
 			this.model = model;
@@ -162,7 +165,7 @@ public abstract class Events {
 		}
 
 		public IDocument document;
-		public ArrayList<LineInfo> model;
+		public ArrayList<ITreeItemInfo> model;
 		public ArrayList<Position> markers;
 		public TextConnection con;
 		public LineInfo selected;

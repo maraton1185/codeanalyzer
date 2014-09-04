@@ -12,7 +12,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.web.gwt.client.ContextTreeItem;
 import ebook.web.gwt.client.TreeService;
 

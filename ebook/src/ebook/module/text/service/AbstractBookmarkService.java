@@ -10,8 +10,8 @@ import ebook.core.interfaces.IDbConnection;
 import ebook.module.text.interfaces.IBookmarkService;
 import ebook.module.text.tree.BookmarkInfo;
 import ebook.module.text.tree.BookmarkInfoSelection;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.TreeService;
 
 public abstract class AbstractBookmarkService extends TreeService implements
 		IBookmarkService {

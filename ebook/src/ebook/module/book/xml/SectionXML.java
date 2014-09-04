@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeItemXML;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemXML;
 
 @XmlRootElement(name = "section", namespace = "ebook.module.xml")
 public class SectionXML implements ITreeItemXML {

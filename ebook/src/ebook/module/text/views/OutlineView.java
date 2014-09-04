@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Display;
 import ebook.core.App;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
-import ebook.module.text.service.OutlineService;
-import ebook.module.tree.TreeViewComponent;
+import ebook.module.tree.service.ArrayTreeService;
+import ebook.module.tree.view.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -36,7 +36,7 @@ public class OutlineView {
 
 	private TreeViewer viewer;
 	private TreeViewComponent treeComponent;
-	private OutlineService service;
+	private ArrayTreeService service;
 
 	@Inject
 	@Active
@@ -101,7 +101,7 @@ public class OutlineView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		service = new OutlineService();
+		service = new ArrayTreeService();
 		treeComponent = new TreeViewComponent(parent, service, 3, false);
 
 		viewer = treeComponent.getViewer();

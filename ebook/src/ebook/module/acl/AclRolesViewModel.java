@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Display;
 import ebook.core.App;
 import ebook.core.models.ModelObject;
 import ebook.module.acl.ACLService.ACLResult;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.userList.tree.UserInfo;
 
 public abstract class AclRolesViewModel extends ModelObject {

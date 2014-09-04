@@ -21,8 +21,8 @@ import ebook.module.conf.service.ConfTreeService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.model.ELevel;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.ITreeService;
 
 public class CfBuildService {
 

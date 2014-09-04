@@ -1,7 +1,7 @@
 package ebook.module.conf.tree;
 
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeService;
+import ebook.module.tree.service.ITreeService;
 
 public class ListInfoOptions extends DbOptions {
 

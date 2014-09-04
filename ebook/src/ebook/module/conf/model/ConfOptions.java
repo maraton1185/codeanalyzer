@@ -6,7 +6,7 @@ import java.util.List;
 
 import ebook.module.confLoad.model.DbState;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeService;
+import ebook.module.tree.service.ITreeService;
 
 public class ConfOptions extends DbOptions {
 

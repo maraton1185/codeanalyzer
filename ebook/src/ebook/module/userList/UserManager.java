@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
 import ebook.core.pico;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeManager;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.manager.TreeManager;
 import ebook.module.userList.tree.UserInfo;
 import ebook.utils.Strings;
 

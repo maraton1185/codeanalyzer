@@ -16,8 +16,8 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeManager;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.manager.TreeManager;
 import ebook.utils.Strings;
 
 public class ConfManager extends TreeManager {

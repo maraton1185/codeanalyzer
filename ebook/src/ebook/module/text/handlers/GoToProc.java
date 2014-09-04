@@ -13,7 +13,7 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;

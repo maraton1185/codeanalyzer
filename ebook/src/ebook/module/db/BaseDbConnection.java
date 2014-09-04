@@ -17,7 +17,7 @@ import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IDbStructure;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Const;
 
 public abstract class BaseDbConnection implements IDbConnection {

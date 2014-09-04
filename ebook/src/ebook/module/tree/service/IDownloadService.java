@@ -1,8 +1,11 @@
-package ebook.module.tree;
+package ebook.module.tree.service;
 
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IPath;
+
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
 
 public interface IDownloadService {
 

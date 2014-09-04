@@ -27,8 +27,8 @@ import ebook.module.book.BookConnection;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 

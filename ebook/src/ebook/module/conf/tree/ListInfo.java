@@ -1,6 +1,6 @@
 package ebook.module.conf.tree;
 
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 
 public class ListInfo extends TreeItemInfo {
 

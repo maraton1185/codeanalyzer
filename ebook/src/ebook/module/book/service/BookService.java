@@ -47,17 +47,18 @@ import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.ITreeItemSelection;
-import ebook.module.tree.ITreeItemXML;
-import ebook.module.tree.ITreeService;
-import ebook.module.tree.TreeService;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.item.ITreeItemXML;
+import ebook.module.tree.service.IDownloadService;
+import ebook.module.tree.service.ITreeService;
+import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
-public class BookService extends TreeService {
+public class BookService extends TreeService implements IDownloadService {
 
 	final static String tableName = "SECTIONS";
 	final static String updateEvent = Events.EVENT_UPDATE_CONTENT_VIEW;
@@ -504,7 +505,7 @@ public class BookService extends TreeService {
 		String readLine = "";
 		hp = new URL(url);
 		hpCon = hp.openConnection();
-		int len = hpCon.getContentLength();
+		// int len = hpCon.getContentLength();
 		// if (len>0){
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				hpCon.getInputStream()));

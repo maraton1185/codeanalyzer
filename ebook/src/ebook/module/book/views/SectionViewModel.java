@@ -7,7 +7,7 @@ import ebook.module.acl.ACLService.ACLResult;
 import ebook.module.acl.AclRolesViewModel;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 

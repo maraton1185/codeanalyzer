@@ -33,7 +33,7 @@ import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.tree.ListConfInfo;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
 import ebook.utils.Strings;
 import ebook.utils.Utils;

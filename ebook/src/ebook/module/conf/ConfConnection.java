@@ -13,7 +13,7 @@ import ebook.module.conf.service.ConfTreeService;
 import ebook.module.conf.service.ListService;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.db.BaseDbPathConnection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.PreferenceSupplier;
 
 public class ConfConnection extends BaseDbPathConnection {

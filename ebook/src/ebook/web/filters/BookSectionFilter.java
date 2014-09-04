@@ -16,7 +16,7 @@ import ebook.core.App;
 import ebook.module.acl.ACLService.ACLResult;
 import ebook.module.acl.AclViewModel;
 import ebook.module.bookList.tree.ListBookInfoOptions;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 
 public class BookSectionFilter implements Filter {
 

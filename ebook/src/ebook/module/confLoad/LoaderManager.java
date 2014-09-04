@@ -22,7 +22,7 @@ import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.confLoad.interfaces.ILoaderManager;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.confLoad.services.LoaderService;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Const;
 import ebook.utils.Strings;
 import ebook.utils.Utils;

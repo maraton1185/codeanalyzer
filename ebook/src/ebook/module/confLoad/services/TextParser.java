@@ -685,6 +685,15 @@ public class TextParser {// implements ITextParser {
 		return line.toUpperCase().contains(text.toUpperCase());
 	}
 
+	public String getProcInPosition(int position, String text) {
+		int index = text.indexOf("(", position);
+		if (index < 0)
+			return null;
+		String t = text.substring(0, index);
+		throw new UnsupportedOperationException();
+		// return null;
+	}
+
 	// *****************************************************
 
 }

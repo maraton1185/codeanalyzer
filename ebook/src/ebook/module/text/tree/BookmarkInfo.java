@@ -4,7 +4,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.db.DbOptions;
 import ebook.module.text.model.LineInfo;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 
 public class BookmarkInfo extends TreeItemInfo {
 

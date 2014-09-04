@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.core.App;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.tree.ListInfoSelection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Strings;
 
 public class ListDelete {

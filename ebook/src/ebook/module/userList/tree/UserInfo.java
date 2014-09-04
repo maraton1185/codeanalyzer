@@ -2,8 +2,8 @@ package ebook.module.userList.tree;
 
 import org.eclipse.swt.graphics.Image;
 
-import ebook.module.tree.ITreeService;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
+import ebook.module.tree.service.ITreeService;
 import ebook.utils.Utils;
 
 public class UserInfo extends TreeItemInfo {

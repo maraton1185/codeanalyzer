@@ -4,7 +4,7 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
 
 import ebook.module.conf.tree.ContextInfoOptions;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 
 public class LineInfo extends TreeItemInfo {
 

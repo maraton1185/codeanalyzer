@@ -2,8 +2,8 @@ package ebook.core.interfaces;
 
 import java.io.File;
 
-import ebook.module.tree.ITreeItemSelection;
-import ebook.module.tree.ITreeService;
+import ebook.module.tree.item.ITreeItemSelection;
+import ebook.module.tree.service.ITreeService;
 
 public interface IClipboard {
 

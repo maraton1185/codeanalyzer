@@ -17,7 +17,7 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
-import ebook.module.tree.ITreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 

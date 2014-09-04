@@ -7,8 +7,8 @@ import ebook.core.interfaces.IClipboard;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.xml.ContextXML;
 import ebook.module.db.DbOptions;
-import ebook.module.tree.ITreeItemInfo;
-import ebook.module.tree.TreeItemInfo;
+import ebook.module.tree.item.ITreeItemInfo;
+import ebook.module.tree.item.TreeItemInfo;
 import ebook.utils.Utils;
 
 public class ContextInfo extends TreeItemInfo {

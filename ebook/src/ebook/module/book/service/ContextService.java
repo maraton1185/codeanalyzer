@@ -37,7 +37,6 @@ import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.text.interfaces.ITextTreeService;
-import ebook.module.text.model.GotoDefinitionData;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.ITreeItemSelection;
 import ebook.module.tree.item.ITreeItemXML;
@@ -510,7 +509,7 @@ public class ContextService extends TreeService implements ITextTreeService,
 	}
 
 	@Override
-	public List<ITreeItemInfo> getDefinitions(GotoDefinitionData data) {
+	public List<ITreeItemInfo> getDefinitions(String data) {
 
 		throw new UnsupportedOperationException();
 	}

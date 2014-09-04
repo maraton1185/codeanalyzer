@@ -367,11 +367,8 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				// stopHistory = false;
-				StyledText widget = (StyledText) e.getSource();
-				int offset = widget.getCaretOffset();
-				LineInfo selected = support.getCurrentProjectionName(offset);
-				if (selected != null)
-					history.add(new HistoryItem(new ContextInfo(item), selected));
+				addHistory();
+
 			}
 
 		});
@@ -432,6 +429,16 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 		// ProjectionAnnotation annotation = new ProjectionAnnotation(false);
 		// support.addProjection(annotation, new Position(0, 400));
+
+	}
+
+	protected void addHistory() {
+
+		StyledText widget = viewer.getTextWidget();
+		int offset = widget.getCaretOffset();
+		LineInfo selected = support.getCurrentProjectionName(offset);
+		if (selected != null)
+			history.add(new HistoryItem(new ContextInfo(item), selected));
 
 	}
 
@@ -533,6 +540,9 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 	public GotoDefinitionData getDefinitionData() {
 
 		try {
+
+			addHistory();
+
 			ITextSelection textSelection = (ITextSelection) viewer
 					.getSelectionProvider().getSelection();
 

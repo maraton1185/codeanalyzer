@@ -15,7 +15,6 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.services.TextParser;
 import ebook.module.text.interfaces.ITextTreeService;
-import ebook.module.text.model.GotoDefinitionData;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.service.TreeService;
 
@@ -163,8 +162,7 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 	}
 
 	@Override
-	public List<ITreeItemInfo> getDefinitions(GotoDefinitionData data) {
-		String proc = data.getProcInPosition();
+	public List<ITreeItemInfo> getDefinitions(String proc) {
 
 		if (proc == null)
 			return null;

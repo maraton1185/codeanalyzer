@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -13,11 +14,11 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.conf.tree.ContextInfo;
@@ -35,18 +36,20 @@ public class DefinitionDialog extends Dialog {
 	private ArrayTreeService service = new ArrayTreeService();
 
 	ITreeItemInfo selected;
+	private String definition;
 
 	// boolean doSelection = false;
 
-	public DefinitionDialog(Shell parentShell) {
+	public DefinitionDialog(Shell parentShell, String definition) {
 		super(parentShell);
 		setShellStyle(SWT.BORDER | SWT.CLOSE | SWT.RESIZE);
+		this.definition = definition;
 	}
 
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText(Strings.title("FindDialogTitle"));
+		shell.setText(Strings.title("DefinitionDialogTitle"));
 
 		shell.setImage(Utils.getImage("source.png"));
 	}
@@ -69,11 +72,22 @@ public class DefinitionDialog extends Dialog {
 		body.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		body.setLayout(new FillLayout(SWT.VERTICAL));
+		body.setLayout(new GridLayout(1, false));
 		Composite cont;
 
 		cont = new Composite(body, SWT.NONE);
 		cont.setLayout(new GridLayout(2, false));
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(cont);
+
+		Label l = new Label(cont, SWT.NONE);
+		l.setImage(Utils.getImage("search.png"));
+		l = new Label(cont, SWT.NONE);
+		l.setText(definition);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(l);
+
+		cont = new Composite(body, SWT.NONE);
+		cont.setLayout(new GridLayout(2, false));
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(cont);
 
 		treeComponent = new TreeViewComponent(cont, service, 3, false, false);
 

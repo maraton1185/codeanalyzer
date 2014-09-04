@@ -705,7 +705,7 @@ public class TextParser {// implements ITextParser {
 		r = new StringBuilder(t).reverse().toString().trim();
 
 		// throw new UnsupportedOperationException();
-		return r.toUpperCase();
+		return r;
 	}
 
 	// *****************************************************

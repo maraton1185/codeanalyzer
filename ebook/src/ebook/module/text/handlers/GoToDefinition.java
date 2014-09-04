@@ -52,8 +52,8 @@ public class GoToDefinition {
 		if (data == null)
 			return;
 
-		// ContextInfo item = new ContextInfo();
-		List<ITreeItemInfo> defs = con.getSrv().getDefinitions(data);
+		List<ITreeItemInfo> defs = con.getSrv().getDefinitions(
+				data.getProcName());
 
 		if (defs == null)
 			return;
@@ -63,7 +63,8 @@ public class GoToDefinition {
 
 		ContextInfo item = null;
 		if (defs.size() > 1) {
-			DefinitionDialog dlg = new DefinitionDialog(shell);
+			DefinitionDialog dlg = new DefinitionDialog(shell,
+					data.getProcTitle());
 			dlg.setData(defs);
 			if (dlg.open() == Window.OK)
 				item = dlg.getItem();

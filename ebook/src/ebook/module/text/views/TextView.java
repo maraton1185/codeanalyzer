@@ -517,4 +517,16 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 	}
 
+	public void NextMarker() {
+
+		support.nextMarker(null);
+
+	}
+
+	public void PreviousMarker() {
+
+		support.previousMarker(null);
+
+	}
+
 }

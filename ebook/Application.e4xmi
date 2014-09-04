@@ -575,6 +575,8 @@
     <handlers xmi:id="_S17TwDHNEeSjZrnR4NV3NQ" elementId="ebook.handler.77" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Previous" command="_9AG3ADHMEeSjZrnR4NV3NQ"/>
     <handlers xmi:id="_Tw01wDHNEeSjZrnR4NV3NQ" elementId="ebook.handler.78" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Next" command="_9L4pMDHMEeSjZrnR4NV3NQ"/>
     <handlers xmi:id="_HsAjUDJtEeSGe8GcmMRqKg" elementId="ebook.handler.82" contributionURI="bundleclass://ebook/ebook.module.text.handlers.BmrkAddItem" command="_-mV_UDJsEeSGe8GcmMRqKg"/>
+    <handlers xmi:id="_pOvIcDP0EeSbl4pcrNfLyQ" elementId="ebook.handler.68" contributionURI="bundleclass://ebook/ebook.module.text.handlers.NextMarker" command="_cwQHwDOiEeSG8_3OwGuTcQ"/>
+    <handlers xmi:id="_rBsT0DP0EeSbl4pcrNfLyQ" elementId="ebook.handler.69" contributionURI="bundleclass://ebook/ebook.module.text.handlers.PreviousMarker" command="_x_o2oDOiEeSG8_3OwGuTcQ"/>
     <menus xsi:type="menu:PopupMenu" xmi:id="_oBCdQC0EEeSqAs8koC8OJg" elementId="ebook.popupmenu.TextView">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_rOtTIC0EEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.42" label="Перейти в модуль" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="" command="_tYsYACtPEeSROpR0F0nnug"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_rGti0C0GEeSqAs8koC8OJg" elementId="ebook.handledmenuitem.43" label="Изменить процедуру" iconURI="platform:/plugin/ebook/icons/set/treeedit.png" command="_shHEQC0GEeSqAs8koC8OJg"/>
@@ -591,6 +593,9 @@
       <children xsi:type="menu:HandledMenuItem" xmi:id="_6MxewC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Развернуть всё" command="_-RJAIDOEEeSG8_3OwGuTcQ"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_6TJMgC3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Свернуть" command="_-VFsADOEEeSG8_3OwGuTcQ"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_6WHA8C3REeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.45" label="Развернуть" command="_-Jv-sDOEEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:MenuSeparator" xmi:id="_jC-JwDP0EeSbl4pcrNfLyQ" elementId="ebook.menuseparator.12"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_jWYN8DP0EeSbl4pcrNfLyQ" elementId="ebook.handledmenuitem.55" label="Следующий маркер" command="_cwQHwDOiEeSG8_3OwGuTcQ"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_k4HGcDP0EeSbl4pcrNfLyQ" elementId="ebook.handledmenuitem.56" label="Предыдущий маркер" command="_x_o2oDOiEeSG8_3OwGuTcQ"/>
     </menus>
     <toolbar xmi:id="_C8bfMCnwEeS1QbE7vYHxhg" elementId="ebook.toolbar.16">
       <children xsi:type="menu:DirectToolItem" xmi:id="_sPLVwC3BEeSgt6KviOm2oQ" elementId="ebook.directtoolitem.2" label="" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" contributionURI="bundleclass://ebook/ebook.module.text.handlers.Update">

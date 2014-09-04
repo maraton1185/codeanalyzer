@@ -1,12 +1,15 @@
 package ebook.module.text.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.Region;
@@ -335,14 +338,41 @@ public class ViewerSupport {
 
 		if (info == null)
 			return;
+
+		List<Integer> reveals = addAnnotation(info);
+		if (reveals.isEmpty())
+			return;
+
+		int revealStart = reveals.get(0);
+		int revealLength = reveals.get(1);
+		setOffsetSelection(revealStart, revealLength);
+		// StyledText widget = fSourceViewer.getTextWidget();
+		// widget.setRedraw(false);
+		// {
+		//
+		// int revealStart = reveals.get(0);
+		// int revealLength = reveals.get(1);
+		//
+		// adjustHighlightRange(revealStart, revealLength);
+		// fSourceViewer.revealRange(revealStart, revealLength);
+		//
+		// fSourceViewer.setSelectedRange(revealStart, revealLength);
+		//
+		// fSourceViewer.getTextWidget().setCaretOffset(revealStart + 1);
+		//
+		// con.setLine(null);
+		//
+		// }
+		// widget.setRedraw(true);
+
+	}
+
+	private void setOffsetSelection(int revealStart, int revealLength) {
 		StyledText widget = fSourceViewer.getTextWidget();
 		widget.setRedraw(false);
 		{
-			List<Integer> reveals = addAnnotation(info);
-			if (reveals.isEmpty())
-				return;
-			int revealStart = reveals.get(0);
-			int revealLength = reveals.get(1);
+			// int revealStart = nextMarker;
+			// int revealLength = 1;
 
 			adjustHighlightRange(revealStart, revealLength);
 			fSourceViewer.revealRange(revealStart, revealLength);
@@ -451,6 +481,134 @@ public class ViewerSupport {
 		int i = markers.indexOf(bmk);
 		if (i >= 0)
 			markers.remove(i);
+
+	}
+
+	public void nextMarker(Integer start) {
+
+		try {
+
+			// int offset = viewer.getTextWidget().getCaretOffset();
+			int offset;
+			int line;
+			IRegion reg;
+			if (start == null) {
+				ITextSelection textSelection = (ITextSelection) fSourceViewer
+						.getSelectionProvider().getSelection();
+				line = fDocument.getLineOfOffset(textSelection.getOffset());
+				reg = fDocument.getLineInformation(line);
+				offset = reg.getOffset();
+			} else
+				offset = start;
+
+			// System.out.println("=====================");
+			Annotation[] ann = getSortedMarkers(true);
+
+			Integer nextMarker = null;
+			for (Annotation marker : ann) {
+				Position p = fAnnotationModel.getPosition(marker);
+				if (p == null)
+					continue;
+
+				line = fDocument.getLineOfOffset(p.offset);
+				reg = fDocument.getLineInformation(line);
+				int p_offset = reg.getOffset();
+				// System.out.println(p_offset);
+
+				if (offset < p_offset) {
+					// System.out.println(" - - " + offset + " : " + p_offset);
+					nextMarker = p_offset;
+
+					break;
+				}
+			}
+
+			if (nextMarker == null) {
+				if (!markers.isEmpty())
+					nextMarker(Integer.MIN_VALUE);
+				return;
+
+			}
+
+			setOffsetSelection(nextMarker, 1);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private Annotation[] getSortedMarkers(final boolean ascending) {
+		Annotation[] ann = new Annotation[markers.size()];
+		markers.toArray(ann);
+		Arrays.sort(ann, new Comparator<Annotation>() {
+			@Override
+			public int compare(Annotation arg0, Annotation arg1) {
+				Position p1 = fAnnotationModel.getPosition(arg0);
+				if (p1 == null)
+					return 0;
+
+				Position p2 = fAnnotationModel.getPosition(arg1);
+				if (p2 == null)
+					return 0;
+
+				return ascending ? p1.offset - p2.offset : p2.offset
+						- p1.offset;
+			}
+		});
+		return ann;
+	}
+
+	public void previousMarker(Integer start) {
+		try {
+
+			// int offset = viewer.getTextWidget().getCaretOffset();
+			int offset;
+			int line;
+			IRegion reg;
+			if (start == null) {
+				ITextSelection textSelection = (ITextSelection) fSourceViewer
+						.getSelectionProvider().getSelection();
+				line = fDocument.getLineOfOffset(textSelection.getOffset());
+				reg = fDocument.getLineInformation(line);
+				offset = reg.getOffset();
+			} else
+				offset = start;
+
+			// System.out.println("=====================");
+			Annotation[] ann = getSortedMarkers(false);
+
+			Integer nextMarker = null;
+			for (Annotation marker : ann) {
+				Position p = fAnnotationModel.getPosition(marker);
+				if (p == null)
+					continue;
+
+				line = fDocument.getLineOfOffset(p.offset);
+				reg = fDocument.getLineInformation(line);
+				int p_offset = reg.getOffset();
+				// System.out.println(p_offset);
+
+				if (offset > p_offset) {
+					// System.out.println(" - - " + offset + " : " + p_offset);
+					nextMarker = p_offset;
+
+					break;
+				}
+			}
+
+			if (nextMarker == null) {
+				if (!markers.isEmpty())
+					previousMarker(Integer.MAX_VALUE);
+				return;
+
+			}
+
+			setOffsetSelection(nextMarker, 1);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 }

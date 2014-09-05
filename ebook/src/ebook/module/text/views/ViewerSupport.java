@@ -347,45 +347,24 @@ public class ViewerSupport {
 		int revealStart = reveals.get(0);
 		int revealLength = reveals.get(1);
 		setOffsetSelection(revealStart, revealLength);
-		// StyledText widget = fSourceViewer.getTextWidget();
-		// widget.setRedraw(false);
-		// {
-		//
-		// int revealStart = reveals.get(0);
-		// int revealLength = reveals.get(1);
-		//
-		// adjustHighlightRange(revealStart, revealLength);
-		// fSourceViewer.revealRange(revealStart, revealLength);
-		//
-		// fSourceViewer.setSelectedRange(revealStart, revealLength);
-		//
-		// fSourceViewer.getTextWidget().setCaretOffset(revealStart + 1);
-		//
-		// con.setLine(null);
-		//
-		// }
-		// widget.setRedraw(true);
 
 	}
 
 	private void setOffsetSelection(int revealStart, int revealLength) {
 		StyledText widget = fSourceViewer.getTextWidget();
 		widget.setRedraw(false);
-		{
-			// int revealStart = nextMarker;
-			// int revealLength = 1;
 
-			adjustHighlightRange(revealStart, revealLength);
-			fSourceViewer.revealRange(revealStart, revealLength);
+		adjustHighlightRange(revealStart, revealLength);
+		fSourceViewer.revealRange(revealStart, revealLength);
 
-			fSourceViewer.setSelectedRange(revealStart, revealLength);
+		fSourceViewer.setSelectedRange(revealStart, revealLength);
 
-			fSourceViewer.getTextWidget().setCaretOffset(revealStart + 1);
+		fSourceViewer.getTextWidget().setCaretOffset(revealStart + 1);
 
-			con.setLine(null);
+		con.setLine(null);
 
-		}
 		widget.setRedraw(true);
+		// widget.setRedraw(true);
 
 	}
 

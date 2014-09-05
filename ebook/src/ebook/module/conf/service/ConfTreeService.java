@@ -258,4 +258,36 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		return result.toString();
 	}
 
+	public String getObjectHash(int id) {
+		StringBuilder result = new StringBuilder();
+		try {
+			Connection con = db.getConnection();
+
+			String SQL = "SELECT T1.HASH FROM PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID"
+					+ " WHERE (T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?)";
+
+			SQL = SQL.concat(" ORDER BY TITLE");
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, id);
+			prep.setInt(2, id);
+			prep.setInt(3, id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					String line = rs.getString(1);
+
+					result.append(line + "\n");
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result.toString();
+	}
+
 }

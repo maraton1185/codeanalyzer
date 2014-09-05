@@ -196,4 +196,15 @@ public class ConfManager extends TreeManager {
 
 	}
 
+	public void buildModule(ContextInfo item, AdditionalInfo build_options) {
+		try {
+			item.getOptions().type = BuildType.module;
+			srv.saveOptions(item);
+			build(item, build_options);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

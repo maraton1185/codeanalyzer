@@ -82,6 +82,8 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 	private boolean updateSelected = false;
 	private boolean fillBookmarks = false;
 
+	private boolean fRedraw = false;
+
 	@Inject
 	@Optional
 	public void EVENT_TEXT_VIEW_FILL_BOOKMARKS(
@@ -281,6 +283,11 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 		updateSelected = false;
 
+		if (fRedraw) {
+			StyledText widget = viewer.getTextWidget();
+			widget.setRedraw(true);
+		}
+
 		if (!con.getItem().equals(item))
 			return;
 
@@ -325,7 +332,11 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 		updateSelected = true;
 		updateActiveProcedure = false;
+		StyledText widget = viewer.getTextWidget();
+		widget.setRedraw(false);
+		fRedraw = true;
 		document.set(text);
+
 		updateActiveProcedure = true;
 		dirty.setDirty(false);
 	}
@@ -392,8 +403,10 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 		document = support.getDocument();
 
 		String text = con.srv().getItemText(item, con.getLine());
-		// if (text == null)
-		// text = ""Strings.msg("TextView.errorGetText");
+
+		StyledText widget = viewer.getTextWidget();
+		widget.setRedraw(false);
+		fRedraw = true;
 		updateActiveProcedure = false;
 		document.set(text == null ? "" : text);
 		updateActiveProcedure = true;

@@ -490,8 +490,6 @@ public class CfBuildService {
 			List<BuildInfo> proposals, List<String> path) {
 
 		BuildInfo info = new BuildInfo();
-		info.title = "сравнение";
-		info.parent = 0;
 
 		String t1 = db1.getProcHash(item1.getId());
 		String t2 = db2.getProcHash(item2.getId());
@@ -523,7 +521,18 @@ public class CfBuildService {
 			ConfTreeService db1, ContextInfo item1, ConfTreeService db2,
 			ContextInfo item2, List<BuildInfo> proposals) {
 
-		throw new UnsupportedOperationException();
+		BuildInfo info = new BuildInfo();
+
+		String t1 = db1.getObjectHash(item1.getId());
+		String t2 = db2.getObjectHash(item2.getId());
+
+		if (t1.equalsIgnoreCase(t2)) {
+			info.title = "объекты идентичны";
+		} else {
+			info.title = "есть различия";
+		}
+
+		proposals.add(info);
 	}
 
 	private void buildProcText(List<BuildInfo> proposals, Integer gr,

@@ -74,6 +74,10 @@ public class ReconcilingStrategy implements IReconcilingStrategy,
 					&& parser.findTextInLine(source_line, fSearch)) {
 				fMarkers.add(new Position(r.getOffset(), 0));
 			}
+
+			if (parser.findCompareMarker(source_line))
+				fMarkers.add(new Position(r.getOffset(), 0));
+
 			buffer.add(source_line + "\n");
 
 			if (parser.findProcEnd(source_line)) {

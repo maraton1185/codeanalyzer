@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import ebook.module.conf.tree.ContextInfo;
+import ebook.module.text.model.GotoDefinitionData;
 import ebook.module.tree.item.ITreeItemInfo;
 
 public interface ITextTreeService {
@@ -30,5 +31,5 @@ public interface ITextTreeService {
 
 	ContextInfo getByPath(String path);
 
-	List<ITreeItemInfo> getDefinitions(String proc);
+	List<ITreeItemInfo> getDefinitions(GotoDefinitionData data);
 }

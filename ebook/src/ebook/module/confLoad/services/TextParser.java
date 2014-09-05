@@ -2,10 +2,13 @@ package ebook.module.confLoad.services;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import difflib.DiffRow;
+import difflib.DiffRowGenerator;
 import ebook.core.exceptions.ProcNotFoundException;
 import ebook.module.confLoad.model.EContext;
 import ebook.module.confLoad.model.EType;
@@ -605,50 +608,48 @@ public class TextParser {// implements ITextParser {
 	}
 
 	public String compare(String text, String text1) {
-		// String[] t1 = text.split("\n");
-		// String[] t2 = text1.split("\n");
-		//
-		// List<String> original = Arrays.asList(t1);
-		// List<String> revised = Arrays.asList(t2);
-		//
-		// StringBuilder sb = new StringBuilder();
-		//
-		// DiffRowGenerator.Builder builder = new DiffRowGenerator.Builder();
-		// DiffRowGenerator dfg = builder.build();
-		// List<DiffRow> rows = dfg.generateDiffRows(original, revised);
-		// for (DiffRow diffRow : rows) {
-		// DiffRow.Tag tag = diffRow.getTag();
-		//
-		// switch (tag) {
-		// case CHANGE:
-		//
-		// sb.append(Const.COMPARE_CHANGED_MARKER + diffRow.getOldLine() +
-		// "\n");
-		//
-		// break;
-		// case DELETE:
-		//
-		// sb.append(Const.COMPARE_REMOVED_MARKER + diffRow.getOldLine() +
-		// "\n");
-		// break;
-		//
-		// case INSERT:
-		//
-		// sb.append(Const.COMPARE_ADDED_MARKER + diffRow.getNewLine() + "\n");
-		// break;
-		//
-		// default:
-		// sb.append(diffRow.getOldLine() + "\n");
-		// break;
-		// }
-		//
-		// }
-		//
-		// return sb.toString()
-		// .replace("&lt;", "<")
-		// .replace("&gt;", ">")
-		// .replace("<br>", "");
-		return "";
+		String[] t1 = text.split("\n");
+		String[] t2 = text1.split("\n");
+
+		List<String> original = Arrays.asList(t1);
+		List<String> revised = Arrays.asList(t2);
+
+		StringBuilder sb = new StringBuilder();
+
+		DiffRowGenerator.Builder builder = new DiffRowGenerator.Builder();
+		DiffRowGenerator dfg = builder.build();
+		List<DiffRow> rows = dfg.generateDiffRows(original, revised);
+		for (DiffRow diffRow : rows) {
+			DiffRow.Tag tag = diffRow.getTag();
+
+			switch (tag) {
+			case CHANGE:
+
+				sb.append(Const.COMPARE_CHANGED_MARKER + diffRow.getOldLine()
+						+ "\n");
+
+				break;
+			case DELETE:
+
+				sb.append(Const.COMPARE_REMOVED_MARKER + diffRow.getOldLine()
+						+ "\n");
+				break;
+
+			case INSERT:
+
+				sb.append(Const.COMPARE_ADDED_MARKER + diffRow.getNewLine()
+						+ "\n");
+				break;
+
+			default:
+				sb.append(diffRow.getOldLine() + "\n");
+				break;
+			}
+
+		}
+
+		return sb.toString().replace("&lt;", "<").replace("&gt;", ">")
+				.replace("<br>", "");
 
 	}
 
@@ -676,13 +677,6 @@ public class TextParser {// implements ITextParser {
 		if (text.trim().isEmpty())
 			return false;
 
-		// String _line = line.toUpperCase();
-		//
-		// String pattern = ".*" + text.toUpperCase() +".*";
-		//
-		// Pattern r = Pattern.compile(pattern);
-		// Matcher m = r.matcher(_line);
-		// return m.find();
 		return line.toUpperCase().contains(text.toUpperCase());
 	}
 
@@ -704,7 +698,6 @@ public class TextParser {// implements ITextParser {
 		}
 		r = new StringBuilder(t).reverse().toString().trim();
 
-		// throw new UnsupportedOperationException();
 		return r;
 	}
 

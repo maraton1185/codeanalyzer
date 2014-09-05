@@ -1,4 +1,4 @@
-package ebook.temp.build;
+package ebook.module.confLoad.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -32,11 +32,13 @@ import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.xml.ContextXML;
+import ebook.module.confLoad.interfaces.IBuildConnection;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.text.interfaces.ITextTreeService;
+import ebook.module.text.model.GotoDefinitionData;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.ITreeItemSelection;
 import ebook.module.tree.item.ITreeItemXML;
@@ -49,7 +51,7 @@ import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
 public class ContextService extends TreeService implements ITextTreeService,
-		IDownloadService {
+		IDownloadService, IBuildConnection {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONTEXT_VIEW;
@@ -185,7 +187,7 @@ public class ContextService extends TreeService implements ITextTreeService,
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
 
-			CfBuildService build = cf.build(getConnection());
+			CfBuildService build = cf.build(this);
 
 			ContextXML root = new ContextXML();
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
@@ -195,6 +197,7 @@ public class ContextService extends TreeService implements ITextTreeService,
 
 				ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
 				List<String> path = new ArrayList<String>();
+				getPath((ContextInfo) item, path);
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
 				build.getPath(this, (ContextInfo) item, info, opt, path);
@@ -419,29 +422,6 @@ public class ContextService extends TreeService implements ITextTreeService,
 
 	}
 
-	public ContextInfo adapt(ContextInfo _item) {
-		ContextInfo item = new ContextInfo(_item);
-		if (item != null) {
-			ContextInfo parent = (ContextInfo) get(item.getParent());
-			if (parent != null) {
-				if (parent.getOptions().type != BuildType.module)
-					item.setTitle(parent.getTitle() + "." + item.getTitle());
-				else {
-					// item.setId(parent.getId());
-					ContextInfo _parent = (ContextInfo) get(parent.getParent());
-					if (_parent != null)
-						parent.setTitle(_parent.getTitle() + "."
-								+ parent.getTitle());
-
-					parent.getOptions().proc = item.getTitle();
-					return parent;
-				}
-			}
-
-		}
-		return item;
-	}
-
 	@Override
 	public List<ITreeItemInfo> getParents(ITreeItemInfo _item) {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
@@ -496,22 +476,81 @@ public class ContextService extends TreeService implements ITextTreeService,
 
 		String result = "";
 		List<ITreeItemInfo> parents = getParents(item);
-		if (!parents.isEmpty())
+		String last = null;
+		if (!parents.isEmpty()) {
+			last = parents.get(parents.size() - 1).getTitle();
 			parents.remove(parents.size() - 1);
+		}
 		for (ITreeItemInfo p : parents) {
 			result += p.getTitle() + ".";
 			if (path != null)
 				path.add(p.getTitle());
 		}
-		if (path != null)
+
+		if (path != null) {
+			if (last != null)
+				path.add(last);
 			path.add(item.getTitle());
+		}
 		return result.concat(item.getTitle());
+
 	}
 
 	@Override
-	public List<ITreeItemInfo> getDefinitions(String data) {
+	public List<ITreeItemInfo> getDefinitions(GotoDefinitionData data) {
 
-		throw new UnsupportedOperationException();
+		if (data.isEmpty())
+			return null;
+
+		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
+					+ " AS T WHERE T.TITLE=? ORDER BY T.SORT, T.ID";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setString(1, data.getProcTitle());
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					ITreeItemInfo item = getItem(rs);
+					List<String> path = new ArrayList<String>();
+					getPath((ContextInfo) item, path);
+
+					result.add(adapt((ContextInfo) item));
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public ContextInfo adapt(ContextInfo _item) {
+		ContextInfo item = new ContextInfo(_item);
+		if (item != null) {
+			ContextInfo parent = (ContextInfo) get(item.getParent());
+			if (parent != null) {
+				if (parent.getOptions().type != BuildType.module)
+					item.setTitle(parent.getTitle() + "." + item.getTitle());
+				else {
+					// item.setId(parent.getId());
+					ContextInfo _parent = (ContextInfo) get(parent.getParent());
+					if (_parent != null)
+						parent.setTitle(_parent.getTitle() + "."
+								+ parent.getTitle());
+
+					parent.getOptions().proc = item.getTitle();
+					return parent;
+				}
+			}
+
+		}
+		return item;
 	}
 
 }

@@ -56,12 +56,16 @@ public abstract class PreferenceSupplier {
 	public static final String CHECK_UPDATE_ON_STARTUP = "CHECK_UPDATE_ON_STARTUP";
 	public static final String DEFAULT_IMAGE_DIRECTORY = "DEFAULT_IMAGE_DIRECTORY";
 	public static final String BOOKMARK_LENGTH = "BOOKMARK_LENGTH";
+	public static final String CONF_LIST_VIEW_COMPARISON = "CONF_LIST_VIEW_COMPARISON";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(
+				PreferenceSupplier.CONF_LIST_VIEW_COMPARISON, 0);
 
 		preferenceStore.setDefault(PreferenceSupplier.BOOKMARK_LENGTH, 40);
 

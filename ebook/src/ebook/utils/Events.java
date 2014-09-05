@@ -135,6 +135,9 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_FILL_BOOKMARKS = "EVENT_TEXT_VIEW_FILL_BOOKMARKS";
 
+	// public static final String CONF_LIST_VIEW_COMPARISON =
+	// "CONF_LIST_VIEW_COMPARISON";
+
 	// public static final String EVENT_TEXT_VIEW_GOTO_DEFINITION =
 	// "EVENT_TEXT_VIEW_GOTO_DEFINITION";
 

@@ -438,6 +438,13 @@ public class App {
 				shell.setMinimized(true);
 				return false;
 			}
+
+			// Integer id = (Integer) App.ctx
+			// .get(Events.CONF_LIST_VIEW_COMPARISON);
+			// if (id != null)
+			// PreferenceSupplier.set(
+			// PreferenceSupplier.CONF_LIST_VIEW_COMPARISON, id);
+
 			PreferenceSupplier.set(PreferenceSupplier.START_PERSPECTIVE,
 					currentPerspective.toString());
 			PreferenceSupplier.save();

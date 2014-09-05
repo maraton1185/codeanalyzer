@@ -33,11 +33,13 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.conf.xml.ContextXML;
+import ebook.module.confLoad.interfaces.IBuildConnection;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
+import ebook.module.text.TextConnection;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.ITreeItemSelection;
 import ebook.module.tree.item.ITreeItemXML;
@@ -49,7 +51,8 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
-public class ConfService extends TreeService implements IDownloadService {
+public class ConfService extends TreeService implements IDownloadService,
+		IBuildConnection {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONF_VIEW;
@@ -245,7 +248,7 @@ public class ConfService extends TreeService implements IDownloadService {
 
 			IPath t = new Path(temp.getAbsolutePath());
 
-			CfBuildService build = cf.build(getConnection());
+			CfBuildService build = cf.build(this);
 			ContextXML root = new ContextXML();
 
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
@@ -315,8 +318,7 @@ public class ConfService extends TreeService implements IDownloadService {
 
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
-				child.proc = cf.build(getConnection())
-						.getItemByPath(info, path);
+				child.proc = cf.build(this).getItemByPath(info, path);
 				child.path = path;
 			}
 			writeXml(child, p);
@@ -444,5 +446,14 @@ public class ConfService extends TreeService implements IDownloadService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ConfTreeService conf() {
+		return ((ConfConnection) db).conf();
+	}
+
+	public TextConnection textConnection(ContextInfo item) {
+		ConfConnection _con = (ConfConnection) db;
+		return new TextConnection(_con, item, _con.conf(), _con.bmsrv());
 	}
 }

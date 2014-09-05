@@ -319,7 +319,7 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 	public void updateText() {
 
-		String text = con.srv().getItemText(item);
+		String text = con.srv().getItemText(item, con.getLine());
 		if (text == null)
 			text = Strings.msg("TextView.errorGetText");
 
@@ -391,7 +391,7 @@ public class TextView implements ITextOperationTarget, ICollapseView {
 
 		document = support.getDocument();
 
-		String text = con.srv().getItemText(item);
+		String text = con.srv().getItemText(item, con.getLine());
 		// if (text == null)
 		// text = ""Strings.msg("TextView.errorGetText");
 		updateActiveProcedure = false;

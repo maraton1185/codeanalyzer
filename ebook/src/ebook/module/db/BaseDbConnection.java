@@ -136,6 +136,7 @@ public abstract class BaseDbConnection implements IDbConnection {
 
 			}
 		} catch (Exception e) {
+			closeConnection();
 			throw new InvocationTargetException(e, e.getMessage());
 		}
 

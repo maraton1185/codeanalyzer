@@ -2,6 +2,7 @@ package ebook.module.confLoad.services;
 
 import java.io.BufferedReader;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import ebook.core.App;
+import ebook.core.pico;
+import ebook.core.exceptions.DbLicenseException;
+import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
@@ -20,16 +25,35 @@ import ebook.module.conf.service.ConfService;
 import ebook.module.conf.service.ConfTreeService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
+import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confLoad.interfaces.IBuildConnection;
+import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.model.CfBuildServiceAdaptData;
 import ebook.module.confLoad.model.ELevel;
+import ebook.module.text.TextConnection;
+import ebook.module.text.model.LineInfo;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.service.ITreeService;
+import ebook.utils.Events;
+import ebook.utils.Events.EVENT_TEXT_DATA;
+import ebook.utils.PreferenceSupplier;
 
 public class CfBuildService {
 
 	private Connection con;
+	private IBuildConnection data;
+	TextParser parser = pico.get(ICfServices.class).parse();
+	TextBuffer buffer = pico.get(ICfServices.class).buffer();
 
-	public void setConnection(Connection con) {
-		this.con = con;
+	public void setConnection(IBuildConnection conf) {
+		this.data = conf;
+		try {
+			this.con = conf.getConnection();
+		} catch (IllegalAccessException e) {
+			con = null;
+			e.printStackTrace();
+		}
+
 	}
 
 	public List<ELevel> getLevels() {
@@ -253,7 +277,7 @@ public class CfBuildService {
 		Integer gr = null;
 
 		List<ELevel> levels = new ArrayList<ELevel>();
-		if (!info.searchByGroup2)
+		if (!info.group2)
 			levels.add(ELevel.group1);
 		levels.add(ELevel.group2);
 		levels.add(ELevel.module);
@@ -275,8 +299,11 @@ public class CfBuildService {
 
 		int stop_index = 1000;
 
-		if (info.searchByText || info.searchByProc)
+		if (info.text || info.proc || info.comparison)
 			stop_index = path.indexOf(info.itemTitle);
+
+		if (info.comparison)
+			stop_index++;
 
 		if (stop_index != 0)
 			gr = get(levels.get(0), path.get(0), null, proposals);
@@ -313,39 +340,190 @@ public class CfBuildService {
 
 		}
 
+		if (info.comparison) {
+
+			buildComparison(proposals, gr, info.itemTitle, info);
+
+			// remove last 2 items
+			// path.remove(path.size() - 1);
+			// path.remove(path.size() - 1);
+			// fillParents(proposals, path);
+			return;
+		}
+
 		if (info.getProc) {
 			buildProcText(proposals, gr, info.itemTitle, info);
 			return;
 		}
 
-		if (info.searchByText && !info.getProc) {
+		if (info.text) {
 
-			buildWithTextSearch(proposals, gr, info.itemTitle, info);
-
-			// remove last 2 items
-			path.remove(path.size() - 1);
-			path.remove(path.size() - 1);
-			fillParents(proposals, path);
-		}
-
-		if (info.searchByProc && !info.getProc) {
-
-			buildWithProcSearch(proposals, gr, info.itemTitle, info);
+			buildText(proposals, gr, info.itemTitle, info);
 
 			// remove last 2 items
 			path.remove(path.size() - 1);
 			path.remove(path.size() - 1);
 			fillParents(proposals, path);
+			return;
 		}
 
-		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2
-				&& !info.searchByText && !info.searchByProc && !info.getProc) {
-			info.searchByGroup2 = true;
+		if (info.proc) {
+
+			buildProc(proposals, gr, info.itemTitle, info);
+
+			// remove last 2 items
+			path.remove(path.size() - 1);
+			path.remove(path.size() - 1);
+			fillParents(proposals, path);
+			return;
+		}
+
+		if (path_items.isEmpty() && proposals.isEmpty() && !info.group2) {
+			info.group2 = true;
 			buildWithPath(proposals, path_items, info);
 
 			fillParents(proposals, null);
+			return;
 		}
 
+	}
+
+	private void buildComparison(List<BuildInfo> proposals, Integer gr,
+			String title, AdditionalInfo build_opt) {
+
+		// if (con == null)
+		// return;
+
+		if (proposals != null)
+			proposals.clear();
+
+		if (!(data instanceof ConfService))
+			return;
+
+		ConfService srv = (ConfService) data;
+
+		BuildInfo error = new BuildInfo();
+
+		if (gr == null) {
+			error.title = "Не найден контекст сравнения";
+			proposals.add(error);
+			return;
+		}
+
+		ConfConnection con = getComparisonConnection(proposals);
+
+		if (con == null)
+			return;
+
+		ConfTreeService db1 = srv.conf();
+		ConfTreeService db2 = con.conf();
+
+		if (!build_opt.getProc)
+			db1.setObjectsTable();
+		ContextInfo item1 = (ContextInfo) db1.get(gr);
+
+		db1.setProcTable();
+
+		if (item1 == null) {
+			error.title = "Не найден контекст сравнения";
+			proposals.add(error);
+			return;
+		}
+
+		item1.setProc(build_opt.getProc);
+		List<String> _path = new ArrayList<String>();
+		String path = db1.getPath(item1, _path, true);
+		ContextInfo item2 = db2.getByPath(path);
+
+		if (item2 == null) {
+			error.title = "В конфигурации для сравнения не найден контекст сравнения";
+			proposals.add(error);
+			return;
+		}
+
+		if (item1.isProc())
+			buildComparisonListProcs(srv, db1, item1, db2, item2, proposals,
+					_path);
+		else
+			buildComparisonListObjects(srv, db1, item1, db2, item2, proposals);
+
+	}
+
+	private ConfConnection getComparisonConnection(List<BuildInfo> proposals) {
+
+		BuildInfo error = new BuildInfo();
+
+		String name = PreferenceSupplier
+				.get(PreferenceSupplier.CONF_LIST_VIEW_COMPARISON);
+		if (name == null)
+			return null;
+
+		ListConfInfo item = (ListConfInfo) App.srv.cl().getTreeItem(name, "");
+		if (item == null) {
+			error.title = "Не установлена конфигурация для сравнения";
+			if (proposals != null)
+				proposals.add(error);
+			return null;
+		}
+
+		ConfConnection con = null;
+		try {
+
+			con = new ConfConnection(item.getPath(), true, true);
+
+		} catch (InvocationTargetException e) {
+
+			if (e.getTargetException() instanceof DbLicenseException)
+				error.title = "Ошибка открытия конфигурации для сравнения. (Лицензия)";
+			else
+				error.title = "Ошибка открытия конфигурации для сравнения.";
+			if (proposals != null)
+				proposals.add(error);
+			return null;
+		}
+
+		return con;
+	}
+
+	private void buildComparisonListProcs(ConfService srv, ConfTreeService db1,
+			ContextInfo item1, ConfTreeService db2, ContextInfo item2,
+			List<BuildInfo> proposals, List<String> path) {
+
+		BuildInfo info = new BuildInfo();
+		info.title = "сравнение";
+		info.parent = 0;
+
+		String t1 = db1.getProcHash(item1.getId());
+		String t2 = db2.getProcHash(item2.getId());
+
+		if (t1.equalsIgnoreCase(t2)) {
+			info.title = "процедуры идентичны";
+		} else {
+
+			String t = parser.compare(db1.getText(item1.getId()),
+					db2.getText(item2.getId()));
+			buffer.setText(t);
+			item1.getOptions().compare = true;
+			db1.adaptProc(item1, item1.getTitle(), item1.getParent(), path);
+			TextConnection text_con = srv.textConnection(item1);
+
+			LineInfo line = new LineInfo(item1.getOptions());
+			text_con.setLine(line);
+			App.br.post(Events.EVENT_OPEN_TEXT, text_con);
+			App.br.post(Events.EVENT_TEXT_VIEW_UPDATE, new EVENT_TEXT_DATA(
+					item1));
+			info.title = "есть различия: открыть версию конфигурации для сравнения";
+			info.openInComparison = true;
+		}
+
+		proposals.add(info);
+	}
+
+	private void buildComparisonListObjects(ConfService srv,
+			ConfTreeService db1, ContextInfo item1, ConfTreeService db2,
+			ContextInfo item2, List<BuildInfo> proposals) {
+
+		throw new UnsupportedOperationException();
 	}
 
 	private void buildProcText(List<BuildInfo> proposals, Integer gr,
@@ -402,8 +580,8 @@ public class CfBuildService {
 
 	}
 
-	private void buildWithProcSearch(List<BuildInfo> proposals, Integer gr,
-			String title, AdditionalInfo build_opt) throws SQLException {
+	private void buildProc(List<BuildInfo> proposals, Integer gr, String title,
+			AdditionalInfo build_opt) throws SQLException {
 
 		if (con == null)
 			return;
@@ -458,8 +636,8 @@ public class CfBuildService {
 
 	}
 
-	private void buildWithTextSearch(List<BuildInfo> proposals, Integer gr,
-			String title, AdditionalInfo build_opt) throws SQLException {
+	private void buildText(List<BuildInfo> proposals, Integer gr, String title,
+			AdditionalInfo build_opt) throws SQLException {
 
 		if (con == null)
 			return;
@@ -508,7 +686,7 @@ public class CfBuildService {
 				// System.out.println("***************************************");
 
 				// StringBuilder result = new StringBuilder();
-				if (!build_opt.textSearchWithoutLines) {
+				if (!build_opt.textWithoutLines) {
 					Reader in = rs.getCharacterStream(3);
 					bufferedReader = new BufferedReader(in);
 					String line;
@@ -716,6 +894,9 @@ public class CfBuildService {
 			if (opt1.type == BuildType.text)
 				continue;
 
+			if (opt1.type == BuildType.proc)
+				continue;
+
 			str = root.getTitle().replace("...", "###").split("\\.");
 			inpath = Arrays.asList(str);
 			// if (inpath.size() > 1)
@@ -727,7 +908,8 @@ public class CfBuildService {
 				break;
 
 			// have type before root
-			if (opt1.type != null && opt1.type != BuildType.module) {
+			if (opt1.type != null && opt1.type != BuildType.module
+					&& opt1.type != BuildType.comparison) {
 				root = null;
 				break;
 			}
@@ -789,65 +971,112 @@ public class CfBuildService {
 
 	}
 
-	public ContextInfo adapt(ConfTreeService conf, ConfService srv,
-			ContextInfo selected) {
+	public ConfService adaptConfService(ContextInfo item) {
 
-		ContextInfo result = new ContextInfo(selected);
+		if (!(data instanceof ConfService))
+			return null;
+
+		if (!item.getOptions().openInComparison)
+			return (ConfService) data;
+
+		ConfConnection con = getComparisonConnection(null);
+		if (con == null)
+			return null;
+
+		return con.srv(null);
+
+	}
+
+	public CfBuildServiceAdaptData adapt(ContextInfo selected) {
+
+		if (!(data instanceof ConfService))
+			throw new UnsupportedOperationException();
+
+		CfBuildServiceAdaptData result = new CfBuildServiceAdaptData();
+
+		ConfService srv = (ConfService) data;
+
+		ConfTreeService conf = srv.conf();
+
+		ContextInfo item = new ContextInfo(selected);
+		result.item = item;
+		result.text_con = srv.textConnection(item);
+
+		if (!item.getOptions().openInComparison)
+			return adaptNormal(srv, conf, result, item);
+		else
+			return adaptComparison(srv, conf, result, item);
+
+	}
+
+	private CfBuildServiceAdaptData adaptComparison(ConfService srv,
+			ConfTreeService conf, CfBuildServiceAdaptData result,
+			ContextInfo item) {
+
+		Integer id = null;
+		try {
+
+			List<String> path = new ArrayList<String>();
+			// String proc_name = "";
+
+			id = getId(srv, item, ELevel.proc, path);
+			if (id == null)
+				return null;
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		ConfConnection con = getComparisonConnection(null);
+		if (con == null)
+			return null;
+
+		ConfTreeService db1 = srv.conf();
+		ConfTreeService db2 = con.conf();
+
+		ContextInfo item1 = (ContextInfo) db1.get(id);
+		if (item1 == null)
+			return null;
+		List<String> _path = new ArrayList<String>();
+		String path = db1.getPath(item1, _path, true);
+		ContextInfo item2 = db2.getByPath(path);
+		if (item2 == null)
+			return null;
+
+		result.item = item2;
+		result.text_con = con.srv(null).textConnection(item2);
+
+		con.conf().adaptProc(item2, item2.getTitle(), item2.getParent(), _path);
+
+		return result;
+	}
+
+	private CfBuildServiceAdaptData adaptNormal(ConfService srv,
+			ConfTreeService conf, CfBuildServiceAdaptData result,
+			ContextInfo item) {
 		Integer id;
 		try {
 
 			List<String> path = new ArrayList<String>();
 			String proc_name = "";
-			// if (!result.isSearch()) {
-			id = getId(srv, result, ELevel.proc, path);
+
+			id = getId(srv, item, ELevel.proc, path);
 
 			if (id != null) {
 				ContextInfo proc = (ContextInfo) conf.get(id);
-				// result.setParent(-1);
-				if (proc != null) {
+				if (proc != null)
 					proc_name = proc.getTitle();
 
-					// Integer i = proc.getParent();
-					// result.setParent(i);
-					// result.setModule(i);
-					// result.setTitle(proc.getTitle());
-				}
-
-				// result.setId(id);
-				// result.setProc(true);
-				// return result;
 			}
-			// }
-			id = getId(srv, result, ELevel.module, path);
+
+			id = getId(srv, item, ELevel.module, path);
 			if (id != null) {
-				conf.adaptProc(result, proc_name, id, path);
-				// conf.setObjectsTable();
-				// ContextInfo module = (ContextInfo) conf.get(id);
-				// conf.setProcTable();
-				// result.setParent(-1);
-				// if (module != null) {
-				// Integer i = module.getParent();
-				// result.setParent(i);
-				// result.setModule(null);
-				// result.setTitle(module.getTitle());
-				// // if (result.isSearch()) {
-				// int s = path.size();
-				// for (int j = 2; j < s; j++)
-				// path.remove(path.size() - 1);
-				//
-				// result.getOptions().type = BuildType.module;
-				// if (!proc_name.isEmpty())
-				// result.getOptions().proc = proc_name;
-				// // }
-				// }
-				//
-				// result.setId(id);
-				// result.setTitle(path.get(path.size() - 1).concat(
-				// "." + result.getTitle()));
+				conf.adaptProc(item, proc_name, id, path);
 				return result;
 			}
 
-			result.canOpen = false;
+			item.canOpen = false;
 
 		} catch (Exception e) {
 
@@ -855,5 +1084,4 @@ public class CfBuildService {
 		}
 		return result;
 	}
-
 }

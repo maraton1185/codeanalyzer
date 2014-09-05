@@ -15,6 +15,7 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.services.TextParser;
 import ebook.module.text.interfaces.ITextTreeService;
+import ebook.module.text.model.GotoDefinitionData;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.service.TreeService;
 
@@ -115,10 +116,14 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 	@Override
 	public String getPath(ContextInfo item, List<String> path) {
 
+		return getPath(item, path, false);
+	}
+
+	public String getPath(ContextInfo item, List<String> path, boolean full) {
 		String result = "";
 		List<ITreeItemInfo> parents = getParents(item);
 		String last = null;
-		if (!parents.isEmpty()) {
+		if (!parents.isEmpty() && !full) {
 			last = parents.get(parents.size() - 1).getTitle();
 			parents.remove(parents.size() - 1);
 		}
@@ -142,13 +147,17 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		setObjectsTable();
 
 		Integer parent = null;
-
+		Boolean proc = false;
 		String[] data = path.replace("...", "###").split("\\.");
 		ITreeItemInfo item = null;
 		for (String s : data) {
 			s = s.replace("###", "...");
-
+			if (s.contains("...")) {
+				setProcTable();
+				proc = true;
+			}
 			item = findInParent(s, parent);
+
 			if (item == null)
 				break;
 			parent = item.getId();
@@ -157,31 +166,24 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		setProcTable();
 
 		if (item != null)
-			((ContextInfo) item).setProc(false);
+			((ContextInfo) item).setProc(proc);
 		return (ContextInfo) item;
 	}
 
 	@Override
-	public List<ITreeItemInfo> getDefinitions(String proc) {
+	public List<ITreeItemInfo> getDefinitions(GotoDefinitionData data) {
 
-		if (proc == null)
+		if (data.isEmpty())
 			return null;
 
-		List<ITreeItemInfo> list = getProcs(proc);
-
-		return list;
-	}
-
-	private List<ITreeItemInfo> getProcs(String name) {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
-		// Connection con = null;
 		try {
 			Connection con = db.getConnection();
 			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
 					+ " AS T WHERE T.NAME=? ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setString(1, name);
+			prep.setString(1, data.getProcName());
 			ResultSet rs = prep.executeQuery();
 
 			try {
@@ -222,12 +224,38 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 
 			item.getOptions().type = BuildType.module;
 			item.getOptions().proc = proc_name;
-
+			item.setProc(false);
 		}
 
 		item.setId(id);
 		item.setTitle(path.get(path.size() - 1).concat("." + item.getTitle()));
 
+	}
+
+	public String getProcHash(int id) {
+		StringBuilder result = new StringBuilder();
+		try {
+			Connection con = db.getConnection();
+
+			String SQL = "Select HASH from PROCS_TEXT WHERE PROC=?";
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					String line = rs.getString(1);
+
+					result.append(line + "\n");
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result.toString();
 	}
 
 }

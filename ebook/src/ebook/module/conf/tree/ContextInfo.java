@@ -28,6 +28,7 @@ public class ContextInfo extends TreeItemInfo {
 		opt.type = _opt.type;
 		opt.start_offset = _opt.start_offset;
 		opt.proc = _opt.proc;
+		opt.openInComparison = _opt.openInComparison;
 		setOptions(opt);
 		setList(info.getList());
 		setId(info.getId());
@@ -134,7 +135,9 @@ public class ContextInfo extends TreeItemInfo {
 		case proposal:
 			return Utils.getImage("markers/proposal.png");
 		case proc:
-			return Utils.getImage("source.png");
+			return Utils.getImage("markers/proc.png");
+		case comparison:
+			return Utils.getImage("markers/comparison.png");
 		default:
 			return null;
 		}
@@ -171,6 +174,7 @@ public class ContextInfo extends TreeItemInfo {
 		opt.type = element.type;
 		opt.start_offset = element.start_offset;
 		opt.proc = element.proc;
+		opt.openInComparison = element.openInComparison;
 		info.setOptions(opt);
 
 		return info;

@@ -33,4 +33,8 @@ public class GotoDefinitionData {
 	public String getProcTitle() {
 		return title == null ? null : title.concat("(...)");
 	}
+
+	public boolean isEmpty() {
+		return title == null;
+	}
 }

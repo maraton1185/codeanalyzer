@@ -12,10 +12,12 @@ import ebook.core.pico;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
+import ebook.module.conf.service.ConfService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.manager.TreeManager;
 import ebook.utils.Strings;
@@ -75,7 +77,7 @@ public class ConfManager extends TreeManager {
 
 			// root
 			if (opt.type == BuildType.root)
-				list = cf.build(srv.getConnection()).buildRoot();
+				list = cf.build((ConfService) srv).buildRoot();
 			else
 				buildPath(list, item, build_options);
 
@@ -95,35 +97,37 @@ public class ConfManager extends TreeManager {
 			AdditionalInfo build_options) throws SQLException,
 			InvocationTargetException, IllegalAccessException {
 
+		CfBuildService build = cf.build((ConfService) srv);
+
 		ContextInfoOptions opt = item.getOptions();
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = item.getTitle();
-		ITreeItemInfo root = cf.build(srv.getConnection()).getPath(srv, item,
-				info, opt, path);
+		ITreeItemInfo root = build.getPath(srv, item, info, opt, path);
 
 		info.type = BuildType.object;
-		info.setSearchByText(opt.type == BuildType.text);
-		info.textSearchWithoutLines = build_options.textSearchWithoutLines;
-		info.setSearchByProc(opt.type == BuildType.proc);
+		info.setText(opt.type == BuildType.text);
+		info.textWithoutLines = build_options.textWithoutLines;
+		info.setProc(opt.type == BuildType.proc);
+		info.setComparison(opt.type == BuildType.comparison);
 		if (root != null) {
 			// get root without type between
 			info.type = null;
-			cf.build(srv.getConnection()).buildWithPath(list, path, info);
+			build.buildWithPath(list, path, info);
 		}
 
-		if (info.searchByText && root == null) {
+		if (info.text && root == null) {
 			// root search text
 			info.type = null;
 			path.clear();
-			cf.build(srv.getConnection()).buildWithPath(list, path, info);
+			build.buildWithPath(list, path, info);
 		}
 
-		if (info.searchByProc && root == null) {
+		if (info.proc && root == null) {
 			// root search proc
 			info.type = null;
 			path.clear();
-			cf.build(srv.getConnection()).buildWithPath(list, path, info);
+			build.buildWithPath(list, path, info);
 		}
 
 		if (info.type != null) {
@@ -179,6 +183,17 @@ public class ConfManager extends TreeManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void buildComparison(ContextInfo item, AdditionalInfo build_options) {
+		try {
+			item.getOptions().type = BuildType.comparison;
+			srv.saveOptions(item);
+			build(item, build_options);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

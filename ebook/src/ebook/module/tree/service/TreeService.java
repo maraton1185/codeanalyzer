@@ -22,6 +22,7 @@ import ebook.module.confLoad.model.ELevel;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.ITreeItemSelection;
+import ebook.utils.AesCrypt;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
@@ -842,24 +843,28 @@ public abstract class TreeService implements ITreeService {
 			try {
 
 				if (rs.next()) {
-					SQL = "UPDATE PROCS_TEXT SET TEXT=? WHERE ID=?;";
+					SQL = "UPDATE PROCS_TEXT SET TEXT=?, HASH=? WHERE ID=?;";
 					PreparedStatement prep1 = con.prepareStatement(SQL,
 							Statement.CLOSE_CURRENT_RESULT);
 
 					prep1.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
-					prep1.setInt(2, rs.getInt(1));
+					prep1.setString(2,
+							AesCrypt.getHash(text.toString().getBytes()));
+					prep1.setInt(3, rs.getInt(1));
 					int affectedRows = prep1.executeUpdate();
 					if (affectedRows == 0)
 						throw new SQLException();
 				} else {
-					SQL = "INSERT INTO PROCS_TEXT (TEXT, PROC) VALUES (?,?);";
+					SQL = "INSERT INTO PROCS_TEXT (TEXT, HASH, PROC) VALUES (?,?,?);";
 					PreparedStatement prep2 = con.prepareStatement(SQL,
 							Statement.CLOSE_CURRENT_RESULT);
 
 					prep2.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
-					prep2.setInt(2, id);
+					prep2.setString(2,
+							AesCrypt.getHash(text.toString().getBytes()));
+					prep2.setInt(3, id);
 					int affectedRows = prep2.executeUpdate();
 					if (affectedRows == 0)
 						throw new SQLException();

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import ebook.core.App;
+import ebook.core.pico;
 import ebook.core.exceptions.GetRootException;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.book.BookConnection;
@@ -17,6 +18,8 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.confLoad.interfaces.ICfServices;
+import ebook.module.confLoad.services.TextBuffer;
 import ebook.module.text.TextConnection;
 import ebook.module.text.interfaces.ITextTreeService;
 import ebook.module.text.model.LineInfo;
@@ -28,6 +31,7 @@ public class TextService {
 	protected ContextInfo item;
 	protected ITextTreeService srv;
 	IDbConnection con;
+	TextBuffer buffer = pico.get(ICfServices.class).buffer();
 
 	public TextService(TextConnection con) {
 		this.con = con.getCon();
@@ -50,12 +54,12 @@ public class TextService {
 
 	}
 
-	public String getItemText(ContextInfo item) {
+	public String getItemText(ContextInfo item, LineInfo lineInfo) {
 
 		ContextInfoOptions opt = item.getOptions();
 		if (opt.type == BuildType.module)
 
-			return getModuleText(item);
+			return getModuleText(item, lineInfo);
 
 		else
 
@@ -63,14 +67,20 @@ public class TextService {
 
 	}
 
-	protected String getModuleText(ContextInfo item) {
+	protected String getModuleText(ContextInfo item, LineInfo lineInfo) {
+
 		List<ITreeItemInfo> list = srv.getChildren(item.getId());
 
 		StringBuilder result = new StringBuilder();
 
 		for (ITreeItemInfo info : list) {
 
-			String text = srv.getText(info.getId());
+			String text = "";
+			if (lineInfo.compare
+					&& lineInfo.getTitle().equalsIgnoreCase(info.getTitle()))
+				text = buffer.getText();
+			else
+				text = srv.getText(info.getId());
 
 			result.append(text);
 		}

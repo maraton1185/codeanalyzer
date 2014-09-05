@@ -52,8 +52,7 @@ public class GoToDefinition {
 		if (data == null)
 			return;
 
-		List<ITreeItemInfo> defs = con.getSrv().getDefinitions(
-				data.getProcName());
+		List<ITreeItemInfo> defs = con.getSrv().getDefinitions(data);
 
 		if (defs == null)
 			return;

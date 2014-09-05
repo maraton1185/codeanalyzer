@@ -7,24 +7,31 @@ public class AdditionalInfo {
 	public String filter = "";
 	public String itemTitle;
 	public BuildType type;
-	public boolean searchByGroup2 = false;
-	public boolean searchByText = false;
-	public boolean searchByProc = false;
+	public boolean group2 = false;
+	public boolean text = false;
+	public boolean proc = false;
+	public boolean comparison = false;
 
-	public void setSearchByText(boolean searchByText) {
-		this.searchByText = searchByText;
-		if (searchByText)
+	public void setText(boolean text) {
+		this.text = text;
+		if (text)
 			type = BuildType.text;
 	}
 
-	public void setSearchByProc(boolean searchByProc) {
-		this.searchByProc = searchByProc;
-		if (searchByProc)
+	public void setProc(boolean proc) {
+		this.proc = proc;
+		if (proc)
 			type = BuildType.proc;
+	}
+
+	public void setComparison(boolean comparison) {
+		this.comparison = comparison;
+		if (comparison)
+			type = BuildType.comparison;
 	}
 
 	public boolean getProc = false;
 	public ELevel level;
-	public boolean textSearchWithoutLines = false;
+	public boolean textWithoutLines = false;
 
 }

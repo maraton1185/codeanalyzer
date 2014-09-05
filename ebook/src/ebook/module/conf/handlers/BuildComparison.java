@@ -16,7 +16,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
 
-public class BuildTextWithoutLines {
+public class BuildComparison {
 	@Execute
 	public void execute(Shell shell, @Optional final ContextInfo item,
 			@Active final ConfConnection con,
@@ -25,9 +25,9 @@ public class BuildTextWithoutLines {
 		BusyIndicator.showWhile(shell.getDisplay(), new Runnable() {
 			@Override
 			public void run() {
+
 				AdditionalInfo info = new AdditionalInfo();
-				info.textWithoutLines = true;
-				App.mng.cm(con, list).buildText(item, info);
+				App.mng.cm(con, list).buildComparison(item, info);
 			}
 		});
 

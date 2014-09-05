@@ -40,7 +40,8 @@ import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
 import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.text.TextConnection;
+import ebook.module.confLoad.model.CfBuildServiceAdaptData;
+import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.view.ICollapseView;
@@ -229,23 +230,17 @@ public class ConfView implements ICollapseView {
 				ITreeItemInfo selected = (ITreeItemInfo) selection
 						.getFirstElement();
 
-				try {
-					ContextInfo item = pico
-							.get(ICfServices.class)
-							.build(con.srv(list).getConnection())
-							.adapt(con.conf(), con.srv(list),
-									(ContextInfo) selected);
-					TextConnection text_con = new TextConnection(con, item, con
-							.conf(), con.bmsrv());
-					// if (item.isSearch()) {
-					LineInfo line = new LineInfo(item.getOptions());
-					text_con.setLine(line);
-					// }
-					App.br.post(Events.EVENT_OPEN_TEXT, text_con);
-				} catch (IllegalAccessException e) {
+				CfBuildService build = pico.get(ICfServices.class).build(
+						con.srv(list));
+				CfBuildServiceAdaptData data = build
+						.adapt((ContextInfo) selected);
 
-					e.printStackTrace();
-				}
+				if (data == null)
+					return;
+
+				LineInfo line = new LineInfo(data.item.getOptions());
+				data.text_con.setLine(line);
+				App.br.post(Events.EVENT_OPEN_TEXT, data.text_con);
 
 			}
 		});

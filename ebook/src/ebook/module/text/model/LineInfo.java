@@ -28,6 +28,8 @@ public class LineInfo extends TreeItemInfo {
 			isJump = true;
 
 		start_offset = opt.start_offset == null ? 0 : opt.start_offset;
+
+		compare = opt.compare;
 	}
 
 	@Override
@@ -38,6 +40,7 @@ public class LineInfo extends TreeItemInfo {
 			return super.equals(obj);
 	}
 
+	public boolean compare = false;
 	// смещение с начала модуля
 	// public int absolute_offset;
 	// смещение процедуры

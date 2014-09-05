@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
 import ebook.module.confList.tree.ConfInfo.SQLConnection;
@@ -13,6 +14,7 @@ import ebook.module.confLoad.model.DbState;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.item.TreeItemInfo;
 import ebook.utils.PreferenceSupplier;
+import ebook.utils.Utils;
 
 public class ListConfInfo extends TreeItemInfo {
 
@@ -258,6 +260,20 @@ public class ListConfInfo extends TreeItemInfo {
 
 	public void setDoLog(boolean selection) {
 		data.doLog = selection;
+	}
+
+	@Override
+	public Image getListImage() {
+
+		String name = PreferenceSupplier
+				.get(PreferenceSupplier.CONF_LIST_VIEW_COMPARISON);
+		if (name == null)
+			return null;
+
+		if (this.getDbName().equals(name))
+			return Utils.getImage("markers/comparison.png");
+
+		return null;
 
 	}
 }

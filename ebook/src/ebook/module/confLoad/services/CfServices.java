@@ -1,7 +1,6 @@
 package ebook.module.confLoad.services;
 
-import java.sql.Connection;
-
+import ebook.module.confLoad.interfaces.IBuildConnection;
 import ebook.module.confLoad.interfaces.ICfServices;
 
 public class CfServices implements ICfServices {
@@ -36,10 +35,18 @@ public class CfServices implements ICfServices {
 	CfBuildService build;
 
 	@Override
-	public CfBuildService build(Connection con) {
+	public CfBuildService build(IBuildConnection con) {
 		build = build == null ? new CfBuildService() : build;
 		build.setConnection(con);
 		return build;
+	}
+
+	TextBuffer buffer;
+
+	@Override
+	public TextBuffer buffer() {
+		buffer = buffer == null ? new TextBuffer() : buffer;
+		return buffer;
 	}
 
 }

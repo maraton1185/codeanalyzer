@@ -207,4 +207,26 @@ public class ConfManager extends TreeManager {
 
 	}
 
+	public void buildRoot(ContextInfo item, AdditionalInfo build_options) {
+		try {
+			item.getOptions().type = BuildType.root;
+			srv.saveOptions(item);
+			build(item, build_options);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void buildObject(ContextInfo item, AdditionalInfo build_options) {
+		try {
+			item.getOptions().type = BuildType.object;
+			srv.saveOptions(item);
+			build(item, build_options);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

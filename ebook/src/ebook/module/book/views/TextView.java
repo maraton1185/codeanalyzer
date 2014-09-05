@@ -166,12 +166,12 @@ public class TextView {
 		rightComposite.setLayout(new FillLayout());
 
 		String buf = book.srv().getText(section.getId());
-		tinymce = new TinyTextEditor(leftComposite, section);
+		tinymce = new TinyTextEditor(rightComposite, section);
 		tinymce.setText(buf);
 		tinymce.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		toolkit = new FormToolkit(parent.getDisplay());
-		form = toolkit.createScrolledForm(rightComposite);
+		form = toolkit.createScrolledForm(leftComposite);
 
 		parent.setBackground(form.getBackground());
 		GridData gd = new GridData();

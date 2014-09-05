@@ -293,9 +293,11 @@ public class CfBuildService {
 				gr = getProcs(path.get(i), gr, proposals);
 				if (gr != null) {
 					info.getProc = true;
-					System.out.println("find proc");
-					gr = null;
-					proposals.clear();
+					// System.out.println("find proc");
+					// proposals.clear();
+					break;
+					// gr = null;
+					// proposals.clear();
 				}
 				continue;
 			}
@@ -309,6 +311,11 @@ public class CfBuildService {
 				break;
 			}
 
+		}
+
+		if (info.getProc) {
+			buildProcText(proposals, gr, info.itemTitle, info);
+			return;
 		}
 
 		if (info.searchByText && !info.getProc) {
@@ -332,11 +339,65 @@ public class CfBuildService {
 		}
 
 		if (path_items.isEmpty() && proposals.isEmpty() && !info.searchByGroup2
-				&& !info.searchByText && !info.searchByProc) {
+				&& !info.searchByText && !info.searchByProc && !info.getProc) {
 			info.searchByGroup2 = true;
 			buildWithPath(proposals, path_items, info);
 
 			fillParents(proposals, null);
+		}
+
+	}
+
+	private void buildProcText(List<BuildInfo> proposals, Integer gr,
+			String title, AdditionalInfo build_opt) throws SQLException {
+		if (con == null)
+			return;
+
+		if (proposals != null)
+			proposals.clear();
+
+		if (gr == null)
+			return;
+		// title = Pattern.quote(title);
+
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
+		SQL = SQL.concat(" WHERE ");
+
+		SQL = SQL.concat(" T.ID = ? ");
+		SQL = SQL.concat(" ORDER BY TITLE");
+
+		prep = con.prepareStatement(SQL);
+
+		prep.setInt(1, gr);
+
+		BufferedReader bufferedReader = null;
+		rs = prep.executeQuery();
+		try {
+			if (rs.next()) {
+
+				Reader in = rs.getCharacterStream(3);
+				bufferedReader = new BufferedReader(in);
+				String line;
+				int index = 0;
+				while ((line = bufferedReader.readLine()) != null) {
+
+					BuildInfo ch = new BuildInfo();
+					ch.title = line.trim();
+					ch.start_offset = index;
+					ch.proc = rs.getString(1);
+					proposals.add(ch);
+					index = index + (line + "\n").length();
+				}
+			}
+
+		} catch (Exception e) {
+			throw new SQLException();
+		} finally {
+			rs.close();
 		}
 
 	}

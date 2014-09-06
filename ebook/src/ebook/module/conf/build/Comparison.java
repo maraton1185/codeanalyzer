@@ -22,6 +22,7 @@ import ebook.module.confLoad.services.TextParser;
 import ebook.module.text.TextConnection;
 import ebook.module.text.model.LineInfo;
 import ebook.module.tree.item.ITreeItemInfo;
+import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_TEXT_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -144,63 +145,63 @@ public class Comparison {
 
 		CompareResults compareResults = new CompareResults();
 
-		List<ITreeItemInfo> list1 = db1.getChildren(item1.getId());
 		List<ITreeItemInfo> list2 = db2.getChildren(item2.getId());
+		List<ITreeItemInfo> list1 = db1.getChildren(item1.getId());
 
-		for (ITreeItemInfo _item1 : list1) {
+		for (ITreeItemInfo _item2 : list2) {
 
-			String text1 = db1.getHash((ContextInfo) _item1);
+			String text2 = db2.getHash((ContextInfo) _item2);
 			boolean equals = false;
 			boolean added = true;
 			boolean changed = false;
 
-			for (ITreeItemInfo _item2 : list2) {
+			for (ITreeItemInfo _item1 : list1) {
 
 				if (_item1.getTitle().equalsIgnoreCase(_item2.getTitle())) {
 
 					added = false;
 
-					String text2 = db2.getHash((ContextInfo) _item2);
+					String text1 = db1.getHash((ContextInfo) _item1);
 
 					if (text1.equalsIgnoreCase(text2))
 						equals = true;
 					else
 						changed = true;
 
-					list2.remove(_item2);
-					break;
-				}
-			}
-
-			if (equals)
-				compareResults.equals.add(_item1);
-			if (changed)
-				compareResults.changed.add(_item1);
-			if (added)
-				compareResults.added.add(_item1);
-
-		}
-
-		for (ITreeItemInfo _item2 : list2) {
-
-			boolean removed = true;
-			for (ITreeItemInfo _item1 : list1) {
-				if (_item1.getTitle().equalsIgnoreCase(_item2.getTitle())) {
-					removed = false;
 					list1.remove(_item1);
 					break;
 				}
 			}
 
-			if (removed)
-				compareResults.removed.add(_item2);
+			if (equals)
+				compareResults.equals.add(_item2);
+			if (changed)
+				compareResults.changed.add(_item2);
+			if (added)
+				compareResults.added.add(_item2);
 
 		}
 
-		makeProposals("Добавлено", compareResults.added, proposals);
-		makeProposals("Удалено", compareResults.removed, proposals);
-		makeProposals("Изменено", compareResults.changed, proposals);
-		makeProposals("Одинаково", compareResults.equals, proposals);
+		for (ITreeItemInfo _item1 : list1) {
+
+			boolean removed = true;
+			for (ITreeItemInfo _item2 : list2) {
+				if (_item1.getTitle().equalsIgnoreCase(_item2.getTitle())) {
+					removed = false;
+					list2.remove(_item2);
+					break;
+				}
+			}
+
+			if (removed)
+				compareResults.removed.add(_item1);
+
+		}
+
+		makeProposals(Const.COMPARE_ADDED, compareResults.added, proposals);
+		makeProposals(Const.COMPARE_REMOVED, compareResults.removed, proposals);
+		makeProposals(Const.COMPARE_CHANGED, compareResults.changed, proposals);
+		makeProposals(Const.COMPARE_EQUALS, compareResults.equals, proposals);
 
 	}
 
@@ -215,8 +216,8 @@ public class Comparison {
 			info.title = item.getTitle();
 			category.children.add(info);
 		}
-
-		proposals.add(category);
+		if (!list.isEmpty())
+			proposals.add(category);
 
 	}
 

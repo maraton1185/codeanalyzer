@@ -158,7 +158,7 @@ public class Const {
 
 	public static final String COMPARE_EQUALS = "одинаковые";
 	public static final String COMPARE_ADDED = "есть в активной";
-	public static final String COMPARE_REMOVED = "есть в не активной";
+	public static final String COMPARE_REMOVED = "есть в текущей";
 	public static final String COMPARE_CHANGED = "изменённые";
 	public static final String MODULE_NOT_FOUND = "//Модуль не найден...";
 	public static final String PROC_NOT_FOUND = "//Процедура не найдена...";

@@ -9,6 +9,7 @@ import ebook.module.conf.xml.ContextXML;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.TreeItemInfo;
+import ebook.utils.Const;
 import ebook.utils.Utils;
 
 public class ContextInfo extends TreeItemInfo {
@@ -133,7 +134,20 @@ public class ContextInfo extends TreeItemInfo {
 		case root:
 			return Utils.getImage("markers/root.png");
 		case proposal:
-			return Utils.getImage("markers/proposal.png");
+			switch (getTitle()) {
+			case Const.COMPARE_ADDED:
+				return Utils.getImage("markers/removed.png");
+
+			case Const.COMPARE_REMOVED:
+				return Utils.getImage("markers/added.png");
+			case Const.COMPARE_CHANGED:
+				return Utils.getImage("markers/changed.png");
+			case Const.COMPARE_EQUALS:
+				return Utils.getImage("markers/equals.png");
+			default:
+				return Utils.getImage("markers/proposal.png");
+			}
+
 		case proc:
 			return Utils.getImage("markers/proc.png");
 		case comparison:

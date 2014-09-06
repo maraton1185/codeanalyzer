@@ -38,14 +38,14 @@ public class Comparison {
 	}
 
 	public void build(List<BuildInfo> proposals, Integer gr, String title,
-			AdditionalInfo build_opt) {
+			AdditionalInfo build_opt, boolean root) {
 
 		if (proposals != null)
 			proposals.clear();
 
 		BuildInfo error = new BuildInfo();
 
-		if (gr == null) {
+		if (gr == null && !root) {
 			error.title = "Не найден контекст сравнения";
 			proposals.add(error);
 			return;
@@ -58,6 +58,11 @@ public class Comparison {
 
 		ConfTreeService db1 = srv.conf();
 		ConfTreeService db2 = con.conf();
+
+		if (root) {
+			listRoot(db1, db2, proposals);
+			return;
+		}
 
 		if (!build_opt.getProc)
 			db1.setObjectsTable();
@@ -86,6 +91,52 @@ public class Comparison {
 			listProcs(db1, item1, db2, item2, proposals, _path);
 		else
 			listObjects(db1, item1, db2, item2, proposals);
+
+	}
+
+	private void listRoot(ConfTreeService db1, ConfTreeService db2,
+			List<BuildInfo> proposals) {
+
+		db1.setObjectsTable();
+		List<ITreeItemInfo> root = db1.getRoot();
+		db1.setProcTable();
+
+		for (ITreeItemInfo item1 : root) {
+
+			List<String> _path = new ArrayList<String>();
+			String path = db1.getPath((ContextInfo) item1, _path, true);
+			ContextInfo item2 = db2.getByPath(path);
+
+			if (item2 == null) {
+				continue;
+			}
+
+			BuildInfo category = new BuildInfo();
+			category.title = item1.getTitle();
+			proposals.add(category);
+
+			objectsDiffs(db1, item1, db2, item2, category.children);
+		}
+
+		db2.setObjectsTable();
+		root = db2.getRoot();
+		db2.setProcTable();
+
+		for (ITreeItemInfo item2 : root) {
+			List<String> _path = new ArrayList<String>();
+			String path = db2.getPath((ContextInfo) item2, _path, true);
+			ContextInfo item1 = db1.getByPath(path);
+
+			if (item1 != null)
+				continue;
+
+			BuildInfo category = new BuildInfo();
+			category.title = item2.getTitle();
+			proposals.add(category);
+
+			// objectsDiffs(db1, item1, db2, item2, category.children);
+
+		}
 
 	}
 
@@ -133,73 +184,72 @@ public class Comparison {
 			info.title = "объекты идентичны";
 			proposals.add(info);
 		} else {
-			objectsDiffs(db1, item1, db2, item2, proposals);
 
-			// info.title = "есть различия";
+			objectsDiffs(db1, item1, db2, item2, proposals);
 		}
 
 	}
 
-	private void objectsDiffs(ConfTreeService db1, ContextInfo item1,
-			ConfTreeService db2, ContextInfo item2, List<BuildInfo> proposals) {
+	private void objectsDiffs(ConfTreeService db1, ITreeItemInfo _item1,
+			ConfTreeService db2, ITreeItemInfo _item2, List<BuildInfo> proposals) {
 
 		CompareResults compareResults = new CompareResults();
 
-		List<ITreeItemInfo> list2 = db2.getChildren(item2.getId());
-		List<ITreeItemInfo> list1 = db1.getChildren(item1.getId());
+		List<ITreeItemInfo> list2 = db2.getChildren(_item2.getId());
+		List<ITreeItemInfo> list1 = db1.getChildren(_item1.getId());
 
-		for (ITreeItemInfo _item2 : list2) {
+		for (ITreeItemInfo item2 : list2) {
 
-			String text2 = db2.getHash((ContextInfo) _item2);
+			String text2 = db2.getHash((ContextInfo) item2);
 			boolean equals = false;
 			boolean added = true;
 			boolean changed = false;
 
-			for (ITreeItemInfo _item1 : list1) {
+			for (ITreeItemInfo item1 : list1) {
 
-				if (_item1.getTitle().equalsIgnoreCase(_item2.getTitle())) {
+				if (item1.getTitle().equalsIgnoreCase(item2.getTitle())) {
 
 					added = false;
 
-					String text1 = db1.getHash((ContextInfo) _item1);
+					String text1 = db1.getHash((ContextInfo) item1);
 
 					if (text1.equalsIgnoreCase(text2))
 						equals = true;
 					else
 						changed = true;
 
-					list1.remove(_item1);
+					list1.remove(item1);
 					break;
 				}
 			}
 
 			if (equals)
-				compareResults.equals.add(_item2);
+				compareResults.equals.add(item2);
 			if (changed)
-				compareResults.changed.add(_item2);
+				compareResults.changed.add(item2);
 			if (added)
-				compareResults.added.add(_item2);
+				compareResults.added.add(item2);
 
 		}
 
-		for (ITreeItemInfo _item1 : list1) {
+		for (ITreeItemInfo item1 : list1) {
 
 			boolean removed = true;
-			for (ITreeItemInfo _item2 : list2) {
-				if (_item1.getTitle().equalsIgnoreCase(_item2.getTitle())) {
+			for (ITreeItemInfo item2 : list2) {
+				if (item1.getTitle().equalsIgnoreCase(item2.getTitle())) {
 					removed = false;
-					list2.remove(_item2);
+					list2.remove(item2);
 					break;
 				}
 			}
 
 			if (removed)
-				compareResults.removed.add(_item1);
+				compareResults.removed.add(item1);
 
 		}
 
-		makeProposals(Const.COMPARE_ADDED, compareResults.added, proposals);
-		makeProposals(Const.COMPARE_REMOVED, compareResults.removed, proposals);
+		makeProposals(Const.COMPARE_REMOVED, compareResults.added, proposals);
+		makeProposals(Const.COMPARE_ADDED, compareResults.removed, proposals);
 		makeProposals(Const.COMPARE_CHANGED, compareResults.changed, proposals);
 		makeProposals(Const.COMPARE_EQUALS, compareResults.equals, proposals);
 

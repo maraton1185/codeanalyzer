@@ -235,32 +235,6 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 
 	}
 
-	// public String getProcHash(int id) {
-	// StringBuilder result = new StringBuilder();
-	// try {
-	// Connection con = db.getConnection();
-	//
-	// String SQL = "Select HASH from PROCS_TEXT WHERE PROC=?";
-	// PreparedStatement prep = con.prepareStatement(SQL);
-	// prep.setInt(1, id);
-	// ResultSet rs = prep.executeQuery();
-	//
-	// try {
-	// if (rs.next()) {
-	//
-	// String line = rs.getString(1);
-	//
-	// result.append(line + "\n");
-	// }
-	// } finally {
-	// rs.close();
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return result.toString();
-	// }
-
 	public String getHash(ContextInfo item) {
 		StringBuilder result = new StringBuilder();
 		try {

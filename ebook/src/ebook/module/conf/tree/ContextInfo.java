@@ -136,10 +136,9 @@ public class ContextInfo extends TreeItemInfo {
 		case proposal:
 			switch (getTitle()) {
 			case Const.COMPARE_ADDED:
-				return Utils.getImage("markers/removed.png");
-
-			case Const.COMPARE_REMOVED:
 				return Utils.getImage("markers/added.png");
+			case Const.COMPARE_REMOVED:
+				return Utils.getImage("markers/removed.png");
 			case Const.COMPARE_CHANGED:
 				return Utils.getImage("markers/changed.png");
 			case Const.COMPARE_EQUALS:

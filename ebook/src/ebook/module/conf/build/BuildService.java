@@ -96,6 +96,7 @@ public class BuildService {
 	public void buildWithPath(List<BuildInfo> proposals,
 			List<String> path_items, AdditionalInfo info) throws SQLException {
 
+		boolean root = path_items.isEmpty();
 		// List<BuildInfo> proposals = new ArrayList<BuildInfo>();
 		Integer gr = null;
 
@@ -125,7 +126,7 @@ public class BuildService {
 		if (info.text || info.proc || info.comparison)
 			stop_index = path.indexOf(info.itemTitle);
 
-		if (info.comparison)
+		if (info.comparison && !root)
 			stop_index++;
 
 		if (stop_index != 0)
@@ -165,7 +166,7 @@ public class BuildService {
 
 		if (info.comparison) {
 
-			comparison.build(proposals, gr, info.itemTitle, info);
+			comparison.build(proposals, gr, info.itemTitle, info, root);
 
 			// remove last 2 items
 			// path.remove(path.size() - 1);
@@ -201,7 +202,7 @@ public class BuildService {
 			return;
 		}
 
-		if (path_items.isEmpty() && proposals.isEmpty() && !info.group2) {
+		if (root && proposals.isEmpty() && !info.group2) {
 			info.group2 = true;
 			buildWithPath(proposals, path_items, info);
 
@@ -363,8 +364,8 @@ public class BuildService {
 
 	}
 
-	private AdaptData adaptComparison(ConfTreeService conf,
-			AdaptData result, ContextInfo item) {
+	private AdaptData adaptComparison(ConfTreeService conf, AdaptData result,
+			ContextInfo item) {
 
 		Integer id = null;
 		try {
@@ -405,8 +406,8 @@ public class BuildService {
 		return result;
 	}
 
-	private AdaptData adaptNormal(ConfTreeService conf,
-			AdaptData result, ContextInfo item) {
+	private AdaptData adaptNormal(ConfTreeService conf, AdaptData result,
+			ContextInfo item) {
 		Integer id;
 		try {
 

@@ -178,7 +178,7 @@ public abstract class TreeService implements ITreeService {
 			setAdditionRoot(prep);
 			ResultSet rs = prep.executeQuery();
 			try {
-				if (rs.next()) {
+				while (rs.next()) {
 
 					ITreeItemInfo root = getItem(rs);
 					root.setRoot();

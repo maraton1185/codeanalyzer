@@ -105,25 +105,20 @@ public class ConfManager extends TreeManager {
 		ITreeItemInfo root = build.getPath(srv, item, info, opt, path);
 
 		info.type = BuildType.object;
-		info.setText(opt.type == BuildType.text);
+
 		info.textWithoutLines = build_options.textWithoutLines;
+		info.setText(opt.type == BuildType.text);
 		info.setProc(opt.type == BuildType.proc);
 		info.setComparison(opt.type == BuildType.comparison);
+
 		if (root != null) {
 			// get root without type between
 			info.type = null;
 			build.buildWithPath(list, path, info);
 		}
 
-		if (info.text && root == null) {
-			// root search text
-			info.type = null;
-			path.clear();
-			build.buildWithPath(list, path, info);
-		}
-
-		if (info.proc && root == null) {
-			// root search proc
+		if ((info.text || info.proc || info.comparison) && root == null) {
+			// build root
 			info.type = null;
 			path.clear();
 			build.buildWithPath(list, path, info);

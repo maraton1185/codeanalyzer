@@ -23,8 +23,8 @@ import javax.xml.bind.Unmarshaller;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
-import ebook.core.pico;
 import ebook.module.conf.ConfConnection;
+import ebook.module.conf.build.BuildService;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.model.ConfOptions;
@@ -33,10 +33,7 @@ import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoOptions;
 import ebook.module.conf.xml.ContextXML;
-import ebook.module.confLoad.interfaces.IBuildConnection;
-import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.confLoad.model.DbState;
-import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.text.TextConnection;
@@ -51,13 +48,13 @@ import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
-public class ConfService extends TreeService implements IDownloadService,
-		IBuildConnection {
+public class ConfService extends TreeService implements IDownloadService {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONF_VIEW;
 	private ListInfo list;
-	ICfServices cf = pico.get(ICfServices.class);
+
+	// ICfServices cf = pico.get(ICfServices.class);
 
 	public ConfService(ConfConnection con, ListInfo list) {
 		super(tableName, updateEvent, con);
@@ -248,7 +245,7 @@ public class ConfService extends TreeService implements IDownloadService,
 
 			IPath t = new Path(temp.getAbsolutePath());
 
-			CfBuildService build = cf.build(this);
+			BuildService build = build();
 			ContextXML root = new ContextXML();
 
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
@@ -318,7 +315,7 @@ public class ConfService extends TreeService implements IDownloadService,
 
 				AdditionalInfo info = new AdditionalInfo();
 				info.itemTitle = item.getTitle();
-				child.proc = cf.build(this).getItemByPath(info, path);
+				child.proc = build().getItemByPath(info, path);
 				child.path = path;
 			}
 			writeXml(child, p);
@@ -455,5 +452,15 @@ public class ConfService extends TreeService implements IDownloadService,
 	public TextConnection textConnection(ContextInfo item) {
 		ConfConnection _con = (ConfConnection) db;
 		return new TextConnection(_con, item, _con.conf(), _con.bmsrv());
+	}
+
+	private BuildService build;
+
+	public BuildService build() {
+
+		build = build == null ? new BuildService(this) : build;
+		// build.setConnection(this);
+		return build;
+
 	}
 }

@@ -26,6 +26,7 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 	final static String objectsTable = "OBJECTS";
 	final static String tableName = "PROCS";
 	final static String updateEvent = "";
+	boolean isProc = true;
 
 	public ConfTreeService(ConfConnection con) {
 		super(tableName, updateEvent, con);
@@ -48,7 +49,7 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		info.setId(rs.getInt(2));
 		info.setParent(rs.getInt(3));
 		info.setSort(rs.getInt(4));
-		info.setProc(true);
+		info.setProc(isProc);
 		info.setGroup(true);
 
 		return info;
@@ -61,10 +62,12 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 
 	public void setProcTable() {
 		setTableName(tableName);
+		isProc = true;
 	}
 
 	public void setObjectsTable() {
 		setTableName(objectsTable);
+		isProc = false;
 	}
 
 	@Override
@@ -232,46 +235,55 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 
 	}
 
-	public String getProcHash(int id) {
+	// public String getProcHash(int id) {
+	// StringBuilder result = new StringBuilder();
+	// try {
+	// Connection con = db.getConnection();
+	//
+	// String SQL = "Select HASH from PROCS_TEXT WHERE PROC=?";
+	// PreparedStatement prep = con.prepareStatement(SQL);
+	// prep.setInt(1, id);
+	// ResultSet rs = prep.executeQuery();
+	//
+	// try {
+	// if (rs.next()) {
+	//
+	// String line = rs.getString(1);
+	//
+	// result.append(line + "\n");
+	// }
+	// } finally {
+	// rs.close();
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return result.toString();
+	// }
+
+	public String getHash(ContextInfo item) {
 		StringBuilder result = new StringBuilder();
 		try {
 			Connection con = db.getConnection();
 
-			String SQL = "Select HASH from PROCS_TEXT WHERE PROC=?";
-			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, id);
-			ResultSet rs = prep.executeQuery();
+			String SQL = "SELECT T1.HASH FROM PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
 
-			try {
-				if (rs.next()) {
-
-					String line = rs.getString(1);
-
-					result.append(line + "\n");
-				}
-			} finally {
-				rs.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result.toString();
-	}
-
-	public String getObjectHash(int id) {
-		StringBuilder result = new StringBuilder();
-		try {
-			Connection con = db.getConnection();
-
-			String SQL = "SELECT T1.HASH FROM PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID"
-					+ " WHERE (T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?)";
+			if (item.isProc())
+				SQL += " WHERE (T.ID = ?)";
+			else
+				SQL += " WHERE (T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?)";
 
 			SQL = SQL.concat(" ORDER BY TITLE");
 
+			int id = item.getId();
 			PreparedStatement prep = con.prepareStatement(SQL);
-			prep.setInt(1, id);
-			prep.setInt(2, id);
-			prep.setInt(3, id);
+			if (item.isProc())
+				prep.setInt(1, id);
+			else {
+				prep.setInt(1, id);
+				prep.setInt(2, id);
+				prep.setInt(3, id);
+			}
 			ResultSet rs = prep.executeQuery();
 
 			try {
@@ -288,6 +300,18 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 			e.printStackTrace();
 		}
 		return result.toString();
+	}
+
+	@Override
+	public List<ITreeItemInfo> getChildren(int parent) {
+
+		setObjectsTable();
+		List<ITreeItemInfo> result = super.getChildren(parent);
+		setProcTable();
+		if (result.isEmpty())
+			return super.getChildren(parent);
+
+		return result;
 	}
 
 }

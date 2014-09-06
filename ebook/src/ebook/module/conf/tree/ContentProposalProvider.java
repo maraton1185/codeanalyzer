@@ -9,19 +9,18 @@ import org.eclipse.jface.fieldassist.ContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposal;
 import org.eclipse.jface.fieldassist.IContentProposalProvider;
 
-import ebook.core.pico;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.service.ConfService;
-import ebook.module.confLoad.interfaces.ICfServices;
 import ebook.module.tree.item.ITreeItemInfo;
 
 public class ContentProposalProvider implements IContentProposalProvider {
 
 	private MWindow window;
 	private ConfService tree;
-	public ICfServices cf = pico.get(ICfServices.class);
+
+	// public ICfServices cf = pico.get(ICfServices.class);
 
 	public ContentProposalProvider(ConfService srv, MWindow window) {
 		// proposals = new String[] { "Конфигурация", "ProposalTwo",
@@ -80,13 +79,12 @@ public class ContentProposalProvider implements IContentProposalProvider {
 		List<String> path = new ArrayList<String>();
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = contents;
-		ITreeItemInfo root = cf.build(tree)
-				.getPath(tree, item, info, opt, path);
+		ITreeItemInfo root = tree.build().getPath(tree, item, info, opt, path);
 		info.type = BuildType.object;
 		if (root != null) {
 			// get root without type between
 			info.type = null;
-			cf.build(tree).buildWithPath(proposals, path, info);
+			tree.build().buildWithPath(proposals, path, info);
 		}
 		if (info.type != null) {
 			opt.type = info.type;

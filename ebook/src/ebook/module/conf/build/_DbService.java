@@ -1,4 +1,4 @@
-package ebook.module.confLoad.services;
+package ebook.module.conf.build;
 
 
 public class _DbService {

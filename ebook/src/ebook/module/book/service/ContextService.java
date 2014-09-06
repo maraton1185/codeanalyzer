@@ -27,14 +27,11 @@ import ebook.core.pico;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
-import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildType;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.xml.ContextXML;
-import ebook.module.confLoad.interfaces.IBuildConnection;
 import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.db.BaseDbPathConnection;
 import ebook.module.db.DbOptions;
 import ebook.module.text.interfaces.ITextTreeService;
@@ -51,7 +48,7 @@ import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
 public class ContextService extends TreeService implements ITextTreeService,
-		IDownloadService, IBuildConnection {
+		IDownloadService {
 
 	final static String tableName = "CONTEXT";
 	final static String updateEvent = Events.EVENT_UPDATE_CONTEXT_VIEW;
@@ -187,7 +184,7 @@ public class ContextService extends TreeService implements ITextTreeService,
 			temp.mkdir();
 			IPath t = new Path(temp.getAbsolutePath());
 
-			CfBuildService build = cf.build(this);
+			// CfBuildService build = cf.build(this);
 
 			ContextXML root = new ContextXML();
 			Iterator<ITreeItemInfo> iterator = selection.iterator();
@@ -195,12 +192,13 @@ public class ContextService extends TreeService implements ITextTreeService,
 				ITreeItemInfo item = iterator.next();
 				ContextXML child = new ContextXML(item, false);
 
-				ContextInfoOptions opt = (ContextInfoOptions) item.getOptions();
+				// ContextInfoOptions opt = (ContextInfoOptions)
+				// item.getOptions();
 				List<String> path = new ArrayList<String>();
 				getPath((ContextInfo) item, path);
-				AdditionalInfo info = new AdditionalInfo();
-				info.itemTitle = item.getTitle();
-				build.getPath(this, (ContextInfo) item, info, opt, path);
+				// AdditionalInfo info = new AdditionalInfo();
+				// info.itemTitle = item.getTitle();
+				// build.getPath(this, (ContextInfo) item, info, opt, path);
 
 				if (path.size() > 1)
 					path.remove(0);

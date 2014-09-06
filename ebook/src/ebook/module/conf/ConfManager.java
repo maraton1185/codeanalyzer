@@ -8,7 +8,7 @@ import java.util.List;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.core.pico;
+import ebook.module.conf.build.BuildService;
 import ebook.module.conf.model.AdditionalInfo;
 import ebook.module.conf.model.BuildInfo;
 import ebook.module.conf.model.BuildType;
@@ -16,19 +16,18 @@ import ebook.module.conf.service.ConfService;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoOptions;
 import ebook.module.conf.tree.ListInfo;
-import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.manager.TreeManager;
 import ebook.utils.Strings;
 
 public class ConfManager extends TreeManager {
 
-	public ICfServices cf = pico.get(ICfServices.class);
+	// public ICfServices cf = pico.get(ICfServices.class);
+	ConfService srv;
 
 	public ConfManager(ConfConnection con, ListInfo list) {
 		super(con.srv(list));
-
+		srv = con.srv(list);
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class ConfManager extends TreeManager {
 
 			// root
 			if (opt.type == BuildType.root)
-				list = cf.build((ConfService) srv).buildRoot();
+				list = srv.build().buildRoot();
 			else
 				buildPath(list, item, build_options);
 
@@ -97,7 +96,7 @@ public class ConfManager extends TreeManager {
 			AdditionalInfo build_options) throws SQLException,
 			InvocationTargetException, IllegalAccessException {
 
-		CfBuildService build = cf.build((ConfService) srv);
+		BuildService build = srv.build();
 
 		ContextInfoOptions opt = item.getOptions();
 		List<String> path = new ArrayList<String>();

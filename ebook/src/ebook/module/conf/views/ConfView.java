@@ -31,17 +31,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
-import ebook.core.pico;
 import ebook.module.conf.ConfConnection;
+import ebook.module.conf.model.AdaptData;
 import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ContentProposalProvider;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.conf.tree.ListInfoSelection;
-import ebook.module.confLoad.interfaces.ICfServices;
-import ebook.module.confLoad.model.CfBuildServiceAdaptData;
-import ebook.module.confLoad.services.CfBuildService;
 import ebook.module.text.model.LineInfo;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.view.ICollapseView;
@@ -230,9 +227,8 @@ public class ConfView implements ICollapseView {
 				ITreeItemInfo selected = (ITreeItemInfo) selection
 						.getFirstElement();
 
-				CfBuildService build = pico.get(ICfServices.class).build(
-						con.srv(list));
-				CfBuildServiceAdaptData data = build
+				// CfBuildService build = con.srv(list).build();
+				AdaptData data = con.srv(list).build()
 						.adapt((ContextInfo) selected);
 
 				if (data == null)

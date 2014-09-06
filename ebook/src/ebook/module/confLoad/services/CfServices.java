@@ -1,6 +1,6 @@
 package ebook.module.confLoad.services;
 
-import ebook.module.confLoad.interfaces.IBuildConnection;
+import ebook.module.conf.build.BuildService;
 import ebook.module.confLoad.interfaces.ICfServices;
 
 public class CfServices implements ICfServices {
@@ -32,14 +32,14 @@ public class CfServices implements ICfServices {
 		return parse;
 	}
 
-	CfBuildService build;
+	BuildService build;
 
-	@Override
-	public CfBuildService build(IBuildConnection con) {
-		build = build == null ? new CfBuildService() : build;
-		build.setConnection(con);
-		return build;
-	}
+	// @Override
+	// public CfBuildService build(IBuildConnection con) {
+	// build = build == null ? new CfBuildService() : build;
+	// build.setConnection(con);
+	// return build;
+	// }
 
 	TextBuffer buffer;
 

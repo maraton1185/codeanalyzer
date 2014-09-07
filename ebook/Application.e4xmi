@@ -329,7 +329,7 @@
     <bindings xmi:id="_IjwnECQ9EeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+2" command="_RtSZEDQwEeSO66zPRtxaMA">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_Fy98oCRMEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+3" command="_YKq6gCONEeSRdYCzL9P3Gg">
+    <bindings xmi:id="_Fy98oCRMEeSCaLivNQ6_LQ" elementId="ebook.keybinding.11" keySequence="M1+3" command="_pzd10COQEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_MRz28CqwEeSROpR0F0nnug" elementId="ebook.keybinding.11" keySequence="M1+4" command="_ujPVQCqvEeSROpR0F0nnug">
@@ -341,13 +341,13 @@
     <bindings xmi:id="_WV5EADTBEeSAq89a4LzpWA" elementId="ebook.keybinding.11" keySequence="M1+6" command="_X9QwoCONEeSRdYCzL9P3Gg">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_vu5YsCUgEeSROpR0F0nnug" elementId="ebook.keybinding.11" keySequence="M1+9" command="_pzd10COQEeSRdYCzL9P3Gg">
-      <tags>type:user</tags>
-    </bindings>
     <bindings xmi:id="_E3tFkC-BEeS1-vpnkwxs_w" elementId="ebook.keybinding.11" keySequence="M1+M2+F1" command="_7KUaQC-AEeS1-vpnkwxs_w">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_oAy_gDTBEeSAq89a4LzpWA" elementId="ebook.keybinding.11" keySequence="F3" command="_bPw9ADTBEeSAq89a4LzpWA">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_3JBtUDZKEeSdQaUdPmohQw" elementId="ebook.keybinding.11" keySequence="M1+F3" command="_jpFi0DZKEeSdQaUdPmohQw">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_2-ONADUBEeSAq89a4LzpWA" elementId="ebook.keybinding.11" keySequence="F4" command="_yvYOADUBEeSAq89a4LzpWA">
@@ -537,7 +537,7 @@
     <handlers xmi:id="_ficZUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerText" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_gqWckCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerObject" command="_X0LGECONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_gxV1YCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerProposal" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
-    <handlers xmi:id="_g0_mUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerClear" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
+    <handlers xmi:id="_g0_mUCONEeSRdYCzL9P3Gg" elementId="ebook.handler.56" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerClear" command="_Or6a4DTBEeSAq89a4LzpWA"/>
     <handlers xmi:id="_JyL1kB75EeSy8KLEUiC4ow" elementId="ebook.handler.44" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Build" command="_TgXnkB74EeSy8KLEUiC4ow"/>
     <handlers xmi:id="_IzMvUCOPEeSRdYCzL9P3Gg" elementId="ebook.handler.57" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildText" command="_vvh2gCOOEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_-hJl0COQEeSRdYCzL9P3Gg" elementId="ebook.handler.58" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerRoot" command="_pzd10COQEeSRdYCzL9P3Gg"/>
@@ -545,8 +545,8 @@
     <handlers xmi:id="_HpF_YCqwEeSROpR0F0nnug" elementId="ebook.handler.62" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerModule" command="_ujPVQCqvEeSROpR0F0nnug"/>
     <handlers xmi:id="_K3k9UC-BEeS1-vpnkwxs_w" elementId="ebook.handler.74" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildTextWithoutLines" command="_7KUaQC-AEeS1-vpnkwxs_w"/>
     <handlers xmi:id="_Sj1UoDQyEeSO66zPRtxaMA" elementId="ebook.handler.71" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerProc" command="_RtSZEDQwEeSO66zPRtxaMA"/>
-    <handlers xmi:id="_fvbw0DTCEeSAq89a4LzpWA" elementId="ebook.handler.85" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerComparison" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
     <handlers xmi:id="_kUPYwDTCEeSAq89a4LzpWA" elementId="ebook.handler.87" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildComparison" command="_bPw9ADTBEeSAq89a4LzpWA"/>
+    <handlers xmi:id="_F7SnwDZLEeSdQaUdPmohQw" elementId="ebook.handler.94" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildComparisonWithEquals" command="_jpFi0DZKEeSdQaUdPmohQw"/>
     <handlers xmi:id="_dxz7oDTEEeSAq89a4LzpWA" elementId="ebook.handler.88" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.MarkerClear" command="_Or6a4DTBEeSAq89a4LzpWA"/>
     <handlers xmi:id="_Jeu60DUCEeSAq89a4LzpWA" elementId="ebook.handler.90" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildModule" command="_yvYOADUBEeSAq89a4LzpWA"/>
     <handlers xmi:id="_qD-cwDUEEeSAq89a4LzpWA" elementId="ebook.handler.91" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.BuildObject" command="_7oTEkDUDEeSAq89a4LzpWA"/>
@@ -557,11 +557,10 @@
       <children xsi:type="menu:Menu" xmi:id="_zRQDECOJEeSRdYCzL9P3Gg" elementId="ebook.menu.7" label="Маркеры">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_64oEICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.37" label="Текст" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" command="_TwRLwCONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_nf6X4DQwEeSO66zPRtxaMA" elementId="ebook.handledmenuitem.36" label="Поиск процедуры" iconURI="platform:/plugin/ebook/icons/set/markers/proc.png" command="_RtSZEDQwEeSO66zPRtxaMA"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_B7Bs4DTCEeSAq89a4LzpWA" elementId="ebook.handledmenuitem.58" label="Сравнение" iconURI="platform:/plugin/ebook/icons/set/markers/comparison.png" command="_YKq6gCONEeSRdYCzL9P3Gg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/markers/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_5Igq0CqvEeSROpR0F0nnug" elementId="ebook.handledmenuitem.41" label="Модуль" iconURI="platform:/plugin/ebook/icons/set/markers/module.png" command="_ujPVQCqvEeSROpR0F0nnug"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_4IiiICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.35" label="Объект" iconURI="platform:/plugin/ebook/icons/set/markers/object.png" command="_X0LGECONEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_5kZcICOJEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.36" label="Поисковой запрос" iconURI="platform:/plugin/ebook/icons/set/markers/proposal.png" command="_X9QwoCONEeSRdYCzL9P3Gg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_wgix0COQEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.39" label="Конфигурация" iconURI="platform:/plugin/ebook/icons/set/markers/root.png" command="_pzd10COQEeSRdYCzL9P3Gg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_M0sgwCONEeSRdYCzL9P3Gg" elementId="ebook.menuseparator.8"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_LA9SQCONEeSRdYCzL9P3Gg" elementId="ebook.handledmenuitem.38" label="Очистить" command="_Or6a4DTBEeSAq89a4LzpWA"/>
       </children>
@@ -579,7 +578,8 @@
     </menus>
     <menus xmi:id="_rjBqYC-CEeS1-vpnkwxs_w" elementId="ebook.menu.9">
       <tags>ViewMenu</tags>
-      <children xsi:type="menu:HandledMenuItem" xmi:id="_QrEZwDTCEeSAq89a4LzpWA" elementId="ebook.handledmenuitem.59" label="Сравнить" iconURI="platform:/plugin/ebook/icons/set/markers/comparison.png" command="_bPw9ADTBEeSAq89a4LzpWA"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_QrEZwDTCEeSAq89a4LzpWA" elementId="ebook.handledmenuitem.59" label="Сравнение" iconURI="platform:/plugin/ebook/icons/set/markers/comparison.png" command="_bPw9ADTBEeSAq89a4LzpWA"/>
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_9FqD0DZKEeSdQaUdPmohQw" elementId="ebook.handledmenuitem.62" label="Сравнение с выводом одинаковых" command="_jpFi0DZKEeSdQaUdPmohQw"/>
       <children xsi:type="menu:MenuSeparator" xmi:id="_P2BoIDTCEeSAq89a4LzpWA" elementId="ebook.menuseparator.13"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_cvzGoC-CEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.11" label="Поиск текста" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" tooltip="Поиск текста" command="_vvh2gCOOEeSRdYCzL9P3Gg"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_c135cC-CEeS1-vpnkwxs_w" elementId="ebook.handledmenuitem.11" label="Поиск текста без вывода вхождений" iconURI="platform:/plugin/ebook/icons/set/markers/text.png" tooltip="Поиск текста без вывода вхождений" command="_7KUaQC-AEeS1-vpnkwxs_w"/>
@@ -911,7 +911,6 @@
   <commands xmi:id="_RtSZEDQwEeSO66zPRtxaMA" elementId="ConfView.markers.proc" commandName="ConfView.markers.proc"/>
   <commands xmi:id="_X9QwoCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.proposal" commandName="ConfView.markers.proposal"/>
   <commands xmi:id="_Or6a4DTBEeSAq89a4LzpWA" elementId="ConfView.markers.clear" commandName="ConfView.markers.clear"/>
-  <commands xmi:id="_YKq6gCONEeSRdYCzL9P3Gg" elementId="ConfView.markers.comparison" commandName="ConfView.markers.comparison"/>
   <commands xmi:id="_TgXnkB74EeSy8KLEUiC4ow" elementId="ConfView.build" commandName="ConfView.build"/>
   <commands xmi:id="_vvh2gCOOEeSRdYCzL9P3Gg" elementId="ConfView.build.text" commandName="ConfView.build.text"/>
   <commands xmi:id="_7KUaQC-AEeS1-vpnkwxs_w" elementId="ConfView.build.text without lines" commandName="ConfView.build.text without lines"/>
@@ -920,6 +919,7 @@
   <commands xmi:id="_I52aMDUEEeSAq89a4LzpWA" elementId="ConfView.build.root" commandName="ConfView.build.root"/>
   <commands xmi:id="_7oTEkDUDEeSAq89a4LzpWA" elementId="ConfView.build.object" commandName="ConfView.build.object"/>
   <commands xmi:id="_bPw9ADTBEeSAq89a4LzpWA" elementId="ConfView.build.comparison" commandName="ConfView.build.comparison"/>
+  <commands xmi:id="_jpFi0DZKEeSdQaUdPmohQw" elementId="ConfView.build.comparison with equals" commandName="ConfView.build.comparison with equals"/>
   <commands xmi:id="_-Jv-sDOEEeSG8_3OwGuTcQ" elementId="ICollapseView.expand" commandName="ICollapseView.expand"/>
   <commands xmi:id="_-RJAIDOEEeSG8_3OwGuTcQ" elementId="ICollapseView.expandAll" commandName="ICollapseView.expandAll"/>
   <commands xmi:id="_-VFsADOEEeSG8_3OwGuTcQ" elementId="ICollapseView.collapse" commandName="ICollapseView.collapse"/>

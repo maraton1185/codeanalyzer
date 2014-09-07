@@ -10,4 +10,9 @@ public class CompareResults {
 	public List<ITreeItemInfo> added = new ArrayList<ITreeItemInfo>();
 	public List<ITreeItemInfo> removed = new ArrayList<ITreeItemInfo>();
 	public List<ITreeItemInfo> changed = new ArrayList<ITreeItemInfo>();
+
+	public boolean isEmpty() {
+
+		return added.isEmpty() && removed.isEmpty() && changed.isEmpty();
+	}
 }

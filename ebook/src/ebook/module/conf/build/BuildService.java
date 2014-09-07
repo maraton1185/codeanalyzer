@@ -126,7 +126,7 @@ public class BuildService {
 		if (info.text || info.proc || info.comparison)
 			stop_index = path.indexOf(info.itemTitle);
 
-		if (info.comparison && !root)
+		if (info.comparison && !info.rootComparison)
 			stop_index++;
 
 		if (stop_index != 0)
@@ -166,7 +166,8 @@ public class BuildService {
 
 		if (info.comparison) {
 
-			comparison.build(proposals, gr, info.itemTitle, info, root);
+			comparison.build(proposals, gr, info.itemTitle, info,
+					info.rootComparison);
 
 			// remove last 2 items
 			// path.remove(path.size() - 1);
@@ -284,8 +285,7 @@ public class BuildService {
 				break;
 
 			// have type before root
-			if (opt1.type != null && opt1.type != BuildType.module
-					&& opt1.type != BuildType.comparison) {
+			if (opt1.type != null && opt1.type != BuildType.module) {
 				root = null;
 				break;
 			}

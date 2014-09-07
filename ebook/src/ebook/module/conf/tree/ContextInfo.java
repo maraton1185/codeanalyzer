@@ -149,8 +149,8 @@ public class ContextInfo extends TreeItemInfo {
 
 		case proc:
 			return Utils.getImage("markers/proc.png");
-		case comparison:
-			return Utils.getImage("markers/comparison.png");
+			// case comparison:
+			// return Utils.getImage("markers/comparison.png");
 		default:
 			return null;
 		}

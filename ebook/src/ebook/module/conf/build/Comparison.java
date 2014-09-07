@@ -38,7 +38,7 @@ public class Comparison {
 	}
 
 	public void build(List<BuildInfo> proposals, Integer gr, String title,
-			AdditionalInfo build_opt, boolean root) {
+			AdditionalInfo info, boolean root) {
 
 		if (proposals != null)
 			proposals.clear();
@@ -60,11 +60,11 @@ public class Comparison {
 		ConfTreeService db2 = con.conf();
 
 		if (root) {
-			listRoot(db1, db2, proposals);
+			listRoot(db1, db2, proposals, info.comparisonWithEquals);
 			return;
 		}
 
-		if (!build_opt.getProc)
+		if (!info.getProc)
 			db1.setObjectsTable();
 		ContextInfo item1 = (ContextInfo) db1.get(gr);
 
@@ -76,7 +76,7 @@ public class Comparison {
 			return;
 		}
 
-		item1.setProc(build_opt.getProc);
+		item1.setProc(info.getProc);
 		List<String> _path = new ArrayList<String>();
 		String path = db1.getPath(item1, _path, true);
 		ContextInfo item2 = db2.getByPath(path);
@@ -90,12 +90,13 @@ public class Comparison {
 		if (item1.isProc())
 			listProcs(db1, item1, db2, item2, proposals, _path);
 		else
-			listObjects(db1, item1, db2, item2, proposals);
+			listObjects(db1, item1, db2, item2, proposals,
+					info.comparisonWithEquals);
 
 	}
 
 	private void listRoot(ConfTreeService db1, ConfTreeService db2,
-			List<BuildInfo> proposals) {
+			List<BuildInfo> proposals, boolean comparisonWithEquals) {
 
 		db1.setObjectsTable();
 		List<ITreeItemInfo> root = db1.getRoot();
@@ -111,11 +112,17 @@ public class Comparison {
 				continue;
 			}
 
-			BuildInfo category = new BuildInfo();
-			category.title = item1.getTitle();
-			proposals.add(category);
+			List<BuildInfo> _proposals = new ArrayList<BuildInfo>();
+			boolean diffs = objectsDiffs(db1, item1, db2, item2, _proposals,
+					comparisonWithEquals);
 
-			objectsDiffs(db1, item1, db2, item2, category.children);
+			if (diffs) {
+				BuildInfo category = new BuildInfo();
+				category.title = item1.getTitle();
+				proposals.add(category);
+				category.children.addAll(_proposals);
+			}
+
 		}
 
 		db2.setObjectsTable();
@@ -133,8 +140,6 @@ public class Comparison {
 			BuildInfo category = new BuildInfo();
 			category.title = item2.getTitle();
 			proposals.add(category);
-
-			// objectsDiffs(db1, item1, db2, item2, category.children);
 
 		}
 
@@ -173,7 +178,8 @@ public class Comparison {
 	}
 
 	private void listObjects(ConfTreeService db1, ContextInfo item1,
-			ConfTreeService db2, ContextInfo item2, List<BuildInfo> proposals) {
+			ConfTreeService db2, ContextInfo item2, List<BuildInfo> proposals,
+			boolean comparisonWithEquals) {
 
 		BuildInfo info = new BuildInfo();
 
@@ -185,13 +191,15 @@ public class Comparison {
 			proposals.add(info);
 		} else {
 
-			objectsDiffs(db1, item1, db2, item2, proposals);
+			objectsDiffs(db1, item1, db2, item2, proposals,
+					comparisonWithEquals);
 		}
 
 	}
 
-	private void objectsDiffs(ConfTreeService db1, ITreeItemInfo _item1,
-			ConfTreeService db2, ITreeItemInfo _item2, List<BuildInfo> proposals) {
+	private boolean objectsDiffs(ConfTreeService db1, ITreeItemInfo _item1,
+			ConfTreeService db2, ITreeItemInfo _item2,
+			List<BuildInfo> proposals, boolean comparisonWithEquals) {
 
 		CompareResults compareResults = new CompareResults();
 
@@ -251,7 +259,11 @@ public class Comparison {
 		makeProposals(Const.COMPARE_REMOVED, compareResults.added, proposals);
 		makeProposals(Const.COMPARE_ADDED, compareResults.removed, proposals);
 		makeProposals(Const.COMPARE_CHANGED, compareResults.changed, proposals);
-		makeProposals(Const.COMPARE_EQUALS, compareResults.equals, proposals);
+		if (comparisonWithEquals)
+			makeProposals(Const.COMPARE_EQUALS, compareResults.equals,
+					proposals);
+
+		return !compareResults.isEmpty();
 
 	}
 

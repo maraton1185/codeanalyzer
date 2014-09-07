@@ -24,14 +24,16 @@ public class AdditionalInfo {
 			type = BuildType.proc;
 	}
 
-	public void setComparison(boolean comparison) {
-		this.comparison = comparison;
-		if (comparison)
-			type = BuildType.comparison;
-	}
+	// public void setComparison(boolean comparison) {
+	// this.comparison = comparison;
+	// if (comparison)
+	// type = BuildType.comparison;
+	// }
 
 	public boolean getProc = false;
 	public ELevel level;
 	public boolean textWithoutLines = false;
+	public boolean comparisonWithEquals = false;
+	public boolean rootComparison = false;
 
 }

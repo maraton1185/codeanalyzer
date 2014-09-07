@@ -75,7 +75,7 @@ public class ConfManager extends TreeManager {
 			List<BuildInfo> list = new ArrayList<BuildInfo>();
 
 			// root
-			if (opt.type == BuildType.root)
+			if (opt.type == BuildType.root && !build_options.comparison)
 				list = srv.build().buildRoot();
 			else
 				buildPath(list, item, build_options);
@@ -100,6 +100,7 @@ public class ConfManager extends TreeManager {
 
 		ContextInfoOptions opt = item.getOptions();
 		List<String> path = new ArrayList<String>();
+
 		AdditionalInfo info = new AdditionalInfo();
 		info.itemTitle = item.getTitle();
 		ITreeItemInfo root = build.getPath(srv, item, info, opt, path);
@@ -107,9 +108,12 @@ public class ConfManager extends TreeManager {
 		info.type = BuildType.object;
 
 		info.textWithoutLines = build_options.textWithoutLines;
+		info.comparison = build_options.comparison;
+		info.comparisonWithEquals = build_options.comparisonWithEquals;
 		info.setText(opt.type == BuildType.text);
 		info.setProc(opt.type == BuildType.proc);
-		info.setComparison(opt.type == BuildType.comparison);
+
+		// info.setComparison(opt.type == BuildType.comparison);
 
 		if (root != null) {
 			// get root without type between
@@ -118,6 +122,10 @@ public class ConfManager extends TreeManager {
 		}
 
 		if ((info.text || info.proc || info.comparison) && root == null) {
+
+			if (info.comparison)
+				info.rootComparison = true;
+
 			// build root
 			info.type = null;
 			path.clear();
@@ -181,8 +189,9 @@ public class ConfManager extends TreeManager {
 
 	public void buildComparison(ContextInfo item, AdditionalInfo build_options) {
 		try {
-			item.getOptions().type = BuildType.comparison;
-			srv.saveOptions(item);
+			// item.getOptions().type = BuildType.comparison;
+			// srv.saveOptions(item);
+			build_options.comparison = true;
 			build(item, build_options);
 		} catch (Exception e) {
 			e.printStackTrace();

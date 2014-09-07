@@ -182,11 +182,15 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.NAME=? ORDER BY T.SORT, T.ID";
+			String SQL = "SELECT "
+					+ getItemString("T")
+					+ "FROM "
+					+ tableName
+					+ " AS T WHERE T.NAME=? AND (T.EXPORT OR T.PARENT=?) ORDER BY T.SORT, T.ID";
 
 			PreparedStatement prep = con.prepareStatement(SQL);
 			prep.setString(1, data.getProcName());
+			prep.setInt(2, data.getItem().getId());
 			ResultSet rs = prep.executeQuery();
 
 			try {

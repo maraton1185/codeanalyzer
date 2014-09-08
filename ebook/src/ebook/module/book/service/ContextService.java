@@ -201,7 +201,7 @@ public class ContextService extends TreeService implements ITextTreeService,
 				// build.getPath(this, (ContextInfo) item, info, opt, path);
 
 				if (path.size() > 1)
-					path.remove(0);
+					path.remove(path.size() - 1);
 				if (!path.isEmpty())
 					child.path = path;
 
@@ -328,9 +328,12 @@ public class ContextService extends TreeService implements ITextTreeService,
 
 		if (element.text != null && !element.text.isEmpty()) {
 			saveText(root.getId(), element.text);
+			if (parent.getTitle().contains("(..."))
+				saveText(parent.getId(), element.text);
 			// root.getOptions().hasText = true;
 			// saveOptions(root);
 		}
+
 		if (element.root) {
 			List<ITreeItemInfo> input = getRoot();
 			if (!input.isEmpty()) {
@@ -531,7 +534,14 @@ public class ContextService extends TreeService implements ITextTreeService,
 	public ContextInfo adapt(ContextInfo _item) {
 		ContextInfo item = new ContextInfo(_item);
 		if (item != null) {
+			String proc = item.getTitle();
 			ContextInfo parent = (ContextInfo) get(item.getParent());
+			if (parent != null && parent.getTitle().contains("(...)")) {
+				proc = parent.getTitle();
+				parent = (ContextInfo) get(parent.getParent());
+				parent.getOptions().start_offset = item.getOptions().start_offset;
+			}
+
 			if (parent != null) {
 				if (parent.getOptions().type != BuildType.module)
 					item.setTitle(parent.getTitle() + "." + item.getTitle());
@@ -542,7 +552,7 @@ public class ContextService extends TreeService implements ITextTreeService,
 						parent.setTitle(_parent.getTitle() + "."
 								+ parent.getTitle());
 
-					parent.getOptions().proc = item.getTitle();
+					parent.getOptions().proc = proc;
 					return parent;
 				}
 			}
@@ -550,5 +560,4 @@ public class ContextService extends TreeService implements ITextTreeService,
 		}
 		return item;
 	}
-
 }

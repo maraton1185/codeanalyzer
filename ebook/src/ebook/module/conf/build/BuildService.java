@@ -276,6 +276,9 @@ public class BuildService {
 
 			str = root.getTitle().replace("...", "###").split("\\.");
 			inpath = Arrays.asList(str);
+			for (int i = 0; i < inpath.size(); i++) {
+				inpath.set(i, inpath.get(i).replace("###", "..."));
+			}
 			// if (inpath.size() > 1)
 			path.addAll(0, inpath);
 

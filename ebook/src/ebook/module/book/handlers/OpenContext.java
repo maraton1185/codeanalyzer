@@ -1,5 +1,6 @@
 package ebook.module.book.handlers;
 
+import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
@@ -12,6 +13,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.confList.tree.ListConfInfo;
+import ebook.utils.PreferenceSupplier;
 
 public class OpenContext {
 	@Execute
@@ -23,7 +25,10 @@ public class OpenContext {
 		if (!opt.hasContext())
 			return;
 		ListConfInfo info = (ListConfInfo) App.srv.cl().getTreeItem(
-				opt.getContextName(), "");
+				opt.getContextName(),
+				new Path(PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_CONF_DIRECTORY))
+						.append(opt.getContextName()).toString());
 		if (info == null)
 			return;
 

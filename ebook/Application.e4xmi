@@ -692,6 +692,7 @@
               <tags>ViewMenu</tags>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_LYHVcCLGEeSX6clC1lLgVQ" elementId="ebook.handledmenuitem.34" label="Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_D-_F4C21EeSgt6KviOm2oQ" elementId="ebook.handledmenuitem.44" visible="false" label="Сохранить в HTML" command="_9Xl7IC20EeSgt6KviOm2oQ"/>
+              <children xsi:type="menu:DirectMenuItem" xmi:id="_H2cwMDc4EeSvkaNvbBEhKg" elementId="ebook.directmenuitem.8" label="Открыть в браузере" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenInBrowser"/>
             </menus>
             <toolbar xmi:id="_j6d7AK3EEeOHwvV36BHkVA" elementId="ebook.toolbar.1">
               <children xsi:type="menu:HandledToolItem" xmi:id="_48qGwCLFEeSX6clC1lLgVQ" elementId="ebook.handledtoolitem.9" label="Добавить текст" iconURI="platform:/plugin/ebook/icons/set/add.png" tooltip="Добавить блок текста" command="_B6xfwMt7EeOTW91tESaq8A"/>

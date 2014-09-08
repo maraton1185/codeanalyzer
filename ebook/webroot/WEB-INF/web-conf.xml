@@ -156,8 +156,13 @@
 	</context-param>
 	
 	<context-param>
-		<param-name>root_editor</param-name>
+		<param-name>ck_editor</param-name>
 		<param-value>/tmpl/ckeditor/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>root_editor</param-name>
+		<param-value>/tmpl/tinyMCE/</param-value>
 	</context-param>
 	
 	<context-param>

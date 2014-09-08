@@ -104,4 +104,8 @@ public class TinyTextEditor extends Composite {
 		browser.execute("tinyMCE.activeEditor.execCommand('mceInsertContent', false, \""
 				+ link + "\");");
 	}
+
+	public void updateUrl() {
+		browser.setUrl(App.getJetty().editor());
+	}
 }

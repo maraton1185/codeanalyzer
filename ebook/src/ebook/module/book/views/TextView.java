@@ -105,9 +105,14 @@ public class TextView {
 	@Optional
 	public void EVENT_SET_SECTIONVIEW_DIRTY(
 			@UIEventTopic(Events.EVENT_SET_SECTIONVIEW_DIRTY) Object section) {
-		if (section == this.section)
-			dirty.setDirty(true);
+		if (section == this.section) {
+			save_index--;
+			if (save_index <= 0)
+				dirty.setDirty(true);
+		}
 	}
+
+	int save_index = 0;
 
 	@Persist
 	public void save() {
@@ -117,6 +122,22 @@ public class TextView {
 		data.options = getSectionOptions();
 		book.srv().saveBlock(section, data);
 		dirty.setDirty(false);
+		save_index = 2;
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_SECTION_VIEW(
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (book != data.con)
+			return;
+
+		if (!data.parent.equals(section))
+			return;
+
+		tinymce.updateUrl();
+
 	}
 
 	@Inject

@@ -20,11 +20,11 @@
 	<!-- <div id="set">
 	set content
 	</div> -->
-    <script type="text/javascript" src="${initParam.root_editor}js/ckeditor.js"></script>
+    <script type="text/javascript" src="${initParam.ck_editor}js/ckeditor.js"></script>
     <script src="${initParam.bootstrap}jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="${initParam.root_editor}js/adapters/jquery.js"></script>
+    <script type="text/javascript" src="${initParam.ck_editor}js/adapters/jquery.js"></script>
     
-    <script src="${initParam.root_editor}editor.js"></script>
+    <script src="${initParam.ck_editor}editor.js"></script>
 </body>
 </html>
 

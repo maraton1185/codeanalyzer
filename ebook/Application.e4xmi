@@ -510,6 +510,7 @@
   </descriptors>
   <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="ebook.partdescriptor.sectionsBlockView" label="блок секции" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.book.views.TextView">
     <handlers xmi:id="__0SK0AEkEeSjZbjjxO5GiQ" elementId="ebook.handler.5" contributionURI="bundleclass://ebook/ebook.module.book.handlers.GoToParent" command="_dea_gNQiEeOFfdAek_eJEQ"/>
+    <handlers xmi:id="_GjL3EDdwEeS-0-LlMvZ57A" elementId="ebook.handler.20" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
     <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="ebook.toolbar.3">
       <children xsi:type="menu:HandledToolItem" xmi:id="_bQsS0NXGEeOaVPXyFpV1rg" elementId="ebook.handledtoolitem.17" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ">
         <tags>FORCE_TEXT</tags>
@@ -518,12 +519,8 @@
         <tags>FORCE_TEXT</tags>
         <visibleWhen xsi:type="ui:CoreExpression" xmi:id="_O7sjoNQnEeOFfdAek_eJEQ" coreExpressionId="ebook.expressions.onContentSelected"/>
       </children>
-      <children xsi:type="menu:HandledToolItem" xmi:id="_igmGkNTrEeOV85RCT5V8vQ" elementId="ebook.handledtoolitem.16" iconURI="platform:/plugin/ebook/icons/set/add.png" tooltip="Добавить картинку" command="_vO8BcNTrEeOV85RCT5V8vQ">
-        <menu xmi:id="_jb5RMNTrEeOV85RCT5V8vQ" elementId="ebook.menu.3">
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_oHtgENTrEeOV85RCT5V8vQ" elementId="ebook.handledmenuitem.15" label="Добавить картинку" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_pfLpUNTrEeOV85RCT5V8vQ" elementId="ebook.handledmenuitem.16" visible="false" label="Добавить код" command="_zDeDANTrEeOV85RCT5V8vQ"/>
-        </menu>
-      </children>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_igmGkNTrEeOV85RCT5V8vQ" elementId="ebook.handledtoolitem.16" iconURI="platform:/plugin/ebook/icons/set/add.png" tooltip="Добавить картинку" command="_vO8BcNTrEeOV85RCT5V8vQ"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_HLd_EDdwEeS-0-LlMvZ57A" elementId="ebook.handledtoolitem.14" label="Обновить" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
     </toolbar>
   </descriptors>
   <descriptors xmi:id="_G05UEB1DEeS8Ob_mPIL9rg" elementId="ebook.partdescriptor.0" label="ConfView" bindingContexts="_zSemEBicEeSEwsGZkmCqtw _ca7hYDOJEeSG8_3OwGuTcQ" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.conf.views.ConfView">

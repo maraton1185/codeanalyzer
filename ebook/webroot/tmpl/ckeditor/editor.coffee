@@ -16,27 +16,40 @@ window.onerror = (msg, url, linenumber) ->
 	alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
 	return true;
 
+maximize = ()->
+	oEditor = CKEDITOR.instances.editor1;
+	if (oEditor.mode == 'wysiwyg')
+		oEditor.execCommand('maximize');
+	return;
 
 getContent = ()->
 	return CKEDITOR.instances.editor1.getData();
 
-CKEDITOR.on
-	'instanceCreated': ( e )->
-		e.editor.on 'change', ()->
-			changeStatusLine("editor:onChange()")
-			return;
-		return;
 
 CKEDITOR.replace 'editor1', 
-	extraPlugins : 'autogrow,onchange'
-	removePlugins : 'resize'
+	#extraPlugins : 'autogrow'
+	#removePlugins : 'resize'
 	toolbar : 'MyToolbar'
 	on: 
 		'instanceReady': ( ev )->
+			###
+			ckEditor = ev.editor
+
+			ckEditor.addCommand 'save',{
+				modes: { wysiwyg:1, source:1 }
+				exec: ()->
+					alert '123'
+					return
+			}
+			###
+
 			changeStatusLine("editor:onInit()")
+			maximize();
 			return;
 		'key': (ev)->
-			changeStatusLine("editor:onChange()")
+			oEditor = CKEDITOR.instances.editor1;
+			if oEditor.checkDirty()
+				changeStatusLine("editor:onChange()")
 			return;
 		
 

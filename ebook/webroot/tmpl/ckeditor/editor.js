@@ -1,4 +1,4 @@
-var changeStatusLine, getContent, setContent;
+var changeStatusLine, getContent, maximize, setContent;
 
 changeStatusLine = function(status) {
   window.status = status;
@@ -16,28 +16,42 @@ window.onerror = function(msg, url, linenumber) {
   return true;
 };
 
+maximize = function() {
+  var oEditor;
+  oEditor = CKEDITOR.instances.editor1;
+  if (oEditor.mode === 'wysiwyg') {
+    oEditor.execCommand('maximize');
+  }
+};
+
 getContent = function() {
   return CKEDITOR.instances.editor1.getData();
 };
 
-CKEDITOR.on({
-  'instanceCreated': function(e) {
-    e.editor.on('change', function() {
-      changeStatusLine("editor:onChange()");
-    });
-  }
-});
-
 CKEDITOR.replace('editor1', {
-  extraPlugins: 'autogrow,onchange',
-  removePlugins: 'resize',
   toolbar: 'MyToolbar',
   on: {
     'instanceReady': function(ev) {
+
+      /*
+      			ckEditor = ev.editor
+      
+      			ckEditor.addCommand 'save',{
+      				modes: { wysiwyg:1, source:1 }
+      				exec: ()->
+      					alert '123'
+      					return
+      			}
+       */
       changeStatusLine("editor:onInit()");
+      maximize();
     },
     'key': function(ev) {
-      changeStatusLine("editor:onChange()");
+      var oEditor;
+      oEditor = CKEDITOR.instances.editor1;
+      if (oEditor.checkDirty()) {
+        changeStatusLine("editor:onChange()");
+      }
     }
   }
 });

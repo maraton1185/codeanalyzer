@@ -90,7 +90,7 @@
 	
 	<servlet>
 		<servlet-name>editor</servlet-name>
-		<jsp-file>/tmpl/tinyMCE/index.jsp</jsp-file>	
+		<jsp-file>/tmpl/ckeditor/index.jsp</jsp-file>	
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>editor</servlet-name>
@@ -157,7 +157,7 @@
 	
 	<context-param>
 		<param-name>root_editor</param-name>
-		<param-value>/tmpl/tinyMCE/</param-value>
+		<param-value>/tmpl/ckeditor/</param-value>
 	</context-param>
 	
 	<context-param>

@@ -33,10 +33,6 @@ public class TinyTextEditor extends Composite {
 		browser = new Browser(this, SWT.Resize);
 		browser.setJavascriptEnabled(true);
 
-		// nsIWebBrowser webBrowser = (nsIWebBrowser) browser.getWebBrowser();
-		// webBrowser.QueryInterface(uuid, result)
-		// webBrowser.AddRef()
-		// Set content of editor after load completed
 		browser.addProgressListener(new ProgressListener() {
 			@Override
 			public void changed(ProgressEvent event) {
@@ -45,7 +41,7 @@ public class TinyTextEditor extends Composite {
 			@Override
 			public void completed(ProgressEvent event) {
 				loadCompleted = true;
-				browser.execute("setContent('" + editor_content + "');");
+				// browser.execute("setContent('" + editor_content + "');");
 				// browser.execute("tinymce.activeEditor.execCommand(\"mceRepaint\");");
 				// browser.execute("$.cookie(\"tinyEditor\", true);");
 			}
@@ -62,9 +58,9 @@ public class TinyTextEditor extends Composite {
 			@Override
 			public void changed(StatusTextEvent event) {
 				String text = event.text;
-				if (text.equals("tinymce:onInit()"))
+				if (text.equals("editor:onInit()"))
 					setText(editor_content);
-				else if (text.equals("tinymce:onChange()"))
+				else if (text.equals("editor:onChange()"))
 					setDirty();
 				else
 					browser.setData(text);
@@ -72,22 +68,7 @@ public class TinyTextEditor extends Composite {
 			}
 		});
 
-		// Set url pointed to editor
-		// try {
-		// String url = App.getJetty().host()
-		// + App.getJetty().section(book.getTreeItem().getId(),
-		// section.getId());
-		//
-		// Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
-		// URL url_bundle = FileLocator.find(bundle, new Path(
-		// "web/tinyMCE/index.html"), null);
-		// URL url_file = FileLocator.toFileURL(url_bundle);
-
 		browser.setUrl(App.getJetty().editor());
-
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
 
 	}
 

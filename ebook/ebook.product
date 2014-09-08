@@ -3,6 +3,7 @@
 
 <product name="ebook" id="ebook.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
@@ -16,9 +17,10 @@
 
    <splash
       location="ebook" />
-   <launcher name="ebook">
+   <launcher name="codeanalyzer">
       <solaris/>
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/ebook/icons/favicon/favicon.ico"/>
          <bmp
             winSmallHigh="/ebook/icons/favicon/favicon16-32.bmp"
             winSmallLow="/ebook/icons/favicon/favicon16-8.bmp"
@@ -29,6 +31,7 @@
             winExtraLargeHigh="/ebook/icons/favicon/favicon256-32.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>

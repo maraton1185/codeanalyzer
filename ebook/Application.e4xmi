@@ -434,7 +434,7 @@
     <bindings xmi:id="_47Qk8DOiEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="M2+F2" command="_x_o2oDOiEeSG8_3OwGuTcQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_cO9cUDQVEeSbl4pcrNfLyQ" elementId="ebook.keybinding.12" keySequence="F3" command="_qobOgDQQEeSbl4pcrNfLyQ">
+    <bindings xmi:id="_cO9cUDQVEeSbl4pcrNfLyQ" elementId="ebook.keybinding.12" keySequence="F12" command="_qobOgDQQEeSbl4pcrNfLyQ">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>

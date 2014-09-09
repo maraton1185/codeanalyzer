@@ -241,27 +241,69 @@ public class ConfTreeService extends TreeService implements ITextTreeService {
 
 	public String getHash(ContextInfo item) {
 		StringBuilder result = new StringBuilder();
+
+		if (item.isProc())
+			return getProcHash(item);
+		else {
+			boolean getIt = getObjectHash(result, item, "MODULE");
+			if (!getIt)
+				getIt = getObjectHash(result, item, "GROUP1");
+			if (!getIt)
+				getIt = getObjectHash(result, item, "GROUP2");
+
+		}
+
+		return result.toString();
+	}
+
+	private boolean getObjectHash(StringBuilder result, ContextInfo item,
+			String where) {
+
 		try {
 			Connection con = db.getConnection();
 
-			String SQL = "SELECT T1.HASH FROM PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
-
-			if (item.isProc())
-				SQL += " WHERE (T.ID = ?)";
-			else
-				SQL += " WHERE (T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?)";
+			String SQL = "SELECT T1.HASH FROM PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID WHERE T."
+					+ where + "=?";
 
 			SQL = SQL.concat(" ORDER BY TITLE");
 
 			int id = item.getId();
 			PreparedStatement prep = con.prepareStatement(SQL);
-			if (item.isProc())
-				prep.setInt(1, id);
-			else {
-				prep.setInt(1, id);
-				prep.setInt(2, id);
-				prep.setInt(3, id);
+
+			prep.setInt(1, id);
+
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					String line = rs.getString(1);
+
+					result.append(line + "\n");
+				}
+			} finally {
+				rs.close();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result.length() != 0;
+	}
+
+	private String getProcHash(ContextInfo item) {
+		StringBuilder result = new StringBuilder();
+		try {
+			Connection con = db.getConnection();
+
+			String SQL = "SELECT T1.HASH FROM PROCS_TEXT AS T1 WHERE T1.PROC = ?";
+
+			// SQL = SQL.concat(" ORDER BY TITLE");
+
+			int id = item.getId();
+			PreparedStatement prep = con.prepareStatement(SQL);
+
+			prep.setInt(1, id);
+
 			ResultSet rs = prep.executeQuery();
 
 			try {

@@ -413,10 +413,10 @@
     <bindings xmi:id="_ePTdcC91EeS1-vpnkwxs_w" elementId="ebook.keybinding.12" keySequence="F6" command="_tYsYACtPEeSROpR0F0nnug">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_uxY68DDOEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="M1+F" command="_p_UTEDDOEeSG8_3OwGuTcQ">
+    <bindings xmi:id="_uxY68DDOEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="F3" command="_p_UTEDDOEeSG8_3OwGuTcQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_FL19sDDuEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="M1+M2+F" command="_-V8W0C-CEeS1-vpnkwxs_w">
+    <bindings xmi:id="_FL19sDDuEeSG8_3OwGuTcQ" elementId="ebook.keybinding.12" keySequence="M1+F" command="_-V8W0C-CEeS1-vpnkwxs_w">
       <tags>type:user</tags>
     </bindings>
     <bindings xmi:id="_A6trYDHNEeSjZrnR4NV3NQ" elementId="ebook.keybinding.12" keySequence="M3+ARROW_LEFT" command="_9AG3ADHMEeSjZrnR4NV3NQ">

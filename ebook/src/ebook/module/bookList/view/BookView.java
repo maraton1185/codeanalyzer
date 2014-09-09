@@ -1,9 +1,5 @@
 package ebook.module.bookList.view;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -52,7 +48,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
@@ -204,30 +199,29 @@ public class BookView {
 
 		aclField(itemComp);
 
-		Hyperlink link = toolkit.createHyperlink(itemComp, "Описание книги",
-				SWT.RIGHT);
+		Label link = toolkit.createLabel(itemComp, "Описание книги", SWT.RIGHT);
 		link.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				try {
-					IPath p = model.info.getPath();
-					if (p == null)
-						return;
-					File temp = new File(p.addFileExtension("txt").toString());
-					if (!temp.exists()) {
-						temp.createNewFile();
-					}
-					PrintWriter writer = new PrintWriter(temp, "UTF-8");
-					writer.println(model.getDescription());
-					writer.close();
-
-					java.awt.Desktop.getDesktop().open(temp);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
+		// link.addHyperlinkListener(new HyperlinkAdapter() {
+		// @Override
+		// public void linkActivated(HyperlinkEvent e) {
+		// try {
+		// IPath p = model.info.getPath();
+		// if (p == null)
+		// return;
+		// File temp = new File(p.addFileExtension("txt").toString());
+		// if (!temp.exists()) {
+		// temp.createNewFile();
+		// }
+		// PrintWriter writer = new PrintWriter(temp, "UTF-8");
+		// writer.println(model.getDescription());
+		// writer.close();
+		//
+		// java.awt.Desktop.getDesktop().open(temp);
+		// } catch (IOException e1) {
+		// e1.printStackTrace();
+		// }
+		// }
+		// });
 
 		text = toolkit.createText(itemComp, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);

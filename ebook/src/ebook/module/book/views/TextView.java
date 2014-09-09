@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
@@ -470,7 +471,10 @@ public class TextView {
 						public void linkActivated(HyperlinkEvent e) {
 							SectionImage image = (SectionImage) e.getHref();
 
-							IPath p = Utils.browseFile(book.getFullPath(),
+							IPath p = Utils.browseFile(
+									new Path(
+											PreferenceSupplier
+													.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
 									shell, Strings.title("appTitle"),
 									SectionImage.getFilters());
 							if (p == null)

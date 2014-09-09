@@ -36,3 +36,8 @@ a.picture-link{
 .navbar{
 	margin-bottom: 5px;
 }
+
+.col-sm-2{
+	margin-bottom: 10px;
+	height: 210px;
+}

@@ -76,7 +76,7 @@ public class TextService {
 		for (ITreeItemInfo info : list) {
 
 			String text = "";
-			if (lineInfo.compare
+			if (lineInfo != null && lineInfo.compare
 					&& lineInfo.getTitle().equalsIgnoreCase(info.getTitle()))
 				text = buffer.getText();
 			else

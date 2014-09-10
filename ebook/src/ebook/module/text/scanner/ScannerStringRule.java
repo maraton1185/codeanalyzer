@@ -83,6 +83,12 @@ public class ScannerStringRule extends MultiLineRule {
 							}
 						}
 
+						if (c == '"') {
+							endOfLine = true;
+							scanner.unread();
+							break;
+						}
+
 						if (!secondSymbol)
 							if (c == fEscapeCharacter)
 								secondSymbol = true;
@@ -119,5 +125,4 @@ public class ScannerStringRule extends MultiLineRule {
 
 		return false;
 	}
-
 }

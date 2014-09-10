@@ -1,6 +1,7 @@
 package ebook.module.conf.build;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -145,34 +146,35 @@ public class Build {
 		if (proposals != null)
 			proposals.clear();
 
-		// title = Pattern.quote(title);
+		if (gr != null) {
+			buildTextWithContext(proposals, gr, title, build_opt, "MODULE");
+			if (proposals.isEmpty())
+				buildTextWithContext(proposals, gr, title, build_opt, "GROUP1");
+			if (proposals.isEmpty())
+				buildTextWithContext(proposals, gr, title, build_opt, "GROUP2");
+		} else
+			buildTextWithoutContext(proposals, title, build_opt);
 
+	}
+
+	private void buildTextWithContext(List<BuildInfo> proposals, Integer gr,
+			String title, AdditionalInfo build_opt, String WHERE)
+			throws SQLException {
 		String SQL;
 		PreparedStatement prep;
 		ResultSet rs;
 
 		SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
-		SQL = SQL.concat(" WHERE ");
-
-		if (gr != null)
-			SQL = SQL
-					.concat("(T.MODULE = ? OR T.GROUP2 = ? OR T.GROUP1 = ?) AND");
+		SQL = SQL.concat(" WHERE T." + WHERE + "=? AND");
 
 		SQL = SQL.concat(" UPPER(T1.TEXT) REGEXP UPPER(?)");
 		SQL = SQL.concat(" ORDER BY TITLE");
 
 		prep = con.prepareStatement(SQL);
 
-		if (gr != null) {
-			prep.setInt(1, gr);
-			prep.setInt(2, gr);
-			prep.setInt(3, gr);
-			prep.setString(4, Pattern.quote(title));
-		} else {
-			prep.setString(1, Pattern.quote(title));
-		}
+		prep.setInt(1, gr);
+		prep.setString(2, Pattern.quote(title));
 
-		BufferedReader bufferedReader = null;
 		rs = prep.executeQuery();
 		try {
 			while (rs.next()) {
@@ -181,32 +183,8 @@ public class Build {
 				info.title = rs.getString(1);
 				info.parent = rs.getInt(2);
 
-				// System.out.println("***************************************");
-				// System.out.println(info.title);
-				// System.out.println("***************************************");
-
-				// StringBuilder result = new StringBuilder();
-				if (!build_opt.textWithoutLines) {
-					Reader in = rs.getCharacterStream(3);
-					bufferedReader = new BufferedReader(in);
-					String line;
-					int index = 0;
-					while ((line = bufferedReader.readLine()) != null) {
-
-						// System.out.println(line);
-
-						if (line.toLowerCase().contains(title.toLowerCase())) {
-							BuildInfo ch = new BuildInfo();
-							ch.title = line.trim();
-							ch.start_offset = index;
-							ch.proc = info.title;
-							info.children.add(ch);
-							// System.out.println(index);
-						}
-						// result.append(line + "\n");
-						index = index + (line + "\n").length();
-					}
-				}
+				if (!build_opt.textWithoutLines)
+					makeTextLines(rs.getCharacterStream(3), title, info);
 
 				proposals.add(info);
 
@@ -216,6 +194,67 @@ public class Build {
 			throw new SQLException();
 		} finally {
 			rs.close();
+		}
+
+	}
+
+	private void buildTextWithoutContext(List<BuildInfo> proposals,
+			String title, AdditionalInfo build_opt) throws SQLException {
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
+		SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
+		SQL = SQL.concat(" ORDER BY TITLE");
+
+		prep = con.prepareStatement(SQL);
+
+		prep.setString(1, Pattern.quote(title));
+
+		rs = prep.executeQuery();
+		try {
+			while (rs.next()) {
+
+				BuildInfo info = new BuildInfo();
+				info.title = rs.getString(1);
+				info.parent = rs.getInt(2);
+
+				if (!build_opt.textWithoutLines)
+					makeTextLines(rs.getCharacterStream(3), title, info);
+
+				proposals.add(info);
+
+			}
+
+		} catch (Exception e) {
+			throw new SQLException();
+		} finally {
+			rs.close();
+		}
+
+	}
+
+	private void makeTextLines(Reader in, String title, BuildInfo info)
+			throws IOException {
+
+		BufferedReader bufferedReader = new BufferedReader(in);
+		String line;
+		int index = 0;
+		while ((line = bufferedReader.readLine()) != null) {
+
+			// System.out.println(line);
+
+			if (line.toLowerCase().contains(title.toLowerCase())) {
+				BuildInfo ch = new BuildInfo();
+				ch.title = line.trim();
+				ch.start_offset = index;
+				ch.proc = info.title;
+				info.children.add(ch);
+				// System.out.println(index);
+			}
+			// result.append(line + "\n");
+			index = index + (line + "\n").length();
 		}
 
 	}

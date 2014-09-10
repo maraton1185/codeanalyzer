@@ -720,8 +720,9 @@ public class BookService extends TreeService implements IDownloadService {
 
 		if (!root.isGroup()) {
 			String text = element.text;
+			text = text.replace("picture-link image", "_picture-link image");
 			for (ImageXML image : element.images) {
-				text = text.replace("picture-link image" + image.id,
+				text = text.replace("_picture-link image" + image.id,
 						"picture-link image" + image.new_id);
 			}
 			saveText(root, text);

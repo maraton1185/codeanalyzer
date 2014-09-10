@@ -70,7 +70,7 @@
 				<c:if test="${empty param.swt}">
 	    			
 		        		
-					<form class="navbar-form navbar-right" role="search">
+					<form class="navbar-form navbar-right hidden-print" role="search">
 						<div class="form-group">
 					    	<input type="hidden" name="book" value="${param.book}"</>
 					    	<input type="text" class="form-control" placeholder="Поиск" name="search" value="${param.search}">
@@ -86,7 +86,7 @@
 
 
 	<!-- BREADCUMPS -->
-	<div class="container">
+	<div class="container hidden-print">
 		<div class="row">
 			<div class="col-lg-12">
 				<ol class="breadcrumb">
@@ -143,7 +143,7 @@
                 		</c:choose>
 
 						<!-- UP link-->
-						<div class="back-to-top">
+						<div class="back-to-top hidden-print">
 							<a href="#"><small>Наверх</small></a>
 
 							<c:choose>
@@ -169,7 +169,7 @@
 					<c:if test="${not section.group}">
 
 						<!-- UP link-->
-						<div class="back-to-top">
+						<div class="back-to-top hidden-print">
 							<a href="#"><small>Наверх</small></a>
 
 							<!-- SWT edit link-->
@@ -210,7 +210,7 @@
 						<!-- BIG IMAGE -->
 						<c:if test="${section.bigImageCSS!=0}">		
 								
-							<div class="col-md-${section.bigImageCSS}">
+							<div class="col-md-${section.bigImageCSS} hidden-print">
 								<!--img class="big-picture img-responsive" src="${section.images.get(0).url}"-->
 								<a class="fancy" href="${section.images.get(0).url}&.jpg" title="${section.images.get(0).title}">
 									<img class="big-picture img-responsive" src="${section.images.get(0).url}">

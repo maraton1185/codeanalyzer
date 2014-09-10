@@ -131,7 +131,9 @@ public class BookService extends TreeService implements IDownloadService {
 
 	public void saveBlock(SectionInfo section, SectionSaveData data) {
 		saveText(section, data.text);
-		saveOptions(section, data.options);
+		SectionInfoOptions opt = section.getOptions();
+		opt.setBigImageCSS(data.options.getBigImageCSS());
+		saveOptions(section, opt);
 	}
 
 	private void saveOptions(SectionInfo section, SectionInfoOptions options) {

@@ -21,6 +21,7 @@ public class ImageXML {
 	}
 
 	public int id;
+	public int new_id;
 	public String mime;
 	public String title;
 

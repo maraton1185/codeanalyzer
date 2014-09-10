@@ -284,8 +284,9 @@ public class BookService extends TreeService implements IDownloadService {
 		return inputStreamReader;
 	}
 
-	public void add_image(SectionInfo section, IPath p, String title) {
+	public int add_image(SectionInfo section, IPath p, String title) {
 
+		int result = 0;
 		// BookSection sec = null;
 		FileInputStream fis = null;
 		try {
@@ -309,7 +310,7 @@ public class BookService extends TreeService implements IDownloadService {
 			}
 
 			SQL = "INSERT INTO S_IMAGES (TITLE, DATA, SORT, MIME, SECTION) VALUES (?,?,?,?,?);";
-			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			if (title == null || title.isEmpty()) {
 				title = Strings.value("image");
@@ -324,9 +325,26 @@ public class BookService extends TreeService implements IDownloadService {
 			fis = new FileInputStream(f);
 			prep.setBinaryStream(2, fis, (int) f.length());
 
-			int affectedRows = prep.executeUpdate();
-			if (affectedRows == 0)
-				throw new SQLException();
+			ResultSet generatedKeys = null;
+			try {
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+
+				generatedKeys = prep.getGeneratedKeys();
+				if (generatedKeys.next()) {
+					result = generatedKeys.getInt(1);
+				} else
+					throw new SQLException();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				generatedKeys.close();
+			}
+
+			// int affectedRows = prep.executeUpdate();
+			// if (affectedRows == 0)
+			// throw new SQLException();
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
 					new EVENT_UPDATE_VIEW_DATA(db, section, null));
@@ -341,6 +359,8 @@ public class BookService extends TreeService implements IDownloadService {
 				e.printStackTrace();
 			}
 		}
+
+		return result;
 	}
 
 	public void delete_image(SectionInfo section, SectionImage item) {
@@ -686,8 +706,6 @@ public class BookService extends TreeService implements IDownloadService {
 
 		SectionInfo root = (SectionInfo) SectionInfo.fromXML(element);
 		add(root, parent, true);
-		if (!root.isGroup())
-			saveText(root, element.text);
 
 		for (ImageXML image : element.images) {
 
@@ -695,8 +713,18 @@ public class BookService extends TreeService implements IDownloadService {
 					.addFileExtension(image.mime);
 			if (!image_path.toFile().exists())
 				continue;
-			add_image(root, image_path, image.title);
 
+			image.new_id = add_image(root, image_path, image.title);
+
+		}
+
+		if (!root.isGroup()) {
+			String text = element.text;
+			for (ImageXML image : element.images) {
+				text = text.replace("picture-link image" + image.id,
+						"picture-link image" + image.new_id);
+			}
+			saveText(root, text);
 		}
 
 		if (element.context != null) {

@@ -22,4 +22,11 @@ public class DbConnection extends BaseDbConnection {
 		return null;
 	}
 
+	@Override
+	public String getFullName() {
+
+		return getConnectionPath().toString() + Const.DEFAULT_DB_EXTENSION;
+
+	}
+
 }

@@ -1,6 +1,6 @@
 package ebook.core;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -57,7 +57,6 @@ import ebook.core.GlobalEvents.EVENT_UPDATE_PERSPECTIVE_ICON;
 import ebook.core.GlobalEvents.EVENT_UPDATE_STATUS;
 import ebook.core.GlobalEvents.RESTART_WORKBENCH;
 import ebook.core.GlobalEvents.SHOW_UPDATE_AVAILABLE;
-import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IClipboard;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IManagerFactory;
@@ -195,18 +194,14 @@ public class App {
 	private void dbInit(MTrimmedWindow window) {
 		IDbConnection db = pico.get(IDbConnection.class);
 		try {
-			// throw new SQLException();
 
-			// try {
-			db.check();
-			// } catch (InvocationTargetException e1) {
-			// if (e1.getTargetException() instanceof MakeConnectionException) {
-			// db.create();
-			// } else
-			// throw new Exception();
-			// }
-
-			// db.openConnection();
+			try {
+				db.check();
+			} catch (Exception e) {
+				File f = new File(db.getFullName());
+				if (!f.exists())
+					db.create();
+			}
 
 		} catch (Exception e) {
 			Shell shell = (Shell) window.getWidget();

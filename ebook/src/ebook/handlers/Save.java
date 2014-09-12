@@ -7,10 +7,19 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
+import ebook.module.book.views.TextView;
+
 public class Save {
 	@Execute
 	public void execute(EPartService partService, @Active MPart part) {
-		partService.savePart(part, false);
+
+		if (part.getObject() instanceof TextView)
+			((TextView) part.getObject()).save();
+		else {
+			part.setDirty(true);
+			partService.savePart(part, false);
+		}
+
 	}
 
 	@CanExecute

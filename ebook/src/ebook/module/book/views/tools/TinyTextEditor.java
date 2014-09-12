@@ -12,6 +12,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ebook.core.App;
+import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
 
@@ -22,11 +23,13 @@ public class TinyTextEditor extends Composite {
 	protected boolean loadCompleted = false;
 
 	SectionInfo section;
+	private BookService srv;
 
-	public TinyTextEditor(Composite parent, SectionInfo section) {
+	public TinyTextEditor(Composite parent, SectionInfo section, BookService srv) {
 		super(parent, SWT.None);
 
 		this.section = section;
+		this.srv = srv;
 
 		setLayout(new FillLayout());
 
@@ -59,7 +62,7 @@ public class TinyTextEditor extends Composite {
 			public void changed(StatusTextEvent event) {
 				String text = event.text;
 				if (text.equals("editor:onInit()"))
-					setText(editor_content);
+					setText();
 				else if (text.equals("editor:onChange()"))
 					setDirty();
 				else
@@ -76,7 +79,10 @@ public class TinyTextEditor extends Composite {
 		App.br.post(Events.EVENT_SET_SECTIONVIEW_DIRTY, section);
 	}
 
-	public void setText(String text) {
+	private void setText() {
+
+		String text = srv.getText(section.getId());
+
 		editor_content = text == null ? "" : text.replace("\n", "\\n").replace(
 				"'", "\\'");
 
@@ -110,6 +116,7 @@ public class TinyTextEditor extends Composite {
 	}
 
 	public void updateUrl() {
+
 		browser.setUrl(App.getJetty().editor());
 	}
 }

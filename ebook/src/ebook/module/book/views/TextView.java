@@ -187,9 +187,9 @@ public class TextView {
 		Composite rightComposite = new Composite(sashForm, SWT.NONE);
 		rightComposite.setLayout(new FillLayout());
 
-		String buf = book.srv().getText(section.getId());
-		tinymce = new TinyTextEditor(rightComposite, section);
-		tinymce.setText(buf);
+		// String buf = book.srv().getText(section.getId());
+		tinymce = new TinyTextEditor(rightComposite, section, book.srv());
+		// tinymce.setText(buf);
 		tinymce.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		toolkit = new FormToolkit(parent.getDisplay());

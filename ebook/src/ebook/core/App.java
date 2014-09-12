@@ -197,14 +197,14 @@ public class App {
 		try {
 			// throw new SQLException();
 
-			try {
-				db.check();
-			} catch (InvocationTargetException e1) {
-				if (e1.getTargetException() instanceof MakeConnectionException) {
-					db.create();
-				} else
-					throw new Exception();
-			}
+			// try {
+			db.check();
+			// } catch (InvocationTargetException e1) {
+			// if (e1.getTargetException() instanceof MakeConnectionException) {
+			// db.create();
+			// } else
+			// throw new Exception();
+			// }
 
 			// db.openConnection();
 

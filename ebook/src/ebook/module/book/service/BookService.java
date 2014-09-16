@@ -55,6 +55,7 @@ import ebook.module.tree.service.ITreeService;
 import ebook.module.tree.service.TreeService;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
+import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.ZipHelper;
 
@@ -313,8 +314,8 @@ public class BookService extends TreeService implements IDownloadService {
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			if (title == null || title.isEmpty()) {
-				title = Strings.value("image");
-				title = title + " " + sort;
+				title = PreferenceSupplier.get(PreferenceSupplier.IMAGE_TITLE);
+				title = title + "" + sort;
 			}
 			prep.setString(1, title);
 			prep.setInt(3, sort);

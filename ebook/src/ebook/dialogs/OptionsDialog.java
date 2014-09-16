@@ -313,6 +313,10 @@ public class OptionsDialog {
 					"Адрес сайта обновления", comp);
 			addField(f);
 
+			f = new StringFieldEditor(PreferenceSupplier.IMAGE_TITLE,
+					"Префикс имени картинки", comp);
+			addField(f);
+
 		}
 	}
 

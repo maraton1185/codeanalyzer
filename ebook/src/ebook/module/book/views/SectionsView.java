@@ -113,7 +113,7 @@ public class SectionsView {
 				.getFontData(PreferenceSupplier.FONT)));
 
 		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				con.srv(), 3, true);
+				con.srv(), 2, true);
 
 		viewer = treeComponent.getViewer();
 
@@ -143,13 +143,13 @@ public class SectionsView {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 
-				SectionInfo section = window.getContext()
-						.get(SectionInfo.class);
+				// SectionInfo section = window.getContext()
+				// .get(SectionInfo.class);
 				// if (section.isGroup()) {
 				Utils.executeHandler(hs, cs,
 						Strings.model("command.id.ShowSection"));
-				App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-						new EVENT_UPDATE_VIEW_DATA(con, section, section));
+				// App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
+				// new EVENT_UPDATE_VIEW_DATA(con, section, section));
 				// } else {
 				// SectionInfo selected = (SectionInfo) con.srv().get(
 				// section.getParent());

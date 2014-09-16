@@ -57,12 +57,16 @@ public abstract class PreferenceSupplier {
 	public static final String DEFAULT_IMAGE_DIRECTORY = "DEFAULT_IMAGE_DIRECTORY";
 	public static final String BOOKMARK_LENGTH = "BOOKMARK_LENGTH";
 	public static final String CONF_LIST_VIEW_COMPARISON = "CONF_LIST_VIEW_COMPARISON";
+	public static final String IMAGE_TITLE = "IMAGE_TITLE";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.IMAGE_TITLE,
+				Strings.value("image"));
 
 		preferenceStore.setDefault(
 				PreferenceSupplier.CONF_LIST_VIEW_COMPARISON, 0);

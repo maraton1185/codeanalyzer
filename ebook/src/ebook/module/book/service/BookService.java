@@ -492,40 +492,40 @@ public class BookService extends TreeService implements IDownloadService {
 
 	}
 
-	public void move_image(SectionInfo section, SectionImage item,
-			boolean direction) {
+	// public void move_image(SectionInfo section, SectionImage item,
+	// boolean direction) {
+	//
+	// try {
+	//
+	// List<SectionImage> items = getImages(section.getId());
+	//
+	// int i = items.indexOf(item);
+	//
+	// if (direction == true) {
+	// // up
+	// i = i == 0 ? items.size() : i - 1;
+	// } else {
+	// // down
+	// i = i == items.size() - 1 ? 0 : i + 1;
+	// }
+	//
+	// items.remove(item);
+	// items.add(i, item);
+	//
+	// updateImagesOrder(items);
+	//
+	// App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+	// new EVENT_UPDATE_VIEW_DATA(db, section, null));
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
-		try {
-
-			List<SectionImage> items = getImages(section.getId());
-
-			int i = items.indexOf(item);
-
-			if (direction == true) {
-				// up
-				i = i == 0 ? items.size() : i - 1;
-			} else {
-				// down
-				i = i == items.size() - 1 ? 0 : i + 1;
-			}
-
-			items.remove(item);
-			items.add(i, item);
-
-			updateImagesOrder(items);
-
-			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA(db, section, null));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void updateImagesOrder(List<SectionImage> items) throws Exception {
+	public void updateImagesOrder(List<SectionImage> items) {
 		try {
 			Connection con = db.getConnection();
-			int order = 0;
+			int order = 1;
 			for (SectionImage item : items) {
 
 				String SQL = "UPDATE S_IMAGES SET SORT=? WHERE ID=?;";
@@ -542,7 +542,7 @@ public class BookService extends TreeService implements IDownloadService {
 			}
 
 		} catch (Exception e) {
-			throw new Exception();
+			e.printStackTrace();
 		}
 
 	}

@@ -260,6 +260,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 			body.getChildren()[i].moveAbove(body.getChildren()[i - 1]);
 		body.layout();
 		reflow();
+		reorder();
 
 	}
 
@@ -275,6 +276,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 			body.getChildren()[i].moveBelow(body.getChildren()[i + 1]);
 		body.layout();
 		reflow();
+		reorder();
 	}
 
 	@Override
@@ -293,12 +295,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 
 		}
 
-		try {
-			view.srv().updateImagesOrder(items);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		view.srv().updateImagesOrder(items);
 
 	}
 }

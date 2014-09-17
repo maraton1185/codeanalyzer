@@ -504,7 +504,7 @@ public class TextView {
 						@Override
 						public void linkActivated(HyperlinkEvent e) {
 							SectionImage image = (SectionImage) e.getHref();
-							book.srv().move_image(section, image, true);
+							// book.srv().move_image(section, image, true);
 						}
 					});
 
@@ -516,7 +516,7 @@ public class TextView {
 						@Override
 						public void linkActivated(HyperlinkEvent e) {
 							SectionImage image = (SectionImage) e.getHref();
-							book.srv().move_image(section, image, false);
+							// book.srv().move_image(section, image, false);
 						}
 					});
 				}

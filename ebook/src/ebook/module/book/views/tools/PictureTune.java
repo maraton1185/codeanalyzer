@@ -192,8 +192,8 @@ public class PictureTune implements IBlockTune {
 		hlink.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				SectionImage image = (SectionImage) e.getHref();
-				tune.srv().move_image(section, image, true);
+				// SectionImage image = (SectionImage) e.getHref();
+				// tune.srv().move_image(section, image, true);
 				tune.moveUp((ImageHyperlink) e.getSource());
 			}
 		});
@@ -205,8 +205,8 @@ public class PictureTune implements IBlockTune {
 		hlink.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				SectionImage image = (SectionImage) e.getHref();
-				tune.srv().move_image(section, image, false);
+				// SectionImage image = (SectionImage) e.getHref();
+				// tune.srv().move_image(section, image, false);
 				tune.moveDown((ImageHyperlink) e.getSource());
 			}
 		});

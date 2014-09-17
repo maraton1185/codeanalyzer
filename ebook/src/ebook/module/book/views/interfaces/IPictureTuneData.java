@@ -22,7 +22,7 @@ public interface IPictureTuneData {
 
 	void reflow();
 
-	void addImage(SectionInfo section, int id);
+	void addImage(SectionInfo section);
 
 	void expand();
 

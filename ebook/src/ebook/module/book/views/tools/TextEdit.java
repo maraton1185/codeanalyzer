@@ -16,7 +16,7 @@ import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
 
-public class TinyTextEditor extends Composite {
+public class TextEdit extends Composite {
 
 	protected Browser browser;
 	protected String editor_content;
@@ -25,7 +25,7 @@ public class TinyTextEditor extends Composite {
 	SectionInfo section;
 	private BookService srv;
 
-	public TinyTextEditor(Composite parent, SectionInfo section, BookService srv) {
+	public TextEdit(Composite parent, SectionInfo section, BookService srv) {
 		super(parent, SWT.None);
 
 		this.section = section;

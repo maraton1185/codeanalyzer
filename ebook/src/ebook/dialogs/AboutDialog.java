@@ -20,7 +20,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 import ebook.module.book.views.tools.BrowserComposite;
-import ebook.module.book.views.tools.TinyTextEditor;
+import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -43,7 +43,7 @@ public class AboutDialog extends Dialog {
 		Composite body = (Composite) super.createDialogArea(parent);
 		body.setLayout(new FillLayout());
 		try {
-			Bundle bundle = FrameworkUtil.getBundle(TinyTextEditor.class);
+			Bundle bundle = FrameworkUtil.getBundle(TextEdit.class);
 			URL url_bundle = FileLocator.find(bundle, new Path("version.txt"),
 					null);
 			URL url = FileLocator.toFileURL(url_bundle);

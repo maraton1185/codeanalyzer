@@ -35,7 +35,6 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoSelection;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
-import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.view.TreeViewComponent;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
@@ -274,24 +273,24 @@ public class SectionsView {
 					Strings.model("command.id.ShowSection"));
 		}
 
-		if (opt.openSections == null || opt.openSections.isEmpty()) {
-
-			List<ITreeItemInfo> input = con.srv().getRoot();
-			if (input.isEmpty()) {
-				return;
-			}
-			int section_id = input.get(0).getId();
-
-			final SectionInfo section = (SectionInfo) con.srv().get(section_id);
-			if (section == null)
-				return;
-
-			window.getContext().set(SectionInfo.class, section);
-
-			Utils.executeHandler(hs, cs,
-					Strings.model("command.id.ShowSection"));
-
-		}
+		// if (opt.openSections == null || opt.openSections.isEmpty()) {
+		//
+		// List<ITreeItemInfo> input = con.srv().getRoot();
+		// if (input.isEmpty()) {
+		// return;
+		// }
+		// int section_id = input.get(0).getId();
+		//
+		// final SectionInfo section = (SectionInfo) con.srv().get(section_id);
+		// if (section == null)
+		// return;
+		//
+		// window.getContext().set(SectionInfo.class, section);
+		//
+		// Utils.executeHandler(hs, cs,
+		// Strings.model("command.id.ShowSection"));
+		//
+		// }
 
 	}
 

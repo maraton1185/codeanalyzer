@@ -34,9 +34,9 @@ public class SectionView {
 	SectionInfo section;
 	MPart part;
 
-	public SectionInfo getSection() {
-		return section;
-	}
+	// public SectionInfo getSection() {
+	// return section;
+	// }
 
 	private MWindow window;
 

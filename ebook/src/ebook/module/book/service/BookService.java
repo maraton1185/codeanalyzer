@@ -137,7 +137,7 @@ public class BookService extends TreeService implements IDownloadService {
 		saveOptions(section, opt);
 	}
 
-	private void saveOptions(SectionInfo section, SectionInfoOptions options) {
+	public void saveOptions(SectionInfo section, SectionInfoOptions options) {
 		try {
 			Connection con = db.getConnection();
 			String SQL = "UPDATE SECTIONS SET OPTIONS=? WHERE ID=?;";
@@ -247,6 +247,47 @@ public class BookService extends TreeService implements IDownloadService {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public SectionImage getImage(int id) {
+
+		List<SectionImage> result = new ArrayList<SectionImage>();
+		try {
+			Connection con = db.getConnection();
+			String SQL = "Select T.DATA, T.TITLE, T.SORT, T.MIME, T.ID FROM S_IMAGES AS T WHERE T.ID=? ORDER BY T.SORT, T.ID";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			prep.setInt(1, id);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				while (rs.next()) {
+
+					SectionImage sec = new SectionImage();
+					// BookSection sec = new BookSection();
+					InputStream is = rs.getBinaryStream(1);
+					sec.setTitle(rs.getString(2));
+					sec.sort = rs.getInt(3);
+					sec.setMime(rs.getString(4));
+					sec.id = rs.getInt(5);
+					sec.book = ((BookConnection) db).getTreeItem().getId();
+
+					BufferedInputStream inputStreamReader = new BufferedInputStream(
+							is);
+					// new ByteArrayInputStream(imageByte));
+					ImageData imageData = new ImageData(inputStreamReader);
+
+					sec.image = new Image(Display.getCurrent(), imageData);
+
+					result.add(sec);
+				}
+			} finally {
+				rs.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result.isEmpty() ? null : result.get(0);
 	}
 
 	public BufferedInputStream getImage(String image_id) {
@@ -411,6 +452,8 @@ public class BookService extends TreeService implements IDownloadService {
 			if (affectedRows == 0)
 				throw new SQLException();
 
+			image.image = getImage(image.getId()).image;
+
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
 					new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
@@ -437,6 +480,8 @@ public class BookService extends TreeService implements IDownloadService {
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
+
+			image.setTitle(title);
 
 			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
 					new EVENT_UPDATE_VIEW_DATA(db, section, null));
@@ -477,7 +522,7 @@ public class BookService extends TreeService implements IDownloadService {
 		}
 	}
 
-	private void updateImagesOrder(List<SectionImage> items) throws Exception {
+	public void updateImagesOrder(List<SectionImage> items) throws Exception {
 		try {
 			Connection con = db.getConnection();
 			int order = 0;

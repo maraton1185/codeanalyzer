@@ -54,7 +54,7 @@ import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.book.tree.SectionSaveData;
 import ebook.module.book.views.interfaces.IBlockTune;
-import ebook.module.book.views.tools.TinyTextEditor;
+import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -91,7 +91,7 @@ public class TextView {
 
 	// Composite blockComposite;
 	// Composite groupsComposite;
-	TinyTextEditor tinymce;
+	TextEdit tinymce;
 	List<SectionImage> imageList;
 	Scale scaledImageWidthSlider;
 
@@ -188,7 +188,7 @@ public class TextView {
 		rightComposite.setLayout(new FillLayout());
 
 		// String buf = book.srv().getText(section.getId());
-		tinymce = new TinyTextEditor(rightComposite, section, book.srv());
+		tinymce = new TextEdit(rightComposite, section, book.srv());
 		// tinymce.setText(buf);
 		tinymce.setLayoutData(new GridData(GridData.FILL_BOTH));
 

@@ -645,7 +645,7 @@
           <toolbar xmi:id="_HEzU0D5fEeStYLApr5xXAA" elementId="ebook.toolbar.19">
             <children xsi:type="menu:HandledToolItem" xmi:id="_z2BFUD8aEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_JyylED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.43" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="__8OIkD5eEeStYLApr5xXAA"/>
-            <children xsi:type="menu:HandledToolItem" xmi:id="_Nq5fED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.44" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" command="_DTp-cD5fEeStYLApr5xXAA">
+            <children xsi:type="menu:HandledToolItem" xmi:id="_Nq5fED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.44" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_DTp-cD5fEeStYLApr5xXAA">
               <tags>FORCE_TEXT</tags>
             </children>
           </toolbar>

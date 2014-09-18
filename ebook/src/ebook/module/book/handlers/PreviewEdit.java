@@ -28,6 +28,7 @@ public class PreviewEdit {
 
 	@CanExecute
 	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null && App.getJetty().isStarted();
+		return section != null && !section.isGroup()
+				&& App.getJetty().isStarted();
 	}
 }

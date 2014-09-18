@@ -40,7 +40,6 @@ import ebook.module.book.model.BookOptions;
 import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
-import ebook.module.book.tree.SectionSaveData;
 import ebook.module.book.xml.ImageXML;
 import ebook.module.book.xml.SectionXML;
 import ebook.module.bookList.tree.ListBookInfoOptions;
@@ -130,12 +129,12 @@ public class BookService extends TreeService implements IDownloadService {
 
 	// ************************************************************************************
 
-	public void saveBlock(SectionInfo section, SectionSaveData data) {
-		saveText(section, data.text);
-		SectionInfoOptions opt = section.getOptions();
-		opt.setBigImageCSS(data.options.getBigImageCSS());
-		saveOptions(section, opt);
-	}
+	// public void saveBlock(SectionInfo section, SectionSaveData data) {
+	// saveText(section, data.text);
+	// SectionInfoOptions opt = section.getOptions();
+	// opt.setBigImageCSS(data.options.getBigImageCSS());
+	// saveOptions(section, opt);
+	// }
 
 	public void saveOptions(SectionInfo section, SectionInfoOptions options) {
 		try {
@@ -152,15 +151,15 @@ public class BookService extends TreeService implements IDownloadService {
 
 			section.setOptions(options);
 
-			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA(db, section, null));
+			// App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			// new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void saveText(SectionInfo section, String text) {
+	public void saveText(SectionInfo section, String text) {
 		try {
 			SectionInfo parent = (SectionInfo) get(section.getParent());
 
@@ -388,8 +387,8 @@ public class BookService extends TreeService implements IDownloadService {
 			// if (affectedRows == 0)
 			// throw new SQLException();
 
-			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA(db, section, null));
+			// App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			// new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -421,8 +420,8 @@ public class BookService extends TreeService implements IDownloadService {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA(db, section, null));
+			// App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			// new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -454,8 +453,8 @@ public class BookService extends TreeService implements IDownloadService {
 
 			image.image = getImage(image.getId()).image;
 
-			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA(db, section, null));
+			// App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			// new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -483,8 +482,8 @@ public class BookService extends TreeService implements IDownloadService {
 
 			image.setTitle(title);
 
-			App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
-					new EVENT_UPDATE_VIEW_DATA(db, section, null));
+			// App.br.post(Events.EVENT_UPDATE_SECTION_BLOCK_VIEW,
+			// new EVENT_UPDATE_VIEW_DATA(db, section, null));
 
 		} catch (Exception e) {
 			e.printStackTrace();

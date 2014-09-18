@@ -9,16 +9,13 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.swt.program.Program;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
-import ebook.utils.Events;
-import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
-import ebook.utils.Strings;
-import ebook.utils.Utils;
 
-public class OpenBlockParent {
+public class OpenInBrowserSection {
 
 	@Inject
 	EHandlerService hs;
@@ -31,27 +28,30 @@ public class OpenBlockParent {
 	@Execute
 	public void execute(@Active BookConnection book, @Active SectionInfo section) {
 
-		SectionInfo selected = (SectionInfo) book.srv()
-				.get(section.getParent());
+		String url;
 
-		selected.tag = section.getId().toString();
+		if (section.isGroup()) {
 
-		window.getContext().set(SectionInfo.class, selected);
+			url = App.getJetty().host()
+					+ App.getJetty().section(book.getTreeItem().getId(),
+							section.getId());
 
-		Utils.executeHandler(hs, cs, Strings.model("command.id.ShowSection"));
+		} else {
+			SectionInfo selected = (SectionInfo) book.srv().get(
+					section.getParent());
 
-		App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-				new EVENT_UPDATE_VIEW_DATA(book, selected, section));
+			url = App.getJetty().host()
+					+ App.getJetty().section(book.getTreeItem().getId(),
+							selected.getId()) + "#" + section.getId();
 
-		// Utils.executeHandler(hs, cs, Strings.get("command.id.ShowSection"));
-		// App.br.post(Events.EVENT_UPDATE_SECTION_VIEW,
-		// new EVENT_UPDATE_VIEW_DATA(book, section, section));
+		}
+		Program.launch(url);
 
 	}
 
 	@CanExecute
 	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null && !section.isGroup();
+		return section != null && App.getJetty().isStarted();
 	}
 
 }

@@ -71,7 +71,7 @@ public class SectionDropTargetListener implements DropTargetListener {
 		else
 			sourceControl.moveAbove(targetControl);
 
-		tune.reorder();
+		tune.saveOrder();
 
 		// repaint the parent composite
 		parentComposite.layout();

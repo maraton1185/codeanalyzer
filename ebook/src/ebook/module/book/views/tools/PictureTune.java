@@ -119,7 +119,25 @@ public class PictureTune implements IBlockTune {
 		gd.grabExcessHorizontalSpace = true;
 		panel.setLayoutData(gd);
 
-		ImageHyperlink hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+		ImageHyperlink hlink;
+
+		if (tune.textEdit()) {
+			hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
+			hlink.setImage(Utils.getImage("link.png"));
+			hlink.setText("Вставить в текст");
+			hlink.setToolTipText("Вставить ссылку в текст");
+			hlink.setHref(sectionImage);
+			hlink.addHyperlinkListener(new HyperlinkAdapter() {
+
+				@Override
+				public void linkActivated(HyperlinkEvent e) {
+					SectionImage image = (SectionImage) e.getHref();
+					tune.addLink(image);
+				}
+			});
+		}
+
+		hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 		hlink.setImage(Utils.getImage("edit.png"));
 		hlink.setToolTipText("Изменить заголовок");
 		hlink.setHref(sectionImage);
@@ -213,22 +231,12 @@ public class PictureTune implements IBlockTune {
 
 		hlink = toolkit.createImageHyperlink(panel, SWT.WRAP);
 		hlink.setImage(Utils.getImage("add.png"));
-		hlink.setToolTipText("Добавить картинку");
+		hlink.setToolTipText("Добавить под текущей");
 		hlink.setUnderlined(false);
 		hlink.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				IPath p = Utils.browseFile(
-						new Path(
-								PreferenceSupplier
-										.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
-						sectionClient.getShell(), Strings.title("appTitle"),
-						SectionImage.getFilters());
-				if (p == null)
-					return;
-
-				int id = tune.srv().add_image(section, p, null);
-				tune.addImage(section, id);
+				tune.addImageBelow(section, sectionClient);
 			}
 		});
 

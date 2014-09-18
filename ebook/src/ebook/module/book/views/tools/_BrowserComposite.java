@@ -21,7 +21,7 @@ import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class BrowserComposite extends Composite {
+public class _BrowserComposite extends Composite {
 
 	protected Browser browser;
 
@@ -35,7 +35,7 @@ public class BrowserComposite extends Composite {
 	EHandlerService hs;
 	ECommandService cs;
 
-	public BrowserComposite(Composite blockComposite, String url) {
+	public _BrowserComposite(Composite blockComposite, String url) {
 		super(blockComposite, SWT.BORDER);
 
 		setLayout(new FillLayout());
@@ -49,7 +49,7 @@ public class BrowserComposite extends Composite {
 
 	}
 
-	public BrowserComposite(Composite blockComposite, String url, String tag,
+	public _BrowserComposite(Composite blockComposite, String url, String tag,
 			BookConnection book, MWindow window, EHandlerService hs,
 			ECommandService cs) {
 		super(blockComposite, SWT.BORDER);

@@ -64,8 +64,8 @@ import ebook.core.interfaces.IServiceFactory;
 import ebook.module.book.BookConnection;
 import ebook.module.book.model.BookOptions;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.views._SectionView;
 import ebook.module.book.views.SectionView;
-import ebook.module.book.views.TextView;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.views.ConfView;
@@ -492,14 +492,14 @@ public class App {
 
 					if (id.equals(Strings
 							.model("ebook.partdescriptor.sectionView"))) {
-						SectionView view = (SectionView) part.getObject();
+						_SectionView view = (_SectionView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
 					}
 
 					if (id.equals(Strings
 							.model("ebook.partdescriptor.sectionsBlockView"))) {
-						TextView view = (TextView) part.getObject();
+						SectionView view = (SectionView) part.getObject();
 						if (view != null)
 							opt.openSections.add(view.getId());
 					}

@@ -27,6 +27,7 @@ import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
+import ebook.module.book.views.tools.TextEdit;
 import ebook.module.book.views.tools.TextPreview;
 import ebook.utils.Events;
 import ebook.utils.Utils;
@@ -62,6 +63,11 @@ public class PreviewView implements ITextImagesView {
 	@Inject
 	Shell shell;
 
+	@Inject
+	@Active
+	@Optional
+	MPart part;
+
 	private ImagesComposite imagesComposite;
 
 	@Focus
@@ -74,6 +80,10 @@ public class PreviewView implements ITextImagesView {
 	public void EVENT_UPDATE_SECTION_INFO(
 			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) Object o,
 			@Active @Optional SectionInfo data) {
+
+		// TODO: не обновлять, если форма не активна
+		// if (part != null && !part.isOnTop())
+		// return;
 
 		update(data);
 
@@ -159,14 +169,23 @@ public class PreviewView implements ITextImagesView {
 
 	@Override
 	public void setDirty() {
-		dirty.setDirty(true);
-
+		// dirty.setDirty(true);
 	}
 
 	@Override
 	public void executeHandler(String id) {
 		Utils.executeHandler(hService, comService, id);
 
+	}
+
+	@Override
+	public TextEdit getTextEditor() {
+		return null;
+	}
+
+	@Override
+	public boolean textEdit() {
+		return false;
 	}
 
 }

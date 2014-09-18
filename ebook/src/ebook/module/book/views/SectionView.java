@@ -7,95 +7,144 @@ import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import ebook.core.App;
 import ebook.module.book.BookConnection;
+import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.views.tools.BrowserComposite;
+import ebook.module.book.views.interfaces.ITextImagesView;
+import ebook.module.book.views.tools.ImagesComposite;
+import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Events;
-import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
-import ebook.utils.PreferenceSupplier;
+import ebook.utils.Utils;
 
-public class SectionView {
-
-	Composite body;
+public class SectionView implements ITextImagesView {
 
 	@Inject
 	@Active
 	BookConnection book;
+	@Inject
+	private EHandlerService hService;
+	@Inject
+	private ECommandService comService;
+
+	TextEdit text;
+
+	FormToolkit toolkit;
 
 	SectionInfo section;
-	MPart part;
 
-	// public SectionInfo getSection() {
-	// return section;
-	// }
+	@Inject
+	MDirtyable dirty;
 
-	private MWindow window;
+	@Inject
+	Shell shell;
 
-	BrowserComposite browserComposite;
-	StringBuffer text = new StringBuffer();
-
-	@Focus
-	public void OnFocus() {
-		window.getContext().set(Events.CONTEXT_ACTIVE_VIEW_SECTION, section);
-	}
+	private ImagesComposite imagesComposite;
 
 	@Inject
 	@Optional
-	public void EVENT_UPDATE_SECTION_VIEW(
-			@UIEventTopic(Events.EVENT_UPDATE_SECTION_VIEW) EVENT_UPDATE_VIEW_DATA data) {
+	public void EVENT_SET_SECTIONVIEW_DIRTY(
+			@UIEventTopic(Events.EVENT_SET_SECTIONVIEW_DIRTY) Object section) {
+		if (section == this.section) {
+			save_index--;
+			if (save_index <= 0)
+				dirty.setDirty(true);
+		}
+	}
 
-		if (book != data.con)
-			return;
+	int save_index = 0;
 
-		if (!data.parent.equals(section))
-			return;
+	@Persist
+	public void save() {
 
-		browserComposite.updateUrl(((SectionInfo) data.parent).tag);
+		book.srv().saveText(section, text.getText());
+		dirty.setDirty(false);
+		save_index = 2;
+	}
 
-		window.getContext().set(SectionInfo.class, (SectionInfo) data.selected);
+	public void update() {
+
+		imagesComposite.update(section);
+
+		text.updateUrl();
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, SectionInfo section,
-			@Active final MWindow window, @Active MPart part,
-			final EHandlerService hs, final ECommandService cs) {
+	public void postConstruct(final Composite parent,
+			@Active SectionInfo section) {
+
+		dirty.setDirty(false);
 
 		this.section = section;
-		this.window = window;
-		this.part = part;
+		// this.window = window;
+		toolkit = new FormToolkit(parent.getDisplay());
 
-		body = parent;
-		body.setLayout(new FillLayout());
-		body.setFont(new Font(parent.getDisplay(), PreferenceSupplier
-				.getFontData(PreferenceSupplier.FONT)));
+		// **************************************************************
 
-		String url = App.getJetty().host()
-				+ App.getJetty().section(book.getTreeItem().getId(),
-						section.getId());
-		// url = "http://localhost/tmpl/book/css/bootstrap.min.css";
-		// url = "http://localhost/tmpl/book/js/book.js";
-		browserComposite = new BrowserComposite(body, url, section.tag, book,
-				window, hs, cs);
+		SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL);
+		sashForm.setBackground(sashForm.getDisplay().getSystemColor(
+				SWT.COLOR_GRAY));
+		imagesComposite = new ImagesComposite(sashForm, SWT.NONE, this);
+		// Composite leftComposite = new Composite(sashForm, SWT.NONE);
+		// leftComposite.setLayout(new FillLayout());
+		Composite rightComposite = new Composite(sashForm, SWT.NONE);
+		rightComposite.setLayout(new FillLayout());
 
-		OnFocus();
+		text = new TextEdit(rightComposite, section, book.srv());
+		text.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		imagesComposite.update(section);
 	}
 
-	public Integer getId() {
+	// ********************************************************************
 
+	public Integer getId() {
 		return section.getId();
 	}
 
-	// *************************************************************************************
-	// *************************************************************************************
-	// *************************************************************************************
+	@Override
+	public FormToolkit getToolkit() {
+		return toolkit;
+	}
+
+	@Override
+	public BookService srv() {
+		return book.srv();
+	}
+
+	@Override
+	public void setDirty() {
+		dirty.setDirty(true);
+	}
+
+	@Override
+	public void executeHandler(String id) {
+		Utils.executeHandler(hService, comService, id);
+	}
+
+	@Override
+	public TextEdit getTextEditor() {
+		return text;
+	}
+
+	@Override
+	public boolean textEdit() {
+		return true;
+	}
+
+	public void addImage() {
+		imagesComposite.addImage(section);
+
+	}
 
 }

@@ -15,14 +15,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import ebook.module.book.views.tools.BrowserComposite;
+import ebook.module.book.views.tools._BrowserComposite;
 import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.PreferenceSupplier;
 
 public class AboutView {
 
 	Composite body;
-	BrowserComposite browserComposite;
+	_BrowserComposite browserComposite;
 
 	@PostConstruct
 	public void postConstruct(Composite parent, final EHandlerService hs,
@@ -38,7 +38,7 @@ public class AboutView {
 			URL url_bundle = FileLocator.find(bundle, new Path("version.txt"),
 					null);
 			URL url = FileLocator.toFileURL(url_bundle);
-			browserComposite = new BrowserComposite(body, url.toString());
+			browserComposite = new _BrowserComposite(body, url.toString());
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -34,6 +36,7 @@ import ebook.module.book.views.interfaces.IPictureTuneData;
 import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
+import ebook.utils.Utils;
 
 public class ImagesComposite extends Composite implements IPictureTuneData {
 
@@ -112,7 +115,17 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 	}
 
 	@Override
-	public void addImage(SectionInfo section, int id) {
+	public void addImage(SectionInfo section) {
+
+		IPath p = Utils.browseFile(
+				new Path(PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
+				getShell(), Strings.title("appTitle"), SectionImage
+						.getFilters());
+		if (p == null)
+			return;
+
+		int id = view.srv().add_image(section, p, null);
 
 		SectionImage img = view.srv().getImage(id);
 
@@ -124,7 +137,33 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 
 	}
 
-	public void addSection(String title, IBlockTune opt) {
+	@Override
+	public void addImageBelow(SectionInfo section, Composite sectionClient) {
+		IPath p = Utils.browseFile(
+				new Path(PreferenceSupplier
+						.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
+				getShell(), Strings.title("appTitle"), SectionImage
+						.getFilters());
+		if (p == null)
+			return;
+
+		int id = view.srv().add_image(section, p, null);
+
+		SectionImage img = view.srv().getImage(id);
+
+		PictureTune pictureTune = new PictureTune(this, img, section);
+
+		Section _section = addSection(Strings.value("picture"), pictureTune);
+
+		_section.moveBelow(sectionClient.getParent());
+
+		body.layout();
+		reflow();
+		saveOrder();
+
+	}
+
+	public Section addSection(String title, IBlockTune opt) {
 		Section section = toolkit.createSection(body, Section.SHORT_TITLE_BAR
 				| Section.TWISTIE);
 
@@ -151,6 +190,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 
 		opt.tune(toolkit, section, sectionClient);
 		section.setClient(sectionClient);
+		return section;
 	}
 
 	@Override
@@ -226,7 +266,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 	}
 
 	@Override
-	public void reorder(SectionInfo section) {
+	public void rename(SectionInfo section) {
 		int index = 1;
 		for (int i = 0; i < body.getChildren().length; i++) {
 
@@ -260,7 +300,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 			body.getChildren()[i].moveAbove(body.getChildren()[i - 1]);
 		body.layout();
 		reflow();
-		reorder();
+		saveOrder();
 
 	}
 
@@ -276,11 +316,11 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 			body.getChildren()[i].moveBelow(body.getChildren()[i + 1]);
 		body.layout();
 		reflow();
-		reorder();
+		saveOrder();
 	}
 
 	@Override
-	public void reorder() {
+	public void saveOrder() {
 		List<SectionImage> items = new ArrayList<SectionImage>();
 
 		for (int i = 0; i < body.getChildren().length; i++) {
@@ -297,5 +337,20 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 
 		view.srv().updateImagesOrder(items);
 
+	}
+
+	@Override
+	public void addLink(SectionImage image) {
+		TextEdit text = view.getTextEditor();
+		if (text == null)
+			return;
+		text.addLink(image.getId(), image.getTitle());
+		view.setDirty();
+
+	}
+
+	@Override
+	public boolean textEdit() {
+		return view.textEdit();
 	}
 }

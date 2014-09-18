@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.module.book.views.tools.BrowserComposite;
+import ebook.module.book.views.tools._BrowserComposite;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -231,7 +231,7 @@ public class OptionsDialog {
 			body.setLayoutData(new GridData(GridData.FILL_BOTH));
 			body.setLayout(new FillLayout());
 			String url = "about:config";
-			new BrowserComposite(body, url.toString());
+			new _BrowserComposite(body, url.toString());
 			// Add a boolean field
 
 			// BooleanFieldEditor bfe = new BooleanFieldEditor("myBoolean",

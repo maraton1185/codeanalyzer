@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import ebook.module.book.views.tools.BrowserComposite;
+import ebook.module.book.views.tools._BrowserComposite;
 import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -47,7 +47,7 @@ public class AboutDialog extends Dialog {
 			URL url_bundle = FileLocator.find(bundle, new Path("version.txt"),
 					null);
 			URL url = FileLocator.toFileURL(url_bundle);
-			new BrowserComposite(body, url.toString());
+			new _BrowserComposite(body, url.toString());
 
 		} catch (IOException e) {
 			e.printStackTrace();

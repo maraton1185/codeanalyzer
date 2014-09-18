@@ -8,6 +8,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 import ebook.module.book.service.BookService;
+import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 
 public interface IPictureTuneData {
@@ -28,12 +29,18 @@ public interface IPictureTuneData {
 
 	void collapse();
 
-	void reorder(SectionInfo section);
+	void rename(SectionInfo section);
 
 	void moveUp(ImageHyperlink imageHyperlink);
 
 	void moveDown(ImageHyperlink imageHyperlink);
 
-	void reorder();
+	void saveOrder();
+
+	void addImageBelow(SectionInfo section, Composite sectionClient);
+
+	void addLink(SectionImage image);
+
+	boolean textEdit();
 
 }

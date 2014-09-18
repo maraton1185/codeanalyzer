@@ -1,7 +1,6 @@
 package ebook.module.book.views.tools;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -15,12 +14,10 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.Section;
 
-import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.tree.SectionInfoOptions;
 import ebook.module.book.views.interfaces.IBlockTune;
 import ebook.module.book.views.interfaces.IPictureTuneData;
-import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -96,17 +93,7 @@ public class OptionsTune implements IBlockTune {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 
-				IPath p = Utils.browseFile(
-						new Path(
-								PreferenceSupplier
-										.get(PreferenceSupplier.DEFAULT_IMAGE_DIRECTORY)),
-						sectionClient.getShell(), Strings.title("appTitle"),
-						SectionImage.getFilters());
-				if (p == null)
-					return;
-
-				int id = tune.srv().add_image(section, p, null);
-				tune.addImage(section, id);
+				tune.addImage(section);
 
 			}
 
@@ -141,7 +128,11 @@ public class OptionsTune implements IBlockTune {
 		hlink.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				tune.reorder(section);
+				if (!MessageDialog.openConfirm(sectionClient.getShell(),
+						Strings.title("appTitle"), "Переименовать по порядку?"))
+					return;
+
+				tune.rename(section);
 			}
 		});
 

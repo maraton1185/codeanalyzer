@@ -500,6 +500,7 @@
       <children xsi:type="menu:HandledToolItem" xmi:id="_igmGkNTrEeOV85RCT5V8vQ" elementId="ebook.handledtoolitem.16" label="Добавить картинку" iconURI="platform:/plugin/ebook/icons/set/add.png" tooltip="Добавить картинку" command="_DmIcAD8DEeS6t726MB6aZw">
         <tags>FORCE_TEXT</tags>
       </children>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_VRQGAD8bEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_HLd_EDdwEeS-0-LlMvZ57A" elementId="ebook.handledtoolitem.14" label="" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_bQsS0NXGEeOaVPXyFpV1rg" elementId="ebook.handledtoolitem.17" label="Сохранить" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ">
         <tags>FORCE_TEXT</tags>
@@ -642,6 +643,7 @@
           <handlers xmi:id="_Xr1YgD5fEeStYLApr5xXAA" elementId="ebook.handler.85" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewUpdate" command="__8OIkD5eEeStYLApr5xXAA"/>
           <handlers xmi:id="_ZBSvkD5fEeStYLApr5xXAA" elementId="ebook.handler.95" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewEdit" command="_DTp-cD5fEeStYLApr5xXAA"/>
           <toolbar xmi:id="_HEzU0D5fEeStYLApr5xXAA" elementId="ebook.toolbar.19">
+            <children xsi:type="menu:HandledToolItem" xmi:id="_z2BFUD8aEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_JyylED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.43" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="__8OIkD5eEeStYLApr5xXAA"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_Nq5fED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.44" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" command="_DTp-cD5fEeStYLApr5xXAA">
               <tags>FORCE_TEXT</tags>
@@ -663,8 +665,6 @@
             <handlers xmi:id="_mHgxIBMsEeSxtrXpzQMiIQ" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Paste" command="_NMcasBMsEeSxtrXpzQMiIQ"/>
             <handlers xmi:id="_mM_HABMsEeSxtrXpzQMiIQ" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Cut" command="_Nf0CoBMsEeSxtrXpzQMiIQ"/>
             <handlers xmi:id="_Hjo4YC21EeSgt6KviOm2oQ" elementId="ebook.handler.67" contributionURI="bundleclass://ebook/ebook.module.book.handlers.SaveToHtml" command="_9Xl7IC20EeSgt6KviOm2oQ"/>
-            <handlers xmi:id="_c9A-AD7-EeS6t726MB6aZw" elementId="ebook.handler.96" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenInBrowserBook" command="_-qkTMD79EeS6t726MB6aZw"/>
-            <handlers xmi:id="_uMY0ED7-EeS6t726MB6aZw" elementId="ebook.handler.97" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenInBrowserSection" command="_Be_ioD7-EeS6t726MB6aZw"/>
             <menus xsi:type="menu:PopupMenu" xmi:id="_aCBVYLAYEeOa8OKjTLKQvw" elementId="ebook.popupmenu.contentView">
               <children xsi:type="menu:HandledMenuItem" xmi:id="_iSIokD7-EeS6t726MB6aZw" elementId="ebook.handledmenuitem.16" label="Показать в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_cGMzoLAYEeOa8OKjTLKQvw" elementId="ebook.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>
@@ -730,10 +730,11 @@
       </children>
     </children>
     <handlers xmi:id="_CApugOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.17" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Show" command="_uu33wMPIEeOmSK0x6jLnPQ"/>
-    <handlers xmi:id="_RG2RkOAlEeOuHKOpYE-s4Q" elementId="ebook.handler.21" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddPicture"/>
     <handlers xmi:id="_aW_iwBJjEeSRHfCKVoiTkg" elementId="ebook.handler.6" contributionURI="bundleclass://ebook/ebook.module.book.handlers.HideRoles" command="_U5MdUBJjEeSRHfCKVoiTkg"/>
     <handlers xmi:id="_zQzvsB4OEeSWnfW9xuDLLA" elementId="ebook.handler.4" contributionURI="bundleclass://ebook/ebook.module.conf.handlers.Show" command="_hhcMAB0_EeS8Ob_mPIL9rg"/>
     <handlers xmi:id="_wMw9gCIMEeSSjvNQ5dYbAw" elementId="ebook.handler.55" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenContext" command="_nl2LACIMEeSSjvNQ5dYbAw"/>
+    <handlers xmi:id="_c9A-AD7-EeS6t726MB6aZw" elementId="ebook.handler.96" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenInBrowserBook" command="_-qkTMD79EeS6t726MB6aZw"/>
+    <handlers xmi:id="_uMY0ED7-EeS6t726MB6aZw" elementId="ebook.handler.97" contributionURI="bundleclass://ebook/ebook.module.book.handlers.OpenInBrowserSection" command="_Be_ioD7-EeS6t726MB6aZw"/>
     <mainMenu xmi:id="_4G-cUKtuEeOc79QMS88vBA" elementId="ebook.menu.4" visible="false">
       <children xsi:type="menu:HandledMenuItem" xmi:id="_riaO4Kt2EeOc79QMS88vBA" elementId="ebook.handledmenuitem.0" visible="false" label="&amp;Выход" command="_lMKiYJlKEeOhhK_cqm6rMQ"/>
     </mainMenu>

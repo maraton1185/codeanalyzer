@@ -20,6 +20,7 @@ import org.eclipse.swt.program.Program;
 import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
+import ebook.utils.Events;
 import ebook.utils.Strings;
 
 public class Show {
@@ -45,6 +46,7 @@ public class Show {
 					+ App.getJetty().section(book.getTreeItem().getId(),
 							section.getId());
 			Program.launch(url);
+			App.br.post(Events.EVENT_SET_SECTION_CONTEXT, null);
 			return;
 		}
 
@@ -81,7 +83,7 @@ public class Show {
 	}
 
 	@CanExecute
-	public boolean canExecute(@Optional SectionInfo section) {
+	public boolean canExecute(@Active @Optional SectionInfo section) {
 
 		return section != null && App.getJetty().isStarted();
 	}

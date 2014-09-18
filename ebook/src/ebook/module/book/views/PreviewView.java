@@ -219,7 +219,7 @@ public class PreviewView implements ITextImagesView {
 			ctrl.dispose();
 		}
 
-		ImageHyperlink hlink;
+		ImageHyperlink hlink = null;
 
 		List<ITreeItemInfo> list = book.srv().getChildren(data.getId());
 		for (ITreeItemInfo item : list) {
@@ -252,7 +252,7 @@ public class PreviewView implements ITextImagesView {
 
 			// hlink.setToolTipText("Перейти к разделу");
 			hlink.setHref(item);
-			hlink.setUnderlined(false);
+			// hlink.setUnderlined(false);
 			hlink.addHyperlinkListener(new HyperlinkAdapter() {
 				@Override
 				public void linkActivated(HyperlinkEvent e) {
@@ -271,7 +271,12 @@ public class PreviewView implements ITextImagesView {
 
 			GridDataFactory.fillDefaults().grab(true, false)
 					.align(SWT.CENTER, SWT.CENTER).applyTo(hlink);
+
+			// hlink.setFocus();
 		}
+
+		if (hlink != null)
+			hlink.setFocus();
 
 		groupForm.reflow(true);
 		groupComp.setRedraw(true);

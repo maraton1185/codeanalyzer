@@ -643,6 +643,7 @@
           <handlers xmi:id="_Xr1YgD5fEeStYLApr5xXAA" elementId="ebook.handler.85" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewUpdate" command="__8OIkD5eEeStYLApr5xXAA"/>
           <handlers xmi:id="_ZBSvkD5fEeStYLApr5xXAA" elementId="ebook.handler.95" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewEdit" command="_DTp-cD5fEeStYLApr5xXAA"/>
           <toolbar xmi:id="_HEzU0D5fEeStYLApr5xXAA" elementId="ebook.toolbar.19">
+            <children xsi:type="menu:DirectToolItem" xmi:id="_WWymMD8lEeSZOZX2x3RrFA" elementId="ebook.directtoolitem.blockPreview" label="Блокировка" iconURI="platform:/plugin/ebook/icons/set/preview_block.png" tooltip="Блокировка" type="Check" contributionURI="bundleclass://ebook/ebook.module.book.handlers.BlockPreview"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_z2BFUD8aEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_JyylED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.43" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="__8OIkD5eEeStYLApr5xXAA"/>
             <children xsi:type="menu:HandledToolItem" xmi:id="_Nq5fED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.44" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_DTp-cD5fEeStYLApr5xXAA">

@@ -36,6 +36,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import ebook.module.book.BookConnection;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.views.interfaces.IBrowserBridgeView;
 import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
 import ebook.module.book.views.tools.TextEdit;
@@ -46,7 +47,7 @@ import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
-public class PreviewView implements ITextImagesView {
+public class PreviewView implements ITextImagesView, IBrowserBridgeView {
 
 	@Inject
 	@Active
@@ -88,6 +89,8 @@ public class PreviewView implements ITextImagesView {
 
 	private ImagesComposite imagesComposite;
 	private MWindow window;
+	private boolean blockUpdate = false;
+	private SectionInfo section;
 
 	@Focus
 	public void OnFocus(@Active @Optional SectionInfo data) {
@@ -109,6 +112,11 @@ public class PreviewView implements ITextImagesView {
 	}
 
 	public void update(SectionInfo data) {
+
+		if (blockUpdate)
+			return;
+
+		this.section = data;
 
 		if (data == null) {
 			stackLayout.topControl = nullComp;
@@ -252,7 +260,7 @@ public class PreviewView implements ITextImagesView {
 
 			// hlink.setToolTipText("Перейти к разделу");
 			hlink.setHref(item);
-			// hlink.setUnderlined(false);
+			hlink.setUnderlined(false);
 			hlink.addHyperlinkListener(new HyperlinkAdapter() {
 				@Override
 				public void linkActivated(HyperlinkEvent e) {
@@ -312,6 +320,21 @@ public class PreviewView implements ITextImagesView {
 	@Override
 	public boolean textEdit() {
 		return false;
+	}
+
+	public void triggerBlock() {
+		blockUpdate = !blockUpdate;
+
+		// MDirectToolItem data = (MDirectToolItem) App.model.find(
+		// Strings.model("ebook.directtoolitem.blockPreview"), App.app);
+		//
+		// data.setSelected(blockUpdate);
+
+	}
+
+	@Override
+	public SectionInfo getSection() {
+		return section;
 	}
 
 }

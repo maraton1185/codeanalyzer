@@ -22,13 +22,14 @@ import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.views.interfaces.IBrowserBridgeView;
 import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
 import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Events;
 import ebook.utils.Utils;
 
-public class SectionView implements ITextImagesView {
+public class SectionView implements ITextImagesView, IBrowserBridgeView {
 
 	@Inject
 	@Active
@@ -146,6 +147,11 @@ public class SectionView implements ITextImagesView {
 	public void addImage() {
 		imagesComposite.addImage(section);
 
+	}
+
+	@Override
+	public SectionInfo getSection() {
+		return section;
 	}
 
 }

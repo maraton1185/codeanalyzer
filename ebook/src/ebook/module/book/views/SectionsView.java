@@ -50,6 +50,8 @@ public class SectionsView {
 	@Active
 	BookConnection con;
 
+	private MWindow window;
+
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_CONTENT_VIEW(
@@ -85,6 +87,27 @@ public class SectionsView {
 
 	@Inject
 	@Optional
+	public void EVENT_SET_SECTION_CONTEXT(
+			@UIEventTopic(Events.EVENT_SET_SECTION_CONTEXT) Object data) {
+
+		IStructuredSelection selection = (IStructuredSelection) viewer
+				.getSelection();
+
+		SectionInfoSelection sel = new SectionInfoSelection();
+		@SuppressWarnings("unchecked")
+		Iterator<ListBookInfo> iterator = selection.iterator();
+		while (iterator.hasNext())
+			sel.add(iterator.next());
+
+		window.getContext().set(SectionInfoSelection.class, sel);
+
+		window.getContext().set(SectionInfo.class,
+				(SectionInfo) selection.getFirstElement());
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_UPDATE_CONTENT_VIEW(
 			@UIEventTopic(Events.EVENT_UPDATE_CONTENT_VIEW) EVENT_UPDATE_VIEW_DATA data,
 			final EHandlerService hs, final ECommandService cs,
@@ -106,6 +129,8 @@ public class SectionsView {
 			EMenuService menuService, final EHandlerService hs,
 			final ECommandService cs) {
 
+		this.window = window;
+
 		panelVisible();
 
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
@@ -120,19 +145,21 @@ public class SectionsView {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 
-				IStructuredSelection selection = (IStructuredSelection) viewer
-						.getSelection();
-
-				SectionInfoSelection sel = new SectionInfoSelection();
-				@SuppressWarnings("unchecked")
-				Iterator<ListBookInfo> iterator = selection.iterator();
-				while (iterator.hasNext())
-					sel.add(iterator.next());
-
-				window.getContext().set(SectionInfoSelection.class, sel);
-
-				window.getContext().set(SectionInfo.class,
-						(SectionInfo) selection.getFirstElement());
+				EVENT_SET_SECTION_CONTEXT(null);
+				// IStructuredSelection selection = (IStructuredSelection)
+				// viewer
+				// .getSelection();
+				//
+				// SectionInfoSelection sel = new SectionInfoSelection();
+				// @SuppressWarnings("unchecked")
+				// Iterator<ListBookInfo> iterator = selection.iterator();
+				// while (iterator.hasNext())
+				// sel.add(iterator.next());
+				//
+				// window.getContext().set(SectionInfoSelection.class, sel);
+				//
+				// window.getContext().set(SectionInfo.class,
+				// (SectionInfo) selection.getFirstElement());
 
 				App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
 			}

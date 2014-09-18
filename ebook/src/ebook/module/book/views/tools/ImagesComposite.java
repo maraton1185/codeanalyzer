@@ -173,10 +173,10 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 
 		DragSource source = new DragSource(section, DND.DROP_NONE);
 		source.setTransfer(new Transfer[] { TextTransfer.getInstance() });
-		source.addDragListener(new SectionDragSourceListener(body, source));
+		source.addDragListener(new ImageDragSourceListener(body, source));
 		DropTarget target = new DropTarget(section, DND.DROP_NONE);
 		target.setTransfer(new Transfer[] { TextTransfer.getInstance() });
-		target.addDropListener(new SectionDropTargetListener(this, body, target));
+		target.addDropListener(new ImageDropTargetListener(this, body, target));
 
 		Composite sectionClient = toolkit.createComposite(section);
 		sectionClient.setLayout(new GridLayout(1, false));

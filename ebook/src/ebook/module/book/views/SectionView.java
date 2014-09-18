@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
@@ -86,7 +87,7 @@ public class SectionView implements ITextImagesView {
 		dirty.setDirty(false);
 
 		this.section = section;
-		// this.window = window;
+		App.br.post(Events.EVENT_SET_SECTION_CONTEXT, null);
 		toolkit = new FormToolkit(parent.getDisplay());
 
 		// **************************************************************

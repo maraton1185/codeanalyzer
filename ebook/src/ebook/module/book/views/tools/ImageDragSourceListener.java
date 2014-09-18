@@ -5,11 +5,11 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.widgets.Composite;
 
-public class SectionDragSourceListener implements DragSourceListener {
+public class ImageDragSourceListener implements DragSourceListener {
 	private Composite parentComposite;
 	private DragSource source;
 
-	public SectionDragSourceListener(Composite parentComposite,
+	public ImageDragSourceListener(Composite parentComposite,
 			DragSource source) {
 		this.parentComposite = parentComposite;
 		this.source = source;

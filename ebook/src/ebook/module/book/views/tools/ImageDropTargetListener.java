@@ -8,13 +8,13 @@ import org.eclipse.swt.widgets.Control;
 
 import ebook.module.book.views.interfaces.IPictureTuneData;
 
-public class SectionDropTargetListener implements DropTargetListener {
+public class ImageDropTargetListener implements DropTargetListener {
 
 	private Composite parentComposite;
 	private DropTarget target;
 	private IPictureTuneData tune;
 
-	public SectionDropTargetListener(IPictureTuneData tune,
+	public ImageDropTargetListener(IPictureTuneData tune,
 			Composite parentComposite, DropTarget target) {
 		this.parentComposite = parentComposite;
 		this.target = target;

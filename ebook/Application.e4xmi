@@ -112,6 +112,11 @@
               </toolbar>
             </children>
             <children xsi:type="basic:Part" xmi:id="_pR2BcODfEeOAI_38tK8ATw" elementId="ebook.part.book" contributionURI="bundleclass://ebook/ebook.module.bookList.view.BookView" label="Книга">
+              <handlers xmi:id="_pJalQD8FEeS6t726MB6aZw" elementId="ebook.handler.96" contributionURI="bundleclass://ebook/ebook.module.bookList.handlers.OpenBookInBrowser" command="_-qkTMD79EeS6t726MB6aZw"/>
+              <menus xmi:id="_kKKdAD8FEeS6t726MB6aZw" elementId="ebook.menu.1">
+                <tags>ViewMenu</tags>
+                <children xsi:type="menu:HandledMenuItem" xmi:id="_nWufoD8FEeS6t726MB6aZw" elementId="ebook.handledmenuitem.15" label="Открыть книгу в браузере" command="_-qkTMD79EeS6t726MB6aZw"/>
+              </menus>
               <toolbar xmi:id="_zpNhEODjEeOAI_38tK8ATw" elementId="ebook.toolbar.10">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_ldyoQOTVEeOGWI1qik9KEA" elementId="ebook.handledtoolitem.31" label="Открыть" iconURI="" tooltip="Открыть книгу" command="_A3uvkOP_EeOAy9eWHpjDYw"/>
                 <children xsi:type="menu:HandledToolItem" xmi:id="_0CPsIODjEeOAI_38tK8ATw" elementId="ebook.handledtoolitem.29" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>

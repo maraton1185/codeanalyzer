@@ -136,6 +136,11 @@ public abstract class Events {
 
 	public static final String EVENT_TEXT_VIEW_FILL_BOOKMARKS = "EVENT_TEXT_VIEW_FILL_BOOKMARKS";
 
+	public static final String EVENT_SET_SECTION_CONTEXT = "EVENT_SET_SECTION_CONTEXT";
+
+	// public static final String CONTEXT_SECTION_TO_OPEN =
+	// "CONTEXT_SECTION_TO_OPEN";
+
 	// public static final String CONF_LIST_VIEW_COMPARISON =
 	// "CONF_LIST_VIEW_COMPARISON";
 

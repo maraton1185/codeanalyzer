@@ -12,14 +12,12 @@
 
 <link rel="SHORTCUT ICON" href="favicon.ico">
 
-<title>${model.title}</title>
+<title>${model.activeSection}</title>
 
 <!-- Bootstrap core CSS -->
  <jsp:include page="${initParam.bootstrap}bootstrap.css.jsp"/>
 
-<c:if test="${empty param.swt}">
-	<script type="text/javascript" src="${initParam.root_context}highlight/highlight.pack.js"></script>
-</c:if>
+<script type="text/javascript" src="${initParam.root_context}highlight/highlight.pack.js"></script>
 <link href="${initParam.root_context}highlight/styles/1c.css" rel="stylesheet">
 
 <!-- Custom CSS for the '3 Col Portfolio' Template -->
@@ -43,15 +41,8 @@
 				</button>
 				<!-- BRAND -->
 
-				<c:choose>
-					<c:when test="${swt == param.swt}">
-	            		<span class="navbar-brand">${model.title}</span>
-	                </c:when>
-	                <c:otherwise>
-	        			<a class="navbar-brand" href="${model.url}">${model.title}</a>
-	    			</c:otherwise>
-				</c:choose>
-				
+				<a class="navbar-brand" href="${model.url}">${model.title}</a>
+	    						
 			</div>
 
 			
@@ -67,17 +58,13 @@
 				<jsp:include page="/tmpl/auth.jsp"/>
 
 				<!-- SEARCH -->
-				<c:if test="${empty param.swt}">
-	    			
-		        		
-					<form class="navbar-form navbar-right hidden-print" role="search">
-						<div class="form-group">
-					    	<input type="hidden" name="book" value="${param.book}"</>
-					    	<input type="text" class="form-control" placeholder="Поиск" name="search" value="${param.search}">
-					    </div>					    
-					</form>
-		        	
-	            </c:if>
+				<form class="navbar-form navbar-right hidden-print" role="search">
+					<div class="form-group">
+				    	<input type="hidden" name="book" value="${param.book}"</>
+				    	<input type="text" class="form-control" placeholder="Поиск" name="search" value="${param.search}">
+				    </div>					    
+				</form>
+		        
 		
 			</div>
 			
@@ -92,14 +79,7 @@
 				<ol class="breadcrumb">
 					<c:forEach var="parent" items="${model.parents}">
 	                	<li>
-							<c:choose>
-								<c:when test="${swt == param.swt}">
-	                				<a class="openSection" data="${parent.id}" href="${parent.url}">${parent.title}</a>
-	                			</c:when>
-	                			 <c:otherwise>
-	        						<a href="${parent.url}">${parent.title}</a>
-	    						</c:otherwise>
-	                		</c:choose>
+							<a href="${parent.url}">${parent.title}</a>	    					
 	                	</li>            		
 	            	</c:forEach>
 	            	<li class="active">${model.activeSection}</li>
@@ -129,39 +109,21 @@
 					<c:if test="${section.group}">
 
 						<!-- TITLE-->
-						<c:choose>
-							<c:when test="${swt == param.swt}">
-                				<a href="#" class="openSection">
-									<h2 class="page-header1">${section.title}</h2>
-								</a>
-                			</c:when>
-                			<c:otherwise>
-        						<a href="${section.url}">
-									<h2 class="page-header1">${section.title}</h2>
-								</a>								
-    						</c:otherwise>
-                		</c:choose>
+						<a href="${section.url}">
+							<h2 class="page-header1">${section.title}</h2>
+						</a>								
+    					
 
 						<!-- UP link-->
 						<div class="back-to-top hidden-print">
 							<a href="#"><small>Наверх</small></a>
 
-							<c:choose>
-								<c:when test="${swt == param.swt}">
-									<c:if test="${not empty section.context }">
-										<a href="#" class="openContext"> 
-											<span class="fa fa-pencil"></span> <small>Контекст</small>
-										</a>
-									</c:if>
-								</c:when>
-                				<c:otherwise>
-                					<c:if test="${not empty section.context }">
-										<a href="${section.context}" target="_blank"> 
-											<span class="fa fa-pencil"></span> <small>Контекст</small>
-										</a>
-									</c:if>
-                				</c:otherwise>
-                			</c:choose>
+							<c:if test="${not empty section.context }">
+								<a href="${section.context}" target="_blank"> 
+									<span class="fa fa-pencil"></span> <small>Контекст</small>
+								</a>
+							</c:if>
+                			
 						</div>
 					</c:if>
 
@@ -172,26 +134,12 @@
 						<div class="back-to-top hidden-print">
 							<a href="#"><small>Наверх</small></a>
 
-							<!-- SWT edit link-->
-							<c:choose>
-								<c:when test="${swt == param.swt}">
-									<a href="#" class="openSection"> <span
-										class="fa fa-pencil"></span> <small>Изменить</small>
-									</a>
-									<c:if test="${not empty section.context }">
-										<a href="#" class="openContext"> 
-											<span class="fa fa-pencil"></span> <small>Контекст</small>
-										</a>
-									</c:if>
-								</c:when>
-                				<c:otherwise>
-                					<c:if test="${not empty section.context }">
-										<a href="${section.context}" target="_blank"> 
-											<span class="fa fa-pencil"></span> <small>Контекст</small>
-										</a>
-									</c:if>
-								</c:otherwise>
-                			</c:choose>
+							<c:if test="${not empty section.context }">
+								<a href="${section.context}" target="_blank"> 
+									<span class="fa fa-pencil"></span> <small>Контекст</small>
+								</a>
+							</c:if>
+							
 						</div>
 
 					</c:if>

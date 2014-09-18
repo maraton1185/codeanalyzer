@@ -30,15 +30,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <c:choose>
-                    <c:when test="${swt == param.swt}">
-                        <a class="navbar-brand" href="#">${applicationScope.brand}</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
-                    </c:otherwise>
-                </c:choose>
-                
+                <a class="navbar-brand" href="${initParam.root_url}">${applicationScope.brand}</a>
+                                
             </div>
 
             <!-- LINKS -->

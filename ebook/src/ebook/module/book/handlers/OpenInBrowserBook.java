@@ -11,9 +11,9 @@ import ebook.module.book.BookConnection;
 public class OpenInBrowserBook {
 	@Execute
 	public void execute(@Active BookConnection book) {
-		if (App.getJetty().isStarted())
-			Program.launch(App.getJetty().host()
-					+ App.getJetty().book(book.getTreeItem().getId()));
+
+		Program.launch(App.getJetty().host()
+				+ App.getJetty().book(book.getTreeItem().getId()));
 
 	}
 

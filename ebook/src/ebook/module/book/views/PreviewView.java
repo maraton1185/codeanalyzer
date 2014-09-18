@@ -1,5 +1,7 @@
 package ebook.module.book.views;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -12,14 +14,23 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 import ebook.module.book.BookConnection;
@@ -29,7 +40,10 @@ import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
 import ebook.module.book.views.tools.TextEdit;
 import ebook.module.book.views.tools.TextPreview;
+import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
+import ebook.utils.PreferenceSupplier;
+import ebook.utils.Strings;
 import ebook.utils.Utils;
 
 public class PreviewView implements ITextImagesView {
@@ -57,6 +71,10 @@ public class PreviewView implements ITextImagesView {
 	StackLayout stackLayout;
 	Composite groupComp;
 	Composite itemComp;
+	Composite nullComp;
+
+	ScrolledForm groupForm;
+	Composite groupBody;
 
 	@Inject
 	MDirtyable dirty;
@@ -69,6 +87,7 @@ public class PreviewView implements ITextImagesView {
 	MPart part;
 
 	private ImagesComposite imagesComposite;
+	private MWindow window;
 
 	@Focus
 	public void OnFocus(@Active @Optional SectionInfo data) {
@@ -90,22 +109,31 @@ public class PreviewView implements ITextImagesView {
 	}
 
 	public void update(SectionInfo data) {
-		if (data != null && !data.isGroup()) {
+
+		if (data == null) {
+			stackLayout.topControl = nullComp;
+
+		} else if (data.isGroup()) {
+
+			stackLayout.topControl = groupComp;
+			updateGroup(data);
+
+		} else if (!data.isGroup()) {
+
+			stackLayout.topControl = itemComp;
 			text.setText(book.srv().getText(data.getId()));
 			imagesComposite.update(data);
 		}
 
-		updateLayout(data);
+		updateLayout();
 	}
 
-	private void updateLayout(SectionInfo data) {
-		if (data == null || data.isGroup())
-			stackLayout.topControl = groupComp;
-		else
-			stackLayout.topControl = itemComp;
+	private void updateLayout() {
+
 		stack.layout();
 		itemComp.layout(true);
 		groupComp.layout(true);
+		nullComp.layout(true);
 		imagesComposite.reflow();
 
 	}
@@ -114,7 +142,7 @@ public class PreviewView implements ITextImagesView {
 	public void postConstruct(Composite parent, @Active final MWindow window,
 			@Active MPart part) {
 
-		// this.window = window;
+		this.window = window;
 		// this.part = part;
 
 		stack = parent;
@@ -141,19 +169,112 @@ public class PreviewView implements ITextImagesView {
 
 		// renderGroups();
 
+		GridData gd;
+
+		// **************************************************************
+		nullComp = new Composite(stack, SWT.NONE);
+		nullComp.setLayout(new FillLayout());
+
+		ScrolledForm fnull = toolkit.createScrolledForm(nullComp);
+		gd = new GridData();
+		gd.verticalAlignment = SWT.TOP;
+		gd.grabExcessVerticalSpace = true;
+		fnull.setLayoutData(gd);
+		fnull.setText("Нет данных для просмотра");
+
 		// **************************************************************
 		groupComp = new Composite(stack, SWT.NONE);
 		groupComp.setLayout(new FillLayout());
 
-		ScrolledForm f = toolkit.createScrolledForm(groupComp);
-		GridData gd = new GridData();
+		groupForm = toolkit.createScrolledForm(groupComp);
+		gd = new GridData();
 		gd.verticalAlignment = SWT.TOP;
 		gd.grabExcessVerticalSpace = true;
-		f.setLayoutData(gd);
-		f.setText("group");
+		groupForm.setLayoutData(gd);
+		groupForm.setText("Раздел");
 
-		// **************************************************************
-		// updateLayout(section);
+		toolkit.decorateFormHeading(groupForm.getForm());
+
+		groupBody = groupForm.getBody();
+		toolkit.paintBordersFor(groupBody);
+
+		GridLayout layout1 = new GridLayout();
+		layout1.numColumns = 1;
+		groupBody.setLayout(layout1);
+		groupBody.setFont(new Font(parent.getDisplay(), PreferenceSupplier
+				.getFontData(PreferenceSupplier.FONT)));
+
+		// groupBody.setForeground();
+
+	}
+
+	public void updateGroup(SectionInfo data) {
+
+		groupForm.setText(data.getTitle());
+
+		groupComp.setRedraw(false);
+
+		for (Control ctrl : groupBody.getChildren()) {
+
+			ctrl.dispose();
+		}
+
+		ImageHyperlink hlink;
+
+		List<ITreeItemInfo> list = book.srv().getChildren(data.getId());
+		for (ITreeItemInfo item : list) {
+
+			hlink = toolkit.createImageHyperlink(groupBody, SWT.RIGHT);
+			hlink.setText(item.getTitle());
+			hlink.setForeground(groupBody.getDisplay().getSystemColor(
+					SWT.COLOR_BLACK));
+
+			// hlink.setImage(Utils.getImage("markers/module.png"));
+
+			FontData fontDatas[] = groupBody.getFont().getFontData();
+			FontData fd = fontDatas[0];
+			Font font;
+			int height;
+			if (item.isGroup()) {
+
+				height = 20;// fd.getHeight();
+				// height = (int) (height - 0.2 * height);
+				font = new Font(Display.getCurrent(), fd.getName(), height,
+						SWT.BOLD);
+			} else {
+				height = 20;// fd.getHeight();
+				height = (int) (height - 0.2 * height);
+				font = new Font(Display.getCurrent(), fd.getName(), height,
+						SWT.NORMAL);
+				// hlink.setImage(Utils.getImage("markers/object.png"));
+			}
+			hlink.setFont(font);
+
+			// hlink.setToolTipText("Перейти к разделу");
+			hlink.setHref(item);
+			hlink.setUnderlined(false);
+			hlink.addHyperlinkListener(new HyperlinkAdapter() {
+				@Override
+				public void linkActivated(HyperlinkEvent e) {
+
+					SectionInfo item = (SectionInfo) e.getHref();
+
+					window.getContext().set(SectionInfo.class, item);
+
+					executeHandler(Strings.model("command.id.ShowSection"));
+
+				}
+			});
+
+			// hlink.setBackground(groupForm.getDisplay().getSystemColor(
+			// SWT.COLOR_BLACK));
+
+			GridDataFactory.fillDefaults().grab(true, false)
+					.align(SWT.CENTER, SWT.CENTER).applyTo(hlink);
+		}
+
+		groupForm.reflow(true);
+		groupComp.setRedraw(true);
 
 	}
 

@@ -3,7 +3,6 @@
 
 <!-- <div class="collapse navbar-collapse navbar-ex1-collapse"> -->
 
-<c:if test="${empty param.swt}">
 
 <ul class="nav navbar-nav navbar-right navbar-user">
 	
@@ -30,5 +29,5 @@
 	
 			
 </ul>
-</c:if>
+
 <!-- </div> -->

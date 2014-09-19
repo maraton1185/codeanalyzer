@@ -83,8 +83,8 @@ public class TextEdit extends Composite {
 
 		String text = srv.getText(section.getId());
 
-		editor_content = text == null ? "" : text.replace("\n", "\\n").replace(
-				"'", "\\'");
+		editor_content = text == null ? "" : text.replace("\n", "\\n")
+				.replace("\r", "\\r").replace("\t", "\\t").replace("'", "\\'");
 
 		if (loadCompleted)
 			browser.execute("setContent('" + editor_content + "');");

@@ -112,7 +112,7 @@ public class BookService extends TreeService implements IDownloadService {
 
 	@Override
 	protected String getInitText() {
-		return Strings.value("blocktext");
+		return PreferenceSupplier.get(PreferenceSupplier.INIT_SECTION_HTML);
 	}
 
 	@Override

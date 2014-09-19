@@ -12,12 +12,19 @@ import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import ebook.module.book.views.tools._BrowserComposite;
 import ebook.utils.PreferenceSupplier;
@@ -317,6 +324,133 @@ public class OptionsDialog {
 					"Префикс имени картинки", comp);
 			addField(f);
 
+			f = new MultiLineTextFieldEditor(
+					PreferenceSupplier.INIT_SECTION_HTML,
+					"Начальный текст блока", comp);
+			addField(f);
+
+		}
+	}
+
+	class FieldEditorPageExample extends FieldEditorPreferencePage {
+		private ScrolledComposite fScrolledComposite;
+		private int fCompositeWidth = 100;
+		private int fCompositeHeight = 100;
+		private FormToolkit toolkit;
+		private Form form;
+
+		public FieldEditorPageExample() {
+			super(GRID);
+			setTitle("Начальный текст блока книги");
+		}
+
+		/**
+		 * Creates the field editors
+		 */
+		@Override
+		protected void createFieldEditors() {
+
+			// Create the ScrolledComposite to scroll horizontally and
+			// vertically
+			fScrolledComposite = new ScrolledComposite(getFieldEditorParent(),
+					SWT.H_SCROLL | SWT.V_SCROLL);
+			// Displays the scrollbars when the window gets smaller
+			fScrolledComposite.setAlwaysShowScrollBars(false);
+			// Sets the minimum size for the composite to work for scrolling
+			fScrolledComposite.setMinSize(fCompositeWidth, fCompositeHeight);
+			fScrolledComposite.setExpandHorizontal(true);
+			fScrolledComposite.setExpandVertical(true);
+
+			Composite composite = new Composite(fScrolledComposite, SWT.NONE);
+			composite.setLayout(new GridLayout());
+			fScrolledComposite.setContent(composite);
+			// Sets up the toolkit.
+			Display display = composite.getDisplay();
+			toolkit = new FormToolkit(display);
+
+			// Creates a form instance.
+			form = toolkit.createForm(composite);
+			form.getBody().setLayout(new GridLayout());
+			form.setBackground(display
+					.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+			// form.setText("Model: " + SignalGeneratorDevice.MODEL_ID);
+
+			// Add the three main nodes to the preference page
+			addNode1();
+
+		}
+
+		/**
+		 * Adds the first node to the preference page
+		 */
+
+		private void addNode1() {
+			ExpandableComposite expandableComposite = createExpandableComposite(
+					"Signal Generator Device Host/Port:", true);
+			Composite comp = createChildComposite(expandableComposite);
+
+			FieldEditor f = new StringFieldEditor(
+					PreferenceSupplier.IMAGE_TITLE, "Префикс имени картинки",
+					comp);
+			addField(f);
+		}
+
+		/**
+		 * Creates an ExpandableComposite that will be added to the preference
+		 * page
+		 * 
+		 * @param label
+		 * @param expanded
+		 * @return
+		 */
+		private ExpandableComposite createExpandableComposite(String label,
+				boolean expanded) {
+			ExpandableComposite expandableComposite = null;
+			if (expanded) {
+				expandableComposite = toolkit.createExpandableComposite(
+						form.getBody(), ExpandableComposite.TWISTIE
+								| ExpandableComposite.CLIENT_INDENT
+								| ExpandableComposite.EXPANDED);
+			} else {
+				expandableComposite = toolkit.createExpandableComposite(
+						form.getBody(), ExpandableComposite.TWISTIE
+								| ExpandableComposite.CLIENT_INDENT);
+			}
+
+			expandableComposite.setText(label);
+			expandableComposite.setBackground(form.getBackground());
+			expandableComposite.addExpansionListener(new ExpansionAdapter() {
+				@Override
+				public void expansionStateChanged(ExpansionEvent e) {
+					form.pack();
+				}
+			});
+
+			GridData gd = new GridData();
+			expandableComposite.setLayoutData(gd);
+
+			return expandableComposite;
+		}
+
+		/**
+		 * Creates a child composite for an ExpandableComposite
+		 * 
+		 * @param expandableComposite
+		 * @return
+		 */
+		private Composite createChildComposite(
+				ExpandableComposite expandableComposite) {
+			Composite childComposite = new Composite(expandableComposite,
+					SWT.None);
+
+			GridData gd = new GridData(GridData.FILL_BOTH);
+			gd.horizontalSpan = 2;
+			// gd.horizontalAlignment = GridData.END;
+			childComposite.setLayoutData(gd);
+
+			expandableComposite.setClient(childComposite);
+
+			return childComposite;
 		}
 	}
 

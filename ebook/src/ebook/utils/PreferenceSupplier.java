@@ -58,12 +58,29 @@ public abstract class PreferenceSupplier {
 	public static final String BOOKMARK_LENGTH = "BOOKMARK_LENGTH";
 	public static final String CONF_LIST_VIEW_COMPARISON = "CONF_LIST_VIEW_COMPARISON";
 	public static final String IMAGE_TITLE = "IMAGE_TITLE";
+	public static final String INIT_SECTION_HTML = "INIT_SECTION_HTML";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore
+				.setDefault(
+						PreferenceSupplier.INIT_SECTION_HTML,
+						"<h2>"
+								+ "Заголовок &quot;&quot; ()</h2>"
+								+ "<table border=\"1\" cellpadding=\"10\" cellspacing=\"1\" style=\"width: 100%;\">"
+								+ "		<tbody>" + "			<tr>" + "				<td>"
+								+ "					&nbsp;</td>" + "				<td>"
+								+ "					&nbsp;</td>" + "			</tr>" + "			<tr>"
+								+ "				<td>" + "					&nbsp;</td>" + "				<td>"
+								+ "					&nbsp;</td>" + "			</tr>" + "			<tr>"
+								+ "				<td>" + "					&nbsp;</td>" + "				<td>"
+								+ "					&nbsp;</td>" + "			</tr>"
+								+ "		</tbody>" + "	</table>" + "	<p>"
+								+ "		&nbsp;</p>");
 
 		preferenceStore.setDefault(PreferenceSupplier.IMAGE_TITLE,
 				Strings.value("image"));

@@ -47,13 +47,7 @@
 
 			
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				<!-- LINKS -->
-				<ul class="nav navbar-nav">
-					<c:forEach var="section" items="${model.sections}">
-						<li><a href="#${section.id}">${section.title}</a></li>
-					</c:forEach>
-				</ul>
-
+				
 				<!-- AUTH -->
 				<jsp:include page="/tmpl/auth.jsp"/>
 
@@ -65,8 +59,13 @@
 				    </div>					    
 				</form>
 		        
-		
-			</div>
+				<!-- LINKS -->
+				<ul class="nav navbar-nav">
+					<c:forEach var="section" items="${model.sections}">
+						<li><a href="#${section.id}">${section.title}</a></li>
+					</c:forEach>
+				</ul>
+			</div> 
 			
 		</div>
 	</nav><!-- /NAV BAR -->

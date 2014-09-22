@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ebook.auth.crypt._AesCrypt;
 import ebook.core.App;
 import ebook.core.interfaces.IDbConnection;
 import ebook.module.conf.model.BuildType;
@@ -22,7 +23,6 @@ import ebook.module.confLoad.model.ELevel;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.ITreeItemSelection;
-import ebook.utils.AesCrypt;
 import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
@@ -850,7 +850,7 @@ public abstract class TreeService implements ITreeService {
 					prep1.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
 					prep1.setString(2,
-							AesCrypt.getHash(text.toString().getBytes()));
+							_AesCrypt.getHash(text.toString().getBytes()));
 					prep1.setInt(3, rs.getInt(1));
 					int affectedRows = prep1.executeUpdate();
 					if (affectedRows == 0)
@@ -863,7 +863,7 @@ public abstract class TreeService implements ITreeService {
 					prep2.setCharacterStream(1, new BufferedReader(
 							new StringReader(text.toString())));
 					prep2.setString(2,
-							AesCrypt.getHash(text.toString().getBytes()));
+							_AesCrypt.getHash(text.toString().getBytes()));
 					prep2.setInt(3, id);
 					int affectedRows = prep2.executeUpdate();
 					if (affectedRows == 0)

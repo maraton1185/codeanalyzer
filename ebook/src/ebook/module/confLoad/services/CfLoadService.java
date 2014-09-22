@@ -8,10 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import ebook.auth.crypt._AesCrypt;
 import ebook.module.confLoad.model.ELevel;
 import ebook.module.confLoad.model.Entity;
 import ebook.module.confLoad.model.procEntity;
-import ebook.utils.AesCrypt;
 
 public class CfLoadService {
 
@@ -164,7 +164,7 @@ public class CfLoadService {
 		prep.setInt(1, index);
 		prep.setCharacterStream(2, new BufferedReader(new StringReader(
 				line.text.toString())));
-		prep.setString(3, AesCrypt.getHash(line.text.toString().getBytes()));
+		prep.setString(3, _AesCrypt.getHash(line.text.toString().getBytes()));
 
 		int affectedRows = prep.executeUpdate();
 		if (affectedRows == 0)

@@ -12,12 +12,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.prefs.Preferences;
 
 import ebook.auth.interfaces.IAuthorize;
+import ebook.auth.interfaces.ICrypt;
 import ebook.core.App;
+import ebook.core.pico;
 import ebook.core.exceptions.CryptException;
 import ebook.core.exceptions.RequestParseException;
 import ebook.core.exceptions.SiteAccessException;
 import ebook.core.exceptions.SiteCryptException;
-import ebook.utils.AesCrypt;
 import ebook.utils.Const;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -96,7 +97,7 @@ public class SignIn implements IAuthorize {
 		try {
 			res.response.clear();
 			activationString = getMessageString(res.response);
-			AesCrypt crypt = new AesCrypt();
+			ICrypt crypt = pico.get(ICrypt.class);
 			info.serial = crypt.toString(crypt.Encrypt(activationString));
 		} catch (Exception e) {
 			info.message = Const.MSG_ACTIVATE_FAIL + e.getMessage();
@@ -156,7 +157,11 @@ public class SignIn implements IAuthorize {
 		// ******************************************
 
 		try {
-			AesCrypt crypt = new AesCrypt();
+			// _AesCrypt crypt = new _AesCrypt();
+			ICrypt crypt = pico.get(ICrypt.class);
+			// Crypt crypt = new Crypt();
+			// Request msg =
+			// getMessageFromString(crypt.Decrypt(activationString));
 			Request msg = getMessageFromString(crypt.Decrypt(crypt
 					.toByteArray(activationString)));
 			info.fill(msg);
@@ -221,7 +226,7 @@ public class SignIn implements IAuthorize {
 
 		Request result = new Request();
 
-		String msg = decript.substring(AesCrypt.CRYPT_PREFIX.length());
+		String msg = decript.trim().substring(ICrypt.CRYPT_PREFIX.length());
 		String[] lines = msg.split("&");
 		if (lines.length == 0)
 			throw new RequestParseException();
@@ -258,7 +263,7 @@ public class SignIn implements IAuthorize {
 	 */
 	private String getMessageString(Request msg) throws RequestParseException {
 
-		String result = AesCrypt.CRYPT_PREFIX;
+		String result = ICrypt.CRYPT_PREFIX;
 
 		try {
 			for (Field f : msg.getClass().getDeclaredFields()) {
@@ -293,7 +298,8 @@ public class SignIn implements IAuthorize {
 
 		String body = getMessageString(msg);
 
-		AesCrypt crypt = new AesCrypt();
+		ICrypt crypt = pico.get(ICrypt.class);
+		// _AesCrypt crypt = new _AesCrypt();
 		byte[] urlData = crypt.Encrypt(body);
 
 		URL url = new URL(_url);

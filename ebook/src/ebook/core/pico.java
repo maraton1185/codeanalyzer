@@ -5,6 +5,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import ebook.auth.SignIn;
+import ebook.auth.crypt.Crypt;
 import ebook.core.models.ManagerFactory;
 import ebook.core.models.ServiceFactory;
 import ebook.module.confLoad.LoaderManager;
@@ -45,6 +46,8 @@ public final class pico {
 		instance.as(Characteristics.CACHE).addComponent(Clipboard.class);
 
 		instance.as(Characteristics.CACHE).addComponent(ColorManager.class);
+
+		instance.as(Characteristics.CACHE).addComponent(Crypt.class);
 
 	}
 

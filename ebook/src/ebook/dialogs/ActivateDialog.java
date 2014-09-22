@@ -84,7 +84,7 @@ public class ActivateDialog extends Dialog {
 		// ************* ПОЧТА ************************
 
 		label = new Label(container, SWT.LEFT);
-		label.setText("Почта:");
+		label.setText("Email:");
 
 		loginField = new Text(container, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData();
@@ -175,10 +175,10 @@ public class ActivateDialog extends Dialog {
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				btnRegisterOnClick();
+				btnBuyOnClick();
 			}
 		});
-		button.setText("Продлить");
+		button.setText("Купить");
 
 		statusField = new Text(container, SWT.MULTI | SWT.BORDER | SWT.WRAP
 				| SWT.V_SCROLL);
@@ -194,7 +194,7 @@ public class ActivateDialog extends Dialog {
 		return area;
 	}
 
-	protected void btnRegisterOnClick() {
+	protected void btnBuyOnClick() {
 
 		Program.launch(Const.URL_proLinkOpen);
 

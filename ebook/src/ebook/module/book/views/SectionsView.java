@@ -161,7 +161,8 @@ public class SectionsView {
 				// window.getContext().set(SectionInfo.class,
 				// (SectionInfo) selection.getFirstElement());
 
-				App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
+				App.br.post(Events.EVENT_UPDATE_SECTION_INFO,
+						new EVENT_UPDATE_VIEW_DATA(con));
 			}
 		});
 

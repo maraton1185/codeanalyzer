@@ -41,6 +41,7 @@ import ebook.module.acl.AclViewModel;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Utils;
 
 public class RolesView {
@@ -67,9 +68,15 @@ public class RolesView {
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_SECTION_INFO(
-			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) Object o,
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) EVENT_UPDATE_VIEW_DATA o,
 			@Active @Optional SectionInfo data, final EHandlerService hs,
 			final ECommandService cs) {
+
+		if (o == null)
+			return;
+		if (o.con != book)
+			return;
+
 		if (data == null) {
 			return;
 		}
@@ -129,7 +136,8 @@ public class RolesView {
 		// онкъ щкелемрнб *******************************************
 		itemFields();
 
-		App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
+		App.br.post(Events.EVENT_UPDATE_SECTION_INFO,
+				new EVENT_UPDATE_VIEW_DATA(book));
 
 	}
 

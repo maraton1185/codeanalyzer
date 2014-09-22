@@ -159,7 +159,8 @@ public class ContextService extends TreeService implements ITextTreeService,
 					((BookConnection) db).srv().saveOptions(section);
 					App.br.post(Events.EVENT_UPDATE_LABELS,
 							new EVENT_UPDATE_VIEW_DATA(db, section));
-					App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
+					App.br.post(Events.EVENT_UPDATE_SECTION_INFO,
+							new EVENT_UPDATE_VIEW_DATA(db));
 					delete(item);
 					break;
 				} catch (Exception e) {
@@ -399,7 +400,8 @@ public class ContextService extends TreeService implements ITextTreeService,
 			App.br.post(Events.EVENT_UPDATE_LABELS, new EVENT_UPDATE_VIEW_DATA(
 					db, section));
 
-			App.br.post(Events.EVENT_UPDATE_SECTION_INFO, null);
+			App.br.post(Events.EVENT_UPDATE_SECTION_INFO,
+					new EVENT_UPDATE_VIEW_DATA(db));
 
 			return input.get(0);
 

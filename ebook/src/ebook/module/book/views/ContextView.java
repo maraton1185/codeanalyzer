@@ -76,9 +76,15 @@ public class ContextView {
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_SECTION_INFO(
-			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) Object o,
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) EVENT_UPDATE_VIEW_DATA o,
 			@Active @Optional SectionInfo data, final EHandlerService hs,
 			final ECommandService cs) {
+
+		if (o == null)
+			return;
+		if (o.con != con)
+			return;
+
 		if (data == null || service == null || treeComponent == null) {
 			return;
 		}

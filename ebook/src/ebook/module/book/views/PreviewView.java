@@ -43,6 +43,7 @@ import ebook.module.book.views.tools.TextEdit;
 import ebook.module.book.views.tools.TextPreview;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -100,14 +101,18 @@ public class PreviewView implements ITextImagesView, IBrowserBridgeView {
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_SECTION_INFO(
-			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) Object o,
-			@Active @Optional SectionInfo data) {
+			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) EVENT_UPDATE_VIEW_DATA data,
+			@Active @Optional SectionInfo section) {
 
+		if (data == null)
+			return;
+		if (data.con != book)
+			return;
 		// TODO: не обновлять, если форма не активна
 		// if (part != null && !part.isOnTop())
 		// return;
 
-		update(data);
+		update(section);
 
 	}
 

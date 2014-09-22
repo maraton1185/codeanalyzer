@@ -214,6 +214,11 @@ public abstract class Events {
 			// this.onlySectionView = onlySectionView;
 		}
 
+		public EVENT_UPDATE_VIEW_DATA(IDbConnection con) {
+			this.con = con;
+
+		}
+
 		public IDbConnection con;
 		public ITreeItemInfo parent;
 		public ITreeItemInfo selected;

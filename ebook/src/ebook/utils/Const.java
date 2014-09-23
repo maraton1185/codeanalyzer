@@ -15,7 +15,7 @@ public class Const {
 	// HOST ***********************************************************
 
 	// MUST хост
-	private static final String host = "http://www.ebook.ru";
+	private static final String host = "http://192.168.3.254";
 	// private static final String host = "http://localhost:4921";
 	// public static final String UPDATE_SITE =
 	// "file://d:/Marat/java/temp/update_site/";

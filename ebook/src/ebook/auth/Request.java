@@ -4,8 +4,9 @@ import java.lang.reflect.Field;
 
 /**
  * класс сообщения для выполнения запросов к сайту
+ * 
  * @author Enikeev M.A.
- *
+ * 
  */
 public class Request {
 
@@ -19,19 +20,19 @@ public class Request {
 
 	public Boolean crypt_error = false;
 
-	public Boolean accept = false;
-	
-	public Boolean pro = false;
-	
+	// public Boolean accept = false;
+	//
+	// public Boolean pro = false;
+
 	public Boolean activated = false;
-	
-	public Boolean withoutExpirationDate = false;
-	
-	public String ExpirationDate = "";
-	
-	public String InitialDate = "";
-	
-	public String version = "";
+
+	// public Boolean withoutExpirationDate = false;
+	//
+	// public String ExpirationDate = "";
+	//
+	// public String InitialDate = "";
+	//
+	// public String version = "";
 
 	public void clear() {
 
@@ -40,10 +41,11 @@ public class Request {
 
 				if (f.getName().equalsIgnoreCase("name")
 						|| f.getName().equalsIgnoreCase("password")
-						|| f.getName().equalsIgnoreCase("serial")
-						|| f.getName().equalsIgnoreCase("ExpirationDate")
-						|| f.getName().equalsIgnoreCase("withoutExpirationDate")						
-						|| f.getName().equalsIgnoreCase("InitialDate")) {
+						|| f.getName().equalsIgnoreCase("serial")) {
+					// || f.getName().equalsIgnoreCase("ExpirationDate")
+					// || f.getName()
+					// .equalsIgnoreCase("withoutExpirationDate")
+					// || f.getName().equalsIgnoreCase("InitialDate")) {
 					continue;
 				}
 				if (f.getType().isAssignableFrom(Boolean.class))
@@ -55,5 +57,4 @@ public class Request {
 		} catch (Exception e) {
 		}
 	}
-
 }

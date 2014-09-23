@@ -82,9 +82,10 @@ public class SignIn implements IAuthorize {
 		Error er = new Error();
 		er.add(!res.error.isEmpty(), Const.MSG_ACTIVATE_FAIL
 				+ Const.MSG_SEND_EMAIL_TO);
-		er.add(!res.response.accept, Const.MSG_ACTIVATE_FAIL + Const.MSG_LOGIN);
-		er.add(!res.response.pro, Const.MSG_ACTIVATE_FAIL
-				+ res.response.message);
+		// er.add(!res.response.accept, Const.MSG_ACTIVATE_FAIL +
+		// Const.MSG_LOGIN);
+		// er.add(!res.response.pro, Const.MSG_ACTIVATE_FAIL
+		// + res.response.message);
 		er.add(!res.response.activated, Const.MSG_ACTIVATE_FAIL
 				+ res.response.message);
 
@@ -118,27 +119,6 @@ public class SignIn implements IAuthorize {
 
 	}
 
-	// public String checkUpdates() {
-	//
-	// Preferences preferences = PreferenceSupplier.getScoupNode();
-	//
-	// Request msg = new Request();
-	// msg.name = preferences.get("P_LOGIN", Strings.get("P_LOGIN"));
-	//
-	// // DONE сообщение о доступности новой версии при загрузке
-	// // FUTURE список изменений в ответе из файла в Content/plugin/version.txt
-	//
-	// String result = "версия от " + Const.GetVersion();
-	// msg.version = Const.GetVersion();
-	// // ******************************************
-	//
-	// siteResponce res = askSite(msg, Const.URL_CHECK_UPDATE);
-	// if (!res.error.isEmpty())
-	// return result;
-	//
-	// return res.response.message.isEmpty() ? result : res.response.message;
-	// }
-
 	@Override
 	public ActivationInfo getInfo() {
 
@@ -157,11 +137,7 @@ public class SignIn implements IAuthorize {
 		// ******************************************
 
 		try {
-			// _AesCrypt crypt = new _AesCrypt();
 			ICrypt crypt = pico.get(ICrypt.class);
-			// Crypt crypt = new Crypt();
-			// Request msg =
-			// getMessageFromString(crypt.Decrypt(activationString));
 			Request msg = getMessageFromString(crypt.Decrypt(crypt
 					.toByteArray(activationString)));
 			info.fill(msg);
@@ -183,7 +159,7 @@ public class SignIn implements IAuthorize {
 	 */
 	private class siteResponce {
 		public String error = "";
-		public Request response;
+		public Request response = new Request();
 	}
 
 	/**
@@ -196,7 +172,7 @@ public class SignIn implements IAuthorize {
 	private siteResponce askSite(Request msg, String url) {
 
 		siteResponce responce = new siteResponce();
-		responce.response = new Request();
+		// responce.response = new Request();
 		try {
 			responce.response = sendRequest(msg, url);
 		} catch (MalformedURLException e2) {
@@ -299,8 +275,7 @@ public class SignIn implements IAuthorize {
 		String body = getMessageString(msg);
 
 		ICrypt crypt = pico.get(ICrypt.class);
-		// _AesCrypt crypt = new _AesCrypt();
-		byte[] urlData = crypt.Encrypt(body);
+		// byte[] urlData = crypt.Encrypt(body);
 
 		URL url = new URL(_url);
 
@@ -316,24 +291,26 @@ public class SignIn implements IAuthorize {
 			connection.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
 			connection.setRequestProperty("charset", "utf-8");
-			connection.setRequestProperty("Content-Length",
-					"" + Integer.toString(urlData.length));
+			// connection.setRequestProperty("Content-Length",
+			// "" + Integer.toString(urlData.length));
 			connection.setUseCaches(false);
 
 			wr = new DataOutputStream(connection.getOutputStream());
-			wr.write(urlData);
+			// wr.write(urlData);
+			String urlData = "msg=" + crypt.toString(crypt.Encrypt(body));
+			wr.writeBytes(urlData);
 			wr.flush();
 			wr.close();
 
 			byte[] cipheredBytes = crypt.toByteArray(connection
 					.getInputStream());
 
-			String responceString;
-			try {
-				responceString = crypt.Decrypt(cipheredBytes);
-			} catch (Exception e) {
-				throw new CryptException();
-			}
+			String responceString = new String(cipheredBytes);
+			// try {
+			// responceString = crypt.toString(cipheredBytes);
+			// } catch (Exception e) {
+			// throw new CryptException();
+			// }
 
 			connection.disconnect();
 

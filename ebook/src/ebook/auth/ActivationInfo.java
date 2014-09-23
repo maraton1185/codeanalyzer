@@ -41,31 +41,21 @@ public class ActivationInfo {
 
 	public String password;
 
-	public Boolean withoutExpirationDate;
+	// public Boolean withoutExpirationDate;
 
-	public String ExpirationDate;
+	// public String ExpirationDate;
+
+	// ключ активирован
+	public Boolean activated;
 
 	public String ShortMessage() {
 		StringBuilder result = new StringBuilder();
 
 		if (check()) {
 			result.append(Const.MSG_PRO_SHORT);
-			// SimpleDateFormat formatter = new
-			// SimpleDateFormat("yyyyMMddHHmmss");
-			// try {
-			// Date ExpirationDate = formatter.parse(this.ExpirationDate);
-			// result.append(withoutExpirationDate ? "без ограничения"
-			// : " до "
-			// + new SimpleDateFormat("dd.MM.yyyy")
-			// .format(ExpirationDate));
-			// } catch (ParseException e) {
-			// e.printStackTrace();
-			// }
 		} else {
 			result.append(Const.MSG_FREE_SHORT);
 		}
-
-		// result.append(", " + pico.get(IAuthorize.class).checkUpdates());
 
 		return result.toString();
 	}
@@ -75,18 +65,6 @@ public class ActivationInfo {
 
 		if (check()) {
 			result.append(Const.MSG_PRO);
-			// SimpleDateFormat formatter = new
-			// SimpleDateFormat("yyyyMMddHHmmss");
-			//
-			// try {
-			// Date ExpirationDate = formatter.parse(this.ExpirationDate);
-			// result.append("Дата окончания: "
-			// + (withoutExpirationDate ? "без ограничения"
-			// : new SimpleDateFormat("dd.MM.yyyy")
-			// .format(ExpirationDate)) + "\n");
-			// } catch (ParseException e) {
-			// e.printStackTrace();
-			// }
 			result.append("UUID: " + serial);
 		} else {
 			result.append(Const.MSG_FREE);
@@ -97,6 +75,11 @@ public class ActivationInfo {
 	}
 
 	public boolean check() {
+
+		if (!this.activated) {
+			check_message = Const.MSG_INCORRECT_SERIAL;
+			return false;
+		}
 
 		Preferences preferences = PreferenceSupplier.getScoupNode();
 		String name = preferences.get("P_LOGIN", Strings.pref("P_LOGIN"));
@@ -117,25 +100,6 @@ public class ActivationInfo {
 			check_message = Const.MSG_INCORRECT_SERIAL;
 			return false;
 		}
-
-		// if (!this.withoutExpirationDate) {
-
-		// SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		//
-		// try {
-		// Date ExpirationDate = formatter.parse(this.ExpirationDate);
-		// Date currentDate = new java.util.Date();
-		//
-		// // Date currentDate = NtpMessage.getDate();
-		// if (!ExpirationDate.after(currentDate)) {
-		// check_message = Const.MSG_EXPIRED;
-		// return false;
-		// }
-		// } catch (Exception e) {
-		// check_message = Const.MSG_NTP;
-		// return false;
-		// }
-		// }
 
 		return true;
 

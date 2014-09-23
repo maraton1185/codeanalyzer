@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -275,6 +276,7 @@ public class SignIn implements IAuthorize {
 		String body = getMessageString(msg);
 
 		ICrypt crypt = pico.get(ICrypt.class);
+
 		// byte[] urlData = crypt.Encrypt(body);
 
 		URL url = new URL(_url);
@@ -297,7 +299,13 @@ public class SignIn implements IAuthorize {
 
 			wr = new DataOutputStream(connection.getOutputStream());
 			// wr.write(urlData);
-			String urlData = "msg=" + crypt.toString(crypt.Encrypt(body));
+			String input = crypt.toString(crypt.Encrypt(body));
+			String urlData = "msg=" + URLEncoder.encode(input, "UTF-8");
+
+			// System.out.println(input.length());
+			// String output = crypt.Decrypt(crypt.toByteArray(input));
+			// System.out.println(output);
+
 			wr.writeBytes(urlData);
 			wr.flush();
 			wr.close();
@@ -305,12 +313,15 @@ public class SignIn implements IAuthorize {
 			byte[] cipheredBytes = crypt.toByteArray(connection
 					.getInputStream());
 
-			String responceString = new String(cipheredBytes);
-			// try {
-			// responceString = crypt.toString(cipheredBytes);
-			// } catch (Exception e) {
-			// throw new CryptException();
-			// }
+			System.out.println(new String(cipheredBytes).trim());
+			// String responceString = new String(cipheredBytes);
+			String responceString;
+			try {
+				responceString = crypt.Decrypt(crypt.toByteArray(new String(
+						cipheredBytes).trim()));
+			} catch (Exception e) {
+				throw new CryptException();
+			}
 
 			connection.disconnect();
 

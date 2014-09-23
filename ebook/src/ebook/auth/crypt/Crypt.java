@@ -19,13 +19,13 @@ import ebook.core.exceptions.CryptException;
 public class Crypt implements ICrypt {
 
 	public static final String CRYPT_PREFIX = "TnhTI5Az983Akms~AyHtHctE$|F546DLAUuN?RpXm4fLutW*G61Bj#fFw#DDDAnn";
-	private String iv = "fedcba9876543210";// Dummy iv (CHANGE IT!)
+	private String iv = "sJ|MLVVcID3Qc6|~";// Dummy iv (CHANGE IT!)
+	private String SecretKey = "sJ|MLVVcID3Qc6|~";// Dummy secretKey (CHANGE
+
 	private IvParameterSpec ivspec;
 	private SecretKeySpec keyspec;
 	private Cipher cipher;
 
-	private String SecretKey = "0123456789abcdef";// Dummy secretKey (CHANGE
-													// IT!)
 	public static final String characterEncoding = "UTF-8";
 
 	public Crypt() {

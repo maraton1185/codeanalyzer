@@ -15,7 +15,9 @@ public class Const {
 	// HOST ***********************************************************
 
 	// MUST хост
-	private static final String host = "http://192.168.0.105";
+	// private static String host = "http://192.168.3.254/";
+	private static final String host = PreferenceSupplier
+			.get(PreferenceSupplier.APP_HOST);
 	// private static final String host = "http://localhost:4921";
 	// public static final String UPDATE_SITE =
 	// "file://d:/Marat/java/temp/update_site/";
@@ -77,6 +79,8 @@ public class Const {
 	public static final String MSG_PRO = "Доступна pro-версия \n";
 	public static final String MSG_PRO_SHORT = "pro";
 	public static final String MSG_ACTIVATE_FAIL = "Ошибка активации: \n";
+	public static final String MSG_ACTIVATE_FAIL_USER_ERROR = "		не верно указаны почта/пароль, должны совпадать с данными на сайте.";
+
 	public static final String MSG_ACTIVATE_OK = "Активировано: \n";
 	public static final String MSG_LOGIN = "Не верные логин, пароль (должны быть такие же, как на сайте) \n";
 	public static final String MSG_GETID = "Невозможно идентифицировать компьютер. \n";
@@ -86,7 +90,7 @@ public class Const {
 	public static final String MSG_EXPIRED = "Истек срок использования плагина \n";
 	public static final String MSG_EMPTY_SERIAL = "Серийный номер не указан. Активируйте плагин. \n";
 	public static final String MSG_INCORRECT_SERIAL = "Не корректный серийный номер \n(скачайте последнюю версию плагина и активируйте его повторно). \n";
-	public static final String MSG_SEND_EMAIL_TO = "Для активации напишите, пожалуйста, на email: mail@ebook.ru \n"
+	public static final String MSG_SEND_EMAIL_TO = "Для активации напишите, пожалуйста, на email: mail@codeanalyzer.ru \n"
 			+ "В письме укажить следующие данные: \n    - логин \n    - серийный номер компьютера UUID";
 
 	// CONFIG MESSAGES *******************************************************

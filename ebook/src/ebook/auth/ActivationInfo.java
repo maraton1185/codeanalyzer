@@ -31,22 +31,24 @@ public class ActivationInfo {
 		}
 	}
 
-	private String check_message;
-
-	public String message;
-
 	public String serial;
 
 	public String name;
 
 	public String password;
 
+	// ключ активирован
+	public Boolean activated;
+
+	private String check_message;
+
+	public String message;
+
+	// public Boolean user_error = false;
+
 	// public Boolean withoutExpirationDate;
 
 	// public String ExpirationDate;
-
-	// ключ активирован
-	public Boolean activated;
 
 	public String ShortMessage() {
 		StringBuilder result = new StringBuilder();
@@ -94,6 +96,18 @@ public class ActivationInfo {
 			return false;
 		}
 
+		// ICrypt crypt = pico.get(ICrypt.class);
+		// try {
+		// System.out.println(crypt.toString(crypt.toByteArray(this.serial)));
+		// } catch (UnsupportedEncodingException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// System.out.println(this.serial);
+		// System.out.println(serial);
 		if (!(this.name.equalsIgnoreCase(name)
 				&& this.password.equalsIgnoreCase(password) && this.serial
 					.equalsIgnoreCase(serial))) {

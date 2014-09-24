@@ -59,12 +59,16 @@ public abstract class PreferenceSupplier {
 	public static final String CONF_LIST_VIEW_COMPARISON = "CONF_LIST_VIEW_COMPARISON";
 	public static final String IMAGE_TITLE = "IMAGE_TITLE";
 	public static final String INIT_SECTION_HTML = "INIT_SECTION_HTML";
+	public static final String APP_HOST = "APP_HOST";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.APP_HOST,
+				"http://codeanalyzer.ru/");
 
 		preferenceStore
 				.setDefault(

@@ -312,12 +312,16 @@ public class OptionsDialog {
 			// Group group;
 			comp = getFieldEditorParent();
 
-			f = new IntegerFieldEditor(PreferenceSupplier.BOOKMARK_LENGTH,
-					"Длина текста закладки", comp);
+			f = new StringFieldEditor(PreferenceSupplier.APP_HOST,
+					"Адрес сайта активации", comp);
 			addField(f);
 
 			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
 					"Адрес сайта обновления", comp);
+			addField(f);
+
+			f = new IntegerFieldEditor(PreferenceSupplier.BOOKMARK_LENGTH,
+					"Длина текста закладки", comp);
 			addField(f);
 
 			f = new StringFieldEditor(PreferenceSupplier.IMAGE_TITLE,

@@ -87,6 +87,8 @@ public class SignIn implements IAuthorize {
 		// Const.MSG_LOGIN);
 		// er.add(!res.response.pro, Const.MSG_ACTIVATE_FAIL
 		// + res.response.message);
+		er.add(res.response.user_error, Const.MSG_ACTIVATE_FAIL
+				+ Const.MSG_ACTIVATE_FAIL_USER_ERROR);
 		er.add(!res.response.activated, Const.MSG_ACTIVATE_FAIL
 				+ res.response.message);
 
@@ -313,7 +315,7 @@ public class SignIn implements IAuthorize {
 			byte[] cipheredBytes = crypt.toByteArray(connection
 					.getInputStream());
 
-			System.out.println(new String(cipheredBytes).trim());
+			// System.out.println(new String(cipheredBytes).trim());
 			// String responceString = new String(cipheredBytes);
 			String responceString;
 			try {

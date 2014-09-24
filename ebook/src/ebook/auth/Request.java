@@ -14,17 +14,19 @@ public class Request {
 
 	public String password = "";
 
-	public String message = "";
+	public Boolean activated = false;
 
 	public String serial = "";
 
 	public Boolean crypt_error = false;
 
+	public Boolean user_error = false;
+
+	public String message = "";
+
 	// public Boolean accept = false;
 	//
 	// public Boolean pro = false;
-
-	public Boolean activated = false;
 
 	// public Boolean withoutExpirationDate = false;
 	//
@@ -40,12 +42,10 @@ public class Request {
 			for (Field f : getClass().getDeclaredFields()) {
 
 				if (f.getName().equalsIgnoreCase("name")
+						|| f.getName().equalsIgnoreCase("activated")
 						|| f.getName().equalsIgnoreCase("password")
 						|| f.getName().equalsIgnoreCase("serial")) {
-					// || f.getName().equalsIgnoreCase("ExpirationDate")
-					// || f.getName()
-					// .equalsIgnoreCase("withoutExpirationDate")
-					// || f.getName().equalsIgnoreCase("InitialDate")) {
+
 					continue;
 				}
 				if (f.getType().isAssignableFrom(Boolean.class))

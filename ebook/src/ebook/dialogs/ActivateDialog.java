@@ -245,7 +245,7 @@ public class ActivateDialog extends Dialog {
 			@Override
 			public void run() {
 				try {
-					statusField.setText(ActivationInfo.getComputerSerial());
+					statusField.setText(ActivationInfo.getComputerUUID());
 				} catch (Exception e) {
 					statusField.setText(Const.MSG_GETID);
 				}

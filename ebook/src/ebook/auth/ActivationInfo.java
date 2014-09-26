@@ -33,6 +33,8 @@ public class ActivationInfo {
 
 	public String serial;
 
+	public String uuid;
+
 	public String name;
 
 	public String password;
@@ -40,7 +42,7 @@ public class ActivationInfo {
 	// ключ активирован
 	public Boolean activated;
 
-	private String check_message;
+	// private String check_message;
 
 	public String message;
 
@@ -67,10 +69,10 @@ public class ActivationInfo {
 
 		if (check()) {
 			result.append(Const.MSG_PRO);
-			result.append("UUID: " + serial);
+			result.append("UUID: " + uuid);
 		} else {
 			result.append(Const.MSG_FREE);
-			result.append(check_message);
+			result.append(message);
 		}
 
 		return result.toString();
@@ -79,7 +81,7 @@ public class ActivationInfo {
 	public boolean check() {
 
 		if (!this.activated) {
-			check_message = Const.MSG_INCORRECT_SERIAL;
+			message = Const.MSG_INCORRECT_SERIAL;
 			return false;
 		}
 
@@ -88,30 +90,18 @@ public class ActivationInfo {
 		String password = preferences.get("P_PASSWORD",
 				Strings.pref("P_PASSWORD"));
 
-		String serial;
+		String uuid;
 		try {
-			serial = getComputerSerial();
+			uuid = getComputerUUID();
 		} catch (Exception e1) {
-			check_message = Const.MSG_GETID;
+			message = Const.MSG_GETID;
 			return false;
 		}
 
-		// ICrypt crypt = pico.get(ICrypt.class);
-		// try {
-		// System.out.println(crypt.toString(crypt.toByteArray(this.serial)));
-		// } catch (UnsupportedEncodingException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// System.out.println(this.serial);
-		// System.out.println(serial);
 		if (!(this.name.equalsIgnoreCase(name)
-				&& this.password.equalsIgnoreCase(password) && this.serial
-					.equalsIgnoreCase(serial))) {
-			check_message = Const.MSG_INCORRECT_SERIAL;
+				&& this.password.equalsIgnoreCase(password) && this.uuid
+					.equalsIgnoreCase(uuid))) {
+			message = Const.MSG_INCORRECT_SERIAL;
 			return false;
 		}
 
@@ -125,7 +115,7 @@ public class ActivationInfo {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getComputerSerial() throws Exception {
+	public static String getComputerUUID() throws Exception {
 		return jWMI
 				.getWMIValue("SELECT UUID FROM Win32_ComputerSystemProduct",
 						"UUID").replace("\n", "").replace("\r", "");

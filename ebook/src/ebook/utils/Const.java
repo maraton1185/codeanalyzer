@@ -43,34 +43,15 @@ public class Const {
 	public static final String DB2 = "db2";
 	public static final String SYSTEM_DB_NAME = "db";
 
-	/**
-	 * возвращает текущую версия строкой
-	 * 
-	 * @param days
-	 *            - количество дней, минусуемое от текущей версии
-	 * @return
-	 */
-	// public static String GetVersion() {
-	// Calendar c = Calendar.getInstance();
-	// c.set(Const.versionYear, Const.versionMonth - 1, Const.versionDate, 1,
-	// 0, 0);
-	// // c.add(Calendar.DAY_OF_MONTH, days);
-	// Date d = c.getTime();
-	// SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-	// return sdf.format(d);
-	// }
-
 	// ERRORS *******************************************************
 
-	public static final String ERROR_NO_ADRESS = "Ошибка доступа к сайту\n ";
-	public static final String ERROR_CRYPT = "Ошибка обращения к сайту: \nСкачайте последнюю версию плагина.";
-	public static final String ERROR_SITE_CRYPT = "Ошибка обращения к сайту: \nСкачайте последнюю версию плагина.";
-	public static final String ERROR_MESSAGE = "Ошибка обращения к сайту: \nСкачайте последнюю версию плагина.";
-	public static final String ERROR_SITE_ACCESS = "Сайт не доступен";
+	public static final String ERROR_NO_ADRESS = "	ошибка доступа к сайту\n ";
+	public static final String ERROR_CRYPT = "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
+	public static final String ERROR_SITE_CRYPT = "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
+	public static final String ERROR_MESSAGE = "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
+	public static final String ERROR_SITE_ACCESS = "	Сайт не доступен";
 
 	public static final String ERROR_PRO_ACCESS = "Функционал доступен только в pro-версии";
-	public static final String ERROR_PRO_ACCESS_LOAD = "\n Для free-версии доступна работа с базой данных, \n содержащей не более, чем "
-			+ Const.DEFAULT_FREE_FILES_COUNT + " объектов";
 
 	// MESSAGES *******************************************************
 
@@ -79,19 +60,21 @@ public class Const {
 	public static final String MSG_PRO = "Доступна pro-версия \n";
 	public static final String MSG_PRO_SHORT = "pro";
 	public static final String MSG_ACTIVATE_FAIL = "Ошибка активации: \n";
-	public static final String MSG_ACTIVATE_FAIL_USER_ERROR = "		не верно указаны почта/пароль, должны совпадать с данными на сайте.";
+	public static final String MSG_NO_FREE_DEVICES = "	Недостаточно свободных лицензий для активации.";
 
 	public static final String MSG_ACTIVATE_OK = "Активировано: \n";
-	public static final String MSG_LOGIN = "Не верные логин, пароль (должны быть такие же, как на сайте) \n";
+	public static final String MSG_ACTIVATED = "	приобретено лицензий: %1$s\n "
+			+ "	активировано: %2$s\n" + "	доступно для активации: %3$s";
+	public static final String MSG_LOGIN = "	не верные логин, пароль (должны быть такие же, как на сайте) \n";
+	// public static final String MSG_ALREADY_ACTIVATED =
+	// "	устройство уже активировано";
 	public static final String MSG_GETID = "Невозможно идентифицировать компьютер. \n";
 	public static final String MSG_NO_CREDENTIALS = "Не указаны логин, пароль. \n";
 	public static final String MSG_ID = "Не верный серийный номер компьютера. \n";
-	public static final String MSG_NTP = "Нет соединения с NTP-сервером \n";
-	public static final String MSG_EXPIRED = "Истек срок использования плагина \n";
 	public static final String MSG_EMPTY_SERIAL = "Серийный номер не указан. Активируйте плагин. \n";
 	public static final String MSG_INCORRECT_SERIAL = "Не корректный серийный номер \n(скачайте последнюю версию плагина и активируйте его повторно). \n";
 	public static final String MSG_SEND_EMAIL_TO = "Для активации напишите, пожалуйста, на email: mail@codeanalyzer.ru \n"
-			+ "В письме укажить следующие данные: \n    - логин \n    - серийный номер компьютера UUID";
+			+ "В письме укажите следующие данные: \n    - логин \n    - серийный номер компьютера UUID";
 
 	// CONFIG MESSAGES *******************************************************
 

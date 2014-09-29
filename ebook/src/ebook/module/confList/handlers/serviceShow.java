@@ -1,5 +1,6 @@
 package ebook.module.confList.handlers;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,8 +34,10 @@ import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.tree.ListInfo;
 import ebook.module.confList.tree.ListConfInfo;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
+import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -113,10 +116,22 @@ public class serviceShow {
 				Strings.model("ebook.window.conf"), null);
 
 		newWindow.setLabel(con.getWindowTitle());
-		newWindow.setX(mainWindow.getX() + 20);
-		newWindow.setY(mainWindow.getY() + 20);
-		newWindow.setWidth(mainWindow.getWidth());
-		newWindow.setHeight(mainWindow.getHeight());
+
+		String s = PreferenceSupplier.get(PreferenceSupplier.WINDOW_SIZE);
+
+		if (s.isEmpty()) {
+			newWindow.setX(mainWindow.getX() + 20);
+			newWindow.setY(mainWindow.getY() + 20);
+			newWindow.setWidth(mainWindow.getWidth());
+			newWindow.setHeight(mainWindow.getHeight());
+		} else {
+			Rectangle rect = DbOptions.load(Rectangle.class, s);
+			newWindow.setX(rect.x);
+			newWindow.setY(rect.y);
+			newWindow.setWidth(rect.width);
+			newWindow.setHeight(rect.height);
+		}
+
 		newWindow.getTags().add(con.getFullName());
 
 		App.app.getChildren().add(newWindow);

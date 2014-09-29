@@ -21,4 +21,5 @@ public class ConfOptions extends DbOptions {
 	public Date status_date;
 	// public DbState link_status = DbState.notLoaded;
 	// public Date link_status_date;
+
 }

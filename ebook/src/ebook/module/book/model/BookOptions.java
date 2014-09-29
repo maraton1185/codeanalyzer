@@ -13,4 +13,5 @@ public class BookOptions extends DbOptions {
 	public List<Integer> openSections = new ArrayList<Integer>();
 
 	public Integer selectedSection = ITreeService.rootId;
+
 }

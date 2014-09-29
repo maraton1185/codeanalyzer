@@ -19,13 +19,16 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.core.App;
 import ebook.core.App.BookWindowCloseHandler;
 import ebook.module.book.BookConnection;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.utils.Events;
+import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -102,10 +105,20 @@ public class serviceShow {
 						+ (App.getJetty().isStarted() ? ""
 								: " : Web-сервер не запущен"));
 
-		newWindow.setX(mainWindow.getX() + 20);
-		newWindow.setY(mainWindow.getY() + 20);
-		newWindow.setWidth(mainWindow.getWidth());
-		newWindow.setHeight(mainWindow.getHeight());
+		String s = PreferenceSupplier.get(PreferenceSupplier.WINDOW_SIZE);
+
+		if (s.isEmpty()) {
+			newWindow.setX(mainWindow.getX() + 20);
+			newWindow.setY(mainWindow.getY() + 20);
+			newWindow.setWidth(mainWindow.getWidth());
+			newWindow.setHeight(mainWindow.getHeight());
+		} else {
+			Rectangle rect = DbOptions.load(Rectangle.class, s);
+			newWindow.setX(rect.x);
+			newWindow.setY(rect.y);
+			newWindow.setWidth(rect.width);
+			newWindow.setHeight(rect.height);
+		}
 		newWindow.getTags().add(con.getFullName());
 
 		App.app.getChildren().add(newWindow);

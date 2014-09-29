@@ -35,6 +35,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Listener;
@@ -64,12 +65,13 @@ import ebook.core.interfaces.IServiceFactory;
 import ebook.module.book.BookConnection;
 import ebook.module.book.model.BookOptions;
 import ebook.module.book.tree.SectionInfo;
-import ebook.module.book.views._SectionView;
 import ebook.module.book.views.SectionView;
+import ebook.module.book.views._SectionView;
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.model.ConfOptions;
 import ebook.module.conf.views.ConfView;
 import ebook.module.confLoad.services._FillProcLinkTableJob;
+import ebook.module.db.DbOptions;
 import ebook.module.tree.Clipboard;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
@@ -514,6 +516,12 @@ public class App {
 
 			}
 
+			Rectangle rect = new Rectangle(window.getX(), window.getY(),
+					window.getWidth(), window.getHeight());
+			PreferenceSupplier.set(PreferenceSupplier.WINDOW_SIZE,
+					DbOptions.save(rect));
+			PreferenceSupplier.save();
+
 			book.srv().saveRootOptions(opt);
 
 			book.closeConnection();
@@ -562,6 +570,12 @@ public class App {
 				}
 
 			}
+
+			Rectangle rect = new Rectangle(window.getX(), window.getY(),
+					window.getWidth(), window.getHeight());
+			PreferenceSupplier.set(PreferenceSupplier.WINDOW_SIZE,
+					DbOptions.save(rect));
+			PreferenceSupplier.save();
 
 			conf.srv(null).saveRootOptions(opt);
 

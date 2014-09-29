@@ -60,6 +60,7 @@ public abstract class PreferenceSupplier {
 	public static final String IMAGE_TITLE = "IMAGE_TITLE";
 	public static final String INIT_SECTION_HTML = "INIT_SECTION_HTML";
 	public static final String APP_HOST = "APP_HOST";
+	public static final String WINDOW_SIZE = "WINDOW_SIZE";
 
 	// ******************************************************************
 

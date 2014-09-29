@@ -52,6 +52,8 @@ public class SectionsView {
 
 	private MWindow window;
 
+	private boolean blockUpdate = false;
+
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_CONTENT_VIEW(
@@ -63,7 +65,9 @@ public class SectionsView {
 		if (data.parent == null)
 			return;
 
+		blockUpdate = true;
 		viewer.editElement(data.parent, 0);
+		blockUpdate = false;
 
 	}
 
@@ -145,21 +149,10 @@ public class SectionsView {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 
+				if (blockUpdate)
+					return;
+
 				EVENT_SET_SECTION_CONTEXT(null);
-				// IStructuredSelection selection = (IStructuredSelection)
-				// viewer
-				// .getSelection();
-				//
-				// SectionInfoSelection sel = new SectionInfoSelection();
-				// @SuppressWarnings("unchecked")
-				// Iterator<ListBookInfo> iterator = selection.iterator();
-				// while (iterator.hasNext())
-				// sel.add(iterator.next());
-				//
-				// window.getContext().set(SectionInfoSelection.class, sel);
-				//
-				// window.getContext().set(SectionInfo.class,
-				// (SectionInfo) selection.getFirstElement());
 
 				App.br.post(Events.EVENT_UPDATE_SECTION_INFO,
 						new EVENT_UPDATE_VIEW_DATA(con));

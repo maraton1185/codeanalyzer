@@ -1,6 +1,9 @@
 package ebook.auth;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.osgi.service.prefs.Preferences;
 
@@ -44,7 +47,23 @@ public class ActivationInfo {
 
 	// private String check_message;
 
-	public String message;
+	private String message;
+
+	public String getMessage() {
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+
+		return "(" + dateFormat.format(cal.getTime()) + ") " + message;
+	}
+
+	public void setMessage(String msg) {
+		this.message = msg;
+	}
+
+	public boolean isEmpty() {
+
+		return message.isEmpty();
+	}
 
 	// public Boolean user_error = false;
 
@@ -134,4 +153,5 @@ public class ActivationInfo {
 			}
 		}
 	}
+
 }

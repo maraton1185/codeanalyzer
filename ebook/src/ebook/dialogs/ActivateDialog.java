@@ -196,7 +196,7 @@ public class ActivateDialog extends Dialog {
 
 	protected void btnBuyOnClick() {
 
-		Program.launch(Const.URL_proLinkOpen);
+		Program.launch(Const.URL_proLinkOpen());
 
 	}
 
@@ -226,7 +226,7 @@ public class ActivateDialog extends Dialog {
 					ActivationInfo info = pico.get(IAuthorize.class).Activate(
 							login, password);
 
-					statusField.setText(info.message);
+					statusField.setText(info.getMessage());
 					if (!info.serial.isEmpty()) {
 						serialField.setText(info.serial);
 						setValues();

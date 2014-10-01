@@ -62,7 +62,7 @@ public class Request {
 		} else if (e instanceof SiteCryptException) {
 			return Const.ERROR_SITE_CRYPT;
 		} else if (e instanceof RequestParseException) {
-			return Const.ERROR_SITE_ACCESS;
+			return Const.MSG_SEND_EMAIL_TO;
 		} else {
 			return "exception error";
 		}
@@ -113,12 +113,18 @@ public class Request {
 			// System.out.println(new String(cipheredBytes).trim());
 
 			String responceString = new String(cipheredBytes);
+
+			if (!responceString.startsWith("!")) {
+				throw new RequestParseException();
+			}
+
+			responceString = responceString.substring(1);
 			if (responceString.equalsIgnoreCase("00"))
 				throw new SiteCryptException();
 
 			try {
-				responceString = crypt.Decrypt(crypt.toByteArray(new String(
-						cipheredBytes).trim()));
+				responceString = crypt.Decrypt(crypt.toByteArray(responceString
+						.trim()));
 			} catch (Exception e) {
 				throw new CryptException();
 			}

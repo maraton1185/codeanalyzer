@@ -4,7 +4,7 @@ import ebook.utils.Const;
 
 public class RequestParseException extends Exception {
 
-	public String message = Const.ERROR_MESSAGE;
+	public String message = Const.MSG_SEND_EMAIL_TO;
 	/**
 	 * 
 	 */

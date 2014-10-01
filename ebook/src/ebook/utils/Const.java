@@ -16,23 +16,48 @@ public class Const {
 
 	// MUST хост
 	// private static String host = "http://192.168.3.254/";
-	private static final String host = PreferenceSupplier
-			.get(PreferenceSupplier.APP_HOST);
+	private static String host() {
+		return PreferenceSupplier.get(PreferenceSupplier.APP_HOST);
+	};
+
+	// private static final String host = PreferenceSupplier
+	// .get(PreferenceSupplier.APP_HOST);
 	// private static final String host = "http://localhost:4921";
 	// public static final String UPDATE_SITE =
 	// "file://d:/Marat/java/temp/update_site/";
 	public static final String UPDATE_SITE = "file:/d:/java/temp/update_site/";
 
-	public static final String URL_exportConf1CLinkOpen = host + "/download";
-	public static final String URL_registrationLinkOpen = host + "/profile";
-	public static final String URL_proLinkOpen = host + "/pro";
-	public static final String URL_docLinkOpen = host + "/documentation";
-	public static final String URL_using = host + "/using";
-	// public static final String URL_updateConfigDescription = "www.yandex.ru";
-	public static final String URL_download = host + "/download";
+	// public static String URL_exportConf1CLinkOpen() {
+	// return host() + "/download";
+	// }
 
-	public static final String URL_CHECK_UPDATE = host + "/check";
-	public static final String URL_ACTIVATE = host + "/activate";
+	// public static String URL_registrationLinkOpen() {
+	// return host() + "/profile";
+	// }
+
+	public static String URL_proLinkOpen() {
+		return host() + "/pro";
+	}
+
+	public static String URL_docLinkOpen() {
+		return host() + "/documentation";
+	}
+
+	// public static String URL_using() {
+	// return host() + "/using";
+	// }
+
+	// public static String URL_download() {
+	// return host() + "/download";
+	// }
+
+	// public static String URL_CHECK_UPDATE() {
+	// return host() + "/check";
+	// }
+
+	public static String URL_ACTIVATE() {
+		return host() + "/activate";
+	};
 
 	// DB *******************************************************
 	public static final String DEFAULT_DB_NAME = "base";
@@ -48,7 +73,8 @@ public class Const {
 	public static final String ERROR_NO_ADRESS = "	ошибка доступа к сайту\n ";
 	public static final String ERROR_CRYPT = "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
 	public static final String ERROR_SITE_CRYPT = "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
-	public static final String ERROR_MESSAGE = "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
+	// public static final String ERROR_MESSAGE =
+	// "	ошибка обращения к сайту \n	скачайте последнюю версию программы.";
 	public static final String ERROR_SITE_ACCESS = "	Сайт не доступен";
 
 	public static final String ERROR_PRO_ACCESS = "Функционал доступен только в pro-версии";
@@ -65,14 +91,14 @@ public class Const {
 	public static final String MSG_ACTIVATE_OK = "Активировано: \n";
 	public static final String MSG_ACTIVATED = "	приобретено лицензий: %1$s\n "
 			+ "	активировано: %2$s\n" + "	доступно для активации: %3$s";
-	public static final String MSG_LOGIN = "	не верные логин, пароль (должны быть такие же, как на сайте) \n";
+	public static final String MSG_LOGIN = "	неверные логин, пароль (должны быть такие же, как на сайте) \n";
 	// public static final String MSG_ALREADY_ACTIVATED =
 	// "	устройство уже активировано";
 	public static final String MSG_GETID = "Невозможно идентифицировать компьютер. \n";
 	public static final String MSG_NO_CREDENTIALS = "Не указаны логин, пароль. \n";
-	public static final String MSG_ID = "Не верный серийный номер компьютера. \n";
+	public static final String MSG_ID = "Неверный серийный номер компьютера. \n";
 	public static final String MSG_EMPTY_SERIAL = "Серийный номер не указан. Активируйте плагин. \n";
-	public static final String MSG_INCORRECT_SERIAL = "Не корректный серийный номер \n(скачайте последнюю версию плагина и активируйте его повторно). \n";
+	public static final String MSG_INCORRECT_SERIAL = "Некорректный серийный номер \n(скачайте последнюю версию плагина и активируйте его повторно). \n";
 	public static final String MSG_SEND_EMAIL_TO = "Для активации напишите, пожалуйста, на email: mail@codeanalyzer.ru \n"
 			+ "В письме укажите следующие данные: \n    - логин \n    - серийный номер компьютера UUID";
 

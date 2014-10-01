@@ -26,7 +26,7 @@ public class SignIn implements IAuthorize {
 		try {
 			msg.uuid = ActivationInfo.getComputerUUID();
 		} catch (Exception e1) {
-			info.message = Const.MSG_ACTIVATE_FAIL + Const.MSG_GETID;
+			info.setMessage(Const.MSG_ACTIVATE_FAIL + Const.MSG_GETID);
 			return info;
 		}
 
@@ -34,20 +34,20 @@ public class SignIn implements IAuthorize {
 
 		Request response = new Request();
 		try {
-			response = msg.send(Const.URL_ACTIVATE);
+			response = msg.send(Const.URL_ACTIVATE());
 		} catch (Exception e) {
-			info.message = Const.MSG_ACTIVATE_FAIL + Request.getError(e);
+			info.setMessage(Const.MSG_ACTIVATE_FAIL + Request.getError(e));
 			return info;
 		}
 
 		if (!response.error.isEmpty()) {
-			info.message = Const.MSG_ACTIVATE_FAIL
-					+ Request.getError(response.error);
+			info.setMessage(Const.MSG_ACTIVATE_FAIL
+					+ Request.getError(response.error));
 			return info;
 		}
 
 		if (!response.activated) {
-			info.message = Const.MSG_ACTIVATE_FAIL + Const.MSG_SEND_EMAIL_TO;
+			info.setMessage(Const.MSG_ACTIVATE_FAIL + Const.MSG_SEND_EMAIL_TO);
 			return info;
 		}
 
@@ -61,11 +61,11 @@ public class SignIn implements IAuthorize {
 			ICrypt crypt = pico.get(ICrypt.class);
 			info.serial = crypt.toString(crypt.Encrypt(activationString));
 		} catch (Exception e) {
-			info.message = Const.MSG_ACTIVATE_FAIL + e.getMessage();
+			info.setMessage(Const.MSG_ACTIVATE_FAIL + e.getMessage());
 			return info;
 		}
 
-		info.message = Const.MSG_ACTIVATE_OK + siteMessage;
+		info.setMessage(Const.MSG_ACTIVATE_OK + siteMessage);
 
 		return info;
 	}
@@ -89,9 +89,9 @@ public class SignIn implements IAuthorize {
 				Strings.pref("P_SERIAL"));
 
 		if (activationString.isEmpty())
-			info.message = Const.MSG_EMPTY_SERIAL;
+			info.setMessage(Const.MSG_EMPTY_SERIAL);
 
-		if (!info.message.isEmpty())
+		if (!info.isEmpty())
 			return info;
 
 		// ******************************************
@@ -102,7 +102,7 @@ public class SignIn implements IAuthorize {
 					.toByteArray(activationString)));
 			info.fill(msg);
 		} catch (Exception e) {
-			info.message = Const.MSG_INCORRECT_SERIAL;
+			info.setMessage(Const.MSG_INCORRECT_SERIAL);
 		}
 		// ******************************************
 

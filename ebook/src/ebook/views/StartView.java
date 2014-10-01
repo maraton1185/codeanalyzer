@@ -323,7 +323,7 @@ public class StartView {
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("cf_add.png"));
 		link.setUnderlined(false);
-		link.setText("Добавить конфигурацию");
+		link.setText("Создать конфигурацию");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
@@ -337,7 +337,7 @@ public class StartView {
 		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
 		link.setImage(Utils.getImage("open_book.png"));
 		link.setUnderlined(false);
-		link.setText("Открыть конфигурацию");
+		link.setText("Добавить конфигурацию");
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
@@ -356,7 +356,7 @@ public class StartView {
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				Program.launch(Const.URL_docLinkOpen);
+				Program.launch(Const.URL_docLinkOpen());
 				super.linkActivated(e);
 			}
 

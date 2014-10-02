@@ -53,9 +53,9 @@ public class Request {
 			return Const.MSG_SEND_EMAIL_TO;
 		case "11":
 			return "Не указаны адрес электронной почты или тело сообщения.";
-		case "14":
-			return "Проверьте адрес электронной почты.\n"
-					+ "На него не удалось отправить подтверждающее письмо.";
+			// case "14":
+			// return "Проверьте адрес электронной почты.\n"
+			// + "На него не удалось отправить подтверждающее письмо.";
 		default:
 			return activationRequest ? Const.MSG_SEND_EMAIL_TO
 					: Const.MSG_SEND_EMAIL_TO_MSG;
@@ -125,7 +125,7 @@ public class Request {
 			byte[] cipheredBytes = crypt.toByteArray(connection
 					.getInputStream());
 
-			System.out.println(new String(cipheredBytes).trim());
+			// System.out.println(new String(cipheredBytes).trim());
 
 			String responceString = new String(cipheredBytes);
 

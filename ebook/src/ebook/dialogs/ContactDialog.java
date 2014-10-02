@@ -152,6 +152,10 @@ public class ContactDialog extends Dialog {
 			return;
 		}
 
+		if (!MessageDialog.openConfirm(shell, Strings.title("appTitle"),
+				"Отправить сообщение в support?"))
+			return;
+
 		Request msg = new Request();
 
 		msg.name = loginField.getText().trim();
@@ -183,9 +187,6 @@ public class ContactDialog extends Dialog {
 								+ "На указанную почту придёт письмо-подтверждение и ответ.\n"
 								+ "Спасибо за внимание к проекту)");
 		return;
-		// if (!MessageDialog.openConfirm(shell, Strings.title("appTitle"),
-		// "Отправить сообщение в support?"))
-		// return;
 
 		// super.okPressed();
 

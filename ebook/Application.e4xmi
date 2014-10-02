@@ -150,6 +150,7 @@
       <children xsi:type="menu:HandledMenuItem" xmi:id="_f4WqoJ0UEeOQH7R6sUDvqQ" elementId="ebook.handledmenuitem.4" label="&amp;Активация" command="_x0HdMJlREeOJH5GrNyMMVw"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_eimqcJ6aEeORdqnZrqq27Q" elementId="ebook.handledmenuitem.9" label="&amp;Настройки" command="_irP60J6aEeORdqnZrqq27Q"/>
       <children xsi:type="menu:HandledMenuItem" xmi:id="_luqAwBTjEeSkJvwgbqgE0g" elementId="ebook.handledmenuitem.8" label="О программе" command="_eej3QBTjEeSkJvwgbqgE0g"/>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_T21NkEorEeS4sepLNpIe0A" elementId="ebook.directmenuitem.1" label="Обратная связь" contributionURI="bundleclass://ebook/ebook.handlers.Contact"/>
     </mainMenu>
     <sharedElements xsi:type="basic:Part" xmi:id="_u2bXMBTbEeSkJvwgbqgE0g" elementId="part.ABOUT" contributionURI="bundleclass://ebook/ebook.views.AboutView" label="О программе" closeable="true"/>
     <trimBars xmi:id="_xiR_8JlJEeOhhK_cqm6rMQ" elementId="ebook.trimbar.0" visible="false" side="Bottom">

@@ -54,6 +54,9 @@ public class Const {
 	// public static String URL_CHECK_UPDATE() {
 	// return host() + "/check";
 	// }
+	public static String URL_CONTACT() {
+		return host() + "/contact";
+	};
 
 	public static String URL_ACTIVATE() {
 		return host() + "/activate";
@@ -80,7 +83,7 @@ public class Const {
 	public static final String ERROR_PRO_ACCESS = "Функционал доступен только в pro-версии";
 
 	// MESSAGES *******************************************************
-
+	public static final String MSG_CONTACT_FAIL = "Ошибка отправки сообщения: \n";
 	public static final String MSG_FREE = "Доступна free-версия \n";
 	public static final Object MSG_FREE_SHORT = "free";
 	public static final String MSG_PRO = "Доступна pro-версия \n";
@@ -101,7 +104,7 @@ public class Const {
 	public static final String MSG_INCORRECT_SERIAL = "Некорректный серийный номер \n(скачайте последнюю версию плагина и активируйте его повторно). \n";
 	public static final String MSG_SEND_EMAIL_TO = "Для активации напишите, пожалуйста, на email: mail@codeanalyzer.ru \n"
 			+ "В письме укажите следующие данные: \n    - логин \n    - серийный номер компьютера UUID";
-
+	public static final String MSG_SEND_EMAIL_TO_MSG = "Напишите, пожалуйста, на email: mail@codeanalyzer.ru \n";
 	// CONFIG MESSAGES *******************************************************
 
 	public static final String MSG_CONFIG_CHECK = "Проверка структуры базы данных...";

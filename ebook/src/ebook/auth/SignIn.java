@@ -36,13 +36,13 @@ public class SignIn implements IAuthorize {
 		try {
 			response = msg.send(Const.URL_ACTIVATE());
 		} catch (Exception e) {
-			info.setMessage(Const.MSG_ACTIVATE_FAIL + Request.getError(e));
+			info.setMessage(Const.MSG_ACTIVATE_FAIL + msg.getError(e));
 			return info;
 		}
 
 		if (!response.error.isEmpty()) {
 			info.setMessage(Const.MSG_ACTIVATE_FAIL
-					+ Request.getError(response.error));
+					+ msg.getError(response.error));
 			return info;
 		}
 

@@ -37,9 +37,13 @@ public class Request {
 	public String dev_activated = "";
 	public String dev_free = "";
 
+	public boolean activationRequest = true;
+	public String msg_type = "";
+	public String msg_text = "";
+
 	// public Boolean dev_exist = false;
 
-	public static String getError(String code) {
+	public String getError(String code) {
 		switch (code) {
 		case "01":
 			return Const.MSG_LOGIN;
@@ -47,12 +51,18 @@ public class Request {
 			return Const.MSG_NO_FREE_DEVICES;
 		case "03":
 			return Const.MSG_SEND_EMAIL_TO;
+		case "11":
+			return "Не указаны адрес электронной почты или тело сообщения.";
+		case "14":
+			return "Проверьте адрес электронной почты.\n"
+					+ "На него не удалось отправить подтверждающее письмо.";
 		default:
-			return Const.MSG_SEND_EMAIL_TO;
+			return activationRequest ? Const.MSG_SEND_EMAIL_TO
+					: Const.MSG_SEND_EMAIL_TO_MSG;
 		}
 	}
 
-	public static String getError(Exception e) {
+	public String getError(Exception e) {
 		if (e instanceof MalformedURLException) {
 			return Const.ERROR_NO_ADRESS;
 		} else if (e instanceof CryptException) {
@@ -62,7 +72,8 @@ public class Request {
 		} else if (e instanceof SiteCryptException) {
 			return Const.ERROR_SITE_CRYPT;
 		} else if (e instanceof RequestParseException) {
-			return Const.MSG_SEND_EMAIL_TO;
+			return activationRequest ? Const.MSG_SEND_EMAIL_TO
+					: Const.MSG_SEND_EMAIL_TO_MSG;
 		} else {
 			return "exception error";
 		}
@@ -72,7 +83,11 @@ public class Request {
 			MalformedURLException, SiteAccessException, SiteCryptException,
 			RequestParseException {
 
-		String body = getActivationString(this);
+		String body;
+		if (activationRequest)
+			body = getActivationString(this);
+		else
+			body = getMessageString(this);
 
 		ICrypt crypt = pico.get(ICrypt.class);
 
@@ -110,7 +125,7 @@ public class Request {
 			byte[] cipheredBytes = crypt.toByteArray(connection
 					.getInputStream());
 
-			// System.out.println(new String(cipheredBytes).trim());
+			System.out.println(new String(cipheredBytes).trim());
 
 			String responceString = new String(cipheredBytes);
 
@@ -146,6 +161,30 @@ public class Request {
 		}
 	}
 
+	private String getMessageString(Request msg) throws RequestParseException {
+		String result = ICrypt.CRYPT_PREFIX;
+
+		try {
+			for (Field f : msg.getClass().getDeclaredFields()) {
+
+				if (!(f.getName().equalsIgnoreCase("name")
+						|| f.getName().equalsIgnoreCase("msg_type") || f
+						.getName().equalsIgnoreCase("msg_text"))) {
+
+					continue;
+				}
+
+				result += f.getName() + '=' + f.get(msg).toString() + '&';
+			}
+			result = result.substring(0, result.length() - 1);
+		} catch (Exception e) {
+
+			throw new RequestParseException();
+		}
+
+		return result;
+	}
+
 	public static String getActivationString(Request msg)
 			throws RequestParseException {
 
@@ -161,7 +200,6 @@ public class Request {
 
 					continue;
 				}
-
 				result += f.getName() + '=' + f.get(msg).toString() + '&';
 			}
 			result = result.substring(0, result.length() - 1);

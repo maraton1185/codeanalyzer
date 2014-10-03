@@ -19,8 +19,8 @@ import ebook.core.exceptions.CryptException;
 public class Crypt implements ICrypt {
 
 	public static final String CRYPT_PREFIX = "TnhTI5Az983Akms~AyHtHctE$|F546DLAUuN?RpXm4fLutW*G61Bj#fFw#DDDAnn";
-	private String iv = "sJ|MLVVcID3Qc6|~";// Dummy iv (CHANGE IT!)
-	private String SecretKey = "sJ|MLVVcID3Qc6|~";// Dummy secretKey (CHANGE
+	private String iv = "sJ|MLVVcID3Qc6|~";
+	private String SecretKey = "sJ|MLVVcID3Qc6|~";
 
 	private IvParameterSpec ivspec;
 	private SecretKeySpec keyspec;

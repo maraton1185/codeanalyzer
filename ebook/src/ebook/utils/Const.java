@@ -10,7 +10,7 @@ public class Const {
 
 	public static final int FREE_TREE_ITEMS_COUNT = 2;
 	// @password_hash SA test
-	public static final String FREE_DB_PASSWORD = "dbf4a948663dd9ec9ac53849305cefcf7b50dfe696dbd88fd7e7bc1bdeecc8dc";
+	public static final String FREE_DB_PASSWORD = "1b49e74abcc2a598e0cb50f565304bee16377636073b86529dedc2beda5131a0";
 
 	// HOST ***********************************************************
 
@@ -24,8 +24,6 @@ public class Const {
 	// .get(PreferenceSupplier.APP_HOST);
 	// private static final String host = "http://localhost:4921";
 	// public static final String UPDATE_SITE =
-	// "file://d:/Marat/java/temp/update_site/";
-	public static final String UPDATE_SITE = "file:/d:/java/temp/update_site/";
 
 	// public static String URL_exportConf1CLinkOpen() {
 	// return host() + "/download";

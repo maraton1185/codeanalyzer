@@ -7,9 +7,11 @@ import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.FillLayout;
@@ -40,6 +42,8 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 	private ECommandService comService;
 
 	TextEdit text;
+
+	private MWindow window;
 
 	FormToolkit toolkit;
 
@@ -81,9 +85,19 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 		text.updateUrl();
 	}
 
+	@Focus
+	public void OnFocus() {
+
+		window.getContext().set(Events.CONTEXT_PREVIEW_VIEW_BLOCK, true);
+
+	}
+
 	@PostConstruct
 	public void postConstruct(final Composite parent,
-			@Active SectionInfo section) {
+			@Active SectionInfo section, @Active final MWindow window) {
+
+		this.window = window;
+		OnFocus();
 
 		dirty.setDirty(false);
 

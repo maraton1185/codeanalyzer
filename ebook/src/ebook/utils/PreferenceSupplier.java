@@ -69,7 +69,11 @@ public abstract class PreferenceSupplier {
 		preferenceStore = new PreferenceStore(prefFileName);
 
 		preferenceStore.setDefault(PreferenceSupplier.APP_HOST,
-				"http://codeanalyzer.ru/");
+				"http://codeanalyzer.ru");
+
+		// "file://d:/Marat/java/temp/update_site/";
+		preferenceStore.setDefault(PreferenceSupplier.UPDATE_SITE,
+				"http://codeanalyzer.ru/media/repository");
 
 		preferenceStore
 				.setDefault(
@@ -102,9 +106,6 @@ public abstract class PreferenceSupplier {
 				true);
 
 		preferenceStore.setDefault(PreferenceSupplier.SESSION_TIMEOUT, 60);
-
-		preferenceStore.setDefault(PreferenceSupplier.UPDATE_SITE,
-				Const.UPDATE_SITE);
 
 		preferenceStore.setDefault(PreferenceSupplier.START_PERSPECTIVE,
 				Perspectives.main.toString());

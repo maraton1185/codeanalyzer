@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
@@ -94,15 +95,25 @@ public class PreviewView implements ITextImagesView, IBrowserBridgeView {
 	private SectionInfo section;
 
 	@Focus
-	public void OnFocus(@Active @Optional SectionInfo data) {
-		update(data);
+	public void OnFocus(
+			@Active @Optional SectionInfo data,
+			@Active @Optional @Named(Events.CONTEXT_PREVIEW_VIEW_BLOCK) Boolean block) {
+
+		if (block != null && block == true) {
+			window.getContext().set(Events.CONTEXT_PREVIEW_VIEW_BLOCK, false);
+			update(data);
+		}
 	}
 
 	@Inject
 	@Optional
 	public void EVENT_UPDATE_SECTION_INFO(
 			@UIEventTopic(Events.EVENT_UPDATE_SECTION_INFO) EVENT_UPDATE_VIEW_DATA data,
-			@Active @Optional SectionInfo section) {
+			@Active @Optional SectionInfo section,
+			@Active @Optional @Named(Events.CONTEXT_PREVIEW_VIEW_BLOCK) Boolean block) {
+
+		if (block != null && block == true)
+			return;
 
 		if (data == null)
 			return;
@@ -156,7 +167,7 @@ public class PreviewView implements ITextImagesView, IBrowserBridgeView {
 			@Active MPart part) {
 
 		this.window = window;
-		// this.part = part;
+		window.getContext().set(Events.CONTEXT_PREVIEW_VIEW_BLOCK, false);
 
 		stack = parent;
 		stackLayout = new StackLayout();

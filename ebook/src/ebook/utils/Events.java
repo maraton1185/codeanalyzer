@@ -138,6 +138,8 @@ public abstract class Events {
 
 	public static final String EVENT_SET_SECTION_CONTEXT = "EVENT_SET_SECTION_CONTEXT";
 
+	public static final String CONTEXT_PREVIEW_VIEW_BLOCK = "CONTEXT_PREVIEW_VIEW";
+
 	// public static final String CONTEXT_SECTION_TO_OPEN =
 	// "CONTEXT_SECTION_TO_OPEN";
 

@@ -61,12 +61,20 @@ public abstract class PreferenceSupplier {
 	public static final String INIT_SECTION_HTML = "INIT_SECTION_HTML";
 	public static final String APP_HOST = "APP_HOST";
 	public static final String WINDOW_SIZE = "WINDOW_SIZE";
+	public static final String LOAD_EDITOR_TEMPLATES_ON_GET = "LOAD_EDITOR_TEMPLATES_ON_GET";
+	public static final String EDITOR_TEMPLATES_FOLDER = "EDITOR_TEMPLATES_FOLDER";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
+				"templates");
+
+		preferenceStore.setDefault(
+				PreferenceSupplier.LOAD_EDITOR_TEMPLATES_ON_GET, false);
 
 		preferenceStore.setDefault(PreferenceSupplier.APP_HOST,
 				"http://codeanalyzer.ru");

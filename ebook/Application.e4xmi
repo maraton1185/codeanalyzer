@@ -498,6 +498,10 @@
   <descriptors xmi:id="_AZqJYMPHEeOmSK0x6jLnPQ" elementId="ebook.partdescriptor.sectionsBlockView" label="SectionView" bindingContexts="_X3ixoD8BEeS6t726MB6aZw" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://ebook/ebook.module.book.views.SectionView">
     <handlers xmi:id="_GjL3EDdwEeS-0-LlMvZ57A" elementId="ebook.handler.20" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Update" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
     <handlers xmi:id="_mOohED8DEeS6t726MB6aZw" elementId="ebook.handler.5" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddPicture" command="_DmIcAD8DEeS6t726MB6aZw"/>
+    <menus xmi:id="_uvTmck1NEeSz7Yo4bOSJUQ" elementId="ebook.menu.3">
+      <tags>ViewMenu</tags>
+      <children xsi:type="menu:DirectMenuItem" xmi:id="_vYiJoE1NEeSz7Yo4bOSJUQ" elementId="ebook.directmenuitem.6" label="Сохранить как шаблон" contributionURI="bundleclass://ebook/ebook.module.book.handlers.SaveAsTemplate"/>
+    </menus>
     <toolbar xmi:id="_IGvJ0MPHEeOmSK0x6jLnPQ" elementId="ebook.toolbar.3">
       <children xsi:type="menu:HandledToolItem" xmi:id="_igmGkNTrEeOV85RCT5V8vQ" elementId="ebook.handledtoolitem.16" label="Добавить картинку" iconURI="platform:/plugin/ebook/icons/set/add.png" tooltip="Добавить картинку" command="_DmIcAD8DEeS6t726MB6aZw">
         <tags>FORCE_TEXT</tags>

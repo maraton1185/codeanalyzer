@@ -90,7 +90,8 @@
 	
 	<servlet>
 		<servlet-name>editor</servlet-name>
-		<jsp-file>/tmpl/ckeditor/index.jsp</jsp-file>	
+		<servlet-class>ebook.web.servlets.EditorServlet</servlet-class>
+		<!--  jsp-file>/tmpl/ckeditor/index.jsp</jsp-file-->	
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>editor</servlet-name>

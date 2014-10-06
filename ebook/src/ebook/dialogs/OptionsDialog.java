@@ -239,59 +239,8 @@ public class OptionsDialog {
 			body.setLayout(new FillLayout());
 			String url = "about:config";
 			new _BrowserComposite(body, url.toString());
-			// Add a boolean field
 
-			// BooleanFieldEditor bfe = new BooleanFieldEditor("myBoolean",
-			// "Boolean", getFieldEditorParent());
-			// addField(bfe);
-			//
-			// // Add a color field
-			// ColorFieldEditor cfe = new ColorFieldEditor("myColor", "Color:",
-			// getFieldEditorParent());
-			// addField(cfe);
-			//
-			// // Add a directory field
-			// DirectoryFieldEditor dfe = new
-			// DirectoryFieldEditor("myDirectory",
-			// "Directory:", getFieldEditorParent());
-			// addField(dfe);
-			//
-			// // Add a file field
-			// FileFieldEditor ffe = new FileFieldEditor("myFile", "File:",
-			// getFieldEditorParent());
-			// addField(ffe);
-			//
-			// // Add a font field
-			// FontFieldEditor fontFe = new FontFieldEditor("myFont", "Font:",
-			// getFieldEditorParent());
-			// addField(fontFe);
-			//
-			// // Add a radio group field
-			// RadioGroupFieldEditor rfe = new RadioGroupFieldEditor(
-			// "myRadioGroup", "Radio Group", 2, new String[][] {
-			// { "First Value", "first" },
-			// { "Second Value", "second" },
-			// { "Third Value", "third" },
-			// { "Fourth Value", "fourth" } },
-			// getFieldEditorParent(), true);
-			// addField(rfe);
-			//
-			// // Add a path field
-			// PathEditor pe = new PathEditor("myPath", "Path:",
-			// "Choose a Path",
-			// getFieldEditorParent());
-			// addField(pe);
 		}
-
-		// @Override
-		// protected Control createContents(Composite parent) {
-		// Composite body = parent;
-		// body.setLayout(new FillLayout());
-		// String url = "about:config";
-		// new BrowserComposite(body, url.toString());
-		//
-		// return super.createContents(body);
-		// }
 
 	}
 
@@ -331,6 +280,18 @@ public class OptionsDialog {
 			f = new MultiLineTextFieldEditor(
 					PreferenceSupplier.INIT_SECTION_HTML,
 					"Начальный текст блока", comp);
+			addField(f);
+
+			f = new BooleanFieldEditor(
+					PreferenceSupplier.LOAD_EDITOR_TEMPLATES_ON_GET,
+					"Загружать шаблоны текста при каждом запросе к редактору",
+					comp);
+			addField(f);
+
+			f = new DirectoryFieldEditor(
+					PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
+					"Каталог шаблонов текста:", comp);
+			((DirectoryFieldEditor) f).setChangeButtonText("...");
 			addField(f);
 
 		}

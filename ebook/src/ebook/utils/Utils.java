@@ -97,6 +97,18 @@ public abstract class Utils {
 		return extension;
 	}
 
+	public static String getFileName(File pathname) {
+		String extension = "";
+		String fileName = pathname.getName();
+
+		int i = fileName.lastIndexOf('.');
+		if (i > 0)
+			extension = fileName.substring(i + 1);
+
+		String name = fileName.replaceAll(extension, "");
+		return name.substring(0, name.length() - 1);
+	}
+
 	// helper method to load the images
 	// ensure to dispose the images in your @PreDestroy method
 	public static Image getImage(String file) {

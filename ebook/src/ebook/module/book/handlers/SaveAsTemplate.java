@@ -13,6 +13,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.module.book.views.SectionView;
+import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 
 public class SaveAsTemplate {
@@ -30,7 +31,17 @@ public class SaveAsTemplate {
 			BufferedWriter writer = null;
 			try {
 
-				File f = new File("templates/" + dlg.getValue() + ".txt");
+				File f = new File(
+						PreferenceSupplier
+								.get(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER));
+
+				if (!f.exists())
+					f.mkdirs();
+
+				f = new File(
+						PreferenceSupplier
+								.get(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER)
+								+ "/" + dlg.getValue() + ".txt");
 
 				if (f.exists()
 						&& !MessageDialog.openConfirm(shell,

@@ -17,3 +17,6 @@ a:hover{
 	color: #999;
 	text-decoration: none;
 }
+.col-sm-3{
+	height: 230px;
+}

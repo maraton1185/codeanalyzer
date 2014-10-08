@@ -68,7 +68,7 @@
         <div class="row">
             
             <c:forEach var="book" items="${model.books}">
-                <div class="col-lg-4 col-sm-6">
+                <div class="col-sm-3 col-xs-6">
                     <a href="${book.url}">
                     <c:if test="${book.hasImage}">                 
                         <!--img class="img-circle img-responsive" src="${book.image}"-->

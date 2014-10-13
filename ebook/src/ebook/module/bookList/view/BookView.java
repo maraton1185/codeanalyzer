@@ -13,7 +13,6 @@ import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -55,7 +54,6 @@ import ebook.core.App;
 import ebook.module.acl.AclViewModel;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.utils.Events;
-import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
 
@@ -247,11 +245,8 @@ public class BookView {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
 
-				final IPath p = Utils.browseFile(
-						new Path(PreferenceSupplier
-								.get(PreferenceSupplier.DEFAULT_BOOK_DIRECTORY)),
-						itemComp.getShell(), Strings.title("appTitle"),
-						"*.png;*.bmp");
+				final IPath p = Utils.browseFile(null, itemComp.getShell(),
+						Strings.title("appTitle"), "*.png;*.bmp");
 				if (p == null)
 					return;
 

@@ -63,12 +63,19 @@ public abstract class PreferenceSupplier {
 	public static final String WINDOW_SIZE = "WINDOW_SIZE";
 	public static final String LOAD_EDITOR_TEMPLATES_ON_GET = "LOAD_EDITOR_TEMPLATES_ON_GET";
 	public static final String EDITOR_TEMPLATES_FOLDER = "EDITOR_TEMPLATES_FOLDER";
+	public static final String SECTION_REF_TARGET = "SECTION_REF_TARGET";
+	public static final String SECTION_REF_TITLE = "SECTION_REF_TITLE";
 
 	// ******************************************************************
 
 	static {
 
 		preferenceStore = new PreferenceStore(prefFileName);
+
+		preferenceStore.setDefault(PreferenceSupplier.SECTION_REF_TITLE,
+				"ссылка");
+
+		preferenceStore.setDefault(PreferenceSupplier.SECTION_REF_TARGET, true);
 
 		preferenceStore.setDefault(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
 				"templates");

@@ -15,6 +15,7 @@ import ebook.core.App;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Events;
+import ebook.utils.PreferenceSupplier;
 
 public class TextEdit extends Composite {
 
@@ -107,16 +108,30 @@ public class TextEdit extends Composite {
 		String link = " <a href='#' class='picture-link image$id' >$text</a> ";
 		link = link.replace("$id", id.toString());
 		link = link.replace("$text", text);
-		// browser.execute("tinyMCE.activeEditor.execCommand('mceInsertContent', false, \""
-		// + link + "\");");
 		browser.execute("CKEDITOR.instances.editor1.insertHtml(\" " + link
 				+ "\");");
-		// + link + "\");");
 
 	}
 
 	public void updateUrl() {
 
 		browser.setUrl(App.getJetty().editor());
+	}
+
+	public void addSectionLink(Integer book, Integer id, String tag,
+			String title) {
+		String optTitle = PreferenceSupplier
+				.get(PreferenceSupplier.SECTION_REF_TITLE);
+		Boolean optTarget = PreferenceSupplier
+				.getBoolean(PreferenceSupplier.SECTION_REF_TARGET);
+		String link = " <a href='$link#$tag' $target>$text</a> ";
+		link = link.replace("$link", App.getJetty().section(book, id));
+		link = link.replace("$tag", tag);
+		if (optTarget)
+			link = link.replace("$target", "target=_blank");
+		link = link.replace("$text", optTitle.isEmpty() ? title : optTitle);
+		browser.execute("CKEDITOR.instances.editor1.insertHtml(\" " + link
+				+ "\");");
+
 	}
 }

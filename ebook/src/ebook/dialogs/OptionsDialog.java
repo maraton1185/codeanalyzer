@@ -294,6 +294,16 @@ public class OptionsDialog {
 			((DirectoryFieldEditor) f).setChangeButtonText("...");
 			addField(f);
 
+			f = new BooleanFieldEditor(PreferenceSupplier.SECTION_REF_TARGET,
+					"—сылка на раздел с целью 'в новом окне'", comp);
+			addField(f);
+
+			f = new StringFieldEditor(
+					PreferenceSupplier.SECTION_REF_TITLE,
+					"“екст ссылки на раздел \n(если не указано, то - им€ раздела)",
+					comp);
+			addField(f);
+
 		}
 	}
 

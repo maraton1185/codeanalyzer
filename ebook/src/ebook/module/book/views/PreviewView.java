@@ -14,7 +14,9 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -34,6 +36,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
+import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
@@ -119,11 +122,29 @@ public class PreviewView implements ITextImagesView, IBrowserBridgeView {
 			return;
 		if (data.con != book)
 			return;
-		// TODO: не обновлять, если форма не активна
-		// if (part != null && !part.isOnTop())
-		// return;
 
 		update(section);
+
+		returnFocus();
+
+	}
+
+	private void returnFocus() {
+		List<MPartStack> stacks = App.model.findElements(window,
+				Strings.model("ebook.partstack.BookContent"), MPartStack.class,
+				null);
+
+		String partID = Strings.model("ebook.part.BookContent");
+
+		// stacks.get(0).setVisible(true);
+
+		// @SuppressWarnings("serial")
+		List<MPart> parts = App.model.findElements(stacks.get(0), partID, null,
+				null);
+
+		if (!parts.isEmpty()) {
+			App.ps.showPart(parts.get(0), PartState.ACTIVATE);
+		}
 
 	}
 

@@ -29,6 +29,7 @@ import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
 import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Events;
+import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Utils;
 
 public class SectionView implements ITextImagesView, IBrowserBridgeView {
@@ -66,6 +67,28 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 			if (save_index <= 0)
 				dirty.setDirty(true);
 		}
+	}
+
+	@Inject
+	@Optional
+	public void EVENT_ADD_SECTION_LINK(
+			@UIEventTopic(Events.EVENT_ADD_SECTION_LINK) EVENT_UPDATE_VIEW_DATA data) {
+
+		if (data == null)
+			return;
+		if (data.con != book)
+			return;
+		if (data.selected == null)
+			return;
+
+		if (data.selected.isGroup())
+			getTextEditor().addSectionLink(data.con.getTreeItem().getId(),
+					data.selected.getId(), "", data.selected.getTitle());
+		else
+			getTextEditor().addSectionLink(data.con.getTreeItem().getId(),
+					data.parent.getId(), data.selected.getId().toString(),
+					data.selected.getTitle());
+
 	}
 
 	int save_index = 0;

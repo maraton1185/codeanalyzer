@@ -281,13 +281,13 @@
     <bindings xmi:id="_EjsesLAwEeOa8OKjTLKQvw" elementId="ebook.keybinding.6" keySequence="F2" command="_cimZwLAuEeOa8OKjTLKQvw">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_TSuccBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.11" keySequence="M1+C" command="_JxxqoBMsEeSxtrXpzQMiIQ">
+    <bindings xmi:id="_TSuccBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.11" keySequence="M1+M2+C" command="_JxxqoBMsEeSxtrXpzQMiIQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_Wl6rgBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.12" keySequence="M1+V" command="_NMcasBMsEeSxtrXpzQMiIQ">
+    <bindings xmi:id="_Wl6rgBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.12" keySequence="M1+M2+V" command="_NMcasBMsEeSxtrXpzQMiIQ">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_WzWDgBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.13" keySequence="M1+X" command="_Nf0CoBMsEeSxtrXpzQMiIQ">
+    <bindings xmi:id="_WzWDgBMsEeSxtrXpzQMiIQ" elementId="ebook.keybinding.13" keySequence="M1+M2+X" command="_Nf0CoBMsEeSxtrXpzQMiIQ">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -507,8 +507,10 @@
         <tags>FORCE_TEXT</tags>
       </children>
       <children xsi:type="menu:HandledToolItem" xmi:id="_VRQGAD8bEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_bQsS0NXGEeOaVPXyFpV1rg" elementId="ebook.handledtoolitem.17" label="Сохранить" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ"/>
       <children xsi:type="menu:HandledToolItem" xmi:id="_HLd_EDdwEeS-0-LlMvZ57A" elementId="ebook.handledtoolitem.14" label="" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="_6_m6wNRJEeOFfdAek_eJEQ"/>
-      <children xsi:type="menu:HandledToolItem" xmi:id="_bQsS0NXGEeOaVPXyFpV1rg" elementId="ebook.handledtoolitem.17" label="Сохранить" iconURI="platform:/plugin/ebook/icons/set/save.png" tooltip="Сохранить" command="_jdrzcKhVEeOKceOp7VW7lQ">
+      <children xsi:type="menu:ToolBarSeparator" xmi:id="_4Gs8wFK1EeSgcN5dSzPoiA" elementId="ebook.toolbarseparator.3"/>
+      <children xsi:type="menu:DirectToolItem" xmi:id="_i80dIFKuEeSgcN5dSzPoiA" elementId="ebook.directtoolitem.5" label="Сохранить и закрыть" iconURI="" contributionURI="bundleclass://ebook/ebook.module.book.handlers.SaveClose">
         <tags>FORCE_TEXT</tags>
       </children>
     </toolbar>
@@ -672,6 +674,7 @@
             <handlers xmi:id="_mHgxIBMsEeSxtrXpzQMiIQ" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Paste" command="_NMcasBMsEeSxtrXpzQMiIQ"/>
             <handlers xmi:id="_mM_HABMsEeSxtrXpzQMiIQ" elementId="ebook.handler.47" contributionURI="bundleclass://ebook/ebook.module.book.handlers.Cut" command="_Nf0CoBMsEeSxtrXpzQMiIQ"/>
             <handlers xmi:id="_Hjo4YC21EeSgt6KviOm2oQ" elementId="ebook.handler.67" contributionURI="bundleclass://ebook/ebook.module.book.handlers.SaveToHtml" command="_9Xl7IC20EeSgt6KviOm2oQ"/>
+            <handlers xmi:id="_weL68FKvEeSgcN5dSzPoiA" elementId="ebook.handler.19" contributionURI="bundleclass://ebook/ebook.module.book.handlers.AddSectionLink" command="_pZhlYFKvEeSgcN5dSzPoiA"/>
             <menus xsi:type="menu:PopupMenu" xmi:id="_aCBVYLAYEeOa8OKjTLKQvw" elementId="ebook.popupmenu.contentView">
               <children xsi:type="menu:HandledMenuItem" xmi:id="_iSIokD7-EeS6t726MB6aZw" elementId="ebook.handledmenuitem.16" label="Показать в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_cGMzoLAYEeOa8OKjTLKQvw" elementId="ebook.handledmenuitem.1" label="Добавить раздел" iconURI="platform:/plugin/ebook/icons/set/addFolder.png" tooltip="Добавить раздел" command="_sPoPIK3EEeOHwvV36BHkVA"/>
@@ -680,6 +683,7 @@
               <children xsi:type="menu:HandledMenuItem" xmi:id="_dSC7sLAYEeOa8OKjTLKQvw" elementId="ebook.handledmenuitem.3" label="Удалить раздел" iconURI="platform:/plugin/ebook/icons/set/delete.png" tooltip="Удалить раздел" command="_8pkSAK3EEeOHwvV36BHkVA"/>
               <children xsi:type="menu:MenuSeparator" xmi:id="_T4F-YAW6EeS0mt8KsvHAgg" elementId="ebook.menuseparator.0"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_dNVAAD8AEeS6t726MB6aZw" elementId="ebook.handledmenuitem.58" label="Добавить текст" command="_B6xfwMt7EeOTW91tESaq8A"/>
+              <children xsi:type="menu:HandledMenuItem" xmi:id="_PyC04FKvEeSgcN5dSzPoiA" elementId="ebook.handledmenuitem.63" label="Вставить в текст как ссылку" iconURI="platform:/plugin/ebook/icons/set/link.png" command="_pZhlYFKvEeSgcN5dSzPoiA"/>
               <children xsi:type="menu:MenuSeparator" xmi:id="_UMllABMeEeSxtrXpzQMiIQ" elementId="ebook.menuseparator.5"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_XxCjMBMeEeSxtrXpzQMiIQ" elementId="ebook.handledmenuitem.7" label="Копировать" iconURI="platform:/plugin/ebook/icons/set/copy.png" command="_JxxqoBMsEeSxtrXpzQMiIQ"/>
               <children xsi:type="menu:HandledMenuItem" xmi:id="_bAlBUBMeEeSxtrXpzQMiIQ" elementId="ebook.handledmenuitem.7" label="Вставить" iconURI="platform:/plugin/ebook/icons/set/paste.png" command="_NMcasBMsEeSxtrXpzQMiIQ"/>
@@ -948,6 +952,7 @@
   <commands xmi:id="_uu33wMPIEeOmSK0x6jLnPQ" elementId="Book.show section" commandName="Book.show section"/>
   <commands xmi:id="_6_m6wNRJEeOFfdAek_eJEQ" elementId="Book.update" commandName="Book.update"/>
   <commands xmi:id="_DmIcAD8DEeS6t726MB6aZw" elementId="Book.add picture" commandName="Book.add picture"/>
+  <commands xmi:id="_pZhlYFKvEeSgcN5dSzPoiA" elementId="Book.add section link" commandName="Book.add section link"/>
   <addons xmi:id="_cMG-gplHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_cMG-g5lHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_cMG-hJlHEeOhhK_cqm6rMQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

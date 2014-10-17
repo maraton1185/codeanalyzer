@@ -77,10 +77,9 @@ public abstract class PreferenceSupplier {
 
 		preferenceStore.setDefault(PreferenceSupplier.SECTION_REF_TARGET, true);
 
-		preferenceStore.setDefault(
-				PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
+		preferenceStore.setDefault(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
 				ResourcesPlugin.getWorkspace().getRoot().getLocation()
-						.append("templates").toString());
+						.toString());
 
 		preferenceStore.setDefault(
 				PreferenceSupplier.LOAD_EDITOR_TEMPLATES_ON_GET, false);

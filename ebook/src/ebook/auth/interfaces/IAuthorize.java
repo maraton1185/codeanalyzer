@@ -3,6 +3,7 @@ package ebook.auth.interfaces;
 import org.eclipse.swt.widgets.Shell;
 
 import ebook.auth.ActivationInfo;
+import ebook.module.book.BookConnection;
 
 public interface IAuthorize {
 
@@ -45,5 +46,7 @@ public interface IAuthorize {
 	boolean checkBooksCount(Shell shell);
 
 	public boolean checkUsersCount(Shell shell);
+
+	public boolean checkSectionsCount(Shell shell, BookConnection book);
 
 }

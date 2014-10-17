@@ -52,6 +52,7 @@ import ebook.module.tree.item.ITreeItemXML;
 import ebook.module.tree.service.IDownloadService;
 import ebook.module.tree.service.ITreeService;
 import ebook.module.tree.service.TreeService;
+import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -818,4 +819,32 @@ public class BookService extends TreeService implements IDownloadService {
 		}
 		return result;
 	}
+
+	@Override
+	public boolean check() {
+		try {
+			Connection con = db.getConnection();
+			String SQL = "SELECT COUNT(T.ID) FROM " + tableName + " AS T ";
+
+			PreparedStatement prep = con.prepareStatement(SQL);
+			// prep.setBoolean(1, false);
+			ResultSet rs = prep.executeQuery();
+
+			try {
+				if (rs.next()) {
+
+					int i = rs.getInt(1);
+					return i < Const.FREE_BOOK_ITEMS_COUNT;
+				}
+			} finally {
+				rs.close();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 }

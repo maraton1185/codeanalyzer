@@ -8,6 +8,7 @@ import ebook.auth.interfaces.IAuthorize;
 import ebook.auth.interfaces.ICrypt;
 import ebook.core.App;
 import ebook.core.pico;
+import ebook.module.book.BookConnection;
 import ebook.utils.Const;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -128,6 +129,18 @@ public class SignIn implements IAuthorize {
 			MessageDialog.openError(shell, Strings.title("appTitle"),
 					"Для free-версии доступно не более "
 							+ Const.FREE_TREE_ITEMS_COUNT + " пользователей.");
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean checkSectionsCount(Shell shell, BookConnection book) {
+		if (!check() && !book.srv().check()) {
+			MessageDialog.openError(shell, Strings.title("appTitle"),
+					"Для free-версии доступно не более "
+							+ Const.FREE_BOOK_ITEMS_COUNT
+							+ " разделов в книге.");
 			return false;
 		}
 		return true;

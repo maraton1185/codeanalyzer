@@ -10,7 +10,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
+import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
+import ebook.core.pico;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Strings;
@@ -20,6 +22,9 @@ public class Paste {
 	@Execute
 	public void execute(final @Active BookConnection book,
 			@Active final SectionInfo section, final Shell shell) {
+
+		if (!pico.get(IAuthorize.class).checkSectionsCount(shell, book))
+			return;
 
 		final File zipFile = App.bookClip.getZip();
 

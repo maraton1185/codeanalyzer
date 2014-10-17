@@ -9,6 +9,8 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import ebook.auth.interfaces.IAuthorize;
+import ebook.core.pico;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Strings;
@@ -17,6 +19,9 @@ public class AddGroup {
 	@Execute
 	public void execute(Shell shell, @Active BookConnection book,
 			@Active SectionInfo section) {
+
+		if (!pico.get(IAuthorize.class).checkSectionsCount(shell, book))
+			return;
 
 		try {
 

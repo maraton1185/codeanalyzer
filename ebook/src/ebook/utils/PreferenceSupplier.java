@@ -164,10 +164,10 @@ public abstract class PreferenceSupplier {
 						.toString());
 
 		preferenceStore.setDefault(PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
-				true);
+				false);
 
-		preferenceStore.setDefault(PreferenceSupplier.BOOK_ON_STARTUP,
-				Utils.getAboutBookPath() + Const.DEFAULT_DB_EXTENSION);
+		// preferenceStore.setDefault(PreferenceSupplier.BOOK_ON_STARTUP,
+		// Utils.getAboutBookPath() + Const.DEFAULT_DB_EXTENSION);
 
 		try {
 			preferenceStore.load();

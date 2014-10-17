@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Properties;
 
 import org.eclipse.core.runtime.IPath;
 
@@ -18,7 +17,6 @@ import ebook.core.exceptions.MakeConnectionException;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IDbStructure;
 import ebook.module.tree.item.ITreeItemInfo;
-import ebook.utils.Const;
 
 public abstract class BaseDbConnection implements IDbConnection {
 
@@ -56,31 +54,31 @@ public abstract class BaseDbConnection implements IDbConnection {
 
 		if (license) {
 
-			Properties prop = new Properties();
-			prop.setProperty("user", "sa");
-			prop.put("password", Const.FREE_DB_PASSWORD);
+			// Properties prop = new Properties();
+			// prop.setProperty("user", "sa");
+			// prop.put("password", Const.FREE_DB_PASSWORD);
 
-			String hash = ";PASSWORD_HASH=TRUE";
+			// String hash = ";PASSWORD_HASH=TRUE";
 			boolean free = !pico.get(IAuthorize.class).check();
 			if (free) {
-				try {
-					return DriverManager.getConnection(
-							"jdbc:h2:" + path.toString() + ifExist + mode
-									+ hash, prop);
-				} catch (Exception e) {
-					throw new DbLicenseException();
-				}
+				throw new DbLicenseException();
+				// try {
+				// return DriverManager.getConnection(
+				// "jdbc:h2:" + path.toString() + ifExist + mode
+				// + hash, prop);
+				// } catch (Exception e) {
+				// throw new DbLicenseException();
+				// }
 			} else {
 
-				try {
-					return DriverManager.getConnection(
-							"jdbc:h2:" + path.toString() + ifExist + mode,
-							"sa", "");
-				} catch (Exception e) {
-					return DriverManager.getConnection(
-							"jdbc:h2:" + path.toString() + ifExist + mode
-									+ hash, prop);
-				}
+				// try {
+				return DriverManager.getConnection("jdbc:h2:" + path.toString()
+						+ ifExist + mode, "sa", "");
+				// } catch (Exception e) {
+				// return DriverManager.getConnection(
+				// "jdbc:h2:" + path.toString() + ifExist + mode
+				// + hash, prop);
+				// }
 
 			}
 

@@ -10,8 +10,10 @@ public class Const {
 
 	public static final int FREE_TREE_ITEMS_COUNT = 2;
 	public static final int FREE_BOOK_ITEMS_COUNT = 10;
+
 	// @password_hash SA test
-	public static final String FREE_DB_PASSWORD = "1b49e74abcc2a598e0cb50f565304bee16377636073b86529dedc2beda5131a0";
+	// public static final String FREE_DB_PASSWORD =
+	// "1b49e74abcc2a598e0cb50f565304bee16377636073b86529dedc2beda5131a0";
 
 	// HOST ***********************************************************
 

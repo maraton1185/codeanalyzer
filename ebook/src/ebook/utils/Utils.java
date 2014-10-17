@@ -244,11 +244,11 @@ public abstract class Utils {
 
 	// *********************************************************************
 
-	public static String getAboutBookPath() {
-		// return ResourcesPlugin.getWorkspace().getRoot().getLocation()
-		// .toString().concat("/about");
-		return "example";
-	}
+	// public static String getAboutBookPath() {
+	// // return ResourcesPlugin.getWorkspace().getRoot().getLocation()
+	// // .toString().concat("/about");
+	// return "example";
+	// }
 
 	public static void addCompareRules(List<IRule> rules) {
 

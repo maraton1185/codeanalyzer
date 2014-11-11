@@ -85,7 +85,7 @@ public class Show {
 	@CanExecute
 	public boolean canExecute(@Active @Optional SectionInfo section) {
 
-		return section != null && App.getJetty().isStarted();
+		return section != null;
 	}
 
 }

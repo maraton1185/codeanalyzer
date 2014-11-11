@@ -36,5 +36,9 @@
 	<classpathentry kind="lib" path="lib/jetty/jetty-servlet-9.2.0.v20140526.jar" sourcepath="lib/jetty/jetty-servlet-9.2.0.v20140526-sources.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="lib/diffutils-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/shef/jtidy-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/shef/novaworx-syntax-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/shef/sam.jar"/>
+	<classpathentry kind="lib" path="lib/shef/SHEF.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

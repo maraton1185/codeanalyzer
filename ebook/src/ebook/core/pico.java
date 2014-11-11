@@ -49,6 +49,8 @@ public final class pico {
 
 		instance.as(Characteristics.CACHE).addComponent(Crypt.class);
 
+		// instance.addComponent(SwingEditor.class);
+
 	}
 
 	public static <T> T get(Class<T> type) {

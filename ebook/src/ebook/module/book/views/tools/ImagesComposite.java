@@ -33,6 +33,7 @@ import ebook.module.book.tree.SectionImage;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.interfaces.IBlockTune;
 import ebook.module.book.views.interfaces.IPictureTuneData;
+import ebook.module.book.views.interfaces.ITextEditor;
 import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -341,7 +342,7 @@ public class ImagesComposite extends Composite implements IPictureTuneData {
 
 	@Override
 	public void addLink(SectionImage image) {
-		TextEdit text = view.getTextEditor();
+		ITextEditor text = view.getTextEditor();
 		if (text == null)
 			return;
 		text.addLink(image.getId(), image.getTitle());

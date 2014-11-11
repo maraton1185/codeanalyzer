@@ -9,15 +9,17 @@ import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import ebook.core.App;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.book.views.interfaces.ITextEditor;
 import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
 
-public class TextEdit extends Composite {
+public class TextEdit extends Composite implements ITextEditor {
 
 	protected Browser browser;
 	protected String editor_content;
@@ -92,6 +94,7 @@ public class TextEdit extends Composite {
 
 	}
 
+	@Override
 	public String getText() {
 		String content = "";
 
@@ -104,6 +107,7 @@ public class TextEdit extends Composite {
 		return content;
 	}
 
+	@Override
 	public void addLink(Integer id, String text) {
 		String link = " <a href='#' class='picture-link image$id' >$text</a> ";
 		link = link.replace("$id", id.toString());
@@ -113,11 +117,13 @@ public class TextEdit extends Composite {
 
 	}
 
+	@Override
 	public void updateUrl() {
 
 		browser.setUrl(App.getJetty().editor());
 	}
 
+	@Override
 	public void addSectionLink(Integer book, Integer id, String tag,
 			String title) {
 		String optTitle = PreferenceSupplier
@@ -132,6 +138,12 @@ public class TextEdit extends Composite {
 		link = link.replace("$text", optTitle.isEmpty() ? title : optTitle);
 		browser.execute("CKEDITOR.instances.editor1.insertHtml(\" " + link
 				+ "\");");
+
+	}
+
+	@Override
+	public void setLayoutData(GridData gridData) {
+		setLayoutData(gridData);
 
 	}
 }

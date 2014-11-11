@@ -25,9 +25,10 @@ import ebook.module.book.BookConnection;
 import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.interfaces.IBrowserBridgeView;
+import ebook.module.book.views.interfaces.ITextEditor;
 import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
-import ebook.module.book.views.tools.TextEdit;
+import ebook.module.book.views.tools.SwingEditor;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Utils;
@@ -42,7 +43,7 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 	@Inject
 	private ECommandService comService;
 
-	TextEdit text;
+	ITextEditor text;
 
 	private MWindow window;
 
@@ -139,7 +140,8 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 		Composite rightComposite = new Composite(sashForm, SWT.NONE);
 		rightComposite.setLayout(new FillLayout());
 
-		text = new TextEdit(rightComposite, section, book.srv());
+		// text = new TextEdit(rightComposite, section, book.srv());
+		text = new SwingEditor(rightComposite, section, book.srv());
 		text.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		imagesComposite.update(section);
@@ -172,7 +174,7 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 	}
 
 	@Override
-	public TextEdit getTextEditor() {
+	public ITextEditor getTextEditor() {
 		return text;
 	}
 

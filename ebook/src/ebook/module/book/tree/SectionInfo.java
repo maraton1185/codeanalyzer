@@ -8,6 +8,7 @@ import ebook.module.book.xml.SectionXML;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.item.TreeItemInfo;
+import ebook.module.tree.service.ITreeService;
 import ebook.utils.Utils;
 
 public class SectionInfo extends TreeItemInfo {
@@ -57,6 +58,8 @@ public class SectionInfo extends TreeItemInfo {
 			return Utils.getImage("cut.png");
 		else if (aclEmplicit)
 			return Utils.getImage("lock.png");
+		else if (isRoot() && getId() != ITreeService.rootId)
+			return Utils.getImage("filter.png");
 		else
 			return null;
 	}

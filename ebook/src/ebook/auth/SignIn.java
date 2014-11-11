@@ -1,14 +1,10 @@
 package ebook.auth;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.prefs.Preferences;
 
 import ebook.auth.interfaces.IAuthorize;
 import ebook.auth.interfaces.ICrypt;
-import ebook.core.App;
 import ebook.core.pico;
-import ebook.module.book.BookConnection;
 import ebook.utils.Const;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
@@ -112,38 +108,38 @@ public class SignIn implements IAuthorize {
 
 	// ****************************************************************************
 
-	@Override
-	public boolean checkBooksCount(Shell shell) {
-		if (!check() && !App.srv.bl().check()) {
-			MessageDialog.openError(shell, Strings.title("appTitle"),
-					"Для free-версии в списке может находиться не более "
-							+ Const.FREE_TREE_ITEMS_COUNT + " книг.");
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean checkUsersCount(Shell shell) {
-		if (!check() && !App.srv.us().check()) {
-			MessageDialog.openError(shell, Strings.title("appTitle"),
-					"Для free-версии доступно не более "
-							+ Const.FREE_TREE_ITEMS_COUNT + " пользователей.");
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean checkSectionsCount(Shell shell, BookConnection book) {
-		if (!check() && !book.srv().check()) {
-			MessageDialog.openError(shell, Strings.title("appTitle"),
-					"Для free-версии доступно не более "
-							+ Const.FREE_BOOK_ITEMS_COUNT
-							+ " разделов в книге.");
-			return false;
-		}
-		return true;
-	}
+	// @Override
+	// public boolean checkBooksCount(Shell shell) {
+	// if (!check() && !App.srv.bl().check()) {
+	// MessageDialog.openError(shell, Strings.title("appTitle"),
+	// "Для free-версии в списке может находиться не более "
+	// + Const.FREE_TREE_ITEMS_COUNT + " книг.");
+	// return false;
+	// }
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean checkUsersCount(Shell shell) {
+	// if (!check() && !App.srv.us().check()) {
+	// MessageDialog.openError(shell, Strings.title("appTitle"),
+	// "Для free-версии доступно не более "
+	// + Const.FREE_TREE_ITEMS_COUNT + " пользователей.");
+	// return false;
+	// }
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean checkSectionsCount(Shell shell, BookConnection book) {
+	// if (!check() && !book.srv().check()) {
+	// MessageDialog.openError(shell, Strings.title("appTitle"),
+	// "Для free-версии доступно не более "
+	// + Const.FREE_BOOK_ITEMS_COUNT
+	// + " разделов в книге.");
+	// return false;
+	// }
+	// return true;
+	// }
 
 }

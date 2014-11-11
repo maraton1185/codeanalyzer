@@ -21,7 +21,9 @@ public class BookStructure implements IDbStructure {
 		Statement stat = con.createStatement();
 		try {
 
-			// stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
+			stat.execute("ALTER TABLE SECTIONS ADD ROOT BOOLEAN;");
+			stat.execute("UPDATE SECTIONS SET ROOT=TRUE WHERE ID=1;");
+
 			// stat.execute("ALTER TABLE BOOKMARKS ADD PATH VARCHAR(500);");
 			// stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
 			// stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
@@ -36,19 +38,21 @@ public class BookStructure implements IDbStructure {
 
 			// stat.execute("DROP TABLE IF EXISTS BOOKMARKS;");
 			//
-			stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
-
-					+ "SECTION INTEGER, "
-					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
-					+ "TITLE VARCHAR(500), "
-					+ "OPTIONS VARCHAR(3000), "
-					+ "PATH VARCHAR(500), "
-					+ "PROC VARCHAR(500), "
-					+ "OFFSET INTEGER, "
-
-					+ "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
-					+ "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
-					+ "PRIMARY KEY (ID));");
+			// stat.execute("CREATE TABLE BOOKMARKS (ID INTEGER AUTO_INCREMENT, "
+			//
+			// + "SECTION INTEGER, "
+			// + "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
+			// + "TITLE VARCHAR(500), "
+			// + "OPTIONS VARCHAR(3000), "
+			// + "PATH VARCHAR(500), "
+			// + "PROC VARCHAR(500), "
+			// + "OFFSET INTEGER, "
+			//
+			// +
+			// "FOREIGN KEY(SECTION) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+			// +
+			// "FOREIGN KEY(PARENT) REFERENCES BOOKMARKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
+			// + "PRIMARY KEY (ID));");
 
 		} catch (Exception e) {
 			throw new SQLException("Ошибка обновления структуры базы данных.");
@@ -88,6 +92,7 @@ public class BookStructure implements IDbStructure {
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(500), "
+					+ "ROOT BOOLEAN, "
 
 					+ "FOREIGN KEY(PARENT) REFERENCES SECTIONS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
@@ -116,11 +121,12 @@ public class BookStructure implements IDbStructure {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			SQL = "INSERT INTO SECTIONS (TITLE, ISGROUP) VALUES (?,?);";
+			SQL = "INSERT INTO SECTIONS (TITLE, ISGROUP, ROOT) VALUES (?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.value("bookRoot"));
 			prep.setBoolean(2, true);
+			prep.setBoolean(3, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -177,7 +183,7 @@ public class BookStructure implements IDbStructure {
 		DbStructureChecker ch = new DbStructureChecker();
 		haveStructure = ch.checkColumns(metadata, "INFO", "OPTIONS")
 				&& ch.checkColumns(metadata, "SECTIONS",
-						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ROOT")
 				&& ch.checkColumns(metadata, "CONTEXT",
 						"SECTION, PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "PROCS_TEXT", "PROC, TEXT, HASH")

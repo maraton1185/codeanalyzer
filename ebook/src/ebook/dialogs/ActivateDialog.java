@@ -14,7 +14,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -171,14 +170,14 @@ public class ActivateDialog extends Dialog {
 		});
 		button.setText("Проверить");
 
-		button = new Button(composite, SWT.FLAT);
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				btnBuyOnClick();
-			}
-		});
-		button.setText("Купить");
+		// button = new Button(composite, SWT.FLAT);
+		// button.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		// btnBuyOnClick();
+		// }
+		// });
+		// button.setText("Купить");
 
 		statusField = new Text(container, SWT.MULTI | SWT.BORDER | SWT.WRAP
 				| SWT.V_SCROLL);
@@ -194,11 +193,11 @@ public class ActivateDialog extends Dialog {
 		return area;
 	}
 
-	protected void btnBuyOnClick() {
-
-		Program.launch(Const.URL_proLinkOpen());
-
-	}
+	// protected void btnBuyOnClick() {
+	//
+	// Program.launch(Const.URL_proLinkOpen());
+	//
+	// }
 
 	protected void btnCheckOnClick() {
 		setValues();

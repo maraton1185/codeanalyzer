@@ -32,7 +32,7 @@ public class AdditionalInfo {
 
 	public boolean getProc = false;
 	public ELevel level;
-	public boolean textWithoutLines = false;
+	public boolean textRegex = false;
 	public boolean comparisonWithEquals = false;
 	public boolean rootComparison = false;
 

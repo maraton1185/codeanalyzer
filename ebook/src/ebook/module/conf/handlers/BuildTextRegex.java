@@ -16,7 +16,7 @@ import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ListInfo;
 import ebook.utils.Events;
 
-public class BuildTextWithoutLines {
+public class BuildTextRegex {
 	@Execute
 	public void execute(Shell shell, @Optional final ContextInfo item,
 			@Active final ConfConnection con,
@@ -26,7 +26,7 @@ public class BuildTextWithoutLines {
 			@Override
 			public void run() {
 				AdditionalInfo info = new AdditionalInfo();
-				info.textWithoutLines = true;
+				info.textRegex = true;
 				App.mng.cm(con, list).buildText(item, info);
 			}
 		});

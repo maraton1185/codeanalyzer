@@ -38,6 +38,8 @@ public class UserInfo extends TreeItemInfo {
 	public Image getListImage() {
 		if (getParent() == ITreeService.rootId && isGroup())
 			return Utils.getImage("lock.png");
+		else if (isRoot() && getId() != ITreeService.rootId)
+			return Utils.getImage("filter.png");
 		else
 			return null;
 	}

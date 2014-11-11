@@ -8,9 +8,7 @@ import java.util.HashMap;
 
 import org.eclipse.core.runtime.IPath;
 
-import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
-import ebook.core.pico;
 import ebook.core.exceptions.DbLicenseException;
 import ebook.core.exceptions.DbStructureException;
 import ebook.core.exceptions.MakeConnectionException;
@@ -52,41 +50,44 @@ public abstract class BaseDbConnection implements IDbConnection {
 		String mode = ";AUTO_SERVER=TRUE";// !editMode ? ";FILE_LOCK=SERIALIZED"
 											// : "";
 
-		if (license) {
+		return DriverManager.getConnection("jdbc:h2:" + path.toString()
+				+ ifExist + mode, "sa", "");
 
-			// Properties prop = new Properties();
-			// prop.setProperty("user", "sa");
-			// prop.put("password", Const.FREE_DB_PASSWORD);
+		// if (license) {
 
-			// String hash = ";PASSWORD_HASH=TRUE";
-			boolean free = !pico.get(IAuthorize.class).check();
-			if (free) {
-				throw new DbLicenseException();
-				// try {
-				// return DriverManager.getConnection(
-				// "jdbc:h2:" + path.toString() + ifExist + mode
-				// + hash, prop);
-				// } catch (Exception e) {
-				// throw new DbLicenseException();
-				// }
-			} else {
+		// Properties prop = new Properties();
+		// prop.setProperty("user", "sa");
+		// prop.put("password", Const.FREE_DB_PASSWORD);
 
-				// try {
-				return DriverManager.getConnection("jdbc:h2:" + path.toString()
-						+ ifExist + mode, "sa", "");
-				// } catch (Exception e) {
-				// return DriverManager.getConnection(
-				// "jdbc:h2:" + path.toString() + ifExist + mode
-				// + hash, prop);
-				// }
+		// String hash = ";PASSWORD_HASH=TRUE";
+		// boolean free = !pico.get(IAuthorize.class).check();
+		// if (free) {
+		// throw new DbLicenseException();
+		// try {
+		// return DriverManager.getConnection(
+		// "jdbc:h2:" + path.toString() + ifExist + mode
+		// + hash, prop);
+		// } catch (Exception e) {
+		// throw new DbLicenseException();
+		// }
+		// } else {
 
-			}
+		// try {
+		// return DriverManager.getConnection("jdbc:h2:" + path.toString()
+		// + ifExist + mode, "sa", "");
+		// } catch (Exception e) {
+		// return DriverManager.getConnection(
+		// "jdbc:h2:" + path.toString() + ifExist + mode
+		// + hash, prop);
+		// }
 
-		} else {
-			return DriverManager.getConnection("jdbc:h2:" + path.toString()
-					+ ifExist + mode, "sa", "");
+		// }
 
-		}
+		// } else {
+		// return DriverManager.getConnection("jdbc:h2:" + path.toString()
+		// + ifExist + mode, "sa", "");
+		//
+		// }
 
 		// return DriverManager.getConnection("jdbc:h2:" + path.toString()
 		// + ifExist + mode, "sa", "");

@@ -157,6 +157,47 @@ public class Build {
 
 	}
 
+	private void buildTextWithoutContext(List<BuildInfo> proposals,
+			String title, AdditionalInfo build_opt) throws SQLException {
+		String SQL;
+		PreparedStatement prep;
+		ResultSet rs;
+
+		if (build_opt.textRegex) {
+			SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
+			SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
+			SQL = SQL.concat(" ORDER BY TITLE");
+		} else {
+			SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN ("
+					+ "SELECT T.* FROM FT_SEARCH_DATA(?, 0, 0) FT, PROCS_TEXT T "
+					+ "WHERE FT.TABLE='PROCS_TEXT' AND T.ID=FT.KEYS[0]) AS T1 ON T1.PROC = T.ID ORDER BY TITLE";
+		}
+		prep = con.prepareStatement(SQL);
+
+		prep.setString(1, build_opt.textRegex ? Pattern.quote(title) : title);
+
+		rs = prep.executeQuery();
+		try {
+			while (rs.next()) {
+
+				BuildInfo info = new BuildInfo();
+				info.title = rs.getString(1);
+				info.parent = rs.getInt(2);
+
+				makeTextLines(rs.getCharacterStream(3), title, info);
+
+				proposals.add(info);
+
+			}
+
+		} catch (Exception e) {
+			throw new SQLException();
+		} finally {
+			rs.close();
+		}
+
+	}
+
 	private void buildTextWithContext(List<BuildInfo> proposals, Integer gr,
 			String title, AdditionalInfo build_opt, String WHERE)
 			throws SQLException {
@@ -183,45 +224,8 @@ public class Build {
 				info.title = rs.getString(1);
 				info.parent = rs.getInt(2);
 
-				if (!build_opt.textWithoutLines)
-					makeTextLines(rs.getCharacterStream(3), title, info);
-
-				proposals.add(info);
-
-			}
-
-		} catch (Exception e) {
-			throw new SQLException();
-		} finally {
-			rs.close();
-		}
-
-	}
-
-	private void buildTextWithoutContext(List<BuildInfo> proposals,
-			String title, AdditionalInfo build_opt) throws SQLException {
-		String SQL;
-		PreparedStatement prep;
-		ResultSet rs;
-
-		SQL = "Select T.TITLE, T.PARENT, T1.TEXT from PROCS AS T INNER JOIN PROCS_TEXT AS T1 ON T1.PROC = T.ID";
-		SQL = SQL.concat(" WHERE UPPER(T1.TEXT) REGEXP UPPER(?)");
-		SQL = SQL.concat(" ORDER BY TITLE");
-
-		prep = con.prepareStatement(SQL);
-
-		prep.setString(1, Pattern.quote(title));
-
-		rs = prep.executeQuery();
-		try {
-			while (rs.next()) {
-
-				BuildInfo info = new BuildInfo();
-				info.title = rs.getString(1);
-				info.parent = rs.getInt(2);
-
-				if (!build_opt.textWithoutLines)
-					makeTextLines(rs.getCharacterStream(3), title, info);
+				// if (!build_opt.textRegex)
+				makeTextLines(rs.getCharacterStream(3), title, info);
 
 				proposals.add(info);
 

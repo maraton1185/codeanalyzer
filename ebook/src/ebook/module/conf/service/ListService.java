@@ -2,6 +2,7 @@ package ebook.module.conf.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import ebook.module.conf.ConfConnection;
 import ebook.module.conf.tree.ListInfo;
@@ -20,6 +21,13 @@ public class ListService extends TreeService {
 
 	public ListService(ConfConnection con) {
 		super(tableName, updateEvent, con);
+
+	}
+
+	@Override
+	public List<ITreeItemInfo> getRoot() {
+
+		return getRootCondition(false);
 
 	}
 

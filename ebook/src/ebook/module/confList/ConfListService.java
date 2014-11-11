@@ -29,7 +29,7 @@ public class ConfListService extends TreeService {
 
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.PATH ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.PATH, $Table.ROOT  ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -63,6 +63,7 @@ public class ConfListService extends TreeService {
 		info.setOptions(DbOptions.load(ListConfInfoOptions.class,
 				rs.getString(5)));
 		info.setPath(rs.getString(6));
+		info.setRoot(rs.getBoolean(7));
 		return info;
 	}
 

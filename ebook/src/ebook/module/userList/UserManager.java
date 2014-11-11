@@ -7,9 +7,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
-import ebook.core.pico;
 import ebook.module.tree.item.ITreeItemInfo;
 import ebook.module.tree.manager.TreeManager;
 import ebook.module.userList.tree.UserInfo;
@@ -24,8 +22,8 @@ public class UserManager extends TreeManager {
 	@Override
 	public void add(ITreeItemInfo parent, Shell shell) {
 
-		if (!pico.get(IAuthorize.class).checkUsersCount(shell))
-			return;
+		// if (!pico.get(IAuthorize.class).checkUsersCount(shell))
+		// return;
 
 		InputDialog dlg = new InputDialog(shell,
 				ebook.utils.Strings.title("appTitle"),

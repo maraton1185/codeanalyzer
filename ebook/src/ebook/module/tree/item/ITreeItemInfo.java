@@ -49,6 +49,6 @@ public interface ITreeItemInfo {
 
 	boolean isRoot();
 
-	void setRoot();
+	void setRoot(boolean value);
 
 }

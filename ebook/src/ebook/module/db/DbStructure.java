@@ -31,16 +31,18 @@ public class DbStructure implements IDbStructure {
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(500), "
+					+ "ROOT BOOLEAN, "
 					// + "PASSWORD VARCHAR(500), "
 
 					+ "FOREIGN KEY(PARENT) REFERENCES USERS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
-			SQL = "INSERT INTO USERS (TITLE, ISGROUP) VALUES (?,?);";
+			SQL = "INSERT INTO USERS (TITLE, ISGROUP, ROOT) VALUES (?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.value("userRoot"));
 			prep.setBoolean(2, true);
+			prep.setBoolean(3, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -54,18 +56,19 @@ public class DbStructure implements IDbStructure {
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(500), "
 					+ "PATH VARCHAR(1500), "
-					// + "ROLE INTEGER, "
+					+ "ROOT BOOLEAN, "
 					+ "IMAGE BINARY, "
 					// + "FOREIGN KEY(ROLE) REFERENCES USERS(ID), "
 					+ "FOREIGN KEY(PARENT) REFERENCES BOOKS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
-			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP, PATH) VALUES (?,?,?);";
+			SQL = "INSERT INTO BOOKS (TITLE, ISGROUP, PATH, ROOT) VALUES (?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
 			prep.setString(1, Strings.value("bookListRoot"));
 			prep.setBoolean(2, true);
 			prep.setString(3, "");
+			prep.setBoolean(4, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -108,15 +111,17 @@ public class DbStructure implements IDbStructure {
 					+ "PARENT INTEGER, SORT INTEGER, ISGROUP BOOLEAN, "
 					+ "TITLE VARCHAR(500), "
 					+ "PATH VARCHAR(1500), "
+					+ "ROOT BOOLEAN, "
 					+ "OPTIONS VARCHAR(3000), "
 					+ "FOREIGN KEY(PARENT) REFERENCES CONFS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "PRIMARY KEY (ID));");
 
-			SQL = "INSERT INTO CONFS (TITLE, ISGROUP) VALUES (?,?);";
+			SQL = "INSERT INTO CONFS (TITLE, ISGROUP, ROOT) VALUES (?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.value("confListRoot"));
 			prep.setBoolean(2, true);
+			prep.setBoolean(3, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -164,11 +169,11 @@ public class DbStructure implements IDbStructure {
 
 			DbStructureChecker ch = new DbStructureChecker();
 			haveStructure = ch.checkColumns(metadata, "BOOKS",
-					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, IMAGE")
+					"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, IMAGE, ROOT")
 					&& ch.checkColumns(metadata, "USERS",
-							"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS, ROOT")
 					&& ch.checkColumns(metadata, "CONFS",
-							"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH")
+							"PARENT, SORT, TITLE, ISGROUP, OPTIONS, PATH, ROOT")
 					&& ch.checkColumns(metadata, "ACL", "BOOK, SECTION, ROLE");
 
 		} catch (Exception e) {
@@ -184,14 +189,21 @@ public class DbStructure implements IDbStructure {
 
 	@Override
 	public void updateSructure(Connection con) throws SQLException {
-		// Statement stat = con.createStatement();
-		// try {
-		//
-		// stat.execute("ALTER TABLE ACL ADD TEST INTEGER;");
-		//
-		// } catch (Exception e) {
-		// throw new SQLException();
-		// }
+		Statement stat = con.createStatement();
+		try {
+
+			stat.execute("ALTER TABLE BOOKS ADD ROOT BOOLEAN;");
+			stat.execute("ALTER TABLE USERS ADD ROOT BOOLEAN;");
+			stat.execute("ALTER TABLE CONFS ADD ROOT BOOLEAN;");
+
+			stat.execute("UPDATE BOOKS SET ROOT=TRUE WHERE ID=1;");
+			stat.execute("UPDATE USERS SET ROOT=TRUE WHERE ID=1;");
+			stat.execute("UPDATE CONFS SET ROOT=TRUE WHERE ID=1;");
+
+		} catch (Exception e) {
+			throw new SQLException();
+		}
+
 	}
 
 }

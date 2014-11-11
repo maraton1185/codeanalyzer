@@ -6,6 +6,7 @@ import org.eclipse.swt.graphics.Image;
 
 import ebook.core.App;
 import ebook.module.tree.item.TreeItemInfo;
+import ebook.module.tree.service.ITreeService;
 import ebook.utils.Utils;
 
 public class ListBookInfo extends TreeItemInfo {
@@ -71,6 +72,8 @@ public class ListBookInfo extends TreeItemInfo {
 	public Image getListImage() {
 		if (aclEmplicit)
 			return Utils.getImage("lock.png");
+		else if (isRoot() && getId() != ITreeService.rootId)
+			return Utils.getImage("filter.png");
 		else
 			return null;
 	}

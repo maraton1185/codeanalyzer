@@ -40,6 +40,7 @@ import ebook.core.App;
 import ebook.module.acl.AclViewModel;
 import ebook.module.book.BookConnection;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
 import ebook.utils.Utils;
@@ -80,6 +81,11 @@ public class RolesView {
 		if (data == null) {
 			return;
 		}
+
+		ListBookInfoOptions opt = (ListBookInfoOptions) book.getTreeItem()
+				.getOptions();
+		if (!opt.ACL)
+			return;
 
 		model = new SectionViewModel(book, roles, book.srv().get(data.getId()));
 

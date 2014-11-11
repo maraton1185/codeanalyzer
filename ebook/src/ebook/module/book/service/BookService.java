@@ -71,7 +71,7 @@ public class BookService extends TreeService implements IDownloadService {
 
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT, $Table.ROOT ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -96,6 +96,7 @@ public class BookService extends TreeService implements IDownloadService {
 			info.setACL();
 
 		info.setSort(rs.getInt(6));
+		info.setRoot(rs.getBoolean(7));
 
 		return info;
 	}
@@ -778,7 +779,7 @@ public class BookService extends TreeService implements IDownloadService {
 			ContextService srv = ((BookConnection) db).ctxsrv(root);
 			// srv.setSection(root);
 			ContextInfo info = new ContextInfo();
-			info.setRoot();
+			info.setRoot(true);
 			info.setId(0);
 			srv.readXML(element.context, info);
 		}

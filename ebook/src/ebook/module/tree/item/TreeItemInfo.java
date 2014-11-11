@@ -3,7 +3,6 @@ package ebook.module.tree.item;
 import org.eclipse.swt.graphics.Image;
 
 import ebook.module.db.DbOptions;
-import ebook.module.tree.service.ITreeService;
 
 public abstract class TreeItemInfo implements ITreeItemInfo {
 
@@ -124,14 +123,25 @@ public abstract class TreeItemInfo implements ITreeItemInfo {
 		return false;
 	}
 
+	private boolean root = false;
+
 	@Override
 	public boolean isRoot() {
-		return getId() == ITreeService.rootId;
+		return root || getParent() == 0;
 	}
 
 	@Override
-	public void setRoot() {
-
+	public void setRoot(boolean value) {
+		root = value;
 	}
+	// @Override
+	// public boolean isRoot() {
+	// return getId() == ITreeService.rootId;
+	// }
+	//
+	// @Override
+	// public void setRoot() {
+	//
+	// }
 
 }

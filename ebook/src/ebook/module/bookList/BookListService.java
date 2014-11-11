@@ -166,7 +166,7 @@ public class BookListService extends TreeService {
 	// *****************************************************************
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.PATH, $Table.IMAGE ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.PATH, $Table.IMAGE, $Table.ROOT ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -209,6 +209,7 @@ public class BookListService extends TreeService {
 			info.setImage(new Image(Display.getCurrent(), imageData));
 		}
 
+		info.setRoot(rs.getBoolean(8));
 		info.setACL();
 
 		return info;

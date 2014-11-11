@@ -67,9 +67,14 @@ public abstract class TreeService implements ITreeService {
 		// ListBookInfo parent = (ListBookInfo) parent_item;
 		// ListBookInfo data = (ListBookInfo) item;
 
-		if (parent == null)
-			data.setParent(ITreeService.rootId);
-		else if (parent.isRoot())
+		if (parent == null) {
+			List<ITreeItemInfo> rl = getRoot();
+			if (!rl.isEmpty())
+				data.setParent(rl.get(0).getId());
+			else
+				data.setParent(ITreeService.rootId);
+
+		} else if (parent.isRoot())
 			// data.setParent(ITreeService.rootId);
 			data.setParent(parent.getId());
 		else if (parent.isGroup())
@@ -139,8 +144,8 @@ public abstract class TreeService implements ITreeService {
 
 			if (!stopUpdate) {
 				ITreeItemInfo _parent = get(data.getParent());
-				if (_parent != null && parent.isRoot())
-					_parent.setRoot();
+				if (_parent != null && parent != null && parent.isRoot())
+					_parent.setRoot(true);
 				App.br.post(updateEvent, getUpdateEventData(_parent, data));
 
 				// getUpdateEventData(get(data.getParent()), data));
@@ -167,12 +172,22 @@ public abstract class TreeService implements ITreeService {
 
 	@Override
 	public List<ITreeItemInfo> getRoot() {
+
+		return getRootCondition(true);
+
+	}
+
+	protected List<ITreeItemInfo> getRootCondition(boolean by_root) {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
 
 		try {
 			Connection con = db.getConnection();
-			String SQL = "SELECT " + getItemString("T") + "FROM " + tableName
-					+ " AS T WHERE T.PARENT IS NULL "
+			String SQL = "SELECT "
+					+ getItemString("T")
+					+ "FROM "
+					+ tableName
+					+ (by_root ? " AS T WHERE T.ROOT "
+							: " AS T WHERE T.PARENT IS NULL ")
 					+ additionRootWHEREString() + " ORDER BY T.SORT, T.ID";
 			PreparedStatement prep = con.prepareStatement(SQL);
 			setAdditionRoot(prep);
@@ -181,7 +196,7 @@ public abstract class TreeService implements ITreeService {
 				while (rs.next()) {
 
 					ITreeItemInfo root = getItem(rs);
-					root.setRoot();
+					root.setRoot(true);
 					result.add(root);
 				}
 			} finally {
@@ -343,7 +358,7 @@ public abstract class TreeService implements ITreeService {
 	public void delete(ITreeItemInfo item) {
 		ITreeItemInfo parent = get(item.getParent());
 
-		if (parent == null && !canDeleteRoot())
+		if ((item.isRoot() || parent == null) && !canDeleteRoot())
 			return;
 
 		try {
@@ -375,14 +390,23 @@ public abstract class TreeService implements ITreeService {
 	public void delete(ITreeItemSelection selection) {
 		int parent = selection.getParent();
 
+		boolean selLast = true;
 		Iterator<ITreeItemInfo> iterator = selection.iterator();
+		if (!canDeleteRoot()) {
+			while (iterator.hasNext()) {
+				ITreeItemInfo item = iterator.next();
+				if (item.isRoot())
+					return;
+			}
+		}
+		iterator = selection.iterator();
 		while (iterator.hasNext()) {
 			ITreeItemInfo item = iterator.next();
 			delete(item);
 			if (item.isRoot() && canDeleteRoot())
 				break;
 		}
-		if (parent != 0)
+		if (parent != 0 && selLast)
 			selectLast(parent);
 	}
 
@@ -891,4 +915,92 @@ public abstract class TreeService implements ITreeService {
 		return null;
 	}
 
+	@Override
+	public void setRoot(ITreeItemInfo item) throws InvocationTargetException {
+
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE " + tableName + " SET ROOT=? WHERE ID=?;";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			List<ITreeItemInfo> rl = getRoot();
+			if (!rl.isEmpty()) {
+
+				prep.setBoolean(1, false);
+				prep.setInt(2, rl.get(0).getId());
+
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+			}
+			prep.setBoolean(1, true);
+			prep.setInt(2, item.getId());
+
+			int affectedRows = prep.executeUpdate();
+			if (affectedRows == 0)
+				throw new SQLException();
+
+			if (!stopUpdate) {
+
+				App.br.post(updateEvent + "_UPDATE_INPUT",
+						getUpdateEventData(item, item));
+
+			}
+
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
+
+		}
+
+	}
+
+	@Override
+	public void dropRoot() throws InvocationTargetException {
+
+		try {
+			Connection con = db.getConnection();
+			String SQL;
+			PreparedStatement prep;
+
+			SQL = "UPDATE " + tableName + " SET ROOT=? WHERE ID=?;";
+			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
+
+			List<ITreeItemInfo> rl = getRootCondition(true);
+			if (!rl.isEmpty()) {
+
+				prep.setBoolean(1, false);
+				prep.setInt(2, rl.get(0).getId());
+
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+			}
+
+			rl = getRootCondition(false);
+			if (!rl.isEmpty()) {
+
+				prep.setBoolean(1, true);
+				prep.setInt(2, rl.get(0).getId());
+
+				int affectedRows = prep.executeUpdate();
+				if (affectedRows == 0)
+					throw new SQLException();
+
+				if (!stopUpdate) {
+
+					App.br.post(updateEvent + "_UPDATE_INPUT",
+							getUpdateEventData(rl.get(0), rl.get(0)));
+
+				}
+			}
+
+		} catch (Exception e) {
+			throw new InvocationTargetException(e);
+
+		}
+
+	}
 }

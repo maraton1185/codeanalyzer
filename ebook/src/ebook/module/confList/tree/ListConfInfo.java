@@ -13,6 +13,7 @@ import ebook.module.confLoad.interfaces.ILoaderManager.operationType;
 import ebook.module.confLoad.model.DbState;
 import ebook.module.db.DbOptions;
 import ebook.module.tree.item.TreeItemInfo;
+import ebook.module.tree.service.ITreeService;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Utils;
 
@@ -272,6 +273,9 @@ public class ListConfInfo extends TreeItemInfo {
 
 		if (this.getDbName().equals(name))
 			return Utils.getImage("markers/comparison.png");
+
+		if (isRoot() && getId() != ITreeService.rootId)
+			return Utils.getImage("filter.png");
 
 		return null;
 

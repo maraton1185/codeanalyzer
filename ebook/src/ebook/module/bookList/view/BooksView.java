@@ -59,6 +59,21 @@ public class BooksView {
 
 	@Inject
 	@Optional
+	public void EVENT_UPDATE_BOOK_LIST_UPDATE_INPUT(
+			@UIEventTopic(Events.EVENT_UPDATE_BOOK_LIST + "_UPDATE_INPUT") EVENT_UPDATE_TREE_DATA data) {
+
+		if (data.parent == null)
+			return;
+
+		treeComponent.updateInput();
+
+		if (data.selected != null)
+			viewer.setSelection(new StructuredSelection(data.selected), true);
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_UPDATE_BOOK_LIST(
 			@UIEventTopic(Events.EVENT_UPDATE_BOOK_LIST) EVENT_UPDATE_TREE_DATA data) {
 

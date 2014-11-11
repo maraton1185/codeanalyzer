@@ -77,6 +77,21 @@ public class ConfListView {
 
 	@Inject
 	@Optional
+	public void EVENT_UPDATE_CONF_LIST_UPDATE_INPUT(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_LIST + "_UPDATE_INPUT") EVENT_UPDATE_TREE_DATA data) {
+
+		if (data.parent == null)
+			return;
+
+		treeComponent.updateInput();
+
+		if (data.selected != null)
+			viewer.setSelection(new StructuredSelection(data.selected), true);
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_CONF_LIST_SET_SELECTION(
 			@UIEventTopic(Events.EVENT_CONF_LIST_SET_SELECTION) Object data) {
 

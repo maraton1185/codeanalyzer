@@ -23,7 +23,8 @@ public class ConfStructure implements IDbStructure {
 		Statement stat = con.createStatement();
 		try {
 			// stat.execute("ALTER TABLE BOOKMARKS ADD ITEM INTEGER;");
-			stat.execute("ALTER TABLE BOOKMARKS ADD PATH VARCHAR(500);");
+			// stat.execute("ALTER TABLE CONTEXT ADD ROOT BOOLEAN;");
+			// stat.execute("UPDATE CONTEXT SET ROOT=TRUE WHERE ID=1;");
 			// stat.execute("ALTER TABLE BOOKMARKS ADD PROC VARCHAR(500);");
 			// stat.execute("ALTER TABLE BOOKMARKS ADD OFFSET INTEGER;");
 			// stat.execute("ALTER TABLE PROCS ADD GROUP1 INTEGER;");
@@ -58,6 +59,9 @@ public class ConfStructure implements IDbStructure {
 		// create table
 		try {
 
+			stat.execute("CREATE ALIAS IF NOT EXISTS FT_INIT FOR \"org.h2.fulltext.FullText.init\";"
+					+ "CALL FT_INIT();");
+
 			stat.execute("CREATE TABLE INFO (ID INTEGER AUTO_INCREMENT, "
 					+ "CANLOAD BOOLEAN, OPTIONS VARCHAR(1500), "
 					+ "PRIMARY KEY (ID));");
@@ -77,6 +81,8 @@ public class ConfStructure implements IDbStructure {
 					+ "TITLE VARCHAR(500), "
 					+ "OPTIONS VARCHAR(1500), "
 					+ "LIST INTEGER, "
+					+ "ROOT BOOLEAN, "
+					+ "LIST_ROOT BOOLEAN, "
 
 					+ "FOREIGN KEY(LIST) REFERENCES LISTS(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
 					+ "FOREIGN KEY(PARENT) REFERENCES CONTEXT(ID) ON UPDATE CASCADE ON DELETE CASCADE, "
@@ -119,7 +125,7 @@ public class ConfStructure implements IDbStructure {
 			if (affectedRows == 0)
 				throw new SQLException();
 
-			SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, OPTIONS, LIST) VALUES (?,?,?,?);";
+			SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, OPTIONS, LIST, ROOT, LIST_ROOT) VALUES (?,?,?,?,?,?);";
 			prep = con.prepareStatement(SQL, Statement.CLOSE_CURRENT_RESULT);
 
 			prep.setString(1, Strings.value("contextRoot"));
@@ -128,6 +134,8 @@ public class ConfStructure implements IDbStructure {
 			opt1.type = BuildType.root;
 			prep.setString(3, DbOptions.save(opt1));
 			prep.setNull(4, java.sql.Types.INTEGER);
+			prep.setBoolean(5, true);
+			prep.setBoolean(6, true);
 			affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
 				throw new SQLException();
@@ -179,6 +187,8 @@ public class ConfStructure implements IDbStructure {
 					+ "PRIMARY KEY (ID), "
 					+ "FOREIGN KEY(PROC) REFERENCES PROCS(ID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
+			stat.execute("CALL FT_CREATE_INDEX('PUBLIC', 'PROCS_TEXT', 'TEXT');");
+
 			stat.execute("CREATE TABLE PROCS_PARAMETERS (ID INTEGER AUTO_INCREMENT, "
 					+ "PROC INTEGER, KEY VARCHAR(200), VALUE VARCHAR(200),"
 					+ "PRIMARY KEY (ID), "
@@ -224,7 +234,7 @@ public class ConfStructure implements IDbStructure {
 
 				&& ch.checkColumns(metadata, "INFO", "CANLOAD, OPTIONS")
 				&& ch.checkColumns(metadata, "CONTEXT",
-						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, LIST")
+						"PARENT, SORT, TITLE, ISGROUP, OPTIONS, LIST, ROOT, LIST_ROOT")
 				&& ch.checkColumns(metadata, "LISTS",
 						"PARENT, SORT, TITLE, ISGROUP, OPTIONS")
 				&& ch.checkColumns(metadata, "BOOKMARKS",

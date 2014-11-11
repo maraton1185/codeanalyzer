@@ -9,10 +9,6 @@
             name="ebook"
             application="org.eclipse.e4.ui.workbench.swt.E4Application">
          <property
-               name="applicationCSS"
-               value="platform:/plugin/ebook/css/default.css">
-         </property>
-         <property
                name="appName"
                value="ebook">
          </property>
@@ -30,18 +26,7 @@
        	 </property>
       </product>
    </extension>
-   <extension
-         point="org.eclipse.core.expressions.definitions">
-      <definition
-            id="ebook.expressions.onContentSelected">
-         <with
-               variable="CONTENT_SECTION_SELECTED">
-            <equals
-                  value="true">
-            </equals>
-         </with>
-      </definition>
-   </extension>
+
    
  
 <!-- base 

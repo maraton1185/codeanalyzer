@@ -36,9 +36,9 @@ public class Const {
 	// return host() + "/profile";
 	// }
 
-	public static String URL_proLinkOpen() {
-		return host() + "/pro";
-	}
+	// public static String URL_proLinkOpen() {
+	// return host() + "/pro";
+	// }
 
 	public static String URL_docLinkOpen() {
 		return host() + "/documentation";
@@ -95,7 +95,7 @@ public class Const {
 	public static final String MSG_ACTIVATE_OK = "јктивировано: \n";
 	public static final String MSG_ACTIVATED = "	приобретено лицензий: %1$s\n "
 			+ "	активировано: %2$s\n" + "	доступно дл€ активации: %3$s";
-	public static final String MSG_LOGIN = "	неверные логин, пароль (должны быть такие же, как на сайте) \n";
+	public static final String MSG_LOGIN = "	неверно указана почта или пароль (должны быть такие же, как на сайте) \n";
 	// public static final String MSG_ALREADY_ACTIVATED =
 	// "	устройство уже активировано";
 	public static final String MSG_GETID = "Ќевозможно идентифицировать компьютер. \n";

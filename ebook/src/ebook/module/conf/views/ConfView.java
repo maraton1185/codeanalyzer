@@ -139,6 +139,27 @@ public class ConfView implements ICollapseView {
 
 	@Inject
 	@Optional
+	public void EVENT_UPDATE_CONF_VIEW_UPDATE_INPUT(
+			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW + "_UPDATE_INPUT") EVENT_UPDATE_VIEW_DATA data) {
+
+		if (con != data.con)
+			return;
+
+		if (list != data.section)
+			return;
+
+		if (data.parent == null)
+			return;
+
+		treeComponent.updateInput();
+
+		if (data.selected != null)
+			viewer.setSelection(new StructuredSelection(data.selected), true);
+
+	}
+
+	@Inject
+	@Optional
 	public void EVENT_UPDATE_CONF_VIEW_EXPAND(
 			@UIEventTopic(Events.EVENT_UPDATE_CONF_VIEW + "_EXPAND") EVENT_UPDATE_VIEW_DATA data) {
 

@@ -81,6 +81,21 @@ public class UsersView {
 		// form.reflow(true);
 	}
 
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_USERS_UPDATE_INPUT(
+			@UIEventTopic(Events.EVENT_UPDATE_USERS + "_UPDATE_INPUT") EVENT_UPDATE_TREE_DATA data) {
+
+		if (data.parent == null)
+			return;
+
+		treeComponent.updateInput();
+
+		if (data.selected != null)
+			viewer.setSelection(new StructuredSelection(data.selected), true);
+
+	}
+
 	@PreDestroy
 	public void preDestroy(@Optional UserInfo data) {
 		if (data != null) {

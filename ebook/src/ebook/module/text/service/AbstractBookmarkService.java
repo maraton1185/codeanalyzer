@@ -22,6 +22,13 @@ public abstract class AbstractBookmarkService extends TreeService implements
 	}
 
 	@Override
+	public List<ITreeItemInfo> getRoot() {
+
+		return getRootCondition(false);
+
+	}
+
+	@Override
 	public List<ITreeItemInfo> getBookmarks(String path) {
 		List<ITreeItemInfo> result = new ArrayList<ITreeItemInfo>();
 		// Connection con = null;

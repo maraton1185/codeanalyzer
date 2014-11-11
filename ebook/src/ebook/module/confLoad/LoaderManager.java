@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Shell;
 import ebook.auth.interfaces.IAuthorize;
 import ebook.core.pico;
 import ebook.core.exceptions.DbCantLoadException;
-import ebook.core.exceptions.DbLicenseException;
 import ebook.core.exceptions.LoadConfigException;
 import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
@@ -202,10 +201,10 @@ public class LoaderManager implements ILoaderManager {
 			throws InvocationTargetException {
 
 		// œ–Œ¬≈– » ******************************************************
-		boolean free = !pico.get(IAuthorize.class).check();
-		if (free) {
-			throw new InvocationTargetException(new DbLicenseException());
-		}
+		// boolean free = !pico.get(IAuthorize.class).check();
+		// if (free) {
+		// throw new InvocationTargetException(new DbLicenseException());
+		// }
 		File folder = db.getLoadPath().toFile();
 		if (!folder.exists())
 			throw new InvocationTargetException(new LoadConfigException(),

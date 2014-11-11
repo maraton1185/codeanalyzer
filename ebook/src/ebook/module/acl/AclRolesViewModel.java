@@ -37,7 +37,7 @@ public abstract class AclRolesViewModel extends ModelObject {
 
 	public void setRoles() {
 
-		if (!info.isGroup()) {
+		if (info == null || !info.isGroup()) {
 
 			roles.clear();
 			activeRoles.clear();

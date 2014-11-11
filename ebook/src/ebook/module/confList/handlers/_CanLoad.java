@@ -16,7 +16,7 @@ import ebook.module.conf.ConfConnection;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.utils.Strings;
 
-public class CanLoad {
+public class _CanLoad {
 
 	@Inject
 	Shell shell;

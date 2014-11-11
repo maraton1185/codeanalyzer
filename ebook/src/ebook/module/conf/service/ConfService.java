@@ -64,7 +64,7 @@ public class ConfService extends TreeService implements IDownloadService {
 
 	@Override
 	protected String getItemString(String table) {
-		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT, $Table.LIST ";
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.SORT, $Table.LIST, $Table.ROOT, $Table.LIST_ROOT ";
 		s = s.replaceAll("\\$Table", "T");
 		return s;
 	}
@@ -105,7 +105,7 @@ public class ConfService extends TreeService implements IDownloadService {
 		try {
 			Connection con = db.getConnection();
 
-			String SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, LIST, OPTIONS) VALUES (?,?,?,?);";
+			String SQL = "INSERT INTO CONTEXT (TITLE, ISGROUP, LIST, OPTIONS, ROOT, LIST_ROOT) VALUES (?,?,?,?,?,?);";
 			PreparedStatement prep = con.prepareStatement(SQL,
 					Statement.CLOSE_CURRENT_RESULT);
 
@@ -119,6 +119,8 @@ public class ConfService extends TreeService implements IDownloadService {
 			ContextInfoOptions opt = new ContextInfoOptions();
 			opt.type = BuildType.root;
 			prep.setString(4, DbOptions.save(opt));
+			prep.setBoolean(5, true);
+			prep.setBoolean(6, true);
 
 			int affectedRows = prep.executeUpdate();
 			if (affectedRows == 0)
@@ -180,6 +182,8 @@ public class ConfService extends TreeService implements IDownloadService {
 		info.setSort(rs.getInt(6));
 		info.setConfId(db.getTreeItem().getId());
 		info.setList(rs.getInt(7));
+		info.setRoot(rs.getBoolean(8));
+		info.setListRoot(rs.getBoolean(9));
 		return info;
 	}
 

@@ -100,10 +100,9 @@ public class serviceShow {
 		MTrimmedWindow newWindow = (MTrimmedWindow) model.cloneSnippet(App.app,
 				Strings.model("model.id.book.window"), null);
 
-		newWindow
-				.setLabel(con.getWindowTitle()
-						+ (App.getJetty().isStarted() ? ""
-								: " : Web-сервер не запущен"));
+		newWindow.setLabel(con.getWindowTitle());
+		// + (App.getJetty().isStarted() ? ""
+		// : " : Web-сервер не запущен"));
 
 		String s = PreferenceSupplier.get(PreferenceSupplier.WINDOW_SIZE);
 

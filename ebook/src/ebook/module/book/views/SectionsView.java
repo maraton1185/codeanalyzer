@@ -54,6 +54,25 @@ public class SectionsView {
 
 	private boolean blockUpdate = false;
 
+	private TreeViewComponent treeComponent;
+
+	@Inject
+	@Optional
+	public void EVENT_UPDATE_CONTENT_VIEW_UPDATE_INPUT(
+			@UIEventTopic(Events.EVENT_UPDATE_CONTENT_VIEW + "_UPDATE_INPUT") EVENT_UPDATE_VIEW_DATA data,
+			final EHandlerService hs, final ECommandService cs,
+			EModelService model, @Active MWindow bookWindow) {
+
+		if (con != data.con)
+			return;
+
+		treeComponent.updateInput();
+
+		if (data.selected != null)
+			viewer.setSelection(new StructuredSelection(data.selected), true);
+
+	}
+
 	@Inject
 	@Optional
 	public void EVENT_EDIT_TITLE_CONTENT_VIEW(
@@ -140,8 +159,7 @@ public class SectionsView {
 		parent.setFont(new Font(Display.getCurrent(), PreferenceSupplier
 				.getFontData(PreferenceSupplier.FONT)));
 
-		TreeViewComponent treeComponent = new TreeViewComponent(parent,
-				con.srv(), 2, true);
+		treeComponent = new TreeViewComponent(parent, con.srv(), 2, true);
 
 		viewer = treeComponent.getViewer();
 

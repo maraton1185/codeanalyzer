@@ -29,6 +29,7 @@ import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
+import ebook.module.bookList.tree.ListBookInfoOptions;
 import ebook.module.conf.tree.ContextInfo;
 import ebook.module.conf.tree.ContextInfoSelection;
 import ebook.module.text.TextConnection;
@@ -88,6 +89,11 @@ public class ContextView {
 		if (data == null || service == null || treeComponent == null) {
 			return;
 		}
+
+		ListBookInfoOptions opt = (ListBookInfoOptions) con.getTreeItem()
+				.getOptions();
+		if (!opt.Context)
+			return;
 
 		service.setSection(section);
 		treeComponent.updateInput();

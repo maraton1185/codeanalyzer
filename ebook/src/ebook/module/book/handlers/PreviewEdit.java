@@ -9,7 +9,6 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 
-import ebook.core.App;
 import ebook.module.book.tree.SectionInfo;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -28,7 +27,6 @@ public class PreviewEdit {
 
 	@CanExecute
 	public boolean canExecute(@Optional @Active SectionInfo section) {
-		return section != null && !section.isGroup()
-				&& App.getJetty().isStarted();
+		return section != null && !section.isGroup();
 	}
 }

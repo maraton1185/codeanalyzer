@@ -33,6 +33,13 @@ public class UserService extends TreeService {
 	}
 
 	@Override
+	protected String getItemString(String table) {
+		String s = "$Table.TITLE, $Table.ID, $Table.PARENT, $Table.ISGROUP, $Table.OPTIONS, $Table.ROOT  ";
+		s = s.replaceAll("\\$Table", "T");
+		return s;
+	}
+
+	@Override
 	protected ITreeItemInfo getItem(ResultSet rs) throws SQLException {
 
 		UserInfo info = new UserInfo();
@@ -41,6 +48,7 @@ public class UserService extends TreeService {
 		info.setParent(rs.getInt(3));
 		info.setGroup(rs.getBoolean(4));
 		info.setOptions(DbOptions.load(UserInfoOptions.class, rs.getString(5)));
+		info.setRoot(rs.getBoolean(6));
 		return info;
 	}
 

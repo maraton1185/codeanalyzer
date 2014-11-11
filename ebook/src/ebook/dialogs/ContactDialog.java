@@ -179,13 +179,10 @@ public class ContactDialog extends Dialog {
 			return;
 		}
 
-		MessageDialog
-				.openInformation(
-						shell,
-						Strings.title("appTitle"),
-						"Сообщение отправлено.\n"
-								+ "На указанную почту придёт письмо-подтверждение и ответ.\n"
-								+ "Спасибо за внимание к проекту)");
+		MessageDialog.openInformation(shell, Strings.title("appTitle"),
+				"Сообщение отправлено.\n"
+						+ "Ответ придёт на указанную почту.\n"
+						+ "Спасибо за внимание к проекту)");
 		return;
 
 		// super.okPressed();

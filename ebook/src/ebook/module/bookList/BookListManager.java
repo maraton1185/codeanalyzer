@@ -17,9 +17,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.widgets.Shell;
 
-import ebook.auth.interfaces.IAuthorize;
 import ebook.core.App;
-import ebook.core.pico;
 import ebook.module.book.BookConnection;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.bookList.tree.ListBookInfoOptions;
@@ -48,8 +46,8 @@ public class BookListManager extends TreeManager {
 
 	public void add(ListConfInfo db, ListBookInfo parent, Shell shell) {
 
-		if (!pico.get(IAuthorize.class).checkBooksCount(shell))
-			return;
+		// if (!pico.get(IAuthorize.class).checkBooksCount(shell))
+		// return;
 
 		InputDialog dlg = new InputDialog(shell,
 				ebook.utils.Strings.title("appTitle"),
@@ -126,8 +124,8 @@ public class BookListManager extends TreeManager {
 	@Override
 	public void addToList(final ITreeItemInfo parent, final Shell shell) {
 
-		if (!pico.get(IAuthorize.class).checkBooksCount(shell))
-			return;
+		// if (!pico.get(IAuthorize.class).checkBooksCount(shell))
+		// return;
 
 		final List<IPath> files = Utils.browseFileMulti(
 				new Path(PreferenceSupplier

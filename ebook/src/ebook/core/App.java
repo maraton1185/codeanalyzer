@@ -58,6 +58,7 @@ import ebook.core.GlobalEvents.EVENT_UPDATE_PERSPECTIVE_ICON;
 import ebook.core.GlobalEvents.EVENT_UPDATE_STATUS;
 import ebook.core.GlobalEvents.RESTART_WORKBENCH;
 import ebook.core.GlobalEvents.SHOW_UPDATE_AVAILABLE;
+import ebook.core.exceptions.DbStructureException;
 import ebook.core.interfaces.IClipboard;
 import ebook.core.interfaces.IDbConnection;
 import ebook.core.interfaces.IManagerFactory;
@@ -203,6 +204,9 @@ public class App {
 				File f = new File(db.getFullName());
 				if (!f.exists())
 					db.create();
+				else
+					throw new DbStructureException();
+
 			}
 
 		} catch (Exception e) {

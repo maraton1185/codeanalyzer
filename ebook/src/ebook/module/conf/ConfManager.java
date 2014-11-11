@@ -107,7 +107,7 @@ public class ConfManager extends TreeManager {
 
 		info.type = BuildType.object;
 
-		info.textWithoutLines = build_options.textWithoutLines;
+		info.textRegex = build_options.textRegex;
 		info.comparison = build_options.comparison;
 		info.comparisonWithEquals = build_options.comparisonWithEquals;
 		info.setText(opt.type == BuildType.text);

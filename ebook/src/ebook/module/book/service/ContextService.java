@@ -413,6 +413,13 @@ public class ContextService extends TreeService implements ITextTreeService,
 	}
 
 	@Override
+	public List<ITreeItemInfo> getRoot() {
+
+		return getRootCondition(false);
+
+	}
+
+	@Override
 	public ITreeItemInfo getModule(ITreeItemInfo _item) {
 		ITreeItemInfo item = get(_item.getParent());
 

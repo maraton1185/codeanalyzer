@@ -38,4 +38,8 @@ public interface ITreeService extends ITreeService2 {
 
 	void edit(ITreeItemInfo item);
 
+	void setRoot(ITreeItemInfo item) throws InvocationTargetException;
+
+	void dropRoot() throws InvocationTargetException;
+
 }

@@ -105,7 +105,7 @@ public abstract class BaseDbPathConnection extends BaseDbConnection {
 	// @Override
 	@Override
 	public String getWindowTitle() {
-		return getTreeItem().getTitle() + " (" + getName() + ")";
+		return getTreeItem().getTitle();// + " (" + getName() + ")";
 	}
 
 }

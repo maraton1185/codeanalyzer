@@ -79,18 +79,6 @@ public class ContextInfo extends TreeItemInfo {
 
 	}
 
-	private boolean root = false;
-
-	@Override
-	public boolean isRoot() {
-		return root || getParent() == 0;
-	}
-
-	@Override
-	public void setRoot() {
-		root = true;
-	}
-
 	private Integer conf;
 
 	public void setConfId(Integer id) {
@@ -117,6 +105,8 @@ public class ContextInfo extends TreeItemInfo {
 			return Utils.getImage("copy.png");
 		else if (clip.isCut(conf, getId()))
 			return Utils.getImage("cut.png");
+		else if (isRoot() && !isListRoot())
+			return Utils.getImage("filter.png");
 
 		ContextInfoOptions opt = getOptions();
 		// if (opt.hasText != null && opt.hasText)
@@ -169,7 +159,7 @@ public class ContextInfo extends TreeItemInfo {
 		info.setTitle(element.title);
 		info.setGroup(element.group);
 		if (element.root)
-			info.setRoot();
+			info.setRoot(true);
 		info.setOptions(DbOptions.load(ContextInfoOptions.class,
 				element.options));
 		// info.setTitleIncrement(false);
@@ -191,6 +181,17 @@ public class ContextInfo extends TreeItemInfo {
 		info.setOptions(opt);
 
 		return info;
+
+	}
+
+	private boolean list_root;
+
+	public boolean isListRoot() {
+		return list_root;
+	}
+
+	public void setListRoot(boolean value) {
+		list_root = value;
 
 	}
 

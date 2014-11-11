@@ -52,7 +52,6 @@ import ebook.core.App;
 import ebook.module.bookList.tree.ListBookInfo;
 import ebook.module.confList.tree.ListConfInfo;
 import ebook.module.tree.view.TreeViewComponent;
-import ebook.utils.Const;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_TREE_DATA;
 import ebook.utils.PreferenceSupplier;
@@ -349,18 +348,18 @@ public class StartView {
 
 		});
 
-		link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
-		link.setImage(Utils.getImage("help.png"));
-		link.setUnderlined(false);
-		link.setText("Документация");
-		link.addHyperlinkListener(new HyperlinkAdapter() {
-			@Override
-			public void linkActivated(HyperlinkEvent e) {
-				Program.launch(Const.URL_docLinkOpen());
-				super.linkActivated(e);
-			}
-
-		});
+		// link = toolkit.createImageHyperlink(linksSectionClient, SWT.WRAP);
+		// link.setImage(Utils.getImage("help.png"));
+		// link.setUnderlined(false);
+		// link.setText("Документация");
+		// link.addHyperlinkListener(new HyperlinkAdapter() {
+		// @Override
+		// public void linkActivated(HyperlinkEvent e) {
+		// Program.launch(Const.URL_docLinkOpen());
+		// super.linkActivated(e);
+		// }
+		//
+		// });
 
 		linksSection.setClient(linksSectionClient);
 
@@ -377,8 +376,7 @@ public class StartView {
 		Section prefSection = toolkit.createSection(form.getBody(),
 		// Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE
 		// | Section.EXPANDED);
-				Section.TITLE_BAR | Section.DESCRIPTION | Section.TWISTIE
-						| Section.EXPANDED);
+				Section.TITLE_BAR | Section.DESCRIPTION | Section.TWISTIE);
 
 		prefSection.addExpansionListener(new ExpansionAdapter() {
 			@Override

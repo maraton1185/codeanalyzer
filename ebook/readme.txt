@@ -59,6 +59,10 @@ debug configuration - arguments
 build.xml
 MyWebApp.gwt.xml (<module rename-to='mywebapp'>) in same package with entrypoint
 
+xulRunner
+---
+должен быть в папке установки ("..\workspace")
+версия - 10
 
 
 

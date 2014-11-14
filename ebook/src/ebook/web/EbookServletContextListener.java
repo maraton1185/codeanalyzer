@@ -4,7 +4,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import ebook.core.App;
 import ebook.utils.PreferenceSupplier;
 import ebook.web.controllers.EditorController;
 
@@ -16,7 +15,7 @@ public class EbookServletContextListener implements ServletContextListener {
 		sc.setAttribute("brand",
 				PreferenceSupplier.get(PreferenceSupplier.APP_BRAND));
 
-		sc.setAttribute("swt", App.getJetty().swt());
+		// sc.setAttribute("swt", App.getJetty().swt());
 
 		if (!PreferenceSupplier
 				.getBoolean(PreferenceSupplier.LOAD_EDITOR_TEMPLATES_ON_GET)) {

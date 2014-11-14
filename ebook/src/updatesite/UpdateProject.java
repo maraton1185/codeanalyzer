@@ -7,7 +7,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 import ebook.core.Activator;
-import ebook.utils.PreferenceSupplier;
+import ebook.utils.Strings;
 
 public class UpdateProject {
 
@@ -24,8 +24,7 @@ public class UpdateProject {
 			return;
 		}
 		// Adding the repositories to explore
-		if (!P2Util.addRepository(agent,
-				PreferenceSupplier.get(PreferenceSupplier.UPDATE_SITE))) {
+		if (!P2Util.addRepository(agent, Strings.updateSite)) {
 			System.out.println(">> could no add repostory!");
 			return;
 		}

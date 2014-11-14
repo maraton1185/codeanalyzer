@@ -26,6 +26,7 @@ maximize = function() {
 
 getContent = function() {
   return CKEDITOR.instances.editor1.getData();
+  return CKEDITOR.env.isCompatible = true;
 };
 
 CKEDITOR.replace('editor1', {

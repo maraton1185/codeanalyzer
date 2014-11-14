@@ -12,7 +12,6 @@ import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import ebook.core.App;
 import ebook.module.book.BookConnection;
 import ebook.module.book.service.ContextService;
 import ebook.module.book.tree.SectionInfo;
@@ -132,8 +131,8 @@ public class _BrowserComposite extends Composite {
 	}
 
 	public void updateUrl(String tag) {
-		browser.setUrl(url + "&swt=" + App.getJetty().swt()
-				+ (tag.isEmpty() ? "" : "#" + tag));
+		// browser.setUrl(url + "&swt=" + App.getJetty().swt()
+		// + (tag.isEmpty() ? "" : "#" + tag));
 		// browser.refresh();
 	}
 

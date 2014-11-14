@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.e4.core.contexts.IEclipseContext;
@@ -244,7 +242,7 @@ public class App {
 
 			perspectiveActions();
 
-			openBookOnStartup();
+			// openBookOnStartup();
 
 			trayOptions();
 
@@ -267,24 +265,24 @@ public class App {
 
 		}
 
-		private void openBookOnStartup() {
-
-			if (!PreferenceSupplier
-					.getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
-				return;
-
-			IPath p = new Path(
-					PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
-			if (p.isEmpty())
-				return;
-
-			jetty.setOpenBookOnStratUp();
-
-			// App.mng.blm().open(p, (Shell) window.getWidget());
-			//
-			// App.br.post(Events.EVENT_SHOW_BOOK, null);
-
-		}
+		// private void openBookOnStartup() {
+		//
+		// if (!PreferenceSupplier
+		// .getBoolean(PreferenceSupplier.OPEN_BOOK_ON_STARTUP))
+		// return;
+		//
+		// IPath p = new Path(
+		// PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
+		// if (p.isEmpty())
+		// return;
+		//
+		// jetty.setOpenBookOnStratUp();
+		//
+		// // App.mng.blm().open(p, (Shell) window.getWidget());
+		// //
+		// // App.br.post(Events.EVENT_SHOW_BOOK, null);
+		//
+		// }
 
 		private void trayOptions() {
 			final Image image = Utils.getImage("favicon.png");
@@ -393,8 +391,7 @@ public class App {
 				return;
 			}
 			// Adding the repositories to explore
-			if (!P2Util.addRepository(agent,
-					PreferenceSupplier.get(PreferenceSupplier.UPDATE_SITE))) {
+			if (!P2Util.addRepository(agent, Strings.updateSite)) {
 				System.out.println(">> could no add repostory!");
 				agent = null;
 				return;

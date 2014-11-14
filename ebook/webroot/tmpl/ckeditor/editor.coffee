@@ -25,7 +25,7 @@ maximize = ()->
 getContent = ()->
 	return CKEDITOR.instances.editor1.getData();
 
-
+ CKEDITOR.env.isCompatible = true;
 CKEDITOR.replace 'editor1', 
 	#extraPlugins : 'autogrow'
 	#removePlugins : 'resize'

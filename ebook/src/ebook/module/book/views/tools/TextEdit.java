@@ -36,7 +36,8 @@ public class TextEdit extends Composite implements ITextEditor {
 
 		setLayout(new FillLayout());
 
-		browser = new Browser(this, SWT.Resize);
+		setRedraw(false);
+		browser = new Browser(this, SWT.Resize | SWT.MOZILLA);
 		browser.setJavascriptEnabled(true);
 
 		browser.addProgressListener(new ProgressListener() {
@@ -64,9 +65,10 @@ public class TextEdit extends Composite implements ITextEditor {
 			@Override
 			public void changed(StatusTextEvent event) {
 				String text = event.text;
-				if (text.equals("editor:onInit()"))
+				if (text.equals("editor:onInit()")) {
 					setText();
-				else if (text.equals("editor:onChange()"))
+
+				} else if (text.equals("editor:onChange()"))
 					setDirty();
 				else
 					browser.setData(text);
@@ -74,6 +76,16 @@ public class TextEdit extends Composite implements ITextEditor {
 			}
 		});
 
+		// try {
+		// Bundle bundle = FrameworkUtil.getBundle(TextEdit.class);
+		// URL url_bundle = FileLocator.find(bundle, new Path(
+		// "webroot/tmpl/cleditor/index.jsp"), null);
+		// URL url = FileLocator.toFileURL(url_bundle);
+		// browser.setUrl(url.toString());
+		//
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 		browser.setUrl(App.getJetty().editor());
 
 	}
@@ -89,8 +101,10 @@ public class TextEdit extends Composite implements ITextEditor {
 		editor_content = text == null ? "" : text.replace("\n", "\\n")
 				.replace("\r", "\\r").replace("\t", "\\t").replace("'", "\\'");
 
-		if (loadCompleted)
+		if (loadCompleted) {
 			browser.execute("setContent('" + editor_content + "');");
+			setRedraw(true);
+		}
 
 	}
 
@@ -120,7 +134,9 @@ public class TextEdit extends Composite implements ITextEditor {
 	@Override
 	public void updateUrl() {
 
+		setRedraw(false);
 		browser.setUrl(App.getJetty().editor());
+		// setRedraw(true);
 	}
 
 	@Override
@@ -143,7 +159,7 @@ public class TextEdit extends Composite implements ITextEditor {
 
 	@Override
 	public void setLayoutData(GridData gridData) {
-		setLayoutData(gridData);
+		super.setLayoutData(gridData);
 
 	}
 }

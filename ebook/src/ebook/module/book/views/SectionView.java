@@ -3,8 +3,6 @@ package ebook.module.book.views;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.commands.ECommandService;
-import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.Active;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
@@ -12,42 +10,35 @@ import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import ebook.core.App;
 import ebook.module.book.BookConnection;
-import ebook.module.book.service.BookService;
 import ebook.module.book.tree.SectionInfo;
 import ebook.module.book.views.interfaces.IBrowserBridgeView;
 import ebook.module.book.views.interfaces.ITextEditor;
-import ebook.module.book.views.interfaces.ITextImagesView;
 import ebook.module.book.views.tools.ImagesComposite;
-import ebook.module.book.views.tools.SwingEditor;
+import ebook.module.book.views.tools.TextEdit;
 import ebook.utils.Events;
 import ebook.utils.Events.EVENT_UPDATE_VIEW_DATA;
-import ebook.utils.Utils;
 
-public class SectionView implements ITextImagesView, IBrowserBridgeView {
+public class SectionView implements IBrowserBridgeView {
 
 	@Inject
 	@Active
 	BookConnection book;
-	@Inject
-	private EHandlerService hService;
-	@Inject
-	private ECommandService comService;
+	// @Inject
+	// private EHandlerService hService;
+	// @Inject
+	// private ECommandService comService;
 
 	ITextEditor text;
 
 	private MWindow window;
 
-	FormToolkit toolkit;
+	// FormToolkit toolkit;
 
 	SectionInfo section;
 
@@ -127,24 +118,42 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 
 		this.section = section;
 		App.br.post(Events.EVENT_SET_SECTION_CONTEXT, null);
-		toolkit = new FormToolkit(parent.getDisplay());
+		// toolkit = new FormToolkit(parent.getDisplay());
+		//
+		// // **************************************************************
+		//
+		// SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
+		// sashForm.setBackground(sashForm.getDisplay().getSystemColor(
+		// SWT.COLOR_GRAY));
 
-		// **************************************************************
-
-		SashForm sashForm = new SashForm(parent, SWT.HORIZONTAL);
-		sashForm.setBackground(sashForm.getDisplay().getSystemColor(
-				SWT.COLOR_GRAY));
-		imagesComposite = new ImagesComposite(sashForm, SWT.NONE, this);
 		// Composite leftComposite = new Composite(sashForm, SWT.NONE);
 		// leftComposite.setLayout(new FillLayout());
-		Composite rightComposite = new Composite(sashForm, SWT.NONE);
-		rightComposite.setLayout(new FillLayout());
+		// Composite rightComposite = new Composite(sashForm, SWT.NONE);
+		// rightComposite.setLayout(new FillLayout());
 
-		// text = new TextEdit(rightComposite, section, book.srv());
-		text = new SwingEditor(rightComposite, section, book.srv());
+		text = new TextEdit(parent, section, book.srv());
+		// text = new SwingEditor(rightComposite, section, book.srv());
 		text.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		imagesComposite.update(section);
+		// imagesComposite = new ImagesComposite(sashForm, SWT.NONE, this);
+		//
+		// imagesComposite.update(section);
+		// SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
+		// sashForm.setBackground(sashForm.getDisplay().getSystemColor(
+		// SWT.COLOR_GRAY));
+		//
+		// Composite leftComposite = new Composite(sashForm, SWT.NONE);
+		// leftComposite.setLayout(new FillLayout());
+		// Composite rightComposite = new Composite(sashForm, SWT.NONE);
+		// rightComposite.setLayout(new FillLayout());
+		//
+		// text = new TextEdit(rightComposite, section, book.srv());
+		// // text = new MetaphEditor(rightComposite, section, book.srv());
+		// text.setLayoutData(new GridData(GridData.FILL_BOTH));
+		//
+		// imagesComposite = new ImagesComposite(sashForm, SWT.NONE, this);
+		//
+		// imagesComposite.update(section);
 	}
 
 	// ********************************************************************
@@ -153,35 +162,36 @@ public class SectionView implements ITextImagesView, IBrowserBridgeView {
 		return section.getId();
 	}
 
-	@Override
-	public FormToolkit getToolkit() {
-		return toolkit;
-	}
-
-	@Override
-	public BookService srv() {
-		return book.srv();
-	}
-
-	@Override
-	public void setDirty() {
-		dirty.setDirty(true);
-	}
-
-	@Override
-	public void executeHandler(String id) {
-		Utils.executeHandler(hService, comService, id);
-	}
-
-	@Override
+	// @Override
+	// public FormToolkit getToolkit() {
+	// return toolkit;
+	// }
+	//
+	// @Override
+	// public BookService srv() {
+	// return book.srv();
+	// }
+	//
+	// @Override
+	// public void setDirty() {
+	// dirty.setDirty(true);
+	// }
+	//
+	// @Override
+	// public void executeHandler(String id) {
+	// Utils.executeHandler(hService, comService, id);
+	// }
+	//
+	// @Override
 	public ITextEditor getTextEditor() {
 		return text;
 	}
 
-	@Override
-	public boolean textEdit() {
-		return true;
-	}
+	//
+	// @Override
+	// public boolean textEdit() {
+	// return true;
+	// }
 
 	public void addImage() {
 		imagesComposite.addImage(section);

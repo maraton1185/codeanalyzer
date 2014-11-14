@@ -11,6 +11,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -270,6 +271,11 @@ public abstract class Utils {
 		rules.add(new EndOfLineRule(Const.COMPARE_REMOVED_MARKER, provider
 				.getToken(TOKENS.COMPARE_REMOVED)));
 
+	}
+
+	public static String getInstallDir(String path) {
+		return Platform.getLocation().removeLastSegments(1).append(path)
+				.toString();
 	}
 
 }

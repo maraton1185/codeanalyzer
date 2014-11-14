@@ -7,7 +7,6 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
@@ -15,7 +14,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
 import ebook.core.App;
-import ebook.utils.PreferenceSupplier;
 
 public class SectionImage {
 
@@ -66,18 +64,19 @@ public class SectionImage {
 	public SectionImage() {
 	}
 
-	public Image getScaled(Device display, SectionInfoOptions options) {
-
-		Image scaled = image;
-		int mWidth = PreferenceSupplier.getInt(PreferenceSupplier.IMAGE_WIDTH);// options.scaledImageWidth;
-		int width = image.getBounds().width;
-		int height = image.getBounds().height;
-		if (width > mWidth)
-			scaled = new Image(display, image.getImageData().scaledTo((mWidth),
-					(int) ((float) height / width * mWidth)));
-
-		return scaled;
-	}
+	// public Image getScaled(Device display, SectionInfoOptions options) {
+	//
+	// Image scaled = image;
+	// int mWidth = PreferenceSupplier.getInt(PreferenceSupplier.IMAGE_WIDTH);//
+	// options.scaledImageWidth;
+	// int width = image.getBounds().width;
+	// int height = image.getBounds().height;
+	// if (width > mWidth)
+	// scaled = new Image(display, image.getImageData().scaledTo((mWidth),
+	// (int) ((float) height / width * mWidth)));
+	//
+	// return scaled;
+	// }
 
 	public Image getScaled(Composite comp) {
 

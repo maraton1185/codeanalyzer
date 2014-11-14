@@ -30,8 +30,8 @@ public abstract class PreferenceSupplier {
 	public static final String BASE_ACTIVE = "P_BASE_ACTIVE";
 	public static final String BASE_COMPARE = "P_BASE_COMPARE";
 
-	public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
-	public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
+	// public static final String OPEN_BOOK_ON_STARTUP = "OPEN_BOOK_ON_STARTUP";
+	// public static final String BOOK_ON_STARTUP = "BOOK_ON_STARTUP";
 	public static final String FONT = "FONT";
 
 	public static final String START_PERSPECTIVE = "START_PERSPECTIVE";
@@ -48,10 +48,10 @@ public abstract class PreferenceSupplier {
 	public static final String START_JETTY = "START_JETTY";
 	public static final String IMAGE_WIDTH = "IMAGE_WIDTH";
 	public static final String EXTERNAL_JETTY_BASE = "EXTERNAL_JETTY_BASE";
-	public static final String JETTY_BASE = "JETTY_BASE";
+	// public static final String JETTY_BASE = "JETTY_BASE";
 	public static final String APP_BRAND = "APP_BRAND";
 	public static final String SESSION_TIMEOUT = "SESSION_TIMEOUT";
-	public static final String UPDATE_SITE = "UPDATE_SITE";
+	// public static final String UPDATE_SITE = "UPDATE_SITE";
 	public static final String SHOW_ABOUT_ON_STARTUP = "SHOW_ABOUT_ON_STARTUP";
 	public static final String CHECK_UPDATE_ON_STARTUP = "CHECK_UPDATE_ON_STARTUP";
 	public static final String DEFAULT_IMAGE_DIRECTORY = "DEFAULT_IMAGE_DIRECTORY";
@@ -59,10 +59,11 @@ public abstract class PreferenceSupplier {
 	public static final String CONF_LIST_VIEW_COMPARISON = "CONF_LIST_VIEW_COMPARISON";
 	public static final String IMAGE_TITLE = "IMAGE_TITLE";
 	public static final String INIT_SECTION_HTML = "INIT_SECTION_HTML";
-	public static final String APP_HOST = "APP_HOST";
+	// public static final String APP_HOST = "APP_HOST";
 	public static final String WINDOW_SIZE = "WINDOW_SIZE";
 	public static final String LOAD_EDITOR_TEMPLATES_ON_GET = "LOAD_EDITOR_TEMPLATES_ON_GET";
-	public static final String EDITOR_TEMPLATES_FOLDER = "EDITOR_TEMPLATES_FOLDER";
+	// public static final String EDITOR_TEMPLATES_FOLDER =
+	// "EDITOR_TEMPLATES_FOLDER";
 	public static final String SECTION_REF_TARGET = "SECTION_REF_TARGET";
 	public static final String SECTION_REF_TITLE = "SECTION_REF_TITLE";
 
@@ -77,19 +78,19 @@ public abstract class PreferenceSupplier {
 
 		preferenceStore.setDefault(PreferenceSupplier.SECTION_REF_TARGET, true);
 
-		preferenceStore.setDefault(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
-				ResourcesPlugin.getWorkspace().getRoot().getLocation()
-						.toString());
+		// preferenceStore.setDefault(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
+		// ResourcesPlugin.getWorkspace().getRoot().getLocation()
+		// .toString());
 
 		preferenceStore.setDefault(
 				PreferenceSupplier.LOAD_EDITOR_TEMPLATES_ON_GET, false);
 
-		preferenceStore.setDefault(PreferenceSupplier.APP_HOST,
-				"http://codeanalyzer.ru");
-
-		// "file://d:/Marat/java/temp/update_site/";
-		preferenceStore.setDefault(PreferenceSupplier.UPDATE_SITE,
-				"http://codeanalyzer.ru/media/repository");
+		// preferenceStore.setDefault(PreferenceSupplier.APP_HOST,
+		// "http://codeanalyzer.ru");
+		//
+		// // "file://d:/Marat/java/temp/update_site/";
+		// preferenceStore.setDefault(PreferenceSupplier.UPDATE_SITE,
+		// "http://codeanalyzer.ru/media/repository");
 
 		preferenceStore
 				.setDefault(
@@ -130,11 +131,11 @@ public abstract class PreferenceSupplier {
 				"Анализатор кода 1С");
 
 		preferenceStore.setDefault(PreferenceSupplier.IMAGE_WIDTH, 200);
-		preferenceStore.setDefault(PreferenceSupplier.EXTERNAL_JETTY_BASE,
-				false);
-		preferenceStore.setDefault(PreferenceSupplier.JETTY_BASE,
-				ResourcesPlugin.getWorkspace().getRoot().getLocation()
-						.toString());
+		preferenceStore
+				.setDefault(PreferenceSupplier.EXTERNAL_JETTY_BASE, true);
+		// preferenceStore.setDefault(PreferenceSupplier.JETTY_BASE,
+		// ResourcesPlugin.getWorkspace().getRoot().getLocation()
+		// .toString());
 
 		preferenceStore.setDefault(PreferenceSupplier.START_JETTY, true);
 		preferenceStore.setDefault(PreferenceSupplier.REMOTE_PORT, 80);
@@ -164,8 +165,8 @@ public abstract class PreferenceSupplier {
 				ResourcesPlugin.getWorkspace().getRoot().getLocation()
 						.toString());
 
-		preferenceStore.setDefault(PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
-				false);
+		// preferenceStore.setDefault(PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
+		// false);
 
 		// preferenceStore.setDefault(PreferenceSupplier.BOOK_ON_STARTUP,
 		// Utils.getAboutBookPath() + Const.DEFAULT_DB_EXTENSION);

@@ -61,13 +61,14 @@ public class BookListService extends TreeService {
 			BufferedInputStream inputStreamReader = new BufferedInputStream(fis);
 			ImageData imageData = new ImageData(inputStreamReader);
 
-			int mWidth = PreferenceSupplier
-					.getInt(PreferenceSupplier.IMAGE_WIDTH);// options.scaledImageWidth;
-			int width = imageData.width;
-			int height = imageData.height;
-			if (width > mWidth)
-				imageData = imageData.scaledTo((mWidth), (int) ((float) height
-						/ width * mWidth));
+			// int mWidth = PreferenceSupplier
+			// .getInt(PreferenceSupplier.IMAGE_WIDTH);//
+			// options.scaledImageWidth;
+			// int width = imageData.width;
+			// int height = imageData.height;
+			// if (width > mWidth)
+			// imageData = imageData.scaledTo((mWidth), (int) ((float) height
+			// / width * mWidth));
 
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 

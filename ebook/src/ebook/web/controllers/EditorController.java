@@ -5,52 +5,55 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import ebook.utils.PreferenceSupplier;
 import ebook.utils.Utils;
 
 public class EditorController {
 
 	public String getModel() {
 
-		String folder = PreferenceSupplier
-				.get(PreferenceSupplier.EDITOR_TEMPLATES_FOLDER);
+		try {
 
-		File tmpl_dir = new File(folder);
+			String folder = Utils.getInstallDir("templates");
 
-		String tmpl = "";
-		if (!tmpl_dir.exists())
-			return "";
+			File tmpl_dir = new File(folder);
 
-		if (!tmpl_dir.isDirectory())
-			return "";
+			String tmpl = "";
+			if (!tmpl_dir.exists())
+				return "";
 
-		File[] files = new File(folder).listFiles();
+			if (!tmpl_dir.isDirectory())
+				return "";
 
-		tmpl = "<script type=\"text/javascript\"> CKEDITOR.addTemplates( 'default',{templates:[";
+			File[] files = new File(folder).listFiles();
 
-		String sText = "";
-		for (File f : files) {
+			tmpl = "<script type=\"text/javascript\"> CKEDITOR.addTemplates( 'default',{templates:[";
 
-			sText = "";
+			String sText = "";
+			for (File f : files) {
 
-			try (BufferedReader br = new BufferedReader(new FileReader(
-					f.getAbsolutePath()))) {
+				sText = "";
 
-				String sCurrentLine;
-				while ((sCurrentLine = br.readLine()) != null) {
-					sText += "'" + sCurrentLine + "'+";
+				try (BufferedReader br = new BufferedReader(new FileReader(
+						f.getAbsolutePath()))) {
+
+					String sCurrentLine;
+					while ((sCurrentLine = br.readLine()) != null) {
+						sText += "'" + sCurrentLine + "'+";
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
-			} catch (IOException e) {
-				e.printStackTrace();
+				tmpl += "{title: '" + Utils.getFileName(f) + "',html:" + sText
+						+ "''},";
 			}
 
-			tmpl += "{title: '" + Utils.getFileName(f) + "',html:" + sText
-					+ "''},";
+			tmpl += "]});</script>";
+			return tmpl;
+		} catch (Exception e) {
+			return "";
 		}
 
-		tmpl += "]});</script>";
-
-		return tmpl;
 	}
 }

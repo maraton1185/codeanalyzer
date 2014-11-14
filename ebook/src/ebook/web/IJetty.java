@@ -23,9 +23,9 @@ public interface IJetty {
 
 	public HashMap<IPath, Connection> pull();
 
-	public void openBookOnStratUp();
-
-	public void setOpenBookOnStratUp();
+	// public void openBookOnStratUp();
+	//
+	// public void setOpenBookOnStratUp();
 
 	// url
 
@@ -47,6 +47,6 @@ public interface IJetty {
 
 	String listImage(Integer book);
 
-	String swt();
+	// String swt();
 
 }

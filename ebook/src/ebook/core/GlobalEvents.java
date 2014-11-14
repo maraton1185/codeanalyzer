@@ -100,7 +100,7 @@ public abstract class GlobalEvents {
 
 					App.getJetty().start();
 
-					App.getJetty().openBookOnStratUp();
+					// App.getJetty().openBookOnStratUp();
 
 					App.sync.asyncExec(new Runnable() {
 						@Override

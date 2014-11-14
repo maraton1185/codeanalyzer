@@ -4,7 +4,6 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.FontFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -13,7 +12,6 @@ import org.eclipse.jface.preference.PreferenceNode;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -26,7 +24,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import ebook.module.book.views.tools._BrowserComposite;
 import ebook.utils.PreferenceSupplier;
 import ebook.utils.Strings;
 import ebook.utils.Utils;
@@ -56,8 +53,8 @@ public class OptionsDialog {
 		// Create the nodes
 		p = new PreferenceNode("", new FieldEditorPageCommon());
 		mgr.addToRoot(p);
-		p = new PreferenceNode("", new FieldEditorPageBrowser());
-		mgr.addToRoot(p);
+		// p = new PreferenceNode("", new FieldEditorPageBrowser());
+		// mgr.addToRoot(p);
 		p = new PreferenceNode("", new FieldEditorPageOthers());
 		mgr.addToRoot(p);
 
@@ -76,7 +73,7 @@ public class OptionsDialog {
 	class FieldEditorPageCommon extends FieldEditorPreferencePage {
 		public FieldEditorPageCommon() {
 			super(GRID);
-			setTitle("Общие");
+			setTitle("Основные");
 		}
 
 		/**
@@ -90,25 +87,17 @@ public class OptionsDialog {
 			Group group;
 			comp = getFieldEditorParent();
 
+			f = new StringFieldEditor(PreferenceSupplier.APP_BRAND,
+					"Заголовок", comp);
+			addField(f);
+
 			f = new BooleanFieldEditor(PreferenceSupplier.MINIMIZE_TO_TRAY,
 					"Сворачивать в трей", comp);
 			addField(f);
 
-			// f = new BooleanFieldEditor(
-			// PreferenceSupplier.SHOW_ABOUT_ON_STARTUP,
-			// "Показывать \"О программе\" при запуске", comp);
-			// addField(f);
-
-			// comp = new Composite(group, SWT.NULL);
-			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
 			f = new BooleanFieldEditor(
 					PreferenceSupplier.MINIMIZE_TO_TRAY_ON_STARTUP,
 					"Минимизировать при запуске", comp);
-			addField(f);
-
-			f = new StringFieldEditor(PreferenceSupplier.APP_BRAND,
-					"Заголовок программы", comp);
 			addField(f);
 
 			f = new BooleanFieldEditor(
@@ -116,40 +105,40 @@ public class OptionsDialog {
 					"Проверять обновления при запуске", comp);
 			addField(f);
 
-			group = new Group(getFieldEditorParent(), SWT.NULL);
-			group.getParent().setLayout(new GridLayout(2, false));
-			group.setLayout(new GridLayout(1, false));
-			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
-					2, 1));
-			group.setText("Настройки web-сервера:");
-
-			comp = new Composite(group, SWT.NULL);
-			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			f = new IntegerFieldEditor(PreferenceSupplier.IMAGE_WIDTH,
-					"Ширина картинок (в пикселах)", comp);
-			addField(f);
-
-			f = new IntegerFieldEditor(PreferenceSupplier.SESSION_TIMEOUT,
-					"Таймаут сессии (в минутах)", comp);
-			addField(f);
-
 			f = new BooleanFieldEditor(PreferenceSupplier.START_JETTY,
 					"Запускать web-сервер", comp);
+			addField(f);
+
+			f = new BooleanFieldEditor(PreferenceSupplier.EXTERNAL_JETTY_BASE,
+					"Использовать внешний каталог web-сервера", comp);
 			addField(f);
 
 			f = new IntegerFieldEditor(PreferenceSupplier.REMOTE_PORT,
 					"Порт web-сервера", comp);
 			addField(f);
 
-			f = new BooleanFieldEditor(PreferenceSupplier.EXTERNAL_JETTY_BASE,
-					"Внешний каталог web-сервера", comp);
+			// group = new Group(getFieldEditorParent(), SWT.NULL);
+			// group.getParent().setLayout(new GridLayout(2, false));
+			// group.setLayout(new GridLayout(1, false));
+			// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+			// 2, 1));
+			// group.setText("Настройки web-сервера:");
+			//
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+
+			// f = new IntegerFieldEditor(PreferenceSupplier.IMAGE_WIDTH,
+			// "Ширина картинок (в пикселах)", comp);
+			// addField(f);
+
+			f = new IntegerFieldEditor(PreferenceSupplier.SESSION_TIMEOUT,
+					"Таймаут сессии (в минутах)", comp);
 			addField(f);
 
-			f = new DirectoryFieldEditor(PreferenceSupplier.JETTY_BASE,
-					"Каталог web-сервера", comp);
-			((DirectoryFieldEditor) f).setChangeButtonText("...");
-			addField(f);
+			// f = new DirectoryFieldEditor(PreferenceSupplier.JETTY_BASE,
+			// "Каталог web-сервера", comp);
+			// ((DirectoryFieldEditor) f).setChangeButtonText("...");
+			// addField(f);
 
 			group = new Group(getFieldEditorParent(), SWT.NULL);
 			group.getParent().setLayout(new GridLayout(2, false));
@@ -185,69 +174,57 @@ public class OptionsDialog {
 			((DirectoryFieldEditor) f).setChangeButtonText("...");
 			addField(f);
 
-			group = new Group(getFieldEditorParent(), SWT.NULL);
-			group.getParent().setLayout(new GridLayout(2, false));
-			group.setLayout(new GridLayout(1, false));
-			group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
-					2, 1));
-			group.setText("Настройки книг:");
-
+			// group = new Group(getFieldEditorParent(), SWT.NULL);
+			// group.getParent().setLayout(new GridLayout(2, false));
+			// group.setLayout(new GridLayout(1, false));
+			// group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+			// 2, 1));
+			// group.setText("Настройки книг:");
+			//
+			// // comp = new Composite(group, SWT.NULL);
+			// // comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true,
+			// false));
+			//
 			// comp = new Composite(group, SWT.NULL);
 			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			comp = new Composite(group, SWT.NULL);
-			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			f = new BooleanFieldEditor(PreferenceSupplier.OPEN_BOOK_ON_STARTUP,
-					"Открывать книгу при запуске", comp);
-			addField(f);
-
-			comp = new Composite(group, SWT.NULL);
-			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			f = new MyFileFieldEditor(PreferenceSupplier.BOOK_ON_STARTUP,
-					"Книга:", comp);
-			((FileFieldEditor) f).setChangeButtonText("...");
-			addField(f);
-
-			comp = new Composite(group, SWT.NULL);
-			comp.setLayout(new GridLayout(2, false));
-			comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-
-			f = new FontFieldEditor(PreferenceSupplier.FONT, "Шрифт:", comp);
-			((FontFieldEditor) f).setChangeButtonText("...");
-			addField(f);
+			//
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+			//
+			// comp = new Composite(group, SWT.NULL);
+			// comp.setLayout(new GridLayout(2, false));
+			// comp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
 		}
 	}
 
-	class FieldEditorPageBrowser extends FieldEditorPreferencePage {
-		public FieldEditorPageBrowser() {
-			// Use the "flat" layout
-			super(FLAT);
-			setTitle("Браузер");
-		}
-
-		/**
-		 * Creates the field editors
-		 */
-		@Override
-		protected void createFieldEditors() {
-
-			Composite body = getFieldEditorParent();
-			body.setLayoutData(new GridData(GridData.FILL_BOTH));
-			body.setLayout(new FillLayout());
-			String url = "about:config";
-			new _BrowserComposite(body, url.toString());
-
-		}
-
-	}
+	// class FieldEditorPageBrowser extends FieldEditorPreferencePage {
+	// public FieldEditorPageBrowser() {
+	// // Use the "flat" layout
+	// super(FLAT);
+	// setTitle("Браузер");
+	// }
+	//
+	// /**
+	// * Creates the field editors
+	// */
+	// @Override
+	// protected void createFieldEditors() {
+	//
+	// Composite body = getFieldEditorParent();
+	// body.setLayoutData(new GridData(GridData.FILL_BOTH));
+	// body.setLayout(new FillLayout());
+	// String url = "about:config";
+	// new _BrowserComposite(body, url.toString());
+	//
+	// }
+	//
+	// }
 
 	class FieldEditorPageOthers extends FieldEditorPreferencePage {
 		public FieldEditorPageOthers() {
 			super(GRID);
-			setTitle("Другие");
+			setTitle("Дополнительные");
 		}
 
 		/**
@@ -261,16 +238,9 @@ public class OptionsDialog {
 			// Group group;
 			comp = getFieldEditorParent();
 
-			f = new StringFieldEditor(PreferenceSupplier.APP_HOST,
-					"Адрес сайта активации", comp);
-			addField(f);
-
-			f = new StringFieldEditor(PreferenceSupplier.UPDATE_SITE,
-					"Адрес сайта обновления", comp);
-			addField(f);
-
-			f = new IntegerFieldEditor(PreferenceSupplier.BOOKMARK_LENGTH,
-					"Длина текста закладки", comp);
+			f = new FontFieldEditor(PreferenceSupplier.FONT,
+					"Шрифт интерфейса:", comp);
+			((FontFieldEditor) f).setChangeButtonText("...");
 			addField(f);
 
 			f = new StringFieldEditor(PreferenceSupplier.IMAGE_TITLE,
@@ -288,12 +258,6 @@ public class OptionsDialog {
 					comp);
 			addField(f);
 
-			f = new DirectoryFieldEditor(
-					PreferenceSupplier.EDITOR_TEMPLATES_FOLDER,
-					"Каталог шаблонов текста:", comp);
-			((DirectoryFieldEditor) f).setChangeButtonText("...");
-			addField(f);
-
 			f = new BooleanFieldEditor(PreferenceSupplier.SECTION_REF_TARGET,
 					"Ссылка на раздел с целью 'в новом окне'", comp);
 			addField(f);
@@ -302,6 +266,10 @@ public class OptionsDialog {
 					PreferenceSupplier.SECTION_REF_TITLE,
 					"Текст ссылки на раздел \n(если не указано, то - имя раздела)",
 					comp);
+			addField(f);
+
+			f = new IntegerFieldEditor(PreferenceSupplier.BOOKMARK_LENGTH,
+					"Длина текста закладки кода", comp);
 			addField(f);
 
 		}

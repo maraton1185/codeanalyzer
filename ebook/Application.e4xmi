@@ -661,18 +661,25 @@
   </descriptors>
   <snippets xsi:type="basic:TrimmedWindow" xmi:id="_286c8KtuEeOc79QMS88vBA" elementId="ebook.window.book" label="Книга" iconURI="platform:/plugin/ebook/icons/set/book.png">
     <children xsi:type="basic:PartSashContainer" xmi:id="_rwrw4Kt1EeOc79QMS88vBA" elementId="ebook.partsashcontainer.2" horizontal="true">
-      <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="ebook.partstack.sections" containerData="65000">
-        <children xsi:type="basic:Part" xmi:id="_kw_OgD4rEeStYLApr5xXAA" elementId="ebook.part.PreviewView" contributionURI="bundleclass://ebook/ebook.module.book.views.PreviewView" label="Просмотр раздела" iconURI="platform:/plugin/ebook/icons/set/preview.png">
-          <handlers xmi:id="_Xr1YgD5fEeStYLApr5xXAA" elementId="ebook.handler.85" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewUpdate" command="__8OIkD5eEeStYLApr5xXAA"/>
-          <handlers xmi:id="_ZBSvkD5fEeStYLApr5xXAA" elementId="ebook.handler.95" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewEdit" command="_DTp-cD5fEeStYLApr5xXAA"/>
-          <toolbar xmi:id="_HEzU0D5fEeStYLApr5xXAA" elementId="ebook.toolbar.19">
-            <children xsi:type="menu:DirectToolItem" xmi:id="_WWymMD8lEeSZOZX2x3RrFA" elementId="ebook.directtoolitem.blockPreview" label="Блокировка" iconURI="platform:/plugin/ebook/icons/set/preview_block.png" tooltip="Блокировка" type="Check" contributionURI="bundleclass://ebook/ebook.module.book.handlers.BlockPreview"/>
-            <children xsi:type="menu:HandledToolItem" xmi:id="_z2BFUD8aEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
-            <children xsi:type="menu:HandledToolItem" xmi:id="_JyylED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.43" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="__8OIkD5eEeStYLApr5xXAA"/>
-            <children xsi:type="menu:HandledToolItem" xmi:id="_Nq5fED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.44" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_DTp-cD5fEeStYLApr5xXAA">
-              <tags>FORCE_TEXT</tags>
-            </children>
-          </toolbar>
+      <children xsi:type="basic:PartSashContainer" xmi:id="_S5CfUGv7EeSDdomdIL3tRg" elementId="ebook.partsashcontainer.7" containerData="65000">
+        <children xsi:type="basic:PartStack" xmi:id="_jr8o8Kt2EeOc79QMS88vBA" elementId="ebook.partstack.sections" containerData="70000">
+          <children xsi:type="basic:Part" xmi:id="_kw_OgD4rEeStYLApr5xXAA" elementId="ebook.part.PreviewView" contributionURI="bundleclass://ebook/ebook.module.book.views.PreviewView" label="Просмотр раздела" iconURI="platform:/plugin/ebook/icons/set/preview.png">
+            <handlers xmi:id="_Xr1YgD5fEeStYLApr5xXAA" elementId="ebook.handler.85" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewUpdate" command="__8OIkD5eEeStYLApr5xXAA"/>
+            <handlers xmi:id="_ZBSvkD5fEeStYLApr5xXAA" elementId="ebook.handler.95" contributionURI="bundleclass://ebook/ebook.module.book.handlers.PreviewEdit" command="_DTp-cD5fEeStYLApr5xXAA"/>
+            <toolbar xmi:id="_HEzU0D5fEeStYLApr5xXAA" elementId="ebook.toolbar.19">
+              <children xsi:type="menu:DirectToolItem" xmi:id="_WWymMD8lEeSZOZX2x3RrFA" elementId="ebook.directtoolitem.blockPreview" label="Блокировка" iconURI="platform:/plugin/ebook/icons/set/preview_block.png" tooltip="Блокировка" type="Check" contributionURI="bundleclass://ebook/ebook.module.book.handlers.BlockPreview"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_z2BFUD8aEeSut9_klsRTPg" elementId="ebook.handledtoolitem.12" iconURI="platform:/plugin/ebook/icons/set/Previous.png" tooltip="Открыть в браузере" command="_Be_ioD7-EeS6t726MB6aZw"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_JyylED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.43" iconURI="platform:/plugin/ebook/icons/set/refresh.png" tooltip="Обновить" command="__8OIkD5eEeStYLApr5xXAA"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_Nq5fED5fEeStYLApr5xXAA" elementId="ebook.handledtoolitem.44" label="Изменить" iconURI="platform:/plugin/ebook/icons/set/edit.png" tooltip="Изменить" command="_DTp-cD5fEeStYLApr5xXAA">
+                <tags>FORCE_TEXT</tags>
+              </children>
+            </toolbar>
+          </children>
+        </children>
+        <children xsi:type="basic:PartStack" xmi:id="_YN98oGv7EeSDdomdIL3tRg" elementId="ebook.partstack.3" containerData="30000">
+          <children xsi:type="basic:Part" xmi:id="_YkF9oGv7EeSDdomdIL3tRg" elementId="ebook.part.ImagesView" contributionURI="bundleclass://ebook/ebook.module.book.views.ImagesView" label="Картинки">
+            <toolbar xmi:id="_ih7fwGv7EeSDdomdIL3tRg" elementId="ebook.toolbar.0"/>
+          </children>
         </children>
       </children>
       <children xsi:type="basic:PartSashContainer" xmi:id="_16w_oBJJEeSRHfCKVoiTkg" elementId="ebook.partsashcontainer.1" containerData="35000">

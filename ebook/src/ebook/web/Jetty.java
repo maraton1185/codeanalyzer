@@ -10,13 +10,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.jetty.annotations.ServletContainerInitializersStarter;
 import org.eclipse.jetty.apache.jsp.JettyJasperInitializer;
@@ -28,10 +26,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import ebook.auth.interfaces.IAuthorize;
-import ebook.core.App;
 import ebook.core.pico;
-import ebook.utils.Events;
 import ebook.utils.PreferenceSupplier;
+import ebook.utils.Strings;
+import ebook.utils.Utils;
 import ebook.web.servlets.WebDefaultServlet;
 
 public class Jetty implements IJetty {
@@ -54,8 +52,8 @@ public class Jetty implements IJetty {
 	// private int port;
 	private Server server;
 	private URI serverURI;
-	private boolean openBookOnStratUp;
-	private String swt;
+	// private boolean openBookOnStratUp;
+	// private String swt;
 	private static final String WEBROOT_INDEX = "/webroot/";
 	private static final Logger LOG = Logger.getLogger(Main.class.getName());
 
@@ -88,8 +86,8 @@ public class Jetty implements IJetty {
 
 		try {
 
-			Random rand = new Random();
-			swt = Integer.toString(rand.nextInt());
+			// Random rand = new Random();
+			// swt = Integer.toString(rand.nextInt());
 
 			server = new Server();
 			ServerConnector connector = new ServerConnector(server);
@@ -100,13 +98,10 @@ public class Jetty implements IJetty {
 
 			server.addConnector(connector);
 
-			boolean EXTERNAL_JETTY_BASE = PreferenceSupplier
-					.getBoolean(PreferenceSupplier.EXTERNAL_JETTY_BASE);
 			URL indexUri;
-			if (EXTERNAL_JETTY_BASE) {
-
-				File file = new File(
-						PreferenceSupplier.get(PreferenceSupplier.JETTY_BASE));
+			if (PreferenceSupplier
+					.getBoolean(PreferenceSupplier.EXTERNAL_JETTY_BASE)) {
+				File file = new File(Utils.getInstallDir(Strings.jetty));
 				if (!file.exists())
 					throw new FileNotFoundException(
 							"Unable to find jetty base "
@@ -114,18 +109,13 @@ public class Jetty implements IJetty {
 
 				indexUri = file.toURI().toURL();
 
-				// throw new FileNotFoundException("Unable to find jetty base "
-				// + file.getAbsolutePath());
-
+				if (indexUri == null) {
+					throw new FileNotFoundException("Unable to find resource "
+							+ Strings.jetty);
+				}
 			} else
-
 				indexUri = this.getClass().getResource(WEBROOT_INDEX);
-
-			if (indexUri == null) {
-				throw new FileNotFoundException("Unable to find resource "
-						+ WEBROOT_INDEX);
-			}
-
+			// indexUri = new File(WEBROOT_INDEX).toURI().toURL();
 			// Points to wherever /webroot/ (the resource) is
 			URI baseUri = indexUri.toURI();
 
@@ -151,32 +141,11 @@ public class Jetty implements IJetty {
 			context.setContextPath("/");
 			context.setAttribute("javax.servlet.context.tempdir", scratchDir);
 			context.setResourceBase(baseUri.toASCIIString());
-			// context.setAttribute(InstanceManager.class.getName(),
-			// new SimpleInstanceManager());
-			// if (!EXTERNAL_JETTY_BASE)
+
 			context.setDefaultsDescriptor(WEBROOT_INDEX
 					+ "WEB-INF/web-conf.xml");
-			// context.setServer(server);
-
-			// ResourceHandler resource_handler = new ResourceHandler();
-			// resource_handler.setDirectoriesListed(true);
-			// resource_handler.setWelcomeFiles(new String[] { "index.html" });
-			//
-			// resource_handler.setResourceBase(baseUri.toASCIIString());
-			//
-			// HandlerList handlers = new HandlerList();
-			// handlers.setHandlers(new Handler[] { resource_handler, context
-			// });
-
-			// HandlerList handlers = new HandlerList();
-			// handlers.setHandlers(new Handler[] { context, resource_handler
-			// });
-			// server.setHandler(handlers);
 
 			server.setHandler(context);
-
-			// Add Application Servlets
-			// context.addServlet(DateServlet.class, "/date/");
 
 			// Ensure the jsp engine is initialized correctly
 			JettyJasperInitializer sci = new JettyJasperInitializer();
@@ -190,17 +159,6 @@ public class Jetty implements IJetty {
 			context.setAttribute("org.eclipse.jetty.containerInitializers",
 					initializers);
 			context.addBean(sciStarter, true);
-
-			// context.preConfigure();
-
-			// Set Classloader of Context to be sane (needed for JSTL)
-			// JSP requires a non-System classloader, this simply wraps the
-			// embedded System classloader in a way that makes it suitable
-			// for JSP to use
-
-			// ClassLoader jspClassLoader = new URLClassLoader(new URL[0], this
-			// .getClass().getClassLoader());
-			// context.setClassLoader(jspClassLoader);
 
 			context.setClassLoader(Thread.currentThread()
 					.getContextClassLoader());
@@ -216,14 +174,6 @@ public class Jetty implements IJetty {
 			holderJsp.setInitParameter("keepgenerated", "true");
 			holderJsp.setInitParameter("classpath", context.getClassPath());
 			context.addServlet(holderJsp, "*.jsp");
-			// context.addServlet(holderJsp,"*.jspf");
-			// context.addServlet(holderJsp,"*.jspx");
-
-			// Add Example of mapping jsp to path spec
-			// ServletHolder holderAltMapping = new ServletHolder("foo.jsp",
-			// JspServlet.class);
-			// holderAltMapping.setForcedPath("/test/foo/foo.jsp");
-			// context.addServlet(holderAltMapping, "/test/foo/");
 
 			// Add Default Servlet (must be named "default")
 			ServletHolder holderDefault = new ServletHolder("default",
@@ -238,12 +188,6 @@ public class Jetty implements IJetty {
 
 			holderDefault.setInitParameter("dirAllowed", "true");
 			context.addServlet(holderDefault, "/");
-
-			// ServletHolder holderDefault = context.addServlet(
-			// DefaultServlet.class, "/");
-			// holderDefault.setInitParameter("resourceBase",
-			// baseUri.toASCIIString());
-			// holderDefault.setInitParameter("dirAllowed", "true");
 
 			// Start Server
 			server.start();
@@ -269,48 +213,6 @@ public class Jetty implements IJetty {
 			serverURI = new URI(
 					String.format("%s://%s:%d/", scheme, host, port));
 			LOG.info("Server URI: " + serverURI);
-
-			// try {
-			// Class.forName("jettycustom.ServerCustomizer");
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// }
-			// Server server = new Server();
-			//
-			// ServerConnector connector = new ServerConnector(server);
-			// connector.setPort(findFreePort());
-			// server.setConnectors(new Connector[] { connector });
-			//
-			// String webapp = "/webapp";
-			// WebAppContext context = new WebAppContext();
-			// context.setDescriptor(webapp + "/WEB-INF/web.xml");
-			// context.setResourceBase("webapp");
-			// context.setContextPath("/");
-			// context.setParentLoaderPriority(true);
-			//
-			// server.setHandler(context);
-
-			// server.start();
-			// servers.put(Activator.PLUGIN_ID + ".jetty", server);
-
-			// Dictionary<String, Object> settings = new Hashtable<String,
-			// Object>();
-			// settings.put("http.enabled", Boolean.TRUE);
-			// settings.put("http.port", jettyPort);
-			// settings.put("http.host", "localhost");
-			// settings.put("https.enabled", Boolean.FALSE);
-			// settings.put("context.path", "/");
-			// settings.put("context.sessioninactiveinterval", 1800);
-			// settings.put(JettyConstants.CUSTOMIZER_CLASS,
-			// "jettycustom.ServerCustomizer");
-			//
-			//		Logger.getLogger("org.mortbay").setLevel(Level.WARNING); //$NON-NLS-1$	
-
-			// try {
-			// server.start();
-			// JettyConfigurator.stopServer(PLUGIN_ID + ".jetty");
-			// JettyConfigurator.startServer(Activator.PLUGIN_ID + ".jetty",
-			// settings);
 
 			status = JettyStatus.started;
 
@@ -429,35 +331,35 @@ public class Jetty implements IJetty {
 		}
 	}
 
-	@Override
-	public void openBookOnStratUp() {
+	// @Override
+	// public void openBookOnStratUp() {
+	//
+	// if (!openBookOnStratUp)
+	// return;
+	//
+	// IPath p = new Path(
+	// PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
+	// if (p.isEmpty())
+	// return;
+	//
+	// App.mng.blm().open(p, null);
+	//
+	// App.br.post(Events.EVENT_SHOW_BOOK, null);
+	//
+	// openBookOnStratUp = false;
+	// }
+	//
+	// @Override
+	// public void setOpenBookOnStratUp() {
+	// openBookOnStratUp = true;
+	//
+	// }
 
-		if (!openBookOnStratUp)
-			return;
-
-		IPath p = new Path(
-				PreferenceSupplier.get(PreferenceSupplier.BOOK_ON_STARTUP));
-		if (p.isEmpty())
-			return;
-
-		App.mng.blm().open(p, null);
-
-		App.br.post(Events.EVENT_SHOW_BOOK, null);
-
-		openBookOnStratUp = false;
-	}
-
-	@Override
-	public void setOpenBookOnStratUp() {
-		openBookOnStratUp = true;
-
-	}
-
-	@Override
-	public String swt() {
-
-		return swt;
-
-	}
+	// @Override
+	// public String swt() {
+	//
+	// return swt;
+	//
+	// }
 
 }

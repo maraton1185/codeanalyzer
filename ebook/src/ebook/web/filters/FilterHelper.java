@@ -31,18 +31,18 @@ public class FilterHelper {
 		this.chain = chain;
 	}
 
-	// swt not restricted
-	public boolean swt() throws IOException, ServletException {
-
-		String swt = request.getParameter("swt");
-		if (swt != null && swt.equalsIgnoreCase(App.getJetty().swt())) {
-
-			chain.doFilter(request, response);
-			return true;
-		}
-		return false;
-
-	}
+	// // swt not restricted
+	// public boolean swt() throws IOException, ServletException {
+	//
+	// String swt = request.getParameter("swt");
+	// if (swt != null && swt.equalsIgnoreCase(App.getJetty().swt())) {
+	//
+	// chain.doFilter(request, response);
+	// return true;
+	// }
+	// return false;
+	//
+	// }
 
 	// get book id
 	public Integer book() throws IOException, ServletException {

@@ -5,6 +5,11 @@ import java.util.ResourceBundle;
 
 public class Strings {
 
+	public static final String host = "http://codeanalyzer.ru";
+	public static final String updateSite = "http://codeanalyzer.ru/media/repository";
+	public static final String templates = "templates";
+	public static final String xul = "xulrunner";
+	public static final String jetty = "webroot";
 	// static ResourceBundle resourceStrings =
 	// ResourceBundle.getBundle("strings");
 	//

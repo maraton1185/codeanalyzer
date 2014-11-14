@@ -32,8 +32,8 @@ public class BookFilter implements Filter {
 
 		FilterHelper helper = new FilterHelper(request, response, chain);
 
-		if (helper.swt())
-			return;
+		// if (helper.swt())
+		// return;
 
 		// get book parameter
 		Integer book = helper.book();

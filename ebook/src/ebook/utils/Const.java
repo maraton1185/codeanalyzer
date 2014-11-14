@@ -19,9 +19,9 @@ public class Const {
 
 	// MUST хост
 	// private static String host = "http://192.168.3.254/";
-	private static String host() {
-		return PreferenceSupplier.get(PreferenceSupplier.APP_HOST);
-	};
+	// private static String host() {
+	// return PreferenceSupplier.get(Strings.host);
+	// };
 
 	// private static final String host = PreferenceSupplier
 	// .get(PreferenceSupplier.APP_HOST);
@@ -41,7 +41,7 @@ public class Const {
 	// }
 
 	public static String URL_docLinkOpen() {
-		return host() + "/documentation";
+		return Strings.host + "/documentation";
 	}
 
 	// public static String URL_using() {
@@ -56,11 +56,11 @@ public class Const {
 	// return host() + "/check";
 	// }
 	public static String URL_CONTACT() {
-		return host() + "/contact";
+		return Strings.host + "/contact";
 	};
 
 	public static String URL_ACTIVATE() {
-		return host() + "/activate";
+		return Strings.host + "/activate";
 	};
 
 	// DB *******************************************************
